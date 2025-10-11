@@ -87,7 +87,7 @@
     "@types/react": "^19.1.14",
     "@types/react-dom": "^19.1.9",
     "assert": "^2.1.0",
-    "astro": "^5.14.1",
+    "astro": "^5.14.4",
     "bigi": "^1.4.2",
     "bignumber.js": "^9.3.1",
     "bitsharesjs": "https://github.com/bitshares/bitsharesjs#develop",
