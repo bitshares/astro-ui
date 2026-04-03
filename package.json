@@ -139,7 +139,7 @@
     "@babel/preset-env": "^7.28.3",
     "@soda/friendly-errors-webpack-plugin": "^1.8.1",
     "babel-loader": "^10.0.0",
-    "electron": "^40.0.0",
+    "electron": "^40.8.5",
     "electron-builder": "^26.4.0",
     "webpack": "^5.102.1",
     "webpack-cli": "^6.0.1",
