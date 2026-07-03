@@ -195,13 +195,6 @@
     "hover1": "Tjek dine optjeningssaldi.",
     "hover2": "Gør krav på dine optjente saldi."
   },
-  "prediction_markets": {
-    "title": "🎲 Forudsigelser",
-    "subtitle": "Gennemse forudsigelser, administrer væddemål, udfør forudsigelsesadministrator.",
-    "hover1": "Gennemse de tilgængelige forudsigelige markedsaktiver.",
-    "hover2": "Forudsigelsesmarkeder kan handle om alt.",
-    "hover3": "Hvert forudsigelsesmarkedsaktiv har et unikt gebyr."
-  },
   "proposals": {
     "title": "🤔 Foreslåede operationer",
     "subtitle": "Se og godkend/afvis foreslåede kontooperationer",
@@ -211,7 +204,7 @@
   "issued_assets": {
     "title": "📃 Dine udstedte aktiver",
     "subtitle": "Se alle de aktiver, du har oprettet",
-    "hover1": "Se brugerudstedte aktiver, forudsigelige markedsaktiver, smartcoins og ikke-fungible tokens!",
+    "hover1": "Se brugerudstedte aktiver, smartcoins og ikke-fungible tokens!",
     "hover2": "Rediger de aktiver, du har oprettet på blockchain.",
     "hover3": "Udsted eventuelt en mængde af dine oprettede aktiver."
   },
@@ -221,13 +214,6 @@
     "hover1": "Seneste aktivitet og seneste blokerede livedatatabeller.",
     "hover2": "Livediagram for tælling af seneste bloktransaktioner.",
     "hover3": "Opsummerede blockchain-datagennemsnit og totaler."
-  },
-  "create_prediction": {
-    "title": "🔮 Forudsigelsesmarkedsaktiv",
-    "subtitle": "Lav et væddemål om hvad som helst",
-    "hover1": "Lav væddemål om bogstaveligt talt alt.",
-    "hover2": "Vær bookmaker og sæt din egen kommission.",
-    "hover3": "Både kort- og langsigtede væddemål er mulige."
   },
   "create_uia": {
     "title": "🍬 Brugerudstedt aktiv",

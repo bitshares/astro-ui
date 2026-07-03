@@ -86,14 +86,6 @@ class TransactionBuilder {
         .then(({ pubkeys, addys }) => {
           var my_pubkeys = cwallet.getPubkeys_having_PrivateKey(pubkeys, addys);
 
-          //{//Testing only, don't send All public keys!
-          //    var pubkeys_all = PrivateKeyStore.getPubkeys() // All public keys
-          //    this.get_required_signatures(pubkeys_all).then( required_pubkey_strings =>
-          //        console.log('get_required_signatures all\t',required_pubkey_strings.sort(), pubkeys_all))
-          //    this.get_required_signatures(my_pubkeys).then( required_pubkey_strings =>
-          //        console.log('get_required_signatures normal\t',required_pubkey_strings.sort(), pubkeys))
-          //}
-
           return this.get_required_signatures(my_pubkeys).then((required_pubkeys) => {
             for (let pubkey_string of required_pubkeys) {
               if (signer_pubkeys_added[pubkey_string]) continue;
@@ -611,7 +603,6 @@ class TransactionBuilder {
         set_fee(this.operations[i][1], i);
       }
     });
-    //DEBUG console.log('... get_required_fees',operations,asset_id,flat_fees)
   }
 
   get_potential_signatures(apiInstance) {
@@ -629,12 +620,10 @@ class TransactionBuilder {
       return Promise.resolve([]);
     }
     var tr_object = ops.signed_transaction.toObject(this);
-    //DEBUG console.log('... tr_object',tr_object)
     return apiInstance
       .db_api()
       .exec("get_required_signatures", [tr_object, available_keys])
       .then(function (required_public_keys) {
-        //DEBUG console.log('... get_required_signatures',required_public_keys)
         return required_public_keys;
       });
   }
@@ -729,7 +718,6 @@ function _broadcast(apiInstance, was_broadcast_callback) {
     }
 
     var tr_object = ops.signed_transaction.toObject(this);
-    // console.log('... broadcast_transaction_with_callback !!!')
     apiInstance
       .network_api()
       .exec("broadcast_transaction_with_callback", [
@@ -739,7 +727,6 @@ function _broadcast(apiInstance, was_broadcast_callback) {
         tr_object,
       ])
       .then(function () {
-        //console.log('... broadcast success, waiting for callback')
         if (was_broadcast_callback) {
           was_broadcast_callback();
         }

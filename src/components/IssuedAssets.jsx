@@ -145,13 +145,6 @@ export default function IssuedAssets(properties) {
             !asset.options.description.includes("condition") &&
             !asset.options.description.includes("expiry")
         );
-      case "prediction":
-        return issuedAssets.filter(
-          (asset) =>
-            asset.bitasset_data_id &&
-            asset.options.description.includes("condition") &&
-            asset.options.description.includes("expiry")
-        );
       case "nft":
         return issuedAssets.filter(
           (asset) =>
@@ -400,34 +393,24 @@ export default function IssuedAssets(properties) {
                 </DropdownMenuItem>
               </a>
             ) : null}
-
-            {activeTab === "prediction" ? (
-              <a href={`/predictions/index.html?id=${issuedAsset.id}`}>
-                <DropdownMenuItem className="hover:shadow-inner">
-                  {t("IssuedAssets:pmaBet")}
-                </DropdownMenuItem>
-              </a>
-            ) : null}
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {!["prediction"].includes(activeTab) ? (
-          <span className="mt-2">
-            <AssetIssuerActions
-              asset={issuedAsset}
-              assets={assets}
-              chain={_chain}
-              currentUser={usr}
-              node={currentNode}
-              dynamicAssetData={relevantDynamicData}
-              bitassetData={relevantBitassetData}
-              priceFeederAccounts={priceFeederAccounts}
-              buttonVariant="outline"
-              buttonSize="sm"
-              className="h-8 hover:shadow-inner"
-            />
-          </span>
-        ) : null}
+        <span className="mt-2">
+          <AssetIssuerActions
+            asset={issuedAsset}
+            assets={assets}
+            chain={_chain}
+            currentUser={usr}
+            node={currentNode}
+            dynamicAssetData={relevantDynamicData}
+            bitassetData={relevantBitassetData}
+            priceFeederAccounts={priceFeederAccounts}
+            buttonVariant="outline"
+            buttonSize="sm"
+            className="h-8 hover:shadow-inner"
+          />
+        </span>
 
         {viewJSON && json ? (
           <Dialog
@@ -580,16 +563,6 @@ export default function IssuedAssets(properties) {
                     }}
                   >
                     {t("IssuedAssets:smartcoinsButton")}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    style={activeTab === "prediction" ? activeTabStyle : {}}
-                    onClick={() => {
-                      setActiveTab("prediction");
-                      window.history.replaceState({}, "", `?tab=prediction`);
-                    }}
-                  >
-                    {t("IssuedAssets:predictionButton")}
                   </Button>
                   <Button
                     variant="outline"
@@ -748,59 +721,6 @@ export default function IssuedAssets(properties) {
                         <Button asChild>
                           <a href="/create_smartcoin/index.html">
                             {t("PageHeader:create_smartcoin")}
-                          </a>
-                        </Button>
-                      </EmptyContent>
-                    </Empty>
-                  ) : (
-                    <>
-                      <div className="w-full max-h-[500px] min-h-[500px] overflow-auto block md:hidden">
-                        <List
-                          rowComponent={AssetRow}
-                          rowCount={relevantAssets.length}
-                          rowHeight={90}
-                          rowProps={{}}
-                        />
-                      </div>
-                      <div className="w-full max-h-[500px] min-h-[500px] overflow-auto hidden md:block">
-                        <List
-                          rowComponent={AssetRow}
-                          rowCount={relevantAssets.length}
-                          rowHeight={90}
-                          rowProps={{}}
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-
-              {activeTab === "prediction" && (
-                <div className="mt-2">
-                  {relevantAssets.length > 0 ? (
-                    <h5 className="mb-2 text-center">
-                      {t("IssuedAssets:listingPredictionMarkets", {
-                        count: relevantAssets.length,
-                      })}
-                    </h5>
-                  ) : null}
-                  {loading ? (
-                    <div className="text-center mt-5">
-                      {t("CreditBorrow:common.loading")}
-                    </div>
-                  ) : null}
-                  {(!loading && !relevantAssets) || !relevantAssets.length ? (
-                    <Empty className="mt-5">
-                      <EmptyHeader>
-                        <EmptyMedia variant="icon">❔</EmptyMedia>
-                        <EmptyTitle>
-                          {t("IssuedAssets:noPredictionMarkets")}
-                        </EmptyTitle>
-                      </EmptyHeader>
-                      <EmptyContent>
-                        <Button asChild>
-                          <a href="/create_prediction/index.html">
-                            {t("PageHeader:createPrediction")}
                           </a>
                         </Button>
                       </EmptyContent>

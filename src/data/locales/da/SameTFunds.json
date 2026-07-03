@@ -25,6 +25,8 @@
       "description": "Angiv aktiv, beløb og gebyr for din nye Same-T-fond nedenfor.",
       "amount": "Beløb",
       "fee": "Gebyrsats",
+      "headerContent": "Den asset du tilbyder at udlåne i dit Same-T Fund.",
+      "backingAssetHeader": "Udlånsasset",
       "asset": "Udlånsaktiv",
       "asset_description": "Det aktiv, du tilbyder at låne i din Same-T-fond."
     },

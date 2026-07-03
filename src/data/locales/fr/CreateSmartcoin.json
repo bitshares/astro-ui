@@ -75,6 +75,10 @@
   },
   "dialogContent": {
     "editHeader": "Modification du smartcoin suivant : {{symbol}}",
-    "createHeader": "Création du Smartcoin suivant : {{symbol}}"
+    "createHeader": "Création du Smartcoin suivant : {{symbol}}"
+  },
+  "backing_asset": {
+    "header": "Actif de garantie",
+    "header_content": "L'actif de garantie est l'actif utilisé pour garantir le smartcoin, Cet actif sera utilisé comme garantie pour soutenir la dette du smartcoin."
   }
 }

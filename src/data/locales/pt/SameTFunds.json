@@ -25,6 +25,8 @@
       "description": "Especifique abaixo o ativo, o valor e a taxa do seu novo Fundo Same-T.",
       "amount": "Quantia",
       "fee": "Taxa de taxa",
+      "headerContent": "O asset que você oferece para emprestar em seu Same-T Fund.",
+      "backingAssetHeader": "Asset de empréstimo",
       "asset": "Ativo de empréstimo",
       "asset_description": "O ativo que você está oferecendo para emprestar em seu Fundo Same-T."
     },

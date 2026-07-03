@@ -192,17 +192,7 @@ export default function Home(properties) {
             "Home:tfund_user.hover3",
           ],
         },
-        {
-          key: "predictions",
-          href: "/predictions/index.html",
-          titleKey: "Home:prediction_markets.title",
-          subtitleKey: "Home:prediction_markets.subtitle",
-          hoverKeys: [
-            "Home:prediction_markets.hover1",
-            "Home:prediction_markets.hover2",
-            "Home:prediction_markets.hover3",
-          ],
-        },
+
       ],
     },
     {
@@ -317,17 +307,6 @@ export default function Home(properties) {
       icon: "💎",
       headingKey: "PageHeader:assetCreation",
       cards: [
-        {
-          key: "create_prediction",
-          href: "/create_prediction/index.html",
-          titleKey: "Home:create_prediction.title",
-          subtitleKey: "Home:create_prediction.subtitle",
-          hoverKeys: [
-            "Home:create_prediction.hover1",
-            "Home:create_prediction.hover2",
-            "Home:create_prediction.hover3",
-          ],
-        },
         {
           key: "create_uia",
           href: "/create_uia/index.html",

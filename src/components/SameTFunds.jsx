@@ -615,7 +615,7 @@ export default function SameTFunds(properties) {
                     <div className="grid grid-cols-1 gap-2">
                       <HoverInfo
                         content={t("SameTFunds:createDialog.headerContent")}
-                        header={t("CreatePrediction:pma.backing_asset.header")}
+                        header={t("SameTFunds:createDialog.backingAssetHeader")}
                         type="header"
                       />
                       <div className="grid grid-cols-2 gap-2">

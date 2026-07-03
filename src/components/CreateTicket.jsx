@@ -356,7 +356,7 @@ export default function CreateTicket() {
               </Alert>
 
               <Button className="h-8 mt-4" onClick={() => setShowDialog(true)}>
-                {t("CreatePrediction:buttons.submit")}
+                {t("CreateUIA:buttons.submit")}
               </Button>
             </div>
           </CardContent>

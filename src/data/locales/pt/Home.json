@@ -195,13 +195,6 @@
     "hover1": "Verifique seus saldos de aquisição.",
     "hover2": "Reivindique seus saldos adquiridos."
   },
-  "prediction_markets": {
-    "title": "🎲 Previsões",
-    "subtitle": "Procure previsões, gerencie apostas, execute a administração de previsões.",
-    "hover1": "Navegue pelos ativos de mercado de previsão disponíveis.",
-    "hover2": "Os mercados de previsão podem ser sobre qualquer coisa.",
-    "hover3": "Cada ativo de mercado de previsão possui uma taxa exclusiva."
-  },
   "proposals": {
     "title": "🤔 Operações propostas",
     "subtitle": "Visualizar e aprovar/rejeitar operações de conta propostas",
@@ -211,7 +204,7 @@
   "issued_assets": {
     "title": "📃 Seus ativos emitidos",
     "subtitle": "Veja todos os ativos que você criou",
-    "hover1": "Veja ativos emitidos pelo usuário, ativos de mercado de previsão, smartcoins e tokens não fungíveis!",
+    "hover1": "Veja ativos emitidos pelo usuário, smartcoins e tokens não fungíveis!",
     "hover2": "Edite os ativos que você criou no blockchain.",
     "hover3": "Opcionalmente, emita uma quantidade de seus ativos criados."
   },
@@ -221,13 +214,6 @@
     "hover1": "Atividade recente e tabelas de dados em tempo real de bloqueio recente.",
     "hover2": "Gráfico ao vivo de contagem de transações em bloco recentes.",
     "hover3": "Médias e totais resumidos de dados de blockchain."
-  },
-  "create_prediction": {
-    "title": "🔮 Previsão de ativos de mercado",
-    "subtitle": "Crie uma aposta sobre qualquer coisa",
-    "hover1": "Crie apostas sobre literalmente qualquer coisa.",
-    "hover2": "Seja o agenciador de apostas e defina sua própria comissão.",
-    "hover3": "São possíveis apostas de curto e longo prazo."
   },
   "create_uia": {
     "title": "🍬 Ativo emitido pelo usuário",

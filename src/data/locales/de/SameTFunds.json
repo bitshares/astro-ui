@@ -25,6 +25,8 @@
       "description": "Geben Sie unten den Vermögenswert, den Betrag und die Gebühr für Ihren neuen Same-T-Fonds an.",
       "amount": "Menge",
       "fee": "Gebührensatz",
+      "headerContent": "Das Asset, das Sie zum Verleihen in Ihrem Same-T Fund anbieten.",
+      "backingAssetHeader": "Leihasset",
       "asset": "Kreditvermögenswert",
       "asset_description": "Der Vermögenswert, den Sie in Ihrem Same-T-Fonds zur Ausleihe anbieten."
     },

@@ -3,7 +3,6 @@ import { Buffer } from "safe-buffer";
 
 import EC from "./error_with_cause.js";
 
-// const HEX_DUMP = process ? process.env.npm_config__graphene_serializer_hex_dump : null;
 
 class Serializer {
   constructor(operation_name, types) {
@@ -32,7 +31,6 @@ class Serializer {
               type.fromByteBuffer(b);
               var o2 = b.offset;
               b.offset = o1;
-              //b.reset()
               var _b = b.copy(o1, o2);
               console.error(`${this.operation_name}.${field}\t`, _b.toHex());
             }
@@ -83,8 +81,6 @@ class Serializer {
         field = iterable[i];
         var type = this.types[field];
         var value = serialized_object[field];
-        //DEBUG value = value.resolve if value.resolve
-        //DEBUG console.log('... value',field,value)
         var object = type.fromObject(value);
         result[field] = object;
       }
@@ -171,7 +167,6 @@ class Serializer {
   }
 
   toHex(object) {
-    // return this.toBuffer(object).toString("hex")
     var b = this.toByteBuffer(object);
     return b.toHex();
   }

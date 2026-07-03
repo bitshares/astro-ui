@@ -25,6 +25,8 @@
         "description": "Specify the asset, amount, and fee for your new Same-T Fund below.",
         "amount": "Amount",
         "fee": "Fee rate",
+        "headerContent": "The asset you're offering to lend in your Same-T Fund.",
+        "backingAssetHeader": "Lending asset",
         "asset": "Lending asset",
         "asset_description": "The asset you're offering to lend in your Same-T Fund."
     },

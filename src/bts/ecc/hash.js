@@ -45,17 +45,5 @@ function ripemd160(data) {
     }
 }
 
-// function hash160(buffer) {
-//   return ripemd160(sha256(buffer))
-// }
-//
-// function hash256(buffer) {
-//   return sha256(sha256(buffer))
-// }
-
-//
-// function HmacSHA512(buffer, secret) {
-//   return crypto.createHmac('sha512', secret).update(buffer).digest()
-// }
 
 export {sha1, sha256, sha512, HmacSHA256, ripemd160};

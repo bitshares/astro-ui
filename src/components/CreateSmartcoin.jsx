@@ -3080,9 +3080,9 @@ export default function CreateSmartcoin(properties) {
                   <div className="col-span-2">
                     <HoverInfo
                       content={t(
-                        "CreatePrediction:pma.backing_asset.header_content"
+                        "CreateSmartcoin:backing_asset.header_content"
                       )}
-                      header={t("CreatePrediction:pma.backing_asset.header")}
+                      header={t("CreateSmartcoin:backing_asset.header")}
                     />
                     <div className="grid grid-cols-2 gap-2">
                       <Input

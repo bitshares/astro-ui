@@ -195,13 +195,6 @@
     "hover1": "Vérifiez vos soldes d’acquisition.",
     "hover2": "Réclamez vos soldes acquis."
   },
-  "prediction_markets": {
-    "title": "🎲 Prédictions",
-    "subtitle": "Parcourez les pronostics, gérez les paris, effectuez l'administration des pronostics.",
-    "hover1": "Parcourez les actifs du marché de prédiction disponibles.",
-    "hover2": "Les marchés de prédiction peuvent concerner n’importe quoi.",
-    "hover3": "Chaque actif du marché de prédiction a des frais uniques."
-  },
   "proposals": {
     "title": "🤔 Opérations proposées",
     "subtitle": "Afficher et approuver/rejeter les opérations de compte proposées",
@@ -211,7 +204,7 @@
   "issued_assets": {
     "title": "📃 Vos actifs émis",
     "subtitle": "Afficher tous les éléments que vous avez créés",
-    "hover1": "Affichez les actifs émis par les utilisateurs, les actifs du marché de prédiction, les smartcoins et les jetons non fongibles !",
+    "hover1": "Affichez les actifs émis par les utilisateurs, les smartcoins et les jetons non fongibles !",
     "hover2": "Modifiez les actifs que vous avez créés sur la blockchain.",
     "hover3": "Émettez éventuellement une quantité de vos actifs créés."
   },
@@ -221,13 +214,6 @@
     "hover1": "Tableaux de données en direct sur l'activité récente et les blocs récents.",
     "hover2": "Graphique en direct du nombre de transactions de blocs récentes.",
     "hover3": "Moyennes et totaux résumés des données blockchain."
-  },
-  "create_prediction": {
-    "title": "🔮 Actif du marché de prédiction",
-    "subtitle": "Créer un pari sur n'importe quoi",
-    "hover1": "Créez des paris sur littéralement n'importe quoi.",
-    "hover2": "Soyez le bookmaker et fixez votre propre commission.",
-    "hover3": "Les paris à court et à long terme sont possibles."
   },
   "create_uia": {
     "title": "🍬 Actif émis par l'utilisateur",

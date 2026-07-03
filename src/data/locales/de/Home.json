@@ -195,13 +195,6 @@
     "hover1": "Überprüfen Sie Ihre Sperrguthaben.",
     "hover2": "Fordern Sie Ihr Freizügigkeitsguthaben an."
   },
-  "prediction_markets": {
-    "title": "🎲 Vorhersagen",
-    "subtitle": "Vorhersagen durchsuchen, Wetten verwalten, Vorhersageverwaltung durchführen.",
-    "hover1": "Durchsuchen Sie die verfügbaren Prognosemarkt-Assets.",
-    "hover2": "Auf Prognosemärkten kann es um alles Mögliche gehen.",
-    "hover3": "Für jedes Prognosemarkt-Asset gibt es eine eigene Gebühr."
-  },
   "proposals": {
     "title": "🤔 Vorgeschlagene Operationen",
     "subtitle": "Vorgeschlagene Kontovorgänge anzeigen und genehmigen/ablehnen",
@@ -211,7 +204,7 @@
   "issued_assets": {
     "title": "📃 Ihre ausgegebenen Vermögenswerte",
     "subtitle": "Sehen Sie sich alle von Ihnen erstellten Assets an",
-    "hover1": "Sehen Sie sich von Benutzern bereitgestellte Vermögenswerte, prognostizierte Marktwerte, Smartcoins und nicht fungible Token an!",
+    "hover1": "Sehen Sie sich von Benutzern bereitgestellte Vermögenswerte, Smartcoins und nicht fungible Token an!",
     "hover2": "Bearbeiten Sie die Assets, die Sie in der Blockchain erstellt haben.",
     "hover3": "Geben Sie optional eine Menge Ihrer erstellten Vermögenswerte aus."
   },
@@ -221,13 +214,6 @@
     "hover1": "Aktuelle Aktivitäten und aktuelle Block-Live-Datentabellen.",
     "hover2": "Aktuelles Live-Diagramm zur Anzahl der Blocktransaktionen.",
     "hover3": "Zusammengefasste Durchschnitts- und Gesamtwerte der Blockchain-Daten."
-  },
-  "create_prediction": {
-    "title": "🔮 Vorhersage des Marktwerts",
-    "subtitle": "Erstellen Sie eine Wette über alles",
-    "hover1": "Erstellen Sie Wetten über buchstäblich alles.",
-    "hover2": "Seien Sie der Buchmacher und legen Sie Ihre eigene Provision fest.",
-    "hover3": "Es sind sowohl Kurz- als auch Langzeitwetten möglich."
   },
   "create_uia": {
     "title": "🍬 Vom Benutzer ausgegebenes Asset",

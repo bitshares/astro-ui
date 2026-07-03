@@ -389,12 +389,7 @@ export default function MarketAssetCard(properties) {
               button={
                 <>
                   {!bitassetData ? t("MarketAssetCard:userIssuedAsset") : null}
-                  {bitassetData && bitassetData.is_prediction_market
-                    ? t("MarketAssetCard:predictionMarket")
-                    : null}
-                  {bitassetData && !bitassetData.is_prediction_market
-                    ? t("MarketAssetCard:smartcoin")
-                    : null}
+                  {bitassetData ? t("MarketAssetCard:smartcoin") : null}
                 </>
               }
               dialogtitle={`
@@ -404,12 +399,7 @@ export default function MarketAssetCard(properties) {
                     : ""
                 }
                 ${
-                  bitassetData && bitassetData.is_prediction_market
-                    ? t("MarketAssetCard:predictionMarketSummary")
-                    : ""
-                }
-                ${
-                  bitassetData && !bitassetData.is_prediction_market
+                  bitassetData
                     ? t("MarketAssetCard:smartcoinSummary")
                     : ""
                 }
@@ -441,29 +431,7 @@ export default function MarketAssetCard(properties) {
                     </ScrollArea>
                   ) : null}
 
-                  {bitassetData && bitassetData.is_prediction_market ? (
-                    <ScrollArea className="h-72 rounded-md border text-sm">
-                      <ul className="ml-2 list-disc [&>li]:mt-2 pl-5 pr-5">
-                        <li>
-                          {t("MarketAssetCard:predictionMarketDescription1")}
-                        </li>
-                        <li>
-                          {t("MarketAssetCard:predictionMarketDescription2")}
-                        </li>
-                        <li>
-                          {t("MarketAssetCard:predictionMarketDescription3")}
-                        </li>
-                        <li>
-                          {t("MarketAssetCard:predictionMarketDescription4")}
-                        </li>
-                        <li>
-                          {t("MarketAssetCard:predictionMarketDescription5")}
-                        </li>
-                      </ul>
-                    </ScrollArea>
-                  ) : null}
-
-                  {bitassetData && !bitassetData.is_prediction_market ? (
+                  {bitassetData ? (
                     <ScrollArea className="h-72 rounded-md border text-sm">
                       <ul className="ml-2 list-disc [&>li]:mt-2 pl-5 pr-5">
                         <li>{t("MarketAssetCard:smartcoinDescription1")}</li>
@@ -536,7 +504,7 @@ export default function MarketAssetCard(properties) {
               />
             ) : null}
 
-            {bitassetData && !bitassetData.is_prediction_market ? (
+            {bitassetData ? (
               <>
                 {backingAsset ? (
                   <CardRow
@@ -825,7 +793,7 @@ export default function MarketAssetCard(properties) {
                     </DialogHeader>
                     <div className="grid grid-cols-1">
                       <div className="col-span-1">
-                        {bitassetData && !bitassetData.is_prediction_market ? (
+                        {bitassetData ? (
                           <>
                             <CardRow
                               title={t("MarketAssetCard:smartcoinID")}

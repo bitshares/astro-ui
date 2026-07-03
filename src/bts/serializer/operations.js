@@ -44,13 +44,11 @@ public_key = new Serializer(
 // operations is not avialble until the very end of the generated code.
 // See: operation.st_operations = ...
 var operation = static_variant();
-// module.exports["operation"] = operation;
 
 export { operation };
 // For module.exports
 var Serializer = function (operation_name, serilization_types_object) {
   return new SerializerImpl(operation_name, serilization_types_object);
-  // return module.exports[operation_name] = s;
 };
 
 // Custom-types follow Generated code:
@@ -1399,9 +1397,6 @@ export const restriction = new Serializer("restriction", {
     set(protocol_id_type("vesting_balance")),
     set(protocol_id_type("worker")),
     set(protocol_id_type("balance")),
-    //array(restriction),
-    //array(array(restriction)),
-    // fixme: pair<int64_t,std_vector<graphene::protocol::restriction>>
   ]),
   extensions: set(future_extensions),
 });
@@ -1750,11 +1745,5 @@ export const stealth_memo_data = new Serializer("stealth_memo_data", {
   commitment: bytes(33),
   check: uint32,
 });
-// var stealth_confirmation = new Serializer(
-//     "stealth_confirmation", {
-//     one_time_key: public_key,
-//     to: optional( public_key ),
-//     encrypted_memo: stealth_memo_data
-// })
 
 export default operation.st_operations;

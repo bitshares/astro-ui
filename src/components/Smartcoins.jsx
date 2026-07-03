@@ -279,7 +279,15 @@ export default function Smartcoins(properties) {
         parseInt(b.asset_id.replace("1.3.", "")) -
         parseInt(a.asset_id.replace("1.3.", ""))
     );
-    result = result.filter((x) => !x.is_prediction_market);
+    result = result.filter((x) => {
+      if (x.bitasset_data_id) {
+        const desc = x.options?.description || "";
+        if (desc.includes("condition") && desc.includes("expiry")) {
+          return false;
+        }
+      }
+      return true;
+    });
 
     return result.filter((x) => {
       const _assetData = baseAssetData.find((y) => y.id === x.asset_id);

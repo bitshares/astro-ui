@@ -195,13 +195,6 @@
     "hover1": "Controlla i tuoi saldi di maturazione.",
     "hover2": "Richiedi i tuoi saldi acquisiti."
   },
-  "prediction_markets": {
-    "title": "🎲 Pronostici",
-    "subtitle": "Sfoglia i pronostici, gestisci le scommesse, esegui l'amministrazione dei pronostici.",
-    "hover1": "Sfoglia le risorse del mercato di previsione disponibili.",
-    "hover2": "I mercati di previsione possono riguardare qualsiasi cosa.",
-    "hover3": "Ogni asset del mercato di previsione ha una tariffa unica."
-  },
   "proposals": {
     "title": "🤔 Operazioni proposte",
     "subtitle": "Visualizza e approva/rifiuta le operazioni sull'account proposte",
@@ -211,7 +204,7 @@
   "issued_assets": {
     "title": "📃 I tuoi beni emessi",
     "subtitle": "Visualizza tutte le risorse che hai creato",
-    "hover1": "Visualizza le risorse emesse dagli utenti, le risorse del mercato di previsione, gli smartcoin e i token non fungibili!",
+    "hover1": "Visualizza le risorse emesse dagli utenti, gli smartcoin e i token non fungibili!",
     "hover2": "Modifica le risorse che hai creato sulla blockchain.",
     "hover3": "Facoltativamente, emetti una quantità delle risorse create."
   },
@@ -221,13 +214,6 @@
     "hover1": "Attività recenti e tabelle di dati in tempo reale del blocco recente.",
     "hover2": "Grafico in tempo reale del conteggio delle transazioni a blocchi recenti.",
     "hover3": "Medie e totali riepilogativi dei dati blockchain."
-  },
-  "create_prediction": {
-    "title": "🔮 Asset di mercato di previsione",
-    "subtitle": "Crea una scommessa su qualsiasi cosa",
-    "hover1": "Crea scommesse letteralmente su qualsiasi cosa.",
-    "hover2": "Diventa il bookmaker e stabilisci la tua commissione.",
-    "hover3": "Sono possibili sia scommesse a breve che a lungo termine."
   },
   "create_uia": {
     "title": "🍬 Asset emesso dall'utente",

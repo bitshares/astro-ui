@@ -76,5 +76,9 @@
   "dialogContent": {
     "editHeader": "Editing the following smartcoin: {{symbol}}",
     "createHeader": "Creating the following Smartcoin: {{symbol}}"
+  },
+  "backing_asset": {
+    "header": "Backing asset",
+    "header_content": "The backing asset is the asset that is used to back the smartcoin, This asset will be used as collateral to back the smartcoin debt."
   }
 }

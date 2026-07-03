@@ -66,13 +66,6 @@ const getAllAssetData = async (chain) => {
         max_supply: asset.options.max_supply,
       };
 
-      /*
-        prediction_market: asset.options.description.includes("expiry")
-                        && asset.options.description.includes("condition")
-                        && asset.options.description.includes("market")
-                        && asset.bitasset_data_id
-      */
-
       if (asset.bitasset_data_id) {
         mappedResponse.bitasset_data_id = asset.bitasset_data_id;
       }

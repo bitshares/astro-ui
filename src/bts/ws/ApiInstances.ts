@@ -153,7 +153,6 @@ const newApis = (): ApiInstance => {
 
         Promise.all(initPromises)
           .then(() => {
-            //console.log({Api})
             resolve();
           })
           .catch((err: Error) => {

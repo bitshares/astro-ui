@@ -76,5 +76,9 @@
   "dialogContent": {
     "editHeader": "Modificando il seguente smartcoin: {{symbol}}",
     "createHeader": "Creazione del seguente Smartcoin: {{symbol}}"
+  },
+  "backing_asset": {
+    "header": "Asset di garanzia",
+    "header_content": "L'asset di garanzia è l'asset utilizzato per garantire lo smartcoin, Questo asset verrà utilizzato come garanzia per sostenere il debito dello smartcoin."
   }
 }

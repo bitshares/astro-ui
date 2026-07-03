@@ -31,7 +31,6 @@ export default function AppSidebar() {
     { title: "Home:stake.title", href: "/stake/index.html" },
     { title: "Home:barter.title", href: "/barter/index.html" },
     { title: "Home:tfund_user.title", href: "/tfund_user/index.html" },
-    { title: "Home:prediction_markets.title", href: "/predictions/index.html" },
   ];
 
   const transferFundsHeading = [
@@ -53,10 +52,6 @@ export default function AppSidebar() {
   ];
 
   const assetCreation = [
-    {
-      title: "Home:create_prediction.title",
-      href: "/create_prediction/index.html",
-    },
     { title: "Home:create_uia.title", href: "/create_uia/index.html" },
     {
       title: "Home:create_smartcoin.title",

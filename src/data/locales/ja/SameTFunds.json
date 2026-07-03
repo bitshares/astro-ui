@@ -25,6 +25,8 @@
       "description": "新しい Same-T ファンドの資産、金額、手数料を以下に指定します。",
       "amount": "額",
       "fee": "手数料率",
+      "headerContent": "Same-T Fundで貸し出す資産です。",
+      "backingAssetHeader": "貸出資産",
       "asset": "貸付資産",
       "asset_description": "Same-T Fund での貸し出しを提案している資産。"
     },

@@ -25,6 +25,8 @@
       "description": "아래에서 새로운 Same-T 펀드의 자산, 금액, 수수료를 지정하세요.",
       "amount": "양",
       "fee": "수수료율",
+      "headerContent": "Same-T Fund에서 빌려주는 자산입니다.",
+      "backingAssetHeader": "대출 자산",
       "asset": "대출 자산",
       "asset_description": "Same-T 펀드에서 대출하기 위해 제공하는 자산입니다."
     },

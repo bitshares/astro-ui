@@ -25,6 +25,8 @@
       "description": "Especifique el activo, el monto y la tarifa de su nuevo Fondo Same-T a continuación.",
       "amount": "Cantidad",
       "fee": "Tasa de tarifa",
+      "headerContent": "El asset que ofrece para prestar en su Same-T Fund.",
+      "backingAssetHeader": "Asset de préstamo",
       "asset": "Activo crediticio",
       "asset_description": "El activo que ofrece prestar en su Fondo Same-T."
     },

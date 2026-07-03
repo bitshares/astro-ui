@@ -195,13 +195,6 @@
     "hover1": "Kontrollige oma üleandmisjääke.",
     "hover2": "Nõudke oma kontojääke."
   },
-  "prediction_markets": {
-    "title": "🎲 Ennustused",
-    "subtitle": "Sirvige ennustusi, hallake panuseid, tehke ennustusteadministraator.",
-    "hover1": "Sirvige saadaolevaid ennustusturu varasid.",
-    "hover2": "Ennustusturgudel võib olla ükskõik mida.",
-    "hover3": "Igal ennustusturu varal on ainulaadne tasu."
-  },
   "proposals": {
     "title": "🤔 Kavandatavad toimingud",
     "subtitle": "Pakutud kontotoimingute vaatamine ja kinnitamine/lükkamine",
@@ -211,7 +204,7 @@
   "issued_assets": {
     "title": "📃 Teie väljastatud varad",
     "subtitle": "Vaadake kõiki loodud varasid",
-    "hover1": "Vaadake kasutaja väljastatud varasid, ennustusturu varasid, nutikoine ja mittevahetatavaid žetoone!",
+    "hover1": "Vaadake kasutaja väljastatud varasid, nutikoine ja mittevahetatavaid žetoone!",
     "hover2": "Muutke plokiahelas loodud varasid.",
     "hover3": "Soovi korral väljastage loodud varade kogus."
   },
@@ -221,13 +214,6 @@
     "hover1": "Hiljutiste tegevuste ja hiljutiste blokkide reaalajas andmetabelid.",
     "hover2": "Hiljutine plokkide tehingute loenduse reaalajas diagramm.",
     "hover3": "Summeeritud plokiahela andmete keskmised ja kogusummad."
-  },
-  "create_prediction": {
-    "title": "🔮 Ennustusturu vara",
-    "subtitle": "Tehke panus ükskõik mille kohta",
-    "hover1": "Tehke panuseid sõna otseses mõttes kõige kohta.",
-    "hover2": "Olge kihlveovahendaja ja määrake oma vahendustasu.",
-    "hover3": "Võimalikud on nii lühi- kui ka pikaajalised panused."
   },
   "create_uia": {
     "title": "🍬 Kasutaja väljastatud vara",

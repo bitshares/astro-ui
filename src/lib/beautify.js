@@ -608,9 +608,6 @@ export default async function beautify(
 
     let symbol = asset ? asset.symbol : operationObject.symbol;
     let precision = asset ? asset.precision : operationObject.precision;
-    let is_prediction_market = asset
-      ? asset.is_prediction_market
-      : operationObject.is_prediction_market;
     let options =
       operationType === 10
         ? operationObject.common_options
@@ -682,10 +679,6 @@ export default async function beautify(
       {
         key: "blacklist_markets",
         params: { blacklist_markets: blacklist_markets },
-      },
-      {
-        key: "is_prediction_market",
-        params: { is_prediction_market: is_prediction_market },
       },
       { key: "permissions", params: {} },
       {

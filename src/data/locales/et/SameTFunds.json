@@ -25,6 +25,8 @@
       "description": "Täpsustage allpool oma uue Same-T fondi vara, summa ja tasu.",
       "amount": "Summa",
       "fee": "Tasu määr",
+      "headerContent": "Vara, mida pakute laenamiseks oma Same-T Fundis.",
+      "backingAssetHeader": "Laenatav vara",
       "asset": "Laenu vara",
       "asset_description": "Vara, mida pakute laenuks oma Same-T fondis."
     },

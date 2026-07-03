@@ -76,5 +76,9 @@
   "dialogContent": {
     "editHeader": "다음 스마트코인 편집: {{symbol}}",
     "createHeader": "다음 스마트코인 생성: {{symbol}}"
+  },
+  "backing_asset": {
+    "header": "담보 자산",
+    "header_content": "담보 자산은 스마트코인을 뒷받침하는 자산입니다, 이 자산은 스마트코인 부채의 담보로 사용됩니다."
   }
 }

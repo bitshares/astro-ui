@@ -25,6 +25,8 @@
       "description": "Specifica di seguito l'asset, l'importo e la commissione per il tuo nuovo fondo Same-T.",
       "amount": "Quantità",
       "fee": "Tasso di commissione",
+      "headerContent": "L'asset che offri per prestare nel tuo Same-T Fund.",
+      "backingAssetHeader": "Asset di prestito",
       "asset": "Bene prestativo",
       "asset_description": "L'asset che offri in prestito nel tuo Fondo Same-T."
     },

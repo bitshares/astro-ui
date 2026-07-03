@@ -25,6 +25,8 @@
       "description": "Précisez ci-dessous l'actif, le montant et les frais de votre nouveau fonds Same-T.",
       "amount": "Montant",
       "fee": "Tarif des frais",
+      "headerContent": "L'actif que vous proposez de prêter dans votre Same-T Fund.",
+      "backingAssetHeader": "Actif de prêt",
       "asset": "Actif de prêt",
       "asset_description": "L'actif que vous proposez de prêter dans votre fonds Same-T."
     },

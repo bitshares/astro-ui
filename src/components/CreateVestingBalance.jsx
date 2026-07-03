@@ -436,7 +436,7 @@ export default function CreateVestingBalance(properties) {
                   setShowDialog(true);
                 }}
               >
-                {t("CreatePrediction:buttons.submit")}
+                {t("CreateUIA:buttons.submit")}
               </Button>
             </div>
           </CardContent>

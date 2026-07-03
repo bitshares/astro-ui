@@ -420,11 +420,11 @@ export default function IssuedAssets(properties) {
                         setShowDialog(true);
                       }}
                     >
-                      {t("CreatePrediction:buttons.submit")}
+                      {t("CreateUIA:buttons.submit")}
                     </Button>
                   ) : (
                     <Button className="h-8" disabled>
-                      {t("CreatePrediction:buttons.submit")}
+                      {t("CreateUIA:buttons.submit")}
                     </Button>
                   )}
                 </div>

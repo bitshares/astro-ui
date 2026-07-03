@@ -421,7 +421,6 @@ export default function UIA(properties) {
     } else {
       _trxContents["symbol"] = symbol;
       _trxContents["precision"] = precision;
-      _trxContents["is_prediction_market"] = false;
     }
 
     return _trxContents;

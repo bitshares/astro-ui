@@ -147,11 +147,6 @@ export default function PageHeader(properties) {
       href: "/tfund_user/index.html",
       description: "Home:tfund_user.subtitle",
     },
-    {
-      title: "Home:prediction_markets.title",
-      href: "/predictions/index.html",
-      description: "Home:prediction_markets.subtitle",
-    },
   ];
 
   const transferFundsHeading = [
@@ -284,11 +279,6 @@ export default function PageHeader(properties) {
   ];
 
   const assetCreation = [
-    {
-      title: "Home:create_prediction.title",
-      href: "/create_prediction/index.html",
-      description: "Home:create_prediction.subtitle",
-    },
     {
       title: "Home:create_uia.title",
       href: "/create_uia/index.html",
