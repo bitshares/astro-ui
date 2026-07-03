@@ -5,12 +5,18 @@ import Layout from '../layouts/Layout.astro';
 import Home from '../components/Home.jsx';
 import PageHeader from '../components/PageHeader';
 import PageFooter from '../components/PageFooter';
+
+const btsAllAssets = await getCollection('btsAllAssets');
+const testAllAssets = await getCollection('testAllAssets');
+
+const btsAssets = btsAllAssets.map(collection => collection.data);
+const testAssets = testAllAssets.map(collection => collection.data);
 ---
 
 <Layout title="Bitshares Beet Astro UI - index">
 	<main>
 		<PageHeader client:only="react" page="index" backURL="" />
-		<Home client:only="react" />
+		<Home client:only="react" _assetsBTS={btsAssets} _assetsTEST={testAssets} />
 		<PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/index.astro" />
 	</main>
 </Layout>
@@ -21,7 +27,7 @@ import PageFooter from '../components/PageFooter';
 		padding: 1rem;
 		width: 100%;
 		max-width: calc(100% - 2rem);
-		color: white;
+		color: hsl(var(--foreground));
 		font-size: 20px;
 		line-height: 1.6;
 		min-height: 100vh;

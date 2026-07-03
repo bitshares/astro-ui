@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --background: 0 0% 98%;
     --foreground: 20 14.3% 4.1%;
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
@@ -15,6 +16,8 @@
     --secondary-foreground: 24 9.8% 10%;
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
+    --accent: 60 4.8% 95.9%;
+    --accent-foreground: 24 9.8% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
     --border: 20 5.9% 90%;
@@ -27,7 +30,6 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
-    /* Sidebar theme (light) */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -39,6 +41,7 @@
   }
 
   .dark {
+    --background: 240 1% 20%;
     --foreground: 60 9.1% 97.8%;
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
@@ -50,6 +53,8 @@
     --secondary-foreground: 60 9.1% 97.8%;
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 60 9.1% 97.8%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 60 9.1% 97.8%;
     --border: 12 6.5% 15.1%;
@@ -61,7 +66,6 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
-    /* Sidebar theme (dark) */
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 0 0% 98%;
@@ -79,5 +83,38 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@media (forced-colors: active) {
+  * {
+    border-color: CanvasText;
+  }
+  .border-border,
+  .border-border\/60,
+  .border-border\/40 {
+    border-color: CanvasText;
+  }
+  button,
+  .btn {
+    border: 1px solid ButtonText;
+  }
+  .shadow-sm,
+  .shadow-md,
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --muted-foreground: 25 5.3% 30%;
+    --border: 20 10% 60%;
+  }
+  .dark {
+    --muted-foreground: 24 5.4% 80%;
+    --border: 12 6.5% 30%;
   }
 }

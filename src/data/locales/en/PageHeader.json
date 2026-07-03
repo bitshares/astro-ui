@@ -110,5 +110,6 @@
   "multiwallet": "multiwallet",
   "tfund_user": "Same-T Fund Trade",
   "createAccount": "Create Account",
-  "transferFundsHeading": "Transfer funds"
+  "transferFundsHeading": "Transfer funds",
+  "exchangeFundsHeading": "Exchange funds"
 }
