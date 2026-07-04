@@ -3,14 +3,9 @@ import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
 import MyTradeSummary from "../Summary/MyTradeSummary";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { TrendingDown, TrendingUp, Inbox } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 export default function MyCompletedTrades(properties) {
   const {
@@ -23,38 +18,92 @@ export default function MyCompletedTrades(properties) {
   } = properties;
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
 
+  const isBuy = type === "buy";
+  const accent = isBuy
+    ? {
+        text: "text-emerald-300",
+        chip: "bg-emerald-500/10 border-emerald-500/30 text-emerald-300",
+        border: "border-emerald-500/30",
+        glow: "from-emerald-500/15 via-emerald-500/3 to-transparent",
+      }
+    : {
+        text: "text-rose-300",
+        chip: "bg-rose-500/10 border-rose-500/30 text-rose-300",
+        border: "border-rose-500/30",
+        glow: "from-rose-500/15 via-rose-500/3 to-transparent",
+      };
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          {type === "buy"
-            ? t("MyCompletedTrades:recentlyCompletedBuyOrdersTitle")
-            : t("MyCompletedTrades:recentlyCompletedSellOrdersTitle")}
-        </CardTitle>
-        <CardDescription>
-          {type === "buy"
-            ? t("MyCompletedTrades:recentlyCompletedBuyOrdersDescription")
-            : t("MyCompletedTrades:recentlyCompletedSellOrdersDescription")}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        {marketHistoryInProgress ? <Skeleton count={5} /> : null}
-        {(!usrHistory || !usrHistory.length) && !marketHistoryInProgress ? (
-          type === "buy" ? (
-            <>{t("MyCompletedTrades:noRecentlyCompletedPurchases")}</>
-          ) : (
-            <>{t("MyCompletedTrades:noRecentlyCompletedSales")}</>
-          )
-        ) : null}
-        {usrHistory && usrHistory.length ? (
-          <MyTradeSummary
-            type={type}
-            usrHistory={usrHistory}
-            assetAData={assetAData}
-            assetBData={assetBData}
-          />
-        ) : null}
-      </CardContent>
-    </Card>
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-xl border bg-card/60 backdrop-blur-xl",
+        accent.border
+      )}
+    >
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b",
+          accent.glow
+        )}
+      />
+      <div className="relative">
+        <div className="flex items-center gap-2.5 border-b border-border/60 px-4 py-3">
+          <div
+            className={cn(
+              "flex h-8 w-8 items-center justify-center rounded-lg border",
+              accent.chip
+            )}
+          >
+            {isBuy ? (
+              <TrendingUp className="h-4 w-4" />
+            ) : (
+              <TrendingDown className="h-4 w-4" />
+            )}
+          </div>
+          <div>
+            <h3 className={cn("text-sm font-semibold", accent.text)}>
+              {isBuy
+                ? t("MyCompletedTrades:recentlyCompletedBuyOrdersTitle")
+                : t("MyCompletedTrades:recentlyCompletedSellOrdersTitle")}
+            </h3>
+            <p className="text-[11px] text-muted-foreground/70">
+              {isBuy
+                ? t("MyCompletedTrades:recentlyCompletedBuyOrdersDescription")
+                : t("MyCompletedTrades:recentlyCompletedSellOrdersDescription")}
+            </p>
+          </div>
+        </div>
+
+        <div className="p-4 space-y-2">
+          {marketHistoryInProgress ? (
+            <div className="space-y-2">
+              <Skeleton className="h-8 w-full bg-muted" />
+              <Skeleton className="h-8 w-full bg-muted" />
+              <Skeleton className="h-8 w-full bg-muted" />
+            </div>
+          ) : null}
+          {(!usrHistory || !usrHistory.length) && !marketHistoryInProgress ? (
+            <div className="flex flex-col items-center justify-center gap-2 py-6 text-muted-foreground">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-accent/20">
+                <Inbox className="h-5 w-5" />
+              </div>
+              <p className="text-xs">
+                {isBuy
+                  ? t("MyCompletedTrades:noRecentlyCompletedPurchases")
+                  : t("MyCompletedTrades:noRecentlyCompletedSales")}
+              </p>
+            </div>
+          ) : null}
+          {usrHistory && usrHistory.length ? (
+            <MyTradeSummary
+              type={type}
+              usrHistory={usrHistory}
+              assetAData={assetAData}
+              assetBData={assetBData}
+            />
+          ) : null}
+        </div>
+      </div>
+    </div>
   );
 }

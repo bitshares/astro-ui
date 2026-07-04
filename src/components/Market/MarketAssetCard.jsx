@@ -355,6 +355,26 @@ export default function MarketAssetCard(properties) {
                     hyperlink={`https://ex.xbts.io/#/asset/${asset}`}
                   />
                 </div>
+
+                <div className="mt-2">
+                  <b className="text-foreground">{t("MarketAssetCard:quickLinks")}</b>
+                </div>
+                <div>
+                  <ExternalLinkButton
+                    classnamecontents=""
+                    variant="outline"
+                    type="button"
+                    text={`Pools`}
+                    hyperlink={`/swap/index.html?asset=${asset}`}
+                  />
+                  <ExternalLinkButton
+                    classnamecontents="ml-2"
+                    variant="outline"
+                    type="button"
+                    text={`Credit Offers`}
+                    hyperlink={`/lend/index.html?asset=${asset}`}
+                  />
+                </div>
               </div>
             </DialogContent>
           </Dialog>

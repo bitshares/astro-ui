@@ -304,9 +304,8 @@ export default function SimpleSwap(properties) {
         !poolParameter.length ||
         !poolParameter.includes("1.19.")
       ) {
-        // No valid pool parameter found, potentially set a default if desired
-        // For now, let's not automatically set a default here, user needs to select
-        // defaultPool(); // Uncomment if you want to default if URL param is missing/invalid
+        // No valid pool parameter found — default to the first available pool
+        defaultPool();
         return;
       }
 
@@ -314,7 +313,8 @@ export default function SimpleSwap(properties) {
 
       if (!foundPoolByURL) {
         console.log("URL Pool parameter not found in available pools.");
-        // defaultPool(); // Optionally default if the specific pool isn't available
+        // Fall back to a sensible default pool instead of leaving selection empty
+        defaultPool();
         return;
       }
 

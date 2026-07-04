@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/hover-card";
 
 import { $currentUser } from "@/stores/users.ts";
+import { cn } from "@/lib/utils";
 
 export default function MyOrderSummary(properties) {
   const { type, assetAData, assetBData, usrLimitOrders } = properties;
@@ -31,6 +32,9 @@ export default function MyOrderSummary(properties) {
     $currentUser.get,
     () => true
   );
+
+  const isBuy = type === "buy";
+  const accent = isBuy ? "text-emerald-300" : "text-rose-300";
 
   const filteredUsrLimitOrders = useMemo(
     () =>
@@ -53,9 +57,6 @@ export default function MyOrderSummary(properties) {
             res.sell_price.base.asset_id,
             res.sell_price.quote.asset_id
           );
-
-          //const minBaseAmount = humanReadableFloat(1, basePrecision);
-          //const minQuoteAmount = humanReadableFloat(1, quotePrecision);
 
           let parsedBaseAmount = humanReadableFloat(
             res.sell_price.base.amount,
@@ -114,57 +115,42 @@ export default function MyOrderSummary(properties) {
         return (
           <Dialog key={`${type}Dialog${index}`}>
             <DialogTrigger asChild>
-              <div className="col-span-3" key={`mos_${index}_${type}`}>
-                <div className="grid grid-cols-4 border-b-2 text-sm">
-                  <div className="col-span-1 border-r-2 pl-3 text-right">
-                    {type === "buy" && res.price < minQuoteAmount ? (
-                      <HoverCard
-                        key={`hover_less_than_min_${res.id.replace(
-                          "1.7.",
-                          ""
-                        )}`}
-                      >
-                        <HoverCardTrigger>{`< ${minQuoteAmount}`}</HoverCardTrigger>
-                        <HoverCardContent
-                          className={`w-${res.quotePrecision * 5}`}
-                        >
-                          {res.price}
-                        </HoverCardContent>
-                      </HoverCard>
-                    ) : null}
-                    {type === "sell" && res.price < minBaseAmount ? (
-                      <HoverCard
-                        key={`hover_less_than_min_${res.id.replace(
-                          "1.7.",
-                          ""
-                        )}`}
-                      >
-                        <HoverCardTrigger>{`< ${minBaseAmount}`}</HoverCardTrigger>
-                        <HoverCardContent
-                          className={`w-${res.basePrecision * 5}`}
-                        >
-                          {res.price}
-                        </HoverCardContent>
-                      </HoverCard>
-                    ) : null}
-                    {type === "buy" && res.price >= minQuoteAmount
-                      ? res.price.toFixed(res.quotePrecision)
-                      : null}
-                    {type === "sell" && res.price >= minBaseAmount
-                      ? res.price.toFixed(res.basePrecision)
-                      : null}
-                  </div>
-
-                  <div className="col-span-1 border-r-2 pl-3 text-right">
-                    {res.receiving}
-                  </div>
-                  <div className="col-span-1 border-r-2 pl-3 text-right">
-                    {res.paying}
-                  </div>
-                  <div className="col-span-1 border-r-2 pl-3 text-right">
-                    {res.expiration.replace("T", " ")}
-                  </div>
+              <div
+                className="grid grid-cols-4 gap-2 px-3 py-1.5 text-xs font-mono tabular-nums border-b border-border/40 hover:bg-accent/30 transition-colors"
+                key={`mos_${index}_${type}`}
+              >
+                <div className={cn("text-right font-semibold", accent)}>
+                  {type === "buy" && res.price < minQuoteAmount ? (
+                    <HoverCard
+                      key={`hover_less_than_min_${res.id.replace("1.7.", "")}`}
+                    >
+                      <HoverCardTrigger>{`< ${minQuoteAmount}`}</HoverCardTrigger>
+                      <HoverCardContent className={`w-${res.quotePrecision * 5}`}>
+                        {res.price}
+                      </HoverCardContent>
+                    </HoverCard>
+                  ) : null}
+                  {type === "sell" && res.price < minBaseAmount ? (
+                    <HoverCard
+                      key={`hover_less_than_min_${res.id.replace("1.7.", "")}`}
+                    >
+                      <HoverCardTrigger>{`< ${minBaseAmount}`}</HoverCardTrigger>
+                      <HoverCardContent className={`w-${res.basePrecision * 5}`}>
+                        {res.price}
+                      </HoverCardContent>
+                    </HoverCard>
+                  ) : null}
+                  {type === "buy" && res.price >= minQuoteAmount
+                    ? res.price.toFixed(res.quotePrecision)
+                    : null}
+                  {type === "sell" && res.price >= minBaseAmount
+                    ? res.price.toFixed(res.basePrecision)
+                    : null}
                 </div>
+
+                <div className="text-right text-foreground/80">{res.receiving}</div>
+                <div className="text-right text-foreground/80">{res.paying}</div>
+                <div className="text-right text-muted-foreground">{res.expiration.replace("T", " ")}</div>
               </div>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[600px] bg-card">
@@ -199,25 +185,21 @@ export default function MyOrderSummary(properties) {
     [filteredUsrLimitOrders, assetAData, assetBData, type]
   );
 
+  if (!orderElements.length) {
+    return null;
+  }
+
   return (
-    <>
-      <div className="grid grid-cols-4">
-        <div className="col-span-1 pl-3 text-right">
-          {t("MyOrderSummary:priceColumnTitle")}
-        </div>
-        <div className="col-span-1 pl-3 text-md text-right">
-          {assetAData.symbol}
-        </div>
-        <div className="col-span-1 pl-3 text-md text-right">
-          {assetBData.symbol}
-        </div>
-        <div className="col-span-1 pl-3 text-right">
-          {t("MyOrderSummary:expirationDateColumnTitle")}
-        </div>
+    <div className="rounded-lg border border-border bg-accent/20 overflow-hidden">
+      <div className="grid grid-cols-4 gap-2 px-3 py-2 border-b border-border/60 bg-accent/20 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="text-right">Price <span className="text-muted-foreground/60">({assetAData.symbol}/{assetBData.symbol})</span></div>
+        <div className="text-right">Amount <span className="text-muted-foreground/60">({assetAData.symbol})</span></div>
+        <div className="text-right">Amount <span className="text-muted-foreground/60">({assetBData.symbol})</span></div>
+        <div className="text-right">Expiration</div>
       </div>
-      <ScrollArea className="h-72 w-full rounded-md border">
-        <div className="grid grid-cols-3">{orderElements}</div>
+      <ScrollArea className="h-72 w-full">
+        <div className="flex flex-col">{orderElements}</div>
       </ScrollArea>
-    </>
+    </div>
   );
 }

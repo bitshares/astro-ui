@@ -744,7 +744,6 @@ export default function MarketOrder(properties) {
                                   />
                                 )}
                                       />
-                                    </Suspense>
                                   </PopoverContent>
                           </Popover>
                         </span>

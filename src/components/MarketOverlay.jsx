@@ -100,10 +100,18 @@ export default function MarketOverlay(properties) {
 
   const [limitOrderFee, setLimitOrderFee] = useState(0);
   useEffect(() => {
-    if (globalParams && globalParams.parameters) {
-      const foundFee = globalParams.find((x) => x.id === 1);
-      const finalFee = humanReadableFloat(foundFee.data.fee, 5);
-      setLimitOrderFee(finalFee);
+    // Normalize possible shapes for globalParams (array or object-with-parameters)
+    const paramsArray = Array.isArray(globalParams)
+      ? globalParams
+      : globalParams && globalParams.parameters
+      ? globalParams.parameters
+      : [];
+
+    if (paramsArray && paramsArray.length) {
+      const foundFee = paramsArray.find((x) => x.id === 1);
+      if (foundFee && foundFee.data && typeof foundFee.data.fee !== "undefined") {
+        setLimitOrderFee(humanReadableFloat(foundFee.data.fee, 5));
+      }
     }
   }, [globalParams]);
 

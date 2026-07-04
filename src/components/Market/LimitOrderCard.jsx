@@ -547,7 +547,7 @@ export default function LimitOrderCard(properties) {
                         <Input
                           {...field}
                           label={`Price`}
-                          placeholder={price}
+                          value={field.value ?? price}
                           disabled
                           readOnly
                           className="bg-accent/40 border-border text-foreground/85 placeholder:text-muted-foreground font-mono tabular-nums disabled:opacity-100 h-11"
@@ -621,8 +621,8 @@ export default function LimitOrderCard(properties) {
                             ) : (
                               <span
                                 variant="link"
-                                onClick={(event) => {
-                                  event.preventDefault();
+                                onClick={(e) => {
+                                  e.preventDefault();
                                   let finalPrice;
                                   if (
                                     orderType === "buy" &&
@@ -645,20 +645,17 @@ export default function LimitOrderCard(properties) {
                                   }
 
                                   if (finalPrice) {
-                                    setPrice(
-                                      parseFloat(finalPrice).toFixed(
-                                        assetBData.precision
-                                      )
+                                    const finalPriceNum = parseFloat(finalPrice);
+                                    const finalPriceFixed = finalPriceNum.toFixed(
+                                      assetBData.precision
                                     );
-                                    field.onChange(finalPrice); // <- keep the Controller/form in sync
+                                    setPrice(finalPriceFixed);
+                                    field.onChange(finalPriceNum); // <- keep the Controller/form in sync
 
                                     if (amount) {
-                                      setTotal(
-                                        (
-                                          parseFloat(finalPrice) *
-                                          parseFloat(amount)
-                                        ).toFixed(assetBData.precision)
-                                      );
+                                      const _total = (
+                                        finalPriceNum * parseFloat(amount)
+                                      ).toFixed(assetBData.precision);
                                       setTotal(_total);
                                       form.setValue("sellTotal", _total);
                                     }
@@ -727,7 +724,7 @@ export default function LimitOrderCard(properties) {
                         <Input
                           {...field}
                           label={`Amount`}
-                          placeholder={amount}
+                          value={field.value ?? amount}
                           disabled
                           readOnly
                           className="bg-accent/40 border-border text-foreground/85 placeholder:text-muted-foreground font-mono tabular-nums disabled:opacity-100 h-11"
@@ -870,7 +867,7 @@ export default function LimitOrderCard(properties) {
                         <Input
                           {...field}
                           label={`Total`}
-                          placeholder={total}
+                          value={field.value ?? total}
                           disabled
                           readOnly
                           className="bg-accent/40 border-border text-foreground/85 placeholder:text-muted-foreground font-mono tabular-nums disabled:opacity-100 h-11"
@@ -1186,12 +1183,12 @@ export default function LimitOrderCard(properties) {
                               label={t(
                                 "LimitOrderCard:osoEnabled.spreadPercentLabel"
                               )}
-                              placeholder={spreadPercent}
+                              value={field.value ?? spreadPercent}
                               disabled
                               readOnly
                             />
                             <Slider
-                              className="mt-1"
+                              className={cn("mt-1 bg-gradient-to-r", accent.gradient)}
                               defaultValue={[spreadPercent]}
                               max={100}
                               min={1}
@@ -1206,8 +1203,8 @@ export default function LimitOrderCard(properties) {
                             <Popover>
                               <PopoverTrigger>
                                 <span
-                                  onClick={() => {
-                                    event.preventDefault();
+                                  onClick={(e) => {
+                                    e.preventDefault();
                                   }}
                                   className="inline-flex items-center gap-1.5 rounded-md border border-border bg-accent/40 hover:bg-accent/60 hover:border-accent/50 dark:hover:border-white/20 px-3 py-1.5 text-xs font-medium text-foreground/70 hover:text-accent-foreground transition-all cursor-pointer"
                                 >
@@ -1269,12 +1266,12 @@ export default function LimitOrderCard(properties) {
                               label={t(
                                 "LimitOrderCard:osoSize.sizePercentLabel"
                               )}
-                              placeholder={sizePercent}
+                              value={field.value ?? sizePercent}
                               disabled
                               readOnly
                             />
                             <Slider
-                              className="mt-1"
+                              className={cn("mt-1 bg-gradient-to-r", accent.gradient)}
                               defaultValue={[sizePercent]}
                               max={100}
                               min={0}
@@ -1289,8 +1286,8 @@ export default function LimitOrderCard(properties) {
                             <Popover>
                               <PopoverTrigger>
                                 <span
-                                  onClick={() => {
-                                    event.preventDefault();
+                                  onClick={(e) => {
+                                    e.preventDefault();
                                   }}
                                   className="inline-flex items-center gap-1.5 rounded-md border border-border bg-accent/40 hover:bg-accent/60 hover:border-accent/50 dark:hover:border-white/20 px-3 py-1.5 text-xs font-medium text-foreground/70 hover:text-accent-foreground transition-all cursor-pointer"
                                 >
