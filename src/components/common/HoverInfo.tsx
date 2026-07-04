@@ -30,7 +30,7 @@ export default function HoverInfo({ header, content, type }: HoverInfoProps) {
             )}
           </span>
           {!type ? (
-            <span className="flex-shrink mr-2 text-gray-400">
+            <span className="flex-shrink mr-2 text-muted-foreground">
               <Label>
                 <InfoCircledIcon className="mt-3" />
               </Label>

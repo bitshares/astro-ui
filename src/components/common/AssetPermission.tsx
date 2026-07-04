@@ -74,7 +74,7 @@ export default function AssetPermission({
           </MakeHover>
         </span>
         <MakeHover>
-          <InfoCircledIcon className="text-gray-400 mt-3" />
+          <InfoCircledIcon className="text-muted-foreground mt-3" />
         </MakeHover>
       </span>
     );
@@ -103,7 +103,7 @@ export default function AssetPermission({
         </MakeHover>
       </span>
       <MakeHover>
-        <InfoCircledIcon className="text-gray-400 mt-3" />
+        <InfoCircledIcon className="text-muted-foreground mt-3" />
       </MakeHover>
     </span>
   );

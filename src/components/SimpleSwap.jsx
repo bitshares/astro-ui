@@ -9,43 +9,38 @@ import { useStore } from "@nanostores/react";
 import { sha256 } from "@noble/hashes/sha2.js";
 import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
 import {
-  QuestionMarkCircledIcon,
-  CircleIcon,
-  CheckCircledIcon,
-} from "@radix-ui/react-icons";
+  ArrowDownUp,
+  ArrowUp,
+  ArrowDown,
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Coins,
+  Info,
+  Percent,
+  Sparkles,
+  TrendingUp,
+  Wallet,
+  Zap,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { List } from "react-window";
 
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { blockchainFloat, humanReadableFloat } from "@/lib/common";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -59,23 +54,13 @@ import {
 import {
   Field,
   FieldContent,
-  FieldDescription,
   FieldError,
   FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSeparator,
-  FieldSet,
-  FieldTitle,
 } from "@/components/ui/field";
 
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-// Removed Toggle import as it's no longer used
-// import { Toggle } from "@/components/ui/toggle";
 
 import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
@@ -579,14 +564,43 @@ export default function SimpleSwap(properties) {
       : 0;
   }, [sellAmount, assetA, assetB, foundPool]);
 
-  const [buyAmountInput, setBuyAmountInput] = useState();
-  useEffect(() => {
-    setBuyAmountInput(
-      <Input readOnly value={buyAmount ?? "0"} disabled className="mb-3" />
-    );
-  }, [buyAmount]);
-
   const [showDialog, setShowDialog] = useState(false);
+
+  // User's balance of the selected sell asset (for MAX button + display)
+  const userSellBalance = useMemo(() => {
+    if (!usrBalances || !assetA || !assetA.id) return null;
+    const balance = usrBalances.find((b) => b.asset_id === assetA.id);
+    if (!balance) return null;
+    return humanReadableFloat(balance.amount, assetA.precision);
+  }, [usrBalances, assetA]);
+
+  // Live exchange rate: 1 unit of assetA = X units of assetB
+  const exchangeRate = useMemo(() => {
+    if (!assetA || !assetB || !buyAmount || buyAmount <= 0) return null;
+    const sellNum = parseFloat(sellAmount);
+    if (isNaN(sellNum) || sellNum <= 0) return null;
+    const rate = buyAmount / sellNum;
+    if (!isFinite(rate) || rate <= 0) return null;
+    return rate;
+  }, [sellAmount, buyAmount, assetA, assetB]);
+
+  // Swap the send/receive asset selections
+  const swapAssets = () => {
+    if (!selectedAssetASymbol || !selectedAssetBSymbol) return;
+    const tempA = selectedAssetASymbol;
+    setSelectedAssetASymbol(selectedAssetBSymbol);
+    setSelectedAssetBSymbol(tempA);
+    setPool("");
+  };
+
+  // Set the sell input to the user's full available balance
+  const setMaxBalance = () => {
+    if (userSellBalance && userSellBalance > 0) {
+      const formatted = userSellBalance.toFixed(Math.min(8, assetA?.precision || 4));
+      setSellAmount(formatted);
+      form.setValue("sellAmount", formatted);
+    }
+  };
 
   useEffect(() => {
     if (pool && pool.length && selectedAssetASymbol && selectedAssetBSymbol) {
@@ -595,67 +609,6 @@ export default function SimpleSwap(properties) {
       window.history.replaceState({}, "", `?${currentUrlParams.toString()}`);
     }
   }, [pool, selectedAssetASymbol, selectedAssetBSymbol]);
-
-  const poolRow = ({ index, style }) => {
-    const _pool = finalPools[index];
-
-    const assetDetailA = assetA;
-    const assetDetailB = assetB;
-
-    if (!assetDetailA || !assetDetailB) {
-      return <div style={style}>Loading pool details...</div>;
-    }
-
-    let balanceForSelectedA, balanceForSelectedB;
-    let precisionForSelectedA, precisionForSelectedB;
-
-    if (_pool.asset_a_symbol === selectedAssetASymbol) {
-      balanceForSelectedA = _pool.balance_a;
-      precisionForSelectedA = assetDetailA.precision;
-      balanceForSelectedB = _pool.balance_b;
-      precisionForSelectedB = assetDetailB.precision;
-    } else {
-      balanceForSelectedA = _pool.balance_b;
-      precisionForSelectedA = assetDetailA.precision;
-      balanceForSelectedB = _pool.balance_a;
-      precisionForSelectedB = assetDetailB.precision;
-    }
-
-    const feePercent = (_pool.taker_fee_percent ?? 0) / 100; // e.g., 0.2
-
-    return (
-      <div
-        style={style}
-        className={`grid grid-cols-12 hover:bg-purple-100 dark:hover:bg-purple-500/15 p-1 cursor-pointer ${
-          pool === _pool.id ? "bg-purple-200 dark:bg-purple-500/25" : ""
-        }`}
-        key={`pool_${_pool.id}`}
-        onClick={() => {
-          setPool(_pool.id);
-        }}
-      >
-        <div className="col-span-1 flex items-center">
-          {_pool.id === pool ? (
-            <CheckCircledIcon className="mt-1 text-green-600 dark:text-green-400" />
-          ) : (
-            <CircleIcon className="mt-1 text-muted-foreground" />
-          )}
-        </div>
-        <div className="col-span-1 text-sm flex items-center">
-          {_pool.id.split(".")[2]}
-        </div>
-        <div className="col-span-4 text-sm flex items-center">
-          {`${feePercent}% ${t("SimpleSwap:fee")}`}
-        </div>
-        <div className="col-span-3 text-sm flex items-center justify-end">
-          {humanReadableFloat(balanceForSelectedA, precisionForSelectedA)}
-        </div>
-        <div className="col-span-3 text-sm flex items-center justify-end">
-          {humanReadableFloat(balanceForSelectedB, precisionForSelectedB)}
-        </div>
-      </div>
-    );
-  };
 
   const canSubmit =
     pool &&
@@ -668,421 +621,684 @@ export default function SimpleSwap(properties) {
 
   return (
     <>
-      <div className="container mx-auto mt-5 mb-5">
-        <div className="grid grid-cols-1 gap-3">
-          <Card className="p-2">
-            <CardHeader>
-              <CardTitle>{t("SimpleSwap:title")}</CardTitle>
-              <CardDescription>{t("SimpleSwap:description")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {!pools ? <p>{t("SimpleSwap:loadingPoolData")}</p> : null}
-              {!assets ? <p>{t("SimpleSwap:loadingAssetData")}</p> : null}
-              {pools && assets ? (
-                <>
-                  <form
-                    onSubmit={form.handleSubmit(() => {
-                      event.preventDefault();
-                      if (canSubmit) {
-                        setShowDialog(true);
-                      }
-                    })}
-                  >
-                    <FieldGroup>
-                      <div className="grid grid-cols-2 gap-5 mb-4">
-                        <div className="col-span-1">
-                          <Controller
-                            name="sellAmount"
-                            control={form.control}
-                            rules={{
-                              required: t("SimpleSwap:enterPositiveAmount"),
-                              validate: (v) =>
-                                ((v === "" || /^[0-9]*\.?[0-9]*$/.test(v)) &&
-                                  parseFloat(v) > 0) ||
-                                t("SimpleSwap:enterPositiveAmount"),
-                            }}
-                            render={({ field, fieldState }) => (
-                              <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="simple-swap-sell-amount">
-                                  <div className="flex items-center space-x-1">
-                                    <span>{t("SimpleSwap:amountToSwap")}</span>
-                                    <TooltipProvider>
-                                      <Tooltip>
-                                        <TooltipTrigger asChild>
-                                          <QuestionMarkCircledIcon className="cursor-help" />
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                          <p>
-                                            {t("SimpleSwap:enterAmountToSwap", {
-                                              symbolA:
-                                                selectedAssetASymbol ?? "???",
-                                              symbolB:
-                                                selectedAssetBSymbol ?? "???",
-                                            })}
-                                          </p>
-                                        </TooltipContent>
-                                      </Tooltip>
-                                    </TooltipProvider>
-                                  </div>
-                                </FieldLabel>
-                                <FieldContent>
-                                  <Input
-                                    {...field}
-                                    id="simple-swap-sell-amount"
-                                    type="number"
-                                    step="any"
-                                    min="0"
-                                    placeholder="0.0"
-                                    className="mb-3"
-                                    aria-invalid={fieldState.invalid}
-                                    onChange={(event) => {
-                                      const input = event.target.value;
-                                      if (
-                                        input === "" ||
-                                        /^[0-9]*\.?[0-9]*$/.test(input)
-                                      ) {
-                                        field.onChange(input);
-                                        setSellAmount(input);
-                                      }
-                                    }}
-                                  />
-                                </FieldContent>
-                                {fieldState.invalid && (
-                                  <FieldError errors={[fieldState.error]} />
+      <div className="container mx-auto mt-5 mb-5 max-w-4xl">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.04)]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-24 -left-20 h-64 w-64 rounded-full bg-cyan-500/20 blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl"
+          />
+
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-start justify-between gap-3 mb-5">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500/30 to-blue-500/30 border border-cyan-400/40 shadow-[0_0_18px_-2px_rgba(34,211,238,0.4)]">
+                    <Sparkles className="h-4 w-4 dark:text-cyan-100 text-cyan-700" />
+                  </span>
+                  {t("SimpleSwap:title")}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {t("SimpleSwap:description")}
+                </p>
+              </div>
+            </div>
+
+            {!pools ? (
+              <p className="text-muted-foreground text-sm">{t("SimpleSwap:loadingPoolData")}</p>
+            ) : null}
+            {!assets ? (
+              <p className="text-muted-foreground text-sm">{t("SimpleSwap:loadingAssetData")}</p>
+            ) : null}
+
+            {pools && assets ? (
+              <form
+                onSubmit={form.handleSubmit(() => {
+                  event.preventDefault();
+                  if (canSubmit) {
+                    setShowDialog(true);
+                  }
+                })}
+              >
+                <FieldGroup className="space-y-3">
+                  <Controller
+                    name="sellAmount"
+                    control={form.control}
+                    rules={{
+                      required: t("SimpleSwap:enterPositiveAmount"),
+                      validate: (v) =>
+                        ((v === "" || /^[0-9]*\.?[0-9]*$/.test(v)) &&
+                          parseFloat(v) > 0) ||
+                        t("SimpleSwap:enterPositiveAmount"),
+                    }}
+                    render={({ field, fieldState }) => (
+                      <div className="rounded-2xl border border-cyan-400/25 bg-gradient-to-br from-cyan-500/[0.07] to-cyan-500/[0.02] p-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-cyan-500/20 border border-cyan-400/40">
+                              <ArrowUp className="h-3.5 w-3.5 dark:text-cyan-200 text-cyan-700" />
+                            </span>
+                            <span className="text-[11px] font-semibold uppercase tracking-wider dark:text-cyan-200/80 text-cyan-700">
+                              {t("SimpleSwap:amountToSwap")}
+                            </span>
+                            <TooltipProvider delayDuration={200}>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <button
+                                    type="button"
+                                    className="dark:text-cyan-300/60 dark:hover:text-cyan-200 text-cyan-600/80 hover:text-cyan-800 transition-colors"
+                                    aria-label="More info"
+                                  >
+                                    <Info className="h-3.5 w-3.5" />
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent className="bg-card border-cyan-400/30 text-foreground/85">
+                                  <p className="max-w-xs">
+                                    {t("SimpleSwap:enterAmountToSwap", {
+                                      symbolA: selectedAssetASymbol ?? "???",
+                                      symbolB: selectedAssetBSymbol ?? "???",
+                                    })}
+                                  </p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </div>
+                          <div className="flex items-center gap-2 text-[11px]">
+                            <Wallet className="h-3 w-3 text-muted-foreground" />
+                            {userSellBalance !== null ? (
+                              <>
+                                <span className="text-muted-foreground font-mono">
+                                  {userSellBalance.toLocaleString(undefined, {
+                                    maximumFractionDigits: Math.min(
+                                      6,
+                                      assetA?.precision || 4
+                                    ),
+                                  })}
+                                </span>
+                                {userSellBalance > 0 && (
+                                  <button
+                                    type="button"
+                                    onClick={setMaxBalance}
+                                    className="px-1.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider bg-cyan-500/20 border border-cyan-400/40 dark:text-cyan-100 text-cyan-700 hover:bg-cyan-500/30 hover:border-cyan-300/60 transition-colors"
+                                  >
+                                    MAX
+                                  </button>
                                 )}
-                              </Field>
+                              </>
+                            ) : (
+                              <span className="text-muted-foreground/60">—</span>
                             )}
-                          />
+                          </div>
                         </div>
 
-                        <div className="col-span-1 self-end mb-3">
+                        <div className="grid grid-cols-[1fr_auto] gap-2 items-stretch">
+                          <Field data-invalid={fieldState.invalid}>
+                            <FieldContent>
+                              <Input
+                                {...field}
+                                id="simple-swap-sell-amount"
+                                type="number"
+                                step="any"
+                                min="0"
+                                placeholder="0.0"
+                                aria-invalid={fieldState.invalid}
+                                onChange={(event) => {
+                                  const input = event.target.value;
+                                  if (
+                                    input === "" ||
+                                    /^[0-9]*\.?[0-9]*$/.test(input)
+                                  ) {
+                                    field.onChange(input);
+                                    setSellAmount(input);
+                                  }
+                                }}
+                                className="h-16 text-3xl sm:text-4xl font-semibold bg-card/60 border-border text-foreground placeholder:text-muted-foreground/40 focus-visible:ring-cyan-400/40 focus-visible:border-cyan-400/60 px-4"
+                              />
+                            </FieldContent>
+                            {fieldState.invalid && (
+                              <FieldError
+                                errors={[fieldState.error]}
+                                className="text-red-300 text-xs mt-1"
+                              />
+                            )}
+                          </Field>
+
                           <Controller
                             name="assetA"
                             control={form.control}
-                            render={({ field, fieldState }) => (
-                              <Field data-invalid={fieldState.invalid}>
-                                <FieldContent>
-                                  <DropdownMenu
-                                    open={sendMenuOpen}
-                                    onOpenChange={setSendMenuOpen}
+                            render={({ field: assetField, fieldState }) => (
+                              <DropdownMenu
+                                open={sendMenuOpen}
+                                onOpenChange={setSendMenuOpen}
+                              >
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    aria-label={t(
+                                      "SimpleSwap:selectSendAsset"
+                                    )}
+                                    aria-invalid={fieldState.invalid}
+                                    className="h-16 px-4 min-w-[140px] bg-card/60 border-border hover:bg-card/80 hover:border-cyan-400/40 text-foreground text-lg font-semibold justify-between gap-2"
                                   >
-                                    <DropdownMenuTrigger asChild>
-                                      <Button
-                                        variant="outline"
-                                        className="hover:bg-accent hover:shadow-lg w-full justify-start font-normal"
-                                        aria-label={t(
-                                          "SimpleSwap:selectSendAsset"
-                                        )}
-                                        aria-invalid={fieldState.invalid}
-                                      >
-                                        {selectedAssetASymbol
-                                          ? selectedAssetASymbol
-                                          : t("SimpleSwap:sendAsset")}
-                                      </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                      className="p-0 w-[300px]"
-                                      align="start"
-                                    >
-                                      <Command className="rounded-lg border shadow-md">
-                                        <CommandInput
-                                          placeholder={t(
-                                            "PageHeader:commandSearchPlaceholder"
-                                          )}
-                                        />
-                                        <CommandList>
-                                          <CommandEmpty>
-                                            {t("PageHeader:noResultsFound")}
-                                          </CommandEmpty>
-                                          <CommandGroup>
-                                            {poolAssets.length > 0 ? (
-                                              poolAssets.map((assetSymbol) => (
-                                                <CommandItem
-                                                  key={`sell-${assetSymbol}`}
-                                                  onSelect={() => {
-                                                    setSelectedAssetASymbol(
-                                                      assetSymbol
-                                                    );
-                                                    setSelectedAssetBSymbol(
-                                                      undefined
-                                                    );
-                                                    setPool("");
-                                                    field.onChange(assetSymbol);
-                                                    setSendMenuOpen(false);
-                                                  }}
-                                                  className="cursor-pointer"
-                                                >
-                                                  {assetSymbol}
-                                                </CommandItem>
-                                              ))
-                                            ) : (
-                                              <CommandItem disabled>
-                                                {t("SimpleSwap:loading")}
-                                              </CommandItem>
-                                            )}
-                                          </CommandGroup>
-                                        </CommandList>
-                                      </Command>
-                                    </DropdownMenuContent>
-                                  </DropdownMenu>
-                                </FieldContent>
-                              </Field>
-                            )}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-5">
-                        <div className="col-span-1">
-                          <Field>
-                            <FieldLabel htmlFor="simple-swap-buy-amount">
-                              <div className="flex items-center space-x-1">
-                                <span>{t("SimpleSwap:totalAmount")}</span>
-                                <TooltipProvider>
-                                  <Tooltip>
-                                    <TooltipTrigger asChild>
-                                      <QuestionMarkCircledIcon className="cursor-help" />
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                      <p>
-                                        {t(
-                                          "SimpleSwap:totalAmountDescription",
-                                          {
-                                            symbolA:
-                                              selectedAssetASymbol ?? "???",
-                                            symbolB:
-                                              selectedAssetBSymbol ?? "???",
-                                          }
-                                        )}
-                                      </p>
-                                    </TooltipContent>
-                                  </Tooltip>
-                                </TooltipProvider>
-                              </div>
-                            </FieldLabel>
-                            <FieldContent>
-                              {buyAmountInput &&
-                                React.cloneElement(buyAmountInput, {
-                                  id: "simple-swap-buy-amount",
-                                  "aria-invalid": false,
-                                })}
-                            </FieldContent>
-                          </Field>
-                        </div>
-
-                        <div className="col-span-1 self-end mb-3">
-                          <Controller
-                            name="assetB"
-                            control={form.control}
-                            rules={{
-                              validate: (val) =>
-                                !selectedAssetASymbol ||
-                                !!val ||
-                                t("SimpleSwap:selectAssetToReceive"),
-                            }}
-                            render={({ field, fieldState }) => (
-                              <Field data-invalid={fieldState.invalid}>
-                                <FieldContent>
-                                  <DropdownMenu
-                                    open={receiveMenuOpen}
-                                    onOpenChange={setReceiveMenuOpen}
-                                  >
-                                    <DropdownMenuTrigger
-                                      asChild
-                                      disabled={!selectedAssetASymbol}
-                                    >
-                                      <Button
-                                        variant="outline"
-                                        className="hover:bg-accent hover:shadow-lg w-full justify-start font-normal"
-                                        disabled={!selectedAssetASymbol}
-                                        aria-label={t(
-                                          "SimpleSwap:selectReceiveAsset"
-                                        )}
-                                        aria-invalid={fieldState.invalid}
-                                      >
-                                        {selectedAssetBSymbol
-                                          ? selectedAssetBSymbol
-                                          : t("SimpleSwap:sendAsset")}
-                                      </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                      className="p-0 w-[300px]"
-                                      align="start"
-                                    >
-                                      <Command className="rounded-lg border shadow-md">
-                                        <CommandInput
-                                          placeholder={t(
-                                            "PageHeader:commandSearchPlaceholder"
-                                          )}
-                                        />
-                                        <CommandList>
-                                          <CommandEmpty>
-                                            {t("PageHeader:noResultsFound")}
-                                          </CommandEmpty>
-                                          <CommandGroup>
-                                            {possiblePoolAssets.length > 0 ? (
-                                              possiblePoolAssets.map(
-                                                (assetSymbol) => (
-                                                  <CommandItem
-                                                    key={`buy-${assetSymbol}`}
-                                                    onSelect={() => {
-                                                      setSelectedAssetBSymbol(
-                                                        assetSymbol
-                                                      );
-                                                      field.onChange(
-                                                        assetSymbol
-                                                      );
-                                                      setReceiveMenuOpen(false);
-                                                    }}
-                                                    className="cursor-pointer"
-                                                  >
-                                                    {assetSymbol}
-                                                  </CommandItem>
-                                                )
-                                              )
-                                            ) : (
-                                              <CommandItem disabled>
-                                                {selectedAssetASymbol
-                                                  ? t(
-                                                      "SimpleSwap:noAssetsAvailable"
-                                                    )
-                                                  : t(
-                                                      "SimpleSwap:selectSendFirst"
-                                                    )}
-                                              </CommandItem>
-                                            )}
-                                          </CommandGroup>
-                                        </CommandList>
-                                      </Command>
-                                    </DropdownMenuContent>
-                                  </DropdownMenu>
-                                </FieldContent>
-                                {fieldState.invalid && (
-                                  <FieldError errors={[fieldState.error]} />
-                                )}
-                              </Field>
-                            )}
-                          />
-                        </div>
-                      </div>
-
-                      {finalPools &&
-                      finalPools.length > 0 &&
-                      selectedAssetASymbol &&
-                      selectedAssetBSymbol ? (
-                        <div className="mt-5 border rounded-md p-2">
-                          <div className="grid grid-cols-12 text-xs text-muted-foreground mb-1 p-1 border-b">
-                            <div className="col-span-1"></div>
-                            <div className="col-span-1">ID</div>
-                            <div className="col-span-4">
-                              <TooltipProvider>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <span className="flex items-center cursor-help">
-                                      {t("SimpleSwap:poolFee")}{" "}
-                                      <QuestionMarkCircledIcon className="ml-1" />
+                                    <span className="flex items-center gap-2">
+                                      <Coins className="h-4 w-4 dark:text-cyan-300 text-cyan-700" />
+                                      {selectedAssetASymbol || t(
+                                        "SimpleSwap:sendAsset"
+                                      )}
                                     </span>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>{t("SimpleSwap:poolFeeDescription")}</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                            </div>
-                            <div className="col-span-3 text-right">
-                              {selectedAssetASymbol} ({t("SimpleSwap:balance")})
-                            </div>
-                            <div className="col-span-3 text-right">
-                              {selectedAssetBSymbol} ({t("SimpleSwap:balance")})
-                            </div>
-                          </div>
+                                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                  className="p-0 w-[320px] !bg-card border border-border rounded-2xl overflow-hidden shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7)]"
+                                  align="end"
 
-                          <div
-                            className={`w-full max-h-[${Math.min(
-                              210,
-                              finalPools.length * 40
-                            )}px] overflow-auto`}
-                          >
-                            <List
-                              rowComponent={poolRow}
-                              rowCount={finalPools.length}
-                              rowHeight={40}
-                              rowProps={{}}
-                            />
-                          </div>
+                                >
+                                  <span
+                                    aria-hidden="true"
+                                    className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent"
+                                  />
+                                  <Command className="rounded-2xl bg-transparent border-0 shadow-none">
+                                    <CommandInput
+                                      placeholder={t(
+                                        "PageHeader:commandSearchPlaceholder"
+                                      )}
+                                      className="[&_[cmdk-input-wrapper]]:border-border [&_svg]:text-muted-foreground [&_svg]:opacity-100 text-foreground placeholder:text-muted-foreground"
+                                    />
+                                    <CommandList>
+                                      <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
+                                        {t("PageHeader:noResultsFound")}
+                                      </CommandEmpty>
+                                      <CommandGroup className="[&_[cmdk-group-heading]]:text-muted-foreground">
+                                        {poolAssets.length > 0 ? (
+                                          poolAssets.map((assetSymbol) => (
+                                            <CommandItem
+                                              key={`sell-${assetSymbol}`}
+                                              onSelect={() => {
+                                                setSelectedAssetASymbol(
+                                                  assetSymbol
+                                                );
+                                                setSelectedAssetBSymbol(
+                                                  undefined
+                                                );
+                                                setPool("");
+                                                assetField.onChange(
+                                                  assetSymbol
+                                                );
+                                                setSendMenuOpen(false);
+                                              }}
+                                              className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-cyan-500/15 data-[selected=true]:!text-foreground aria-selected:bg-cyan-500/15"
+                                            >
+                                              <span className="flex items-center gap-2">
+                                                  <Coins className="h-3.5 w-3.5 dark:text-cyan-300/70 text-cyan-600/80" />
+                                                {assetSymbol}
+                                              </span>
+                                              {selectedAssetASymbol ===
+                                                assetSymbol && (
+                                                <Check className="ml-auto h-4 w-4 dark:text-cyan-300 text-cyan-700" />
+                                              )}
+                                            </CommandItem>
+                                          ))
+                                        ) : (
+                                          <CommandItem
+                                            disabled
+                                            className="text-muted-foreground"
+                                          >
+                                            {t("SimpleSwap:loading")}
+                                          </CommandItem>
+                                        )}
+                                      </CommandGroup>
+                                    </CommandList>
+                                  </Command>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            )}
+                          />
                         </div>
-                      ) : null}
+                      </div>
+                    )}
+                  />
 
-                      {selectedAssetASymbol &&
-                        selectedAssetBSymbol &&
-                        finalPools.length === 0 &&
-                        pools &&
-                        pools.length > 0 && (
-                          <p className="text-red-500 dark:text-red-400 mt-4">
-                            {t("SimpleSwap:noPoolsForPair")}
-                          </p>
+                  <div className="relative h-0 z-10">
+                    <button
+                      type="button"
+                      onClick={swapAssets}
+                      disabled={!selectedAssetASymbol || !selectedAssetBSymbol}
+                      aria-label={t("SimpleSwap:swapBuySell")}
+                      className={cn(
+                        "absolute left-1/2 -translate-x-1/2 top-0 -translate-y-1/2",
+                        "group h-11 w-11 rounded-full",
+                        "bg-card border-2 border-border",
+                        "shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)]",
+                        "flex items-center justify-center",
+                        "hover:border-cyan-400/60 hover:shadow-[0_0_24px_-2px_rgba(34,211,238,0.5)]",
+                        "active:scale-95 transition-all duration-300",
+                        "disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-border"
+                      )}
+                    >
+                      <ArrowDownUp className="h-4 w-4 text-foreground dark:group-hover:text-cyan-200 group-hover:text-cyan-800 group-hover:rotate-180 transition-all duration-300" />
+                    </button>
+                  </div>
+
+                  <div className="rounded-2xl border border-blue-400/25 bg-gradient-to-br from-blue-500/[0.07] to-blue-500/[0.02] p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/20 border border-blue-400/40">
+                          <ArrowDown className="h-3.5 w-3.5 dark:text-blue-200 text-blue-700" />
+                        </span>
+                        <span className="text-[11px] font-semibold uppercase tracking-wider dark:text-blue-200/80 text-blue-700">
+                          {t("SimpleSwap:totalAmount")}
+                        </span>
+                        <TooltipProvider delayDuration={200}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                type="button"
+                                className="dark:text-blue-300/60 dark:hover:text-blue-200 text-blue-600/80 hover:text-blue-800 transition-colors"
+                                aria-label="More info"
+                              >
+                                <Info className="h-3.5 w-3.5" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-card border-blue-400/30 text-foreground/85">
+                              <p className="max-w-xs">
+                                {t("SimpleSwap:totalAmountDescription", {
+                                  symbolA: selectedAssetASymbol ?? "???",
+                                  symbolB: selectedAssetBSymbol ?? "???",
+                                })}
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                      {exchangeRate !== null &&
+                        selectedAssetASymbol &&
+                        selectedAssetBSymbol && (
+                          <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                            <TrendingUp className="h-3 w-3 dark:text-blue-300/70 text-blue-600/80" />
+                            <span className="font-mono">
+                              1 {selectedAssetASymbol} ={" "}
+                              {exchangeRate.toLocaleString(undefined, {
+                                maximumFractionDigits: 6,
+                              })}{" "}
+                              {selectedAssetBSymbol}
+                            </span>
+                          </div>
                         )}
+                    </div>
 
-                      <Button
-                        className="mt-5 w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                        variant="default"
-                        disabled={!canSubmit}
-                        type="submit"
-                      >
-                        {t("SimpleSwap:exchange")}
-                      </Button>
-                    </FieldGroup>
-                  </form>
+                    <div className="grid grid-cols-[1fr_auto] gap-2 items-stretch">
+                      <Field>
+                        <FieldContent>
+                          <Input
+                            id="simple-swap-buy-amount"
+                            readOnly
+                            disabled
+                            value={
+                              buyAmount > 0
+                                ? buyAmount.toLocaleString(undefined, {
+                                    maximumFractionDigits: Math.min(
+                                      8,
+                                      assetB?.precision || 4
+                                    ),
+                                  })
+                                : "0.0"
+                            }
+                            className="h-16 text-3xl sm:text-4xl font-semibold bg-card/60 border-border dark:text-blue-100 text-foreground placeholder:text-muted-foreground/40 px-4"
+                          />
+                        </FieldContent>
+                      </Field>
 
-                  {showDialog && assetA && assetB && usr ? (
-                    <DeepLinkDialog
-                      operationNames={["liquidity_pool_exchange"]}
-                      username={usr.username}
-                      usrChain={usr.chain}
-                      userID={usr.id}
-                      dismissCallback={() => setShowDialog(false)}
-                      key={`Exchanging${sellAmount}${assetA.symbol}for${buyAmount}${assetB.symbol}_${pool}`}
-                      headerText={t("SimpleSwap:exchangeHeader", {
-                        sellAmount: sellAmount,
-                        symbolA: assetA.symbol,
-                        buyAmount: buyAmount.toFixed(assetB.precision),
-                        symbolB: assetB.symbol,
-                      })}
-                      trxJSON={[
-                        {
-                          fee: { amount: 0, asset_id: "1.3.0" },
-                          account: usr.id,
-                          pool: pool,
-                          amount_to_sell: {
-                            amount: blockchainFloat(
-                              sellAmount,
-                              assetA.precision
-                            ),
-                            asset_id: assetA.id,
-                          },
-                          min_to_receive: {
-                            amount: blockchainFloat(
-                              buyAmount,
-                              assetB.precision,
-                              true
-                            ),
-                            asset_id: assetB.id,
-                          },
-                          extensions: [],
-                        },
-                      ]}
-                    />
+                      <Controller
+                        name="assetB"
+                        control={form.control}
+                        rules={{
+                          validate: (val) =>
+                            !selectedAssetASymbol ||
+                            !!val ||
+                            t("SimpleSwap:selectAssetToReceive"),
+                        }}
+                        render={({ field: assetField, fieldState }) => (
+                          <Field data-invalid={fieldState.invalid}>
+                            <FieldContent>
+                              <DropdownMenu
+                                open={receiveMenuOpen}
+                                onOpenChange={setReceiveMenuOpen}
+                              >
+                                <DropdownMenuTrigger
+                                  asChild
+                                  disabled={!selectedAssetASymbol}
+                                >
+                                  <Button
+                                    variant="outline"
+                                    disabled={!selectedAssetASymbol}
+                                    aria-label={t(
+                                      "SimpleSwap:selectReceiveAsset"
+                                    )}
+                                    aria-invalid={fieldState.invalid}
+                                    className="h-16 px-4 min-w-[140px] bg-card/60 border-border hover:bg-card/80 hover:border-blue-400/40 text-foreground text-lg font-semibold justify-between gap-2 disabled:opacity-50"
+                                  >
+                                    <span className="flex items-center gap-2">
+                                      <Coins className="h-4 w-4 dark:text-blue-300 text-blue-700" />
+                                      {selectedAssetBSymbol || t(
+                                        "SimpleSwap:sendAsset"
+                                      )}
+                                    </span>
+                                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                  className="p-0 w-[320px] !bg-card border border-border rounded-2xl overflow-hidden shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7)]"
+                                  align="end"
+
+                                >
+                                  <span
+                                    aria-hidden="true"
+                                    className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent"
+                                  />
+                                  <Command className="rounded-2xl bg-transparent border-0 shadow-none">
+                                    <CommandInput
+                                      placeholder={t(
+                                        "PageHeader:commandSearchPlaceholder"
+                                      )}
+                                      className="[&_[cmdk-input-wrapper]]:border-border [&_svg]:text-muted-foreground [&_svg]:opacity-100 text-foreground placeholder:text-muted-foreground"
+                                    />
+                                    <CommandList>
+                                      <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
+                                        {t("PageHeader:noResultsFound")}
+                                      </CommandEmpty>
+                                      <CommandGroup className="[&_[cmdk-group-heading]]:text-muted-foreground">
+                                        {possiblePoolAssets.length > 0 ? (
+                                          possiblePoolAssets.map(
+                                            (assetSymbol) => (
+                                              <CommandItem
+                                                key={`buy-${assetSymbol}`}
+                                                onSelect={() => {
+                                                  setSelectedAssetBSymbol(
+                                                    assetSymbol
+                                                  );
+                                                  assetField.onChange(
+                                                    assetSymbol
+                                                  );
+                                                  setReceiveMenuOpen(false);
+                                                }}
+                                                className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-blue-500/15 data-[selected=true]:!text-foreground aria-selected:bg-blue-500/15"
+                                              >
+                                                <span className="flex items-center gap-2">
+                                                  <Coins className="h-3.5 w-3.5 dark:text-blue-300/70 text-blue-600/80" />
+                                                  {assetSymbol}
+                                                </span>
+                                                {selectedAssetBSymbol ===
+                                                  assetSymbol && (
+                                                  <Check className="ml-auto h-4 w-4 dark:text-blue-300 text-blue-700" />
+                                                )}
+                                              </CommandItem>
+                                            )
+                                          )
+                                        ) : (
+                                          <CommandItem
+                                            disabled
+                                            className="text-muted-foreground"
+                                          >
+                                            {selectedAssetASymbol
+                                              ? t(
+                                                  "SimpleSwap:noAssetsAvailable"
+                                                )
+                                              : t(
+                                                  "SimpleSwap:selectSendFirst"
+                                                )}
+                                          </CommandItem>
+                                        )}
+                                      </CommandGroup>
+                                    </CommandList>
+                                  </Command>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </FieldContent>
+                            {fieldState.invalid && (
+                              <FieldError
+                                errors={[fieldState.error]}
+                                className="text-red-300 text-xs mt-1"
+                              />
+                            )}
+                          </Field>
+                        )}
+                      />
+                    </div>
+                  </div>
+
+                  {finalPools &&
+                  finalPools.length > 0 &&
+                  selectedAssetASymbol &&
+                  selectedAssetBSymbol ? (
+                    <div className="space-y-2.5">
+                      <div className="flex items-center gap-2 px-1">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                          {t("SimpleSwap:poolFee")}
+                        </span>
+                        <span className="text-[11px] text-muted-foreground/60">·</span>
+                        <span className="text-[11px] text-muted-foreground">
+                          {finalPools.length}{" "}
+                          {finalPools.length === 1 ? "pool" : "pools"}
+                        </span>
+                        <TooltipProvider delayDuration={200}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                type="button"
+                                className="text-muted-foreground dark:hover:text-cyan-200 hover:text-cyan-800 transition-colors"
+                                aria-label="More info"
+                              >
+                                <Info className="h-3 w-3" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-card border-border text-foreground/85">
+                              <p className="max-w-xs">
+                                {t("SimpleSwap:poolFeeDescription")}
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {finalPools.map((p) => {
+                          const isSelected = pool === p.id;
+                          const feePct = (p.taker_fee_percent ?? 0) / 100;
+                          let balA = 0;
+                          let balB = 0;
+                          let precA = 4;
+                          let precB = 4;
+                          if (assetA && assetB) {
+                            if (p.asset_a_symbol === selectedAssetASymbol) {
+                              balA = p.balance_a;
+                              precA = assetA.precision;
+                              balB = p.balance_b;
+                              precB = assetB.precision;
+                            } else {
+                              balA = p.balance_b;
+                              precA = assetA.precision;
+                              balB = p.balance_a;
+                              precB = assetB.precision;
+                            }
+                          }
+                          return (
+                            <button
+                              key={p.id}
+                              type="button"
+                              onClick={() => setPool(p.id)}
+                              className={cn(
+                                "group/pool relative overflow-hidden text-left min-w-[180px]",
+                                "px-4 py-3 rounded-xl border",
+                                "transition-all duration-200 ease-out",
+                                isSelected
+                                  ? "border-cyan-400/60 bg-gradient-to-br from-cyan-500/15 to-blue-500/10 shadow-[0_0_24px_-4px_rgba(34,211,238,0.5)]"
+                                  : "border-border bg-card/40 hover:border-accent/60 dark:hover:border-white/25 hover:bg-card/60"
+                              )}
+                            >
+                              {isSelected && (
+                                <span
+                                  aria-hidden="true"
+                                  className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/80 to-transparent"
+                                />
+                              )}
+                              <div className="flex items-center gap-2">
+                                {isSelected ? (
+                                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-cyan-400/30 border border-cyan-300/60">
+                                      <Check className="h-2.5 w-2.5 dark:text-cyan-100 text-cyan-700" />
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-border dark:border-white/15" />
+                                )}
+                                <span
+                                  className={cn(
+                                    "text-xs font-mono font-semibold tracking-wider",
+                                    isSelected ? "dark:text-cyan-100 text-cyan-700" : "text-foreground/70"
+                                  )}
+                                >
+                                  #{p.id.split(".")[2]}
+                                </span>
+                                <span
+                                  className={cn(
+                                    "text-[10px] px-1.5 py-0.5 rounded-md border font-semibold",
+                                    isSelected
+                                      ? "bg-cyan-400/15 border-cyan-300/40 dark:text-cyan-100 text-cyan-700"
+                                      : "bg-accent/40 border-border text-muted-foreground"
+                                  )}
+                                >
+                                  {feePct.toFixed(2)}%
+                                </span>
+                              </div>
+                              <div
+                                className={cn(
+                                  "mt-2 grid grid-cols-2 gap-x-3 text-[11px] font-mono tabular-nums",
+                                  isSelected ? "text-foreground/85" : "text-muted-foreground"
+                                )}
+                              >
+                                <span className="text-right truncate">
+                                  {humanReadableFloat(balA, precA)}
+                                </span>
+                                <span className="text-right truncate">
+                                  {humanReadableFloat(balB, precB)}
+                                </span>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
                   ) : null}
-                </>
-              ) : (
-                <div className="space-y-2">
-                  <Skeleton className="h-8 w-full" />
-                  <Skeleton className="h-8 w-full" />
-                  <Skeleton className="h-10 w-full mt-4" />
+
+                  {selectedAssetASymbol &&
+                    selectedAssetBSymbol &&
+                    finalPools.length === 0 &&
+                    pools &&
+                    pools.length > 0 && (
+                      <div className="rounded-xl border border-red-400/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+                        {t("SimpleSwap:noPoolsForPair")}
+                      </div>
+                    )}
+
+                  {foundPool && fee ? (
+                    <div className="rounded-xl border border-border/60 bg-card/40 px-4 py-3 space-y-2 text-sm">
+                      <div className="flex items-center justify-between">
+                        <span className="inline-flex items-center gap-2 text-muted-foreground">
+                           <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-cyan-400/30 bg-cyan-500/10 dark:text-cyan-200 text-cyan-700">
+                            <Percent className="h-3 w-3" strokeWidth={2.5} />
+                          </span>
+                          {t("SimpleSwap:poolFee")}
+                        </span>
+                        <span className="font-mono tabular-nums dark:text-cyan-100 text-cyan-700">
+                          {((foundPool.taker_fee_percent ?? 0) / 100).toFixed(2)}%
+                        </span>
+                      </div>
+                      <div className="border-t border-border/40" />
+                      <div className="flex items-center justify-between">
+                        <span className="inline-flex items-center gap-2 text-muted-foreground">
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-violet-400/30 bg-violet-500/10 text-violet-200">
+                            <Coins className="h-3 w-3" strokeWidth={2.5} />
+                          </span>
+                          {t("SimpleSwap:networkFee")}
+                        </span>
+                        <span className="font-mono tabular-nums text-foreground/85">
+                          {fee} {t("SimpleSwap:feeCurrency")}
+                        </span>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  <Button
+                    type="submit"
+                    disabled={!canSubmit}
+                    className={cn(
+                      "group/exchange relative overflow-hidden mt-1 w-full h-14 text-base font-semibold rounded-2xl",
+                      "bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500",
+                      "hover:from-indigo-400 hover:via-violet-400 hover:to-purple-400",
+                      "text-foreground border-0",
+                      "shadow-[0_8px_30px_-8px_rgba(139,92,246,0.6)]",
+                      "hover:shadow-[0_12px_40px_-8px_rgba(139,92,246,0.9)]",
+                      "transition-all duration-200",
+                      "active:scale-[0.99]",
+                      "disabled:from-slate-200 disabled:via-slate-200 disabled:to-slate-200 dark:disabled:from-slate-800 dark:disabled:via-slate-800 dark:disabled:to-slate-800",
+                      "disabled:text-muted-foreground/60 disabled:shadow-none",
+                      "disabled:cursor-not-allowed"
+                    )}
+                  >
+                    {canSubmit ? (
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 opacity-0 group-hover/exchange:opacity-100 transition-opacity duration-500 bg-[linear-gradient(110deg,transparent_30%,rgba(255,255,255,0.18)_50%,transparent_70%)] bg-[length:200%_100%] group-hover/exchange:animate-[shimmer_1.6s_linear_infinite]"
+                      />
+                    ) : null}
+                    {canSubmit ? (
+                      <span className="relative flex items-center justify-center gap-2 flex-wrap">
+                        <Zap className="h-4 w-4" />
+                        <span>{t("SimpleSwap:exchange")}</span>
+                        {assetA && assetB && sellAmount && buyAmount > 0 ? (
+                          <span className="inline-flex items-center gap-1.5 text-foreground/85 font-mono text-sm">
+                            <span className="text-foreground/95 font-semibold tabular-nums">
+                              {sellAmount}
+                            </span>
+                            <span className="text-muted-foreground">{assetA.symbol}</span>
+                            <ArrowRight className="h-3.5 w-3.5 text-foreground/70" />
+                            <span className="text-foreground/95 font-semibold tabular-nums">
+                              {buyAmount.toLocaleString(undefined, {
+                                maximumFractionDigits: Math.min(
+                                  6,
+                                  assetB.precision || 4
+                                ),
+                              })}
+                            </span>
+                            <span className="text-muted-foreground">{assetB.symbol}</span>
+                          </span>
+                        ) : null}
+                      </span>
+                    ) : (
+                      <span className="relative flex items-center gap-2">
+                        <Zap className="h-4 w-4" />
+                        {t("SimpleSwap:exchange")}
+                      </span>
+                    )}
+                  </Button>
+                </FieldGroup>
+              </form>
+            ) : (
+              <div className="space-y-3 mt-2">
+                <Skeleton className="h-20 w-full rounded-2xl bg-accent/40" />
+                <div className="flex justify-center -my-1">
+                  <Skeleton className="h-11 w-11 rounded-full bg-accent/40" />
                 </div>
-              )}
-            </CardContent>
-          </Card>
+                <Skeleton className="h-20 w-full rounded-2xl bg-accent/40" />
+                <Skeleton className="h-14 w-full rounded-2xl bg-accent/40 mt-3" />
+              </div>
+            )}
+          </div>
         </div>
 
         {pool && assetA && assetB ? (
@@ -1132,157 +1348,76 @@ export default function SimpleSwap(properties) {
               <AssetCardSkeleton title={t("SimpleSwap:poolShareAsset")} />
             )}
 
-            <Card>
-              <CardHeader className="pb-2 pt-4">
-                <CardTitle>{t("SimpleSwap:borrowAssets")}</CardTitle>
-                <CardDescription className="text-sm">
-                  {t("SimpleSwap:borrowAssetsDescription")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-sm pb-3">
-                {assetA && assetB ? (
-                  <>
-                    <Label>{t("SimpleSwap:searchBorrowableAssets")}</Label>
-                    <br />
-                    <a
-                      href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetA.symbol}`}
-                    >
-                      <Badge className="mr-2 mt-1 mb-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
-                        {assetA.symbol}
-                      </Badge>
-                    </a>
-                    <a
-                      href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetB.symbol}`}
-                    >
-                      <Badge className="mr-2 mt-1 mb-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
-                        {assetB.symbol}
-                      </Badge>
-                    </a>
-                    {foundPool?.share_asset_symbol && (
-                      <a
-                        href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${foundPool.share_asset_symbol}`}
-                      >
-                        <Badge className="mr-2 mt-1 mb-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
-                          {foundPool.share_asset_symbol}
-                        </Badge>
-                      </a>
-                    )}
-                    <br />
-                    <Label className="mt-2 block">
-                      {t("SimpleSwap:searchAcceptedCollateral")}
-                    </Label>
-                    <br />
-                    <a
-                      href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetA.symbol}`}
-                    >
-                      <Badge className="mr-2 mt-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
-                        {assetA.symbol}
-                      </Badge>
-                    </a>
-                    <a
-                      href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetB.symbol}`}
-                    >
-                      <Badge className="mr-2 mt-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
-                        {assetB.symbol}
-                      </Badge>
-                    </a>
-                    {foundPool?.share_asset_symbol && (
-                      <a
-                        href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${foundPool.share_asset_symbol}`}
-                      >
-                        <Badge className="mr-2 mt-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
-                          {foundPool.share_asset_symbol}
-                        </Badge>
-                      </a>
-                    )}
-                  </>
-                ) : (
-                  <Skeleton className="h-4 w-[200px]" />
-                )}
-              </CardContent>
-            </Card>
+            {pool && assetA && assetB && foundPool?.share_asset_symbol ? (
+              <div className="md:col-start-2 md:row-start-2 flex flex-col gap-3">
+                <a
+                  href={`/dex.html?market=${foundPool.share_asset_symbol}_${
+                    assetA.symbol === "BTS" ? assetB.symbol : "BTS"
+                  }`}
+                >
+                  <ActionCard
+                    icon={<Wallet className="h-4 w-4" />}
+                    accent="emerald"
+                    title={t("SimpleSwap:purchaseStake")}
+                    description={t("SimpleSwap:shareAsset", {
+                      shareAsset: foundPool.share_asset_symbol,
+                    })}
+                    content={t("SimpleSwap:purchaseStakeDescription")}
+                  />
+                </a>
+
+                <a
+                  href={`/dex.html?market=${assetA.symbol}_${assetB.symbol}`}
+                >
+                  <ActionCard
+                    icon={<TrendingUp className="h-4 w-4" />}
+                    accent="indigo"
+                    title={t("SimpleSwap:tradeOnDex")}
+                    description={t("SimpleSwap:market", {
+                      symbolA: assetA.symbol,
+                      symbolB: assetB.symbol,
+                    })}
+                    content={t("SimpleSwap:tradeOnDexDescription")}
+                  />
+                </a>
+              </div>
+            ) : null}
           </div>
         ) : null}
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-5">
-          {pool && assetA && assetB && foundPool?.share_asset_symbol ? (
-            <>
-              <a
-                href={`/dex/index.html?market=${foundPool.share_asset_symbol}_${
-                  assetA.symbol === "BTS" ? assetB.symbol : "BTS"
-                }`}
-              >
-                <ActionCard
-                  title={t("SimpleSwap:purchaseStake")}
-                  description={t("SimpleSwap:shareAsset", {
-                    shareAsset: foundPool.share_asset_symbol,
-                  })}
-                  content={t("SimpleSwap:purchaseStakeDescription")}
-                />
-              </a>
-
-              <a href={`/stake/index.html?pool=${pool}`}>
-                <ActionCard
-                  title={t("SimpleSwap:stakeAssets")}
-                  description={t("SimpleSwap:shareAsset", {
-                    shareAsset: foundPool.share_asset_symbol,
-                  })}
-                  content={t("SimpleSwap:stakeAssetsDescription")}
-                />
-              </a>
-
-              <a
-                href={`/dex/index.html?market=${assetA.symbol}_${assetB.symbol}`}
-              >
-                <ActionCard
-                  title={t("SimpleSwap:tradeOnDex")}
-                  description={t("SimpleSwap:market", {
-                    symbolA: assetA.symbol,
-                    symbolB: assetB.symbol,
-                  })}
-                  content={t("SimpleSwap:tradeOnDexDescription")}
-                />
-              </a>
-            </>
-          ) : null}
-        </div>
-
-        <div className="grid grid-cols-1 mt-5 mb-5">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle>{t("SimpleSwap:risksTitle")}</CardTitle>
-              <CardDescription>
-                {t("SimpleSwap:risksDescription")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <span className="text-sm block mb-3">
-                <Label className="mb-1 text-lg block">
-                  {t("SimpleSwap:liquidityPoolRisks")}
-                </Label>
-                <ul className="ml-2 list-disc [&>li]:mt-1 pl-3">
-                  <li>{t("SimpleSwap:liquidityPoolRisk1")}</li>
-                  <li>{t("SimpleSwap:liquidityPoolRisk2")}</li>
-                </ul>
-              </span>
-              <span className="text-sm block">
-                <Label className="mb-1 text-lg block">
-                  {t("SimpleSwap:swappableAssetRisks")}
-                </Label>
-                <ul className="ml-2 list-disc [&>li]:mt-1 pl-3">
-                  <li>{t("SimpleSwap:swappableAssetRisk1")}</li>
-                  <li>
-                    {t("SimpleSwap:swappableAssetRisk2", {
-                      symbol: "BTS",
-                    })}
-                  </li>
-                  <li>{t("SimpleSwap:swappableAssetRisk3")}</li>
-                </ul>
-              </span>
-            </CardContent>
-          </Card>
-        </div>
       </div>
+
+      {showDialog && assetA && assetB && usr ? (
+        <DeepLinkDialog
+          operationNames={["liquidity_pool_exchange"]}
+          username={usr.username}
+          usrChain={usr.chain}
+          userID={usr.id}
+          dismissCallback={() => setShowDialog(false)}
+          key={`Exchanging${sellAmount}${assetA.symbol}for${buyAmount}${assetB.symbol}_${pool}`}
+          headerText={t("SimpleSwap:exchangeHeader", {
+            sellAmount: sellAmount,
+            symbolA: assetA.symbol,
+            buyAmount: buyAmount.toFixed(assetB.precision),
+            symbolB: assetB.symbol,
+          })}
+          trxJSON={[
+            {
+              fee: { amount: 0, asset_id: "1.3.0" },
+              account: usr.id,
+              pool: pool,
+              amount_to_sell: {
+                amount: blockchainFloat(sellAmount, assetA.precision),
+                asset_id: assetA.id,
+              },
+              min_to_receive: {
+                amount: blockchainFloat(buyAmount, assetB.precision, true),
+                asset_id: assetB.id,
+              },
+              extensions: [],
+            },
+          ]}
+        />
+      ) : null}
     </>
   );
 }
@@ -1290,34 +1425,105 @@ export default function SimpleSwap(properties) {
 function AssetCardSkeleton({ title }) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   return (
-    <Card>
-      <CardHeader className="pb-2 pt-4">
-        <CardTitle>{title}</CardTitle>
-        <CardDescription className="text-lg">
+    <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl p-4">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
+      />
+      <div className="pb-1">
+        <h3 className="text-sm font-semibold text-foreground/80 tracking-tight">
+          {title}
+        </h3>
+        <p className="text-sm text-muted-foreground mt-0.5">
           {t("SimpleSwap:loading")}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[200px]" />
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[200px]" />
-        </div>
-      </CardContent>
-    </Card>
+        </p>
+      </div>
+      <div className="space-y-2 mt-3">
+        <Skeleton className="h-4 w-[250px] bg-accent/50" />
+        <Skeleton className="h-4 w-[200px] bg-accent/50" />
+        <Skeleton className="h-4 w-[250px] bg-accent/50" />
+        <Skeleton className="h-4 w-[200px] bg-accent/50" />
+      </div>
+    </div>
   );
 }
 
-function ActionCard({ title, description, content }) {
+const ACTION_ACCENTS = {
+  emerald: {
+    bar: "from-emerald-400/80 via-teal-400/80 to-cyan-400/80",
+    chip: "bg-emerald-500/20 border-emerald-400/40 text-emerald-100",
+    icon: "text-emerald-200",
+    border: "hover:border-emerald-400/40",
+    glow: "bg-emerald-500/15",
+  },
+  indigo: {
+    bar: "from-indigo-400/80 via-violet-400/80 to-fuchsia-400/80",
+    chip: "bg-indigo-500/20 border-indigo-400/40 text-indigo-100",
+    icon: "text-indigo-200",
+    border: "hover:border-indigo-400/40",
+    glow: "bg-indigo-500/15",
+  },
+  amber: {
+    bar: "from-amber-400/80 via-orange-400/80 to-rose-400/80",
+    chip: "bg-amber-500/20 border-amber-400/40 dark:text-amber-100 text-amber-700",
+    icon: "dark:text-amber-200 text-amber-700",
+    border: "hover:border-amber-400/40",
+    glow: "bg-amber-500/15",
+  },
+};
+
+function ActionCard({ title, description, content, icon, accent = "emerald" }) {
+  const a = ACTION_ACCENTS[accent] || ACTION_ACCENTS.emerald;
   return (
-    <Card className="hover:shadow-md transition-shadow h-full">
-      {" "}
-      <CardHeader className="pb-2 pt-4">
-        <CardTitle>{title}</CardTitle>
-        <CardDescription className="text-sm">{description}</CardDescription>
-      </CardHeader>
-      <CardContent className="text-sm pb-4">{content}</CardContent>
-    </Card>
+    <div
+      className={cn(
+        "group/action relative overflow-hidden",
+        "rounded-2xl border border-border bg-card/60 backdrop-blur-xl",
+        "shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.04)]",
+        "transition-all duration-200 ease-out",
+        a.border,
+        "hover:bg-card/60"
+      )}
+    >
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent to-transparent",
+          a.bar
+        )}
+      />
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute -top-12 -right-12 h-28 w-28 rounded-full blur-2xl opacity-50 group-hover/action:opacity-100 transition-opacity duration-300",
+          a.glow
+        )}
+      />
+      <div className="p-4">
+        <div className="flex items-start gap-2.5">
+          {icon && (
+            <span
+              className={cn(
+                "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border",
+                a.chip
+              )}
+            >
+              {icon}
+            </span>
+          )}
+          <div className="min-w-0 flex-1">
+            <h3 className="text-sm font-semibold text-foreground tracking-tight">
+              {title}
+            </h3>
+            <p className="mt-0.5 text-[12px] text-muted-foreground font-mono truncate">
+              {description}
+            </p>
+          </div>
+        </div>
+        <p className="mt-3 text-[13px] text-foreground/70 leading-relaxed">
+          {content}
+        </p>
+      </div>
+    </div>
   );
 }

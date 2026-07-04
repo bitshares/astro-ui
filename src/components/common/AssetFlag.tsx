@@ -91,7 +91,7 @@ export default function AssetFlag({
         </MakeHover>
       </span>
       <MakeHover>
-        <InfoCircledIcon className="text-gray-400 mt-3" />
+        <InfoCircledIcon className="text-muted-foreground mt-3" />
       </MakeHover>
     </span>
   );

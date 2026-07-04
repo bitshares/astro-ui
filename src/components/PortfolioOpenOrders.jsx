@@ -2,6 +2,7 @@ import React, {
   useEffect,
   useMemo,
   useState,
+  memo,
   useSyncExternalStore,
 } from "react";
 import { useStore } from "@nanostores/react";
@@ -13,27 +14,49 @@ import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { List } from "react-window";
-// Table header is rendered as a simple grid to avoid extra scrollbars
+
+import {
+  ArrowLeftRight,
+  ArrowUpDown,
+  ClipboardList,
+  Copy,
+  Loader2Icon,
+  Pencil,
+  RefreshCw,
+  XCircle,
+} from "lucide-react";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createAccountLimitOrderStore } from "@/nanoeffects/AccountLimitOrders.ts";
+import { revalidateAccountLimitOrders } from "@/nanoeffects/AccountLimitOrders.ts";
 
 import { $currentUser } from "@/stores/users.ts";
 import { $blockList } from "@/stores/blocklist.ts";
@@ -41,6 +64,319 @@ import { $currentNode } from "@/stores/node.ts";
 
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 import { humanReadableFloat } from "@/lib/common";
+import { cn } from "@/lib/utils";
+
+const TIME_TICK_MS = 30_000;
+
+function formatTimeRemaining(expiration, now) {
+  const expirationDate = new Date(expiration);
+  const timeDiff = expirationDate - now;
+  if (timeDiff <= 0) {
+    return { text: "0d 0h 0m", status: "expired" };
+  }
+  const minutes = Math.floor((timeDiff / 1000 / 60) % 60);
+  const hours = Math.floor((timeDiff / 1000 / 60 / 60) % 24);
+  const days = Math.floor(timeDiff / 1000 / 60 / 60 / 24);
+  let status = "healthy";
+  if (days < 1) status = "imminent";
+  else if (days <= 7) status = "soon";
+  return { text: `${days}d ${hours}h ${minutes}m`, status };
+}
+
+function CopyIdButton({ orderId, t }) {
+  return (
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof navigator !== "undefined" && navigator.clipboard) {
+                navigator.clipboard.writeText(orderId).catch(() => {});
+              }
+            }}
+            aria-label={t("PortfolioTabs:copyOrderIdTooltip")}
+            className="inline-flex items-center gap-1 text-[11px] font-mono text-muted-foreground/60 hover:text-muted-foreground transition-colors max-w-[140px] truncate"
+          >
+            <span className="truncate">{orderId}</span>
+            <Copy className="h-3 w-3 flex-shrink-0" />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent side="top">
+          <p>{t("PortfolioTabs:copyOrderIdTooltip")}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
+function ActionIconLink({ href, icon: Icon, label, accent = "default" }) {
+  const palette = {
+    default: "text-muted-foreground hover:text-foreground/80 hover:bg-accent/60",
+    destructive: "text-rose-400 hover:bg-rose-500/10",
+  }[accent];
+  return (
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <a
+            href={href}
+            aria-label={label}
+            className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${palette}`}
+          >
+            <Icon className="h-4 w-4" />
+          </a>
+        </TooltipTrigger>
+        <TooltipContent side="top">
+          <p>{label}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
+function ActionLabelLink({
+  href,
+  icon: Icon,
+  children,
+  accent = "outline",
+  onClick,
+}) {
+  const palette = {
+    outline:
+      "border border-border text-muted-foreground hover:bg-accent/60 hover:text-foreground/80",
+    destructive: "bg-rose-600 text-white hover:bg-rose-500",
+  }[accent];
+  const className = `inline-flex h-8 items-center justify-center gap-1.5 px-3 rounded-full text-sm font-medium transition-colors ${palette}`;
+  if (onClick && !href) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className={className}
+      >
+        <Icon className="h-3.5 w-3.5" />
+        <span>{children}</span>
+      </button>
+    );
+  }
+  return (
+    <a href={href} className={className}>
+      <Icon className="h-3.5 w-3.5" />
+      <span>{children}</span>
+    </a>
+  );
+}
+
+const expiryColor = {
+  healthy: "dark:text-emerald-400 text-emerald-700",
+  soon: "dark:text-amber-400 text-amber-700",
+  imminent: "dark:text-rose-400 text-rose-700",
+  expired: "text-muted-foreground/60 line-through",
+};
+
+const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrders, assets, now, showDialog, orderID, setOrderID, setShowDialog, t, usr }) {
+  const order = sortedOpenOrders?.[index];
+  if (!order) return null;
+
+  const sellPriceBaseAmount = order.sell_price.base.amount;
+  const sellPriceBaseAssetId = order.sell_price.base.asset_id;
+  const sellPriceQuoteAmount = order.sell_price.quote.amount;
+  const sellPriceQuoteAssetId = order.sell_price.quote.asset_id;
+  const orderId = order.id;
+  const expiration = order.expiration;
+
+  const sellAsset =
+    assets.find((asset) => asset.id === sellPriceBaseAssetId) || null;
+  const buyAsset =
+    assets.find((asset) => asset.id === sellPriceQuoteAssetId) || null;
+
+  const readableBaseAmount = sellAsset
+    ? humanReadableFloat(sellPriceBaseAmount, sellAsset.precision)
+    : sellPriceBaseAmount;
+  const readableQuoteAmount = buyAsset
+    ? humanReadableFloat(sellPriceQuoteAmount, buyAsset.precision)
+    : sellPriceQuoteAmount;
+
+  let priceDisplay = "-";
+  if (sellAsset && buyAsset && Number(readableBaseAmount) > 0) {
+    const price = Number(readableQuoteAmount) / Number(readableBaseAmount);
+    priceDisplay = price.toLocaleString(undefined, {
+      maximumFractionDigits: 8,
+    });
+  }
+
+  const { text: expiryText, status: expiryStatus } = formatTimeRemaining(expiration, now);
+
+  const marketHref = `/dex.html?market=${sellAsset?.symbol ?? "?"}_${
+    buyAsset?.symbol ?? "?"
+  }`;
+  const updateHref = `/order.html?id=${orderId}`;
+
+  const isCancelOpen = showDialog && orderId === orderID;
+  const cancelOfferKey = t("PortfolioTabs:cancelOffer", {
+    baseAmount: readableBaseAmount,
+    baseSymbol: sellAsset?.symbol,
+    quoteAmount: readableQuoteAmount,
+    quoteSymbol: buyAsset?.symbol,
+  });
+
+  return (
+    <div style={{ ...style, paddingRight: "10px" }}>
+      {/* Mobile: stacked card */}
+      <Card className="group bg-card/60 border border-border hover:bg-cyan-500/[0.03] hover:border-cyan-500/20 transition-all rounded-xl border-l-2 border-l-cyan-500/30 block md:hidden">
+        <CardContent className="p-4 space-y-3">
+          <div className="flex items-start justify-between gap-2">
+            <div className="space-y-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <span className={cn(
+                  "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold",
+                  sellAsset
+                    ? "bg-rose-500/15 text-rose-400 border-rose-500/30"
+                    : "bg-accent/50 text-muted-foreground border-border"
+                )}>
+                  {t("PortfolioTabs:badgeSell")}
+                </span>
+                <div className="text-sm font-semibold text-foreground truncate">
+                  {readableBaseAmount} {sellAsset?.symbol ?? "?"} →{" "}
+                  {readableQuoteAmount} {buyAsset?.symbol ?? "?"}
+                </div>
+              </div>
+              <CopyIdButton orderId={orderId} t={t} />
+            </div>
+            <div className="text-right flex-shrink-0">
+              <div className="text-sm font-semibold dark:text-cyan-400 text-cyan-700">
+                {priceDisplay}
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {buyAsset?.symbol}/{sellAsset?.symbol}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <TooltipProvider delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className={cn("font-semibold cursor-help", expiryColor[expiryStatus])}>
+                    {expiryText}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="bg-card border-border text-foreground text-xs">
+                  {new Date(expiration).toLocaleString()}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            <ActionLabelLink href={marketHref} icon={ArrowLeftRight} accent="outline">
+              {t("PortfolioTabs:tradeButton")}
+            </ActionLabelLink>
+            <ActionLabelLink href={updateHref} icon={Pencil} accent="outline">
+              {t("PortfolioTabs:updateButton")}
+            </ActionLabelLink>
+            <ActionLabelLink
+              icon={XCircle}
+              accent="destructive"
+              onClick={() => {
+                setOrderID(orderId);
+                setShowDialog(true);
+              }}
+            >
+              {t("PortfolioTabs:cancelButton")}
+            </ActionLabelLink>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Desktop: 4-col row */}
+      <Card className="group bg-card/60 border border-border hover:bg-cyan-500/[0.03] hover:border-cyan-500/20 transition-all rounded-xl border-l-2 border-l-cyan-500/30 hidden md:block">
+        <CardContent className="p-4">
+          <div className="grid grid-cols-[1.5fr_1fr_1fr_auto] gap-4 items-center">
+            <div className="space-y-1.5 min-w-0">
+              <div className="flex items-center gap-2">
+                <span className={cn(
+                  "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold flex-shrink-0",
+                  sellAsset
+                    ? "bg-rose-500/15 text-rose-400 border-rose-500/30"
+                    : "bg-accent/50 text-muted-foreground border-border"
+                )}>
+                  {t("PortfolioTabs:badgeSell")}
+                </span>
+                <div className="text-sm font-semibold text-foreground truncate">
+                  {readableBaseAmount} {sellAsset?.symbol ?? "?"} →{" "}
+                  {readableQuoteAmount} {buyAsset?.symbol ?? "?"}
+                </div>
+              </div>
+              <CopyIdButton orderId={orderId} t={t} />
+            </div>
+            <div className="min-w-0">
+              <div className="text-sm font-semibold dark:text-cyan-400 text-cyan-700">
+                {priceDisplay}
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {buyAsset?.symbol}/{sellAsset?.symbol}
+              </div>
+            </div>
+            <TooltipProvider delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className={cn("text-sm font-semibold cursor-help", expiryColor[expiryStatus])}>
+                    {expiryText}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="bg-card border-border text-foreground text-xs">
+                  {new Date(expiration).toLocaleString()}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <div className="flex items-center gap-1">
+              <ActionIconLink
+                href={marketHref}
+                icon={ArrowLeftRight}
+                label={t("PortfolioTabs:tradeButton")}
+              />
+              <ActionIconLink
+                href={updateHref}
+                icon={Pencil}
+                label={t("PortfolioTabs:updateButton")}
+              />
+              <button
+                type="button"
+                aria-label={t("PortfolioTabs:cancelButton")}
+                onClick={() => {
+                  setOrderID(orderId);
+                  setShowDialog(true);
+                }}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-rose-400 hover:bg-rose-500/10 transition-colors"
+              >
+                <XCircle className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {isCancelOpen ? (
+        <DeepLinkDialog
+          operationNames={["limit_order_cancel"]}
+          username={usr.username}
+          usrChain={usr.chain}
+          userID={usr.id}
+          dismissCallback={setShowDialog}
+          key={`Cancelling${orderId}`}
+          headerText={cancelOfferKey}
+          trxJSON={[
+            {
+              fee_paying_account: usr.id,
+              order: orderId,
+              extensions: [],
+            },
+          ]}
+        />
+      ) : null}
+    </div>
+  );
+});
 
 export default function PortfolioOpenOrders({
   _assetsBTS,
@@ -59,7 +395,7 @@ export default function PortfolioOpenOrders({
     $blockList.get,
     () => true
   );
-  useStore($currentNode); // keep reactive to node changes (orders store doesn't take node url)
+  useStore($currentNode);
 
   const _chain = useMemo(
     () => (usr && usr.chain ? usr.chain : "bitshares"),
@@ -84,6 +420,25 @@ export default function PortfolioOpenOrders({
   const [openOrdersLoading, setOpenOrdersLoading] = useState(false);
   const [orderID, setOrderID] = useState();
   const [showDialog, setShowDialog] = useState(false);
+  const [now, setNow] = useState(() => Date.now());
+  const [rowHeight, setRowHeight] = useState(108);
+  const [sortBy, setSortBy] = useState("newest");
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), TIME_TICK_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const update = () => {
+      setRowHeight(window.innerWidth < 768 ? 184 : 90);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
   useEffect(() => {
     async function fetchLimitOrders() {
       if (usr && usr.id) {
@@ -105,323 +460,170 @@ export default function PortfolioOpenOrders({
     fetchLimitOrders();
   }, [usr, openOrderCounter]);
 
-  const OpenOrdersRow = ({ index, style }) => {
-    const order = openOrders[index];
-    const sellPriceBaseAmount = order.sell_price.base.amount;
-    const sellPriceBaseAssetId = order.sell_price.base.asset_id;
-    const sellPriceQuoteAmount = order.sell_price.quote.amount;
-    const sellPriceQuoteAssetId = order.sell_price.quote.asset_id;
-    const orderId = order.id;
-    const expiration = order.expiration;
-
-    const sellAsset =
-      assets.find((asset) => asset.id === sellPriceBaseAssetId) || null;
-    const buyAsset =
-      assets.find((asset) => asset.id === sellPriceQuoteAssetId) || null;
-
-    const readableBaseAmount = sellAsset
-      ? humanReadableFloat(sellPriceBaseAmount, sellAsset.precision)
-      : sellPriceBaseAmount;
-    const readableQuoteAmount = buyAsset
-      ? humanReadableFloat(sellPriceQuoteAmount, buyAsset.precision)
-      : sellPriceQuoteAmount;
-
-    // Price as QUOTE per BASE
-    let priceDisplay = "-";
-    if (sellAsset && buyAsset && Number(readableBaseAmount) > 0) {
-      const price = Number(readableQuoteAmount) / Number(readableBaseAmount);
-      priceDisplay = `${price.toLocaleString(undefined, {
-        maximumFractionDigits: 8,
-      })} ${buyAsset.symbol}/${sellAsset.symbol}`;
+  useEffect(() => {
+    if (!showDialog && orderID) {
+      setOpenOrderCounter((c) => c + 1);
+      setOrderID(undefined);
     }
+  }, [showDialog, orderID]);
 
-    const expirationDate = new Date(expiration);
-    const now = new Date();
-    const timeDiff = expirationDate - now;
-    const minutes = Math.floor((timeDiff / 1000 / 60) % 60);
-    const hours = Math.floor((timeDiff / 1000 / 60 / 60) % 24);
-    const days = Math.floor(timeDiff / 1000 / 60 / 60 / 24);
-    const timeDiffString = `${days}d ${hours}h ${minutes}m`;
+  const sortedOpenOrders = useMemo(() => {
+    if (!openOrders || !openOrders.length) return openOrders;
+    const copy = [...openOrders];
+    if (sortBy === "newest") {
+      return copy.sort((a, b) => (a.id < b.id ? 1 : a.id > b.id ? -1 : 0));
+    }
+    if (sortBy === "expiry") {
+      return copy.sort((a, b) => new Date(a.expiration) - new Date(b.expiration));
+    }
+    if (sortBy === "price") {
+      return copy.sort((a, b) => {
+        const pA = Number(a.sell_price.quote.amount) / Number(a.sell_price.base.amount) || 0;
+        const pB = Number(b.sell_price.quote.amount) / Number(b.sell_price.base.amount) || 0;
+        return pB - pA;
+      });
+    }
+    return copy.sort((a, b) => (a.id < b.id ? 1 : a.id > b.id ? -1 : 0));
+  }, [openOrders, sortBy]);
 
-    const rightActions = (
-      <>
-        <a
-          href={`/dex/index.html?market=${sellAsset?.symbol}_${buyAsset?.symbol}`}
-        >
-          <Button
-            variant="outline"
-            size="sm"
-            className="bg-card hover:shadow-lg"
-          >
-            {t("PortfolioTabs:tradeButton")}
-          </Button>
-        </a>
-        <a href={`/order/index.html?id=${orderId}`}>
-          <Button
-            variant="outline"
-            size="sm"
-            className="bg-card hover:shadow-lg"
-          >
-            {t("PortfolioTabs:updateButton")}
-          </Button>
-        </a>
-        <>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setShowDialog(true);
-              setOrderID(orderId);
-            }}
-            className="bg-card hover:shadow-lg"
-          >
-            {t("PortfolioTabs:cancelButton")}
-          </Button>
-          {showDialog && orderId === orderID ? (
-            <DeepLinkDialog
-              operationNames={["limit_order_cancel"]}
-              username={usr.username}
-              usrChain={usr.chain}
-              userID={usr.id}
-              dismissCallback={setShowDialog}
-              key={`Cancelling${readableBaseAmount}${sellAsset?.symbol}for${readableQuoteAmount}${buyAsset?.symbol}`}
-              headerText={t("PortfolioTabs:cancelOffer", {
-                baseAmount: readableBaseAmount,
-                baseSymbol: sellAsset?.symbol,
-                quoteAmount: readableQuoteAmount,
-                quoteSymbol: buyAsset?.symbol,
-              })}
-              trxJSON={[
-                {
-                  fee_paying_account: usr.id,
-                  order: orderID,
-                  extensions: [],
-                },
-              ]}
-            />
-          ) : null}
-        </>
-      </>
-    );
-
-    return (
-      <>
-        <div style={style} className="px-2 block md:hidden">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Card
-                className="hover:bg-accent/50 w-full p-3"
-                title={`${orderId} - ${timeDiffString}`}
-              >
-                <CardTitle className="text-sm">
-                  {t("PortfolioTabs:sellingFor", {
-                    baseAmount: readableBaseAmount,
-                    baseSymbol: sellAsset?.symbol,
-                    quoteAmount: readableQuoteAmount,
-                    quoteSymbol: buyAsset?.symbol,
-                  })}
-                </CardTitle>
-                <CardDescription>
-                  {priceDisplay && priceDisplay !== "-"
-                    ? `${priceDisplay.split(" ")[0]} ${buyAsset?.symbol}/${
-                        sellAsset?.symbol
-                      }`
-                    : ""}
-                </CardDescription>
-              </Card>
-            </DialogTrigger>
-            <DialogContent className="bg-card">
-              <DialogHeader>
-                <DialogTitle>{`${readableBaseAmount} ${sellAsset?.symbol} → ${readableQuoteAmount} ${buyAsset?.symbol}`}</DialogTitle>
-                <DialogDescription>
-                  <div className="grid grid-cols-1 gap-1">
-                    <span>
-                      <b>{t("PortfolioTabs:expirationHeader")}</b>:{" "}
-                      {timeDiffString}
-                    </span>
-                    <span>
-                      <b>{t("PortfolioTabs:priceHeader")}</b>: {priceDisplay}
-                    </span>
-                    <span>
-                      <b>{t("PortfolioTabs:orderId")}</b> {orderId}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-5 gap-2 mt-2">
-                    {rightActions}
-                  </div>
-                </DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </div>
-
-        <div style={style} className="px-2 hidden md:block lg:hidden">
-          <Card className="hover:bg-accent/50 text-sm">
-            <div className="grid grid-cols-[50%_110px_1fr] items-start gap-2 p-2 mb-2">
-              <div>
-                <div>
-                  <a
-                    href={`/dex/index.html?market=${sellAsset?.symbol}_${buyAsset?.symbol}`}
-                    className="hover:text-blue-500 dark:text-blue-400"
-                  >
-                    {t("PortfolioTabs:sellingFor", {
-                      baseAmount: readableBaseAmount,
-                      baseSymbol: sellAsset?.symbol,
-                      quoteAmount: readableQuoteAmount,
-                      quoteSymbol: buyAsset?.symbol,
-                    })}
-                  </a>
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  {t("PortfolioTabs:tradingPair", {
-                    baseAssetId: sellPriceBaseAssetId,
-                    quoteAssetId: sellPriceQuoteAssetId,
-                  })}
-                </div>
-              </div>
-              <div
-                title={`${
-                  priceDisplay && priceDisplay !== "-"
-                    ? priceDisplay.split(" ")[0]
-                    : 0
-                } ${buyAsset?.symbol}/${sellAsset?.symbol}`}
-              >
-                {priceDisplay && priceDisplay !== "-"
-                  ? priceDisplay.split(" ")[0]
-                  : "?"}
-              </div>
-              <span className="flex items-center justify-end gap-1">
-                {rightActions}
-              </span>
-            </div>
-          </Card>
-        </div>
-
-        <div style={style} className="px-2 hidden lg:block text-sm">
-          <Card className="hover:bg-accent/50">
-            <div className="grid grid-cols-[40%_1fr_1fr_1fr_1fr] items-start gap-2 p-2 mb-2">
-              <div>
-                <div>
-                  <a
-                    href={`/dex/index.html?market=${sellAsset?.symbol}_${buyAsset?.symbol}`}
-                    className="hover:text-blue-500 dark:text-blue-400"
-                  >
-                    {t("PortfolioTabs:sellingFor", {
-                      baseAmount: readableBaseAmount,
-                      baseSymbol: sellAsset?.symbol,
-                      quoteAmount: readableQuoteAmount,
-                      quoteSymbol: buyAsset?.symbol,
-                    })}
-                  </a>
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  {t("PortfolioTabs:tradingPair", {
-                    baseAssetId: sellPriceBaseAssetId,
-                    quoteAssetId: sellPriceQuoteAssetId,
-                  })}
-                </div>
-              </div>
-              <div className="truncate">
-                {orderId}
-              </div>
-              <div>{timeDiffString}</div>
-              <div>
-                <div>
-                  {priceDisplay && priceDisplay !== "-"
-                    ? priceDisplay.split(" ")[0]
-                    : "-"}
-                </div>
-                {priceDisplay && priceDisplay !== "-" ? (
-                  <div className="text-xs text-muted-foreground">
-                    {buyAsset?.symbol}/{sellAsset?.symbol}
-                  </div>
-                ) : null}
-              </div>
-              <span className="flex items-center justify-end gap-2">
-                {rightActions}
-              </span>
-            </div>
-          </Card>
-        </div>
-      </>
-    );
-  };
+  const hasOrders =
+    sortedOpenOrders && sortedOpenOrders.length > 0;
 
   return (
-    <div className="container mx-auto mt-5 mb-5">
-      <div className="grid grid-cols-1 mt-5">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("PortfolioTabs:openOrdersTitle")}</CardTitle>
-            <CardDescription>
-              {t("PortfolioTabs:openOrdersDescription")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {openOrdersLoading ? (
-              <div className="flex items-center gap-3">
-                <Spinner />
-                <p>{t("Market:loading")}</p>
-              </div>
-            ) : openOrders && openOrders.length ? (
-              <div>
-                <span className="hidden md:block lg:hidden">
-                  <div className="grid grid-cols-[50%_110px_1fr] items-center h-10 px-2 text-muted-foreground font-medium text-sm">
-                    <div className="text-left">
-                      {t("PortfolioTabs:descriptionHeader")}
-                    </div>
-                    <div className="text-left">
-                      {t("PortfolioTabs:priceHeader")}
-                    </div>
-                    <div className="text-left">
-                      {t("PortfolioTabs:actionsHeader")}
-                    </div>
-                  </div>
+    <div className="container mx-auto mt-5 mb-5 max-w-5xl text-foreground">
+      <div className="grid grid-cols-1 gap-3">
+        <Card className="bg-card/60 border-border shadow-lg shadow-black/20 backdrop-blur-sm">
+          <div className="h-1 w-full bg-gradient-to-r from-cyan-500 to-sky-500" />
+          <CardTitle className="flex items-center justify-between gap-3 px-5 py-4">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-cyan-500/15 flex-shrink-0">
+                <ClipboardList className="h-4 w-4 text-cyan-400" />
+              </span>
+              <div className="min-w-0">
+                <span className="text-xl font-bold tracking-tight">
+                  {t("PortfolioTabs:openOrdersTitle")}
                 </span>
-                <span className="hidden lg:block">
-                  <div className="grid grid-cols-[40%_1fr_1fr_1fr_1fr] items-center h-10 px-2 text-muted-foreground font-medium">
-                    <div className="text-left">
-                      {t("PortfolioTabs:descriptionHeader")}
-                    </div>
-                    <div className="text-left">
-                      {t("PortfolioTabs:orderIdHeader")}
-                    </div>
-                    <div className="text-left">
-                      {t("PortfolioTabs:expirationHeader")}
-                    </div>
-                    <div className="text-left">
-                      {t("PortfolioTabs:priceHeader")}
-                    </div>
-                    <div className="text-left">
-                      {t("PortfolioTabs:actionsHeader")}
-                    </div>
-                  </div>
-                </span>
-                <div className="max-h-[500px] overflow-auto">
-                  <List
-                    rowComponent={OpenOrdersRow}
-                    rowCount={openOrders.length}
-                    rowHeight={80}
-                    rowProps={{}}
-                  />
-                </div>
+                {hasOrders ? (
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {t("PortfolioTabs:orderSummaryCount", {
+                      count: sortedOpenOrders.length,
+                    })}
+                  </p>
+                ) : null}
               </div>
-            ) : (
-              <p>{t("PortfolioTabs:noOpenOrdersFound")}</p>
-            )}
-          </CardContent>
-          <div className="px-6 pb-6">
+            </div>
             <Button
+              size="sm"
               onClick={() => {
-                setOpenOrders();
-                setOpenOrderCounter(openOrderCounter + 1);
+                setOpenOrders(undefined);
+                if (usr && usr.id) {
+                  revalidateAccountLimitOrders(usr.chain, usr.id);
+                }
+                setOpenOrderCounter((c) => c + 1);
               }}
               disabled={openOrdersLoading}
               aria-busy={openOrdersLoading}
+              className="gap-2 bg-cyan-600 hover:bg-cyan-500 text-foreground"
             >
-              {t("PortfolioTabs:refreshOpenOrdersButton")}
+              {openOrdersLoading ? (
+                <Loader2Icon className="h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCw className="h-4 w-4" />
+              )}
+              <span>{t("PortfolioTabs:refreshOpenOrdersButton")}</span>
             </Button>
-          </div>
+          </CardTitle>
+        </Card>
+
+        <Card className="bg-card/60 border-border shadow-lg shadow-black/20 backdrop-blur-sm">
+          <CardContent>
+            {openOrdersLoading && !hasOrders ? (
+              <div
+                className="space-y-2"
+                aria-busy="true"
+                aria-live="polite"
+              >
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 p-4 rounded-xl border border-border/60 bg-accent/20"
+                  >
+                    <Skeleton className="h-5 w-12 rounded-full bg-accent/50" />
+                    <div className="flex-1 space-y-1.5">
+                      <Skeleton className="h-4 w-48 bg-accent/50" />
+                      <Skeleton className="h-3 w-32 bg-accent/50" />
+                    </div>
+                    <Skeleton className="h-4 w-20 bg-accent/50" />
+                    <Skeleton className="h-4 w-20 bg-accent/50" />
+                    <div className="flex gap-1">
+                      <Skeleton className="h-8 w-8 rounded-full bg-accent/50" />
+                      <Skeleton className="h-8 w-8 rounded-full bg-accent/50" />
+                      <Skeleton className="h-8 w-8 rounded-full bg-accent/50" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : hasOrders ? (
+              <>
+                <div className="flex items-center gap-2 mb-2 mt-2">
+                  <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground" />
+                  <Select value={sortBy} onValueChange={setSortBy}>
+                    <SelectTrigger className="h-8 w-[160px] text-xs bg-accent/30 dark:bg-white/[0.05] border-border text-foreground/70">
+                      <SelectValue className="text-foreground/70" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card border-border shadow-2xl dark:shadow-black/40 shadow-black/15">
+                      <SelectItem value="newest" className="text-foreground/70 focus:bg-white/[0.08] focus:text-foreground">
+                        {t("PortfolioTabs:default")} (Newest)
+                      </SelectItem>
+                      <SelectItem value="expiry" className="text-foreground/70 focus:bg-white/[0.08] focus:text-foreground">
+                        {t("PortfolioTabs:expirationHeader")}
+                      </SelectItem>
+                      <SelectItem value="price" className="text-foreground/70 focus:bg-white/[0.08] focus:text-foreground">
+                        {t("PortfolioTabs:priceHeader")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="max-h-[600px] overflow-auto -mx-2 pt-2">
+                  <List
+                    rowComponent={OpenOrdersRow}
+                    rowCount={sortedOpenOrders.length}
+                    rowHeight={rowHeight}
+                    rowProps={{
+                      sortedOpenOrders,
+                      assets,
+                      now,
+                      showDialog,
+                      orderID,
+                      setOrderID,
+                      setShowDialog,
+                      t,
+                      usr,
+                    }}
+                  />
+                </div>
+              </>
+            ) : (
+              <Empty className="mt-2 border border-border/60 rounded-xl bg-accent/20">
+                <EmptyHeader>
+                  <EmptyMedia variant="icon" className="bg-cyan-500/15 text-cyan-400">
+                    <ClipboardList className="h-6 w-6" />
+                  </EmptyMedia>
+                  <EmptyTitle className="text-foreground/80">{t("PortfolioTabs:noOpenOrdersTitle")}</EmptyTitle>
+                  <EmptyDescription className="text-muted-foreground">
+                    {t("PortfolioTabs:noOpenOrdersDescription")}
+                  </EmptyDescription>
+                </EmptyHeader>
+                <EmptyContent>
+                  <Button asChild className="bg-cyan-600 hover:bg-cyan-500 text-foreground">
+                    <a href="/dex.html">
+                      {t("PortfolioTabs:noOpenOrdersCta")}
+                    </a>
+                  </Button>
+                </EmptyContent>
+              </Empty>
+            )}
+          </CardContent>
         </Card>
       </div>
     </div>

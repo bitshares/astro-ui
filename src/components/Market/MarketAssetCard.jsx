@@ -3,15 +3,14 @@ import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { HeartFilledIcon, HeartIcon } from "@radix-ui/react-icons";
 import { useStore } from "@nanostores/react";
-
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  CircleCheck,
+  Coins,
+  ExternalLink,
+  FileJson,
+  Info,
+  Wallet,
+} from "lucide-react";
 
 import {
   Tooltip,
@@ -32,8 +31,9 @@ import {
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-import ExternalLink from "../common/ExternalLink.jsx";
+import ExternalLinkButton from "../common/ExternalLink.jsx";
 import CardRow from "../common/CardRow.jsx";
 import AssetDropDown from "./AssetDropDownCard.jsx";
 
@@ -43,6 +43,15 @@ import {
   addFavouriteAsset,
   removeFavouriteAsset,
 } from "@/stores/favourites.ts";
+
+const TYPE_ACCENTS = {
+  buy: { bar: "from-emerald-400/70", chip: "border-emerald-400/30 bg-emerald-500/15 text-emerald-200", label: "Buy" },
+  sell: { bar: "from-rose-400/70", chip: "border-rose-400/30 bg-rose-500/15 text-rose-200", label: "Sell" },
+  pool: { bar: "from-amber-400/70", chip: "border-amber-400/30 bg-amber-500/15 text-amber-200", label: "Pool" },
+};
+
+const DIALOG_CLASS =
+  "!bg-card border border-border text-foreground/85";
 
 export default function MarketAssetCard(properties) {
   const {
@@ -114,93 +123,130 @@ export default function MarketAssetCard(properties) {
       : assetData.max_supply;
   }, [assetData]);
 
-  return (
-    <Card>
-      <CardHeader className="pb-2 pt-4">
-        <CardTitle>
-          <div className="grid grid-cols-2">
-            <div>
-              {asset} {assetData ? `(${assetData.id})` : ""}
-            </div>
-            <div className="flex justify-end mt-1">
-              <div className="grid grid-cols-2 gap-2">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      {isFavourite ? (
-                        <HeartFilledIcon
-                          onClick={() => {
-                            removeFavouriteAsset(chain, {
-                              id: assetData.id,
-                              symbol: assetData.symbol,
-                              issuer: assetData.issuer,
-                            });
-                          }}
-                        />
-                      ) : (
-                        <HeartIcon
-                          onClick={() => {
-                            addFavouriteAsset(chain, {
-                              id: assetData.id,
-                              symbol: assetData.symbol,
-                              issuer: assetData.issuer,
-                            });
-                          }}
-                        />
-                      )}
-                    </TooltipTrigger>
-                    <TooltipContent>Favourite</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+  const typeAccent = TYPE_ACCENTS[type] || TYPE_ACCENTS.buy;
 
-                {otherAsset ? (
-                  <AssetDropDown
-                    assetSymbol={assetData.symbol}
-                    assetData={assetData}
-                    storeCallback={storeCallback}
-                    otherAsset={otherAsset}
-                    marketSearch={marketSearch}
-                    type={"base"}
-                    size="cog"
-                    chain={chain}
-                  />
-                ) : null}
-              </div>
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-xl shadow-black/30">
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r to-transparent",
+          typeAccent.bar,
+        )}
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/[0.06] blur-3xl"
+      />
+
+      <div className="relative p-4 sm:p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight truncate">
+                {asset}{" "}
+                <span className="text-muted-foreground/70 font-mono text-xs">
+                  {assetData ? `(${assetData.id})` : ""}
+                </span>
+              </h3>
+            </div>
+            <div className="text-xs text-muted-foreground mt-0.5 flex items-center gap-2 flex-wrap">
+              {type === "buy" ? (
+                <>
+                  <span>{t("MarketAssetCard:quoteAsset")}</span>
+                  <span className="text-muted-foreground/60">·</span>
+                  <span>{t("MarketAssetCard:buying")}</span>
+                </>
+              ) : null}
+              {type === "sell" ? (
+                <>
+                  <span>{t("MarketAssetCard:baseAsset")}</span>
+                  <span className="text-muted-foreground/60">·</span>
+                  <span>{t("MarketAssetCard:selling")}</span>
+                </>
+              ) : null}
+              {type === "pool" ? (
+                <span>{t("MarketAssetCard:poolStakeAsset")}</span>
+              ) : null}
             </div>
           </div>
-        </CardTitle>
-        <CardDescription className="text-lg">
-          {type === "buy" ? (
-            <>
-              <span>{t("MarketAssetCard:quoteAsset")}</span> -
-              <span className="text-sm"> {t("MarketAssetCard:buying")}</span>
-            </>
-          ) : null}
-          {type === "sell" ? (
-            <>
-              <span>{t("MarketAssetCard:baseAsset")}</span> -
-              <span className="text-sm"> {t("MarketAssetCard:selling")}</span>
-            </>
-          ) : null}
-          {type === "pool" ? (
-            <span>{t("MarketAssetCard:poolStakeAsset")}</span>
-          ) : null}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="text-sm pb-2">
-        <div className="grid grid-cols-3 gap-3 mb-3 w-full">
+          <div className="flex items-center gap-1.5 shrink-0">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (isFavourite) {
+                        removeFavouriteAsset(chain, {
+                          id: assetData.id,
+                          symbol: assetData.symbol,
+                          issuer: assetData.issuer,
+                        });
+                      } else {
+                        addFavouriteAsset(chain, {
+                          id: assetData.id,
+                          symbol: assetData.symbol,
+                          issuer: assetData.issuer,
+                        });
+                      }
+                    }}
+                    className={cn(
+                      "inline-flex h-8 w-8 items-center justify-center rounded-lg border transition-colors",
+                      isFavourite
+                        ? "border-rose-400/40 bg-rose-500/15 text-rose-300 hover:bg-rose-500/25"
+                        : "border-border bg-card/40 text-muted-foreground hover:text-rose-300 hover:border-rose-400/30 hover:bg-rose-500/10",
+                    )}
+                    aria-label={isFavourite ? "Unfavourite" : "Favourite"}
+                  >
+                    {isFavourite ? (
+                      <HeartFilledIcon className="h-4 w-4" />
+                    ) : (
+                      <HeartIcon className="h-4 w-4" />
+                    )}
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent className="!bg-card border border-border text-foreground/85">
+                  Favourite
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            {otherAsset ? (
+              <AssetDropDown
+                assetSymbol={assetData.symbol}
+                assetData={assetData}
+                storeCallback={storeCallback}
+                otherAsset={otherAsset}
+                marketSearch={marketSearch}
+                type={"base"}
+                size="cog"
+                chain={chain}
+              />
+            ) : null}
+          </div>
+        </div>
+
+        <div className="mt-4 grid grid-cols-3 gap-2">
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" className="h-6">
+              <Button
+                variant="outline"
+                className="h-8 gap-1.5 border-border bg-card/40 hover:border-cyan-400/40 hover:bg-cyan-500/10 text-foreground/80 hover:text-accent-foreground text-xs"
+              >
+                <Coins className="h-3 w-3 text-cyan-300" />
                 {t("MarketAssetCard:supply")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[400px] bg-card">
+            <DialogContent
+
+              className={cn(DIALOG_CLASS, "sm:max-w-[420px]")}
+            >
               <DialogHeader>
                 <DialogTitle>
                   {asset} {assetData ? `(${assetData.id})` : ""}
                 </DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="text-muted-foreground/80">
                   {assetDetails && assetDetails.current_supply && assetData ? (
                     <>
                       {humanReadableFloat(
@@ -246,30 +292,33 @@ export default function MarketAssetCard(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="h-6"
-                style={{ marginLeft: "3px" }}
+                className="h-8 gap-1.5 border-border bg-card/40 hover:border-violet-400/40 hover:bg-violet-500/10 text-foreground/80 hover:text-accent-foreground text-xs"
               >
+                <ExternalLink className="h-3 w-3 text-violet-300" />
                 {t("MarketAssetCard:links")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] bg-card">
+            <DialogContent
+
+              className={cn(DIALOG_CLASS, "sm:max-w-[620px]")}
+            >
               <DialogHeader>
                 <DialogTitle>
                   {t("MarketAssetCard:externalLinks", { asset: asset })}
                 </DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="text-muted-foreground/80">
                   {t("MarketAssetCard:externalLinksDescription", {
                     asset: asset,
                   })}
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid grid-cols-1 gap-2">
+              <div className="grid grid-cols-1 gap-2 text-foreground/85">
                 <div>
-                  <b>{t("MarketAssetCard:explorers")}</b>
+                  <b className="text-foreground">{t("MarketAssetCard:explorers")}</b>
                 </div>
                 <div>
                   {chain === "bitshares" ? (
-                    <ExternalLink
+                    <ExternalLinkButton
                       variant="outline"
                       classnamecontents="ml-2"
                       type="button"
@@ -278,7 +327,7 @@ export default function MarketAssetCard(properties) {
                     />
                   ) : null}
                   {chain === "bitshares" ? (
-                    <ExternalLink
+                    <ExternalLinkButton
                       variant="outline"
                       classnamecontents="ml-2"
                       type="button"
@@ -288,22 +337,22 @@ export default function MarketAssetCard(properties) {
                   ) : null}
                 </div>
                 <div>
-                  <b>{t("MarketAssetCard:webWallets")}</b>
+                  <b className="text-foreground">{t("MarketAssetCard:webWallets")}</b>
                 </div>
                 <div>
-                  <ExternalLink
+                  <ExternalLinkButton
                     classnamecontents=""
                     variant="outline"
                     type="button"
                     text={`BTS.exchange`}
-                    hyperlink={`https://bts.exchange/#/asset/${asset}?r=nftprofessional1`}
+                    hyperlink={`https://bts.exchange/#/asset/${asset}`}
                   />
-                  <ExternalLink
+                  <ExternalLinkButton
                     classnamecontents="ml-2"
                     variant="outline"
                     type="button"
                     text={`XBTS.io`}
-                    hyperlink={`https://ex.xbts.io/#/asset/${asset}?r=nftprofessional1`}
+                    hyperlink={`https://ex.xbts.io/#/asset/${asset}`}
                   />
                 </div>
               </div>
@@ -313,18 +362,21 @@ export default function MarketAssetCard(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="h-6"
-                style={{ marginLeft: "3px" }}
+                className="h-8 gap-1.5 border-border bg-card/40 hover:border-amber-400/40 hover:bg-amber-500/10 text-foreground/80 hover:text-accent-foreground text-xs"
               >
+                <FileJson className="h-3 w-3 text-amber-300" />
                 {t("MarketAssetCard:json")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] bg-card">
+            <DialogContent
+
+              className={cn(DIALOG_CLASS, "sm:max-w-[620px]")}
+            >
               <DialogHeader>
                 <DialogTitle>
                   {t("MarketAssetCard:jsonSummaryData", { asset: asset })}
                 </DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="text-muted-foreground/80">
                   {t("MarketAssetCard:jsonSummaryDataDescription", {
                     asset: asset,
                   })}
@@ -332,8 +384,8 @@ export default function MarketAssetCard(properties) {
               </DialogHeader>
               <div className="grid grid-cols-1">
                 <div className="col-span-1">
-                  <ScrollArea className="h-72 rounded-md border text-sm">
-                    <pre>
+                  <ScrollArea className="h-72 rounded-md border border-border bg-card/60 text-sm">
+                    <pre className="text-xs text-foreground/80 p-3 font-mono">
                       {JSON.stringify(
                         { assetData, assetDetails, bitassetData },
                         null,
@@ -343,7 +395,7 @@ export default function MarketAssetCard(properties) {
                   </ScrollArea>
                   <Button
                     variant="outline"
-                    className="mt-2"
+                    className="mt-2 border-border bg-card/40 hover:border-amber-400/40 hover:bg-amber-500/10 text-foreground/80 hover:text-accent-foreground"
                     onClick={() => {
                       navigator.clipboard.writeText(
                         JSON.stringify(
@@ -354,6 +406,7 @@ export default function MarketAssetCard(properties) {
                       );
                     }}
                   >
+                    <CircleCheck className="h-3.5 w-3.5 mr-1.5" />
                     {t("DeepLinkDialog:tabsContent.copyOperationJSON")}
                   </Button>
                 </div>
@@ -361,8 +414,9 @@ export default function MarketAssetCard(properties) {
             </DialogContent>
           </Dialog>
         </div>
+
         {assetDetails && assetData && marketSearch && marketSearch.length ? (
-          <div className="grid grid-cols-1 gap-1 w-full">
+          <div className="mt-4 grid grid-cols-1 gap-1.5 w-full">
             <CardRow
               title={t("MarketAssetCard:yourBalance")}
               button={`${assetBalance}`}
@@ -389,7 +443,12 @@ export default function MarketAssetCard(properties) {
               button={
                 <>
                   {!bitassetData ? t("MarketAssetCard:userIssuedAsset") : null}
-                  {bitassetData ? t("MarketAssetCard:smartcoin") : null}
+                  {bitassetData && bitassetData.is_prediction_market
+                    ? t("MarketAssetCard:predictionMarket")
+                    : null}
+                  {bitassetData && !bitassetData.is_prediction_market
+                    ? t("MarketAssetCard:smartcoin")
+                    : null}
                 </>
               }
               dialogtitle={`
@@ -399,7 +458,12 @@ export default function MarketAssetCard(properties) {
                     : ""
                 }
                 ${
-                  bitassetData
+                  bitassetData && bitassetData.is_prediction_market
+                    ? t("MarketAssetCard:predictionMarketSummary")
+                    : ""
+                }
+                ${
+                  bitassetData && !bitassetData.is_prediction_market
                     ? t("MarketAssetCard:smartcoinSummary")
                     : ""
                 }
@@ -407,7 +471,7 @@ export default function MarketAssetCard(properties) {
               dialogdescription={
                 <>
                   {!bitassetData ? (
-                    <ScrollArea className="h-72 rounded-md border text-sm">
+                    <ScrollArea className="h-72 rounded-md border border-border bg-card/60 text-sm">
                       <ul className="ml-2 list-disc [&>li]:mt-2 pl-5 pr-5">
                         <li>
                           {t("MarketAssetCard:userIssuedAssetDescription1")}
@@ -431,8 +495,30 @@ export default function MarketAssetCard(properties) {
                     </ScrollArea>
                   ) : null}
 
-                  {bitassetData ? (
-                    <ScrollArea className="h-72 rounded-md border text-sm">
+                  {bitassetData && bitassetData.is_prediction_market ? (
+                    <ScrollArea className="h-72 rounded-md border border-border bg-card/60 text-sm">
+                      <ul className="ml-2 list-disc [&>li]:mt-2 pl-5 pr-5">
+                        <li>
+                          {t("MarketAssetCard:predictionMarketDescription1")}
+                        </li>
+                        <li>
+                          {t("MarketAssetCard:predictionMarketDescription2")}
+                        </li>
+                        <li>
+                          {t("MarketAssetCard:predictionMarketDescription3")}
+                        </li>
+                        <li>
+                          {t("MarketAssetCard:predictionMarketDescription4")}
+                        </li>
+                        <li>
+                          {t("MarketAssetCard:predictionMarketDescription5")}
+                        </li>
+                      </ul>
+                    </ScrollArea>
+                  ) : null}
+
+                  {bitassetData && !bitassetData.is_prediction_market ? (
+                    <ScrollArea className="h-72 rounded-md border border-border bg-card/60 text-sm">
                       <ul className="ml-2 list-disc [&>li]:mt-2 pl-5 pr-5">
                         <li>{t("MarketAssetCard:smartcoinDescription1")}</li>
                         <li>{t("MarketAssetCard:smartcoinDescription2")}</li>
@@ -452,7 +538,7 @@ export default function MarketAssetCard(properties) {
               title={t("MarketAssetCard:issuer")}
               button={
                 marketSearch
-                  ? marketSearch.find((x) => x.id === assetData.id).u
+                  ? marketSearch.find((x) => x.id === assetData.id)?.u ?? "?"
                   : "?"
               }
               dialogtitle={t("MarketAssetCard:assetIssuer", {
@@ -504,7 +590,7 @@ export default function MarketAssetCard(properties) {
               />
             ) : null}
 
-            {bitassetData ? (
+            {bitassetData && !bitassetData.is_prediction_market ? (
               <>
                 {backingAsset ? (
                   <CardRow
@@ -774,26 +860,33 @@ export default function MarketAssetCard(properties) {
               </>
             ) : null}
 
-            <span className="grid grid-cols-2 gap-2 mt-2">
+            <span className="grid grid-cols-2 gap-2 mt-3">
               {bitassetData ? (
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" className="h-5 p-3">
+                    <Button
+                      variant="outline"
+                      className="h-7 gap-1.5 border-border bg-card/40 hover:border-cyan-400/40 hover:bg-cyan-500/10 text-foreground/80 hover:text-accent-foreground text-xs"
+                    >
+                      <Info className="h-3 w-3" />
                       {t("MarketAssetCard:smartcoinInfoButton")}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[600px] bg-card">
+                  <DialogContent
+
+                    className={cn(DIALOG_CLASS, "sm:max-w-[620px]")}
+                  >
                     <DialogHeader>
                       <DialogTitle>
                         {t("MarketAssetCard:additionalBitassetInfoTitle")}
                       </DialogTitle>
-                      <DialogDescription>
+                      <DialogDescription className="text-muted-foreground/80">
                         {t("MarketAssetCard:additionalBitassetInfoDescription")}
                       </DialogDescription>
                     </DialogHeader>
                     <div className="grid grid-cols-1">
                       <div className="col-span-1">
-                        {bitassetData ? (
+                        {bitassetData && !bitassetData.is_prediction_market ? (
                           <>
                             <CardRow
                               title={t("MarketAssetCard:smartcoinID")}
@@ -1075,17 +1168,10 @@ export default function MarketAssetCard(properties) {
                 </Dialog>
               ) : null}
 
-              {bitassetData ? (
-                <a href={`/smartcoin/index.html?id=${assetData.id}`}>
-                  <Button variant="outline" className="h-5 p-3 w-full">
-                    {t("MarketAssetCard:borrowButton")}
-                  </Button>
-                </a>
-              ) : null}
             </span>
           </div>
         ) : null}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

@@ -14,7 +14,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 import Hero from "./home/Hero";
-import WaveHero from "./WaveHero";
 
 import {
   Activity,
@@ -572,12 +571,6 @@ export default function Home(properties) {
 
   return (
     <div className="container mx-auto mt-3 mb-5 px-3 sm:px-4">
-      <WaveHero />
-
-      <div id="jump-in" />
-
-      <Separator className="my-10 sm:my-12 bg-accent/30 dark:bg-white/[0.05]" />
-
       {renderSection(exchangingFunds, "exchanging")}
       {renderSection(transferFunds, "transfer")}
       {renderSection(formsOfDebt, "debt")}

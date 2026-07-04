@@ -183,10 +183,10 @@ export default function InvoiceStorage() {
 
   const statusColorClasses = {
     waiting: "bg-accent text-foreground",
-    in_progress: "bg-blue-200 text-blue-700",
-    issue_detected: "bg-orange-200 text-orange-700",
+    in_progress: "bg-blue-200 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300",
+    issue_detected: "bg-orange-200 dark:bg-orange-500/20 text-orange-700 dark:text-orange-300",
     cancelled: "bg-accent text-foreground line-through",
-    completed: "bg-green-200 text-green-700",
+    completed: "bg-green-200 dark:bg-green-500/20 text-green-700 dark:text-green-300",
   };
 
   const InvoiceRow = ({ index, style }) => {
