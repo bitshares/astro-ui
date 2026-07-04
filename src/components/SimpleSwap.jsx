@@ -638,7 +638,7 @@ export default function SimpleSwap(properties) {
           {_pool.id === pool ? (
             <CheckCircledIcon className="mt-1 text-green-600" />
           ) : (
-            <CircleIcon className="mt-1 text-gray-400" />
+            <CircleIcon className="mt-1 text-muted-foreground" />
           )}
         </div>
         <div className="col-span-1 text-sm flex items-center">
@@ -769,7 +769,7 @@ export default function SimpleSwap(properties) {
                                     <DropdownMenuTrigger asChild>
                                       <Button
                                         variant="outline"
-                                        className="hover:bg-gray-100 hover:shadow-lg w-full justify-start font-normal"
+                                        className="hover:bg-accent hover:shadow-lg w-full justify-start font-normal"
                                         aria-label={t(
                                           "SimpleSwap:selectSendAsset"
                                         )}
@@ -893,7 +893,7 @@ export default function SimpleSwap(properties) {
                                     >
                                       <Button
                                         variant="outline"
-                                        className="hover:bg-gray-100 hover:shadow-lg w-full justify-start font-normal"
+                                        className="hover:bg-accent hover:shadow-lg w-full justify-start font-normal"
                                         disabled={!selectedAssetASymbol}
                                         aria-label={t(
                                           "SimpleSwap:selectReceiveAsset"
@@ -971,7 +971,7 @@ export default function SimpleSwap(properties) {
                       selectedAssetASymbol &&
                       selectedAssetBSymbol ? (
                         <div className="mt-5 border rounded-md p-2">
-                          <div className="grid grid-cols-12 text-xs text-gray-500 mb-1 p-1 border-b">
+                          <div className="grid grid-cols-12 text-xs text-muted-foreground mb-1 p-1 border-b">
                             <div className="col-span-1"></div>
                             <div className="col-span-1">ID</div>
                             <div className="col-span-4">
@@ -1024,7 +1024,7 @@ export default function SimpleSwap(properties) {
                         )}
 
                       <Button
-                        className="mt-5 w-full bg-purple-500 hover:bg-purple-600 text-white"
+                        className="mt-5 w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                         variant="default"
                         disabled={!canSubmit}
                         type="submit"

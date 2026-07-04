@@ -526,7 +526,7 @@ export default function CreateTicket() {
 
         {updateDialogOpen && selectedTicket ? (
           <Dialog open={updateDialogOpen} onOpenChange={setUpdateDialogOpen}>
-            <DialogContent className="sm:max-w-[520px] bg-white">
+            <DialogContent className="sm:max-w-[520px] bg-card">
               <DialogHeader>
                 <DialogTitle>
                   {t("CreateTicket:updateDialog.title", "Update ticket")}
@@ -565,7 +565,7 @@ export default function CreateTicket() {
                         )}
                       />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className="bg-card">
                       <SelectItem value="lock_180_days">
                         {t("CreateTicket:radioB.sm")}
                       </SelectItem>

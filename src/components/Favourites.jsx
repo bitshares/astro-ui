@@ -552,7 +552,7 @@ export default function Favourites(properties) {
                 {t("Favourites:addPair")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[560px] bg-white">
+            <DialogContent className="sm:max-w-[560px] bg-card">
               <DialogHeader>
                 <DialogTitle>{t("Favourites:addPairDialogTitle")}</DialogTitle>
                 <DialogDescription>
@@ -670,7 +670,7 @@ export default function Favourites(properties) {
                                     {t("PageHeader:pools")}
                                   </Button>
                                 </DialogTrigger>
-                                <DialogContent className="sm:max-w-[820px] bg-white">
+                                <DialogContent className="sm:max-w-[820px] bg-card">
                                   {(() => {
                                     const [assetA, assetB] = pair.split("_");
                                     const assetAData = assets.find(
@@ -748,7 +748,7 @@ export default function Favourites(properties) {
                                     {t("PageHeader:pools")}
                                   </Button>
                                 </DialogTrigger>
-                                <DialogContent className="sm:max-w-[820px] bg-white">
+                                <DialogContent className="sm:max-w-[820px] bg-card">
                                   {(() => {
                                     const [assetA, assetB] = pair.split("_");
                                     const assetAData = assets.find(
@@ -828,7 +828,7 @@ export default function Favourites(properties) {
                 {t("Favourites:addUser")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[420px] bg-white">
+            <DialogContent className="sm:max-w-[420px] bg-card">
               <DialogHeader>
                 <DialogTitle>{t("Favourites:addUserDialogTitle")}</DialogTitle>
                 <DialogDescription>

@@ -916,7 +916,7 @@ export default function PoolStake(properties) {
                                     {t("PoolStake:poolJson")}
                                   </Button>
                                 </DialogTrigger>
-                                <DialogContent className="sm:max-w-[550px] bg-white">
+                                <DialogContent className="sm:max-w-[550px] bg-card">
                                   <DialogHeader>
                                     <DialogTitle>
                                       {t("PoolStake:poolJson")}
@@ -966,7 +966,7 @@ export default function PoolStake(properties) {
                                     {t("PoolStake:swappableAssetJson")}
                                   </Button>
                                 </DialogTrigger>
-                                <DialogContent className="sm:max-w-[550px] bg-white">
+                                <DialogContent className="sm:max-w-[550px] bg-card">
                                   <DialogHeader>
                                     <DialogTitle>
                                       {t("PoolStake:swappableAssetJson")}

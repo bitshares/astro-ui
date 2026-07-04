@@ -419,7 +419,7 @@ export default function CustomPoolOverview(properties) {
                 {t("CustomPoolOverview:delete")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[375px] bg-white">
+            <DialogContent className="sm:max-w-[375px] bg-card">
               <DialogHeader>
                 <DialogTitle>{t("CustomPoolOverview:areYouSure")}</DialogTitle>
               </DialogHeader>
@@ -482,7 +482,7 @@ export default function CustomPoolOverview(properties) {
         </CardContent>
       </Card>
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-[720px] bg-white">
+        <DialogContent className="sm:max-w-[720px] bg-card">
           <DialogHeader>
             <DialogTitle>{t("CustomPoolOverview:creatingTracker")}</DialogTitle>
             <DialogDescription>

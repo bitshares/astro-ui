@@ -247,7 +247,7 @@ export default function Inventory(properties) {
                     {`${it.prices.length} ${t("Inventory:prices")}`}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-white">
+                <DialogContent className="bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("Inventory:pricesFor", { name: it.name })}
@@ -304,7 +304,7 @@ export default function Inventory(properties) {
                     ❌
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="bg-white">
+                <AlertDialogContent className="bg-card">
                   <AlertDialogHeader>
                     <AlertDialogTitle>
                       {t("Inventory:deleteItemTitle")}
@@ -385,7 +385,7 @@ export default function Inventory(properties) {
               </div>
             </Card>
           </DialogTrigger>
-          <DialogContent className="bg-white">
+          <DialogContent className="bg-card">
             <div className="grid grid-cols-1 gap-2">
               <div>
                 {t("Inventory:headerName")}: {_name}
@@ -425,7 +425,7 @@ export default function Inventory(properties) {
                       {`${it.prices.length} ${t("Inventory:prices")}`}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="bg-white">
+                  <DialogContent className="bg-card">
                     <DialogHeader>
                       <DialogTitle>
                         {t("Inventory:pricesFor", { name: it.name })}
@@ -486,7 +486,7 @@ export default function Inventory(properties) {
                       ❌
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-white">
+                  <AlertDialogContent className="bg-card">
                     <AlertDialogHeader>
                       <AlertDialogTitle>
                         {t("Inventory:deleteItemTitle")}
@@ -769,7 +769,7 @@ export default function Inventory(properties) {
 
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[375px] bg-white">
+        <DialogContent className="sm:max-w-[375px] bg-card">
           <DialogHeader>
             <DialogTitle>
               {editIndex !== null
@@ -846,7 +846,7 @@ export default function Inventory(properties) {
         <DialogTrigger asChild>
           <Button size="sm">{t("Inventory:scanBarcodeTrigger")}</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[640px] bg-white">
+        <DialogContent className="sm:max-w-[640px] bg-card">
           <DialogHeader>
             <DialogTitle>{t("Inventory:scanBarcodeTitle")}</DialogTitle>
             <DialogDescription>
@@ -894,7 +894,7 @@ export default function Inventory(properties) {
               </Button>
             </div>
 
-            <div className="w-full h-[420px] bg-black rounded overflow-hidden">
+            <div className="w-full h-[420px] bg-background rounded overflow-hidden">
               {!scannerError ? (
                 <BarcodeScanner
                   width={640}
@@ -982,7 +982,7 @@ export default function Inventory(properties) {
             {t("Inventory:addCategory")}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[500px] bg-white">
+        <DialogContent className="sm:max-w-[500px] bg-card">
           <DialogHeader>
             <DialogTitle>{t("Inventory:addNewItemType")}</DialogTitle>
           </DialogHeader>
@@ -1056,7 +1056,7 @@ export default function Inventory(properties) {
             {t("Inventory:deleteType")}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[500px] bg-white">
+        <DialogContent className="sm:max-w-[500px] bg-card">
           <DialogHeader>
             <DialogTitle>{t("Inventory:deleteItemType")}</DialogTitle>
             <DialogDescription>
@@ -1239,7 +1239,7 @@ export default function Inventory(properties) {
                     {t("Inventory:addItem")}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-white">
+                <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
                   <DialogHeader>
                     <DialogTitle>{t("Inventory:addInventoryItem")}</DialogTitle>
                     <DialogDescription>

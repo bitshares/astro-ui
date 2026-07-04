@@ -990,7 +990,7 @@ export default function CustomPoolTracker(properties) {
                 🏦 {res.id}
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogContent className="bg-card sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
                   🏦 {t("PoolTracker:pool")} {res.id}
@@ -1020,7 +1020,7 @@ export default function CustomPoolTracker(properties) {
                 🪙 {_currentPSA.id}
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogContent className="bg-card sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
                   🪙 {t("PoolTracker:psa")} {_currentPSA.id}
@@ -1056,7 +1056,7 @@ export default function CustomPoolTracker(properties) {
                 {_poolAssetA.symbol}
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogContent className="bg-card sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
                   A: {_poolAssetA.symbol} {_poolAssetA.id}
@@ -1102,7 +1102,7 @@ export default function CustomPoolTracker(properties) {
                 {_poolAssetB.symbol}
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogContent className="bg-card sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
                   B: {_poolAssetB.symbol} {_poolAssetB.id}

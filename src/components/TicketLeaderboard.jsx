@@ -199,7 +199,7 @@ export default function TicketLeaderboard() {
               </CardContent>
             </Card>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[720px] bg-white">
+          <DialogContent className="sm:max-w-[720px] bg-card">
             <div className="flex items-center gap-2 mt-3 text-center">
               <Table>
                 <TableBody>
@@ -310,7 +310,7 @@ export default function TicketLeaderboard() {
 
         {showTicketDialog && activeTicketId ? (
           <Dialog open={showTicketDialog} onOpenChange={setShowTicketDialog}>
-            <DialogContent className="sm:max-w-[720px] bg-white">
+            <DialogContent className="sm:max-w-[720px] bg-card">
               <DialogHeader>
                 <DialogTitle>
                   {t("TicketsLeaderboard:ticketDialog.title", "Ticket details")}

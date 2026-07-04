@@ -386,7 +386,7 @@ export default function Proposals(properties) {
               }
             }}
           >
-            <DialogContent className="sm:max-w-[750px] bg-white">
+            <DialogContent className="sm:max-w-[750px] bg-card">
               <DialogHeader>
                 <DialogTitle>{t("Proposals:approveProposal")}</DialogTitle>
                 <DialogDescription>
@@ -513,7 +513,7 @@ export default function Proposals(properties) {
                 setViewJSON(open);
               }}
             >
-              <DialogContent className="sm:max-w-[750px] bg-white">
+              <DialogContent className="sm:max-w-[750px] bg-card">
                 <DialogHeader>
                   <DialogTitle>
                     {t("LiveBlocks:dialogContent.json")}

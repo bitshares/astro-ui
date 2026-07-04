@@ -204,7 +204,7 @@ export default function WithdrawPermissions(properties) {
             : t("WithdrawPermissions:create_permission")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[750px] bg-white">
+      <DialogContent className="sm:max-w-[750px] bg-card">
         <DialogHeader>
           <DialogTitle>
             {mode === "edit"
@@ -298,7 +298,7 @@ export default function WithdrawPermissions(properties) {
                                   : t("Transfer:provideTarget")}
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-[375px] bg-white">
+                            <DialogContent className="sm:max-w-[375px] bg-card">
                               <DialogHeader>
                                 <DialogTitle>
                                   {!usr || !usr.chain
@@ -557,7 +557,7 @@ export default function WithdrawPermissions(properties) {
                             }
                           />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value="1hr">
                             {t("WithdrawDialog:1hr")}
                           </SelectItem>
@@ -677,7 +677,7 @@ export default function WithdrawPermissions(properties) {
                         <SelectTrigger className="mb-3 mt-1 w-1/4">
                           <SelectValue placeholder={expiry} />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value="now">
                             {t("WithdrawPermissions:now")}
                           </SelectItem>

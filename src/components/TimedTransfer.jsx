@@ -363,7 +363,7 @@ export default function TimedTransfer(properties) {
                                   : t("Transfer:provideTarget")}
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-[375px] bg-white">
+                            <DialogContent className="sm:max-w-[375px] bg-card">
                               <DialogHeader>
                                 <DialogTitle>
                                   {!usr || !usr.chain
@@ -582,7 +582,7 @@ export default function TimedTransfer(properties) {
                         <SelectTrigger className="mb-3 mt-1 w-3/4">
                           <SelectValue placeholder="1hr" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value="1hr">
                             {t("LimitOrderCard:expiry.1hr")}
                           </SelectItem>
@@ -664,7 +664,7 @@ export default function TimedTransfer(properties) {
                         <SelectTrigger className="mb-3 mt-1 w-3/4">
                           <SelectValue placeholder="1 mins" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value={"60000"}>1 mins</SelectItem>
                           <SelectItem value={"300000"}>5 mins</SelectItem>
                           <SelectItem value={"600000"}>10 mins</SelectItem>

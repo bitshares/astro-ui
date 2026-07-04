@@ -219,7 +219,7 @@ export default function CreateVestingBalance(properties) {
                           {t("CreateVestingBalance:selectAccount")}
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-[375px] bg-white">
+                      <DialogContent className="sm:max-w-[375px] bg-card">
                         <DialogHeader>
                           <DialogTitle>
                             {!usr || !usr.chain

@@ -50,7 +50,7 @@ export default function CardRow(properties) {
                 setTooltipOpen(false);
               }}
             >
-              <DialogContent className="sm:max-w-[400px] bg-white">
+              <DialogContent className="sm:max-w-[400px] bg-card">
                 <DialogHeader>
                   <DialogTitle>{properties.dialogtitle}</DialogTitle>
                   {properties.dialogdescription}
@@ -68,7 +68,7 @@ export default function CardRow(properties) {
                     <Button
                       variant="outline"
                       size="icon"
-                      className="h-6 w-6 text-gray-400"
+                      className="h-6 w-6 text-muted-foreground"
                       onClick={handleTooltipClick}
                     >
                       ?

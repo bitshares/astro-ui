@@ -501,7 +501,7 @@ export default function Barter(properties) {
                           : t("Barter:selectRecipient")}
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[375px] bg-white">
+                    <DialogContent className="sm:max-w-[375px] bg-card">
                       <DialogHeader>
                         <DialogTitle>
                           {t("Transfer:bitsharesAccountSearch")}
@@ -714,7 +714,7 @@ export default function Barter(properties) {
                                   : t("Barter:selectAgent")}
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-[375px] bg-white">
+                            <DialogContent className="sm:max-w-[375px] bg-card">
                               <DialogHeader>
                                 <DialogTitle>
                                   {t("Transfer:bitsharesAccountSearch")}

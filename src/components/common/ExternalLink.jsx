@@ -86,7 +86,7 @@ export default function ExternalLink(properties) {
           setOpen(open);
         }}
       >
-        <DialogContent className="sm:max-w-[500px] bg-white">
+        <DialogContent className="sm:max-w-[500px] bg-card">
           <DialogHeader>
             <DialogTitle>
               {t("ExternalLink:dialogContent.leaveApp")}

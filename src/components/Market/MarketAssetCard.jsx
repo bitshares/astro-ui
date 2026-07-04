@@ -195,7 +195,7 @@ export default function MarketAssetCard(properties) {
                 {t("MarketAssetCard:supply")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[400px] bg-white">
+            <DialogContent className="sm:max-w-[400px] bg-card">
               <DialogHeader>
                 <DialogTitle>
                   {asset} {assetData ? `(${assetData.id})` : ""}
@@ -252,7 +252,7 @@ export default function MarketAssetCard(properties) {
                 {t("MarketAssetCard:links")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] bg-white">
+            <DialogContent className="sm:max-w-[600px] bg-card">
               <DialogHeader>
                 <DialogTitle>
                   {t("MarketAssetCard:externalLinks", { asset: asset })}
@@ -319,7 +319,7 @@ export default function MarketAssetCard(properties) {
                 {t("MarketAssetCard:json")}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] bg-white">
+            <DialogContent className="sm:max-w-[600px] bg-card">
               <DialogHeader>
                 <DialogTitle>
                   {t("MarketAssetCard:jsonSummaryData", { asset: asset })}
@@ -782,7 +782,7 @@ export default function MarketAssetCard(properties) {
                       {t("MarketAssetCard:smartcoinInfoButton")}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[600px] bg-white">
+                  <DialogContent className="sm:max-w-[600px] bg-card">
                     <DialogHeader>
                       <DialogTitle>
                         {t("MarketAssetCard:additionalBitassetInfoTitle")}

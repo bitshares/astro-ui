@@ -320,7 +320,7 @@ export default function CommitteeMembers(properties) {
               </CardContent>
             </Card>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px] bg-white">
+          <DialogContent className="sm:max-w-[500px] bg-card">
             <DialogHeader>
               <DialogTitle>
                 {t("CommitteeMembers:votesFor", { name: member.name })}:

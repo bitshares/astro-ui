@@ -284,14 +284,14 @@ export default function LimitOrderWizard(properties) {
       <div
         style={style}
         key={`marketLimitOrder-${_order.id}`}
-        className="grid grid-cols-5 gap-3 border rounded border-gray-300 p-2 text-center"
+        className="grid grid-cols-5 gap-3 border rounded border-border p-2 text-center"
       >
         <div>{_amountOffered}</div>
-        <div className="border-l border-r border-gray-300">
+        <div className="border-l border-r border-border">
           {_amountSellerDesires}
         </div>
-        <div className="border-r border-gray-300">{price}</div>
-        <div className="border-r border-gray-300">{percentageCommitted}</div>
+        <div className="border-r border-border">{price}</div>
+        <div className="border-r border-border">{percentageCommitted}</div>
         <div className="grid grid-cols-2 gap-2">
           {index === 0 || // first row
           (hasEnoughFunds && boughtMax) || // has enough funds and has bought max in previous row
@@ -307,7 +307,7 @@ export default function LimitOrderWizard(properties) {
                   ➕
                 </Button>
               </DialogTrigger>
-              <DialogContent className="bg-white">
+              <DialogContent className="bg-card">
                 <DialogHeader>
                   <DialogTitle>
                     {t("LimitOrderWizard:buyingIntoOpenLimitOrder")}
@@ -319,7 +319,7 @@ export default function LimitOrderWizard(properties) {
                 <div className="grid grid-cols-1 gap-3">
                   <div className="grid grid-cols-2 gap-2">
                     <div className="col-span-2">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-foreground">
                         {t("TFundUser:amountAvailable")}
                       </label>
                     </div>
@@ -330,7 +330,7 @@ export default function LimitOrderWizard(properties) {
                       disabled
                     />
                   </div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-foreground">
                     {t("LimitOrderWizard:buying")}
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -378,7 +378,7 @@ export default function LimitOrderWizard(properties) {
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-foreground">
                       {t("LimitOrderWizard:selling")}
                     </label>
                   </div>
@@ -393,7 +393,7 @@ export default function LimitOrderWizard(properties) {
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-foreground">
                       {t("LimitOrderWizard:price")}
                     </label>
                   </div>
@@ -407,7 +407,7 @@ export default function LimitOrderWizard(properties) {
                 {_quoteFee > 0 ? (
                   <div className="grid grid-cols-2 gap-2">
                     <div className="col-span-2">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-foreground">
                         {t("LimitOrderWizard:marketFee")}
                       </label>
                     </div>
@@ -599,7 +599,7 @@ export default function LimitOrderWizard(properties) {
           ➕
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[1080px] bg-white">
+      <DialogContent className="sm:max-w-[1080px] bg-card">
         <DialogHeader>
           <DialogTitle>{t("LimitOrderWizard:title")}</DialogTitle>
           <DialogDescription>

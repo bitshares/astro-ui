@@ -77,7 +77,7 @@ export default function MarketOrderCard(properties) {
               </div>
             </div>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[800px] bg-white">
+          <DialogContent className="sm:max-w-[800px] bg-card">
             <DialogHeader>
               <DialogTitle>
                 {t("MarketOrderCard:proceedLimitOrderDataTitle")}

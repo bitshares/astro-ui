@@ -513,7 +513,7 @@ export default function SameTFunds(properties) {
               </CardHeader>
             </Card>
           </DialogTrigger>
-          <DialogContent className="bg-white w-1/2 max-w-4xl">
+          <DialogContent className="bg-card w-1/2 max-w-4xl">
             <DialogHeader>
               <DialogTitle>{t("TFundUser:dialogTitle")}</DialogTitle>
               <DialogDescription>

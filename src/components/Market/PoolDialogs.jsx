@@ -137,7 +137,7 @@ export default function PoolDialogs(properties) {
   }) {
     return (
       <>
-        <div className="hidden md:grid md:grid-cols-10 hover:bg-slate-100">
+        <div className="hidden md:grid md:grid-cols-10 hover:bg-accent">
           <div className="col-span-1">
             <p>{id}</p>
           </div>
@@ -152,7 +152,7 @@ export default function PoolDialogs(properties) {
           </div>
         </div>
         <div
-          className="grid md:hidden grid-cols-10 hover:bg-slate-100"
+          className="grid md:hidden grid-cols-10 hover:bg-accent"
           title={share_asset_symbol}
         >
           <div className="col-span-2">
@@ -276,7 +276,7 @@ export default function PoolDialogs(properties) {
             </CardHeader>
           </Card>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[800px] bg-white">
+        <DialogContent className="sm:max-w-[800px] bg-card">
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogDescription>{dialogDescription}</DialogDescription>

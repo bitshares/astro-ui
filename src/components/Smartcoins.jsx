@@ -429,7 +429,7 @@ export default function Smartcoins(properties) {
                             <QuestionMarkCircledIcon className="ml-1" />
                           </Badge>
                         </DialogTrigger>
-                        <DialogContent className="bg-white">
+                        <DialogContent className="bg-card">
                           <DialogHeader>
                             <DialogTitle>
                               {t("Predictions:permissions")}
@@ -455,7 +455,7 @@ export default function Smartcoins(properties) {
                             <QuestionMarkCircledIcon className="ml-1" />
                           </Badge>
                         </DialogTrigger>
-                        <DialogContent className="bg-white">
+                        <DialogContent className="bg-card">
                           <DialogHeader>
                             <DialogTitle>{t("Predictions:flags")}</DialogTitle>
                             <DialogDescription className="text-gray-800">

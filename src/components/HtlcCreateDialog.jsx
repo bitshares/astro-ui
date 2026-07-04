@@ -241,7 +241,7 @@ export default function HtlcCreateDialog(properties) {
   return (
     <>
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="sm:max-w-[720px] bg-white">
+        <DialogContent className="sm:max-w-[720px] bg-card">
           <DialogHeader>
             <DialogTitle>{t("HTLCCreate:dialogTitle")}</DialogTitle>
             <DialogDescription>{t("HTLCCreate:dialogDesc")}</DialogDescription>
@@ -301,7 +301,7 @@ export default function HtlcCreateDialog(properties) {
                             : t("HTLCCreate:selectRecipient")}
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-[375px] bg-white">
+                      <DialogContent className="sm:max-w-[375px] bg-card">
                         <DialogHeader>
                           <DialogTitle>
                             {t("Transfer:bitsharesAccountSearch")}

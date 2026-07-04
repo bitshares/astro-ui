@@ -122,7 +122,7 @@ export default function Featured(properties) {
                     {t("PageHeader:pools")}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-white">
+                <DialogContent className="bg-card">
                   <PoolDialogs
                     assetA={assetA}
                     assetB={assetB}

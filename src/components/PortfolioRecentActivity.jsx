@@ -298,7 +298,7 @@ export default function PortfolioRecentActivity() {
 
     return (
       <div style={rowStyle} className="px-2">
-        <Card className="hover:bg-gray-50 md:hidden p-3">
+        <Card className="hover:bg-accent/50 md:hidden p-3">
           <div className="grid grid-cols-[2fr_1fr] items-start gap-2">
             <div className="truncate font-medium mt-2">
               <Dialog
@@ -314,7 +314,7 @@ export default function PortfolioRecentActivity() {
                       : opTypes[activityItem.operation_type.toString()]}
                   </Badge>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-white">
+                <DialogContent className="sm:max-w-[560px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("PortfolioTabs:fullOperationContentsTitle")}
@@ -358,7 +358,7 @@ export default function PortfolioRecentActivity() {
                             ))}
                           </div>
                         ) : (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-muted-foreground">
                             {t("PortfolioTabs:noRecentActivityFound")}
                           </p>
                         )}
@@ -372,7 +372,7 @@ export default function PortfolioRecentActivity() {
           </div>
         </Card>
 
-        <Card className="hover:bg-gray-50 hidden md:block lg:hidden">
+        <Card className="hover:bg-accent/50 hidden md:block lg:hidden">
           <div className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-start gap-2 p-2 mb-2">
             <div className="truncate font-medium mt-2">
               <Dialog
@@ -388,7 +388,7 @@ export default function PortfolioRecentActivity() {
                       : opTypes[activityItem.operation_type.toString()]}
                   </Badge>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-white">
+                <DialogContent className="sm:max-w-[560px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("PortfolioTabs:fullOperationContentsTitle")}
@@ -432,7 +432,7 @@ export default function PortfolioRecentActivity() {
                             ))}
                           </div>
                         ) : (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-muted-foreground">
                             {t("PortfolioTabs:noRecentActivityFound")}
                           </p>
                         )}
@@ -461,7 +461,7 @@ export default function PortfolioRecentActivity() {
           </div>
         </Card>
 
-        <Card className="hover:bg-gray-50 hidden lg:block">
+        <Card className="hover:bg-accent/50 hidden lg:block">
           <div className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-start gap-2 p-2 mb-2">
             <div className="truncate font-medium mt-2">
               <Dialog
@@ -477,7 +477,7 @@ export default function PortfolioRecentActivity() {
                       : opTypes[activityItem.operation_type.toString()]}
                   </Badge>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-white">
+                <DialogContent className="sm:max-w-[560px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("PortfolioTabs:fullOperationContentsTitle")}
@@ -521,7 +521,7 @@ export default function PortfolioRecentActivity() {
                             ))}
                           </div>
                         ) : (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-muted-foreground">
                             {t("PortfolioTabs:noRecentActivityFound")}
                           </p>
                         )}
@@ -555,7 +555,7 @@ export default function PortfolioRecentActivity() {
                     {t("PortfolioTabs:viewOperationButton")}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-white">
+                <DialogContent className="sm:max-w-[560px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("PortfolioTabs:operationJsonTitle")}
@@ -600,7 +600,7 @@ export default function PortfolioRecentActivity() {
                     {t("PortfolioTabs:viewAllButton")}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-white">
+                <DialogContent className="sm:max-w-[560px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("PortfolioTabs:fullOperationContentsTitle")}

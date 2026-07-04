@@ -69,7 +69,7 @@ export default function CurrentUser(properties) {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Item variant="outline" className="bg-white inline-flex w-auto">
+                <Item variant="outline" className="bg-card inline-flex w-auto">
                   <ItemMedia>
                     <InView onChange={setInView}>
                       {inView ? (
@@ -93,7 +93,7 @@ export default function CurrentUser(properties) {
                     </InView>
                   </ItemMedia>
                   <ItemContent>
-                    <ItemTitle className="text-black">{usr.username}</ItemTitle>
+                    <ItemTitle className="text-foreground">{usr.username}</ItemTitle>
                     <ItemDescription className="text-left">
                       <Breadcrumb>
                         <BreadcrumbList>
@@ -123,7 +123,7 @@ export default function CurrentUser(properties) {
           </TooltipProvider>
         </span>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] bg-white">
+      <DialogContent className="sm:max-w-[600px] bg-card">
         <DialogHeader>
           <DialogTitle>
             {t("CurrentUser:dialogContent.replacingUser")}

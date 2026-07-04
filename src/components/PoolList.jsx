@@ -262,7 +262,7 @@ export default function CustomPoolOverview(properties) {
               </CardHeader>
             </Card>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px] bg-white">
+          <DialogContent className="sm:max-w-[500px] bg-card">
             <DialogHeader>
               <DialogTitle>
                 {t("PoolList:dialogTitle", { id: pool.id })}

@@ -293,7 +293,7 @@ export default function InvoiceStorage() {
                       {t("InvoiceStorage:headers.actions")}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-white">
+                  <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
                     <div className="grid grid-cols-1 gap-2">
                       <Button
                         size="sm"
@@ -574,7 +574,7 @@ export default function InvoiceStorage() {
       </div>
 
       <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
-        <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-white">
+        <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
           <DialogHeader>
             <DialogTitle>{t("InvoiceStorage:details.title")}</DialogTitle>
             <DialogDescription>
@@ -728,7 +728,7 @@ export default function InvoiceStorage() {
         </DialogContent>
       </Dialog>
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent className="bg-white">
+        <AlertDialogContent className="bg-card">
           <AlertDialogHeader>
             <AlertDialogTitle>
               {t("InvoiceStorage:deleteDialog.title")}
@@ -748,7 +748,7 @@ export default function InvoiceStorage() {
         </AlertDialogContent>
       </AlertDialog>
       <Dialog open={itemDetailsOpen} onOpenChange={setItemDetailsOpen}>
-        <DialogContent className="sm:max-w-[640px] bg-white">
+        <DialogContent className="sm:max-w-[640px] bg-card">
           <DialogHeader>
             <DialogTitle>{t("InvoiceStorage:itemDetails.title")}</DialogTitle>
             <DialogDescription>
@@ -871,7 +871,7 @@ export default function InvoiceStorage() {
       </Dialog>
       {/* Metadata Update Dialog */}
       <Dialog open={metaDialogOpen} onOpenChange={setMetaDialogOpen}>
-        <DialogContent className="sm:max-w-[720px] bg-white">
+        <DialogContent className="sm:max-w-[720px] bg-card">
           <DialogHeader>
             <DialogTitle>{t("InvoiceStorage:meta.title")}</DialogTitle>
             <DialogDescription>

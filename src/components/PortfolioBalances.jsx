@@ -112,11 +112,11 @@ function PoolDialog({ poolArray, dialogTitle, dialogDescription, t }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="bg-white hover:shadow-lg">
+        <Button variant="outline" className="bg-card hover:shadow-lg">
           {t("PortfolioTabs:pools")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px] bg-white">
+      <DialogContent className="sm:max-w-[800px] bg-card">
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
           <DialogDescription>{dialogDescription}</DialogDescription>
@@ -327,7 +327,7 @@ export default function PortfolioBalances({
             currentAsset.symbol === "BTS" ? "CNY" : "BTS"
           }`}
         >
-          <Button variant="outline" className="mr-2 hover:shadow-lg bg-white">
+          <Button variant="outline" className="mr-2 hover:shadow-lg bg-card">
             {t("PortfolioTabs:tradeButton")}
           </Button>
         </a>
@@ -335,20 +335,20 @@ export default function PortfolioBalances({
         <a
           href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${currentAsset.symbol}`}
         >
-          <Button variant="outline" className="mr-2 hover:shadow-lg bg-white">
+          <Button variant="outline" className="mr-2 hover:shadow-lg bg-card">
             {t("IssuedAssets:creditBorrow")}
           </Button>
         </a>
 
         <a href={`/lend/index.html?asset=${currentAsset.symbol}`}>
-          <Button variant="outline" className="mr-2 hover:shadow-lg bg-white">
+          <Button variant="outline" className="mr-2 hover:shadow-lg bg-card">
             {t("IssuedAssets:creditLend")}
           </Button>
         </a>
 
         {currentAsset.bitasset_data_id ? (
           <a href={`/smartcoin/index.html?id=${currentAsset.id}`}>
-            <Button variant="outline" className="mr-2 hover:shadow-lg bg-white">
+            <Button variant="outline" className="mr-2 hover:shadow-lg bg-card">
               {t("IssuedAssets:proceedToBorrow")}
             </Button>
           </a>
@@ -368,7 +368,7 @@ export default function PortfolioBalances({
               })}
             />
           </HoverCardTrigger>
-          <HoverCardContent className="w-60 bg-white">
+          <HoverCardContent className="w-60 bg-card">
             {t("PoolDialogs:assetAHoverCardContent", {
               assetA: currentAsset.symbol,
             })}
@@ -379,7 +379,7 @@ export default function PortfolioBalances({
 
     return (
       <div style={{ ...style, marginBottom: "8px" }}>
-        <Card className="hover:bg-gray-50">
+        <Card className="hover:bg-accent/50">
           <div className="grid grid-cols-6">
             <div className="col-span-4 md:col-span-2 text-left">
               <CardHeader className="pt-3 pb-3">
@@ -418,7 +418,7 @@ export default function PortfolioBalances({
                 <DialogTrigger>
                   <Button>{t("HTLC:actionsColumn")}</Button>
                 </DialogTrigger>
-                <DialogContent className="bg-white">
+                <DialogContent className="bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("HTLC:actionsColumn")} - {currentAsset.symbol}

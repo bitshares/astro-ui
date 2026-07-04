@@ -1252,7 +1252,7 @@ export default function Smartcoin(properties) {
                             <span className="col-span-2">
                               <a href="/smartcoins/index.html">
                                 <Button
-                                  className="ml-3 bg-white"
+                                  className="ml-3 bg-card"
                                   variant="outline"
                                 >
                                   {t("Smartcoin:changeAssetButton")}

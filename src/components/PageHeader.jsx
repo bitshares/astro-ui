@@ -10,7 +10,6 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-  HoverCardPortal,
 } from "@/components/ui/hover-card";
 
 import {
@@ -245,9 +244,8 @@ function NavPanel({ section, accent, t }) {
 
 function HoverPopover({ section, accent, t, children }) {
   return (
-    <HoverCard openDelay={60} closeDelay={180}>
+      <HoverCard openDelay={60} closeDelay={180}>
       <HoverCardTrigger asChild>{children}</HoverCardTrigger>
-      <HoverCardPortal>
         <HoverCardContent
           sideOffset={10}
           align="center"
@@ -260,8 +258,7 @@ function HoverPopover({ section, accent, t, children }) {
         >
           <NavPanel section={section} accent={accent} t={t} />
         </HoverCardContent>
-      </HoverCardPortal>
-    </HoverCard>
+      </HoverCard>
   );
 }
 

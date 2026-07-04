@@ -262,7 +262,7 @@ export default function InvoiceCreator(properties) {
             {t("InvoiceCreator:scanner.scan")}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[640px] bg-white">
+        <DialogContent className="sm:max-w-[640px] bg-card">
           <DialogHeader>
             <DialogTitle>{t("InvoiceCreator:scanner.dialogTitle")}</DialogTitle>
             <DialogDescription>
@@ -305,7 +305,7 @@ export default function InvoiceCreator(properties) {
               </Button>
             </div>
 
-            <div className="w-full h-[420px] bg-black rounded overflow-hidden">
+            <div className="w-full h-[420px] bg-background rounded overflow-hidden">
               {!scannerError ? (
                 <BarcodeScanner
                   width={640}
@@ -429,7 +429,7 @@ export default function InvoiceCreator(properties) {
                       })}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[420px] bg-white">
+                  <DialogContent className="sm:max-w-[420px] bg-card">
                     <DialogHeader>
                       <DialogTitle>
                         {t("InvoiceCreator:prices.possibleTotals.dialogTitle")}
@@ -597,7 +597,7 @@ export default function InvoiceCreator(properties) {
                                       {t("InvoiceCreator:inventory.addItem")}
                                     </Button>
                                   </DialogTrigger>
-                                  <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-white">
+                                  <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
                                     <DialogHeader>
                                       <DialogTitle>
                                         {t(
@@ -703,7 +703,7 @@ export default function InvoiceCreator(properties) {
                       open={qtyDialogOpen}
                       onOpenChange={setQtyDialogOpen}
                     >
-                      <DialogContent className="sm:max-w-[420px] bg-white">
+                      <DialogContent className="sm:max-w-[420px] bg-card">
                         <DialogHeader>
                           <DialogTitle>
                             {t("InvoiceCreator:quantity.dialogTitle")}
@@ -742,7 +742,7 @@ export default function InvoiceCreator(properties) {
                       open={detailsDialogOpen}
                       onOpenChange={setDetailsDialogOpen}
                     >
-                      <DialogContent className="sm:max-w-[640px] bg-white">
+                      <DialogContent className="sm:max-w-[640px] bg-card">
                         <DialogHeader>
                           <DialogTitle>
                             {t("InvoiceCreator:itemDetails.dialogTitle")}
@@ -814,7 +814,7 @@ export default function InvoiceCreator(properties) {
                         )}
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-white">
+                    <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
                       <DialogHeader>
                         <DialogTitle>
                           {t("InvoiceCreator:generatedInvoice.dialogTitle")}

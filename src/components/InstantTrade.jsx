@@ -750,7 +750,7 @@ export default function InstantTrade(properties) {
 
     return (
       <div style={style}>
-        <div className="grid grid-cols-3 md:grid-cols-6 text-sm hover:bg-gray-400">
+        <div className="grid grid-cols-3 md:grid-cols-6 text-sm hover:bg-accent">
           <div className="hidden md:block">
             <Dialog>
               <DialogTrigger asChild>
@@ -761,7 +761,7 @@ export default function InstantTrade(properties) {
                   {order.id}
                 </Badge>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[550px] bg-white">
+              <DialogContent className="sm:max-w-[550px] bg-card">
                 <DialogHeader>
                   <DialogTitle>
                     {t("InstantTrade:limit_order_contents")}
@@ -810,7 +810,7 @@ export default function InstantTrade(properties) {
                     ✔️
                   </Badge>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[550px] bg-white">
+                <DialogContent className="sm:max-w-[550px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("InstantTrade:on_fill_details")}

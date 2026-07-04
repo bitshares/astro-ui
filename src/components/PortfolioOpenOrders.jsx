@@ -151,7 +151,7 @@ export default function PortfolioOpenOrders({
           <Button
             variant="outline"
             size="sm"
-            className="bg-white hover:shadow-lg"
+            className="bg-card hover:shadow-lg"
           >
             {t("PortfolioTabs:tradeButton")}
           </Button>
@@ -160,7 +160,7 @@ export default function PortfolioOpenOrders({
           <Button
             variant="outline"
             size="sm"
-            className="bg-white hover:shadow-lg"
+            className="bg-card hover:shadow-lg"
           >
             {t("PortfolioTabs:updateButton")}
           </Button>
@@ -173,7 +173,7 @@ export default function PortfolioOpenOrders({
               setShowDialog(true);
               setOrderID(orderId);
             }}
-            className="bg-white hover:shadow-lg"
+            className="bg-card hover:shadow-lg"
           >
             {t("PortfolioTabs:cancelButton")}
           </Button>
@@ -210,7 +210,7 @@ export default function PortfolioOpenOrders({
           <Dialog>
             <DialogTrigger asChild>
               <Card
-                className="hover:bg-gray-50 w-full p-3"
+                className="hover:bg-accent/50 w-full p-3"
                 title={`${orderId} - ${timeDiffString}`}
               >
                 <CardTitle className="text-sm">
@@ -230,7 +230,7 @@ export default function PortfolioOpenOrders({
                 </CardDescription>
               </Card>
             </DialogTrigger>
-            <DialogContent className="bg-white">
+            <DialogContent className="bg-card">
               <DialogHeader>
                 <DialogTitle>{`${readableBaseAmount} ${sellAsset?.symbol} → ${readableQuoteAmount} ${buyAsset?.symbol}`}</DialogTitle>
                 <DialogDescription>
@@ -256,7 +256,7 @@ export default function PortfolioOpenOrders({
         </div>
 
         <div style={style} className="px-2 hidden md:block lg:hidden">
-          <Card className="hover:bg-gray-50 text-sm">
+          <Card className="hover:bg-accent/50 text-sm">
             <div className="grid grid-cols-[50%_110px_1fr] items-start gap-2 p-2 mb-2">
               <div>
                 <div>
@@ -298,7 +298,7 @@ export default function PortfolioOpenOrders({
         </div>
 
         <div style={style} className="px-2 hidden lg:block text-sm">
-          <Card className="hover:bg-gray-50">
+          <Card className="hover:bg-accent/50">
             <div className="grid grid-cols-[40%_1fr_1fr_1fr_1fr] items-start gap-2 p-2 mb-2">
               <div>
                 <div>

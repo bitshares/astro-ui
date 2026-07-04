@@ -189,8 +189,8 @@ export default function Market(properties) {
   }, [marketHistoryData, marketHistoryLoading, marketHistoryError]);
 
   const activeTabStyle = {
-    backgroundColor: "#252526",
-    color: "white",
+    backgroundColor: "hsl(var(--primary))",
+    color: "hsl(var(--primary-foreground))",
   };
 
   const [clicked, setClicked] = useState(false);

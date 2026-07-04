@@ -419,7 +419,7 @@ export default function IssuedAssets(properties) {
               setViewJSON(open);
             }}
           >
-            <DialogContent className="sm:max-w-[750px] bg-white">
+            <DialogContent className="sm:max-w-[750px] bg-card">
               <DialogHeader>
                 <DialogTitle>{t("LiveBlocks:dialogContent.json")}</DialogTitle>
                 <DialogDescription>
@@ -503,7 +503,7 @@ export default function IssuedAssets(properties) {
                 </CardHeader>
               </Card>
             </DialogTrigger>
-            <DialogContent className="bg-white sm:max-w-[560px] lg:hidden">
+            <DialogContent className="bg-card sm:max-w-[560px] lg:hidden">
               <DialogHeader>
                 <DialogTitle>
                   {issuedAsset.symbol} ({issuedAsset.id})

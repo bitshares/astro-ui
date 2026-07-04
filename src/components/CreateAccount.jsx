@@ -288,7 +288,7 @@ const CreateAccount = () => {
                   <SelectTrigger className="mb-1">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  <SelectContent className="bg-card">
                     <SelectGroup>
                       <SelectItem value="faucet">
                         {t("CreateAccount:faucetMethod")}

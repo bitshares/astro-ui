@@ -429,7 +429,7 @@ export default function Witnesses(properties) {
               </CardContent>
             </Card>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px] bg-white">
+          <DialogContent className="sm:max-w-[500px] bg-card">
             <DialogHeader>
               <DialogTitle>
                 {t("Witnesses:votesFor", { name: witness.name })}:

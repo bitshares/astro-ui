@@ -463,7 +463,7 @@ export default function LimitOrderCard(properties) {
                       <span className="col-span-3 ml-3 text-center">
                         <Popover>
                           <PopoverTrigger>
-                            <span className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4 text-lg">
+                            <span className="inline-block border border-border rounded pl-4 pb-1 pr-4 text-lg">
                               <Label>{t("LimitOrderCard:editLabel")}</Label>
                             </span>
                           </PopoverTrigger>
@@ -619,7 +619,7 @@ export default function LimitOrderCard(properties) {
                       <span className="col-span-3 ml-3 text-center">
                         <Popover>
                           <PopoverTrigger>
-                            <span className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4 text-lg">
+                            <span className="inline-block border border-border rounded pl-4 pb-1 pr-4 text-lg">
                               <Label>{t("LimitOrderCard:editLabel")}</Label>
                             </span>
                           </PopoverTrigger>
@@ -738,7 +738,7 @@ export default function LimitOrderCard(properties) {
                       <span className="col-span-3 ml-3 text-center">
                         <Popover>
                           <PopoverTrigger>
-                            <span className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4 text-lg">
+                            <span className="inline-block border border-border rounded pl-4 pb-1 pr-4 text-lg">
                               <Label>{t("LimitOrderCard:editLabel")}</Label>
                             </span>
                           </PopoverTrigger>
@@ -877,7 +877,7 @@ export default function LimitOrderCard(properties) {
                       <SelectTrigger className="mb-3">
                         <SelectValue placeholder="1hr" />
                       </SelectTrigger>
-                      <SelectContent className="bg-white">
+                      <SelectContent className="bg-card">
                         <SelectItem value="1hr">
                           {t("LimitOrderCard:expiry.1hr")}
                         </SelectItem>
@@ -1042,7 +1042,7 @@ export default function LimitOrderCard(properties) {
                                   onClick={() => {
                                     event.preventDefault();
                                   }}
-                                  className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4 text-lg"
+                                  className="inline-block border border-border rounded pl-4 pb-1 pr-4 text-lg"
                                 >
                                   <Label>{t("LimitOrderCard:editLabel")}</Label>
                                 </span>
@@ -1122,7 +1122,7 @@ export default function LimitOrderCard(properties) {
                                   onClick={() => {
                                     event.preventDefault();
                                   }}
-                                  className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4 text-lg"
+                                  className="inline-block border border-border rounded pl-4 pb-1 pr-4 text-lg"
                                 >
                                   <Label>{t("LimitOrderCard:editLabel")}</Label>
                                 </span>
@@ -1314,7 +1314,7 @@ export default function LimitOrderCard(properties) {
                     <div className="mt-1">
                       {t("LimitOrderCard:sellPrice.label")}
                     </div>
-                    <div className="text-gray-500 text-right">
+                    <div className="text-muted-foreground text-right">
                       <span variant="link">
                         <Badge>
                           {t("LimitOrderCard:sellPrice.useLowestAsk")}
@@ -1336,7 +1336,7 @@ export default function LimitOrderCard(properties) {
                     <div className="mt-1">
                       {t("LimitOrderCard:sellAmount2.label")}
                     </div>
-                    <div className="text-gray-500 text-right">
+                    <div className="text-muted-foreground text-right">
                       {orderType === "sell" && assetABalance ? (
                         <Badge>{t("LimitOrderCard:useBalance")}</Badge>
                       ) : null}
@@ -1357,7 +1357,7 @@ export default function LimitOrderCard(properties) {
                     <div className="mt-1">
                       {t("LimitOrderCard:sellTotal2.label")}
                     </div>
-                    <div className="text-gray-500 text-right">
+                    <div className="text-muted-foreground text-right">
                       {orderType === "buy" && assetBBalance ? (
                         <Badge>{t("LimitOrderCard:useBalance")}</Badge>
                       ) : null}

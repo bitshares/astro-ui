@@ -69,7 +69,7 @@ const RecentBlocksBarChart = ({ data }) => {
           axisLine={false}
           tick={false}
         />
-        <ChartTooltip className="bg-white" content={<ChartTooltipContent />} />
+        <ChartTooltip className="bg-card" content={<ChartTooltipContent />} />
         <Bar
           dataKey="trxQuantity"
           fill="var(--chart-1)"
@@ -436,7 +436,7 @@ export default function LiveBlocks(properties) {
                 setOpenHyperlink(open);
               }}
             >
-              <DialogContent className="sm:max-w-[500px] bg-white">
+              <DialogContent className="sm:max-w-[500px] bg-card">
                 <DialogHeader>
                   <DialogTitle>
                     {t("ExternalLink:dialogContent.leaveApp")}
@@ -482,7 +482,7 @@ export default function LiveBlocks(properties) {
                 setViewJSON(open);
               }}
             >
-              <DialogContent className="sm:max-w-[500px] bg-white">
+              <DialogContent className="sm:max-w-[500px] bg-card">
                 <DialogHeader>
                   <DialogTitle>
                     {t("LiveBlocks:dialogContent.json")}

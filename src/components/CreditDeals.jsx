@@ -361,7 +361,7 @@ export default function CreditDeals(properties) {
                     setOpenRepay(open);
                   }}
                 >
-                  <DialogContent className="sm:max-w-[900px] bg-white">
+                  <DialogContent className="sm:max-w-[900px] bg-card">
                     <DialogHeader>
                       <DialogTitle>
                         {t("CreditDeals:dialogTitle", { id: res.id })}

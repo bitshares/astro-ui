@@ -354,7 +354,7 @@ export default function SameTFunds(properties) {
                     <DialogTrigger asChild>
                       <Button size="sm">{t("SameTFunds:update")}</Button>
                     </DialogTrigger>
-                    <DialogContent className="w-full bg-white">
+                    <DialogContent className="w-full bg-card">
                       <DialogHeader>
                         <DialogTitle>
                           {t("SameTFunds:updateDialog.title")}
@@ -603,7 +603,7 @@ export default function SameTFunds(properties) {
                       {t("SameTFunds:create")}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="w-full bg-white">
+                  <DialogContent className="w-full bg-card">
                     <DialogHeader>
                       <DialogTitle>
                         {t("SameTFunds:createDialog.title")}

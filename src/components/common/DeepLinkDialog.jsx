@@ -348,7 +348,7 @@ export default function DeepLinkDialog(properties) {
         dismissCallback(open);
       }}
     >
-      <DialogContent className="sm:max-w-[800px] bg-white">
+      <DialogContent className="sm:max-w-[800px] bg-card">
         <DialogHeader>
           <DialogTitle>
             {!deeplink ? (
@@ -560,7 +560,7 @@ export default function DeepLinkDialog(properties) {
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder={qrECL} />
                           </SelectTrigger>
-                          <SelectContent className="bg-white">
+                          <SelectContent className="bg-card">
                             {["L", "M", "Q", "H"].map((lvl) => (
                               <SelectItem key={lvl} value={lvl}>
                                 {lvl}
@@ -577,7 +577,7 @@ export default function DeepLinkDialog(properties) {
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder={qrSize} />
                           </SelectTrigger>
-                          <SelectContent className="bg-white">
+                          <SelectContent className="bg-card">
                             {["150", "250", "300", "350", "385"].map((s) => (
                               <SelectItem key={s} value={s}>
                                 {s}
@@ -594,7 +594,7 @@ export default function DeepLinkDialog(properties) {
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder={qrQZ} />
                           </SelectTrigger>
-                          <SelectContent className="bg-white">
+                          <SelectContent className="bg-card">
                             {["5", "10", "25", "50"].map((p) => (
                               <SelectItem key={p} value={p}>
                                 {p}
@@ -611,7 +611,7 @@ export default function DeepLinkDialog(properties) {
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder={qrStyle} />
                           </SelectTrigger>
-                          <SelectContent className="bg-white">
+                          <SelectContent className="bg-card">
                             {["dots", "squares"].map((st) => (
                               <SelectItem key={st} value={st}>
                                 {st}
@@ -707,7 +707,7 @@ export default function DeepLinkDialog(properties) {
                               : t("AccountLists:provideTarget")}
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[375px] bg-white">
+                        <DialogContent className="sm:max-w-[375px] bg-card">
                           <DialogHeader>
                             <DialogTitle>
                               {!usr || !usr.chain
@@ -779,7 +779,7 @@ export default function DeepLinkDialog(properties) {
                         <SelectTrigger className="mb-3 mt-1 w-3/4">
                           <SelectValue placeholder="1hr" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value="1hr">
                             {t("LimitOrderCard:expiry.1hr")}
                           </SelectItem>
@@ -864,7 +864,7 @@ export default function DeepLinkDialog(properties) {
                         <SelectTrigger className="mb-3 mt-1 w-3/4">
                           <SelectValue placeholder="60s" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value={60000}>60s</SelectItem>
                           <SelectItem value={300000}>300s</SelectItem>
                           <SelectItem value={600000}>600s</SelectItem>

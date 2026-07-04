@@ -775,7 +775,7 @@ export default function CreditOfferEditor(properties) {
                                     JSON
                                   </Button>
                                 </DialogTrigger>
-                                <DialogContent className="sm:max-w-[550px] bg-white">
+                                <DialogContent className="sm:max-w-[550px] bg-card">
                                   <DialogHeader>
                                     <DialogTitle>
                                       {t(
@@ -1049,7 +1049,7 @@ export default function CreditOfferEditor(properties) {
                               )}
                             />
                           </SelectTrigger>
-                          <SelectContent className="bg-white">
+                          <SelectContent className="bg-card">
                             <SelectItem value="12hr">
                               {t("CreditOfferEditor:12hours")}
                             </SelectItem>
@@ -1230,12 +1230,12 @@ export default function CreditOfferEditor(properties) {
                           <DialogTrigger asChild>
                             <Button
                               variant="outline"
-                              className="ml-3 mt-1 bg-white"
+                              className="ml-3 mt-1 bg-card"
                             >
                               ➕ {t("CreditOfferEditor:addUser")}
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="sm:max-w-[375px] bg-white">
+                          <DialogContent className="sm:max-w-[375px] bg-card">
                             <DialogHeader>
                               <DialogTitle>
                                 {!usr || !usr.chain

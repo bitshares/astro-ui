@@ -516,7 +516,7 @@ export default function UIA(properties) {
                 Full URL
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white w-full max-w-4xl">
+            <DialogContent className="bg-card w-full max-w-4xl">
               <DialogHeader>
                 <DialogTitle>Full IPFS URL</DialogTitle>
               </DialogHeader>
@@ -1731,7 +1731,7 @@ export default function UIA(properties) {
                                   ➕ {t("CreditOfferEditor:addUser")}
                                 </Button>
                               </DialogTrigger>
-                              <DialogContent className="sm:max-w-[375px] bg-white">
+                              <DialogContent className="sm:max-w-[375px] bg-card">
                                 <DialogHeader>
                                   <DialogTitle>
                                     {!usr || !usr.chain
@@ -1859,7 +1859,7 @@ export default function UIA(properties) {
                               ➕ {t("CreditOfferEditor:addUser")}
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="sm:max-w-[375px] bg-white">
+                          <DialogContent className="sm:max-w-[375px] bg-card">
                             <DialogHeader>
                               <DialogTitle>
                                 {!usr || !usr.chain
@@ -1933,7 +1933,7 @@ export default function UIA(properties) {
                               ➕ {t("CreditOfferEditor:addUser")}
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="sm:max-w-[375px] bg-white">
+                          <DialogContent className="sm:max-w-[375px] bg-card">
                             <DialogHeader>
                               <DialogTitle>
                                 {!usr || !usr.chain
@@ -1989,7 +1989,7 @@ export default function UIA(properties) {
                       <Button
                         variant="outline"
                         onClick={() => setEnabledNFT(true)}
-                        className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
+                        className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-background rounded-md group-hover:bg-opacity-0"
                       >
                         {t("AssetCommon:nft.disabled")}
                       </Button>
@@ -2026,7 +2026,7 @@ export default function UIA(properties) {
                             {t("AssetCommon:nft.modifyMultimediaContents")}
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="bg-white w-full max-w-4xl">
+                        <DialogContent className="bg-card w-full max-w-4xl">
                           <DialogHeader>
                             <DialogTitle>
                               {t("AssetCommon:nft.modifyingMultimediaContents")}
@@ -2265,7 +2265,7 @@ export default function UIA(properties) {
                                         )}
                                       </Button>
                                     </DialogTrigger>
-                                    <DialogContent className="bg-white">
+                                    <DialogContent className="bg-card">
                                       <DialogHeader>
                                         <DialogTitle>
                                           {t(

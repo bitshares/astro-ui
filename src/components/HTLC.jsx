@@ -267,7 +267,7 @@ export default function Htlc(properties) {
                       {t("HTLC:extendButton")}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px] bg-white">
+                  <DialogContent className="sm:max-w-[425px] bg-card">
                     <DialogHeader>
                       <DialogTitle>
                         {t("HTLC:extendDialogTitle", { id })}
@@ -429,7 +429,7 @@ export default function Htlc(properties) {
                       {t("HTLC:redeemButton")}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px] bg-white">
+                  <DialogContent className="sm:max-w-[425px] bg-card">
                     <DialogHeader>
                       <DialogTitle>
                         {t("HTLC:redeemDialogTitle", { id })}

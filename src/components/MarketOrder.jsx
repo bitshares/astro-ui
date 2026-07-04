@@ -497,7 +497,7 @@ export default function MarketOrder(properties) {
                           {t("MarketOrder:viewExistingLimitOrderDataButton")}
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-[600px] bg-white">
+                      <DialogContent className="sm:max-w-[600px] bg-card">
                         <DialogHeader>
                           <DialogTitle>
                             {t("MarketOrder:existingLimitOrderDataTitle")}
@@ -1146,7 +1146,7 @@ export default function MarketOrder(properties) {
                                 <SelectTrigger className="mb-3">
                                   <SelectValue placeholder="1hr" />
                                 </SelectTrigger>
-                                <SelectContent className="bg-white">
+                                <SelectContent className="bg-card">
                                   <SelectItem value="1hr">
                                     {t("MarketOrder:oneHour")}
                                   </SelectItem>
@@ -1304,7 +1304,7 @@ export default function MarketOrder(properties) {
                                     onClick={() => {
                                       event.preventDefault();
                                     }}
-                                    className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4 text-lg"
+                                    className="inline-block border border-border rounded pl-4 pb-1 pr-4 text-lg"
                                   >
                                     <Label>
                                       {t("MarketOrder:editSpreadLabel")}
@@ -1381,7 +1381,7 @@ export default function MarketOrder(properties) {
                                     onClick={() => {
                                       event.preventDefault();
                                     }}
-                                    className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4 text-lg"
+                                    className="inline-block border border-border rounded pl-4 pb-1 pr-4 text-lg"
                                   >
                                     <Label>
                                       {t("MarketOrder:editSizeLabel")}

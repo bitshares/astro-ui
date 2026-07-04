@@ -66,7 +66,7 @@ export default function AboutAssetCard({
                     {t("Smartcoin:viewJSON")}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px] bg-white">
+                <DialogContent className="sm:max-w-[600px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("Smartcoin:jsonSummaryData", { asset: assetInfo.s })}

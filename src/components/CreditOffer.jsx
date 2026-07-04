@@ -746,7 +746,7 @@ export default function CreditOffer(properties) {
                                       }
                                     />
                                   </SelectTrigger>
-                                  <SelectContent className="bg-white">
+                                  <SelectContent className="bg-card">
                                     {acceptedCollateral &&
                                     acceptedCollateral.length ? (
                                       <div className="w-full max-h-[100px] overflow-auto">
@@ -872,7 +872,7 @@ export default function CreditOffer(properties) {
                                   )}
                                 />
                               </SelectTrigger>
-                              <SelectContent className="bg-white">
+                              <SelectContent className="bg-card">
                                 <SelectItem value={"no_auto_repayment"}>
                                   {t("CreditOffer:cardContent.noAutoRepayment")}
                                 </SelectItem>

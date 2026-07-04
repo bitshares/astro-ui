@@ -123,7 +123,7 @@ export default function Nodes(properties) {
                         📶
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[420px] bg-white">
+                    <DialogContent className="sm:max-w-[420px] bg-card">
                       <DialogHeader>
                         <DialogTitle>Ping node</DialogTitle>
                         <DialogDescription>
