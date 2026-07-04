@@ -349,7 +349,7 @@ export default function InvoiceCreator(properties) {
                 />
               ) : (
                 <div className="p-4">
-                  <p className="text-sm text-red-600">
+                  <p className="text-sm text-red-600 dark:text-red-400">
                     {String(scannerError?.message || scannerError)}
                   </p>
                   <div className="mt-2 flex gap-2">
@@ -489,7 +489,7 @@ export default function InvoiceCreator(properties) {
       : "";
 
     return (
-      <div style={style} className="px-2 cursor-pointer hover:bg-slate-50">
+      <div style={style} className="px-2 cursor-pointer hover:bg-card">
         <Card
           onClick={() => {
             setCandidateItem(it);

@@ -14,7 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 import Hero from "./home/Hero";
-import HowItWorks from "./home/HowItWorks";
+import WaveHero from "./WaveHero";
 
 import {
   Activity,
@@ -110,6 +110,7 @@ const ITEM_ICONS = {
   ltm: ShieldCheck,
   nodes: Server,
   create_account: UserPlus,
+  configure_visuals: Palette,
   about: Info,
 };
 
@@ -137,7 +138,7 @@ const ITEM_ACCENTS = {
   deals: { bar: "from-blue-500 to-indigo-500", chip: "bg-blue-500/30 text-blue-100 border-blue-400/50", glow: "bg-blue-500/30", text: "text-blue-100" },
   vesting: { bar: "from-fuchsia-500 to-pink-500", chip: "bg-fuchsia-500/30 text-fuchsia-100 border-fuchsia-400/50", glow: "bg-fuchsia-500/30", text: "text-fuchsia-100" },
   proposals: { bar: "from-rose-500 to-red-500", chip: "bg-rose-500/30 text-rose-100 border-rose-400/50", glow: "bg-rose-500/30", text: "text-rose-100" },
-  blocks: { bar: "from-slate-500 to-gray-500", chip: "bg-slate-500/30 text-slate-100 border-slate-400/50", glow: "bg-slate-500/30", text: "text-slate-100" },
+  blocks: { bar: "from-slate-500 to-gray-500", chip: "bg-accent/30 text-slate-100 border-slate-400/50", glow: "bg-accent/30", text: "text-slate-100" },
   custom_pool_tracker: { bar: "from-teal-500 to-cyan-500", chip: "bg-teal-500/30 text-teal-100 border-teal-400/50", glow: "bg-teal-500/30", text: "text-teal-100" },
   pools: { bar: "from-cyan-500 to-sky-500", chip: "bg-cyan-500/30 text-cyan-100 border-cyan-400/50", glow: "bg-cyan-500/30", text: "text-cyan-100" },
   vote: { bar: "from-indigo-500 to-violet-500", chip: "bg-indigo-500/30 text-indigo-100 border-indigo-400/50", glow: "bg-indigo-500/30", text: "text-indigo-100" },
@@ -151,10 +152,11 @@ const ITEM_ACCENTS = {
   create_invoice: { bar: "from-cyan-500 to-sky-500", chip: "bg-cyan-500/30 text-cyan-100 border-cyan-400/50", glow: "bg-cyan-500/30", text: "text-cyan-100" },
   pay_invoice: { bar: "from-emerald-500 to-teal-500", chip: "bg-emerald-500/30 text-emerald-100 border-emerald-400/50", glow: "bg-emerald-500/30", text: "text-emerald-100" },
   stored_invoices: { bar: "from-sky-500 to-blue-500", chip: "bg-sky-500/30 text-sky-100 border-sky-400/50", glow: "bg-sky-500/30", text: "text-sky-100" },
-  accountLists: { bar: "from-slate-500 to-gray-500", chip: "bg-slate-500/30 text-slate-100 border-slate-400/50", glow: "bg-slate-500/30", text: "text-slate-100" },
+  accountLists: { bar: "from-slate-500 to-gray-500", chip: "bg-accent/30 text-slate-100 border-slate-400/50", glow: "bg-accent/30", text: "text-slate-100" },
   ltm: { bar: "from-amber-500 to-yellow-500", chip: "bg-amber-500/30 text-amber-100 border-amber-400/50", glow: "bg-amber-500/30", text: "text-amber-100" },
   nodes: { bar: "from-teal-500 to-cyan-500", chip: "bg-teal-500/30 text-teal-100 border-teal-400/50", glow: "bg-teal-500/30", text: "text-teal-100" },
   create_account: { bar: "from-emerald-500 to-green-500", chip: "bg-emerald-500/30 text-emerald-100 border-emerald-400/50", glow: "bg-emerald-500/30", text: "text-emerald-100" },
+  configure_visuals: { bar: "from-violet-500 to-fuchsia-500", chip: "bg-violet-500/30 text-violet-100 border-violet-400/50", glow: "bg-violet-500/30", text: "text-violet-100" },
   about: { bar: "from-blue-500 to-indigo-500", chip: "bg-blue-500/30 text-blue-100 border-blue-400/50", glow: "bg-blue-500/30", text: "text-blue-100" },
 };
 
@@ -230,11 +232,11 @@ const SECTION_STYLES = {
     subtitleKey: "Home:sections.blockchainSubtitle",
     border: "border-slate-400/20",
     bg: "from-slate-500/15 dark:via-slate-900/20 via-slate-100/40 to-gray-500/10",
-    iconBg: "bg-slate-500/15",
+    iconBg: "bg-accent/15",
     iconBorder: "border-slate-400/25",
-    iconText: "dark:text-slate-200 text-slate-700",
-    blobA: "bg-slate-500/30",
-    blobB: "bg-gray-500/20",
+    iconText: "dark:text-slate-200 text-foreground",
+    blobA: "bg-accent/30",
+    blobB: "bg-card0/20",
     underline: "from-slate-500/0 via-slate-400/60 to-gray-500/0",
   },
   governance: {
@@ -395,12 +397,13 @@ export default function Home(properties) {
     { key: "ltm", href: "/ltm/index.html", titleKey: "Home:ltm.title", subtitleKey: "Home:ltm.subtitle", hoverKeys: ["Home:ltm.hover1", "Home:ltm.hover2", "Home:ltm.hover3", "Home:ltm.hover4"] },
     { key: "nodes", href: "/nodes/index.html", titleKey: "Home:nodes.title", subtitleKey: "Home:nodes.subtitle", hoverKeys: ["Home:nodes.hover1", "Home:nodes.hover2"] },
     { key: "create_account", href: "/create_account/index.html", titleKey: "Home:create_account.title", subtitleKey: "Home:create_account.subtitle", hoverKeys: ["Home:create_account.hover1", "Home:create_account.hover2"] },
+    { key: "configure_visuals", href: "/visuals/index.html", titleKey: "Home:configure_visuals.title", subtitleKey: "Home:configure_visuals.subtitle", hoverKeys: ["Home:configure_visuals.hover1", "Home:configure_visuals.hover2"] },
   ];
 
   const renderHoverCard = (card) => {
     const Icon = ITEM_ICONS[card.key] || Sparkles;
     const accent = ITEM_ACCENTS[card.key] || {
-      bar: "from-white/40 to-white/20",
+      bar: "from-border/40 to-border/20",
       chip: "bg-accent/30 dark:bg-white/[0.05] text-foreground/80 border-foreground/15",
       glow: "bg-accent/30 dark:bg-white/[0.05]",
       text: "text-foreground/80",
@@ -569,9 +572,7 @@ export default function Home(properties) {
 
   return (
     <div className="container mx-auto mt-3 mb-5 px-3 sm:px-4">
-      <Hero />
-
-      <HowItWorks />
+      <WaveHero />
 
       <div id="jump-in" />
 

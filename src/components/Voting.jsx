@@ -621,7 +621,7 @@ export default function Witnesses(properties) {
 
     return (
       <div style={style} key={witness.id}>
-        <Card className={`mb-1 ${witness.active ? "bg-green-100" : ""}`}>
+        <Card className={`mb-1 ${witness.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
           <CardContent className="pt-3 pb-3 text-sm">
             <div className="grid grid-cols-4 gap-2 items-center">
               <div className="flex items-center">
@@ -649,11 +649,11 @@ export default function Witnesses(properties) {
                 <span className="ml-2">{witness.name}</span>
               </div>
               <div>
-                <span className="text-blue-500 hover:text-purple-500">
+                <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
                   {witness.id}
                 </span>{" "}
                 (
-                <span className="text-blue-500 hover:text-purple-500">
+                <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
                   {witness.account_id}
                 </span>
                 )
@@ -698,7 +698,7 @@ export default function Witnesses(properties) {
 
     return (
       <div style={style} key={member.id}>
-        <Card className={`mb-1 ${member.active ? "bg-green-100" : ""}`}>
+        <Card className={`mb-1 ${member.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
           <CardContent className="pt-3 pb-3 text-sm">
             <div className="grid grid-cols-4 gap-2 items-center">
               <div className="flex items-center">
@@ -724,11 +724,11 @@ export default function Witnesses(properties) {
                 <span className="ml-2">{member.name}</span>
               </div>
               <div>
-                <span className="text-blue-500 hover:text-purple-500">
+                <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
                   {member.id}
                 </span>{" "}
                 (
-                <span className="text-blue-500 hover:text-purple-500">
+                <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
                   {member.account_id}
                 </span>
                 )
@@ -787,7 +787,7 @@ export default function Witnesses(properties) {
                   : "❌"}
               </div>
               <div className="hidden md:block">
-                <span className="text-blue-500 hover:text-purple-500">
+                <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
                   {worker.id}
                 </span>
               </div>
@@ -798,11 +798,11 @@ export default function Witnesses(properties) {
                     : worker.name}
                 </div>
                 <div>
-                  <span className="text-blue-500 hover:text-purple-500">
+                  <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
                     {worker.username}
                   </span>{" "}
                   (
-                  <span className="text-blue-500 hover:text-purple-500">
+                  <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
                     {worker.worker_account}
                   </span>
                   )
@@ -880,7 +880,7 @@ export default function Witnesses(properties) {
 
           {selectedVoteType === "witnesses" ? (
             <div className="w-full">
-              <div className="grid grid-cols-4 gap-2 p-2 bg-gray-100 rounded-t-md font-semibold text-sm">
+              <div className="grid grid-cols-4 gap-2 p-2 bg-accent rounded-t-md font-semibold text-sm">
                 <div
                   className="cursor-pointer"
                   onClick={() => handleWitnessSort("name")}
@@ -922,7 +922,7 @@ export default function Witnesses(properties) {
           ) : null}
           {selectedVoteType === "committee" ? (
             <div className="w-full">
-              <div className="grid grid-cols-4 gap-2 p-2 bg-gray-100 rounded-t-md font-semibold text-sm">
+              <div className="grid grid-cols-4 gap-2 p-2 bg-accent rounded-t-md font-semibold text-sm">
                 <div onClick={() => handleCommitteeSort("name")}>
                   {t("CommitteeMembers:name")}{" "}
                   {committeeSortKey === "name"
@@ -961,7 +961,7 @@ export default function Witnesses(properties) {
           ) : null}
           {selectedVoteType === "workers" ? (
             <div className="w-full">
-              <div className="grid grid-cols-8 md:grid-cols-12 gap-2 p-2 bg-gray-100 rounded-t-md font-semibold text-sm">
+              <div className="grid grid-cols-8 md:grid-cols-12 gap-2 p-2 bg-accent rounded-t-md font-semibold text-sm">
                 <div>{t("Voting:workers.active")}</div>
                 <div className="hidden md:block">
                   {t("CommitteeMembers:ids")}

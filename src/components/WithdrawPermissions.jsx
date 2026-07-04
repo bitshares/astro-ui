@@ -584,7 +584,7 @@ export default function WithdrawPermissions(properties) {
 
                 {payerWithdrawalPermissions &&
                 payerWithdrawalPermissions.length ? (
-                  <div className="col-span-9 border border-gray-300 rounded">
+                  <div className="col-span-9 border border-border rounded">
                     <div className="w-full max-h-[400px] overflow-auto">
                       <List
                         rowHeight={35}
@@ -650,7 +650,7 @@ export default function WithdrawPermissions(properties) {
                 </div>
                 {receivingWithdrawalPermissions &&
                 receivingWithdrawalPermissions.length ? (
-                  <div className="col-span-12 border border-gray-300 rounded">
+                  <div className="col-span-12 border border-border rounded">
                     <div className="w-full max-h-[400px] overflow-auto">
                       <List
                         rowHeight={35}

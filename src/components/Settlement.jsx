@@ -483,7 +483,7 @@ export default function Settlement(properties) {
                                 readOnly
                               />
                             </span>
-                            <span className="col-span-2 text-red-500">
+                            <span className="col-span-2 text-red-500 dark:text-red-400">
                               <Input
                                 disabled
                                 value={`-${(
@@ -526,7 +526,7 @@ export default function Settlement(properties) {
                             <span className="col-span-4 ml-3">
                               <Popover>
                                 <PopoverTrigger>
-                                  <span className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4">
+                                  <span className="inline-block border border-border rounded pl-4 pb-1 pr-4">
                                     <Label>
                                       {t("Settlement:changeAmount")}
                                     </Label>
@@ -593,7 +593,7 @@ export default function Settlement(properties) {
                             <span className="col-span-4 ml-3">
                               <Popover>
                                 <PopoverTrigger>
-                                  <span className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4">
+                                  <span className="inline-block border border-border rounded pl-4 pb-1 pr-4">
                                     <Label>{t("Settlement:changeTotal")}</Label>
                                   </span>
                                 </PopoverTrigger>
@@ -689,7 +689,7 @@ export default function Settlement(properties) {
                                 readOnly
                               />
                             </span>
-                            <span className="col-span-2 text-red-500">
+                            <span className="col-span-2 text-red-500 dark:text-red-400">
                               <Input
                                 disabled
                                 value={`-${(
@@ -729,7 +729,7 @@ export default function Settlement(properties) {
                             <span className="col-span-4 ml-3">
                               <Popover>
                                 <PopoverTrigger>
-                                  <span className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4">
+                                  <span className="inline-block border border-border rounded pl-4 pb-1 pr-4">
                                     <Label>
                                       {t("Settlement:changeAmount")}
                                     </Label>
@@ -825,7 +825,7 @@ export default function Settlement(properties) {
                             <span className="col-span-4 ml-3">
                               <Popover>
                                 <PopoverTrigger>
-                                  <span className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4">
+                                  <span className="inline-block border border-border rounded pl-4 pb-1 pr-4">
                                     <Label>{t("Settlement:changeTotal")}</Label>
                                   </span>
                                 </PopoverTrigger>

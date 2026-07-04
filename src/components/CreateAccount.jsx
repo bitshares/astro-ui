@@ -182,7 +182,7 @@ const CreateAccount = () => {
           <CardContent>
             <div className="grid grid-cols-1 gap-3">
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-foreground">
                   {t("CreateAccount:username")}
                 </label>
                 <Input
@@ -195,7 +195,7 @@ const CreateAccount = () => {
                 username.length &&
                 searched &&
                 (usernameAvailable === null || usernameAvailable === false) ? (
-                  <p className="mt-2 text-sm text-red-600">
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400">
                     {t("CreateAccount:usernameUnavailable")}
                   </p>
                 ) : null}
@@ -208,13 +208,13 @@ const CreateAccount = () => {
                   username.includes("--") || // No 2 dashes in a row
                   username.split(".").length > 2 || // accounts can't include more than 1 period
                   /[^a-zA-Z0-9-.]/.test(username)) ? ( // only allow letters, numbers, dashes, and one dot
-                  <p className="mt-2 text-sm text-red-600">
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400">
                     {t("CreateAccount:invalidUsername")}
                   </p>
                 ) : null}
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 flex items-center">
+                <label className="text-sm font-medium text-foreground flex items-center">
                   {t("CreateAccount:generatedPassword")}
                   <HoverCard>
                     <HoverCardTrigger asChild>
@@ -268,7 +268,7 @@ const CreateAccount = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-foreground">
                   {t("CreateAccount:confirmPasswordTitle")}
                 </label>
                 <Input
@@ -278,7 +278,7 @@ const CreateAccount = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-foreground">
                   {t("CreateAccount:method")}
                 </label>
                 <Select

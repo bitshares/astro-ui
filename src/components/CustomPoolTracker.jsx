@@ -978,14 +978,14 @@ export default function CustomPoolTracker(properties) {
       <div
         style={{ ...style }}
         key={`poolRow-${res.id}`}
-        className="grid grid-cols-12 text-xs border border-gray-300"
+        className="grid grid-cols-12 text-xs border border-border"
       >
         <div className="grid grid-cols-1">
           <Dialog>
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 text-md ml-1 mr-1 mt-1 mb-1"
+                className="hover:text-purple-500 dark:hover:text-purple-400 text-md ml-1 mr-1 mt-1 mb-1"
               >
                 🏦 {res.id}
               </Button>
@@ -1015,7 +1015,7 @@ export default function CustomPoolTracker(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 text-md ml-1 mr-1"
+                className="hover:text-purple-500 dark:hover:text-purple-400 text-md ml-1 mr-1"
               >
                 🪙 {_currentPSA.id}
               </Button>
@@ -1051,7 +1051,7 @@ export default function CustomPoolTracker(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 text-md m-1"
+                className="hover:text-purple-500 dark:hover:text-purple-400 text-md m-1"
               >
                 {_poolAssetA.symbol}
               </Button>
@@ -1097,7 +1097,7 @@ export default function CustomPoolTracker(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 text-md m-1"
+                className="hover:text-purple-500 dark:hover:text-purple-400 text-md m-1"
               >
                 {_poolAssetB.symbol}
               </Button>
@@ -1145,7 +1145,7 @@ export default function CustomPoolTracker(properties) {
             <span className="m-4">${_assetBPrice.toFixed(5)}</span>
           </span>
         </div>
-        <div className="ml-1 border-l border-gray-300 flex items-center justify-center">
+        <div className="ml-1 border-l border-border flex items-center justify-center">
           <div className="grid grid-cols-1">
             <div>
               🌐{" "}
@@ -1163,7 +1163,7 @@ export default function CustomPoolTracker(properties) {
             <div>🔢 ${_poolTotalUSD ? _poolTotalUSD.toFixed(5) : 0}</div>
           </div>
         </div>
-        <div className="ml-1 border-l border-gray-300 flex items-center justify-center">
+        <div className="ml-1 border-l border-border flex items-center justify-center">
           {_psaBalance && _psaBalance.amount ? (
             <>
               🌐 {humanReadableFloat(_psaBalance.amount, _currentPSA.precision)}
@@ -1179,7 +1179,7 @@ export default function CustomPoolTracker(properties) {
         </div>
         {swappableAssets.map((asset, i) => {
           let classNameContents =
-            "flex justify-center items-center border-gray-300";
+            "flex justify-center items-center border-border";
           if (i === 0) {
             classNameContents += " border-l";
           } else if (i === swappableAssets.length - 1) {
@@ -1355,7 +1355,7 @@ export default function CustomPoolTracker(properties) {
                 </div>
                 <div className="grid grid-cols-12 text-xs">
                   <div className="col-span-4"></div>
-                  <div className="col-span-6 text-center border border-gray-300">
+                  <div className="col-span-6 text-center border border-border">
                     <div className={`grid grid-cols-6`}>
                       <div></div>
                       {swappableAssets.map((asset) => (

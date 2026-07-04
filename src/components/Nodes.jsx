@@ -98,7 +98,7 @@ export default function Nodes(properties) {
       <div style={{ ...style }} key={`acard-${index}`}>
         <Card className="ml-2 mr-2">
           <CardHeader
-            className={`pb-0 pt-0 ${index === 0 ? "bg-green-100" : ""}`}
+            className={`pb-0 pt-0 ${index === 0 ? "bg-green-100 dark:bg-green-500/15" : ""}`}
           >
             <CardTitle>
               <div className={`grid grid-cols-4 gap-2 items-center mt-0 pt-0`}>
@@ -138,7 +138,7 @@ export default function Nodes(properties) {
                             <div> Pinging... </div>
                           </div>
                         ) : pingResult && pingResult.ok ? (
-                          <div className="text-green-600">
+                          <div className="text-green-600 dark:text-green-400">
                             Node is reachable!
                             {pingResult &&
                             typeof pingResult.ms !== "undefined" ? (
@@ -148,11 +148,11 @@ export default function Nodes(properties) {
                             ) : null}
                           </div>
                         ) : (
-                          <div className="text-red-600">
+                          <div className="text-red-600 dark:text-red-400">
                             Node appears temporarily unreachable. You will be
                             alerted if it becomes reachable again.
                             {pingResult && pingResult.error ? (
-                              <div className="text-sm text-red-400 mt-2">
+                              <div className="text-sm text-red-400 dark:text-red-300 mt-2">
                                 {pingResult.error}
                               </div>
                             ) : null}

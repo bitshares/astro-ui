@@ -179,7 +179,7 @@ export default function TicketLeaderboard() {
       <div key={r.id} style={style}>
         <Dialog>
           <DialogTrigger asChild>
-            <Card className="hover:bg-gray-200">
+            <Card className="hover:bg-accent">
               <CardContent>
                 <div className="grid grid-cols-3">
                   <div className="text-xs lg:text-lg mt-5">{name}</div>
@@ -208,7 +208,7 @@ export default function TicketLeaderboard() {
                       {t("TicketsLeaderboard:th.account", "Account")}
                     </TableCell>
                     <TableCell>
-                      <span className="hover:underline text-blue-600 cursor-pointer">
+                      <span className="hover:underline text-blue-600 dark:text-blue-400 cursor-pointer">
                         {name}
                       </span>
                     </TableCell>
@@ -239,7 +239,7 @@ export default function TicketLeaderboard() {
                       {r.tickets.map((tid) => (
                         <Badge
                           key={tid}
-                          className="cursor-pointer hover:bg-gray-400 mr-1"
+                          className="cursor-pointer hover:bg-accent mr-1"
                           variant="secondary"
                           onClick={() => {
                             setActiveTicketId(tid);
@@ -322,7 +322,7 @@ export default function TicketLeaderboard() {
                   )}
                 </DialogDescription>
               </DialogHeader>
-              <pre className="bg-gray-50 p-3 rounded border text-xs overflow-auto max-h-[60vh]">
+              <pre className="bg-card p-3 rounded border text-xs overflow-auto max-h-[60vh]">
                 {JSON.stringify(
                   activeTicketObj ?? { id: activeTicketId },
                   null,

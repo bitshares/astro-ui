@@ -167,7 +167,7 @@ export default function LanguageSelector({ className }) {
         >
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
+            className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent"
           />
           <Command
             className="rounded-2xl bg-transparent border-0 shadow-none"

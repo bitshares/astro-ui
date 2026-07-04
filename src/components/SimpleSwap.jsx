@@ -626,8 +626,8 @@ export default function SimpleSwap(properties) {
     return (
       <div
         style={style}
-        className={`grid grid-cols-12 hover:bg-purple-100 p-1 cursor-pointer ${
-          pool === _pool.id ? "bg-purple-200" : ""
+        className={`grid grid-cols-12 hover:bg-purple-100 dark:hover:bg-purple-500/15 p-1 cursor-pointer ${
+          pool === _pool.id ? "bg-purple-200 dark:bg-purple-500/25" : ""
         }`}
         key={`pool_${_pool.id}`}
         onClick={() => {
@@ -636,7 +636,7 @@ export default function SimpleSwap(properties) {
       >
         <div className="col-span-1 flex items-center">
           {_pool.id === pool ? (
-            <CheckCircledIcon className="mt-1 text-green-600" />
+            <CheckCircledIcon className="mt-1 text-green-600 dark:text-green-400" />
           ) : (
             <CircleIcon className="mt-1 text-muted-foreground" />
           )}
@@ -1018,7 +1018,7 @@ export default function SimpleSwap(properties) {
                         finalPools.length === 0 &&
                         pools &&
                         pools.length > 0 && (
-                          <p className="text-red-500 mt-4">
+                          <p className="text-red-500 dark:text-red-400 mt-4">
                             {t("SimpleSwap:noPoolsForPair")}
                           </p>
                         )}
@@ -1147,14 +1147,14 @@ export default function SimpleSwap(properties) {
                     <a
                       href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetA.symbol}`}
                     >
-                      <Badge className="mr-2 mt-1 mb-1 cursor-pointer hover:bg-blue-200">
+                      <Badge className="mr-2 mt-1 mb-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
                         {assetA.symbol}
                       </Badge>
                     </a>
                     <a
                       href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetB.symbol}`}
                     >
-                      <Badge className="mr-2 mt-1 mb-1 cursor-pointer hover:bg-blue-200">
+                      <Badge className="mr-2 mt-1 mb-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
                         {assetB.symbol}
                       </Badge>
                     </a>
@@ -1162,7 +1162,7 @@ export default function SimpleSwap(properties) {
                       <a
                         href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${foundPool.share_asset_symbol}`}
                       >
-                        <Badge className="mr-2 mt-1 mb-1 cursor-pointer hover:bg-blue-200">
+                        <Badge className="mr-2 mt-1 mb-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
                           {foundPool.share_asset_symbol}
                         </Badge>
                       </a>
@@ -1175,14 +1175,14 @@ export default function SimpleSwap(properties) {
                     <a
                       href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetA.symbol}`}
                     >
-                      <Badge className="mr-2 mt-1 cursor-pointer hover:bg-blue-200">
+                      <Badge className="mr-2 mt-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
                         {assetA.symbol}
                       </Badge>
                     </a>
                     <a
                       href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetB.symbol}`}
                     >
-                      <Badge className="mr-2 mt-1 cursor-pointer hover:bg-blue-200">
+                      <Badge className="mr-2 mt-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
                         {assetB.symbol}
                       </Badge>
                     </a>
@@ -1190,7 +1190,7 @@ export default function SimpleSwap(properties) {
                       <a
                         href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${foundPool.share_asset_symbol}`}
                       >
-                        <Badge className="mr-2 mt-1 cursor-pointer hover:bg-blue-200">
+                        <Badge className="mr-2 mt-1 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-500/20">
                           {foundPool.share_asset_symbol}
                         </Badge>
                       </a>

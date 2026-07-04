@@ -463,7 +463,7 @@ export default function CustomPoolOverview(properties) {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-6 gap-3">
-            <div className="col-span-5 border rounded border-gray-300 p-3">
+            <div className="col-span-5 border rounded border-border p-3">
               <div className="w-full max-h-[200px] overflow-auto">
                 <List
                   rowComponent={TrackerRow}
@@ -575,7 +575,7 @@ export default function CustomPoolOverview(properties) {
               <div>{t("CustomPoolOverview:assetA")}</div>
               <div>{t("CustomPoolOverview:assetB")}</div>
             </div>
-            <div className="border rounded border-gray-300 p-2">
+            <div className="border rounded border-border p-2">
               <div className="w-full max-h-[200px] overflow-auto">
                 <List
                   rowComponent={PoolRow}
@@ -595,7 +595,7 @@ export default function CustomPoolOverview(properties) {
               <div>{t("CustomPoolOverview:assetA")}</div>
               <div>{t("CustomPoolOverview:assetB")}</div>
             </div>
-            <div className="border rounded border-gray-300 p-2">
+            <div className="border rounded border-border p-2">
               <List
                 height={200}
                 rowComponent={ChosenPoolRow}

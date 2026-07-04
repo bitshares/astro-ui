@@ -444,13 +444,13 @@ export default function PortfolioRecentActivity() {
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 hover:underline">
+              <span className="text-blue-600 dark:text-blue-400 hover:underline">
                 {activityItem.account_history.operation_id}
               </span>
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 hover:underline">
+              <span className="text-blue-600 dark:text-blue-400 hover:underline">
                 {activityItem.block_data.block_num}
               </span>
             </div>
@@ -533,13 +533,13 @@ export default function PortfolioRecentActivity() {
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 hover:underline">
+              <span className="text-blue-600 dark:text-blue-400 hover:underline">
                 {activityItem.account_history.operation_id}
               </span>
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 hover:underline">
+              <span className="text-blue-600 dark:text-blue-400 hover:underline">
                 {activityItem.block_data.block_num}
               </span>
             </div>

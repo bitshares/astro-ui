@@ -47,8 +47,8 @@ function hoursTillExpiration(expirationTime) {
 }
 
 const activeTabStyle = {
-  backgroundColor: "#252526",
-  color: "white",
+  backgroundColor: "hsl(var(--primary))",
+  color: "hsl(var(--primary-foreground))",
 };
 
 const isValid = (str) => /^[a-zA-Z0-9.-]+$/.test(str);

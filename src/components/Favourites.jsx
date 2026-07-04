@@ -323,10 +323,10 @@ export default function Favourites(properties) {
 
     return (
       <div style={{ ...style, paddingRight: "10px" }}>
-        <Card className="mb-3 bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors rounded-xl block md:hidden">
+        <Card className="mb-3 bg-card border border-border hover:bg-accent transition-colors rounded-xl block md:hidden">
           <CardHeader className="px-4 py-4">
             <div className="space-y-1">
-              <CardTitle className="text-base text-slate-900">{`${item.symbol} (${item.id})`}</CardTitle>
+              <CardTitle className="text-base text-foreground">{`${item.symbol} (${item.id})`}</CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
                 {t("Favourites:issuer", { issuer: item.issuer })}
               </CardDescription>
@@ -396,10 +396,10 @@ export default function Favourites(properties) {
           </CardHeader>
         </Card>
 
-        <Card className="mb-3 bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors rounded-xl hidden md:block">
+        <Card className="mb-3 bg-card border border-border hover:bg-accent transition-colors rounded-xl hidden md:block">
           <CardHeader className="px-4 py-4 flex flex-row items-center justify-between">
             <div className="space-y-1">
-              <CardTitle className="text-base text-slate-900">{`${item.symbol} (${item.id})`}</CardTitle>
+              <CardTitle className="text-base text-foreground">{`${item.symbol} (${item.id})`}</CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
                 {t("Favourites:issuer", { issuer: item.issuer })}
               </CardDescription>
@@ -477,8 +477,8 @@ export default function Favourites(properties) {
   return (
     <div className="container mx-auto mt-5 mb-10 max-w-4xl">
       <Card className="mb-8 rounded-xl overflow-hidden">
-        <CardHeader className="px-5 py-4 flex flex-row items-center justify-between bg-slate-50 border-b">
-          <CardTitle className="text-xl font-bold tracking-tight text-slate-900">
+        <CardHeader className="px-5 py-4 flex flex-row items-center justify-between bg-card border-b">
+          <CardTitle className="text-xl font-bold tracking-tight text-foreground">
             {t("Favourites:assetsHeader")}
           </CardTitle>
           <div className="flex items-center gap-2">
@@ -539,8 +539,8 @@ export default function Favourites(properties) {
       </Card>
 
       <Card className="mb-8 rounded-xl overflow-hidden">
-        <CardHeader className="px-5 py-4 flex flex-row items-center justify-between bg-slate-50 border-b">
-          <CardTitle className="text-xl font-bold tracking-tight text-slate-900">
+        <CardHeader className="px-5 py-4 flex flex-row items-center justify-between bg-card border-b">
+          <CardTitle className="text-xl font-bold tracking-tight text-foreground">
             {t("Favourites:pairsHeader")}
           </CardTitle>
           <Dialog
@@ -651,10 +651,10 @@ export default function Favourites(properties) {
                     if (!pair) return null;
                     return (
                       <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors rounded-xl">
+                        <Card className="mb-3 bg-card border border-border hover:bg-accent transition-colors rounded-xl">
                           <CardHeader className="px-4 py-4">
                             <div className="space-y-1">
-                              <CardTitle className="text-base text-slate-900">
+                              <CardTitle className="text-base text-foreground">
                                 {pair}
                               </CardTitle>
                             </div>
@@ -729,10 +729,10 @@ export default function Favourites(properties) {
                     if (!pair) return null;
                     return (
                       <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors rounded-xl">
+                        <Card className="mb-3 bg-card border border-border hover:bg-accent transition-colors rounded-xl">
                           <CardHeader className="px-4 py-4 flex flex-row items-center justify-between">
                             <div className="space-y-1">
-                              <CardTitle className="text-base text-slate-900">
+                              <CardTitle className="text-base text-foreground">
                                 {pair}
                               </CardTitle>
                             </div>
@@ -815,8 +815,8 @@ export default function Favourites(properties) {
       </Card>
 
       <Card className="rounded-xl overflow-hidden">
-        <CardHeader className="px-5 py-4 flex flex-row items-center justify-between bg-slate-50 border-b">
-          <CardTitle className="text-xl font-bold tracking-tight text-slate-900">
+        <CardHeader className="px-5 py-4 flex flex-row items-center justify-between bg-card border-b">
+          <CardTitle className="text-xl font-bold tracking-tight text-foreground">
             {t("Favourites:usersHeader")}
           </CardTitle>
           <Dialog
@@ -853,10 +853,10 @@ export default function Favourites(properties) {
                     if (!user) return null;
                     return (
                       <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors">
+                        <Card className="mb-3 bg-card border border-border hover:bg-accent transition-colors">
                           <CardHeader className="px-4 py-4">
                             <div className="space-y-1">
-                              <CardTitle className="text-base text-slate-900">{`${user.name}`}</CardTitle>
+                              <CardTitle className="text-base text-foreground">{`${user.name}`}</CardTitle>
                               <CardDescription className="text-xs text-muted-foreground">
                                 {user.id}
                               </CardDescription>
@@ -917,10 +917,10 @@ export default function Favourites(properties) {
                     if (!user) return null;
                     return (
                       <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors">
+                        <Card className="mb-3 bg-card border border-border hover:bg-accent transition-colors">
                           <CardHeader className="px-4 py-4 flex flex-row items-center justify-between">
                             <div className="space-y-1">
-                              <CardTitle className="text-base text-slate-900">{`${user.name}`}</CardTitle>
+                              <CardTitle className="text-base text-foreground">{`${user.name}`}</CardTitle>
                               <CardDescription className="text-xs text-muted-foreground">
                                 {user.id}
                               </CardDescription>

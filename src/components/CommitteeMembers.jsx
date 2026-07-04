@@ -250,7 +250,7 @@ export default function CommitteeMembers(properties) {
 
       return (
         <div style={style} key={`vote${currentVote}`}>
-          <Card className={`mb-1 ${member.active ? "bg-green-100" : ""}`}>
+          <Card className={`mb-1 ${member.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
             <CardContent className="pt-3 pb-3 text-sm">
               <div className="col-span-3 flex items-center">
                 <Avatar
@@ -278,7 +278,7 @@ export default function CommitteeMembers(properties) {
       <div style={style} key={member.id}>
         <Dialog>
           <DialogTrigger asChild>
-            <Card className={`mb-1 ${member.active ? "bg-green-100" : ""}`}>
+            <Card className={`mb-1 ${member.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
               <CardContent className="pt-3 pb-3 text-sm">
                 <div className="grid grid-cols-3 gap-2 items-center">
                   <div className="flex items-center">
@@ -341,7 +341,7 @@ export default function CommitteeMembers(properties) {
                 />
               </div>
             ) : (
-              <div className="text-red-500 text-center">N/A</div>
+              <div className="text-red-500 dark:text-red-400 text-center">N/A</div>
             )}
           </DialogContent>
         </Dialog>
@@ -369,7 +369,7 @@ export default function CommitteeMembers(properties) {
             </div>
           ) : (
             <div className="w-full">
-              <div className="grid grid-cols-3 gap-2 p-2 bg-gray-100 rounded-t-md font-semibold text-sm sticky top-0 z-10">
+              <div className="grid grid-cols-3 gap-2 p-2 bg-accent rounded-t-md font-semibold text-sm sticky top-0 z-10">
                 <div
                   className="cursor-pointer"
                   onClick={() => handleSort("name")}

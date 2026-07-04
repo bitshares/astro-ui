@@ -536,10 +536,10 @@ export default function Htlc(properties) {
                     </Button>
                   </div>
                 </div>
-                <div className="border border-gray-300 rounded min-h-[200px]">
+                <div className="border border-border rounded min-h-[200px]">
                   {senderHtlcs && senderHtlcs.length > 0 ? (
                     <>
-                      <div className="grid grid-cols-6 gap-1 p-2 bg-gray-100 text-xs font-semibold">
+                      <div className="grid grid-cols-6 gap-1 p-2 bg-accent text-xs font-semibold">
                         <div>{t("HTLC:idColumn")}</div>
                         <div>{t("HTLC:toColumn")}</div>
                         <div>{t("HTLC:amountColumn")}</div>
@@ -559,7 +559,7 @@ export default function Htlc(properties) {
                       </div>
                     </>
                   ) : (
-                    <p className="p-4 text-center text-gray-500">
+                    <p className="p-4 text-center text-muted-foreground">
                       {t("HTLC:noSenderHtlc")}
                     </p>
                   )}
@@ -574,10 +574,10 @@ export default function Htlc(properties) {
                     type="header"
                   />
                 </div>
-                <div className="col-span-12 border border-gray-300 rounded min-h-[200px]">
+                <div className="col-span-12 border border-border rounded min-h-[200px]">
                   {receiverHtlcs && receiverHtlcs.length > 0 ? (
                     <>
-                      <div className="grid grid-cols-6 gap-1 p-2 bg-gray-100 text-xs font-semibold">
+                      <div className="grid grid-cols-6 gap-1 p-2 bg-accent text-xs font-semibold">
                         <div>{t("HTLC:idColumn")}</div>
                         <div>{t("HTLC:fromColumn")}</div>
                         <div>{t("HTLC:amountColumn")}</div>
@@ -597,7 +597,7 @@ export default function Htlc(properties) {
                       </div>
                     </>
                   ) : (
-                    <p className="p-4 text-center text-gray-500">
+                    <p className="p-4 text-center text-muted-foreground">
                       {t("HTLC:noReceiverHtlc")}
                     </p>
                   )}

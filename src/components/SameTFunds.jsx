@@ -316,17 +316,17 @@ export default function SameTFunds(properties) {
             <CardTitle>
               {t("SameTFunds:fund")}
               {" #"}
-              <span className="hover:text-purple-500">
+              <span className="hover:text-purple-500 dark:hover:text-purple-400">
                 {fund.id.replace("1.20.", "")}
               </span>{" "}
               {t("CreditBorrow:common.by")}{" "}
               {lender ? (
-                <span className="hover:text-purple-500">{lender.name}</span>
+                <span className="hover:text-purple-500 dark:hover:text-purple-400">{lender.name}</span>
               ) : (
                 "???"
               )}
               {" ("}
-              <span className="hover:text-purple-500">
+              <span className="hover:text-purple-500 dark:hover:text-purple-400">
                 {fund.owner_account}
               </span>
               {") "}
@@ -338,7 +338,7 @@ export default function SameTFunds(properties) {
               <div className="col-span-2">
                 {t("SameTFunds:offering")}:
                 <b>{` ${balance - unpaidAmount} `}</b>
-                <span className="hover:text-purple-500 font-bold">
+                <span className="hover:text-purple-500 dark:hover:text-purple-400 font-bold">
                   {assetName}
                 </span>
               </div>

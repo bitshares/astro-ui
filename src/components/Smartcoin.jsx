@@ -84,8 +84,8 @@ import UsrMarginPositionCard from "@/components/Smartcoin/UsrMarginPositionCard.
 import EmptyRow from "./common/EmptyRow.jsx";
 
 const activeTabStyle = {
-  backgroundColor: "#252526",
-  color: "white",
+  backgroundColor: "hsl(var(--primary))",
+  color: "hsl(var(--primary-foreground))",
 };
 
 function timeAgo(dateString, t) {
@@ -1042,7 +1042,7 @@ export default function Smartcoin(properties) {
     return (
       <div className="grid grid-cols-6 text-sm" style={style}>
         <div className="col-span-1">
-          <span className="text-blue-500">{res.borrower}</span>
+          <span className="text-blue-500 dark:text-blue-400">{res.borrower}</span>
         </div>
         <div className="col-span-1">{collateralAmount}</div>
         <div className="col-span-1">{debtAmount}</div>
@@ -1130,7 +1130,7 @@ export default function Smartcoin(properties) {
     return (
       <div className="grid grid-cols-7 md:grid-cols-11 text-sm" style={style}>
         <div className="hidden md:block col-span-2 mr-1">
-          <span className="text-blue-500">{userID}</span>
+          <span className="text-blue-500 dark:text-blue-400">{userID}</span>
         </div>
         <div className="hidden md:block col-span-2 ml-1">
           {timeAgo(date, t)}
@@ -1157,7 +1157,7 @@ export default function Smartcoin(properties) {
             </CardHeader>
             <CardContent>
               {t("Smartcoin:invalidSmartcoinIdContent1")}{" "}
-              <a className="text-blue-500" href="/smartcoins/index.html">
+              <a className="text-blue-500 dark:text-blue-400" href="/smartcoins/index.html">
                 {t("Smartcoin:invalidSmartcoinIdContent2")}
               </a>{" "}
               {t("Smartcoin:invalidSmartcoinIdContent3")}
@@ -1393,7 +1393,7 @@ export default function Smartcoin(properties) {
                               className={`col-span-1 md:text-right ${
                                 debtAssetHoldings &&
                                 debtAssetHoldings.toString().includes("-")
-                                  ? "text-red-500"
+                                  ? "text-red-500 dark:text-red-400"
                                   : ""
                               }`}
                             >
@@ -1457,7 +1457,7 @@ export default function Smartcoin(properties) {
                                       onClick={() => {
                                         event.preventDefault();
                                       }}
-                                      className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4"
+                                      className="inline-block border border-border rounded pl-4 pb-1 pr-4"
                                     >
                                       <Label>
                                         {t("Smartcoin:changeDebtAmount")}
@@ -1526,7 +1526,7 @@ export default function Smartcoin(properties) {
                               className={`col-span-1 md:text-right ${
                                 collateralAssetHoldings &&
                                 collateralAssetHoldings.toString().includes("-")
-                                  ? "text-red-500"
+                                  ? "text-red-500 dark:text-red-400"
                                   : ""
                               }`}
                             >
@@ -1592,7 +1592,7 @@ export default function Smartcoin(properties) {
                                       onClick={() => {
                                         event.preventDefault();
                                       }}
-                                      className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4"
+                                      className="inline-block border border-border rounded pl-4 pb-1 pr-4"
                                     >
                                       <Label>
                                         {t("Smartcoin:changeCollateralAmount")}
@@ -1746,7 +1746,7 @@ export default function Smartcoin(properties) {
                                       onClick={() => {
                                         event.preventDefault();
                                       }}
-                                      className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4"
+                                      className="inline-block border border-border rounded pl-4 pb-1 pr-4"
                                     >
                                       <Label>
                                         {t("Smartcoin:changeRatioValue")}
@@ -1881,7 +1881,7 @@ export default function Smartcoin(properties) {
                                       onClick={() => {
                                         event.preventDefault();
                                       }}
-                                      className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4"
+                                      className="inline-block border border-border rounded pl-4 pb-1 pr-4"
                                     >
                                       <Label>
                                         {t("Smartcoin:changeTCRValue")}
@@ -2286,7 +2286,7 @@ export default function Smartcoin(properties) {
                           100
                         ).toFixed(2)}
                         {" % ("}
-                        <span className="text-red-500">
+                        <span className="text-red-500 dark:text-red-400">
                           {"-"}
                           {(
                             100 -
@@ -2368,7 +2368,7 @@ export default function Smartcoin(properties) {
                           100
                         ).toFixed(2)}
                         {" % ("}
-                        <span className="text-red-500">
+                        <span className="text-red-500 dark:text-red-400">
                           {"-"}
                           {(
                             100 -

@@ -62,7 +62,7 @@ import { $currentNode } from "@/stores/node.ts";
 
 import AssetIssuerActions from "./AssetIssuerActions.jsx";
 
-const activeTabStyle = { backgroundColor: "#252526", color: "white" };
+const activeTabStyle = { backgroundColor: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" };
 
 export default function IssuedAssets(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });

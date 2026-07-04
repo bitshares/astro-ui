@@ -243,7 +243,7 @@ export default function Inventory(properties) {
             <div>
               <Dialog>
                 <DialogTrigger>
-                  <Button variant="outline" className="hover:bg-slate-200 mt-1">
+                  <Button variant="outline" className="hover:bg-accent mt-1">
                     {`${it.prices.length} ${t("Inventory:prices")}`}
                   </Button>
                 </DialogTrigger>
@@ -371,7 +371,7 @@ export default function Inventory(properties) {
       <div style={style} key={it.id ?? it.barcode} className="px-2">
         <Dialog>
           <DialogTrigger asChild>
-            <Card variant="outline" className="min-h-[50px] hover:bg-gray-400">
+            <Card variant="outline" className="min-h-[50px] hover:bg-accent">
               <div className="grid grid-cols-3 text-center text-sm">
                 <div className="mt-3" title={it.name}>
                   {_name}
@@ -420,7 +420,7 @@ export default function Inventory(properties) {
                   <DialogTrigger>
                     <Button
                       variant="outline"
-                      className="hover:bg-slate-200 mt-1"
+                      className="hover:bg-accent mt-1"
                     >
                       {`${it.prices.length} ${t("Inventory:prices")}`}
                     </Button>
@@ -924,7 +924,7 @@ export default function Inventory(properties) {
                 />
               ) : (
                 <div className="p-4">
-                  <p className="text-sm text-red-600">
+                  <p className="text-sm text-red-600 dark:text-red-400">
                     {t("Inventory:cameraError")}{" "}
                     {String(
                       scannerError && scannerError.message
@@ -1171,7 +1171,7 @@ export default function Inventory(properties) {
                     {t("Inventory:noItems")}
                   </div>
                 ) : (
-                  <div className="border rounded border-gray-300 p-2">
+                  <div className="border rounded border-border p-2">
                     <div className="grid grid-cols-3 lg:grid-cols-11 text-center">
                       <div>{t("Inventory:headerName")}</div>
                       <div>{t("Inventory:headerDescription")}</div>
@@ -1447,7 +1447,7 @@ export default function Inventory(properties) {
                     </div>
 
                     {formError ? (
-                      <div className="text-sm text-red-600">{formError}</div>
+                      <div className="text-sm text-red-600 dark:text-red-400">{formError}</div>
                     ) : null}
 
                     <div className="grid grid-cols-2">

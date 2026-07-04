@@ -497,7 +497,7 @@ export default function SameTFunds(properties) {
           onOpenChange={setBorrowPositionDialog}
         >
           <DialogTrigger asChild>
-            <Card className="w-full hover:bg-gray-100">
+            <Card className="w-full hover:bg-accent">
               <CardHeader className="pt-1 pb-1">
                 <CardDescription>
                   <div className="grid grid-cols-4 gap-2 text-sm cursor-pointer p-2">
@@ -519,14 +519,14 @@ export default function SameTFunds(properties) {
               <DialogDescription>
                 {t("WithdrawPermissions:id")}
                 {": "}
-                <span className="hover:text-purple-500">{fund.id}</span>
+                <span className="hover:text-purple-500 dark:hover:text-purple-400">{fund.id}</span>
                 <br />
                 {lender ? (
                   <>
                     {t("Smartcoin:owner")}
                     {": "}
 
-                    <span className="hover:text-purple-500">{lender.name}</span>
+                    <span className="hover:text-purple-500 dark:hover:text-purple-400">{lender.name}</span>
                     <br />
                   </>
                 ) : null}
@@ -718,9 +718,9 @@ export default function SameTFunds(properties) {
 
     let _finalAmountStyle = "";
     if (_finalAmount < 0) {
-      _finalAmountStyle = "text-red-500";
+      _finalAmountStyle = "text-red-500 dark:text-red-400";
     } else if (_finalAmount > 0) {
-      _finalAmountStyle = _diff > 0 ? "text-green-500" : "";
+      _finalAmountStyle = _diff > 0 ? "text-green-500 dark:text-green-400" : "";
     }
 
     return (
@@ -828,29 +828,29 @@ export default function SameTFunds(properties) {
             <CardContent>
               <div className="grid grid-cols-1 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-950">
+                  <label className="block text-sm font-medium text-foreground">
                     {t("TFundUser:step1")}
                   </label>
-                  <label className="block text-xs font-medium text-gray-700">
+                  <label className="block text-xs font-medium text-foreground">
                     {t("TFundUser:step1Description")}
                   </label>
-                  <div className="border rounded border-gray-300 p-2 mt-2">
+                  <div className="border rounded border-border p-2 mt-2">
                     {lenderAccounts &&
                     lenderAccounts.length &&
                     sameTFunds &&
                     sameTFunds.length > 0 ? (
                       <>
                         <div className="grid grid-cols-4">
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-foreground">
                             {t("WithdrawPermissions:id")}
                           </label>
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-foreground">
                             {t("Smartcoin:owner")}
                           </label>
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-foreground">
                             {t("CreditBorrow:common.offering")}
                           </label>
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-foreground">
                             {t("PoolForm:fee")}
                           </label>
                         </div>
@@ -876,20 +876,20 @@ export default function SameTFunds(properties) {
                 </div>
                 {borrowPositions && borrowPositions.length ? (
                   <div>
-                    <label className="block text-sm font-medium text-gray-950">
+                    <label className="block text-sm font-medium text-foreground">
                       {t("TFundUser:borrowPositions")}
                     </label>
-                    <label className="block text-xs font-medium text-gray-700">
+                    <label className="block text-xs font-medium text-foreground">
                       {t("TFundUser:borrowPositionsDescription")}
                     </label>
-                    <div className="grid grid-cols-3 border rounded border-gray-300 p-2 mt-2">
-                      <label className="block text-sm font-medium text-gray-700">
+                    <div className="grid grid-cols-3 border rounded border-border p-2 mt-2">
+                      <label className="block text-sm font-medium text-foreground">
                         {t("TFundUser:fund")}
                       </label>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-foreground">
                         {t("TFundUser:borrowed")}
                       </label>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-foreground">
                         {t("TFundUser:borrowFees")}
                       </label>
                       <div className="col-span-3">
@@ -908,22 +908,22 @@ export default function SameTFunds(properties) {
                 ) : null}
                 {borrowPositions && borrowPositions.length ? (
                   <div>
-                    <label className="block text-sm font-medium text-gray-950">
+                    <label className="block text-sm font-medium text-foreground">
                       {t("TFundUser:step2")}
                     </label>
-                    <label className="block text-xs font-medium text-gray-700">
+                    <label className="block text-xs font-medium text-foreground">
                       {t("TFundUser:step2Description")}
                     </label>
                     <div className="grid grid-cols-6 gap-2">
-                      <div className="col-span-5 rounded border border-gray-300 p-2 mt-2">
+                      <div className="col-span-5 rounded border border-border p-2 mt-2">
                         <div className="grid grid-cols-4">
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-foreground">
                             {t("TFundUser:buying")}
                           </label>
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-foreground">
                             {t("TFundUser:selling")}
                           </label>
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-foreground">
                             {t("TFundUser:price")}
                           </label>
                           <div></div>
@@ -965,27 +965,27 @@ export default function SameTFunds(properties) {
                 updatedBalances &&
                 updatedBalances.length ? (
                   <div>
-                    <label className="block text-sm font-medium text-gray-950">
+                    <label className="block text-sm font-medium text-foreground">
                       {t("TFundUser:step3")}
                     </label>
-                    <label className="block text-xs font-medium text-gray-700">
+                    <label className="block text-xs font-medium text-foreground">
                       {t("TFundUser:step3Description")}
                     </label>
-                    <div className="rounded border border-gray-300 p-2 mt-2">
+                    <div className="rounded border border-border p-2 mt-2">
                       <div className="grid grid-cols-5 gap-2">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-foreground">
                           {t("TFundUser:asset")}
                         </label>
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-foreground">
                           {t("TFundUser:balance")}
                         </label>
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-foreground">
                           {t("TFundUser:difference")}
                         </label>
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-foreground">
                           {t("TFundUser:borrowed")}
                         </label>
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-foreground">
                           {t("TFundUser:finalAmount")}
                         </label>
                       </div>
@@ -1006,7 +1006,7 @@ export default function SameTFunds(properties) {
 
                 {operations && operations.length ? (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-foreground">
                       {t("TFundUser:estimatedFees")}
                     </label>
                     <Card>

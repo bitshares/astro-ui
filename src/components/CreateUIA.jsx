@@ -1296,7 +1296,7 @@ export default function UIA(properties) {
                     ) : null}
                   </div>
                   {allowedMarketsEnabled ? (
-                    <div className="mt-3 border border-gray-300 rounded">
+                    <div className="mt-3 border border-border rounded">
                       <div className="w-full max-h-[210px] overflow-auto">
                         <List
                           rowComponent={allowedMarketsRow}
@@ -1354,7 +1354,7 @@ export default function UIA(properties) {
                     ) : null}
                   </div>
                   {bannedMarketsEnabled ? (
-                    <div className="mt-2 border border-gray-300 rounded">
+                    <div className="mt-2 border border-border rounded">
                       <div className="w-full max-h-[210px] overflow-auto">
                         <List
                           rowComponent={bannedMarketsRow}
@@ -1709,7 +1709,7 @@ export default function UIA(properties) {
                           )}
                         />
                         <div className="grid grid-cols-12 mt-1">
-                          <span className="col-span-9 border border-gray-300 rounded">
+                          <span className="col-span-9 border border-border rounded">
                             <div className="w-full max-h-[210px] overflow-auto">
                               <List
                                 rowComponent={feeSharingWhitelistRow}
@@ -1837,7 +1837,7 @@ export default function UIA(properties) {
                       type="header"
                     />
                     <div className="grid grid-cols-12 mt-1">
-                      <span className="col-span-9 border border-gray-300 rounded">
+                      <span className="col-span-9 border border-border rounded">
                         <div className="w-full max-h-[210px] overflow-auto">
                           <List
                             rowComponent={whitelistAuthorityRow}
@@ -1911,7 +1911,7 @@ export default function UIA(properties) {
                       type="header"
                     />
                     <div className="grid grid-cols-12 mt-1">
-                      <span className="col-span-9 border border-gray-300 rounded">
+                      <span className="col-span-9 border border-border rounded">
                         <div className="w-full max-h-[210px] overflow-auto">
                           <List
                             rowComponent={blacklistAuthorityRow}
@@ -2280,7 +2280,7 @@ export default function UIA(properties) {
                                       </DialogHeader>
                                       <div className="grid grid-cols-3 gap-3">
                                         <ExternalLink
-                                          classnamecontents="hover:text-purple-500"
+                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
                                           type="button"
                                           text={"Pinata.cloud"}
                                           hyperlink={
@@ -2288,19 +2288,19 @@ export default function UIA(properties) {
                                           }
                                         />
                                         <ExternalLink
-                                          classnamecontents="hover:text-purple-500"
+                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
                                           type="button"
                                           text={"NFT.storage"}
                                           hyperlink={"https://nft.storage/"}
                                         />
                                         <ExternalLink
-                                          classnamecontents="hover:text-purple-500"
+                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
                                           type="button"
                                           text={"Web3.storage"}
                                           hyperlink={"https://web3.storage/"}
                                         />
                                         <ExternalLink
-                                          classnamecontents="hover:text-purple-500"
+                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
                                           type="button"
                                           text={"Fleek.co"}
                                           hyperlink={
@@ -2308,7 +2308,7 @@ export default function UIA(properties) {
                                           }
                                         />
                                         <ExternalLink
-                                          classnamecontents="hover:text-purple-500"
+                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
                                           type="button"
                                           text={"Infura.io"}
                                           hyperlink={
@@ -2316,7 +2316,7 @@ export default function UIA(properties) {
                                           }
                                         />
                                         <ExternalLink
-                                          classnamecontents="hover:text-purple-500"
+                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
                                           type="button"
                                           text={"StorJ"}
                                           hyperlink={
@@ -2324,13 +2324,13 @@ export default function UIA(properties) {
                                           }
                                         />
                                         <ExternalLink
-                                          classnamecontents="hover:text-purple-500"
+                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
                                           type="button"
                                           text={"Eternum.io"}
                                           hyperlink={"https://www.eternum.io/"}
                                         />
                                         <ExternalLink
-                                          classnamecontents="hover:text-purple-500"
+                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
                                           type="button"
                                           text={"IPFS Docs"}
                                           hyperlink={

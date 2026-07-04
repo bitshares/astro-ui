@@ -50,8 +50,8 @@ import { $currentNode } from "@/stores/node.ts";
 import ExternalLink from "./common/ExternalLink.jsx";
 
 const activeTabStyle = {
-  backgroundColor: "#252526",
-  color: "white",
+  backgroundColor: "hsl(var(--primary))",
+  color: "hsl(var(--primary-foreground))",
 };
 
 export default function Smartcoins(properties) {
@@ -366,9 +366,9 @@ export default function Smartcoins(properties) {
         <Card className="ml-2 mr-2 overflow-visible">
           <CardHeader className="pb-1">
             <CardTitle>
-              <span className="hover:text-purple-500">{thisBitassetData.symbol}</span>
+              <span className="hover:text-purple-500 dark:hover:text-purple-400">{thisBitassetData.symbol}</span>
               {" ("}
-              <span className="hover:text-purple-500">{thisBitassetData.id}</span>
+              <span className="hover:text-purple-500 dark:hover:text-purple-400">{thisBitassetData.id}</span>
               {")"}
             </CardTitle>
             <CardDescription className="text-md">
@@ -377,9 +377,9 @@ export default function Smartcoins(properties) {
                   {issuer ? (
                     <div>
                       {t("Smartcoins:createdBy")}{" "}
-                      <span className="hover:text-purple-500 font-bold">{issuer.name}</span>
+                      <span className="hover:text-purple-500 dark:hover:text-purple-400 font-bold">{issuer.name}</span>
                       {" ("}
-                      <span className="hover:text-purple-500 font-bold">{issuer.id}</span>
+                      <span className="hover:text-purple-500 dark:hover:text-purple-400 font-bold">{issuer.id}</span>
                       {")"}
                     </div>
                   ) : null}
@@ -387,9 +387,9 @@ export default function Smartcoins(properties) {
                     {t("Smartcoins:collateral")}:
                     <b>
                       {" "}
-                      <span className="hover:text-purple-500">{thisCollateralAssetData.symbol}</span>
+                      <span className="hover:text-purple-500 dark:hover:text-purple-400">{thisCollateralAssetData.symbol}</span>
                       {" ("}
-                      <span className="hover:text-purple-500">{thisCollateralAssetData.id}</span>
+                      <span className="hover:text-purple-500 dark:hover:text-purple-400">{thisCollateralAssetData.id}</span>
                       {")"}
                     </b>
                   </div>
@@ -434,7 +434,7 @@ export default function Smartcoins(properties) {
                             <DialogTitle>
                               {t("Predictions:permissions")}
                             </DialogTitle>
-                            <DialogDescription className="text-gray-800">
+                            <DialogDescription className="text-foreground">
                               {Object.keys(_issuer_permissions).join(", ")}
                             </DialogDescription>
                           </DialogHeader>
@@ -458,7 +458,7 @@ export default function Smartcoins(properties) {
                         <DialogContent className="bg-card">
                           <DialogHeader>
                             <DialogTitle>{t("Predictions:flags")}</DialogTitle>
-                            <DialogDescription className="text-gray-800">
+                            <DialogDescription className="text-foreground">
                               {Object.keys(_flags).join(", ")}
                             </DialogDescription>
                           </DialogHeader>

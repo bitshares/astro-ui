@@ -345,8 +345,8 @@ export default function PoolStake(properties) {
     return (
       <div
         style={style}
-        className={`grid grid-cols-12 hover:bg-purple-100 p-1 cursor-pointer ${
-          pool === _pool.id ? "bg-purple-200" : ""
+        className={`grid grid-cols-12 hover:bg-purple-100 dark:hover:bg-purple-500/15 p-1 cursor-pointer ${
+          pool === _pool.id ? "bg-purple-200 dark:bg-purple-500/25" : ""
         }`}
         key={`pool_${_pool.id}`}
         onClick={() => {
@@ -355,9 +355,9 @@ export default function PoolStake(properties) {
       >
         <div className="col-span-1 flex items-center">
           {_pool.id === pool ? (
-            <CheckCircledIcon className="mt-1 text-green-600" />
+            <CheckCircledIcon className="mt-1 text-green-600 dark:text-green-400" />
           ) : (
-            <CircleIcon className="mt-1 text-gray-400" />
+            <CircleIcon className="mt-1 text-muted-foreground" />
           )}
         </div>
         <div className="col-span-1 text-sm flex items-center">
@@ -556,8 +556,8 @@ export default function PoolStake(properties) {
   const [stakeTab, setStakeTab] = useState("stake");
 
   const activeTabStyle = {
-    backgroundColor: "#252526",
-    color: "white",
+    backgroundColor: "hsl(var(--primary))",
+    color: "hsl(var(--primary-foreground))",
   };
 
   return (
@@ -637,7 +637,7 @@ export default function PoolStake(properties) {
                                     <DropdownMenuTrigger asChild>
                                       <Button
                                         variant="outline"
-                                        className="hover:bg-gray-100 hover:shadow-lg w-full justify-start font-normal"
+                                        className="hover:bg-accent hover:shadow-lg w-full justify-start font-normal"
                                         aria-label={t(
                                           "SimpleSwap:selectSendAsset",
                                         )}
@@ -720,7 +720,7 @@ export default function PoolStake(properties) {
                                     >
                                       <Button
                                         variant="outline"
-                                        className="hover:bg-gray-100 hover:shadow-lg w-full justify-start font-normal"
+                                        className="hover:bg-accent hover:shadow-lg w-full justify-start font-normal"
                                         disabled={!selectedAssetASymbol}
                                         aria-label={t(
                                           "SimpleSwap:selectReceiveAsset",
@@ -798,7 +798,7 @@ export default function PoolStake(properties) {
                       selectedAssetASymbol &&
                       selectedAssetBSymbol ? (
                         <div className="mt-5 border rounded-md p-2 mb-1">
-                          <div className="grid grid-cols-12 text-xs text-gray-500 mb-1 p-1 border-b">
+                          <div className="grid grid-cols-12 text-xs text-muted-foreground mb-1 p-1 border-b">
                             <div className="col-span-1"></div>
                             <div className="col-span-1">ID</div>
                             <div className="col-span-2">
@@ -848,7 +848,7 @@ export default function PoolStake(properties) {
                         finalPools.length === 0 &&
                         pools &&
                         pools.length > 0 && (
-                          <p className="text-red-500 mt-4 mb-4">
+                          <p className="text-red-500 dark:text-red-400 mt-4 mb-4">
                             {t("SimpleSwap:noPoolsForPair")}
                           </p>
                         )}
@@ -884,7 +884,7 @@ export default function PoolStake(properties) {
                                 <CardHeader className="pb-0">
                                   <CardTitle className="text-sm pt-0">
                                     {t("PoolStake:assetB")}:{" "}
-                                    <span className="text-blue-500">
+                                    <span className="text-blue-500 dark:text-blue-400">
                                       {assetB.symbol}
                                     </span>
                                   </CardTitle>
@@ -1109,7 +1109,7 @@ export default function PoolStake(properties) {
                                             onClick={() => {
                                               event.preventDefault();
                                             }}
-                                            className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4"
+                                            className="inline-block border border-border rounded pl-4 pb-1 pr-4"
                                           >
                                             <Label>
                                               {t("PoolStake:changeAmount")}
@@ -1258,7 +1258,7 @@ export default function PoolStake(properties) {
                                             onClick={() => {
                                               event.preventDefault();
                                             }}
-                                            className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4"
+                                            className="inline-block border border-border rounded pl-4 pb-1 pr-4"
                                           >
                                             <Label>
                                               {t("PoolStake:changeAmount")}
@@ -1432,7 +1432,7 @@ export default function PoolStake(properties) {
                                             onClick={() => {
                                               event.preventDefault();
                                             }}
-                                            className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4"
+                                            className="inline-block border border-border rounded pl-4 pb-1 pr-4"
                                           >
                                             <Label>
                                               {t("PoolStake:changeAmount")}

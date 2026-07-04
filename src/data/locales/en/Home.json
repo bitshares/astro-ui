@@ -372,15 +372,6 @@
     "ctaSecondary": "Simple Swap",
     "scrollForMore": "Scroll for more"
   },
-  "howItWorks": {
-    "heading": "How it works",
-    "step1Title": "Connect your wallet",
-    "step1Body": "Log in via cloud wallet or connect through the Beet wallet for maximum security.",
-    "step2Title": "Choose your action",
-    "step2Body": "Trade on the DEX, swap via pools, borrow or lend funds, create assets, and more.",
-    "step3Title": "Execute & confirm",
-    "step3Body": "Transactions are broadcast to the blockchain and confirmed in seconds. Full control, zero middlemen."
-  },
   "sections": {
     "exchangingSubtitle": "Trade, swap, stake and barter on the DEX",
     "transferSubtitle": "Send assets and manage permissions",
@@ -391,5 +382,11 @@
     "governanceSubtitle": "Vote, register roles and create worker proposals",
     "invoicingSubtitle": "Create, send and pay invoices on-chain",
     "settingsSubtitle": "Account lists, nodes and configuration"
+  },
+  "configure_visuals": {
+    "title": "🎨 Configure Visuals",
+    "subtitle": "Customize wave backgrounds, aurora glow, particles and blur effects",
+    "hover1": "Choose from preset color palettes or define your own custom colors.",
+    "hover2": "Adjust wave count, speed, thickness and aurora intensity."
   }
 }

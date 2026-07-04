@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import { ArrowRight, ChevronDown } from "lucide-react";
 
 export default function WaveHero({ title, subtitle, className = "" }) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -270,12 +271,34 @@ export default function WaveHero({ title, subtitle, className = "" }) {
       </svg>
 
       <div className="relative z-0 mx-auto w-full max-w-4xl px-4 text-center flex flex-col items-center justify-center gap-2 mt-6">
-        <h1 className="scroll-m-20 text-4xl sm:text-5xl font-extrabold tracking-tight text-balance text-white [text-shadow:_0_1px_10px_rgba(0,0,0,0.35)]">
+        <h1 className="scroll-m-20 text-4xl sm:text-5xl font-extrabold tracking-tight text-balance dark:text-white text-foreground [text-shadow:_0_1px_10px_rgba(0,0,0,0.35)]">
           {heading}
         </h1>
-        <h2 className="scroll-m-20 text-2xl sm:text-3xl font-semibold tracking-tight text-white [text-shadow:_0_1px_10px_rgba(0,0,0,0.35)]">
+        <h2 className="scroll-m-20 text-2xl sm:text-3xl font-semibold tracking-tight dark:text-white text-foreground [text-shadow:_0_1px_10px_rgba(0,0,0,0.35)]">
           {sub}
         </h2>
+        <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+          <a
+            href="/dex/index.html"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-white text-slate-900 hover:bg-slate-100 font-semibold text-sm sm:text-base px-5 py-2.5 transition-colors shadow-sm shadow-black/30"
+          >
+            {t("Home:hero.ctaPrimary")}
+            <ArrowRight className="h-4 w-4" />
+          </a>
+          <a
+            href="/swap/index.html"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm sm:text-base px-5 py-2.5 transition-colors"
+          >
+            {t("Home:hero.ctaSecondary")}
+          </a>
+        </div>
+        <a
+          href="#jump-in"
+          aria-label={t("Home:hero.scrollForMore")}
+          className="hidden sm:inline-flex mt-6 sm:mt-8 items-center justify-center w-8 h-8 rounded-full border border-white/15 bg-white/5 text-white/60 hover:text-white hover:bg-white/10 transition-colors animate-bounce"
+        >
+          <ChevronDown className="h-4 w-4" />
+        </a>
       </div>
     </div>
   );

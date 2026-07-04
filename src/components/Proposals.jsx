@@ -271,7 +271,7 @@ export default function Proposals(properties) {
                 <div className="col-span-2">
                   {t("Proposals:proposalID")}
                   {": "}
-                  <span className="hover:text-purple-500">{proposal.id}</span>
+                  <span className="hover:text-purple-500 dark:hover:text-purple-400">{proposal.id}</span>
                   <Badge
                     className="ml-3"
                     onClick={() => {
@@ -287,7 +287,7 @@ export default function Proposals(properties) {
                   {": "}
                   <b>
                     {proposerAccount && proposerAccount.name ? (
-                      <span className="hover:text-purple-500">
+                      <span className="hover:text-purple-500 dark:hover:text-purple-400">
                         {proposerAccount.name}
                       </span>
                     ) : (
@@ -295,7 +295,7 @@ export default function Proposals(properties) {
                     )}
                   </b>{" "}
                   (
-                  <span className="hover:text-purple-500">{proposer}</span>
+                  <span className="hover:text-purple-500 dark:hover:text-purple-400">{proposer}</span>
                   )
                 </div>
                 <div className="col-span-2">

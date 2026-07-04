@@ -395,7 +395,7 @@ export default function PortfolioBalances({
                       className="p-0 m-0 inline-flex items-center"
                     >
                       {isFavourited ? (
-                        <StarFilledIcon className="h-4 w-4 text-yellow-500" />
+                        <StarFilledIcon className="h-4 w-4 text-yellow-500 dark:text-yellow-400" />
                       ) : (
                         <StarIcon className="h-4 w-4" />
                       )}

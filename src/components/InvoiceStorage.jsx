@@ -182,10 +182,10 @@ export default function InvoiceStorage() {
   };
 
   const statusColorClasses = {
-    waiting: "bg-slate-200 text-slate-700",
+    waiting: "bg-accent text-foreground",
     in_progress: "bg-blue-200 text-blue-700",
     issue_detected: "bg-orange-200 text-orange-700",
-    cancelled: "bg-gray-300 text-gray-700 line-through",
+    cancelled: "bg-accent text-foreground line-through",
     completed: "bg-green-200 text-green-700",
   };
 
@@ -221,7 +221,7 @@ export default function InvoiceStorage() {
 
     return (
       <div style={style} className="px-2">
-        <Card className="hover:bg-slate-50">
+        <Card className="hover:bg-card">
           <CardContent className="pt-2 pb-2">
             <div className="grid grid-cols-4 lg:grid-cols-12 gap-2 text-sm">
               <div
@@ -249,7 +249,7 @@ export default function InvoiceStorage() {
                 {notePreview}
               </div>
               <div
-                className="hidden lg:block col-span-1 pr-1 mt-1 text-slate-600"
+                className="hidden lg:block col-span-1 pr-1 mt-1 text-muted-foreground"
                 title={
                   inv.timestamp ? new Date(inv.timestamp).toLocaleString() : ""
                 }
@@ -275,7 +275,7 @@ export default function InvoiceStorage() {
                       const meta = generatedMetaStore?.meta?.[entry.code];
                       const overall = meta?.overallStatus || "waiting";
                       const label = statusLabelMap[overall] || overall;
-                      const cls = statusColorClasses[overall] || "bg-slate-200";
+                      const cls = statusColorClasses[overall] || "bg-accent";
                       return (
                         <span
                           className={`px-2 py-0.5 rounded text-xs font-medium inline-block ${cls}`}
@@ -687,7 +687,7 @@ export default function InvoiceStorage() {
                             return (
                               <div style={style} className="px-2">
                                 <Card
-                                  className="cursor-pointer hover:bg-slate-50"
+                                  className="cursor-pointer hover:bg-card"
                                   onClick={() => {
                                     setItemDetails(it);
                                     setItemDetailsOpen(true);

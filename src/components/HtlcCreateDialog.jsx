@@ -467,7 +467,7 @@ export default function HtlcCreateDialog(properties) {
                     id="hashing-select"
                     value={hashingAlgorithm}
                     onChange={(e) => setHashingAlgorithm(e.target.value)}
-                    className="form-select mt-1 block w-full border border-gray-300 rounded"
+                    className="form-select mt-1 block w-full border border-border rounded"
                   >
                     <option value="sha256">SHA-256</option>
                     <option value="ripemd160">RIPEMD-160</option>
@@ -484,7 +484,7 @@ export default function HtlcCreateDialog(properties) {
                     <span className="font-medium">
                       {t("HTLCCreate:preimageHashLabel")}
                     </span>
-                    <code className="text-muted-foreground break-all text-xs bg-gray-100 p-1 rounded">
+                    <code className="text-muted-foreground break-all text-xs bg-accent p-1 rounded">
                       {preimageHash || "..."}
                     </code>
                   </div>

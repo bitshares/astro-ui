@@ -222,7 +222,7 @@ export default function CustomPoolOverview(properties) {
       <div style={style} key={`poolNo${index}`}>
         <Dialog>
           <DialogTrigger asChild>
-            <Card className="hover:bg-purple-100">
+            <Card className="hover:bg-purple-100 dark:hover:bg-purple-500/15">
               <CardHeader className="p-0">
                 <CardDescription>
                   <div
@@ -481,7 +481,7 @@ export default function CustomPoolOverview(properties) {
                 {t("CustomPoolOverview:withdrawalFee")}
               </div>
             </div>
-            <div className="border rounded border-gray-300 p-2">
+            <div className="border rounded border-border p-2">
               <div className="w-full max-h-[200px] overflow-auto">
                 <List
                   rowComponent={PoolRow}

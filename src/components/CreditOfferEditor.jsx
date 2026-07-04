@@ -975,7 +975,7 @@ export default function CreditOfferEditor(properties) {
                             onClick={() => {
                               event.preventDefault();
                             }}
-                            className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4 text-lg"
+                            className="inline-block border border-border rounded pl-4 pb-1 pr-4 text-lg"
                           >
                             <Label>
                               {t("CreditOfferEditor:editLendingRate")}
@@ -1183,7 +1183,7 @@ export default function CreditOfferEditor(properties) {
                   </FieldLabel>
                   <FieldContent>
                     <span className="grid grid-cols-12">
-                      <span className="col-span-12 lg:col-span-9 border border-gray-300 rounded">
+                      <span className="col-span-12 lg:col-span-9 border border-border rounded">
                         <div className="w-full max-h-[210px] overflow-auto">
                           <List
                             rowComponent={CollateralRow}
@@ -1283,7 +1283,7 @@ export default function CreditOfferEditor(properties) {
                   </FieldLabel>
                   <FieldContent>
                     <span className="grid grid-cols-12">
-                      <span className="col-span-12 border border-gray-300 rounded">
+                      <span className="col-span-12 border border-border rounded">
                         <div className="w-full max-h-[210px] overflow-auto">
                           <List
                             rowComponent={ApprovedBorrowerRow}

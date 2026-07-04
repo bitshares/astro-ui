@@ -303,13 +303,13 @@ export default function Witnesses(properties) {
     const witness = sortedWitnesses[index];
     if (!witness) return null;
 
-    let missedClass = "text-green-600"; // Default (low missed)
+    let missedClass = "text-green-600 dark:text-green-400"; // Default (low missed)
     if (witness.total_missed > 500 && witness.total_missed <= 1250) {
-      missedClass = "text-blue-600";
+      missedClass = "text-blue-600 dark:text-blue-400";
     } else if (witness.total_missed > 1250 && witness.total_missed <= 2000) {
-      missedClass = "text-orange-600";
+      missedClass = "text-orange-600 dark:text-orange-400";
     } else if (witness.total_missed > 2000) {
-      missedClass = "text-red-600";
+      missedClass = "text-red-600 dark:text-red-400";
     }
 
     const votes = witnessAccounts[witness.account_id]?.options.votes || [];
@@ -331,7 +331,7 @@ export default function Witnesses(properties) {
 
       return (
         <div style={style} key={`vote${currentVote}`}>
-          <Card className={`mb-1 ${witness.active ? "bg-green-100" : ""}`}>
+          <Card className={`mb-1 ${witness.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
             <CardContent className="pt-3 pb-3 text-sm">
               <div className="col-span-3 flex items-center">
                 <Avatar
@@ -359,7 +359,7 @@ export default function Witnesses(properties) {
       <div style={style} key={witness.id}>
         <Dialog>
           <DialogTrigger asChild>
-            <Card className={`mb-1 ${witness.active ? "bg-green-100" : ""}`}>
+            <Card className={`mb-1 ${witness.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
               <CardContent className="pt-3 pb-3 text-sm">
                 <div className="grid grid-cols-12 gap-2 items-center">
                   <div className="col-span-4 md:col-span-3 flex items-center">
@@ -387,11 +387,11 @@ export default function Witnesses(properties) {
                     <span className="ml-2">{witness.name}</span>
                   </div>
                   <div className="col-span-4 md:col-span-2">
-                    <span className="text-blue-500 hover:text-purple-500">
+                    <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
                       {witness.id}
                     </span>{" "}
                     (
-                    <span className="text-blue-500 hover:text-purple-500">
+                    <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
                       {witness.account_id}
                     </span>
                     )
@@ -405,7 +405,7 @@ export default function Witnesses(properties) {
                         <br />
                         <span className="text-xs">
                           (
-                          <span className="text-blue-500 hover:text-purple-500">
+                          <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
                             #{witness.last_block_num}
                           </span>
                           )
@@ -451,7 +451,7 @@ export default function Witnesses(properties) {
                 />
               </ScrollArea>
             ) : (
-              <div className="text-red-500 text-center">N/A</div>
+              <div className="text-red-500 dark:text-red-400 text-center">N/A</div>
             )}
           </DialogContent>
         </Dialog>
@@ -481,7 +481,7 @@ export default function Witnesses(properties) {
             </div>
           ) : (
             <div className="w-full">
-              <div className="grid grid-cols-12 gap-2 p-2 bg-gray-100 rounded-t-md font-semibold text-sm sticky top-0 z-10">
+              <div className="grid grid-cols-12 gap-2 p-2 bg-accent rounded-t-md font-semibold text-sm sticky top-0 z-10">
                 <div
                   className="col-span-4 md:col-span-3 cursor-pointer"
                   onClick={() => handleSort("name")}

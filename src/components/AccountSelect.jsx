@@ -298,7 +298,7 @@ export default function AccountSelect(properties) {
             className="mt-4"
           />
           {errorMessage ? (
-            <p className="text-red-500 text-xs italic">
+            <p className="text-red-500 dark:text-red-400 text-xs italic">
               {errorMessage || "ERROR"}
             </p>
           ) : null}
@@ -360,7 +360,7 @@ export default function AccountSelect(properties) {
                 key={`list-existing-${chain}`}
               />
             ) : (
-              <p className="text-red-500 text-xs italic">
+              <p className="text-red-500 dark:text-red-400 text-xs italic">
                 {t("AccountSelect:existing.none")}
               </p>
             )}

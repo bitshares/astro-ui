@@ -262,7 +262,7 @@ export default function PortfolioOpenOrders({
                 <div>
                   <a
                     href={`/dex/index.html?market=${sellAsset?.symbol}_${buyAsset?.symbol}`}
-                    className="hover:text-blue-500"
+                    className="hover:text-blue-500 dark:text-blue-400"
                   >
                     {t("PortfolioTabs:sellingFor", {
                       baseAmount: readableBaseAmount,
@@ -304,7 +304,7 @@ export default function PortfolioOpenOrders({
                 <div>
                   <a
                     href={`/dex/index.html?market=${sellAsset?.symbol}_${buyAsset?.symbol}`}
-                    className="hover:text-blue-500"
+                    className="hover:text-blue-500 dark:text-blue-400"
                   >
                     {t("PortfolioTabs:sellingFor", {
                       baseAmount: readableBaseAmount,

@@ -191,7 +191,7 @@ export default function IssuedAssets(properties) {
         <Card
           className={`ml-2 mr-2 cursor-pointer ${
             selectedAsset && selectedAsset !== issuedAsset.id
-              ? "bg-gray-300"
+              ? "bg-accent"
               : ""
           }`}
           onClick={() => setSelectedAsset(issuedAsset.id)}

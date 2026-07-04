@@ -669,8 +669,8 @@ export default function CreditDeals(properties) {
   };
 
   const activeTabStyle = {
-    backgroundColor: "#252526",
-    color: "white",
+    backgroundColor: "hsl(var(--primary))",
+    color: "hsl(var(--primary-foreground))",
   };
 
   const [activeTab, setActiveTab] = useState("borrowings");

@@ -641,7 +641,7 @@ function AssetIssuerActions(props) {
           <button
             key={user.id}
             type="button"
-            className="flex w-full items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-left hover:bg-slate-100"
+            className="flex w-full items-center gap-3 rounded-lg border border-border bg-card px-3 py-2 text-left hover:bg-accent"
             onClick={() => onSelect(user)}
           >
             <Avatar
@@ -651,7 +651,7 @@ function AssetIssuerActions(props) {
               expression={{ eye: "normal", mouth: "open" }}
               colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
             />
-            <span className="text-sm font-medium text-slate-900">
+            <span className="text-sm font-medium text-foreground">
               {user.username} ({user.id})
             </span>
           </button>
@@ -881,7 +881,7 @@ function AssetIssuerActions(props) {
           <button
             key={user.id}
             type="button"
-            className="flex w-full items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-left hover:bg-slate-100"
+            className="flex w-full items-center gap-3 rounded-lg border border-border bg-card px-3 py-2 text-left hover:bg-accent"
             onClick={() => onSelect(user)}
           >
             <Avatar
@@ -891,7 +891,7 @@ function AssetIssuerActions(props) {
               expression={{ eye: "normal", mouth: "open" }}
               colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
             />
-            <span className="text-sm font-medium text-slate-900">
+            <span className="text-sm font-medium text-foreground">
               {user.name} ({user.id})
             </span>
           </button>
@@ -1238,7 +1238,7 @@ function AssetIssuerActions(props) {
                 type="header"
               />
               <div className="grid grid-cols-12 mt-1">
-                <span className="col-span-9 border border-gray-300 rounded">
+                <span className="col-span-9 border border-border rounded">
                   <div className="w-full max-h-[210px] overflow-auto">
                     <List
                       rowComponent={PriceFeederRow}
@@ -1659,7 +1659,7 @@ function AssetIssuerActions(props) {
                       header={t("IssuedAssets:chooseSpecificFeed")}
                       type="header"
                     />
-                    <div className="w-full rounded border border-black pt-1 max-h-[150px] overflow-auto">
+                    <div className="w-full rounded border border-border pt-1 max-h-[150px] overflow-auto">
                       <List
                         rowComponent={PriceFeedRow}
                         rowCount={bitassetData.feeds.length}
@@ -2086,7 +2086,7 @@ function AssetIssuerActions(props) {
             </div>
 
             {overrideError ? (
-              <p className="text-sm text-red-600 mt-2">{overrideError}</p>
+              <p className="text-sm text-red-600 dark:text-red-400 mt-2">{overrideError}</p>
             ) : null}
 
             <div className="mt-3 space-y-2">

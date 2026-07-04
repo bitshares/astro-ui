@@ -122,7 +122,7 @@ export default function AccountSearch(properties) {
                 }}
               />
               {errorMessage ? (
-                <p className="text-red-500 text-xs italic">
+                <p className="text-red-500 dark:text-red-400 text-xs italic">
                   {errorMessage || "ERROR"}
                 </p>
               ) : null}

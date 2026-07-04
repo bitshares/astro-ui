@@ -563,7 +563,7 @@ export default function Barter(properties) {
                       <CardContent>
                         {fromAssets && Object.keys(fromAssets).length ? (
                           <>
-                            <div className="grid grid-cols-5 gap-2 p-2 bg-gray-100 mb-1 rounded-t-md font-semibold text-sm sticky top-0 z-10">
+                            <div className="grid grid-cols-5 gap-2 p-2 bg-accent mb-1 rounded-t-md font-semibold text-sm sticky top-0 z-10">
                               <div className="col-span-2">
                                 {t("Barter:amount")}
                               </div>
@@ -625,7 +625,7 @@ export default function Barter(properties) {
                       <CardContent>
                         {toAssets && Object.keys(toAssets).length ? (
                           <>
-                            <div className="grid grid-cols-5 gap-2 p-2 mb-1 bg-gray-100 rounded-t-md font-semibold text-sm sticky top-0 z-10">
+                            <div className="grid grid-cols-5 gap-2 p-2 mb-1 bg-accent rounded-t-md font-semibold text-sm sticky top-0 z-10">
                               <div className="col-span-2">
                                 {t("Barter:amount")}
                               </div>
