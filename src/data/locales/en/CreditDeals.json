@@ -30,7 +30,7 @@
   "submit": "Submit",
   "deepLink": "Repaying {{finalRepayAmount}} {{debtAsset}}, to claim back {{collateralAsset}}",
   "card": {
-    "title": "💱 Check your active credit deals",
+    "title": "Check your active credit deals",
     "description": "From here you can both monitor active credit deals and manage repayments.",
     "viewingBorrowings": "Viewing your borrowings",
     "viewBorrowings": "View your borrowings",

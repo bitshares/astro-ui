@@ -21,113 +21,246 @@ import {
 } from "@/components/ui/accordion";
 import { useSidebar } from "@/components/ui/sidebar";
 
+import {
+  Repeat,
+  Send,
+  Coins,
+  Gem,
+  Wallet,
+  Globe,
+  Vote,
+  Receipt,
+  SlidersHorizontal,
+  Info,
+  Settings,
+  Zap,
+  ArrowLeftRight,
+  Lock,
+  Handshake,
+  Banknote,
+  Timer,
+  FileCheck,
+  Shield,
+  Clock,
+  HandCoins,
+  Landmark,
+  ListOrdered,
+  Star,
+  FileText,
+  Database,
+  BarChart3,
+  Droplets,
+  Eye,
+  Pickaxe,
+  Ticket,
+  Trophy,
+  Package,
+  FilePlus,
+  CreditCard,
+  FileStack,
+  ClipboardList,
+  Crown,
+  Server,
+  UserPlus,
+  Palette,
+  LineChart,
+  Sparkles,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const SECTION_ICONS = {
+  exchanging: Repeat,
+  transfer: Send,
+  debt: Coins,
+  assets: Gem,
+  accounts: Wallet,
+  chain: Globe,
+  gov: Vote,
+  invoicing: Receipt,
+  settings: SlidersHorizontal,
+};
+
+const SECTION_ACCENTS = {
+  exchanging: { fg: "!dark:text-cyan-400 !text-cyan-600", bg: "dark:bg-cyan-500/15 bg-cyan-100" },
+  transfer: { fg: "!dark:text-sky-400 !text-sky-600", bg: "dark:bg-sky-500/15 bg-sky-100" },
+  debt: { fg: "!dark:text-emerald-400 !text-emerald-600", bg: "dark:bg-emerald-500/15 bg-emerald-100" },
+  assets: { fg: "!dark:text-violet-400 !text-violet-600", bg: "dark:bg-violet-500/15 bg-violet-100" },
+  accounts: { fg: "!dark:text-emerald-400 !text-emerald-600", bg: "dark:bg-emerald-500/15 bg-emerald-100" },
+  chain: { fg: "!dark:text-slate-400 !text-slate-600", bg: "dark:bg-slate-500/15 bg-slate-100" },
+  gov: { fg: "!dark:text-indigo-400 !text-indigo-600", bg: "dark:bg-indigo-500/15 bg-indigo-100" },
+  invoicing: { fg: "!dark:text-amber-400 !text-amber-600", bg: "dark:bg-amber-500/15 bg-amber-100" },
+  settings: { fg: "!dark:text-violet-400 !text-violet-600", bg: "dark:bg-violet-500/15 bg-violet-100" },
+};
+
+const ITEM_ICONS = {
+  dex: LineChart,
+  instant_trade: Zap,
+  swap: ArrowLeftRight,
+  stake: Lock,
+  barter: Handshake,
+  tfund_user: Banknote,
+  transfer: Send,
+  timed_transfer: Timer,
+  withdraw_permissions: FileCheck,
+  htlc: Shield,
+  create_vesting: Clock,
+  borrow: HandCoins,
+  lend: Coins,
+  smartcoins: Gem,
+  tfunds: Landmark,
+  portfolio_balances: Wallet,
+  portfolio_open_orders: ListOrdered,
+  favourites: Star,
+  issued_assets: Gem,
+  offers: FileText,
+  deals: Handshake,
+  vesting: Clock,
+  proposals: FileText,
+  blocks: Database,
+  custom_pool_tracker: BarChart3,
+  pools: Droplets,
+  vote: Vote,
+  witnesses: Eye,
+  committee: Shield,
+  governance: Vote,
+  create_worker: Pickaxe,
+  create_ticket: Ticket,
+  ticket_leaderboard: Trophy,
+  invoice_inventory: Package,
+  create_invoice: FilePlus,
+  pay_invoice: CreditCard,
+  stored_invoices: FileStack,
+  accountLists: ClipboardList,
+  ltm: Crown,
+  nodes: Server,
+  create_account: UserPlus,
+  configure_visuals: Palette,
+  create_uia: Gem,
+  create_smartcoin: Gem,
+  create_liquidity_pool: Droplets,
+};
+
+const ITEM_ACCENTS = {
+  exchanging: { fg: "!dark:text-cyan-400 !text-cyan-600", bg: "dark:bg-cyan-500/15 bg-cyan-100" },
+  transfer: { fg: "!dark:text-sky-400 !text-sky-600", bg: "dark:bg-sky-500/15 bg-sky-100" },
+  debt: { fg: "!dark:text-emerald-400 !text-emerald-600", bg: "dark:bg-emerald-500/15 bg-emerald-100" },
+  assets: { fg: "!dark:text-violet-400 !text-violet-600", bg: "dark:bg-violet-500/15 bg-violet-100" },
+  accounts: { fg: "!dark:text-emerald-400 !text-emerald-600", bg: "dark:bg-emerald-500/15 bg-emerald-100" },
+  chain: { fg: "!dark:text-slate-400 !text-slate-600", bg: "dark:bg-slate-500/15 bg-slate-100" },
+  gov: { fg: "!dark:text-indigo-400 !text-indigo-600", bg: "dark:bg-indigo-500/15 bg-indigo-100" },
+  invoicing: { fg: "!dark:text-amber-400 !text-amber-600", bg: "dark:bg-amber-500/15 bg-amber-100" },
+  settings: { fg: "!dark:text-violet-400 !text-violet-600", bg: "dark:bg-violet-500/15 bg-violet-100" },
+};
+
 export default function AppSidebar() {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   const exchangingFundsHeading = [
-    { title: "Home:dex.title", href: "/dex/index.html" },
-    { title: "Home:instant_trade.title", href: "/instant_trade/index.html" },
-    { title: "Home:swap.title", href: "/swap/index.html" },
-    { title: "Home:stake.title", href: "/stake/index.html" },
-    { title: "Home:barter.title", href: "/barter/index.html" },
-    { title: "Home:tfund_user.title", href: "/tfund_user/index.html" },
+    { slug: "dex", title: "Home:dex.title", href: "/dex/index.html" },
+    { slug: "instant_trade", title: "Home:instant_trade.title", href: "/instant_trade/index.html" },
+    { slug: "swap", title: "Home:swap.title", href: "/swap/index.html" },
+    { slug: "stake", title: "Home:stake.title", href: "/stake/index.html" },
+    { slug: "barter", title: "Home:barter.title", href: "/barter/index.html" },
+    { slug: "tfund_user", title: "Home:tfund_user.title", href: "/tfund_user/index.html" },
   ];
 
   const transferFundsHeading = [
-    { title: "Home:transfer.title", href: "/transfer/index.html" },
-    { title: "Home:timed_transfer.title", href: "/timed_transfer/index.html" },
-    { title: "Home:htlc.title", href: "/htlc/index.html" },
+    { slug: "transfer", title: "Home:transfer.title", href: "/transfer/index.html" },
+    { slug: "timed_transfer", title: "Home:timed_transfer.title", href: "/timed_transfer/index.html" },
+    { slug: "htlc", title: "Home:htlc.title", href: "/htlc/index.html" },
     {
+      slug: "withdraw_permissions",
       title: "Home:withdraw_permission.title",
       href: "/withdraw_permissions/index.html",
     },
-    { title: "Home:create_vesting.title", href: "/create_vesting/index.html" },
+    { slug: "create_vesting", title: "Home:create_vesting.title", href: "/create_vesting/index.html" },
   ];
 
   const formsOfDebtHeading = [
-    { title: "Home:borrow.title", href: "/borrow/index.html" },
-    { title: "Home:lend.title", href: "/lend/index.html" },
-    { title: "Home:smartcoins.title", href: "/smartcoins/index.html" },
-    { title: "Home:tfunds.title", href: "/tfunds/index.html" },
+    { slug: "borrow", title: "Home:borrow.title", href: "/borrow/index.html" },
+    { slug: "lend", title: "Home:lend.title", href: "/lend/index.html" },
+    { slug: "smartcoins", title: "Home:smartcoins.title", href: "/smartcoins/index.html" },
+    { slug: "tfunds", title: "Home:tfunds.title", href: "/tfunds/index.html" },
   ];
 
   const assetCreation = [
-    { title: "Home:create_uia.title", href: "/create_uia/index.html" },
+    { slug: "create_uia", title: "Home:create_uia.title", href: "/create_uia/index.html" },
     {
+      slug: "create_smartcoin",
       title: "Home:create_smartcoin.title",
       href: "/create_smartcoin/index.html",
     },
     {
+      slug: "create_liquidity_pool",
       title: "Home:create_liquidity_pool.title",
       href: "/create_pool/index.html",
     },
   ];
 
-  /*
-    // Removed for now due to domain issues
-    {
-      title: "Home:portfolio_recent_activity.title",
-      href: "/recent-activity/index.html",
-    },
-  */
   const accountOverviewsHeading = [
-    { title: "Home:portfolio_balances.title", href: "/balances/index.html" },
+    { slug: "portfolio_balances", title: "Home:portfolio_balances.title", href: "/balances/index.html" },
     {
+      slug: "portfolio_open_orders",
       title: "Home:portfolio_open_orders.title",
       href: "/open-orders/index.html",
     },
-    { title: "Home:favourites.title", href: "/favourites/index.html" },
-    { title: "Home:issued_assets.title", href: "/issued_assets/index.html" },
-    { title: "Home:offers.title", href: "/offers/index.html" },
-    { title: "Home:deals.title", href: "/deals/index.html" },
-    { title: "Home:vesting.title", href: "/vesting/index.html" },
-    { title: "Home:proposals.title", href: "/proposals/index.html" },
+    { slug: "favourites", title: "Home:favourites.title", href: "/favourites/index.html" },
+    { slug: "issued_assets", title: "Home:issued_assets.title", href: "/issued_assets/index.html" },
+    { slug: "offers", title: "Home:offers.title", href: "/offers/index.html" },
+    { slug: "deals", title: "Home:deals.title", href: "/deals/index.html" },
+    { slug: "vesting", title: "Home:vesting.title", href: "/vesting/index.html" },
+    { slug: "proposals", title: "Home:proposals.title", href: "/proposals/index.html" },
   ];
 
-  // { title: "Home:featured.title", href: "/featured/index.html" }, // Removed for now
   const blockchainOverviewsHeading = [
-    { title: "Home:blocks.title", href: "/blocks/index.html" },
+    { slug: "blocks", title: "Home:blocks.title", href: "/blocks/index.html" },
     {
+      slug: "custom_pool_tracker",
       title: "Home:custom_pool_tracker.title",
       href: "/custom_pool_overview/index.html",
     },
-    { title: "Home:pools.title", href: "/pools/index.html" },
+    { slug: "pools", title: "Home:pools.title", href: "/pools/index.html" },
   ];
 
   const governanceHeading = [
-    { title: "Home:vote.title", href: "/vote/index.html" },
-    { title: "Home:witnesses.title", href: "/witnesses/index.html" },
-    { title: "Home:committee.title", href: "/committee/index.html" },
-    { title: "Home:governance.title", href: "/governance/index.html" },
-    { title: "Home:create_worker.title", href: "/create_worker/index.html" },
-    { title: "Home:create_ticket.title", href: "/create_ticket/index.html" },
+    { slug: "vote", title: "Home:vote.title", href: "/vote/index.html" },
+    { slug: "witnesses", title: "Home:witnesses.title", href: "/witnesses/index.html" },
+    { slug: "committee", title: "Home:committee.title", href: "/committee/index.html" },
+    { slug: "governance", title: "Home:governance.title", href: "/governance/index.html" },
+    { slug: "create_worker", title: "Home:create_worker.title", href: "/create_worker/index.html" },
+    { slug: "create_ticket", title: "Home:create_ticket.title", href: "/create_ticket/index.html" },
     {
+      slug: "ticket_leaderboard",
       title: "Home:ticket_leaderboard.title",
       href: "/ticket_leaderboard/index.html",
     },
   ];
 
   const settingsHeading = [
-    { title: "Home:accountLists.title", href: "/account_lists/index.html" },
-    { title: "Home:ltm.title", href: "/ltm/index.html" },
-    { title: "Home:nodes.title", href: "/nodes/index.html" },
-    { title: "Home:create_account.title", href: "/create_account/index.html" },
+    { slug: "accountLists", title: "Home:accountLists.title", href: "/account_lists/index.html" },
+    { slug: "ltm", title: "Home:ltm.title", href: "/ltm/index.html" },
+    { slug: "nodes", title: "Home:nodes.title", href: "/nodes/index.html" },
+    { slug: "create_account", title: "Home:create_account.title", href: "/create_account/index.html" },
   ];
 
   const invoicingHeading = [
     {
+      slug: "invoice_inventory",
       title: "Home:invoice_inventory.title",
       href: "/invoice_inventory/index.html",
     },
     {
+      slug: "create_invoice",
       title: "Home:create_invoice.title",
       href: "/create_invoice/index.html",
     },
     {
+      slug: "pay_invoice",
       title: "Home:pay_invoice.title",
       href: "/pay_invoice/index.html",
     },
     {
+      slug: "stored_invoices",
       title: "Home:stored_invoices.title",
       href: "/stored_invoices/index.html",
     },
@@ -181,31 +314,18 @@ export default function AppSidebar() {
     },
   ];
 
-  const groupEmojis = {
-    exchanging: "💱",
-    transfer: "💸",
-    debt: "🏦",
-    accounts: "📊",
-    chain: "⛓️",
-    assets: "🛠️",
-    gov: "🏛️",
-    settings: "⚙️",
-    invoicing: "🏪",
-  };
-
-  const { openMobile, isMobile } = useSidebar();
+  const { openMobile, isMobile, setOpenMobile, setOpen } = useSidebar();
   const [accValue, setAccValue] = React.useState(sections[0].key);
 
   React.useEffect(() => {
-    // When opening the mobile sidebar sheet, default to the first group
     if (isMobile && openMobile) {
       setAccValue(sections[0].key);
     }
   }, [isMobile, openMobile]);
 
   return (
-    <Sidebar>
-      <SidebarContent>
+    <Sidebar className="dark:!bg-slate-950/80 !bg-card dark:!border-r-white/[0.06] !border-r-border">
+      <SidebarContent className="dark:!bg-slate-950/80 !bg-card">
         <Accordion
           type="single"
           collapsible
@@ -213,35 +333,59 @@ export default function AppSidebar() {
           onValueChange={setAccValue}
           className="w-full"
         >
-          {sections.map((section) => (
-            <AccordionItem key={section.key} value={section.key}>
-              <AccordionTrigger className="py-2 text-sm">
-                <SidebarGroupLabel className="px-2 py-0.5 text-[13px]">
-                  <span className="mr-2" aria-hidden>
-                    {groupEmojis[section.key]}
-                  </span>
-                  {section.label}
-                </SidebarGroupLabel>
-              </AccordionTrigger>
-              <AccordionContent>
-                <SidebarGroup>
-                  <SidebarGroupContent className="ml-3 pl-3 border-l border-sidebar-border">
-                    <SidebarMenu>
-                      {section.items.map((it) => (
-                        <SidebarMenuItem key={it.href}>
-                          <SidebarMenuButton asChild>
-                            <a href={it.href}>
-                              <span>{t(it.title)}</span>
-                            </a>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      ))}
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </SidebarGroup>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
+          {sections.map((section) => {
+            const SectionIcon = SECTION_ICONS[section.key] || Settings;
+            return (
+              <AccordionItem
+                key={section.key}
+                value={section.key}
+                className="dark:border-b-white/[0.06] border-b-sidebar-border"
+              >
+                <AccordionTrigger className="py-2 text-sm hover:no-underline">
+                  <SidebarGroupLabel className="px-2 py-0.5 text-[13px]">
+                    <span className={cn("mr-2 inline-flex items-center justify-center w-5 h-5 rounded", SECTION_ACCENTS[section.key]?.bg)}>
+                      <SectionIcon className={cn("h-3 w-3", SECTION_ACCENTS[section.key]?.fg)} />
+                    </span>
+                    <span className="dark:text-white/70 text-sidebar-foreground/70">{section.label}</span>
+                  </SidebarGroupLabel>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <SidebarGroup>
+                    <SidebarGroupContent className="ml-3 pl-3 border-l dark:border-white/[0.08] border-sidebar-border">
+                      <SidebarMenu>
+                        {section.items.map((it) => {
+                          const ItemIcon = ITEM_ICONS[it.slug] || Sparkles;
+                          const itemAccent = ITEM_ACCENTS[section.key] || { fg: "dark:text-white/60 text-muted-foreground", bg: "dark:bg-white/10 bg-accent" };
+                          return (
+                            <SidebarMenuItem key={it.href}>
+                              <SidebarMenuButton
+                                asChild
+                                className="dark:!text-white/60 dark:hover:!text-white dark:hover:!bg-white/[0.06] !text-sidebar-foreground/60 hover:!text-sidebar-foreground hover:!bg-sidebar-accent !bg-transparent focus-visible:ring-0"
+                              >
+                                <a
+                                  href={it.href}
+                                  className="flex items-center gap-2"
+                                  onClick={() => {
+                                    if (isMobile) setOpenMobile(false);
+                                    else setOpen(false);
+                                  }}
+                                >
+                                  <span className={cn("inline-flex items-center justify-center w-5 h-5 rounded", itemAccent.bg)}>
+                                    <ItemIcon className={cn("h-3 w-3", itemAccent.fg)} />
+                                  </span>
+                                  <span>{t(it.title)}</span>
+                                </a>
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          );
+                        })}
+                      </SidebarMenu>
+                    </SidebarGroupContent>
+                  </SidebarGroup>
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
         </Accordion>
       </SidebarContent>
     </Sidebar>

@@ -37,5 +37,7 @@
     "noOwnedFunds": "You don't own any Same-T Funds.",
     "noSearchResults": "No Same-T Funds found.",
     "searchHeader": "Search for Same-T Funds",
-    "searchDescription": "You can search for Same-T Funds by their owner's account name or the asset on offer"
+    "searchDescription": "You can search for Same-T Funds by their owner's account name or the asset on offer",
+    "searchPlaceholder": "Search by asset or owner...",
+    "highFeeWarning": "High fee rate!"
 }

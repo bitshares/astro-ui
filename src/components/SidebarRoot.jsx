@@ -13,12 +13,25 @@ function SidebarBridge() {
   return null;
 }
 
+function SidebarBackdrop() {
+  const { openMobile, isMobile, setOpenMobile } = useSidebar();
+  if (!isMobile) return null;
+  return openMobile ? (
+    <div
+      aria-hidden
+      onClick={() => setOpenMobile(false)}
+      className="fixed inset-0 z-30 bg-black/30"
+    />
+  ) : null;
+}
+
 export default function SidebarRoot({ children }) {
   return (
     <SidebarProvider>
       <div className="lg:hidden">
         <AppSidebar />
       </div>
+      <SidebarBackdrop />
       {children}
       <SidebarBridge />
     </SidebarProvider>

@@ -50,6 +50,15 @@ import {
   FileCheck,
   FileClock,
   FileStack,
+  Timer,
+  Handshake,
+  Crown,
+  Eye,
+  Droplets,
+  Package,
+  Database,
+  ListOrdered,
+  Clock,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -64,44 +73,47 @@ const ICONS = {
   instant_trade: Zap,
   swap: ArrowLeftRight,
   stake: Lock,
-  barter: Repeat,
+  barter: Handshake,
   tfund_user: Banknote,
   transfer: Send,
-  timed_transfer: FileClock,
+  timed_transfer: Timer,
   withdraw_permissions: FileCheck,
   htlc: Shield,
-  create_vesting: Lock,
+  create_vesting: Clock,
   borrow: HandCoins,
   lend: Coins,
   smartcoins: Gem,
   tfunds: Landmark,
   portfolio_balances: Wallet,
-  portfolio_open_orders: ClipboardList,
+  portfolio_open_orders: ListOrdered,
   favourites: Star,
   issued_assets: Gem,
-  offers: BarChart3,
-  deals: Repeat,
-  vesting: Lock,
+  offers: FileText,
+  deals: Handshake,
+  vesting: Clock,
   proposals: FileText,
-  blocks: Globe,
+  blocks: Database,
   custom_pool_tracker: BarChart3,
-  pools: Coins,
+  pools: Droplets,
   vote: Vote,
-  witnesses: Pickaxe,
+  witnesses: Eye,
   committee: Shield,
   governance: Vote,
-  create_worker: FilePlus,
+  create_worker: Pickaxe,
   create_ticket: Ticket,
   ticket_leaderboard: Trophy,
-  invoice_inventory: Receipt,
+  invoice_inventory: Package,
   create_invoice: FilePlus,
-  pay_invoice: FileCheck,
+  pay_invoice: CreditCard,
   stored_invoices: FileStack,
   accountLists: ClipboardList,
-  ltm: Shield,
+  ltm: Crown,
   nodes: Server,
   create_account: UserPlus,
   configure_visuals: Palette,
+  create_uia: Gem,
+  create_smartcoin: Gem,
+  create_liquidity_pool: Droplets,
 };
 
 const ACCENTS = {
@@ -147,6 +159,9 @@ const ACCENTS = {
   nodes: { color: "dark:text-slate-300 text-muted-foreground", bg: "dark:bg-accent/15 bg-accent/80", border: "group-hover/navitem:dark:border-slate-400/30 group-hover/navitem:border-slate-400/50" },
   create_account: { color: "dark:text-emerald-300 text-emerald-600", bg: "dark:bg-emerald-500/15 bg-emerald-100/80", border: "group-hover/navitem:dark:border-emerald-400/30 group-hover/navitem:border-emerald-400/50" },
   configure_visuals: { color: "dark:text-violet-300 text-violet-600", bg: "dark:bg-violet-500/15 bg-violet-100/80", border: "group-hover/navitem:dark:border-violet-400/30 group-hover/navitem:border-violet-400/50" },
+  create_uia: { color: "dark:text-violet-300 text-violet-600", bg: "dark:bg-violet-500/15 bg-violet-100/80", border: "group-hover/navitem:dark:border-violet-400/30 group-hover/navitem:border-violet-400/50" },
+  create_smartcoin: { color: "dark:text-purple-300 text-purple-600", bg: "dark:bg-purple-500/15 bg-purple-100/80", border: "group-hover/navitem:dark:border-purple-400/30 group-hover/navitem:border-purple-400/50" },
+  create_liquidity_pool: { color: "dark:text-fuchsia-300 text-fuchsia-600", bg: "dark:bg-fuchsia-500/15 bg-fuchsia-100/80", border: "group-hover/navitem:dark:border-fuchsia-400/30 group-hover/navitem:border-fuchsia-400/50" },
 };
 
 const SECTION_ACCENT = {
@@ -416,9 +431,9 @@ export default function PageHeader(properties) {
         >
           <WaveBackground />
         </div>
-        <div className="container mx-auto px-3 sm:px-4 relative z-10">
+        <div className="container mx-auto px-3 sm:px-4 relative">
           <div className="grid grid-cols-12 gap-3 items-center min-h-[195px]">
-            <div className="col-span-12 md:col-span-3 mt-2 flex items-center gap-2 relative z-10">
+            <div className="col-span-12 md:col-span-3 mt-2 flex items-center gap-2">
               <Suspense fallback={<div className="h-8 w-24 bg-muted animate-pulse rounded" />}>
                 <LanguageSelector />
               </Suspense>
@@ -447,7 +462,7 @@ export default function PageHeader(properties) {
               </Button>
             </div>
 
-            <div className="col-span-12 md:col-span-6 text-center relative z-10">
+            <div className="col-span-12 md:col-span-6 text-center">
               <div className="relative">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-foreground dark:text-white dark:[text-shadow:_0_1px_2px_rgba(0,0,0,0.9),_0_2px_12px_rgba(0,0,0,0.7),_0_0_24px_rgba(0,0,0,0.5)]">
                   <a href="/index.html">
@@ -475,7 +490,7 @@ export default function PageHeader(properties) {
               </div>
             </div>
 
-            <div className="col-span-12 md:col-span-3 text-center md:text-right mt-2 relative z-10">
+            <div className="col-span-12 md:col-span-3 text-center md:text-right mt-2">
               {usr && usr.username && usr.username.length ? (
                 <CurrentUser usr={usr} />
               ) : null}

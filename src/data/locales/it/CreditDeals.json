@@ -1,6 +1,6 @@
 {
   "dealNo": "Affare #",
-  "with": " con ",
+  "with": "con ",
   "borrowed": "Hai preso in prestito",
   "lent": "Hanno preso in prestito",
   "loanCollateral": "Garanzia del prestito:",
@@ -30,7 +30,7 @@
   "submit": "Invia",
   "deepLink": "Rimborsare {{finalRepayAmount}} {{debtAsset}}, per reclamare la restituzione {{collateralAsset}}",
   "card": {
-    "title": "💱 Controlla le tue offerte di credito attive",
+    "title": "Controlla le tue offerte di credito attive",
     "description": "Da qui puoi sia monitorare i contratti di credito attivi sia gestire i rimborsi.",
     "viewingBorrowings": "Visualizzazione dei tuoi prestiti",
     "viewBorrowings": "Visualizza i tuoi prestiti",

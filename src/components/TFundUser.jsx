@@ -18,15 +18,6 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -34,6 +25,35 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+
+import {
+  ArrowDownUp,
+  Handshake,
+  Landmark,
+  Percent,
+  Sparkles,
+  TrendingUp,
+  Wallet,
+  Zap,
+  ChevronRight,
+  Info,
+  Plus,
+} from "lucide-react";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createEverySameTFundStore } from "@/nanoeffects/SameTFunds.ts";
@@ -49,12 +69,36 @@ import {
 } from "@/lib/common.js";
 import { $currentNode } from "@/stores/node.ts";
 import { $blockList } from "@/stores/blocklist.ts";
+import { cn } from "@/lib/utils";
 
-import ExternalLink from "./common/ExternalLink.jsx";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 import LimitOrderWizard from "./Market/LimitOrderWizard.jsx";
 
-export default function SameTFunds(properties) {
+const STEP_ACCENTS = {
+  1: {
+    bar: "from-violet-400/80 via-purple-400/80 to-fuchsia-400/80",
+    glow: "bg-violet-500/10",
+    border: "border-violet-500/25",
+    text: "dark:text-violet-200 text-violet-700",
+    bg: "from-violet-500/[0.06] to-transparent",
+  },
+  2: {
+    bar: "from-blue-400/80 via-cyan-400/80 to-teal-400/80",
+    glow: "bg-blue-500/10",
+    border: "border-blue-500/25",
+    text: "dark:text-blue-200 text-blue-700",
+    bg: "from-blue-500/[0.06] to-transparent",
+  },
+  3: {
+    bar: "from-emerald-400/80 via-green-400/80 to-teal-400/80",
+    glow: "bg-emerald-500/10",
+    border: "border-emerald-500/25",
+    text: "dark:text-emerald-200 text-emerald-700",
+    bg: "from-emerald-500/[0.06] to-transparent",
+  },
+};
+
+export default function TFundUser(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
     $currentUser.subscribe,
@@ -78,6 +122,7 @@ export default function SameTFunds(properties) {
   } = properties;
 
   const [sameTFunds, setSameTFunds] = useState();
+  const [loadingFunds, setLoadingFunds] = useState(true);
   const [lenderAccounts, setLenderAccounts] = useState([]);
   const [usrBalances, setUsrBalances] = useState();
 
@@ -111,15 +156,15 @@ export default function SameTFunds(properties) {
   const [sameTFundRepayFee, setSameTFundRepayFee] = useState(0);
   useEffect(() => {
     if (globalParams && globalParams.length) {
-      const fee1 = globalParams.find((x) => x.id === 1); // operation: limit_order_create
+      const fee1 = globalParams.find((x) => x.id === 1);
       const finalFee = humanReadableFloat(fee1.data.fee, 5);
       setLimitOrderFee(finalFee);
 
-      const fee67 = globalParams.find((x) => x.id === 67); // operation: same_tfund_borrow
+      const fee67 = globalParams.find((x) => x.id === 67);
       const finalFee67 = humanReadableFloat(fee67.data.fee, 5);
       setSameTFundBorrowFee(finalFee67);
 
-      const fee68 = globalParams.find((x) => x.id === 68); // operation: same_tfund_repay
+      const fee68 = globalParams.find((x) => x.id === 68);
       const finalFee68 = humanReadableFloat(fee68.data.fee, 5);
       setSameTFundRepayFee(finalFee68);
     }
@@ -156,6 +201,7 @@ export default function SameTFunds(properties) {
 
   useEffect(() => {
     async function fetching() {
+      setLoadingFunds(true);
       const sameTFundsStore = createEverySameTFundStore([
         _chain,
         currentNode ? currentNode.url : null,
@@ -165,7 +211,6 @@ export default function SameTFunds(properties) {
         if (data && !error && !loading) {
           let filteredData = data.filter((x) => x);
           if (_chain === "bitshares") {
-            // filter out any tfunds owned by banned users
             filteredData = filteredData
               .filter(
                 (x) =>
@@ -174,10 +219,11 @@ export default function SameTFunds(properties) {
                   )
               )
               .filter(
-                (x) => x.fee_rate < 500000 // 50% max fee...
+                (x) => x.fee_rate < 500000
               );
           }
           setSameTFunds(filteredData);
+          setLoadingFunds(false);
         }
       });
     }
@@ -338,12 +384,10 @@ export default function SameTFunds(properties) {
 
     const relevantAssetIds = new Set();
 
-    // Collect asset IDs from borrow positions
     borrowPositions.forEach((position) => {
       relevantAssetIds.add(position.asset_id);
     });
 
-    // Collect asset IDs from operations
     operations.forEach((operation) => {
       relevantAssetIds.add(operation.sell_price.base.asset_id);
       relevantAssetIds.add(operation.sell_price.quote.asset_id);
@@ -466,6 +510,8 @@ export default function SameTFunds(properties) {
     setMarketFees(feesArray);
   }, [operations, assets]);
 
+  // ─── Step 1: Fund Selection ────────────────────────────────────
+  const accent1 = STEP_ACCENTS[1];
   const FundRow = ({ index, style }) => {
     let fund = sameTFunds[index];
 
@@ -484,11 +530,14 @@ export default function SameTFunds(properties) {
       asset.precision
     );
     const lender = lenderAccounts.find((x) => x.id === fund.owner_account);
+    const available = balance - unpaidAmount;
 
     const [borrowAmount, setBorrowAmount] = useState(
       borrowPositions.find((x) => x.id === fund.id)?.borrow_amount || 0
     );
     const [borrowPositionDialog, setBorrowPositionDialog] = useState(false);
+
+    const hasExistingBorrow = borrowPositions.some((x) => x.id === fund.id);
 
     return (
       <div style={style} key={`sametfund-${fund.id}`}>
@@ -497,106 +546,166 @@ export default function SameTFunds(properties) {
           onOpenChange={setBorrowPositionDialog}
         >
           <DialogTrigger asChild>
-            <Card className="w-full hover:bg-accent">
-              <CardHeader className="pt-1 pb-1">
-                <CardDescription>
-                  <div className="grid grid-cols-4 gap-2 text-sm cursor-pointer p-2">
-                    <div>{fund.id}</div>
-                    <div>{lender ? lender.name : "???"}</div>
-                    <div>{`${balance - unpaidAmount} ${assetName}`}</div>
-                    <div>
-                      {`${feeRate} %`}
-                      {feeRate > 20 ? " ⚠️" : null}
-                    </div>
+            <button
+              type="button"
+              className={cn(
+                "w-full text-left group relative overflow-hidden rounded-xl border transition-all mb-2",
+                hasExistingBorrow
+                  ? "border-violet-500/40 bg-gradient-to-br from-violet-500/[0.08] to-purple-500/[0.04] hover:border-violet-500/60 hover:shadow-[0_0_24px_-6px_rgba(139,92,246,0.3)]"
+                  : "border-border/60 bg-card/40 hover:border-violet-400/30 hover:bg-violet-500/[0.03]"
+              )}
+            >
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity",
+                  hasExistingBorrow
+                    ? "via-violet-400/60"
+                    : "via-violet-400/30"
+                )}
+              />
+              <div className="px-3 py-2.5">
+                <div className="grid grid-cols-5 gap-2 items-center text-sm">
+                  <div className="flex items-center gap-1.5 col-span-1">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700 shrink-0">
+                      <Landmark className="h-3 w-3" />
+                    </span>
+                    <span className="font-mono text-xs font-semibold text-foreground">
+                      #{fund.id.replace("1.20.", "")}
+                    </span>
                   </div>
-                </CardDescription>
-              </CardHeader>
-            </Card>
+                  <div className="text-foreground/80 font-medium text-xs truncate col-span-1">
+                    {lender ? lender.name : "???"}
+                  </div>
+                  <div className="font-mono text-xs tabular-nums text-foreground/85 col-span-1">
+                    <span className="dark:text-violet-100/90 text-violet-700 font-semibold">
+                      {parseFloat(available).toLocaleString(undefined, {
+                        maximumFractionDigits: asset ? asset.precision : 4,
+                      })}
+                    </span>{" "}
+                    <span className="text-muted-foreground/60">{assetName}</span>
+                  </div>
+                  <div className="font-mono text-xs tabular-nums text-foreground/70 col-span-1 flex items-center gap-1">
+                    <Percent className="h-2.5 w-2.5 text-muted-foreground/50" />
+                    {feeRate.toFixed(2)}%
+                  </div>
+                  <div className="flex items-center justify-end col-span-1">
+                    {hasExistingBorrow ? (
+                      <Badge
+                        variant="outline"
+                        className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 text-[10px]"
+                      >
+                        {t("TFundUser:selected", "Selected")}
+                      </Badge>
+                    ) : (
+                      <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/50 group-hover:text-violet-400/70 transition-colors">
+                        {t("TFundUser:borrow", "Borrow")}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </button>
           </DialogTrigger>
-          <DialogContent className="bg-card w-1/2 max-w-4xl">
+          <DialogContent className="sm:max-w-[520px] !bg-card border border-border rounded-2xl">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/60 to-transparent"
+            />
             <DialogHeader>
-              <DialogTitle>{t("TFundUser:dialogTitle")}</DialogTitle>
-              <DialogDescription>
-                {t("WithdrawPermissions:id")}
-                {": "}
-                <span className="hover:text-purple-500 dark:hover:text-purple-400">{fund.id}</span>
-                <br />
+              <DialogTitle className="text-foreground">
+                {t("TFundUser:dialogTitle")}
+              </DialogTitle>
+              <DialogDescription className="text-muted-foreground space-y-1">
+                <div>
+                  {t("WithdrawPermissions:id")}:{" "}
+                  <span className="font-mono text-foreground/80 hover:text-violet-500 dark:hover:text-violet-400 transition-colors">
+                    {fund.id}
+                  </span>
+                </div>
                 {lender ? (
-                  <>
-                    {t("Smartcoin:owner")}
-                    {": "}
-
-                    <span className="hover:text-purple-500 dark:hover:text-purple-400">{lender.name}</span>
-                    <br />
-                  </>
+                  <div>
+                    {t("Smartcoin:owner")}:{" "}
+                    <span className="font-medium text-foreground/80 hover:text-violet-500 dark:hover:text-violet-400 transition-colors">
+                      {lender.name}
+                    </span>
+                  </div>
                 ) : null}
-                {t("TFundUser:amountAvailable")}: {balance - unpaidAmount}{" "}
-                {assetName}
-                <br />
-                {t("TFundUser:feeRate")}: {feeRate}%
+                <div>
+                  {t("TFundUser:amountAvailable")}:{" "}
+                  <span className="font-mono font-semibold text-foreground/85">
+                    {parseFloat(available).toLocaleString(undefined, {
+                      maximumFractionDigits: asset ? asset.precision : 4,
+                    })}{" "}
+                    {assetName}
+                  </span>
+                </div>
+                <div>
+                  {t("TFundUser:feeRate")}:{" "}
+                  <span className="font-mono text-foreground/80">
+                    {feeRate.toFixed(2)}%
+                  </span>
+                </div>
               </DialogDescription>
             </DialogHeader>
-            <div className="grid grid-cols-1 gap-3">
-              <Input
-                value={borrowAmount}
-                type="text"
-                onInput={(e) => {
-                  const value = e.currentTarget.value;
-                  if (regex.test(value)) {
-                    setBorrowAmount(
-                      balance - unpaidAmount < value
-                        ? balance - unpaidAmount
-                        : value
+            <div className="space-y-4">
+              <div className="rounded-xl border border-border/60 bg-card/40 p-4">
+                <label className="block text-xs font-medium text-muted-foreground mb-2">
+                  {t("TFundUser:borrowAmount", "Borrow amount")}
+                </label>
+                <Input
+                  value={borrowAmount}
+                  type="text"
+                  onInput={(e) => {
+                    const value = e.currentTarget.value;
+                    if (regex.test(value)) {
+                      setBorrowAmount(
+                        available < value ? available : value
+                      );
+                    }
+                  }}
+                  className="!bg-card/40 border-border text-foreground text-lg font-semibold"
+                />
+                <div className="flex items-center gap-1.5 mt-2">
+                  {[0, 0.25, 0.5, 0.75, 1].map((pct) => {
+                    const label = [
+                      t("TFundUser:zeroPercent"),
+                      t("TFundUser:twentyFivePercent"),
+                      t("TFundUser:fiftyPercent"),
+                      t("TFundUser:seventyFivePercent"),
+                      t("TFundUser:hundredPercent"),
+                    ][Math.round(pct * 4)];
+                    return (
+                      <button
+                        key={pct}
+                        type="button"
+                        onClick={() => {
+                          setBorrowAmount(available * pct);
+                        }}
+                        className={cn(
+                          "px-2 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider border transition-all",
+                          parseFloat(borrowAmount) === available * pct
+                            ? "border-violet-400/40 bg-violet-500/20 dark:text-violet-100 text-violet-700"
+                            : "border-border/60 bg-card/40 text-muted-foreground hover:border-violet-400/30 hover:bg-violet-500/10"
+                        )}
+                      >
+                        {label}
+                      </button>
                     );
-                  }
-                }}
-              />
-              <div className="grid grid-cols-5 gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setBorrowAmount(0);
-                  }}
-                >
-                  {t("TFundUser:zeroPercent")}
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setBorrowAmount((balance - unpaidAmount) * 0.25);
-                  }}
-                >
-                  {t("TFundUser:twentyFivePercent")}
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setBorrowAmount((balance - unpaidAmount) * 0.5);
-                  }}
-                >
-                  {t("TFundUser:fiftyPercent")}
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setBorrowAmount((balance - unpaidAmount) * 0.75);
-                  }}
-                >
-                  {t("TFundUser:seventyFivePercent")}
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setBorrowAmount(balance - unpaidAmount);
-                  }}
-                >
-                  {t("TFundUser:hundredPercent")}
-                </Button>
+                  })}
+                </div>
               </div>
-              {borrowAmount > 0 ? (
-                <Button
-                  variant="outline"
-                  onClick={() => {
+
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full h-11 rounded-xl font-semibold transition-all",
+                  borrowAmount > 0
+                    ? "border-violet-400/40 bg-violet-500/10 dark:text-violet-100 text-violet-700 hover:bg-violet-500/20 hover:border-violet-400/60 hover:shadow-[0_0_24px_-6px_rgba(139,92,246,0.4)]"
+                    : "border-border text-muted-foreground"
+                )}
+                onClick={() => {
+                  if (borrowAmount > 0) {
                     setBorrowPositions((prevBorrowPositions) => {
                       const _borrows = [...prevBorrowPositions];
                       const existingBorrow = _borrows.find(
@@ -618,14 +727,7 @@ export default function SameTFunds(properties) {
                     });
 
                     setBorrowPositionDialog(false);
-                  }}
-                >
-                  {t("TFundUser:submit")}
-                </Button>
-              ) : (
-                <Button
-                  variant="outline"
-                  onClick={() => {
+                  } else {
                     setBorrowPositions((prevBorrowPositions) => {
                       const _borrows = prevBorrowPositions.filter(
                         (x) => x.id !== fund.id
@@ -634,11 +736,13 @@ export default function SameTFunds(properties) {
                     });
 
                     setBorrowPositionDialog(false);
-                  }}
-                >
-                  {t("TFundUser:submit")}
-                </Button>
-              )}
+                  }
+                }}
+              >
+                {borrowAmount > 0
+                  ? t("TFundUser:submit")
+                  : t("TFundUser:removeBorrow", "Remove")}
+              </Button>
             </div>
           </DialogContent>
         </Dialog>
@@ -646,6 +750,110 @@ export default function SameTFunds(properties) {
     );
   };
 
+  // ─── Step 1 Header ─────────────────────────────────────────────
+  const Step1Section = (
+    <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent to-transparent",
+          accent1.bar
+        )}
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full blur-3xl"
+        style={{ background: "rgba(139,92,246,0.08)" }}
+      />
+      <div className="relative p-5 sm:p-6">
+        <div className="flex items-start gap-3 mb-4">
+          <span
+            className={cn(
+              "inline-flex h-8 w-8 items-center justify-center rounded-xl border bg-gradient-to-br",
+              accent1.border,
+              accent1.bg,
+              accent1.text
+            )}
+          >
+            <Handshake className="h-4 w-4" strokeWidth={2.25} />
+          </span>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <Badge
+                variant="outline"
+                className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 text-[10px]"
+              >
+                {t("TFundUser:stepIndicator", "Step 1")}
+              </Badge>
+              <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight">
+                {t("TFundUser:step1")}
+              </h3>
+            </div>
+            <p className="text-xs text-muted-foreground/70 mt-1">
+              {t("TFundUser:step1Description")}
+            </p>
+          </div>
+        </div>
+
+        {loadingFunds ? (
+          <div className="space-y-2">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="rounded-xl border border-border/40 bg-card/30 p-3"
+              >
+                <div className="grid grid-cols-5 gap-2">
+                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-4 w-12" />
+                  <Skeleton className="h-4 w-16 ml-auto" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : lenderAccounts &&
+          lenderAccounts.length &&
+          sameTFunds &&
+          sameTFunds.length > 0 ? (
+          <>
+            <div className="grid grid-cols-5 gap-2 px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+              <div>{t("WithdrawPermissions:id")}</div>
+              <div>{t("Smartcoin:owner")}</div>
+              <div>{t("CreditBorrow:common.offering")}</div>
+              <div>{t("PoolForm:fee")}</div>
+              <div className="text-right">{t("TFundUser:status", "Status")}</div>
+            </div>
+            <div className="w-full max-h-[280px] overflow-auto rounded-lg border border-border/40 bg-card/20">
+              <List
+                rowComponent={FundRow}
+                rowCount={sameTFunds.length}
+                rowHeight={80}
+                rowProps={{}}
+                key={`list-sametfunds`}
+              />
+            </div>
+          </>
+        ) : (
+          <Empty className="border border-dashed border-violet-500/20 rounded-xl bg-violet-500/[0.03]">
+            <EmptyHeader>
+              <EmptyMedia variant="icon" className="bg-violet-500/15 text-violet-400">
+                <Landmark className="w-6 h-6" />
+              </EmptyMedia>
+              <EmptyTitle className="text-foreground/80">
+                {t("TFundUser:noFundsAvailable", "No Same-T Funds available")}
+              </EmptyTitle>
+              <EmptyDescription className="text-muted-foreground">
+                {t("TFundUser:noFundsDescription", "There are no Same-T Funds currently available to borrow from.")}
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        )}
+      </div>
+    </div>
+  );
+
+  // ─── Borrow Positions ──────────────────────────────────────────
   const BorrowPositionRow = ({ index, style }) => {
     let _borrowPosition = borrowPositions[index];
 
@@ -663,25 +871,249 @@ export default function SameTFunds(properties) {
 
     return (
       <div style={style} key={`borrowposition-${_borrowPosition.id}`}>
-        <Card className="w-full">
-          <CardHeader className="pt-1 pb-1">
-            <CardDescription>
-              <div className="grid grid-cols-3">
-                <div>{_borrowPosition.id}</div>
-                <div>
-                  {borrowAmount} {borrowAsset.symbol}
-                </div>
-                <div>
-                  {feeAmount} {borrowAsset.symbol}
-                </div>
-              </div>
-            </CardDescription>
-          </CardHeader>
-        </Card>
+        <div className="group flex items-center justify-between rounded-lg border border-violet-500/15 bg-gradient-to-r from-violet-500/[0.04] to-transparent hover:border-violet-500/30 hover:bg-violet-500/[0.06] transition-all px-3 py-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+              <Landmark className="h-2.5 w-2.5" />
+            </span>
+            <span className="font-mono text-xs font-semibold text-foreground">
+              #{_borrowPosition.id.replace("1.20.", "")}
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs tabular-nums text-foreground/85">
+              {parseFloat(borrowAmount).toLocaleString(undefined, {
+                maximumFractionDigits: borrowAsset ? borrowAsset.precision : 4,
+              })}{" "}
+              <span className="text-muted-foreground/60">{borrowAsset.symbol}</span>
+            </span>
+            <span className="text-muted-foreground/40">|</span>
+            <span className="font-mono text-xs tabular-nums text-rose-400/80">
+              +{feeAmount} <span className="text-muted-foreground/60">{borrowAsset.symbol}</span>
+            </span>
+          </div>
+        </div>
       </div>
     );
   };
 
+  const BorrowPositionsSection = borrowPositions && borrowPositions.length ? (
+    <div className="relative overflow-hidden rounded-2xl border border-violet-500/20 bg-card/60 backdrop-blur-xl">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/40 to-transparent"
+      />
+      <div className="relative p-4 sm:p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+            <Wallet className="h-3 w-3" />
+          </span>
+          <h4 className="text-sm font-semibold text-foreground">
+            {t("TFundUser:borrowPositions")}
+          </h4>
+          <Badge
+            variant="outline"
+            className="border-violet-400/20 bg-violet-500/10 dark:text-violet-200 text-violet-700 text-[10px]"
+          >
+            {borrowPositions.length}
+          </Badge>
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button type="button" className="text-muted-foreground/60 hover:text-muted-foreground transition-colors">
+                  <Info className="h-3 w-3" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className="bg-card border-border text-foreground/85">
+                <p className="max-w-xs">{t("TFundUser:borrowPositionsDescription")}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+        <div className="rounded-xl border border-border/40 bg-card/30">
+          <div className="grid grid-cols-2 gap-2 px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60 border-b border-border/40">
+            <div>{t("TFundUser:fund")}</div>
+            <div className="text-right">
+              {t("TFundUser:borrowed")} / {t("TFundUser:borrowFees")}
+            </div>
+          </div>
+          <div className="w-full max-h-[200px] overflow-auto">
+            <List
+              rowComponent={BorrowPositionRow}
+              rowCount={borrowPositions.length}
+                rowHeight={48}
+                rowProps={{}}
+                key={`list-borrowpositions`}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : null;
+
+  // ─── Step 2: Operations ────────────────────────────────────────
+  const accent2 = STEP_ACCENTS[2];
+  const OpRow = ({ index, style }) => {
+    let _operation = operations[index];
+
+    if (!_operation) {
+      return null;
+    }
+
+    const _purchasedAsset = assets.find(
+      (x) => x.id === _operation.final_asset_purchased
+    );
+
+    const _soldAsset = assets.find((x) => x.id === _operation.final_asset_sold);
+
+    const _marketPurchaseFee = _purchasedAsset.market_fee_percent
+      ? _purchasedAsset.market_fee_percent / 10000
+      : 0;
+
+    const _amountPurchased = (
+      parseFloat(_operation.final_buy_amount) -
+      parseFloat(_operation.final_buy_amount) * _marketPurchaseFee
+    ).toFixed(_purchasedAsset.precision);
+
+    const _amountSold = (
+      parseFloat(_amountPurchased) * _operation.final_price
+    ).toFixed(_soldAsset.precision);
+
+    return (
+      <div style={style} key={`operation-summary-${_operation.id}-${index}`}>
+        <div className="group flex items-center justify-between rounded-lg border border-blue-500/15 bg-gradient-to-r from-blue-500/[0.04] to-transparent hover:border-blue-500/30 hover:bg-blue-500/[0.06] transition-all px-3 py-2">
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-blue-500/15 border border-blue-400/30 dark:text-blue-200 text-blue-700">
+              <TrendingUp className="h-2.5 w-2.5" />
+            </span>
+            <span className="font-mono text-xs tabular-nums text-emerald-400 font-semibold">
+              +{_amountPurchased}
+            </span>
+            <span className="text-xs text-foreground/80 font-medium">
+              {_purchasedAsset.symbol}
+            </span>
+            <ChevronRight className="h-3 w-3 text-muted-foreground/40" />
+            <span className="font-mono text-xs tabular-nums text-rose-400/80">
+              -{_amountSold}
+            </span>
+            <span className="text-xs text-foreground/80 font-medium">
+              {_soldAsset.symbol}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[10px] text-muted-foreground/60">
+              @ {_operation.final_price}
+            </span>
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setBuyingAsset(_purchasedAsset.symbol);
+                      setSellingAsset(_soldAsset.symbol);
+                      setAddOperationDialog(true);
+                    }}
+                    className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-blue-400/30 bg-blue-500/10 dark:text-blue-200 text-blue-700 hover:bg-blue-500/20 hover:border-blue-400/50 transition-all opacity-0 group-hover:opacity-100"
+                  >
+                    <Plus className="h-3 w-3" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent className="bg-card border-border text-foreground/85">
+                  <p>{t("TFundUser:editOperation", "Edit operation")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const Step2Section = borrowPositions && borrowPositions.length ? (
+    <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent to-transparent",
+          accent2.bar
+        )}
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full blur-3xl"
+        style={{ background: "rgba(59,130,246,0.08)" }}
+      />
+      <div className="relative p-5 sm:p-6">
+        <div className="flex items-start gap-3 mb-4">
+          <span
+            className={cn(
+              "inline-flex h-8 w-8 items-center justify-center rounded-xl border bg-gradient-to-br",
+              accent2.border,
+              accent2.bg,
+              accent2.text
+            )}
+          >
+            <ArrowDownUp className="h-4 w-4" strokeWidth={2.25} />
+          </span>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <Badge
+                variant="outline"
+                className="border-blue-400/30 bg-blue-500/10 dark:text-blue-200 text-blue-700 text-[10px]"
+              >
+                {t("TFundUser:stepIndicator2", "Step 2")}
+              </Badge>
+              <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight">
+                {t("TFundUser:step2")}
+              </h3>
+            </div>
+            <p className="text-xs text-muted-foreground/70 mt-1">
+              {t("TFundUser:step2Description")}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between mb-3">
+          <div className="rounded-xl border border-border/40 bg-card/30 flex-1 mr-3">
+            <div className="grid grid-cols-2 gap-2 px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60 border-b border-border/40">
+              <div>{t("TFundUser:operation", "Operation")}</div>
+              <div className="text-right">{t("TFundUser:price")}</div>
+            </div>
+            <div className="w-full max-h-[220px] overflow-auto">
+              <List
+                rowComponent={OpRow}
+                rowCount={operations.length}
+                rowHeight={52}
+                rowProps={{}}
+                key={`list-operations`}
+              />
+            </div>
+          </div>
+
+          <LimitOrderWizard
+            addOperationDialog={addOperationDialog}
+            setAddOperationDialog={setAddOperationDialog}
+            buyingAsset={buyingAsset}
+            setBuyingAsset={setBuyingAsset}
+            sellingAsset={sellingAsset}
+            setSellingAsset={setSellingAsset}
+            marketSearch={marketSearch}
+            assets={assets}
+            chain={usr && usr.chain ? usr.chain : "bitshares"}
+            borrowPositions={borrowPositions}
+            operations={operations}
+            setOperations={setOperations}
+            usrBalances={usrBalances}
+            updatedBalances={updatedBalances}
+          />
+        </div>
+      </div>
+    </div>
+  ) : null;
+
+  // ─── Step 3: Analysis ──────────────────────────────────────────
+  const accent3 = STEP_ACCENTS[3];
   const BalanceRow = ({ index, style }) => {
     const _balance = updatedBalances.filter((x) => x.display)[index];
     const _priorBalance = usrBalances.find(
@@ -716,364 +1148,241 @@ export default function SameTFunds(properties) {
       (_totalBorrowedAmount + _totalOwedAmount)
     ).toFixed(_asset.precision);
 
-    let _finalAmountStyle = "";
+    let _finalAmountColor = "text-foreground/85";
     if (_finalAmount < 0) {
-      _finalAmountStyle = "text-red-500 dark:text-red-400";
+      _finalAmountColor = "text-red-400 font-semibold";
     } else if (_finalAmount > 0) {
-      _finalAmountStyle = _diff > 0 ? "text-green-500 dark:text-green-400" : "";
+      _finalAmountColor = parseFloat(_diff) > 0
+        ? "text-emerald-400 font-semibold"
+        : "text-foreground/85";
+    }
+
+    let _diffColor = "text-muted-foreground/50";
+    if (parseFloat(_diff) > 0) {
+      _diffColor = "text-emerald-400";
+    } else if (parseFloat(_diff) < 0) {
+      _diffColor = "text-rose-400";
     }
 
     return (
       <div style={style} key={`balance-${_balance.asset_id}`}>
-        <Card>
-          <CardHeader className="pt-1 pb-1">
-            <CardDescription>
-              <div className="grid grid-cols-5 gap-2">
-                <div>{_balance.symbol}</div>
-                <div>
-                  {parseFloat(_balance.amount).toFixed(_asset.precision)}
-                </div>
-                <div>
-                  {_diff === 0 ? "" : null}
-                  {_diff < 0 ? _diff : `+${_diff}`}
-                </div>
-                <div>
-                  {_diff === 0 ? "" : null}
-                  {_totalBorrowedAmount > 0
-                    ? (_totalBorrowedAmount + _totalOwedAmount).toFixed(
-                        _asset.precision
-                      )
-                    : null}
-                </div>
-                <div className={_finalAmountStyle}>{_finalAmount}</div>
-              </div>
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
-
-  const OpRow = ({ index, style }) => {
-    let _operation = operations[index];
-
-    if (!_operation) {
-      return null;
-    }
-
-    const _purchasedAsset = assets.find(
-      (x) => x.id === _operation.final_asset_purchased
-    );
-
-    const _soldAsset = assets.find((x) => x.id === _operation.final_asset_sold);
-
-    const _marketPurchaseFee = _purchasedAsset.market_fee_percent
-      ? _purchasedAsset.market_fee_percent / 10000
-      : 0;
-
-    const _amountPurchased = (
-      parseFloat(_operation.final_buy_amount) -
-      parseFloat(_operation.final_buy_amount) * _marketPurchaseFee
-    ).toFixed(_purchasedAsset.precision);
-
-    const _amountSold = (
-      parseFloat(_amountPurchased) * _operation.final_price
-    ).toFixed(_soldAsset.precision);
-
-    return (
-      <div style={style} key={`operation-summary-${_operation.id}-${index}`}>
-        <Card className="w-full">
-          <CardHeader className="pt-1 pb-1">
-            <CardDescription>
-              <div className="grid grid-cols-10">
-                <div className="col-span-3">
-                  {_amountPurchased}
-                  <br />
-                  {_purchasedAsset.symbol}
-                </div>
-                <div className="col-span-3">
-                  {_amountSold}
-                  <br />
-                  {_soldAsset.symbol}
-                </div>
-                <div className="col-span-3">{_operation.final_price}</div>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    console.log("Editing operation");
-                    setBuyingAsset(_purchasedAsset.symbol);
-                    setSellingAsset(_soldAsset.symbol);
-                    setAddOperationDialog(true);
-                  }}
-                >
-                  ⚙️
-                </Button>
-              </div>
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
-
-  return (
-    <>
-      <div className="container mx-auto mt-5 mb-5">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader className="pb-1">
-              <CardTitle>{t("TFundUser:title")}</CardTitle>
-              <CardDescription>{t("TFundUser:description")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-foreground">
-                    {t("TFundUser:step1")}
-                  </label>
-                  <label className="block text-xs font-medium text-foreground">
-                    {t("TFundUser:step1Description")}
-                  </label>
-                  <div className="border rounded border-border p-2 mt-2">
-                    {lenderAccounts &&
-                    lenderAccounts.length &&
-                    sameTFunds &&
-                    sameTFunds.length > 0 ? (
-                      <>
-                        <div className="grid grid-cols-4">
-                          <label className="block text-sm font-medium text-foreground">
-                            {t("WithdrawPermissions:id")}
-                          </label>
-                          <label className="block text-sm font-medium text-foreground">
-                            {t("Smartcoin:owner")}
-                          </label>
-                          <label className="block text-sm font-medium text-foreground">
-                            {t("CreditBorrow:common.offering")}
-                          </label>
-                          <label className="block text-sm font-medium text-foreground">
-                            {t("PoolForm:fee")}
-                          </label>
-                        </div>
-                        <div className="w-full max-h-[250px] overflow-auto">
-                          <List
-                            rowComponent={FundRow}
-                            rowCount={sameTFunds.length}
-                            rowHeight={55}
-                            rowProps={{}}
-                            key={`list-sametfunds`}
-                          />
-                        </div>
-                      </>
-                    ) : (
-                      <div className="space-y-2 mt-5">
-                        <Skeleton className="h-4 w-[250px]" />
-                        <Skeleton className="h-4 w-[200px]" />
-                        <Skeleton className="h-4 w-[250px]" />
-                        <Skeleton className="h-4 w-[200px]" />
-                      </div>
-                    )}
-                  </div>
-                </div>
-                {borrowPositions && borrowPositions.length ? (
-                  <div>
-                    <label className="block text-sm font-medium text-foreground">
-                      {t("TFundUser:borrowPositions")}
-                    </label>
-                    <label className="block text-xs font-medium text-foreground">
-                      {t("TFundUser:borrowPositionsDescription")}
-                    </label>
-                    <div className="grid grid-cols-3 border rounded border-border p-2 mt-2">
-                      <label className="block text-sm font-medium text-foreground">
-                        {t("TFundUser:fund")}
-                      </label>
-                      <label className="block text-sm font-medium text-foreground">
-                        {t("TFundUser:borrowed")}
-                      </label>
-                      <label className="block text-sm font-medium text-foreground">
-                        {t("TFundUser:borrowFees")}
-                      </label>
-                      <div className="col-span-3">
-                        <div className="w-full mt-1 max-h-[200px] overflow-auto">
-                          <List
-                            rowComponent={BorrowPositionRow}
-                            rowCount={borrowPositions.length}
-                            rowHeight={35}
-                            rowProps={{}}
-                            key={`list-borrowpositions`}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-                {borrowPositions && borrowPositions.length ? (
-                  <div>
-                    <label className="block text-sm font-medium text-foreground">
-                      {t("TFundUser:step2")}
-                    </label>
-                    <label className="block text-xs font-medium text-foreground">
-                      {t("TFundUser:step2Description")}
-                    </label>
-                    <div className="grid grid-cols-6 gap-2">
-                      <div className="col-span-5 rounded border border-border p-2 mt-2">
-                        <div className="grid grid-cols-4">
-                          <label className="block text-sm font-medium text-foreground">
-                            {t("TFundUser:buying")}
-                          </label>
-                          <label className="block text-sm font-medium text-foreground">
-                            {t("TFundUser:selling")}
-                          </label>
-                          <label className="block text-sm font-medium text-foreground">
-                            {t("TFundUser:price")}
-                          </label>
-                          <div></div>
-                        </div>
-                        <div className="w-full mt-3 max-h-[200px] overflow-auto">
-                          <List
-                            rowComponent={OpRow}
-                            rowCount={operations.length}
-                            rowHeight={55}
-                            rowProps={{}}
-                            key={`list-operations`}
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <LimitOrderWizard
-                          addOperationDialog={addOperationDialog}
-                          setAddOperationDialog={setAddOperationDialog}
-                          buyingAsset={buyingAsset}
-                          setBuyingAsset={setBuyingAsset}
-                          sellingAsset={sellingAsset}
-                          setSellingAsset={setSellingAsset}
-                          marketSearch={marketSearch}
-                          assets={assets}
-                          chain={usr && usr.chain ? usr.chain : "bitshares"}
-                          borrowPositions={borrowPositions}
-                          operations={operations}
-                          setOperations={setOperations}
-                          usrBalances={usrBalances}
-                          updatedBalances={updatedBalances}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-
-                {borrowPositions &&
-                borrowPositions.length &&
-                updatedBalances &&
-                updatedBalances.length ? (
-                  <div>
-                    <label className="block text-sm font-medium text-foreground">
-                      {t("TFundUser:step3")}
-                    </label>
-                    <label className="block text-xs font-medium text-foreground">
-                      {t("TFundUser:step3Description")}
-                    </label>
-                    <div className="rounded border border-border p-2 mt-2">
-                      <div className="grid grid-cols-5 gap-2">
-                        <label className="block text-sm font-medium text-foreground">
-                          {t("TFundUser:asset")}
-                        </label>
-                        <label className="block text-sm font-medium text-foreground">
-                          {t("TFundUser:balance")}
-                        </label>
-                        <label className="block text-sm font-medium text-foreground">
-                          {t("TFundUser:difference")}
-                        </label>
-                        <label className="block text-sm font-medium text-foreground">
-                          {t("TFundUser:borrowed")}
-                        </label>
-                        <label className="block text-sm font-medium text-foreground">
-                          {t("TFundUser:finalAmount")}
-                        </label>
-                      </div>
-                      <div className="w-full mt-3 max-h-[200px] overflow-auto">
-                        <List
-                          rowComponent={BalanceRow}
-                          rowCount={
-                            updatedBalances.filter((x) => x.display).length
-                          }
-                          rowHeight={35}
-                          rowProps={{}}
-                          key={`list-updatedbalances`}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-
-                {operations && operations.length ? (
-                  <div>
-                    <label className="block text-sm font-medium text-foreground">
-                      {t("TFundUser:estimatedFees")}
-                    </label>
-                    <Card>
-                      <CardHeader className="p-1">
-                        <CardDescription>
-                          <div className="grid grid-cols-6 gap-2">
-                            <Badge className="m-1" key={"core_asset"}>
-                              {(
-                                operations.length * limitOrderFee +
-                                borrowPositions.length *
-                                  2 *
-                                  sameTFundBorrowFee +
-                                borrowPositions.length * 2 * sameTFundRepayFee
-                              ).toFixed(5)}{" "}
-                              {usr && usr.chain === "bitshares"
-                                ? "BTS"
-                                : "TEST"}
-                            </Badge>
-                            {marketFees && marketFees.length
-                              ? marketFees.map(({ symbol, fee }) => (
-                                  <Badge className="m-1" key={symbol}>
-                                    {fee} {symbol}
-                                  </Badge>
-                                ))
-                              : null}
-                          </div>
-                        </CardDescription>
-                      </CardHeader>
-                    </Card>
-                  </div>
-                ) : null}
-              </div>
-
-              {operations && operations.length ? (
-                <Button
-                  className="w-1/4 mt-3"
-                  variant="outline"
-                  onClick={() => {
-                    setDeeplinkDialog(true);
-                  }}
-                >
-                  {t("TFundUser:generateDeeplink")}
-                </Button>
-              ) : null}
-            </CardContent>
-          </Card>
-
-          {usr && deeplinkDialog ? (
-            <DeepLinkDialog
-              operationNames={[
-                ...Array(borrowPositions.length).fill("samet_fund_borrow"),
-                ...operations.map(() => "limit_order_create"),
-                ...Array(borrowPositions.length).fill("samet_fund_repay"),
-              ]}
-              username={usr && usr.username ? usr.username : ""}
-              usrChain={usr && usr.chain ? usr.chain : "bitshares"}
-              userID={usr.id}
-              dismissCallback={setDeeplinkDialog}
-              key={`constructing_deeplink_${
-                usr && usr.username ? usr.username : ""
-              }`}
-              headerText={t("TFundUser:deeplinkHeaderText")}
-              trxJSON={operationsJSON}
-            />
-          ) : null}
+        <div className="flex items-center justify-between rounded-lg border border-border/30 bg-card/30 hover:bg-card/50 transition-all px-3 py-2">
+          <span className="text-xs font-semibold text-foreground w-16">
+            {_balance.symbol}
+          </span>
+          <span className="font-mono text-xs tabular-nums text-foreground/85 w-24 text-right">
+            {parseFloat(_balance.amount).toFixed(_asset.precision)}
+          </span>
+          <span className={cn("font-mono text-xs tabular-nums w-20 text-right", _diffColor)}>
+            {parseFloat(_diff) === 0 ? "—" : parseFloat(_diff) > 0 ? `+${_diff}` : _diff}
+          </span>
+          <span className="font-mono text-xs tabular-nums text-foreground/70 w-24 text-right">
+            {_totalBorrowedAmount > 0
+              ? `${(_totalBorrowedAmount + _totalOwedAmount).toFixed(
+                  _asset.precision
+                )}`
+              : "—"}
+          </span>
+          <span className={cn("font-mono text-xs tabular-nums w-24 text-right", _finalAmountColor)}>
+            {_finalAmount}
+          </span>
         </div>
       </div>
+    );
+  };
+
+  const Step3Section = borrowPositions &&
+    borrowPositions.length &&
+    updatedBalances &&
+    updatedBalances.length ? (
+    <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent to-transparent",
+          accent3.bar
+        )}
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-20 -right-20 h-48 w-48 rounded-full blur-3xl"
+        style={{ background: "rgba(52,211,153,0.08)" }}
+      />
+      <div className="relative p-5 sm:p-6">
+        <div className="flex items-start gap-3 mb-4">
+          <span
+            className={cn(
+              "inline-flex h-8 w-8 items-center justify-center rounded-xl border bg-gradient-to-br",
+              accent3.border,
+              accent3.bg,
+              accent3.text
+            )}
+          >
+            <Sparkles className="h-4 w-4" strokeWidth={2.25} />
+          </span>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <Badge
+                variant="outline"
+                className="border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 text-[10px]"
+              >
+                {t("TFundUser:stepIndicator3", "Step 3")}
+              </Badge>
+              <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight">
+                {t("TFundUser:step3")}
+              </h3>
+            </div>
+            <p className="text-xs text-muted-foreground/70 mt-1">
+              {t("TFundUser:step3Description")}
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-border/40 bg-card/30">
+          <div className="grid grid-cols-5 gap-2 px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60 border-b border-border/40">
+            <div>{t("TFundUser:asset")}</div>
+            <div className="text-right">{t("TFundUser:balance")}</div>
+            <div className="text-right">{t("TFundUser:difference")}</div>
+            <div className="text-right">{t("TFundUser:borrowed")}</div>
+            <div className="text-right">{t("TFundUser:finalAmount")}</div>
+          </div>
+          <div className="w-full max-h-[220px] overflow-auto">
+            <List
+              rowComponent={BalanceRow}
+              rowCount={updatedBalances.filter((x) => x.display).length}
+                rowHeight={44}
+              rowProps={{}}
+              key={`list-updatedbalances`}
+            />
+          </div>
+        </div>
+
+        {operations && operations.length ? (
+          <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-500/[0.05] p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-amber-400/30 bg-amber-500/10 dark:text-amber-200 text-amber-700">
+                <Zap className="h-3 w-3" />
+              </span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">
+                {t("TFundUser:estimatedFees")}
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Badge
+                variant="outline"
+                className="border-amber-400/30 bg-amber-500/10 dark:text-amber-200 text-amber-700 font-mono"
+              >
+                <Zap className="h-3 w-3 mr-1" />
+                {(
+                  operations.length * limitOrderFee +
+                  borrowPositions.length *
+                    2 *
+                    sameTFundBorrowFee +
+                  borrowPositions.length * 2 * sameTFundRepayFee
+                ).toFixed(5)}{" "}
+                {usr && usr.chain === "bitshares" ? "BTS" : "TEST"}
+              </Badge>
+              {marketFees && marketFees.length
+                ? marketFees.map(({ symbol, fee }) => (
+                    <Badge
+                      key={symbol}
+                      variant="outline"
+                      className="border-blue-400/30 bg-blue-500/10 dark:text-blue-200 text-blue-700 font-mono"
+                    >
+                      <Percent className="h-3 w-3 mr-1" />
+                      {fee} {symbol}
+                    </Badge>
+                  ))
+                : null}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  ) : null;
+
+  // ─── Generate Deeplink Button ──────────────────────────────────
+  const DeeplinkButton = operations && operations.length ? (
+    <div className="flex justify-center mt-6">
+      <button
+        onClick={() => setDeeplinkDialog(true)}
+        className="group relative overflow-hidden inline-flex items-center gap-2 h-12 px-8 rounded-2xl text-sm font-semibold bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 text-white shadow-[0_8px_32px_-12px_rgba(139,92,246,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(139,92,246,0.9)] hover:from-violet-400 hover:via-purple-400 hover:to-fuchsia-400 transition-all active:scale-[0.99]"
+      >
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[linear-gradient(110deg,transparent_30%,rgba(255,255,255,0.18)_50%,transparent_70%)] bg-[length:200%_100%] group-hover:animate-[shimmer_1.6s_linear_infinite]"
+        />
+        <Zap className="h-4 w-4" />
+        <span className="relative">{t("TFundUser:generateDeeplink")}</span>
+      </button>
+    </div>
+  ) : null;
+
+  // ─── Main Render ────────────────────────────────────────────────
+  return (
+    <>
+      <div className="container mx-auto mt-5 mb-10 max-w-4xl">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-violet-950/20 mb-6">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/70 to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-violet-500/10 blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-fuchsia-500/10 blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-violet-400/30 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 dark:text-violet-200 text-violet-700">
+                <Sparkles className="h-4.5 w-4.5" strokeWidth={2.25} />
+              </span>
+              <div>
+                <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                  {t("TFundUser:title")}
+                </h2>
+                <p className="text-xs text-muted-foreground/70 mt-0.5">
+                  {t("TFundUser:description")}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-5">
+          {Step1Section}
+
+          {BorrowPositionsSection}
+
+          {Step2Section}
+
+          {Step3Section}
+
+          {DeeplinkButton}
+        </div>
+      </div>
+
+      {usr && deeplinkDialog ? (
+        <DeepLinkDialog
+          operationNames={[
+            ...Array(borrowPositions.length).fill("samet_fund_borrow"),
+            ...operations.map(() => "limit_order_create"),
+            ...Array(borrowPositions.length).fill("samet_fund_repay"),
+          ]}
+          username={usr && usr.username ? usr.username : ""}
+          usrChain={usr && usr.chain ? usr.chain : "bitshares"}
+          userID={usr.id}
+          dismissCallback={setDeeplinkDialog}
+          key={`constructing_deeplink_${
+            usr && usr.username ? usr.username : ""
+          }`}
+          headerText={t("TFundUser:deeplinkHeaderText")}
+          trxJSON={operationsJSON}
+        />
+      ) : null}
     </>
   );
 }

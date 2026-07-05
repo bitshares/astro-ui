@@ -1,6 +1,6 @@
 {
   "dealNo": "Tehing nr",
-  "with": " koos ",
+  "with": "koos ",
   "borrowed": "Sa laenasid",
   "lent": "Nad laenasid",
   "loanCollateral": "Laenu tagatis:",
@@ -30,7 +30,7 @@
   "submit": "Esita",
   "deepLink": "Tagasimaksmine {{finalRepayAmount}} {{debtAsset}}, et nõuda tagasi {{collateralAsset}}",
   "card": {
-    "title": "💱 Kontrollige oma aktiivseid krediidipakkumisi",
+    "title": "Kontrollige oma aktiivseid krediidipakkumisi",
     "description": "Siit saad nii aktiivseid krediiditehinguid jälgida kui ka tagasimakseid hallata.",
     "viewingBorrowings": "Teie laenude vaatamine",
     "viewBorrowings": "Vaadake oma laene",

@@ -11,6 +11,7 @@ import { sha256 } from "@noble/hashes/sha2.js";
 import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
@@ -22,15 +23,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 import {
   Dialog,
@@ -121,6 +113,14 @@ import {
   CircleIcon,
   CheckCircledIcon,
 } from "@radix-ui/react-icons";
+
+import {
+  Layers,
+  Zap,
+  TrendingUp,
+  RefreshCw,
+  ArrowDownUp,
+} from "lucide-react";
 
 export default function PoolStake(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -345,8 +345,8 @@ export default function PoolStake(properties) {
     return (
       <div
         style={style}
-        className={`grid grid-cols-12 hover:bg-purple-100 dark:hover:bg-purple-500/15 p-1 cursor-pointer ${
-          pool === _pool.id ? "bg-purple-200 dark:bg-purple-500/25" : ""
+        className={`grid grid-cols-12 hover:bg-purple-500/[0.06] hover:border-purple-400/20 p-1 cursor-pointer transition-colors ${
+          pool === _pool.id ? "bg-purple-500/25 border-purple-400/40" : ""
         }`}
         key={`pool_${_pool.id}`}
         onClick={() => {
@@ -355,24 +355,24 @@ export default function PoolStake(properties) {
       >
         <div className="col-span-1 flex items-center">
           {_pool.id === pool ? (
-            <CheckCircledIcon className="mt-1 text-green-600 dark:text-green-400" />
+            <CheckCircledIcon className="mt-1 text-purple-500 dark:text-purple-400" />
           ) : (
             <CircleIcon className="mt-1 text-muted-foreground" />
           )}
         </div>
-        <div className="col-span-1 text-sm flex items-center">
+        <div className="col-span-1 text-sm flex items-center font-mono text-foreground/85">
           {_pool.id.split(".")[2]}
         </div>
-        <div className="col-span-2 text-sm flex items-center">
+        <div className="col-span-2 text-sm flex items-center font-mono dark:text-purple-200/80 text-purple-700">
           {feePercent}%
         </div>
-        <div className="col-span-2 text-sm flex items-center">
+        <div className="col-span-2 text-sm flex items-center font-mono text-muted-foreground">
           {_pool.withdrawal_fee_percent / 100}%
         </div>
-        <div className="col-span-3 text-sm flex items-center justify-end">
+        <div className="col-span-3 text-sm flex items-center justify-end font-mono text-foreground/85">
           {humanReadableFloat(balanceForSelectedA, precisionForSelectedA)}
         </div>
-        <div className="col-span-3 text-sm flex items-center justify-end">
+        <div className="col-span-3 text-sm flex items-center justify-end font-mono text-foreground/85">
           {humanReadableFloat(balanceForSelectedB, precisionForSelectedB)}
         </div>
       </div>
@@ -555,23 +555,39 @@ export default function PoolStake(properties) {
 
   const [stakeTab, setStakeTab] = useState("stake");
 
-  const activeTabStyle = {
-    backgroundColor: "hsl(var(--primary))",
-    color: "hsl(var(--primary-foreground))",
-  };
-
   return (
     <>
-      <div className="container mx-auto mt-5 mb-5 w-full lg:w-1/2 px-3 sm:px-4">
-        <div className="grid grid-cols-1 gap-3">
-          <Card className="p-2">
-            <CardHeader>
-              <CardTitle>{t("PoolStake:title")}</CardTitle>
-              <CardDescription>{t("PoolStake:description")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {!pools ? <p>{t("PoolStake:loadingPoolData")}</p> : null}
-              {!assets ? <p>{t("PoolStake:loadingAssetData")}</p> : null}
+      <div className="container mx-auto mt-5 mb-5 max-w-4xl">
+        <div className="grid grid-cols-1 gap-5">
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-purple-950/20">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-400/70 to-transparent"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-purple-500/10 blur-3xl"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-violet-500/10 blur-3xl"
+            />
+            <div className="relative p-5 sm:p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-purple-400/30 bg-gradient-to-br from-purple-500/20 to-violet-500/20 dark:text-purple-200 text-purple-700">
+                  <Layers className="h-4.5 w-4.5" strokeWidth={2.25} />
+                </span>
+                <div>
+                  <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                    {t("PoolStake:title")}
+                  </h2>
+                  <p className="text-xs text-muted-foreground/70 mt-0.5">
+                    {t("PoolStake:description")}
+                  </p>
+                </div>
+              </div>
+              {!pools ? <p className="text-muted-foreground text-sm">{t("PoolStake:loadingPoolData")}</p> : null}
+              {!assets ? <p className="text-muted-foreground text-sm">{t("PoolStake:loadingAssetData")}</p> : null}
               {pools && assets ? (
                 <>
                   <form
@@ -628,7 +644,14 @@ export default function PoolStake(properties) {
                             control={form.control}
                             render={({ field, fieldState }) => (
                               <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel>{t("PoolStake:assetA")}</FieldLabel>
+                                <FieldLabel className="text-foreground/80">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/90 text-purple-700">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-purple-500/15 border border-purple-400/30 dark:text-purple-200 text-purple-700">
+                                      <ArrowDownUp className="h-3 w-3" strokeWidth={2.5} />
+                                    </span>
+                                    {t("PoolStake:assetA")}
+                                  </span>
+                                </FieldLabel>
                                 <FieldContent>
                                   <DropdownMenu
                                     open={sendMenuOpen}
@@ -637,32 +660,40 @@ export default function PoolStake(properties) {
                                     <DropdownMenuTrigger asChild>
                                       <Button
                                         variant="outline"
-                                        className="hover:bg-accent hover:shadow-lg w-full justify-start font-normal"
+                                        className="hover:bg-card/80 hover:border-purple-400/40 hover:shadow-lg w-full justify-start font-normal bg-card/60 border-border text-foreground"
                                         aria-label={t(
                                           "SimpleSwap:selectSendAsset",
                                         )}
                                         aria-invalid={fieldState.invalid}
                                       >
-                                        {selectedAssetASymbol
-                                          ? selectedAssetASymbol
-                                          : t("SimpleSwap:sendAsset")}
+                                        <span className="flex items-center gap-2">
+                                          <Layers className="h-4 w-4 dark:text-purple-300 text-purple-700" />
+                                          {selectedAssetASymbol
+                                            ? selectedAssetASymbol
+                                            : t("SimpleSwap:sendAsset")}
+                                        </span>
                                       </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent
-                                      className="p-0 w-[300px]"
+                                      className="p-0 w-[300px] !bg-card border border-border rounded-2xl overflow-hidden shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7)]"
                                       align="start"
                                     >
-                                      <Command className="rounded-lg border shadow-md">
+                                      <span
+                                        aria-hidden="true"
+                                        className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-purple-400/60 to-transparent"
+                                      />
+                                      <Command className="rounded-2xl bg-transparent border-0 shadow-none">
                                         <CommandInput
                                           placeholder={t(
                                             "PageHeader:commandSearchPlaceholder",
                                           )}
+                                          className="[&_[cmdk-input-wrapper]]:border-border [&_svg]:text-muted-foreground [&_svg]:opacity-100 text-foreground placeholder:text-muted-foreground"
                                         />
                                         <CommandList>
-                                          <CommandEmpty>
+                                          <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
                                             {t("PageHeader:noResultsFound")}
                                           </CommandEmpty>
-                                          <CommandGroup>
+                                          <CommandGroup className="[&_[cmdk-group-heading]]:text-muted-foreground">
                                             {poolAssets.length > 0 ? (
                                               poolAssets.map((assetSymbol) => (
                                                 <CommandItem
@@ -678,9 +709,15 @@ export default function PoolStake(properties) {
                                                     field.onChange(assetSymbol);
                                                     setSendMenuOpen(false);
                                                   }}
-                                                  className="cursor-pointer"
+                                                  className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-purple-500/15 data-[selected=true]:!text-foreground aria-selected:bg-purple-500/15"
                                                 >
-                                                  {assetSymbol}
+                                                  <span className="flex items-center gap-2">
+                                                    <Layers className="h-3.5 w-3.5 dark:text-purple-300/70 text-purple-600/80" />
+                                                    {assetSymbol}
+                                                  </span>
+                                                  {selectedAssetASymbol === assetSymbol && (
+                                                    <CheckCircledIcon className="ml-auto text-purple-400" />
+                                                  )}
                                                 </CommandItem>
                                               ))
                                             ) : (
@@ -708,7 +745,14 @@ export default function PoolStake(properties) {
                             }}
                             render={({ field, fieldState }) => (
                               <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel>{t("PoolStake:assetB")}</FieldLabel>
+                                <FieldLabel className="text-foreground/80">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+                                      <ArrowDownUp className="h-3 w-3" strokeWidth={2.5} />
+                                    </span>
+                                    {t("PoolStake:assetB")}
+                                  </span>
+                                </FieldLabel>
                                 <FieldContent>
                                   <DropdownMenu
                                     open={receiveMenuOpen}
@@ -720,33 +764,41 @@ export default function PoolStake(properties) {
                                     >
                                       <Button
                                         variant="outline"
-                                        className="hover:bg-accent hover:shadow-lg w-full justify-start font-normal"
+                                        className="hover:bg-card/80 hover:border-violet-400/40 hover:shadow-lg w-full justify-start font-normal bg-card/60 border-border text-foreground disabled:opacity-50"
                                         disabled={!selectedAssetASymbol}
                                         aria-label={t(
                                           "SimpleSwap:selectReceiveAsset",
                                         )}
                                         aria-invalid={fieldState.invalid}
                                       >
-                                        {selectedAssetBSymbol
-                                          ? selectedAssetBSymbol
-                                          : t("SimpleSwap:sendAsset")}
+                                        <span className="flex items-center gap-2">
+                                          <Layers className="h-4 w-4 dark:text-violet-300 text-violet-700" />
+                                          {selectedAssetBSymbol
+                                            ? selectedAssetBSymbol
+                                            : t("SimpleSwap:sendAsset")}
+                                        </span>
                                       </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent
-                                      className="p-0 w-[300px]"
+                                      className="p-0 w-[300px] !bg-card border border-border rounded-2xl overflow-hidden shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7)]"
                                       align="start"
                                     >
-                                      <Command className="rounded-lg border shadow-md">
+                                      <span
+                                        aria-hidden="true"
+                                        className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/60 to-transparent"
+                                      />
+                                      <Command className="rounded-2xl bg-transparent border-0 shadow-none">
                                         <CommandInput
                                           placeholder={t(
                                             "PageHeader:commandSearchPlaceholder",
                                           )}
+                                          className="[&_[cmdk-input-wrapper]]:border-border [&_svg]:text-muted-foreground [&_svg]:opacity-100 text-foreground placeholder:text-muted-foreground"
                                         />
                                         <CommandList>
-                                          <CommandEmpty>
+                                          <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
                                             {t("PageHeader:noResultsFound")}
                                           </CommandEmpty>
-                                          <CommandGroup>
+                                          <CommandGroup className="[&_[cmdk-group-heading]]:text-muted-foreground">
                                             {possiblePoolAssets.length > 0 ? (
                                               possiblePoolAssets.map(
                                                 (assetSymbol) => (
@@ -761,9 +813,15 @@ export default function PoolStake(properties) {
                                                       );
                                                       setReceiveMenuOpen(false);
                                                     }}
-                                                    className="cursor-pointer"
+                                                    className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-violet-500/15 data-[selected=true]:!text-foreground aria-selected:bg-violet-500/15"
                                                   >
-                                                    {assetSymbol}
+                                                    <span className="flex items-center gap-2">
+                                                      <Layers className="h-3.5 w-3.5 dark:text-violet-300/70 text-violet-600/80" />
+                                                      {assetSymbol}
+                                                    </span>
+                                                    {selectedAssetBSymbol === assetSymbol && (
+                                                      <CheckCircledIcon className="ml-auto text-violet-400" />
+                                                    )}
                                                   </CommandItem>
                                                 ),
                                               )
@@ -797,20 +855,20 @@ export default function PoolStake(properties) {
                       finalPools.length > 0 &&
                       selectedAssetASymbol &&
                       selectedAssetBSymbol ? (
-                        <div className="mt-5 border rounded-md p-2 mb-1">
-                          <div className="grid grid-cols-12 text-xs text-muted-foreground mb-1 p-1 border-b">
+                        <div className="mt-5 rounded-xl border border-purple-400/20 bg-gradient-to-br from-purple-500/[0.06] to-transparent p-3 mb-1">
+                          <div className="grid grid-cols-12 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1 p-1 border-b border-purple-400/20">
                             <div className="col-span-1"></div>
                             <div className="col-span-1">ID</div>
                             <div className="col-span-2">
                               <TooltipProvider>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
-                                    <span className="flex items-center cursor-help">
+                                    <span className="flex items-center cursor-help dark:text-purple-200/70 text-purple-600/80">
                                       {t("SimpleSwap:poolFee")}{" "}
                                       <QuestionMarkCircledIcon className="ml-1" />
                                     </span>
                                   </TooltipTrigger>
-                                  <TooltipContent>
+                                  <TooltipContent className="bg-card border-purple-400/30 text-foreground/85">
                                     <p>{t("SimpleSwap:poolFeeDescription")}</p>
                                   </TooltipContent>
                                 </Tooltip>
@@ -848,7 +906,10 @@ export default function PoolStake(properties) {
                         finalPools.length === 0 &&
                         pools &&
                         pools.length > 0 && (
-                          <p className="text-red-500 dark:text-red-400 mt-4 mb-4">
+                          <p className="text-sm text-red-400 dark:text-red-300 mt-4 mb-4 flex items-center gap-2">
+                            <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-red-500/15 border border-red-400/30">
+                              <ExclamationTriangleIcon className="h-3 w-3" />
+                            </span>
                             {t("SimpleSwap:noPoolsForPair")}
                           </p>
                         )}
@@ -863,180 +924,37 @@ export default function PoolStake(properties) {
                         {isFormReady ? (
                           <>
                             <div className="col-span-5">
-                              <Card>
-                                <CardHeader className="pb-0">
-                                  <CardTitle className="text-sm pt-0">
-                                    {t("PoolStake:assetA")}: {assetA.symbol}
-                                  </CardTitle>
-                                  <CardDescription>
-                                    {t("PoolStake:currentTotalAmountInPool")}
-                                  </CardDescription>
-                                </CardHeader>
-                                <CardContent className="text-lg mt-0 pt-0">
+                              <div className="rounded-xl border border-purple-400/15 bg-gradient-to-br from-purple-500/[0.07] to-transparent p-3 sm:p-4">
+                                <div className="text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/80 text-purple-700 mb-1 inline-flex items-center gap-1">
+                                  <Layers className="h-3 w-3" strokeWidth={2.5} />
+                                  {t("PoolStake:assetA")}: {assetA.symbol}
+                                </div>
+                                <div className="text-[10px] text-muted-foreground mb-1">
+                                  {t("PoolStake:currentTotalAmountInPool")}
+                                </div>
+                                <div className="font-mono text-lg tabular-nums dark:text-purple-100/90 text-purple-700">
                                   {foundPool && foundPoolDetails
                                     ? foundPool.readable_balance_a.split(" ")[0]
                                     : "0"}
-                                </CardContent>
-                              </Card>
+                                </div>
+                              </div>
                             </div>
                             <div className="col-span-5">
-                              <Card>
-                                <CardHeader className="pb-0">
-                                  <CardTitle className="text-sm pt-0">
-                                    {t("PoolStake:assetB")}:{" "}
-                                    <span className="text-blue-500 dark:text-blue-400">
-                                      {assetB.symbol}
-                                    </span>
-                                  </CardTitle>
-                                  <CardDescription>
-                                    {t("PoolStake:currentTotalAmountInPool")}
-                                  </CardDescription>
-                                </CardHeader>
-                                <CardContent className="text-lg mt-0 pt-0">
+                              <div className="rounded-xl border border-violet-400/15 bg-gradient-to-br from-violet-500/[0.07] to-transparent p-3 sm:p-4">
+                                <div className="text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/80 text-violet-700 mb-1 inline-flex items-center gap-1">
+                                  <Layers className="h-3 w-3" strokeWidth={2.5} />
+                                  {t("PoolStake:assetB")}: {assetB.symbol}
+                                </div>
+                                <div className="text-[10px] text-muted-foreground mb-1">
+                                  {t("PoolStake:currentTotalAmountInPool")}
+                                </div>
+                                <div className="font-mono text-lg tabular-nums dark:text-violet-100/90 text-violet-700">
                                   {foundPool && foundPoolDetails
                                     ? foundPool.readable_balance_b.split(" ")[0]
                                     : "0"}
-                                </CardContent>
-                              </Card>
+                                </div>
+                              </div>
                             </div>
-                          </>
-                        ) : null}
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-5 text-center">
-                        {isFormReady ? (
-                          <>
-                            <span className="ml-2 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-                              {t("PoolStake:bitsharesPoolExplorer")}
-                            </span>
-                            {foundPool && foundPoolDetails ? (
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <Button className="ml-2" variant="outline">
-                                    {t("PoolStake:poolJson")}
-                                  </Button>
-                                </DialogTrigger>
-                                <DialogContent className="sm:max-w-[550px] bg-card">
-                                  <DialogHeader>
-                                    <DialogTitle>
-                                      {t("PoolStake:poolJson")}
-                                    </DialogTitle>
-                                    <DialogDescription>
-                                      {t("PoolStake:checkPoolDetails")}
-                                    </DialogDescription>
-                                  </DialogHeader>
-                                  <div className="grid grid-cols-1">
-                                    <div className="col-span-1">
-                                      <ScrollArea className="h-72 rounded-md border">
-                                        <pre>
-                                          {JSON.stringify(
-                                            [foundPool, foundPoolDetails],
-                                            null,
-                                            2,
-                                          )}
-                                        </pre>
-                                      </ScrollArea>
-                                      <Button
-                                        className="w-1/4 mt-2"
-                                        onClick={() => {
-                                          navigator.clipboard.writeText(
-                                            JSON.stringify(
-                                              [foundPool, foundPoolDetails],
-                                              null,
-                                              2,
-                                            ),
-                                          );
-                                        }}
-                                      >
-                                        {t("LiveBlocks:dialogContent.copy")}
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </DialogContent>
-                              </Dialog>
-                            ) : (
-                              <Button className="ml-2" variant="outline">
-                                {t("PoolStake:poolJson")}
-                              </Button>
-                            )}
-                            {assetADetails && assetBDetails ? (
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <Button className="ml-2" variant="outline">
-                                    {t("PoolStake:swappableAssetJson")}
-                                  </Button>
-                                </DialogTrigger>
-                                <DialogContent className="sm:max-w-[550px] bg-card">
-                                  <DialogHeader>
-                                    <DialogTitle>
-                                      {t("PoolStake:swappableAssetJson")}
-                                    </DialogTitle>
-                                    <DialogDescription>
-                                      {t(
-                                        "PoolStake:checkSwappableAssetsDetails",
-                                      )}
-                                    </DialogDescription>
-                                  </DialogHeader>
-                                  <div className="grid grid-cols-1">
-                                    <div className="col-span-1">
-                                      <ScrollArea className="h-72 rounded-md border">
-                                        <pre>
-                                          {JSON.stringify(
-                                            {
-                                              assetA: assetA ?? "",
-                                              assetADetails:
-                                                assetADetails ?? {},
-                                              aBitassetData:
-                                                aBitassetData ?? {},
-                                              assetB: assetB ?? "",
-                                              assetBDetails:
-                                                assetBDetails ?? {},
-                                              bBitassetData:
-                                                bBitassetData ?? {},
-                                              poolShareDetails:
-                                                poolShareDetails ?? {},
-                                            },
-                                            null,
-                                            2,
-                                          )}
-                                        </pre>
-                                      </ScrollArea>
-                                      <Button
-                                        className="w-1/4 mt-2"
-                                        onClick={() => {
-                                          navigator.clipboard.writeText(
-                                            JSON.stringify(
-                                              {
-                                                assetA: assetA ?? "",
-                                                assetADetails:
-                                                  assetADetails ?? {},
-                                                aBitassetData:
-                                                  aBitassetData ?? {},
-                                                assetB: assetB ?? "",
-                                                assetBDetails:
-                                                  assetBDetails ?? {},
-                                                bBitassetData:
-                                                  bBitassetData ?? {},
-                                                poolShareDetails:
-                                                  poolShareDetails ?? {},
-                                              },
-                                              null,
-                                              2,
-                                            ),
-                                          );
-                                        }}
-                                      >
-                                        {t("LiveBlocks:dialogContent.copy")}
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </DialogContent>
-                              </Dialog>
-                            ) : (
-                              <Button className="ml-2" variant="outline">
-                                {t("PoolStake:swappableAssetJson")}
-                              </Button>
-                            )}
                           </>
                         ) : null}
                       </div>
@@ -1047,9 +965,9 @@ export default function PoolStake(properties) {
                           defaultValue={stakeTab}
                           className="w-full mt-5"
                         >
-                          <TabsList className="grid w-full grid-cols-2 gap-2">
+                          <TabsList className="grid w-full grid-cols-2 gap-2 bg-card/40 border border-border">
                             {stakeTab === "stake" ? (
-                              <TabsTrigger value="stake" style={activeTabStyle}>
+                              <TabsTrigger value="stake" className="bg-gradient-to-r from-purple-500/20 to-violet-500/20 dark:text-purple-100 text-purple-700 border border-purple-400/40 shadow-[0_0_18px_-8px_rgba(168,85,247,0.6)]">
                                 {t("PoolStake:stakingAssets")}
                               </TabsTrigger>
                             ) : (
@@ -1058,6 +976,7 @@ export default function PoolStake(properties) {
                                 onClick={(event) => {
                                   setStakeTab("stake");
                                 }}
+                                className="text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
                               >
                                 {t("PoolStake:stakeAssets")}
                               </TabsTrigger>
@@ -1065,7 +984,7 @@ export default function PoolStake(properties) {
                             {stakeTab === "unstake" ? (
                               <TabsTrigger
                                 value="unstake"
-                                style={activeTabStyle}
+                                className="bg-gradient-to-r from-purple-500/20 to-violet-500/20 dark:text-purple-100 text-purple-700 border border-purple-400/40 shadow-[0_0_18px_-8px_rgba(168,85,247,0.6)]"
                               >
                                 {t("PoolStake:unstakingAssets")}
                               </TabsTrigger>
@@ -1075,6 +994,7 @@ export default function PoolStake(properties) {
                                 onClick={(event) => {
                                   setStakeTab("unstake");
                                 }}
+                                className="text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
                               >
                                 {t("PoolStake:unstakeAssets")}
                               </TabsTrigger>
@@ -1082,12 +1002,18 @@ export default function PoolStake(properties) {
                           </TabsList>
 
                           <TabsContent value="stake">
+                            <div className="rounded-xl border border-purple-400/20 bg-gradient-to-br from-purple-500/[0.07] to-transparent p-3 sm:p-4 mt-3">
                             <div className="grid grid-cols-1">
                               <Field className="mb-4">
-                                <FieldLabel>
-                                  {t("PoolStake:howMuchToStake", {
-                                    symbol: assetA ? assetA.symbol : "???",
-                                  })}
+                                <FieldLabel className="text-foreground/80">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/90 text-purple-700">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-purple-500/15 border border-purple-400/30 dark:text-purple-200 text-purple-700">
+                                      <TrendingUp className="h-3 w-3" strokeWidth={2.5} />
+                                    </span>
+                                    {t("PoolStake:howMuchToStake", {
+                                      symbol: assetA ? assetA.symbol : "???",
+                                    })}
+                                  </span>
                                 </FieldLabel>
                                 <FieldContent>
                                   <div className="grid grid-cols-12 gap-3">
@@ -1100,6 +1026,7 @@ export default function PoolStake(properties) {
                                             ? `${aStake} ${assetA.symbol}`
                                             : `0 ${assetA.symbol}`
                                         }
+                                        className="!bg-card/40 border-border text-foreground placeholder:text-muted-foreground/50"
                                       />
                                     </div>
                                     <div className="col-span-4 ml-3">
@@ -1109,15 +1036,13 @@ export default function PoolStake(properties) {
                                             onClick={() => {
                                               event.preventDefault();
                                             }}
-                                            className="inline-block border border-border rounded pl-4 pb-1 pr-4"
+                                            className="inline-flex items-center rounded-md border border-purple-400/30 bg-purple-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-purple-200 text-purple-700 hover:bg-purple-500/20 hover:border-purple-400/50 transition-colors cursor-pointer"
                                           >
-                                            <Label>
-                                              {t("PoolStake:changeAmount")}
-                                            </Label>
+                                            {t("PoolStake:changeAmount")}
                                           </span>
                                         </PopoverTrigger>
-                                        <PopoverContent>
-                                          <Label>
+                                        <PopoverContent className="bg-card border-border">
+                                          <Label className="text-foreground/80">
                                             {t("PoolStake:newAmount")}
                                           </Label>{" "}
                                           <Controller
@@ -1233,10 +1158,15 @@ export default function PoolStake(properties) {
                                 </FieldContent>
                               </Field>
                               <Field className="mb-4">
-                                <FieldLabel>
-                                  {t("PoolStake:howMuchToStake", {
-                                    symbol: assetB ? assetB.symbol : "???",
-                                  })}
+                                <FieldLabel className="text-foreground/80">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+                                      <TrendingUp className="h-3 w-3" strokeWidth={2.5} />
+                                    </span>
+                                    {t("PoolStake:howMuchToStake", {
+                                      symbol: assetB ? assetB.symbol : "???",
+                                    })}
+                                  </span>
                                 </FieldLabel>
                                 <FieldContent>
                                   <div className="grid grid-cols-12 gap-3">
@@ -1249,6 +1179,7 @@ export default function PoolStake(properties) {
                                             ? `${bStake} ${assetB.symbol}`
                                             : `0 ${assetB.symbol}`
                                         }
+                                        className="!bg-card/40 border-border text-foreground placeholder:text-muted-foreground/50"
                                       />
                                     </div>
                                     <div className="col-span-4 ml-3">
@@ -1258,15 +1189,13 @@ export default function PoolStake(properties) {
                                             onClick={() => {
                                               event.preventDefault();
                                             }}
-                                            className="inline-block border border-border rounded pl-4 pb-1 pr-4"
+                                            className="inline-flex items-center rounded-md border border-violet-400/30 bg-violet-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-violet-200 text-violet-700 hover:bg-violet-500/20 hover:border-violet-400/50 transition-colors cursor-pointer"
                                           >
-                                            <Label>
-                                              {t("PoolStake:changeAmount")}
-                                            </Label>
+                                            {t("PoolStake:changeAmount")}
                                           </span>
                                         </PopoverTrigger>
-                                        <PopoverContent>
-                                          <Label>
+                                        <PopoverContent className="bg-card border-border">
+                                          <Label className="text-foreground/80">
                                             {t("PoolStake:newAmount")}
                                           </Label>{" "}
                                           <Controller
@@ -1382,8 +1311,13 @@ export default function PoolStake(properties) {
                                 </FieldContent>
                               </Field>
                               <Field className="mb-4">
-                                <FieldLabel>
-                                  {t("PoolStake:totalShareAssetReceive")}
+                                <FieldLabel className="text-foreground/80">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/90 text-purple-700">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-purple-500/15 border border-purple-400/30 dark:text-purple-200 text-purple-700">
+                                      <TrendingUp className="h-3 w-3" strokeWidth={2.5} />
+                                    </span>
+                                    {t("PoolStake:totalShareAssetReceive")}
+                                  </span>
                                 </FieldLabel>
                                 <FieldContent>
                                   <div className="grid grid-cols-1 md:grid-cols-2 mb-3 mt-3">
@@ -1395,21 +1329,29 @@ export default function PoolStake(properties) {
                                           ? `${totalReceiving} ${foundPool?.share_asset_symbol}`
                                           : "0"
                                       }
+                                      className="!bg-card/40 border-border text-foreground font-mono"
                                     />
                                   </div>
                                 </FieldContent>
                               </Field>
                             </div>
+                            </div>
                           </TabsContent>
                           <TabsContent value="unstake">
+                            <div className="rounded-xl border border-purple-400/20 bg-gradient-to-br from-purple-500/[0.07] to-transparent p-3 sm:p-4 mt-3">
                             <div className="grid grid-cols-1">
                               <Field className="mb-4">
-                                <FieldLabel>
-                                  {t("PoolStake:withdrawLabel", {
-                                    symbol: foundPool.share_asset_symbol,
-                                  })}
+                                <FieldLabel className="text-foreground/80">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/90 text-purple-700">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-purple-500/15 border border-purple-400/30 dark:text-purple-200 text-purple-700">
+                                      <TrendingUp className="h-3 w-3" strokeWidth={2.5} />
+                                    </span>
+                                    {t("PoolStake:withdrawLabel", {
+                                      symbol: foundPool.share_asset_symbol,
+                                    })}
+                                  </span>
                                 </FieldLabel>
-                                <FieldDescription>
+                                <FieldDescription className="text-muted-foreground/70">
                                   {t("PoolStake:withdrawDesc")}
                                 </FieldDescription>
                                 <FieldContent>
@@ -1423,6 +1365,7 @@ export default function PoolStake(properties) {
                                             ? `${withdrawAmount} ${foundPool.share_asset_symbol}`
                                             : `0 ${foundPool.share_asset_symbol}`
                                         }
+                                        className="!bg-card/40 border-border text-foreground placeholder:text-muted-foreground/50"
                                       />
                                     </div>
                                     <div className="col-span-4 ml-3">
@@ -1432,15 +1375,13 @@ export default function PoolStake(properties) {
                                             onClick={() => {
                                               event.preventDefault();
                                             }}
-                                            className="inline-block border border-border rounded pl-4 pb-1 pr-4"
+                                            className="inline-flex items-center rounded-md border border-purple-400/30 bg-purple-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-purple-200 text-purple-700 hover:bg-purple-500/20 hover:border-purple-400/50 transition-colors cursor-pointer"
                                           >
-                                            <Label>
-                                              {t("PoolStake:changeAmount")}
-                                            </Label>
+                                            {t("PoolStake:changeAmount")}
                                           </span>
                                         </PopoverTrigger>
-                                        <PopoverContent>
-                                          <Label>
+                                        <PopoverContent className="bg-card border-border">
+                                          <Label className="text-foreground/80">
                                             {t("PoolStake:newAmount")}
                                           </Label>{" "}
                                           <Controller
@@ -1541,10 +1482,12 @@ export default function PoolStake(properties) {
                               </Field>
 
                               <Field className="mb-4">
-                                <FieldLabel>
-                                  {t("PoolStake:withdrawingA", {
-                                    symbol: assetA.symbol,
-                                  })}
+                                <FieldLabel className="text-foreground/80">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/90 text-purple-700">
+                                    {t("PoolStake:withdrawingA", {
+                                      symbol: assetA.symbol,
+                                    })}
+                                  </span>
                                 </FieldLabel>
                                 <FieldContent>
                                   <div className="grid grid-cols-1 md:grid-cols-2 mb-3 mt-3 gap-3">
@@ -1552,15 +1495,18 @@ export default function PoolStake(properties) {
                                       disabled
                                       readOnly
                                       placeholder={`${withdrawingA} ${assetA.symbol}`}
+                                      className="!bg-card/40 border-border text-foreground font-mono"
                                     />
                                   </div>
                                 </FieldContent>
                               </Field>
                               <Field>
-                                <FieldLabel>
-                                  {t("PoolStake:withdrawingB", {
-                                    symbol: assetB.symbol,
-                                  })}
+                                <FieldLabel className="text-foreground/80">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
+                                    {t("PoolStake:withdrawingB", {
+                                      symbol: assetB.symbol,
+                                    })}
+                                  </span>
                                 </FieldLabel>
                                 <FieldContent>
                                   <div className="grid grid-cols-1 md:grid-cols-2 mb-3 mt-3 gap-3">
@@ -1568,19 +1514,26 @@ export default function PoolStake(properties) {
                                       disabled
                                       readOnly
                                       placeholder={`${withdrawingB} ${assetB.symbol}`}
+                                      className="!bg-card/40 border-border text-foreground font-mono"
                                     />
                                   </div>
                                 </FieldContent>
                               </Field>
+                            </div>
                             </div>
                           </TabsContent>
                         </Tabs>
                       ) : null}
 
                       {isFormReady ? (
-                        <Field>
-                          <FieldLabel>{t("PoolStake:networkFee")}</FieldLabel>
-                          <FieldDescription style={{ marginTop: "0px" }}>
+                        <div className="rounded-xl border border-purple-400/20 bg-purple-500/[0.05] p-3 mt-5">
+                          <FieldLabel className="text-foreground/80">
+                            <span className="inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider dark:text-purple-200/80 text-purple-700">
+                              <Zap className="h-3 w-3" strokeWidth={2.5} />
+                              {t("PoolStake:networkFee")}
+                            </span>
+                          </FieldLabel>
+                          <FieldDescription className="text-muted-foreground/70 text-xs mt-1">
                             {t(
                               `PoolStake:networkFeeDescription${
                                 stakeTab === "stake" ? "1" : "2"
@@ -1590,18 +1543,15 @@ export default function PoolStake(properties) {
                           <FieldContent>
                             <div className="grid grid-cols-1 md:grid-cols-2 mb-3 mt-3 gap-3">
                               <div className="col-span-1">
-                                <Input
-                                  disabled
-                                  readOnly
-                                  placeholder={`${
-                                    stakeTab === "stake" ? fee : unstakeFee
-                                  } BTS`}
-                                />
+                                <div className="flex items-center gap-1.5 font-mono text-sm tabular-nums dark:text-purple-400 text-purple-700">
+                                  <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
+                                  {stakeTab === "stake" ? fee : unstakeFee} BTS
+                                </div>
                               </div>
                             </div>
                           </FieldContent>
                           {usr.id === usr.referrer ? (
-                            <FieldDescription>
+                            <FieldDescription className="text-xs text-muted-foreground/70">
                               {t("PoolStake:rebate", {
                                 rebate:
                                   stakeTab === "stake"
@@ -1610,16 +1560,19 @@ export default function PoolStake(properties) {
                               })}
                             </FieldDescription>
                           ) : null}
-                        </Field>
+                        </div>
                       ) : null}
                       {isFormReady ? (
-                        <Button
-                          className="mt-5 mb-3"
-                          variant="outline"
+                        <button
                           type="submit"
+                          className="mt-6 w-full h-14 rounded-2xl font-semibold text-white bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-500 shadow-[0_8px_32px_-12px_rgba(168,85,247,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(168,85,247,0.9)] hover:from-purple-400 hover:via-violet-400 hover:to-indigo-400 transition-all flex items-center justify-center gap-2 text-base group"
                         >
+                          <Layers
+                            className="h-4 w-4 group-hover:scale-110 transition-transform"
+                            strokeWidth={2.5}
+                          />
                           {t("PoolStake:submit")}
-                        </Button>
+                        </button>
                       ) : null}
                     </FieldGroup>
                   </form>
@@ -1686,14 +1639,14 @@ export default function PoolStake(properties) {
                   ) : null}
                 </>
               ) : null}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-5 items-stretch">
           {pool && !isFormReady ? (
             <div className="col-span-2 flex items-center justify-center py-10">
-              <Spinner className="size-6" />
+              <Spinner className="size-6 dark:text-purple-300 text-purple-700" />
             </div>
           ) : null}
           {isFormReady ? (
@@ -1733,55 +1686,57 @@ export default function PoolStake(properties) {
           <div className="grid grid-cols-1 gap-3">
             {isFormReady ? (
               <>
-                <Card>
-                  <CardHeader className="pb-2 pt-4">
-                    <CardTitle>{t("PoolStake:borrowAssets")}</CardTitle>
-                    <CardDescription className="text-sm">
+                <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl">
+                  <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-violet-500" />
+                  <div className="p-4">
+                    <h3 className="text-base font-semibold text-foreground mb-1">
+                      {t("PoolStake:borrowAssets")}
+                    </h3>
+                    <p className="text-xs text-muted-foreground mb-3">
                       {t("PoolStake:borrowAssetsDescription")}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="text-sm pb-3">
-                    <Label>{t("PoolStake:searchBorrowableAssets")}</Label>
-                    <br />
-                    <a
-                      href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetA.symbol}`}
-                    >
-                      <Badge>{assetA.symbol}</Badge>
-                    </a>
-                    <a
-                      href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetB.symbol}`}
-                    >
-                      <Badge className="ml-2 mt-1 mb-1">{assetB.symbol}</Badge>
-                    </a>
-                    <a
-                      href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${foundPool?.share_asset_symbol}`}
-                    >
-                      <Badge className="ml-2 mt-1 mb-1">
-                        {foundPool?.share_asset_symbol}
-                      </Badge>
-                    </a>
-                    <br />
-                    <Label>{t("PoolStake:searchByAcceptedCollateral")}</Label>
-                    <br />
-                    <a
-                      href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetA.symbol}`}
-                    >
-                      <Badge>{assetA.symbol}</Badge>
-                    </a>
-                    <a
-                      href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetB.symbol}`}
-                    >
-                      <Badge className="ml-2 mt-1">{assetB.symbol}</Badge>
-                    </a>
-                    <a
-                      href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${foundPool?.share_asset_symbol}`}
-                    >
-                      <Badge className="ml-2 mt-1">
-                        {foundPool?.share_asset_symbol}
-                      </Badge>
-                    </a>
-                  </CardContent>
-                </Card>
+                    </p>
+                    <Label className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70">{t("PoolStake:searchBorrowableAssets")}</Label>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <a
+                        href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetA.symbol}`}
+                      >
+                        <Badge className="border-purple-400/30 bg-purple-500/10 dark:text-purple-200 text-purple-700 hover:bg-purple-500/20 cursor-pointer transition-colors">{assetA.symbol}</Badge>
+                      </a>
+                      <a
+                        href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetB.symbol}`}
+                      >
+                        <Badge className="border-purple-400/30 bg-purple-500/10 dark:text-purple-200 text-purple-700 hover:bg-purple-500/20 cursor-pointer transition-colors">{assetB.symbol}</Badge>
+                      </a>
+                      <a
+                        href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${foundPool?.share_asset_symbol}`}
+                      >
+                        <Badge className="border-purple-400/30 bg-purple-500/10 dark:text-purple-200 text-purple-700 hover:bg-purple-500/20 cursor-pointer transition-colors">
+                          {foundPool?.share_asset_symbol}
+                        </Badge>
+                      </a>
+                    </div>
+                    <Label className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70 mt-3 block">{t("PoolStake:searchByAcceptedCollateral")}</Label>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <a
+                        href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetA.symbol}`}
+                      >
+                        <Badge className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 hover:bg-violet-500/20 cursor-pointer transition-colors">{assetA.symbol}</Badge>
+                      </a>
+                      <a
+                        href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetB.symbol}`}
+                      >
+                        <Badge className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 hover:bg-violet-500/20 cursor-pointer transition-colors">{assetB.symbol}</Badge>
+                      </a>
+                      <a
+                        href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${foundPool?.share_asset_symbol}`}
+                      >
+                        <Badge className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 hover:bg-violet-500/20 cursor-pointer transition-colors">
+                          {foundPool?.share_asset_symbol}
+                        </Badge>
+                      </a>
+                    </div>
+                  </div>
+                </div>
 
                 {foundPool &&
                 foundPoolDetails &&
@@ -1806,16 +1761,24 @@ export default function PoolStake(properties) {
         </div>
 
         <div className="grid grid-cols-1 mt-5">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle>{t("PoolStake:risksAssociated")}</CardTitle>
-              <CardDescription>
-                {t("PoolStake:doYourOwnResearch")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+            <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-violet-500" />
+            <div className="p-5 sm:p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-purple-400/30 bg-gradient-to-br from-purple-500/20 to-violet-500/20 dark:text-purple-200 text-purple-700">
+                  <Zap className="h-4 w-4" strokeWidth={2.25} />
+                </span>
+                <div>
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground">
+                    {t("PoolStake:risksAssociated")}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {t("PoolStake:doYourOwnResearch")}
+                  </p>
+                </div>
+              </div>
               <span className="text-sm">
-                <ul className="ml-2 list-disc [&>li]:mt-1 pl-2">
+                <ul className="ml-2 list-disc [&>li]:mt-1 pl-2 text-foreground/80">
                   <li>{t("PoolStake:risk1")}</li>
                   <li>{t("PoolStake:risk2")}</li>
                   <li>{t("PoolStake:risk3")}</li>
@@ -1825,8 +1788,8 @@ export default function PoolStake(properties) {
                   <li>{t("PoolStake:risk7")}</li>
                 </ul>
               </span>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </>
