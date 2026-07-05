@@ -91,14 +91,31 @@ async function fetchTranslations() {
   const localPages = {};
   for (const page of pages) {
     let response;
-    if (window && window.electron) {
-      response = await fetch(`/locales/${_locale}/${page}.json`);
-    } else {
-      response = await fetch(`../src/data/locales/${_locale}/${page}.json`);
+    try {
+      if (typeof window !== "undefined" && window.electron) {
+        response = await fetch(`/locales/${_locale}/${page}.json`);
+      } else {
+        response = await fetch(`../src/data/locales/${_locale}/${page}.json`);
+      }
+    } catch (err) {
+      console.warn(`Failed fetching locale file for ${page} (${_locale}):`, err);
+      continue;
     }
-    if (response) {
+
+    if (!response || !response.ok) {
+      console.warn(
+        `Locale file missing or not OK for ${page} (${_locale}):`,
+        response && response.status
+      );
+      continue;
+    }
+
+    try {
       const jsonContents = await response.json();
       localPages[page] = jsonContents;
+    } catch (err) {
+      console.warn(`Failed parsing locale JSON for ${page} (${_locale}):`, err);
+      continue;
     }
   }
 

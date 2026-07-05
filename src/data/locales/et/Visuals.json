@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Visuaalide seadistamine",
+  "pageDescription": "Kohandage lainete taustade, aurora-hõõgu, osakeste ja hägususefektide välimust kogu saidil.",
+  "waveCount": "Lainete arv",
+  "waveCountDesc": "Lehekülje päise taga kuvatavate kiht-lainete arv.",
+  "waveSpeed": "Lainete kiirus",
+  "waveSpeedDesc": "Kui kiiresti lained üle tausta libisevad.",
+  "waveThickness": "Lainete paksus",
+  "waveThicknessDesc": "Juhib iga lainekihi joone paksust.",
+  "palette": "Värvipalett",
+  "paletteDesc": "Valige eelmääratud palett või määrake oma värvid.",
+  "palettes": {
+    "rainbow": "Vikerkaar",
+    "ocean": "Ookean",
+    "sunset": "Päikeseloojang",
+    "mono": "Monokroomne",
+    "custom": "Kohandatud"
+  },
+  "customColor1": "Kohandatud värv 1",
+  "customColor2": "Kohandatud värv 2",
+  "customColorDesc": "Kasutatakse iga laine gradiendi otspunktidena, kui palett on 'Kohandatud'.",
+  "auroraIntensity": "Aurora intensiivsus",
+  "auroraIntensityDesc": "Lainete peal oleva pehme aurora-hõõgu tugevus.",
+  "blurAmount": "Hägususe hulk",
+  "blurAmountDesc": "Lainete gradientidele rakendatav hägusus. 0 jätab need teravaks.",
+  "particles": "Ujuvad osakesed",
+  "particlesDesc": "Lülitab päises ringi hõljuvad väikesed osakesed sisse või välja.",
+  "on": "Sees",
+  "off": "Väljas",
+  "resetToDefaults": "Lähtesta vaikeväärtustele",
+  "externalServices": {
+    "heading": "Välised teenused",
+    "description": "Konfigureerige kolmanda osapoole teenused, mida kasutatakse varade toomiseks kogu saidil.",
+    "ipfsGateway": {
+      "header": "IPFS värav",
+      "help": "Värav, mida kasutatakse IPFS-linkide lahendamiseks NFT-piltide ja muu sisu jaoks. Kasutage avalikku väravat, millesse usaldate.",
+      "placeholder": "https://ipfs.io/ipfs/"
+    }
+  }
+}

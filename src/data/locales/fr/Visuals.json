@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Configurer les visuels",
+  "pageDescription": "Personnalisez l'apparence des fonds de vagues, de l'aura boréale, des particules et des effets de flou sur l'ensemble du site.",
+  "waveCount": "Nombre de vagues",
+  "waveCountDesc": "Nombre de vagues superposées rendues derrière l'en-tête de page.",
+  "waveSpeed": "Vitesse des vagues",
+  "waveSpeedDesc": "À quelle vitesse les vagues glissent sur l'arrière-plan.",
+  "waveThickness": "Épaisseur des vagues",
+  "waveThicknessDesc": "Contrôle l'épaisseur du trait de chaque couche de vague.",
+  "palette": "Palette de couleurs",
+  "paletteDesc": "Choisissez une palette prédéfinie ou définissez vos propres couleurs.",
+  "palettes": {
+    "rainbow": "Arc-en-ciel",
+    "ocean": "Océan",
+    "sunset": "Coucher de soleil",
+    "mono": "Monochrome",
+    "custom": "Personnalisé"
+  },
+  "customColor1": "Couleur personnalisée 1",
+  "customColor2": "Couleur personnalisée 2",
+  "customColorDesc": "Utilisées comme extrémités de dégradé pour chaque vague lorsque la palette 'Personnalisé' est sélectionnée.",
+  "auroraIntensity": "Intensité de l'aurore",
+  "auroraIntensityDesc": "Force de la douce lueur d'aurore au-dessus des vagues.",
+  "blurAmount": "Quantité de flou",
+  "blurAmountDesc": "Flou appliqué aux dégradés des vagues. 0 les laisse nets.",
+  "particles": "Particules flottantes",
+  "particlesDesc": "Active ou désactive les petites particules flottantes dans l'en-tête.",
+  "on": "Activé",
+  "off": "Désactivé",
+  "resetToDefaults": "Réinitialiser par défaut",
+  "externalServices": {
+    "heading": "Services externes",
+    "description": "Configurez les services tiers utilisés pour récupérer les actifs sur le site.",
+    "ipfsGateway": {
+      "header": "Passerelle IPFS",
+      "help": "Passerelle utilisée pour résoudre les liens IPFS pour les images NFT et autres contenus. Utilisez une passerelle publique en laquelle vous avez confiance.",
+      "placeholder": "https://ipfs.io/ipfs/"
+    }
+  }
+}

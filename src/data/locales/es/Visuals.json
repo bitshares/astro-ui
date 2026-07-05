@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Configurar visuales",
+  "pageDescription": "Personaliza la apariencia de los fondos de ondas, el resplandor aurora, las partículas y los efectos de desenfoque en todo el sitio.",
+  "waveCount": "Número de ondas",
+  "waveCountDesc": "Cantidad de ondas superpuestas que se muestran tras el encabezado de la página.",
+  "waveSpeed": "Velocidad de las ondas",
+  "waveSpeedDesc": "Rapidez con la que las ondas se desplazan por el fondo.",
+  "waveThickness": "Grosor de las ondas",
+  "waveThicknessDesc": "Controla el grosor del trazo de cada capa de onda.",
+  "palette": "Paleta de colores",
+  "paletteDesc": "Elige una paleta predefinida o define tus propios colores.",
+  "palettes": {
+    "rainbow": "Arcoíris",
+    "ocean": "Océano",
+    "sunset": "Atardecer",
+    "mono": "Monocromo",
+    "custom": "Personalizado"
+  },
+  "customColor1": "Color personalizado 1",
+  "customColor2": "Color personalizado 2",
+  "customColorDesc": "Se usan como extremos del degradado de cada onda cuando se selecciona la paleta 'Personalizado'.",
+  "auroraIntensity": "Intensidad de la aurora",
+  "auroraIntensityDesc": "Fuerza del suave resplandor de aurora sobre las ondas.",
+  "blurAmount": "Cantidad de desenfoque",
+  "blurAmountDesc": "Desenfoque aplicado a los degradados de las ondas. 0 las mantiene nítidas.",
+  "particles": "Partículas flotantes",
+  "particlesDesc": "Alterna las pequeñas partículas que flotan en el encabezado.",
+  "on": "Activado",
+  "off": "Desactivado",
+  "resetToDefaults": "Restablecer valores predeterminados",
+  "externalServices": {
+    "heading": "Servicios externos",
+    "description": "Configure los servicios de terceros utilizados para obtener activos en todo el sitio.",
+    "ipfsGateway": {
+      "header": "Pasarela IPFS",
+      "help": "Pasarela utilizada para resolver enlaces IPFS para imágenes NFT y otro contenido. Use una pasarela pública en la que confíe.",
+      "placeholder": "https://ipfs.io/ipfs/"
+    }
+  }
+}

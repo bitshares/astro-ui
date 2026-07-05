@@ -483,9 +483,9 @@ export default function PageHeader(properties) {
           </div>
         </div>
       </div>
-      <div className="container mx-auto mb-4 px-3 sm:px-4 hidden lg:flex justify-center">
+      <div className="w-full mx-auto mb-4 px-3 sm:px-4 hidden lg:flex justify-center">
         <div
-          className="inline-flex w-auto max-w-full items-center gap-1 rounded-2xl dark:border-white/10 border-border dark:bg-slate-950/55 bg-card/80 backdrop-blur-xl p-1.5 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.1),inset_0_1px_0_0_rgba(255,255,255,0.04)] dark:shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
+          className="inline-flex w-full max-w-full justify-center items-center gap-1 rounded-2xl dark:border-white/10 border-border dark:bg-slate-950/55 bg-card/80 backdrop-blur-xl p-1.5 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.1),inset_0_1px_0_0_rgba(255,255,255,0.04)] dark:shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
         >
           {NAV_SECTIONS.map((section) => {
             const SectionIcon = section.icon;

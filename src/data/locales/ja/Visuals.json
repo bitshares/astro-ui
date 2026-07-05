@@ -1,0 +1,40 @@
+{
+  "pageTitle": "ビジュアルを設定",
+  "pageDescription": "サイト全体の波の背景、オーロラの光、粒子、ぼかし効果の見た目をカスタマイズします。",
+  "waveCount": "波の数",
+  "waveCountDesc": "ページヘッダーの後ろに描画される波のレイヤー数。",
+  "waveSpeed": "波の速度",
+  "waveSpeedDesc": "波が背景上を移動する速さ。",
+  "waveThickness": "波の太さ",
+  "waveThicknessDesc": "各波レイヤーの線の太さを制御します。",
+  "palette": "カラーパレット",
+  "paletteDesc": "プリセットパレットを選ぶか、独自カラーを定義します。",
+  "palettes": {
+    "rainbow": "レインボー",
+    "ocean": "オーシャン",
+    "sunset": "サンセット",
+    "mono": "モノクローム",
+    "custom": "カスタム"
+  },
+  "customColor1": "カスタムカラー 1",
+  "customColor2": "カスタムカラー 2",
+  "customColorDesc": "'カスタム'パレット選択時に各波のグラデーション端点として使用されます。",
+  "auroraIntensity": "オーロラの強さ",
+  "auroraIntensityDesc": "波の上にかかる柔らかなオーロラグロー(光)の強さ。",
+  "blurAmount": "ぼかしの量",
+  "blurAmountDesc": "波のグラデーションに適用されるぼかし。0 でくっきりします。",
+  "particles": "浮遊する粒子",
+  "particlesDesc": "ヘッダー内を漂う小さな粒子の表示を切り替えます。",
+  "on": "オン",
+  "off": "オフ",
+  "resetToDefaults": "デフォルトに戻す",
+  "externalServices": {
+    "heading": "外部サービス",
+    "description": "サイト全体でアセットを取得するために使用されるサードパーティサービスを設定します。",
+    "ipfsGateway": {
+      "header": "IPFSゲートウェイ",
+      "help": "NFT画像やその他のコンテンツのIPFSリンクを解決するために使用されるゲートウェイ。信頼できるパブリックゲートウェイを使用してください。",
+      "placeholder": "https://ipfs.io/ipfs/"
+    }
+  }
+}

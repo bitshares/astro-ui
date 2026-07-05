@@ -13,7 +13,7 @@ const btsAssets = btsAllAssets.map(collection => collection.data);
 const testAssets = testAllAssets.map(collection => collection.data);
 ---
 
-<Layout title="Bitshares Beet Astro UI - index">
+<Layout title="Bitshares Astro UI - index">
 	<main>
 		<PageHeader client:only="react" page="index" backURL="" />
 		<Home client:only="react" _assetsBTS={btsAssets} _assetsTEST={testAssets} />

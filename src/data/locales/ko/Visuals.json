@@ -1,0 +1,40 @@
+{
+  "pageTitle": "시각 효과 설정",
+  "pageDescription": "사이트 전반의 물결 배경, 오로라 빛, 입자, 흐림 효과 모양을 사용자 지정합니다.",
+  "waveCount": "물결 개수",
+  "waveCountDesc": "페이지 헤더 뒤에 그려지는 물결 레이어 수입니다.",
+  "waveSpeed": "물결 속도",
+  "waveSpeedDesc": "물결이 배경 위를 흘러가는 속도입니다.",
+  "waveThickness": "물결 두께",
+  "waveThicknessDesc": "각 물결 레이어의 선 두께를 조절합니다.",
+  "palette": "색상 팔레트",
+  "paletteDesc": "사전 설정된 팔레트를 선택하거나 직접 색상을 지정하세요.",
+  "palettes": {
+    "rainbow": "레인보우",
+    "ocean": "오션",
+    "sunset": "선셋",
+    "mono": "모노크롬",
+    "custom": "사용자 지정"
+  },
+  "customColor1": "사용자 지정 색상 1",
+  "customColor2": "사용자 지정 색상 2",
+  "customColorDesc": "'사용자 지정' 팔레트를 선택했을 때 각 물결의 그래디언트 양 끝점으로 사용됩니다.",
+  "auroraIntensity": "오로라 강도",
+  "auroraIntensityDesc": "물결 위에 깔리는 부드러운 오로라 빛의 세기입니다.",
+  "blurAmount": "흐림 정도",
+  "blurAmountDesc": "물결 그래디언트에 적용되는 흐림입니다. 0 이면 선명합니다.",
+  "particles": "떠다니는 입자",
+  "particlesDesc": "헤더 영역을 떠다니는 작은 입자의 표시 여부를 토글합니다.",
+  "on": "켜짐",
+  "off": "꺼짐",
+  "resetToDefaults": "기본값으로 재설정",
+  "externalServices": {
+    "heading": "외부 서비스",
+    "description": "사이트 전체에서 자산을 가져오는 데 사용되는 타사 서비스를 구성합니다.",
+    "ipfsGateway": {
+      "header": "IPFS 게이트웨이",
+      "help": "NFT 이미지 및 기타 콘텐츠의 IPFS 링크를 해결하는 데 사용되는 게이트웨이입니다. 신뢰할 수 있는 공개 게이트웨이를 사용하십시오.",
+      "placeholder": "https://ipfs.io/ipfs/"
+    }
+  }
+}
