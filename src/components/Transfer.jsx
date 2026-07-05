@@ -129,6 +129,38 @@ export default function Transfer(properties) {
     return [];
   }, [_globalParamsBTS, _globalParamsTEST, _chain]);
 
+  // bothUsers and foundAsset must be declared before the fee effect
+  // otherwise they are referenced in the dependency array before initialization
+  const [bothUsers, setBothUsers] = useState(false);
+  useEffect(() => {
+    if (usr && usr.chain && currentNode && targetUser) {
+      const userStore = createObjectStore([
+        usr.chain,
+        JSON.stringify([usr.id, targetUser.id]),
+        currentNode ? currentNode.url : null,
+      ]);
+      userStore.subscribe(({ data, error, loading }) => {
+        if (data && !error && !loading) {
+          setBothUsers(data);
+        }
+      });
+    }
+  }, [usr, currentNode, targetUser]);
+
+  const [foundAsset, setFoundAsset] = useState();
+  const found = useMemo(() => {
+    if (selectedAsset) {
+      return assets.filter((asset) => asset.symbol === selectedAsset);
+    }
+    return [];
+  }, [selectedAsset, assets]);
+
+  useEffect(() => {
+    if (found && found.length) {
+      setFoundAsset(found[0]);
+    }
+  }, [found]);
+
   const [fee, setFee] = useState(0);
   useEffect(() => {
     if (globalParams && globalParams.length) {
@@ -184,36 +216,7 @@ export default function Transfer(properties) {
 
     fetchUserBalances();
   }, [usr, assets, currentNode, balanceCounter]);
-
-  const [bothUsers, setBothUsers] = useState(false);
-  useEffect(() => {
-    if (usr && usr.chain && currentNode && targetUser) {
-      const userStore = createObjectStore([
-        usr.chain,
-        JSON.stringify([usr.id, targetUser.id]),
-        currentNode ? currentNode.url : null,
-      ]);
-      userStore.subscribe(({ data, error, loading }) => {
-        if (data && !error && !loading) {
-          setBothUsers(data);
-        }
-      });
-    }
-  }, [usr, currentNode, targetUser]);
-
-  const [foundAsset, setFoundAsset] = useState();
-  const found = useMemo(() => {
-    if (selectedAsset) {
-      return assets.filter((asset) => asset.symbol === selectedAsset);
-    }
-    return [];
-  }, [selectedAsset, assets]);
-
-  useEffect(() => {
-    if (found && found.length) {
-      setFoundAsset(found[0]);
-    }
-  }, [found]);
+ 
 
   const [targetUserDialogOpen, setTargetUserDialogOpen] = useState(false);
 
