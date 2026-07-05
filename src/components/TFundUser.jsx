@@ -549,7 +549,7 @@ export default function TFundUser(properties) {
             <button
               type="button"
               className={cn(
-                "w-full text-left group relative overflow-hidden rounded-xl border transition-all mb-2",
+                "w-full text-left group relative overflow-hidden rounded-xl border transition-all",
                 hasExistingBorrow
                   ? "border-violet-500/40 bg-gradient-to-br from-violet-500/[0.08] to-purple-500/[0.04] hover:border-violet-500/60 hover:shadow-[0_0_24px_-6px_rgba(139,92,246,0.3)]"
                   : "border-border/60 bg-card/40 hover:border-violet-400/30 hover:bg-violet-500/[0.03]"
@@ -564,11 +564,11 @@ export default function TFundUser(properties) {
                     : "via-violet-400/30"
                 )}
               />
-              <div className="px-3 py-2.5">
-                <div className="grid grid-cols-5 gap-2 items-center text-sm">
+              <div className="px-3 py-2">
+                <div className="grid grid-cols-4 gap-2 items-center text-sm">
                   <div className="flex items-center gap-1.5 col-span-1">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700 shrink-0">
-                      <Landmark className="h-3 w-3" />
+                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700 shrink-0">
+                      <Landmark className="h-2.5 w-2.5" />
                     </span>
                     <span className="font-mono text-xs font-semibold text-foreground">
                       #{fund.id.replace("1.20.", "")}
@@ -585,23 +585,17 @@ export default function TFundUser(properties) {
                     </span>{" "}
                     <span className="text-muted-foreground/60">{assetName}</span>
                   </div>
-                  <div className="font-mono text-xs tabular-nums text-foreground/70 col-span-1 flex items-center gap-1">
+                  <div className="font-mono text-xs tabular-nums text-foreground/70 col-span-1 flex items-center gap-1 justify-end">
                     <Percent className="h-2.5 w-2.5 text-muted-foreground/50" />
                     {feeRate.toFixed(2)}%
-                  </div>
-                  <div className="flex items-center justify-end col-span-1">
                     {hasExistingBorrow ? (
                       <Badge
                         variant="outline"
-                        className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 text-[10px]"
+                        className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 text-[10px] ml-1"
                       >
                         {t("TFundUser:selected", "Selected")}
                       </Badge>
-                    ) : (
-                      <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/50 group-hover:text-violet-400/70 transition-colors">
-                        {t("TFundUser:borrow", "Borrow")}
-                      </span>
-                    )}
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -802,11 +796,10 @@ export default function TFundUser(properties) {
                 key={i}
                 className="rounded-xl border border-border/40 bg-card/30 p-3"
               >
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid grid-cols-4 gap-2">
                   <Skeleton className="h-4 w-16" />
                   <Skeleton className="h-4 w-20" />
                   <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-4 w-12" />
                   <Skeleton className="h-4 w-16 ml-auto" />
                 </div>
               </div>
@@ -817,18 +810,17 @@ export default function TFundUser(properties) {
           sameTFunds &&
           sameTFunds.length > 0 ? (
           <>
-            <div className="grid grid-cols-5 gap-2 px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+            <div className="grid grid-cols-4 gap-2 px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
               <div>{t("WithdrawPermissions:id")}</div>
               <div>{t("Smartcoin:owner")}</div>
               <div>{t("CreditBorrow:common.offering")}</div>
-              <div>{t("PoolForm:fee")}</div>
-              <div className="text-right">{t("TFundUser:status", "Status")}</div>
+              <div className="text-right">{t("PoolForm:fee")}</div>
             </div>
-            <div className="w-full max-h-[280px] overflow-auto rounded-lg border border-border/40 bg-card/20">
+            <div className="w-full max-h-[260px] overflow-auto rounded-lg border border-border/40 bg-card/20">
               <List
                 rowComponent={FundRow}
                 rowCount={sameTFunds.length}
-                rowHeight={80}
+                rowHeight={52}
                 rowProps={{}}
                 key={`list-sametfunds`}
               />
@@ -937,13 +929,13 @@ export default function TFundUser(properties) {
               {t("TFundUser:borrowed")} / {t("TFundUser:borrowFees")}
             </div>
           </div>
-          <div className="w-full max-h-[200px] overflow-auto">
+          <div className="w-full max-h-[280px] overflow-auto">
             <List
               rowComponent={BorrowPositionRow}
               rowCount={borrowPositions.length}
-                rowHeight={48}
-                rowProps={{}}
-                key={`list-borrowpositions`}
+              rowHeight={48}
+              rowProps={{}}
+              key={`list-borrowpositions`}
             />
           </div>
         </div>
@@ -1080,7 +1072,7 @@ export default function TFundUser(properties) {
               <div>{t("TFundUser:operation", "Operation")}</div>
               <div className="text-right">{t("TFundUser:price")}</div>
             </div>
-            <div className="w-full max-h-[220px] overflow-auto">
+            <div className="w-full max-h-[280px] overflow-auto">
               <List
                 rowComponent={OpRow}
                 rowCount={operations.length}
@@ -1246,11 +1238,11 @@ export default function TFundUser(properties) {
             <div className="text-right">{t("TFundUser:borrowed")}</div>
             <div className="text-right">{t("TFundUser:finalAmount")}</div>
           </div>
-          <div className="w-full max-h-[220px] overflow-auto">
+          <div className="w-full max-h-[280px] overflow-auto">
             <List
               rowComponent={BalanceRow}
               rowCount={updatedBalances.filter((x) => x.display).length}
-                rowHeight={44}
+              rowHeight={44}
               rowProps={{}}
               key={`list-updatedbalances`}
             />
