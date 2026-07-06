@@ -11,13 +11,8 @@ import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import {
   FieldGroup,
@@ -46,6 +41,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { Avatar as Av, AvatarFallback } from "@/components/ui/avatar";
 import {
   Popover,
@@ -55,6 +57,8 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
+import { Clock, Send, ArrowRight, Info } from "lucide-react";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $currentUser } from "@/stores/users.ts";
@@ -262,21 +266,47 @@ export default function TimedTransfer(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:1/2">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("Transfer:timedTransferAssets")}</CardTitle>
-              <CardDescription>
-                <p>{t("Transfer:sendFundsDescription")}</p>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form
-                onSubmit={(event) => {
-                  setShowDialog(true);
-                  event.preventDefault();
-                }}
-              >
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-teal-400/70 to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-teal-500/10 blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-cyan-500/10 blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-start gap-3 mb-4">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-teal-500/25 bg-gradient-to-br from-teal-500/[0.06] to-transparent dark:text-teal-200 text-teal-700">
+                <Clock className="h-4 w-4" strokeWidth={2.25} />
+              </span>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="outline"
+                    className="border-teal-400/30 bg-teal-500/10 dark:text-teal-200 text-teal-700 text-[10px]"
+                  >
+                    Proposal
+                  </Badge>
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight">
+                    {t("Transfer:timedTransferAssets")}
+                  </h3>
+                </div>
+                <p className="text-xs text-muted-foreground/70 mt-1">
+                  {t("Transfer:sendFundsDescription")}
+                </p>
+              </div>
+            </div>
+            <form
+              onSubmit={(event) => {
+                setShowDialog(true);
+                event.preventDefault();
+              }}
+            >
                 <FieldGroup>
                   <Field>
                     <FieldLabel>{t("Transfer:sendingAccount")}</FieldLabel>
@@ -704,19 +734,21 @@ export default function TimedTransfer(properties) {
 
                   {!transferAmount ? (
                     <Button
-                      className="mt-5 mb-3"
+                      className="mt-5 mb-3 h-11 rounded-xl font-semibold transition-all border-teal-400/40 bg-gradient-to-br from-teal-500/10 to-cyan-500/10 dark:text-teal-200 text-teal-700 hover:bg-teal-500/20 hover:border-teal-400/60 hover:shadow-[0_0_24px_-6px_rgba(20,184,166,0.4)]"
                       variant="outline"
                       disabled
                       type="submit"
                     >
+                      <Send className="h-4 w-4 mr-2" />
                       {t("Transfer:submit")}
                     </Button>
                   ) : (
                     <Button
-                      className="mt-5 mb-3"
+                      className="mt-5 mb-3 h-11 rounded-xl font-semibold transition-all border-teal-400/40 bg-gradient-to-br from-teal-500/10 to-cyan-500/10 dark:text-teal-200 text-teal-700 hover:bg-teal-500/20 hover:border-teal-400/60 hover:shadow-[0_0_24px_-6px_rgba(20,184,166,0.4)]"
                       variant="outline"
                       type="submit"
                     >
+                      <Send className="h-4 w-4 mr-2" />
                       {t("Transfer:submit")}
                     </Button>
                   )}
@@ -760,28 +792,28 @@ export default function TimedTransfer(properties) {
                             },
                           ],
                         },
-                      ],
-                      review_period_seconds: reviewPeriodSeconds,
-                      extensions: {},
-                    },
-                  ]}
-                />
-              ) : null}
-            </CardContent>
-          </Card>
-        </div>
-        <div className="grid grid-cols-2 mt-5 gap-5">
-          {targetUser && targetUser.name ? (
+                       ],
+                       review_period_seconds: reviewPeriodSeconds,
+                       extensions: {},
+                     },
+                    ]}
+                  />
+                ) : null}
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 mt-5 gap-5">
+            {targetUser && targetUser.name ? (
             <div className="col-span-1">
-              <Card>
-                <CardHeader className="pb-0 mb-0">
-                  <CardTitle>{t("Transfer:doubleCheckTitle")}</CardTitle>
-                  <CardDescription>
-                    {t("Transfer:doubleCheckDescription")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-sm">
-                  <ul className="ml-2 list-disc [&>li]:mt-2">
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/50 to-transparent"
+                />
+                <div className="relative p-4">
+                  <h4 className="text-sm font-semibold text-foreground mb-2">{t("Transfer:doubleCheckTitle")}</h4>
+                  <p className="text-xs text-muted-foreground/70 mb-3">{t("Transfer:doubleCheckDescription")}</p>
+                  <ul className="ml-2 list-disc [&>li]:mt-2 text-sm text-foreground/80">
                     <li>{t("Transfer:doubleCheckFormInputs")}</li>
                     <li>{t("Transfer:validateBeetPrompt")}</li>
                     <li>
@@ -792,31 +824,30 @@ export default function TimedTransfer(properties) {
                       </span>
                     </li>
                   </ul>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           ) : null}
           {targetUser && targetUser.name ? (
             <div className="col-span-1">
-              <Card>
-                <CardHeader className="pb-0 mb-0">
-                  <CardTitle>{t("Transfer:scamAlertTitle")}</CardTitle>
-                  <CardDescription>
-                    {t("Transfer:scamAlertDescription")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-sm">
-                  <ul className="ml-2 list-disc [&>li]:mt-2">
+              <div className="relative overflow-hidden rounded-2xl border border-amber-500/20 bg-card/60 backdrop-blur-xl">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/50 to-transparent"
+                />
+                <div className="relative p-4">
+                  <h4 className="text-sm font-semibold text-foreground mb-2">{t("Transfer:scamAlertTitle")}</h4>
+                  <p className="text-xs text-muted-foreground/70 mb-3">{t("Transfer:scamAlertDescription")}</p>
+                  <ul className="ml-2 list-disc [&>li]:mt-2 text-sm text-foreground/80">
                     <li>{t("Transfer:scamAlertPoint1")}</li>
                     <li>{t("Transfer:scamAlertPoint2")}</li>
                     <li>{t("Transfer:scamAlertPoint3")}</li>
                   </ul>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           ) : null}
         </div>
-      </div>
     </>
   );
 }

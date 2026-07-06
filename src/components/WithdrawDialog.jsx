@@ -46,6 +46,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 
 import { humanReadableFloat, trimPrice, blockchainFloat } from "@/lib/common";
 import { cn } from "@/lib/utils";
@@ -55,6 +56,8 @@ import AccountSearch from "./AccountSearch.jsx";
 
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 import AssetDropDown from "./Market/AssetDropDownCard.jsx";
+
+import { Shield, ShieldCheck, Clock, CalendarDays, Coins, User, AlertTriangle } from "lucide-react";
 
 const hoursToSeconds = {
   "1hr": 3600,
