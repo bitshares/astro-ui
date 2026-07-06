@@ -15,7 +15,7 @@
     "view": "Se indstillinger"
   },
   "card": {
-    "title": "🏦 Se tilgængelige kredittilbud",
+    "title": "Se tilgængelige kredittilbud",
     "description": "Kredittilbud er brugergenererede, de tilbyder forskellige satser, aktiver og varigheder, evaluerer vilkårene, før de opretter aftaler.",
     "viewingAll": "Se alle tilbud",
     "viewAll": "Se alle tilbud",
@@ -35,6 +35,7 @@
     "noResults": "Ingen resultater fundet",
     "loading": "Indlæser tilbud...",
     "hideExpired": "Skjul udløbne tilbud",
-    "showExpired": "Vis udløbne tilbud"
+    "showExpired": "Vis udløbne tilbud",
+    "alreadyBlocked": "Allerede blokeret"
   }
 }

@@ -258,6 +258,12 @@
     "hover2": "Føj konti til din sortliste.",
     "hover3": "Fjern konti fra nævnte lister."
   },
+  "blocked_users": {
+    "title": "Blokerede brugere",
+    "subtitle": "Se og administrer dine blokerede konti",
+    "hover1": "Se konti du har blokeret.",
+    "hover2": "Bloker eller ophæv blokering af konti fra din visning."
+  },
   "ltm": {
     "title": "Opgrader konto",
     "subtitle": "Køb et livstidsmedlemskab",

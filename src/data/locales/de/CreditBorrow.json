@@ -15,7 +15,7 @@
     "view": "Einstellungen anzeigen"
   },
   "card": {
-    "title": "🏦 Anzeigen verfügbarer Kreditangebote",
+    "title": "Anzeigen verfügbarer Kreditangebote",
     "description": "Kreditangebote werden vom Benutzer erstellt. Sie bieten unterschiedliche Zinssätze, Vermögenswerte und Laufzeiten und bewerten die Konditionen vor der Erstellung von Geschäften.",
     "viewingAll": "Alle Angebote ansehen",
     "viewAll": "Alle Angebote ansehen",
@@ -35,6 +35,7 @@
     "noResults": "Keine Ergebnisse gefunden",
     "loading": "Angebote werden geladen...",
     "hideExpired": "Abgelaufene Angebote ausblenden",
-    "showExpired": "Abgelaufene Angebote anzeigen"
+    "showExpired": "Abgelaufene Angebote anzeigen",
+    "alreadyBlocked": "Bereits gesperrt"
   }
 }

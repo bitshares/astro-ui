@@ -8,6 +8,7 @@ const pages = [
   "AccountSearch",
   "AccountSelect",
   "AssetDropDownCard",
+  "Blocklist",
   "CreatePool",
   "CreditOfferEditor",
   "CreditBorrow",

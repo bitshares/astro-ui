@@ -258,6 +258,12 @@
     "hover2": "Ajoutez des comptes à votre liste noire.",
     "hover3": "Supprimez les comptes de ces listes."
   },
+  "blocked_users": {
+    "title": "Utilisateurs bloqués",
+    "subtitle": "Consultez et gérez vos comptes bloqués",
+    "hover1": "Consultez les comptes que vous avez bloqués.",
+    "hover2": "Bloquez ou débloquez des comptes de votre vue."
+  },
   "ltm": {
     "title": "Mettre à niveau le compte",
     "subtitle": "Achetez un abonnement à vie",

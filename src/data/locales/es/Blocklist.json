@@ -1,0 +1,12 @@
+{
+  "committeeHeader": "Lista negra del comité",
+  "committeeCount": "{{count}} cuentas en la lista negra del comité",
+  "committeeDescription": "Estas cuentas han sido puestas en la lista negra por el comité de Bitshares. Esta lista se mantiene en la cadena y se actualiza periódicamente.",
+  "usersHeader": "Sus cuentas bloqueadas",
+  "addUser": "Bloquear cuenta",
+  "addUserDialogTitle": "Bloquear una cuenta",
+  "addUserDialogDescription": "Busque una cuenta para agregar a su lista de bloqueo personal. Las cuentas bloqueadas estarán ocultas en toda su vista.",
+  "usersEmptyTitle": "Sin cuentas bloqueadas",
+  "usersEmptyDescription": "Aún no ha bloqueado ninguna cuenta. Bloquee cuentas para ocultarlas de su vista.",
+  "remove": "Eliminar de la lista negra"
+}

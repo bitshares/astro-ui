@@ -62,6 +62,7 @@ import {
   Crown,
   Server,
   UserPlus,
+  UserX,
   Palette,
   LineChart,
   Sparkles,
@@ -134,6 +135,7 @@ const ITEM_ICONS = {
   ltm: Crown,
   nodes: Server,
   create_account: UserPlus,
+  blocked_users: UserX,
   configure_visuals: Palette,
   create_uia: Gem,
   create_smartcoin: Gem,
@@ -238,6 +240,7 @@ export default function AppSidebar() {
 
   const settingsHeading = [
     { slug: "accountLists", title: "Home:accountLists.title", href: "/account_lists/index.html" },
+    { slug: "blocked_users", title: "Home:blocked_users.title", href: "/blocked-users/index.html" },
     { slug: "ltm", title: "Home:ltm.title", href: "/ltm/index.html" },
     { slug: "nodes", title: "Home:nodes.title", href: "/nodes/index.html" },
     { slug: "create_account", title: "Home:create_account.title", href: "/create_account/index.html" },

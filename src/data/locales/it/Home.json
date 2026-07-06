@@ -258,6 +258,12 @@
     "hover2": "Aggiungi account alla tua lista nera.",
     "hover3": "Rimuovere gli account da tali elenchi."
   },
+  "blocked_users": {
+    "title": "Utenti bloccati",
+    "subtitle": "Visualizza e gestisci i tuoi account bloccati",
+    "hover1": "Visualizza gli account che hai bloccato.",
+    "hover2": "Blocca o sblocca account dalla tua visualizzazione."
+  },
   "ltm": {
     "title": "Aggiorna account",
     "subtitle": "Acquista un abbonamento a vita",

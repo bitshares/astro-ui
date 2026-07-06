@@ -258,6 +258,12 @@
     "hover2": "Adicione contas à sua lista negra.",
     "hover3": "Remova contas dessas listas."
   },
+  "blocked_users": {
+    "title": "Usuários bloqueados",
+    "subtitle": "Visualize e gerencie suas contas bloqueadas",
+    "hover1": "Veja as contas que você bloqueou.",
+    "hover2": "Bloqueie ou desbloqueie contas da sua visualização."
+  },
   "ltm": {
     "title": "Atualizar conta",
     "subtitle": "Compre uma assinatura vitalícia",

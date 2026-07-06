@@ -40,7 +40,7 @@ import { createVestingBalanceStore } from "@/nanoeffects/VestingBalances.ts";
 import { humanReadableFloat } from "@/lib/common.js";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 
-import { Coins, PiggyBank, TrendingUp, Clock, Calendar, ArrowUpCircle, Info } from "lucide-react";
+import { Coins, PiggyBank, TrendingUp, Clock, Calendar as Cal, ArrowUpCircle, Info } from "lucide-react";
 
 function hoursTillExpiration(expirationTime) {
   var expirationDate = new Date(expirationTime);
@@ -150,7 +150,7 @@ export default function Vesting(properties) {
                   <span className="font-mono text-xs text-foreground/85">{policy.vesting_seconds}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Calendar className="h-3 w-3 text-muted-foreground/50" />
+                  <Cal className="h-3 w-3 text-muted-foreground/50" />
                   <span className="text-[10px] text-muted-foreground">{t("Vesting:start_claim")}</span>
                   <span className="font-mono text-xs text-foreground/70">
                     {new Date(policy.start_claim).toLocaleString()}

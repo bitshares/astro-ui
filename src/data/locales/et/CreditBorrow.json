@@ -15,7 +15,7 @@
     "view": "Kuva seaded"
   },
   "card": {
-    "title": "🏦 Saadaolevate krediidipakkumiste vaatamine",
+    "title": "Saadaolevate krediidipakkumiste vaatamine",
     "description": "Krediidipakkumised on kasutaja loodud, need pakuvad erinevaid intressimäärasid, varasid ja kestusi, hindavad tingimusi enne tehingute tegemist.",
     "viewingAll": "Kõikide pakkumiste vaatamine",
     "viewAll": "Vaata kõiki pakkumisi",
@@ -35,6 +35,7 @@
     "noResults": "Tulemusi ei leitud",
     "loading": "Pakkumiste laadimine...",
     "hideExpired": "Peida aegunud pakkumised",
-    "showExpired": "Kuva aegunud pakkumised"
+    "showExpired": "Kuva aegunud pakkumised",
+    "alreadyBlocked": "Juba blokeeritud"
   }
 }

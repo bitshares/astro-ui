@@ -258,6 +258,12 @@
     "hover2": "Fügen Sie Konten zu Ihrer Blacklist hinzu.",
     "hover3": "Entfernen Sie Konten aus diesen Listen."
   },
+  "blocked_users": {
+    "title": "Gesperrte Benutzer",
+    "subtitle": "Ihre gesperrten Konten anzeigen und verwalten",
+    "hover1": "Konten anzeigen, die Sie gesperrt haben.",
+    "hover2": "Konten aus Ihrer Ansicht blockieren oder entsperren."
+  },
   "ltm": {
     "title": "Konto aktualisieren",
     "subtitle": "Kaufen Sie eine lebenslange Mitgliedschaft",

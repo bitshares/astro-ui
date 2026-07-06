@@ -119,6 +119,7 @@ const ITEM_ICONS = {
   ltm: Crown,
   nodes: Server,
   create_account: UserPlus,
+  blocked_users: UserX,
   configure_visuals: Palette,
   about: Info,
   create_uia: Gem,
@@ -168,6 +169,7 @@ const ITEM_ACCENTS = {
   ltm: { bar: "from-amber-500 to-yellow-500", chip: "bg-amber-500/30 text-amber-100 border-amber-400/50", glow: "bg-amber-500/30", text: "dark:text-amber-200 text-amber-700" },
   nodes: { bar: "from-teal-500 to-cyan-500", chip: "bg-teal-500/30 text-teal-100 border-teal-400/50", glow: "bg-teal-500/30", text: "dark:text-teal-200 text-teal-700" },
   create_account: { bar: "from-emerald-500 to-green-500", chip: "bg-emerald-500/30 text-emerald-100 border-emerald-400/50", glow: "bg-emerald-500/30", text: "dark:text-emerald-200 text-emerald-700" },
+  blocked_users: { bar: "from-rose-500 to-red-500", chip: "bg-rose-500/30 text-rose-100 border-rose-400/50", glow: "bg-rose-500/30", text: "dark:text-rose-200 text-rose-700" },
   configure_visuals: { bar: "from-violet-500 to-fuchsia-500", chip: "bg-violet-500/30 text-violet-100 border-violet-400/50", glow: "bg-violet-500/30", text: "dark:text-violet-200 text-violet-700" },
   about: { bar: "from-blue-500 to-indigo-500", chip: "bg-blue-500/30 text-blue-100 border-blue-400/50", glow: "bg-blue-500/30", text: "dark:text-blue-200 text-blue-700" },
   create_uia: { bar: "from-violet-500 to-fuchsia-500", chip: "bg-violet-500/30 text-violet-100 border-violet-400/50", glow: "bg-violet-500/30", text: "dark:text-violet-200 text-violet-700" },
@@ -409,6 +411,7 @@ export default function Home(properties) {
 
   const settings = [
     { key: "accountLists", href: "/account_lists/index.html", titleKey: "Home:accountLists.title", subtitleKey: "Home:accountLists.subtitle", hoverKeys: ["Home:accountLists.hover1", "Home:accountLists.hover2", "Home:accountLists.hover3"] },
+    { key: "blocked_users", href: "/blocked-users/index.html", titleKey: "Home:blocked_users.title", subtitleKey: "Home:blocked_users.subtitle", hoverKeys: ["Home:blocked_users.hover1", "Home:blocked_users.hover2"] },
     { key: "ltm", href: "/ltm/index.html", titleKey: "Home:ltm.title", subtitleKey: "Home:ltm.subtitle", hoverKeys: ["Home:ltm.hover1", "Home:ltm.hover2", "Home:ltm.hover3", "Home:ltm.hover4"] },
     { key: "nodes", href: "/nodes/index.html", titleKey: "Home:nodes.title", subtitleKey: "Home:nodes.subtitle", hoverKeys: ["Home:nodes.hover1", "Home:nodes.hover2"] },
     { key: "create_account", href: "/create_account/index.html", titleKey: "Home:create_account.title", subtitleKey: "Home:create_account.subtitle", hoverKeys: ["Home:create_account.hover1", "Home:create_account.hover2"] },

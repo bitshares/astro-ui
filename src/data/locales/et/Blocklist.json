@@ -1,0 +1,12 @@
+{
+  "committeeHeader": "Komisjoni must nimekiri",
+  "committeeCount": "{{count}} kontot mustas nimekirjas",
+  "committeeDescription": "Need kontod on lisatud Bitshares komisjoni musta nimekirja. Seda nimekirja hoitakse ahelas ja uuendatakse perioodiliselt.",
+  "usersHeader": "Teie blokeeritud kontod",
+  "addUser": "Blokeeri konto",
+  "addUserDialogTitle": "Blokeeri konto",
+  "addUserDialogDescription": "Otsige kontot, et lisada oma isiklikku blokeerimisnimekirja. Blokeeritud kontod peidetakse kogu vaates.",
+  "usersEmptyTitle": "Blokeeritud kontod puuduvad",
+  "usersEmptyDescription": "Te pole veel ühtegi kontot blokeerinud. Blokeerige kontod, et neid vaatest peita.",
+  "remove": "Eemalda mustast nimekirjast"
+}

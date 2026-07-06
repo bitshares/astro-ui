@@ -6,18 +6,22 @@ import React, {
 } from "react";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import {
+  Coins,
+  Layers,
+  Droplets,
+  Image,
+  ArrowRight,
+  Settings,
+  AlertTriangle,
+  Sparkles,
+} from "lucide-react";
 
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import { cn } from "@/lib/utils";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 import {
   DropdownMenu,
@@ -52,6 +56,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Spinner } from "@/components/ui/spinner";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createIssuedAssetsStore } from "@/nanoeffects/IssuedAssets.ts";
@@ -61,8 +66,6 @@ import { $currentUser, $userStorage } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
 
 import AssetIssuerActions from "./AssetIssuerActions.jsx";
-
-const activeTabStyle = { backgroundColor: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" };
 
 export default function IssuedAssets(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -110,7 +113,6 @@ export default function IssuedAssets(properties) {
     }
 
     if (usr && usr.id && currentNode && currentNode.url) {
-      console.log("Fetching issued assets...");
       setLoading(true);
       fetching();
     }
@@ -122,8 +124,6 @@ export default function IssuedAssets(properties) {
     if (!issuedAssets || !issuedAssets.length) {
       return [];
     }
-
-    console.log("Filtering relevant assets...");
 
     switch (activeTab) {
       case "uia":
@@ -282,17 +282,45 @@ export default function IssuedAssets(properties) {
     const [viewJSON, setViewJSON] = useState(false);
     const [json, setJSON] = useState();
 
+    const smartcoinCheck =
+      activeTab === "smartcoins" &&
+      relevantBitassetData &&
+      ((relevantBitassetData.current_feed.settlement_price.base.amount === 0 &&
+        relevantBitassetData.current_feed.settlement_price.quote.amount ===
+          0) ||
+        !relevantBitassetData.feeds.length ||
+        (parseInt(relevantBitassetData.settlement_price.base.amount) > 0 &&
+          parseInt(relevantBitassetData.settlement_price.quote.amount)) ||
+        parseInt(relevantBitassetData.settlement_fund) > 0);
+
+    const getAccentColor = () => {
+      switch (activeTab) {
+        case "smartcoins":
+          return "rose";
+        case "pools":
+          return "sky";
+        case "nft":
+          return "amber";
+        default:
+          return "rose";
+      }
+    };
+
+    const accent = getAccentColor();
+
     const issueThingsRow = (
-      <>
+      <div className="flex items-center gap-2 flex-wrap">
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button className="h-8 hover:shadow-inner" variant="outline">
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className={cn(
+              "border-border hover:bg-accent/60"
+            )}>
+              <Settings className="h-3.5 w-3.5 mr-1.5" />
               JSON
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem
-              className="hover:shadow-inner"
               onClick={() => {
                 setJSON(issuedAsset);
                 setViewJSON(true);
@@ -301,7 +329,6 @@ export default function IssuedAssets(properties) {
               {t("IssuedAssets:issuedAssetData")}
             </DropdownMenuItem>
             <DropdownMenuItem
-              className="hover:shadow-inner"
               onClick={() => {
                 setJSON(relevantDynamicData);
                 setViewJSON(true);
@@ -312,7 +339,6 @@ export default function IssuedAssets(properties) {
             {parsedDescription &&
             parsedDescription.hasOwnProperty("nft_object") ? (
               <DropdownMenuItem
-                className="hover:shadow-inner"
                 onClick={() => {
                   setJSON(parsedDescription.nft_object);
                   setViewJSON(true);
@@ -323,7 +349,6 @@ export default function IssuedAssets(properties) {
             ) : null}
             {relevantBitassetData ? (
               <DropdownMenuItem
-                className="hover:shadow-inner"
                 onClick={() => {
                   setJSON(relevantBitassetData);
                   setViewJSON(true);
@@ -336,8 +361,10 @@ export default function IssuedAssets(properties) {
         </DropdownMenu>
 
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button className="h-8 hover:shadow-inner" variant="outline">
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className={cn(
+              "border-border hover:bg-accent/60"
+            )}>
               {t("IssuedAssets:userActions")}
             </Button>
           </DropdownMenuTrigger>
@@ -349,46 +376,37 @@ export default function IssuedAssets(properties) {
                   : "BTS"
               }`}
             >
-              <DropdownMenuItem className="hover:shadow-inner">
+              <DropdownMenuItem>
+                <ArrowRight className="h-3.5 w-3.5 mr-2" />
                 {t("IssuedAssets:proceedToTrade")}
               </DropdownMenuItem>
             </a>
-
             <a
               href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${issuedAsset.symbol}`}
             >
-              <DropdownMenuItem className="hover:shadow-inner">
+              <DropdownMenuItem>
+                <ArrowRight className="h-3.5 w-3.5 mr-2" />
                 {t("IssuedAssets:creditBorrow")}
               </DropdownMenuItem>
             </a>
-
             <a href={`/lend/index.html?asset=${issuedAsset.symbol}`}>
               <DropdownMenuItem>
+                <ArrowRight className="h-3.5 w-3.5 mr-2" />
                 {t("IssuedAssets:creditLend")}
               </DropdownMenuItem>
             </a>
-
             {activeTab === "smartcoins" ? (
               <a href={`/smartcoin/index.html?id=${issuedAsset.id}`}>
-                <DropdownMenuItem className="hover:shadow-inner">
+                <DropdownMenuItem>
+                  <ArrowRight className="h-3.5 w-3.5 mr-2" />
                   {t("IssuedAssets:proceedToBorrow")}
                 </DropdownMenuItem>
               </a>
             ) : null}
-
-            {activeTab === "smartcoins" &&
-            relevantBitassetData &&
-            ((relevantBitassetData.current_feed.settlement_price.base.amount ===
-              0 &&
-              relevantBitassetData.current_feed.settlement_price.quote
-                .amount === 0) ||
-              !relevantBitassetData.feeds.length ||
-              (parseInt(relevantBitassetData.settlement_price.base.amount) >
-                0 &&
-                parseInt(relevantBitassetData.settlement_price.quote.amount)) ||
-              parseInt(relevantBitassetData.settlement_fund) > 0) ? (
+            {activeTab === "smartcoins" && smartcoinCheck ? (
               <a href={`/settlement/index.html?id=${issuedAsset.id}`}>
-                <DropdownMenuItem className="hover:shadow-inner">
+                <DropdownMenuItem>
+                  <ArrowRight className="h-3.5 w-3.5 mr-2" />
                   {t("IssuedAssets:collateralBid")}
                 </DropdownMenuItem>
               </a>
@@ -396,21 +414,19 @@ export default function IssuedAssets(properties) {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <span className="mt-2">
-          <AssetIssuerActions
-            asset={issuedAsset}
-            assets={assets}
-            chain={_chain}
-            currentUser={usr}
-            node={currentNode}
-            dynamicAssetData={relevantDynamicData}
-            bitassetData={relevantBitassetData}
-            priceFeederAccounts={priceFeederAccounts}
-            buttonVariant="outline"
-            buttonSize="sm"
-            className="h-8 hover:shadow-inner"
-          />
-        </span>
+        <AssetIssuerActions
+          asset={issuedAsset}
+          assets={assets}
+          chain={_chain}
+          currentUser={usr}
+          node={currentNode}
+          dynamicAssetData={relevantDynamicData}
+          bitassetData={relevantBitassetData}
+          priceFeederAccounts={priceFeederAccounts}
+          buttonVariant="outline"
+          buttonSize="sm"
+          className="border-border hover:bg-accent/60"
+        />
 
         {viewJSON && json ? (
           <Dialog
@@ -419,10 +435,10 @@ export default function IssuedAssets(properties) {
               setViewJSON(open);
             }}
           >
-            <DialogContent className="sm:max-w-[750px] bg-card">
+            <DialogContent className="sm:max-w-[750px] !bg-card border border-border">
               <DialogHeader>
                 <DialogTitle>{t("LiveBlocks:dialogContent.json")}</DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="text-muted-foreground">
                   {t("LiveBlocks:dialogContent.jsonDescription")}
                 </DialogDescription>
               </DialogHeader>
@@ -430,9 +446,10 @@ export default function IssuedAssets(properties) {
                 value={JSON.stringify(json, null, 2)}
                 readOnly={true}
                 rows={15}
+                className="bg-card/60"
               />
               <Button
-                className="w-1/4 mt-2"
+                className="w-1/4 mt-2 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-white border-0"
                 onClick={() => {
                   navigator.clipboard.writeText(JSON.stringify(json, null, 2));
                 }}
@@ -442,163 +459,161 @@ export default function IssuedAssets(properties) {
             </DialogContent>
           </Dialog>
         ) : null}
-      </>
+      </div>
     );
-
-    const smartcoinCheck =
-      activeTab === "smartcoins" &&
-      relevantBitassetData &&
-      ((relevantBitassetData.current_feed.settlement_price.base.amount === 0 &&
-        relevantBitassetData.current_feed.settlement_price.quote.amount ===
-          0) ||
-        !relevantBitassetData.feeds.length ||
-        (parseInt(relevantBitassetData.settlement_price.base.amount) > 0 &&
-          parseInt(relevantBitassetData.settlement_price.quote.amount)) ||
-        parseInt(relevantBitassetData.settlement_fund) > 0) ? (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <ExclamationTriangleIcon className="ml-3 mt-1 w-6 h-6" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{t("IssuedAssets:inactiveSmartcoin")}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      ) : null;
 
     return (
       <div style={{ ...style }} key={`acard-${issuedAsset.id}`}>
-        <div className="hidden lg:block">
-          <Card className="hidden lg:block ml-2 mr-2 cursor-pointer lg:cursor-default">
-            <CardHeader className="pb-1">
-              <CardTitle>
-                <div className="lg:grid lg:grid-cols-2 lg:gap-5">
-                  <div className="hidden lg:block pb-2">
-                    {smartcoinCheck}
-                    {issuedAsset.symbol}
-                    <br />
-                    {" ("}
+        <Card className="mx-2 mb-2 rounded-xl border border-rose-500/15 bg-card/60 hover:border-rose-500/30 hover:bg-rose-500/[0.03] hover:shadow-md hover:shadow-rose-500/5 transition-all">
+          <div className="p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <span className={cn(
+                  "inline-flex h-9 w-9 items-center justify-center rounded-xl border flex-shrink-0",
+                  activeTab === "smartcoins"
+                    ? "border-rose-400/30 bg-gradient-to-br from-rose-500/20 to-pink-500/20 dark:text-rose-200 text-rose-700"
+                    : activeTab === "pools"
+                    ? "border-sky-400/30 bg-gradient-to-br from-sky-500/20 to-blue-500/20 dark:text-sky-200 text-sky-700"
+                    : activeTab === "nft"
+                    ? "border-amber-400/30 bg-gradient-to-br from-amber-500/20 to-yellow-500/20 dark:text-amber-200 text-amber-700"
+                    : "border-rose-400/30 bg-gradient-to-br from-rose-500/20 to-pink-500/20 dark:text-rose-200 text-rose-700"
+                )}>
+                  {activeTab === "smartcoins" ? (
+                    <Droplets className="h-4 w-4" strokeWidth={2.25} />
+                  ) : activeTab === "pools" ? (
+                    <Layers className="h-4 w-4" strokeWidth={2.25} />
+                  ) : activeTab === "nft" ? (
+                    <Image className="h-4 w-4" strokeWidth={2.25} />
+                  ) : (
+                    <Coins className="h-4 w-4" strokeWidth={2.25} />
+                  )}
+                </span>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-foreground truncate">
+                      {issuedAsset.symbol}
+                    </h3>
+                    {smartcoinCheck && (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <AlertTriangle className="h-4 w-4 text-amber-400" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{t("IssuedAssets:inactiveSmartcoin")}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground font-mono">
                     {issuedAsset.id}
-                    {")"}
-                  </div>
-                  <div className="hidden lg:grid lg:grid-cols-3 lg:gap-3 text-right">
-                    {issueThingsRow}
-                  </div>
+                  </p>
                 </div>
-              </CardTitle>
-            </CardHeader>
-          </Card>
-        </div>
-        <div className="block lg:hidden">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Card className="lg:hidden ml-2 mr-2 cursor-pointer lg:cursor-default">
-                <CardHeader className="pb-1">
-                  <CardTitle>
-                    <div className="text-sm pb-2">
-                      {smartcoinCheck} {issuedAsset.symbol} ({issuedAsset.id})
-                    </div>
-                  </CardTitle>
-                </CardHeader>
-              </Card>
-            </DialogTrigger>
-            <DialogContent className="bg-card sm:max-w-[560px] lg:hidden">
-              <DialogHeader>
-                <DialogTitle>
-                  {issuedAsset.symbol} ({issuedAsset.id})
-                </DialogTitle>
-                <DialogDescription>
-                  {t("IssuedAssets:description")}
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid grid-cols-1 gap-3 text-left justify-items-start">
+              </div>
+              <div className="flex-shrink-0">
                 {issueThingsRow}
               </div>
-            </DialogContent>
-          </Dialog>
-        </div>
+            </div>
+          </div>
+        </Card>
       </div>
     );
   };
 
-  return (
-    <>
-      <div className="container mx-auto mt-5 mb-5 w-3/4">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("IssuedAssets:title")}</CardTitle>
-              <CardDescription>{t("IssuedAssets:description")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="w-full mb-3">
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-2">
-                  <Button
-                    variant="outline"
-                    style={activeTab === "uia" ? activeTabStyle : {}}
-                    onClick={() => {
-                      setActiveTab("uia");
-                      window.history.replaceState({}, "", `?tab=uia`);
-                    }}
-                  >
-                    {t("IssuedAssets:uiaButton")}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    style={activeTab === "pools" ? activeTabStyle : {}}
-                    onClick={() => {
-                      setActiveTab("pools");
-                      window.history.replaceState({}, "", `?tab=pools`);
-                    }}
-                  >
-                    {t("IssuedAssets:poolsButton")}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    style={activeTab === "smartcoins" ? activeTabStyle : {}}
-                    onClick={() => {
-                      setActiveTab("smartcoins");
-                      window.history.replaceState({}, "", `?tab=smartcoins`);
-                    }}
-                  >
-                    {t("IssuedAssets:smartcoinsButton")}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    style={activeTab === "nft" ? activeTabStyle : {}}
-                    onClick={() => {
-                      setActiveTab("nft");
-                      window.history.replaceState({}, "", `?tab=nft`);
-                    }}
-                  >
-                    {t("IssuedAssets:nftButton")}
-                  </Button>
-                </div>
-              </div>
+  const tabs = [
+    { id: "uia", label: t("IssuedAssets:uiaButton"), icon: Coins },
+    { id: "pools", label: t("IssuedAssets:poolsButton"), icon: Layers },
+    { id: "smartcoins", label: t("IssuedAssets:smartcoinsButton"), icon: Droplets },
+    { id: "nft", label: t("IssuedAssets:nftButton"), icon: Image },
+  ];
 
+  return (
+    <div className="container mx-auto mt-5 mb-5 max-w-4xl">
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-rose-950/20">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-400/70 to-transparent"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-rose-500/10 blur-3xl"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-pink-500/10 blur-3xl"
+        />
+
+        <div className="relative p-5 sm:p-6">
+          <div className="flex items-center gap-3 mb-5">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-rose-400/30 bg-gradient-to-br from-rose-500/20 to-pink-500/20 dark:text-rose-200 text-rose-700">
+              <Coins className="h-4.5 w-4.5" strokeWidth={2.25} />
+            </span>
+            <div>
+              <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                {t("IssuedAssets:title")}
+              </h2>
+              <p className="text-xs text-muted-foreground/70 mt-0.5">
+                {t("IssuedAssets:description")}
+              </p>
+            </div>
+          </div>
+
+          <div className="inline-flex rounded-xl border border-border bg-card/40 p-1 gap-1 mb-5">
+            {tabs.map((tab) => {
+              const active = activeTab === tab.id;
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    window.history.replaceState({}, "", `?tab=${tab.id}`);
+                  }}
+                  className={cn(
+                    "px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center gap-1.5",
+                    active
+                      ? "bg-gradient-to-r from-rose-500/20 to-pink-500/20 dark:text-rose-100 text-rose-700 border border-rose-400/40 shadow-[0_0_18px_-8px_rgba(244,63,94,0.6)]"
+                      : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
+                  )}
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {loading ? (
+            <div className="flex flex-col items-center gap-3 py-12">
+              <Spinner className="size-6 dark:text-rose-300 text-rose-700" />
+              <p className="text-foreground/70 text-sm">
+                {t("CreditBorrow:common.loading")}
+              </p>
+            </div>
+          ) : (
+            <>
               {activeTab === "uia" && (
-                <div className="mt-2">
-                  {relevantAssets.length > 0 ? (
-                    <h5 className="mb-2 text-center">
-                      {t("IssuedAssets:listingUIA", {
-                        count: relevantAssets.length,
-                      })}
-                    </h5>
-                  ) : null}
-                  {loading ? (
-                    <div className="text-center mt-5">
-                      {t("CreditBorrow:common.loading")}
+                <div>
+                  {relevantAssets.length > 0 && (
+                    <div className="flex items-center gap-2 mb-3 px-1">
+                      <Coins className="h-3.5 w-3.5 dark:text-rose-200/70 text-rose-600/80" />
+                      <span className="text-xs font-medium uppercase tracking-wider dark:text-rose-200/70 text-rose-600/80">
+                        {t("IssuedAssets:listingUIA", { count: relevantAssets.length })}
+                      </span>
                     </div>
-                  ) : null}
+                  )}
                   {(!loading && !relevantAssets) || !relevantAssets.length ? (
-                    <Empty className="mt-5">
+                    <Empty className="mt-2 border border-dashed border-rose-500/20 rounded-xl bg-rose-500/[0.03]">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon">❔</EmptyMedia>
-                        <EmptyTitle>{t("IssuedAssets:noUIA")}</EmptyTitle>
+                        <EmptyMedia variant="icon" className="bg-rose-500/15 text-rose-400">
+                          <Coins className="w-6 h-6" />
+                        </EmptyMedia>
+                        <EmptyTitle className="text-foreground/80">{t("IssuedAssets:noUIA")}</EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent>
-                        <Button asChild>
+                        <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-white border-0">
                           <a href="/create_uia/index.html">
                             {t("PageHeader:create_uia")}
                           </a>
@@ -627,8 +642,11 @@ export default function IssuedAssets(properties) {
                           </div>
                         </>
                       ) : (
-                        <div className="text-center mt-5">
-                          {t("CreditBorrow:common.loading")}
+                        <div className="flex flex-col items-center gap-3 py-12">
+                          <Spinner className="size-6 dark:text-rose-300 text-rose-700" />
+                          <p className="text-foreground/70 text-sm">
+                            {t("CreditBorrow:common.loading")}
+                          </p>
                         </div>
                       )}
                     </>
@@ -637,27 +655,25 @@ export default function IssuedAssets(properties) {
               )}
 
               {activeTab === "pools" && (
-                <div className="mt-2">
-                  {relevantAssets.length > 0 ? (
-                    <h5 className="mb-2 text-center">
-                      {t("IssuedAssets:listingPools", {
-                        count: relevantAssets.length,
-                      })}
-                    </h5>
-                  ) : null}
-                  {loading ? (
-                    <div className="text-center mt-5">
-                      {t("CreditBorrow:common.loading")}
+                <div>
+                  {relevantAssets.length > 0 && (
+                    <div className="flex items-center gap-2 mb-3 px-1">
+                      <Layers className="h-3.5 w-3.5 dark:text-sky-200/70 text-sky-600/80" />
+                      <span className="text-xs font-medium uppercase tracking-wider dark:text-sky-200/70 text-sky-600/80">
+                        {t("IssuedAssets:listingPools", { count: relevantAssets.length })}
+                      </span>
                     </div>
-                  ) : null}
+                  )}
                   {(!loading && !relevantAssets) || !relevantAssets.length ? (
-                    <Empty className="mt-5">
+                    <Empty className="mt-2 border border-dashed border-sky-500/20 rounded-xl bg-sky-500/[0.03]">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon">❔</EmptyMedia>
-                        <EmptyTitle>{t("IssuedAssets:noPools")}</EmptyTitle>
+                        <EmptyMedia variant="icon" className="bg-sky-500/15 text-sky-400">
+                          <Layers className="w-6 h-6" />
+                        </EmptyMedia>
+                        <EmptyTitle className="text-foreground/80">{t("IssuedAssets:noPools")}</EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent>
-                        <Button asChild>
+                        <Button asChild className="bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-400 hover:to-blue-400 text-white border-0">
                           <a href="/create_pool/index.html">
                             {t("PageHeader:create_pool")}
                           </a>
@@ -686,8 +702,11 @@ export default function IssuedAssets(properties) {
                           </div>
                         </>
                       ) : (
-                        <div className="text-center mt-5">
-                          {t("CreditBorrow:common.loading")}
+                        <div className="flex flex-col items-center gap-3 py-12">
+                          <Spinner className="size-6 dark:text-sky-300 text-sky-700" />
+                          <p className="text-foreground/70 text-sm">
+                            {t("CreditBorrow:common.loading")}
+                          </p>
                         </div>
                       )}
                     </>
@@ -696,29 +715,27 @@ export default function IssuedAssets(properties) {
               )}
 
               {activeTab === "smartcoins" && (
-                <div className="mt-2">
-                  {relevantAssets.length > 0 ? (
-                    <h5 className="mb-2 text-center">
-                      {t("IssuedAssets:listingSmartcoins", {
-                        count: relevantAssets.length,
-                      })}
-                    </h5>
-                  ) : null}
-                  {loading ? (
-                    <div className="text-center mt-5">
-                      {t("CreditBorrow:common.loading")}
+                <div>
+                  {relevantAssets.length > 0 && (
+                    <div className="flex items-center gap-2 mb-3 px-1">
+                      <Droplets className="h-3.5 w-3.5 dark:text-rose-200/70 text-rose-600/80" />
+                      <span className="text-xs font-medium uppercase tracking-wider dark:text-rose-200/70 text-rose-600/80">
+                        {t("IssuedAssets:listingSmartcoins", { count: relevantAssets.length })}
+                      </span>
                     </div>
-                  ) : null}
+                  )}
                   {(!loading && !relevantAssets) || !relevantAssets.length ? (
-                    <Empty className="mt-5">
+                    <Empty className="mt-2 border border-dashed border-rose-500/20 rounded-xl bg-rose-500/[0.03]">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon">❔</EmptyMedia>
-                        <EmptyTitle>
+                        <EmptyMedia variant="icon" className="bg-rose-500/15 text-rose-400">
+                          <Droplets className="w-6 h-6" />
+                        </EmptyMedia>
+                        <EmptyTitle className="text-foreground/80">
                           {t("IssuedAssets:noSmartcoins")}
                         </EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent>
-                        <Button asChild>
+                        <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-white border-0">
                           <a href="/create_smartcoin/index.html">
                             {t("PageHeader:create_smartcoin")}
                           </a>
@@ -749,24 +766,22 @@ export default function IssuedAssets(properties) {
               )}
 
               {activeTab === "nft" && (
-                <div className="mt-2">
-                  {relevantAssets.length > 0 ? (
-                    <h5 className="mb-2 text-center">
-                      {t("IssuedAssets:listingNFTs", {
-                        count: relevantAssets.length,
-                      })}
-                    </h5>
-                  ) : null}
-                  {loading ? (
-                    <div className="text-center mt-5">
-                      {t("CreditBorrow:common.loading")}
+                <div>
+                  {relevantAssets.length > 0 && (
+                    <div className="flex items-center gap-2 mb-3 px-1">
+                      <Image className="h-3.5 w-3.5 dark:text-amber-200/70 text-amber-600/80" />
+                      <span className="text-xs font-medium uppercase tracking-wider dark:text-amber-200/70 text-amber-600/80">
+                        {t("IssuedAssets:listingNFTs", { count: relevantAssets.length })}
+                      </span>
                     </div>
-                  ) : null}
+                  )}
                   {(!loading && !relevantAssets) || !relevantAssets.length ? (
-                    <Empty className="mt-5">
+                    <Empty className="mt-2 border border-dashed border-amber-500/20 rounded-xl bg-amber-500/[0.03]">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon">❔</EmptyMedia>
-                        <EmptyTitle>{t("IssuedAssets:noNFTs")}</EmptyTitle>
+                        <EmptyMedia variant="icon" className="bg-amber-500/15 text-amber-400">
+                          <Image className="w-6 h-6" />
+                        </EmptyMedia>
+                        <EmptyTitle className="text-foreground/80">{t("IssuedAssets:noNFTs")}</EmptyTitle>
                       </EmptyHeader>
                     </Empty>
                   ) : (
@@ -791,10 +806,10 @@ export default function IssuedAssets(properties) {
                   )}
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </>
+          )}
         </div>
-      </div>
-    </>
+      </Card>
+    </div>
   );
 }

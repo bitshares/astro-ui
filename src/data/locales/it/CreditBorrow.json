@@ -15,7 +15,7 @@
     "view": "Visualizza le impostazioni"
   },
   "card": {
-    "title": "🏦 Visualizzazione delle offerte di credito disponibili",
+    "title": "Visualizzazione delle offerte di credito disponibili",
     "description": "Le offerte di credito sono generate dagli utenti, offrono tariffe, risorse e durate diverse, valutano i termini prima di creare accordi.",
     "viewingAll": "Visualizzazione di tutte le offerte",
     "viewAll": "Visualizza tutte le offerte",
@@ -35,6 +35,7 @@
     "noResults": "Nessun risultato trovato",
     "loading": "Caricamento offerte...",
     "hideExpired": "Nascondi offerte scadute",
-    "showExpired": "Mostra offerte scadute"
+    "showExpired": "Mostra offerte scadute",
+    "alreadyBlocked": "Già bloccato"
   }
 }

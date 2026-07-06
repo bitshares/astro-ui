@@ -15,7 +15,7 @@
     "view": "설정 보기"
   },
   "card": {
-    "title": "🏦 사용 가능한 크레딧 제안 보기",
+    "title": "사용 가능한 크레딧 제안 보기",
     "description": "크레딧 제안은 사용자가 생성하며 다양한 요율, 자산 및 기간을 제공하며 거래를 생성하기 전에 조건을 평가합니다.",
     "viewingAll": "모든 제안 보기",
     "viewAll": "모든 제안 보기",
@@ -35,6 +35,7 @@
     "noResults": "검색결과가 없습니다",
     "loading": "쿠폰 로드 중...",
     "hideExpired": "만료된 제안 숨기기",
-    "showExpired": "만료된 제안 표시"
+    "showExpired": "만료된 제안 표시",
+    "alreadyBlocked": "이미 차단됨"
   }
 }

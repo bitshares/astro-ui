@@ -258,6 +258,12 @@
     "hover2": "Add accounts to your blacklist.",
     "hover3": "Remove accounts from said lists."
   },
+  "blocked_users": {
+    "title": "Blocked Users",
+    "subtitle": "View and manage your blocked accounts",
+    "hover1": "View accounts you have blocked.",
+    "hover2": "Block or unblock accounts from your view."
+  },
   "ltm": {
     "title": "Upgrade Account",
     "subtitle": "Buy a lifetime membership",

@@ -103,7 +103,8 @@
     "create_pool": "Create a new liquidity pool by converting an existing user issued asset to a pool share asset token.",
     "invoice_inventory": "Manage inventory items and associated prices for invoicing.",
     "create_invoice": "Create an invoice by selecting inventory items, setting quantities and generating an identifier memo for payment.",
-    "pay_invoice": "Process and handle payment for invoice codes sent to you by sellers on the Bitshares blockchain."
+    "pay_invoice": "Process and handle payment for invoice codes sent to you by sellers on the Bitshares blockchain.",
+    "blocked-users": "View and manage your committee and personal blocklists."
   },
   "back": "Go back",
   "usage": "Designed for use with ",

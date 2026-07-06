@@ -5,6 +5,16 @@ type StoredBlocklist = {
   timestamp: number;
 };
 
+type UserBlock = {
+  name: string;
+  id: string;
+};
+
+type StoredUserBlocklist = {
+  bitshares: UserBlock[];
+  bitshares_testnet: UserBlock[];
+};
+
 const $blockList = persistentMap<StoredBlocklist>(
   "blocklist",
   {
@@ -26,10 +36,56 @@ const $blockList = persistentMap<StoredBlocklist>(
   }
 );
 
+const $userBlockList = persistentMap<StoredUserBlocklist>(
+  "userBlocklist",
+  {
+    bitshares: [],
+    bitshares_testnet: [],
+  },
+  {
+    encode(value) {
+      return JSON.stringify(value);
+    },
+    decode(value) {
+      try {
+        return JSON.parse(value);
+      } catch (e) {
+        console.log(e);
+        return { bitshares: [], bitshares_testnet: [] };
+      }
+    },
+  }
+);
+
+function addBlockedUser(chain: string, user: UserBlock) {
+  const users = $userBlockList.get()[chain];
+  if (users.find((u) => u.id === user.id)) {
+    return;
+  }
+  users.push(user);
+  $userBlockList.set({ ...$userBlockList.get(), [chain]: users });
+}
+
+function removeBlockedUser(chain: string, user: UserBlock) {
+  const users = $userBlockList.get()[chain];
+  const index = users.findIndex((u) => u.id === user.id);
+  if (index === -1) {
+    return;
+  }
+  users.splice(index, 1);
+  $userBlockList.set({ ...$userBlockList.get(), [chain]: users });
+}
+
 function updateBlockList(users: string[]) {
   console.log("Updating blocklist");
   $blockList.setKey("users", users);
   $blockList.setKey("timestamp", Date.now());
 }
 
-export { $blockList, updateBlockList };
+export {
+  $blockList,
+  $userBlockList,
+  addBlockedUser,
+  removeBlockedUser,
+  updateBlockList,
+};

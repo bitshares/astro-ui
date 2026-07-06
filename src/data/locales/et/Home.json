@@ -258,6 +258,12 @@
     "hover2": "Lisage kontod oma musta nimekirja.",
     "hover3": "Eemaldage nimetatud loenditest kontod."
   },
+  "blocked_users": {
+    "title": "Blokeeritud kasutajad",
+    "subtitle": "Vaata ja halda oma blokeeritud kontosid",
+    "hover1": "Vaata kontosid, oled blokeerinud.",
+    "hover2": "Blokeeri või eemalda blokeering kontode vaatest."
+  },
   "ltm": {
     "title": "Täiendage kontot",
     "subtitle": "Ostke eluaegne liikmesus",

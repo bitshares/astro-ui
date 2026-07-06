@@ -1,0 +1,12 @@
+{
+  "committeeHeader": "Committee-Sperrliste",
+  "committeeCount": "{{count}} Konten von der Commission gesperrt",
+  "committeeDescription": "Diese Konten wurden von der Bitshares-Commission gesperrt. Diese Liste wird on-chain geführt und regelmäßig aktualisiert.",
+  "usersHeader": "Ihre gesperrten Konten",
+  "addUser": "Konto sperren",
+  "addUserDialogTitle": "Ein Konto sperren",
+  "addUserDialogDescription": "Suchen Sie nach einem Konto, um es zu Ihrer persönlichen Sperrliste hinzuzufügen. Gesperrte Konten werden in der gesamten Ansicht ausgeblendet.",
+  "usersEmptyTitle": "Keine gesperrten Konten",
+  "usersEmptyDescription": "Sie haben noch keine Konten gesperrt. Sperren Sie Konten, um sie aus Ihrer Ansicht auszublenden.",
+  "remove": "Aus der Sperrliste entfernen"
+}

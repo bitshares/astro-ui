@@ -1,0 +1,12 @@
+{
+  "committeeHeader": "Udelukkelsesliste fra udvalget",
+  "committeeCount": "{{count}} konti udelukket af udvalget",
+  "committeeDescription": "Disse konti er blevet udelukket af Bitshares-udvalget. Denne liste vedligeholdes på kæden og opdateres løbende.",
+  "usersHeader": "Dine blokerede konti",
+  "addUser": "Bloker konto",
+  "addUserDialogTitle": "Bloker en konto",
+  "addUserDialogDescription": "Søg efter en konto for at tilføje til din personlige udelukkelsesliste. Blokerede konti vil være skjulte i din visning.",
+  "usersEmptyTitle": "Ingen blokerede konti",
+  "usersEmptyDescription": "Du har ikke blokeret nogen konti endnu. Bloker konti for at skjule dem fra din visning.",
+  "remove": "Fjern fra udelukkelsesliste"
+}

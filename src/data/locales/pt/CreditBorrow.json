@@ -15,7 +15,7 @@
     "view": "Ver configurações"
   },
   "card": {
-    "title": "🏦 Visualizando ofertas de crédito disponíveis",
+    "title": "Visualizando ofertas de crédito disponíveis",
     "description": "As ofertas de crédito são geradas pelo usuário, oferecem diferentes taxas, ativos e durações, avaliam os termos antes de criar negócios.",
     "viewingAll": "Visualizando todas as ofertas",
     "viewAll": "Ver todas as ofertas",
@@ -35,6 +35,7 @@
     "noResults": "Nenhum resultado encontrado",
     "loading": "Carregando ofertas...",
     "hideExpired": "Ocultar ofertas expiradas",
-    "showExpired": "Mostrar ofertas expiradas"
+    "showExpired": "Mostrar ofertas expiradas",
+    "alreadyBlocked": "Já bloqueado"
   }
 }
