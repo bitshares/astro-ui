@@ -5,6 +5,13 @@ import { BookOpen, BarChart3, AlertTriangle, Radio } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 import {
@@ -26,7 +33,7 @@ export function OrderBookCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <div className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10 p-4">
+      <Card className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10 p-4">
         <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
         <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
         <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
@@ -35,19 +42,19 @@ export function OrderBookCard({
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
               <BookOpen className="h-4 w-4" strokeWidth={2.25} />
             </span>
-            <div>
-              <h3 className="text-sm font-semibold text-foreground tracking-tight">
+            <CardHeader className="p-0">
+              <CardTitle className="text-sm font-semibold text-foreground tracking-tight">
                 {parsedAsset && parsedCollateralAsset
                   ? t("Smartcoin:orderBookForAssets", {
                       asset1: parsedAsset.s,
                       asset2: parsedCollateralAsset.s,
                     })
                   : t("Smartcoin:orderBookLoading")}
-              </h3>
-              <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+              </CardTitle>
+              <CardDescription className="text-[10px] text-muted-foreground/60 mt-0.5">
                 {t("Smartcoin:orderBookNote")}
-              </p>
-            </div>
+              </CardDescription>
+            </CardHeader>
           </div>
           <a
             href={
@@ -159,7 +166,7 @@ export function OrderBookCard({
             {!sellOrders ? t("Smartcoin:loading") : null}
           </TabsContent>
         </Tabs>
-      </div>
+      </Card>
     </div>
   );
 }
@@ -174,7 +181,7 @@ export function CallOrdersCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <div className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10 p-4">
+      <Card className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10 p-4">
         <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
         <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
         <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
@@ -182,19 +189,19 @@ export function CallOrdersCard({
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
             <BarChart3 className="h-4 w-4" strokeWidth={2.25} />
           </span>
-          <div>
-            <h3 className="text-sm font-semibold text-foreground tracking-tight">
+          <CardHeader className="p-0">
+            <CardTitle className="text-sm font-semibold text-foreground tracking-tight">
               {parsedAsset && parsedCollateralAsset
                 ? t("Smartcoin:callOrdersForAssets", {
                     asset1: parsedAsset.s,
                     asset2: parsedCollateralAsset.s,
                   })
                 : t("Smartcoin:callOrdersLoading")}
-            </h3>
-            <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+            </CardTitle>
+            <CardDescription className="text-[10px] text-muted-foreground/60 mt-0.5">
               {t("Smartcoin:checkMarginPositions")}
-            </p>
-          </div>
+            </CardDescription>
+          </CardHeader>
         </div>
         {assetCallOrders && assetCallOrders.length ? (
           <>
@@ -234,7 +241,7 @@ export function CallOrdersCard({
           ? t("Smartcoin:noCallOrdersFound")
           : null}
         {!assetCallOrders ? t("Smartcoin:loading") : null}
-      </div>
+      </Card>
     </div>
   );
 }
@@ -248,24 +255,24 @@ export function SettleOrdersCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <div className="rounded-xl border border-amber-500/15 bg-card/60 p-4">
+      <Card className="rounded-xl border border-amber-500/15 bg-card/60 p-4">
         <div className="flex items-center gap-3 mb-4">
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-amber-400/30 bg-gradient-to-br from-amber-500/20 to-orange-500/20 dark:text-amber-200 text-amber-700 flex-shrink-0">
             <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
           </span>
-          <div>
-            <h3 className="text-sm font-semibold text-foreground tracking-tight">
+          <CardHeader className="p-0">
+            <CardTitle className="text-sm font-semibold text-foreground tracking-tight">
               {parsedAsset && parsedCollateralAsset
                 ? t("Smartcoin:settleOrdersForAssets", {
                     asset1: parsedAsset.s,
                     asset2: parsedCollateralAsset.s,
                   })
                 : t("Smartcoin:settleOrdersLoading")}
-            </h3>
-            <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+            </CardTitle>
+            <CardDescription className="text-[10px] text-muted-foreground/60 mt-0.5">
               {t("Smartcoin:checkSettleOrders")}
-            </p>
-          </div>
+            </CardDescription>
+          </CardHeader>
         </div>
         {assetSettleOrders && assetSettleOrders.length ? (
           <>
@@ -295,7 +302,7 @@ export function SettleOrdersCard({
           ? t("Smartcoin:noSettleOrdersFound")
           : null}
         {!assetSettleOrders ? t("Smartcoin:loading") : null}
-      </div>
+      </Card>
     </div>
   );
 }
@@ -309,7 +316,7 @@ export function PriceFeedsCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <div className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10 p-4">
+      <Card className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10 p-4">
         <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
         <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
         <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
@@ -317,16 +324,16 @@ export function PriceFeedsCard({
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
             <Radio className="h-4 w-4" strokeWidth={2.25} />
           </span>
-          <div>
-            <h3 className="text-sm font-semibold text-foreground tracking-tight">
+          <CardHeader className="p-0">
+            <CardTitle className="text-sm font-semibold text-foreground tracking-tight">
               {parsedAsset && parsedCollateralAsset
                 ? t("Smartcoin:priceFeedsForAsset", { asset: parsedAsset.s })
                 : t("Smartcoin:priceFeedsLoading")}
-            </h3>
-            <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+            </CardTitle>
+            <CardDescription className="text-[10px] text-muted-foreground/60 mt-0.5">
               {t("Smartcoin:checkLatestPriceFeeds")}
-            </p>
-          </div>
+            </CardDescription>
+          </CardHeader>
         </div>
         {finalBitasset && finalBitasset.feeds ? (
           <>
@@ -362,7 +369,7 @@ export function PriceFeedsCard({
           ? t("Smartcoin:noSmartcoinFeedsFound")
           : null}
         {!finalBitasset ? t("Smartcoin:loading") : null}
-      </div>
+      </Card>
     </div>
   );
 }

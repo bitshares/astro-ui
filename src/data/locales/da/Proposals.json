@@ -7,7 +7,7 @@
   "operationsDescription": "Dette er de individuelle operationer, der er gemt i dette forslag, Klik på hver operations id nedenfor for at se deres JSON detaljer, Gennemgå grundigt hver operation og dobbelttjek hvem forslagsstilleren er, før du fortsætter med godkendelse, Godkendelser er irreversible, godkend ikke overførsel af din konto ",
   "beginApprovalProcess": "Start godkendelsesprocessen",
   "reject": "Forkast forslaget",
-  "cardTitle": "🤔 Foreslåede operationer",
+  "cardTitle": "Foreslåede operationer",
   "cardDescription": "Forslag giver enhver mulighed for at foreslå operationer, der skal udføres af en anden konto på blockchain. Kontoejeren gennemgår disse forslag og beslutter, om de skal godkendes eller afvises.",
   "noProposals": "Ingen forslag tilgængelige.",
   "approveProposedOperation": "Godkend foreslået drift",

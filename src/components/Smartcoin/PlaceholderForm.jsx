@@ -12,29 +12,36 @@ import { Toggle } from "@/components/ui/toggle";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 export default function PlaceholderForm({ form, ratioValue }) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
+    <Card className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
       <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
       <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
       <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
-      <div className="relative p-5 sm:p-6">
-        <div className="flex items-center gap-3 mb-4">
+      <CardContent className="relative p-5 sm:p-6">
+        <CardHeader className="flex flex-row items-center gap-3 mb-4 space-y-0">
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
             <Landmark className="h-4 w-4" strokeWidth={2.25} />
           </span>
           <div>
-            <h3 className="text-base font-semibold text-foreground tracking-tight">
+            <CardTitle className="text-base font-semibold text-foreground tracking-tight">
               {t("Smartcoin:collateralDebtPositionFormTitle")}
-            </h3>
-            <p className="text-xs text-muted-foreground/70 mt-0.5">
+            </CardTitle>
+            <CardDescription className="text-xs text-muted-foreground/70 mt-0.5">
               {t("Smartcoin:collateralDebtPositionFormDescription")}
-            </p>
+            </CardDescription>
           </div>
-        </div>
+        </CardHeader>
         <Form {...form}>
           <form>
             <FormField
@@ -283,7 +290,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
             </Button>
           </form>
         </Form>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

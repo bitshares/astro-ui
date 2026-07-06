@@ -4,6 +4,13 @@ import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { Wallet, TrendingUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 import DeepLinkDialog from "@/components/common/DeepLinkDialog";
 import { humanReadableFloat } from "@/lib/common.js";
@@ -72,27 +79,27 @@ export default function UsrMarginPositionCard({
     : null;
 
   return (
-    <div className="mt-2 relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
+    <Card className="mt-2 relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
       <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
       <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
       <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
-      <div className="relative p-5">
-        <div className="flex items-center gap-3 mb-4">
+      <CardContent className="relative p-5">
+        <CardHeader className="flex flex-row items-center gap-3 mb-4 p-0">
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
             <Wallet className="h-4 w-4" strokeWidth={2.25} />
           </span>
           <div>
-            <h3 className="text-sm font-semibold text-foreground tracking-tight">
+            <CardTitle className="text-sm font-semibold text-foreground tracking-tight">
               {t("Smartcoin:currentMarginPosition", {
                 asset: parsedAsset.s,
                 id: parsedAsset.id,
               })}
-            </h3>
-            <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+            </CardTitle>
+            <CardDescription className="text-[10px] text-muted-foreground/60 mt-0.5">
               {t("Smartcoin:ongoingMarginPosition")}
-            </p>
+            </CardDescription>
           </div>
-        </div>
+        </CardHeader>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
           <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
@@ -199,7 +206,7 @@ export default function UsrMarginPositionCard({
             trxJSON={[exitJSON]}
           />
         ) : null}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
