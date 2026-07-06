@@ -33,8 +33,11 @@ export default function AboutAssetCard({
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   return (
-    <div className="mt-2 rounded-xl border border-indigo-500/15 bg-card/60">
-      <div className="p-5">
+    <div className="mt-2 relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
+      <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
+      <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
+      <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+      <div className="relative p-5">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
@@ -99,9 +102,6 @@ export default function AboutAssetCard({
             <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80">
               {t("Smartcoin:generalAssetInfo")}
             </div>
-          </div>
-          <div className="col-span-1 text-right text-xs text-muted-foreground/60">
-            {t("Smartcoin:viewAssetOnbitshares")}
           </div>
         </div>
 
@@ -247,11 +247,6 @@ export default function AboutAssetCard({
                     ? t("Smartcoin:bitassetInfo")
                     : t("Smartcoin:smartcoinInfo")}
                 </div>
-              </div>
-              <div className="col-span-1 text-right">
-                <Button variant="outline" className="h-5 border-indigo-400/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-500/20 transition-colors text-xs">
-                  {t("Smartcoin:viewBitassetOnbitshares")}
-                </Button>
               </div>
             </div>
 

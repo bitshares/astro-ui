@@ -942,24 +942,13 @@ export default function Smartcoin(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
-      <div className="relative overflow-hidden rounded-2xl border border-border shadow-2xl shadow-indigo-950/20">
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/70 to-transparent"
-        />
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-indigo-500/10 blur-3xl"
-        />
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-cyan-500/10 blur-3xl"
-        />
-        <div className="relative p-5 sm:p-6">
-          <div className="grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 gap-3">
         {marketSearch && invalidUrlParams ? (
-          <Card className="border-indigo-500/15 bg-card/60">
-            <CardHeader>
+          <Card className="relative overflow-hidden border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
+            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
+            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
+            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+            <CardHeader className="relative">
               <CardTitle>{t("Smartcoin:invalidSmartcoinIdTitle")}</CardTitle>
               <CardDescription>
                 {t("Smartcoin:invalidSmartcoinIdDescription")}
@@ -1064,8 +1053,11 @@ export default function Smartcoin(properties) {
 
         {!invalidUrlParams &&
         (!finalAsset || !parsedAsset || !parsedBitasset) ? (
-          <Card className="mt-2">
-            <CardHeader className="pb-2">
+          <Card className="mt-2 relative overflow-hidden border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
+            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
+            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
+            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+            <CardHeader className="pb-2 relative">
               <CardTitle>
                 <div className="grid grid-cols-8">
                   <div className="col-span-6">
@@ -1088,11 +1080,6 @@ export default function Smartcoin(properties) {
               <div className="grid grid-cols-2">
                 <div className="col-span-1">
                   <Label>{t("Smartcoin:generalAssetInfo")}</Label>
-                </div>
-                <div className="col-span-1 text-right">
-                  <Button variant="outline" classnamecontents="h-5 mb-2">
-                    {t("Smartcoin:viewAssetOnbitshares")}
-                  </Button>
                 </div>
               </div>
               <div className="grid grid-cols-11 gap-1 w-full text-sm">
@@ -1179,8 +1166,11 @@ export default function Smartcoin(properties) {
 
         {!invalidUrlParams &&
         (!finalCollateralAsset || !parsedCollateralAsset) ? (
-          <Card className="mt-2">
-            <CardHeader className="pb-2">
+          <Card className="mt-2 relative overflow-hidden border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
+            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
+            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
+            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+            <CardHeader className="pb-2 relative">
               <CardTitle>
                 <div className="grid grid-cols-8">
                   <div className="col-span-6">{t("Smartcoin:about")}</div>
@@ -1201,11 +1191,6 @@ export default function Smartcoin(properties) {
               <div className="grid grid-cols-2">
                 <div className="col-span-1">
                   <Label>{t("Smartcoin:generalAssetInfo")}</Label>
-                </div>
-                <div className="col-span-1 text-right">
-                  <Button variant="outline" classnamecontents="h-5 mb-2">
-                    {t("Smartcoin:viewAssetOnbitshares")}
-                  </Button>
                 </div>
               </div>
               <div className="grid grid-cols-11 gap-1 w-full text-sm">
@@ -1299,8 +1284,6 @@ export default function Smartcoin(properties) {
       ) : null}
 
       <RisksCard />
-        </div>
-      </div>
     </div>
   );
 }

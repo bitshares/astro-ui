@@ -19,8 +19,11 @@ export function GlobalSettlementCard({
 
   return (
     <div className="grid grid-cols-1 mt-2 mb-2">
-      <div className="rounded-xl border border-red-500/15 bg-card/60">
-        <div className="p-5">
+      <div className="relative overflow-hidden rounded-xl border border-red-500/15 bg-card/60 shadow-lg shadow-red-950/10">
+        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-400/60 to-transparent" />
+        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-red-500/8 blur-3xl" />
+        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-amber-500/8 blur-3xl" />
+        <div className="relative p-5">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-400/30 bg-gradient-to-br from-red-500/20 to-amber-500/20 dark:text-red-200 text-red-700 flex-shrink-0">
               <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
@@ -110,8 +113,11 @@ export function IndividualSettlementCard({
 
   return (
     <div className="grid grid-cols-1 mt-2 mb-2">
-      <div className="rounded-xl border border-amber-500/15 bg-card/60">
-        <div className="p-5">
+      <div className="relative overflow-hidden rounded-xl border border-amber-500/15 bg-card/60 shadow-lg shadow-amber-950/10">
+        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
+        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-amber-500/8 blur-3xl" />
+        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-orange-500/8 blur-3xl" />
+        <div className="relative p-5">
           <div className="flex items-center gap-3 mb-4">
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-amber-400/30 bg-gradient-to-br from-amber-500/20 to-orange-500/20 dark:text-amber-200 text-amber-700 flex-shrink-0">
               <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
