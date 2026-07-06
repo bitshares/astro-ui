@@ -137,9 +137,20 @@ export default function CreateVestingBalance(properties) {
       return assetBalance;
     }
   }, [usrBalances, assetData]);
+  
+  const [beginDateTime, setBeginDateTime] = useState();
+
+  const isSubmitDisabled = useMemo(() => {
+    // require target account, asset selection, positive amount, and a begin date
+    if (!targetUser) return true;
+    if (!asset || !assetData) return true;
+    const amt = parseFloat(amount);
+    if (isNaN(amt) || amt <= 0) return true;
+    if (!beginDateTime) return true;
+    return false;
+  }, [targetUser, asset, assetData, amount, beginDateTime]);
 
   // ccd & lvc
-  const [beginDateTime, setBeginDateTime] = useState();
 
   // ccd policy
   const [vestingSeconds, setVestingSeconds] = useState(0);
@@ -301,7 +312,7 @@ export default function CreateVestingBalance(properties) {
                   />
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-2 mt-1">
+              <div className="grid grid-cols-1 gap-2 mt-1">
                 <span className="col-span-1">
                   <HoverInfo
                     header={
@@ -314,64 +325,84 @@ export default function CreateVestingBalance(properties) {
                     type="header"
                   />
                 </span>
-                <span className="col-span-1 text-right">
-                  <AssetDropDown
-                    assetSymbol={asset ?? ""}
-                    assetData={null}
-                    storeCallback={setAsset}
-                    otherAsset={null}
-                    marketSearch={marketSearch}
-                    type={"backing"}
-                    chain={usr && usr.chain ? usr.chain : "bitshares"}
-                    balances={usrBalances}
-                  />
-                </span>
-                <span className="col-span-2">
-                  <Input
-                    type="text"
-                    placeholder={
-                      assetData ? `${assetData.symbol} (${assetData.id})` : ""
-                    }
-                    disabled
-                    className="bg-green-500/5 border-green-500/20"
-                  />
-                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  <span className="col-span-1">
+                    <Input
+                      type="text"
+                      placeholder={
+                        assetData ? `${assetData.symbol} (${assetData.id})` : ""
+                      }
+                      disabled
+                      className="bg-green-500/5 border-green-500/20"
+                    />
+                  </span>
+                  <span className="col-span-1">
+                    <AssetDropDown
+                      assetSymbol={asset ?? ""}
+                      assetData={null}
+                      storeCallback={setAsset}
+                      otherAsset={null}
+                      marketSearch={marketSearch}
+                      type={"backing"}
+                      chain={usr && usr.chain ? usr.chain : "bitshares"}
+                      balances={usrBalances}
+                    />
+                  </span>
+                </div>
               </div>
-              <div className="grid grid-cols-2 mt-1">
-                <span className="col-span-1">
-                  <HoverInfo
-                    header={
-                      <span className="flex items-center gap-2">
-                        <ArrowRight className="w-4 h-4 text-teal-500" />
-                        {t("CreateVestingBalance:amount")}
-                      </span>
-                    }
-                    content={t("CreateVestingBalance:amountDescription")}
-                    type="header"
-                  />
-                  {asset && amount > chosenAssetBalance ? (
-                    <Badge variant="destructive" className="h-9 mt-2">
-                      <ExclamationTriangleIcon className="mr-2" />{" "}
-                      {t("Predictions:insufficient_funds")}
-                    </Badge>
-                  ) : null}
-                </span>
-                <span className="col-span-1 text-right">
-                  <Button
-                    className="mt-2 ml-1 hover:shadow-md border-teal-500/30 hover:bg-teal-500/10 hover:text-teal-500 transition-colors"
-                    onClick={() => {
-                      setAmount(chosenAssetBalance);
-                    }}
-                    variant="outline"
-                  >
-                    {t("Predictions:issueDialog.balance")}
-                  </Button>
-                </span>
+              <div className="grid grid-cols-1 mt-1">
+                <div className="flex items-start justify-between w-full">
+                  <div className="text-left w-full">
+                    <HoverInfo
+                      header={
+                        <span className="flex items-center gap-2">
+                          <ArrowRight className="w-4 h-4 text-teal-500" />
+                          {t("CreateVestingBalance:amount")}
+                        </span>
+                      }
+                      content={t("CreateVestingBalance:amountDescription")}
+                      type="header"
+                    />
+                    {asset && chosenAssetBalance !== undefined && (
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {t("CreateVestingBalance:currentBalance", {
+                          balance: chosenAssetBalance,
+                          symbol: assetData?.symbol || "",
+                        })}
+                      </p>
+                    )}
+                  </div>
+                  <div className="text-right ml-4">
+                    <Button
+                      className="mt-2 ml-1 hover:shadow-md border-teal-500/30 hover:bg-teal-500/10 hover:text-teal-500 transition-colors"
+                      onClick={() => {
+                        setAmount(chosenAssetBalance);
+                      }}
+                      variant="outline"
+                      disabled={!asset}
+                    >
+                      {t("CreateVestingBalance:useBalance")}
+                    </Button>
+                  </div>
+                </div>
                 <span className="col-span-2">
                   <Input
                     type="number"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
+                    disabled={!asset}
+                    min="0"
+                    step={assetData ? `0.${"0".repeat(assetData.precision - 1)}1` : "0.01"}
+                    onChange={(e) => {
+                      const val = parseFloat(e.target.value);
+                      if (val < 0) return;
+                      if (assetData && e.target.value.includes(".")) {
+                        const decimals = e.target.value.split(".")[1];
+                        if (decimals && decimals.length > assetData.precision) {
+                          return;
+                        }
+                      }
+                      setAmount(e.target.value);
+                    }}
                     className="mt-2 bg-teal-500/5 border-teal-500/20"
                   />
                 </span>
@@ -423,6 +454,7 @@ export default function CreateVestingBalance(properties) {
                     type="number"
                     value={vestingSeconds}
                     onChange={(e) => setVestingSeconds(e.target.value)}
+                    min="0"
                     className="w-1/2 mt-2 bg-emerald-500/5 border-emerald-500/20"
                   />
                 </div>
@@ -474,6 +506,7 @@ export default function CreateVestingBalance(properties) {
                     type="number"
                     value={vestingCliffSeconds}
                     onChange={(e) => setVestingCliffSeconds(e.target.value)}
+                    min="0"
                     className="w-1/2 mt-2 mb-1 bg-green-500/5 border-green-500/20"
                   />
                   <HoverInfo
@@ -492,6 +525,7 @@ export default function CreateVestingBalance(properties) {
                     type="number"
                     value={vestingDurationSeconds}
                     onChange={(e) => setVestingDurationSeconds(e.target.value)}
+                    min="0"
                     className="w-1/2 mt-2 bg-emerald-500/5 border-emerald-500/20"
                   />
                 </div>
@@ -499,8 +533,10 @@ export default function CreateVestingBalance(properties) {
               <Button
                 className="h-10 mt-4 w-full bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 hover:from-emerald-600 hover:via-green-600 hover:to-teal-600 text-white shadow-lg shadow-emerald-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/40 hover:-translate-y-0.5"
                 onClick={() => {
+                  if (isSubmitDisabled) return;
                   setShowDialog(true);
                 }}
+                disabled={isSubmitDisabled}
               >
                 {t("CreateUIA:buttons.submit")}
               </Button>

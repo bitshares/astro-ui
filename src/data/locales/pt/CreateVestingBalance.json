@@ -9,7 +9,7 @@
   "target": "Conta alvo",
   "targetDescription": "Esta é a conta que receberá o saldo de aquisição.",
   "policy": "Política de saldo de aquisição",
-  "policyDescription": "Você pode usar uma de duas políticas: Coin Days Destroyed ou Linear Vesting com Cliff, o efeito da política Coin Days Destroyed é exigir que uma certa quantia de “juros” seja acumulada antes que o saldo total possa ser sacado. ",
+  "policyDescription": "Você pode usar uma de duas políticas: Coin Days Destroyed ou Linear Vesting com Cliff, o efeito da política Coin Days Destroyed é exigir que uma certa quantia de juros seja acumulada antes que o saldo total possa ser sacado. ",
   "asset": "Ativo",
   "assetDescription": "Este é o ativo que será colocado no saldo de aquisição.",
   "ccd": "Dias de moedas destruídos",
@@ -25,5 +25,9 @@
   "vestingDurationSeconds": "Duração da aquisição em segundos",
   "vestingDurationSecondsDescription": "Este é o número de segundos durante os quais o saldo será adquirido.",
   "dialogHeader": "Criando um novo saldo de aquisição",
-  "myAccount": "Sua conta"
+  "myAccount": "Sua conta",
+  "useBalance": "Usar saldo",
+  "currentBalance": "Saldo atual: {{balance}} {{symbol}}",
+  "insufficientFunds": "Saldo insuficiente",
+  "invalidDecimals": "Máximo de {{precision}} casas decimais permitidas"
 }

@@ -9,7 +9,7 @@
   "target": "대상 계정",
   "targetDescription": "베스팅 잔액을 받을 계좌입니다.",
   "policy": "베스팅 잔액 정책",
-  "policyDescription": "두 가지 정책 중 하나를 사용할 수 있습니다: 코인 데이 파기 또는 선형 베스팅 with Cliff, 코인 파기 날짜 정책의 효과는 전체 잔액이 인출되기 전에 일정 금액의 \"이자\"가 발생하도록 요구하는 것입니다. 이자는 코인 데이(잔액 * 길이)로 발생합니다. ",
+  "policyDescription": "두 가지 정책 중 하나를 사용할 수 있습니다: 코인 데이 파기 또는 선형 베스팅 with Cliff, 코인 파기 날짜 정책의 효과는 전체 잔액이 인출되기 전에 일정 금액의 이자가 발생하도록 요구하는 것입니다. 이자는 코인 데이(잔액 * 길이)로 발생합니다. ",
   "asset": "유산",
   "assetDescription": "이는 베스팅 잔액에 포함될 자산입니다.",
   "ccd": "코인이 파괴된 날",
@@ -25,5 +25,9 @@
   "vestingDurationSeconds": "베스팅 기간(초)",
   "vestingDurationSecondsDescription": "이는 잔액이 부여되는 시간(초)입니다.",
   "dialogHeader": "새로운 베스팅 잔액 생성",
-  "myAccount": "귀하의 계정"
+  "myAccount": "귀하의 계정",
+  "useBalance": "잔액 사용",
+  "currentBalance": "현재 잔액: {{balance}} {{symbol}}",
+  "insufficientFunds": "잔액 부족",
+  "invalidDecimals": "최대 {{precision}}자리 소수점 허용"
 }

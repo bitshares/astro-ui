@@ -9,7 +9,7 @@
   "target": "Målkonto",
   "targetDescription": "Dette er den konto, der vil modtage optjeningssaldoen.",
   "policy": "Vesting balance politik",
-  "policyDescription": "Du kan bruge en af ​​to politikker: Coin Days Destroyed eller Lineær Vesting with Cliff, Coin Days Destroyed-politikkens effekt er at kræve en vis mængde \"rente\", før den fulde saldo kan trækkes tilbage, Renterne påløber som coindays (saldo * længde ",
+  "policyDescription": "Du kan bruge en af ​​to politikker: Coin Days Destroyed eller Lineær Vesting with Cliff, Coin Days Destroyed-politikkens effekt er at kræve en vis mængde rente, før den fulde saldo kan trækkes tilbage, Renterne påløber som coindays (saldo * længde ",
   "asset": "Aktiv",
   "assetDescription": "Dette er det aktiv, der vil blive placeret i optjeningsbalancen.",
   "ccd": "Møntdage ødelagt",
@@ -25,5 +25,9 @@
   "vestingDurationSeconds": "Optjeningsvarighed sekunder",
   "vestingDurationSecondsDescription": "Dette er det antal sekunder, som saldoen optjenes over.",
   "dialogHeader": "Oprettelse af en ny Vesting Balance",
-  "myAccount": "Din konto"
+  "myAccount": "Din konto",
+  "useBalance": "Brug saldo",
+  "currentBalance": "Nuværende saldo: {{balance}} {{symbol}}",
+  "insufficientFunds": "Utilstrækkelig saldo",
+  "invalidDecimals": "Maksimalt {{precision}} decimalpladser tilladt"
 }

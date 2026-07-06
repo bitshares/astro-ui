@@ -9,7 +9,7 @@
   "target": "Sihtkonto",
   "targetDescription": "See on konto, millele laekub üleandmise saldo.",
   "policy": "Omandamisbilansi poliitika",
-  "policyDescription": "Võite kasutada ühte kahest poliitikast: Coin Days Destroyed või Lineaarne üleandmine kaljuga, Coin Days Destroyed poliitika mõju seisneb selles, et enne kogu saldo väljavõtmist tuleb koguda teatud summa \"intressi\", intressi koguneb mündipäevadena (saldo * pikkus ",
+  "policyDescription": "Võite kasutada ühte kahest poliitikast: Coin Days Destroyed või Lineaarne üleandmine kaljuga, Coin Days Destroyed poliitika mõju seisneb selles, et enne kogu saldo väljavõtmist tuleb koguda teatud summa intressi, intressi koguneb mündipäevadena (saldo * pikkus ",
   "asset": "Vara",
   "assetDescription": "See on vara, mis paigutatakse üleandmisbilanssi.",
   "ccd": "Müntide päevad hävitatud",
@@ -25,5 +25,9 @@
   "vestingDurationSeconds": "Omandamise kestus sekundis",
   "vestingDurationSecondsDescription": "See on sekundite arv, mille jooksul saldo säilib.",
   "dialogHeader": "Uue üleandmise saldo loomine",
-  "myAccount": "Teie konto"
+  "myAccount": "Teie konto",
+  "useBalance": "Kasuta saldot",
+  "currentBalance": "Praegune saldo: {{balance}} {{symbol}}",
+  "insufficientFunds": "Ebapiisav saldo",
+  "invalidDecimals": "Maksimaalselt {{precision}} kümnendkohta lubatud"
 }
