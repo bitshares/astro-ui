@@ -5,9 +5,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { List } from "react-window";
 import { useForm } from "react-hook-form";
-import { LockOpen2Icon, LockClosedIcon } from "@radix-ui/react-icons";
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
@@ -16,33 +14,9 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
-import {
-  Avatar as Av,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-import { Avatar } from "@/components/Avatar.tsx";
 
 import {
   HoverCard,
@@ -50,23 +24,16 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Toggle } from "@/components/ui/toggle";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 
 import {
   humanReadableFloat,
   getFlagBooleans,
   debounce,
   blockchainFloat,
-  assetAmountRegex,
 } from "@/lib/common.js";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
@@ -76,33 +43,23 @@ import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
 
 import DeepLinkDialog from "./common/DeepLinkDialog";
-import ExternalLink from "./common/ExternalLink.jsx";
+import EmptyRow from "./common/EmptyRow.jsx";
 
 import AboutAssetCard from "@/components/Smartcoin/AboutAssetCard.jsx";
 import RisksCard from "@/components/Smartcoin/RisksCard.jsx";
 import UsrMarginPositionCard from "@/components/Smartcoin/UsrMarginPositionCard.jsx";
-import EmptyRow from "./common/EmptyRow.jsx";
-
-const activeTabStyle = {
-  backgroundColor: "hsl(var(--primary))",
-  color: "hsl(var(--primary-foreground))",
-};
-
-function timeAgo(dateString, t) {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffInMilliseconds = now - date;
-  const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
-
-  if (diffInDays < 1) {
-    return t("Smartcoin:today");
-  } else if (diffInDays < 30) {
-    return t("Smartcoin:daysAgo", { days: diffInDays });
-  } else {
-    const diffInMonths = Math.floor(diffInDays / 30);
-    return t("Smartcoin:monthsAgo", { months: diffInMonths });
-  }
-}
+import CDPForm from "@/components/Smartcoin/CDPForm.jsx";
+import PlaceholderForm from "@/components/Smartcoin/PlaceholderForm.jsx";
+import {
+  GlobalSettlementCard,
+  IndividualSettlementCard,
+} from "@/components/Smartcoin/SettlementFundCard.jsx";
+import {
+  OrderBookCard,
+  CallOrdersCard,
+  SettleOrdersCard,
+  PriceFeedsCard,
+} from "@/components/Smartcoin/DataCards.jsx";
 
 export default function Smartcoin(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -191,7 +148,6 @@ export default function Smartcoin(properties) {
 
   const parsedUrlParams = useMemo(() => {
     if (marketSearch && marketSearch.length && window.location.search) {
-      //console.log("Parsing url params");
       const urlSearchParams = new URLSearchParams(window.location.search);
       const params = Object.fromEntries(urlSearchParams.entries());
       const foundParamter = params && params.id ? params.id : null;
@@ -621,17 +577,6 @@ export default function Smartcoin(properties) {
     ratioValue,
   ]);
 
-  /*
-  const originalDebtAssetHoldings = useMemo(() => {
-    if (parsedAsset && usrBalances && usrBalances.length) {
-      const currentDebtAssetBalance = usrBalances.find((x) => x.asset_id === parsedAsset.id);
-      return currentDebtAssetBalance && currentDebtAssetBalance.amount
-        ? humanReadableFloat(currentDebtAssetBalance.amount, parsedAsset.p)
-        : 0;
-    }
-  }, [parsedAsset, usrBalances]);
-  */
-
   const debtAssetHoldings = useMemo(() => {
     if (parsedAsset && usrBalances && usrBalances.length) {
       const currentDebtAssetBalance = usrBalances.find(
@@ -656,11 +601,8 @@ export default function Smartcoin(properties) {
   }, [
     parsedAsset,
     usrBalances,
-    // checks
     debtLock,
-    // dynamic
     debtAmount,
-    // static
     originalDebtAmount,
   ]);
 
@@ -693,11 +635,8 @@ export default function Smartcoin(properties) {
   }, [
     parsedCollateralAsset,
     usrBalances,
-    // checks
     collateralLock,
-    // dynamic
     collateralAmount,
-    // static
     originalCollateralAmount,
   ]);
 
@@ -814,12 +753,10 @@ export default function Smartcoin(properties) {
         }
 
         if (_ratioLock === "locked") {
-          // only set debt
           setDebtAmount(parsedDebtAmount);
         }
 
         if (_debtLock === "locked" || _collateralLock === "locked") {
-          // change the ratio
           const updatedRatio = parseFloat(
             (
               1 /
@@ -860,7 +797,6 @@ export default function Smartcoin(properties) {
         const _collateralAmount = parseFloat(current_collateral_amount);
 
         if (_ratioLock === "locked" || _collateralLock === "locked") {
-          // change the debt
           const finalDebt = parseFloat(
             (
               _collateralAmount /
@@ -871,7 +807,6 @@ export default function Smartcoin(properties) {
         }
 
         if (_debtLock === "locked") {
-          // maintain the debt, change the collateral
           const _debtAmount = parseFloat(current_debt_amount);
           const newCollateralAmount = parseFloat(
             (_debtAmount * current_feed_price * parsedRatioAmount).toFixed(
@@ -1005,145 +940,6 @@ export default function Smartcoin(properties) {
     tcrValue,
   ]);
 
-  const MarginPositionRow = ({ index, style }) => {
-    const res = assetCallOrders[index];
-    const collateralAmount = humanReadableFloat(
-      res.collateral,
-      parsedCollateralAsset.p
-    );
-    const debtAmount = humanReadableFloat(res.debt, parsedAsset.p);
-
-    const tcr = res.target_collateral_ratio
-      ? `${res.target_collateral_ratio / 10}%`
-      : `0%`;
-
-    const _ratio =
-      1 / ((currentFeedSettlementPrice * debtAmount) / collateralAmount);
-    const ratio = parseFloat(_ratio.toFixed(3));
-
-    const callPrice = res.target_collateral_ratio
-      ? parseFloat(
-          (
-            currentFeedSettlementPrice *
-            (collateralAmount /
-              (debtAmount *
-                (currentFeedSettlementPrice *
-                  (res.target_collateral_ratio / 1000))))
-          ).toFixed(parsedCollateralAsset.p)
-        )
-      : parseFloat(
-          (
-            currentFeedSettlementPrice *
-            (collateralAmount /
-              (debtAmount * (currentFeedSettlementPrice * 1.4)))
-          ).toFixed(parsedCollateralAsset.p)
-        );
-
-    return (
-      <div className="grid grid-cols-6 text-sm" style={style}>
-        <div className="col-span-1">
-          <span className="text-blue-500 dark:text-blue-400">{res.borrower}</span>
-        </div>
-        <div className="col-span-1">{collateralAmount}</div>
-        <div className="col-span-1">{debtAmount}</div>
-        <div className="col-span-1">{callPrice}</div>
-        <div className="hidden md:block col-span-1">{tcr}</div>
-        <div className="hidden md:block col-span-1">{ratio}</div>
-      </div>
-    );
-  };
-
-  const OrderRow = ({ index, style }) => {
-    let reference;
-    let res;
-    let precision;
-    if (activeOrderTab === "buy") {
-      reference = buyOrders;
-      res = buyOrders[index];
-      precision = parsedAsset.p;
-    } else {
-      reference = sellOrders;
-      res = sellOrders[index];
-      precision = parsedCollateralAsset.p;
-    }
-
-    if (!reference || !res) {
-      return null;
-    }
-
-    return (
-      <div className="grid grid-cols-4 text-sm" style={style}>
-        <div className="col-span-1">
-          {parseFloat(res.price).toFixed(precision)}
-        </div>
-        <div className="col-span-1">{res.base}</div>
-        <div className="col-span-1">{res.quote}</div>
-        <div className="col-span-1">
-          {reference
-            .slice(0, index + 1)
-            .map((x) => parseFloat(x.base))
-            .reduce((acc, curr) => acc + curr, 0)
-            .toFixed(precision)}
-        </div>
-      </div>
-    );
-  };
-
-  const SettlementRow = ({ index, style }) => {
-    let res = assetSettleOrders[index];
-    return (
-      <div className="grid grid-cols-3 text-sm" style={style}>
-        <div className="col-span-1">{res.account_id_type ?? ""}</div>
-        <div className="col-span-1">{res.asset ?? ""}</div>
-        <div className="col-span-1">{res.time_point_sec ?? ""}</div>
-      </div>
-    );
-  };
-
-  const PriceFeedRow = ({ index, style }) => {
-    let res = finalBitasset.feeds[index];
-    const userID = res[0];
-    const date = res[1][0];
-    const feedObj = res[1][1];
-
-    const coreExchangeRate = (
-      1 /
-      (humanReadableFloat(
-        feedObj.core_exchange_rate.base.amount,
-        parsedAsset.p
-      ) /
-        humanReadableFloat(
-          feedObj.core_exchange_rate.quote.amount,
-          parsedCollateralAsset.p
-        ))
-    ).toFixed(parsedCollateralAsset.p);
-
-    const feedPrice = (
-      1 /
-      (humanReadableFloat(feedObj.settlement_price.base.amount, parsedAsset.p) /
-        humanReadableFloat(
-          feedObj.settlement_price.quote.amount,
-          parsedCollateralAsset.p
-        ))
-    ).toFixed(parsedCollateralAsset.p);
-
-    return (
-      <div className="grid grid-cols-7 md:grid-cols-11 text-sm" style={style}>
-        <div className="hidden md:block col-span-2 mr-1">
-          <span className="text-blue-500 dark:text-blue-400">{userID}</span>
-        </div>
-        <div className="hidden md:block col-span-2 ml-1">
-          {timeAgo(date, t)}
-        </div>
-        <div className="col-span-2">{coreExchangeRate}</div>
-        <div className="col-span-2">{feedPrice}</div>
-        <div className="col-span-1">{feedObj.initial_collateral_ratio}</div>
-        <div className="col-span-1">{feedObj.maintenance_collateral_ratio}</div>
-        <div className="col-span-1">{feedObj.maximum_short_squeeze_ratio}</div>
-      </div>
-    );
-  };
-
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
       <div className="grid grid-cols-1 gap-3">
@@ -1166,1064 +962,39 @@ export default function Smartcoin(properties) {
         ) : null}
 
         {!invalidUrlParams && parsedBitasset ? (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle>{t("Smartcoin:CDPFormTitle")}</CardTitle>
-              <CardDescription>
-                {t("Smartcoin:CDPFormDescription1")}
-                <br />
-                {t("Smartcoin:CDPFormDescription2")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form
-                  onSubmit={() => {
-                    setShowDialog(true);
-                    event.preventDefault();
-                  }}
-                >
-                  <FormField
-                    control={form.control}
-                    name="account"
-                    render={() => (
-                      <FormItem>
-                        <FormLabel>{t("Smartcoin:borrowingAccount")}</FormLabel>
-                        <FormControl>
-                          <div className="grid grid-cols-12 mt-4">
-                            <div className="hidden md:block col-span-1 ml-5">
-                              {usr && usr.username ? (
-                                <Avatar
-                                  size={40}
-                                  name={usr.username}
-                                  extra="Target"
-                                  expression={{
-                                    eye: "normal",
-                                    mouth: "open",
-                                  }}
-                                  colors={[
-                                    "#92A1C6",
-                                    "#146A7C",
-                                    "#F0AB3D",
-                                    "#C271B4",
-                                    "#C20D90",
-                                  ]}
-                                />
-                              ) : (
-                                <Av>
-                                  <AvatarFallback>?</AvatarFallback>
-                                </Av>
-                              )}
-                            </div>
-                            <div className="col-span-12 md:col-span-5">
-                              <Input
-                                disabled
-                                placeholder="Bitshares account (1.2.x)"
-                                className="mb-3"
-                                value={`${usr.username} (${usr.id})`}
-                                readOnly
-                              />
-                            </div>
-                          </div>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="borrowAsset"
-                    render={() => (
-                      <FormItem>
-                        <FormLabel>{t("Smartcoin:assetToBorrow")}</FormLabel>
-                        <FormControl>
-                          <span className="grid grid-cols-8">
-                            <span className="col-span-6">
-                              <Input
-                                disabled
-                                placeholder="Bitshares smartcoin (1.3.x)"
-                                className="mb-1"
-                                value={`${parsedAsset ? parsedAsset.s : ""} (${
-                                  parsedAsset ? parsedAsset.id : ""
-                                })`}
-                                readOnly
-                              />
-                            </span>
-                            <span className="col-span-2">
-                              <a href="/smartcoins/index.html">
-                                <Button
-                                  className="ml-3 bg-card"
-                                  variant="outline"
-                                >
-                                  {t("Smartcoin:changeAssetButton")}
-                                </Button>
-                              </a>
-                            </span>
-                          </span>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-                    <Card>
-                      <CardHeader className="pb-3">
-                        <CardTitle>
-                          {t("Smartcoin:currentFeedPriceTitle")}
-                        </CardTitle>
-                        <CardDescription>
-                          {t("Smartcoin:currentFeedPriceDescription")}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <span className="grid grid-cols-2">
-                          <span className="col-span-1">
-                            <HoverCard key="feedPrice1">
-                              <HoverCardTrigger asChild>
-                                <Input
-                                  disabled
-                                  className="mr-1"
-                                  value={currentFeedSettlementPrice ?? ""}
-                                  readOnly
-                                />
-                              </HoverCardTrigger>
-                              <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
-                                {parsedCollateralAsset.s}/{parsedAsset.s}
-                              </HoverCardContent>
-                            </HoverCard>
-                          </span>
-                          <span className="col-span-1">
-                            <HoverCard key="feedPrice2">
-                              <HoverCardTrigger asChild>
-                                <Input
-                                  disabled
-                                  className="ml-1"
-                                  value={
-                                    currentFeedSettlementPrice
-                                      ? (
-                                          1 / currentFeedSettlementPrice
-                                        ).toFixed(parsedAsset.p)
-                                      : ""
-                                  }
-                                  readOnly
-                                />
-                              </HoverCardTrigger>
-                              <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
-                                {parsedAsset.s}/{parsedCollateralAsset.s}
-                              </HoverCardContent>
-                            </HoverCard>
-                          </span>
-                        </span>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-3">
-                        <CardTitle>
-                          {t("Smartcoin:marginCallPriceTitle")}
-                        </CardTitle>
-                        <CardDescription>
-                          {t("Smartcoin:marginCallPriceDescription")}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <span className="grid grid-cols-2">
-                          <span className="col-span-1">
-                            <HoverCard key="feedPrice1">
-                              <HoverCardTrigger asChild>
-                                <Input
-                                  disabled
-                                  className="mr-1"
-                                  value={
-                                    formCallPrice && parsedCollateralAsset
-                                      ? formCallPrice.toFixed(
-                                          parsedCollateralAsset.p
-                                        )
-                                      : ""
-                                  }
-                                  readOnly
-                                />
-                              </HoverCardTrigger>
-                              <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
-                                {parsedCollateralAsset.s}/{parsedAsset.s}
-                              </HoverCardContent>
-                            </HoverCard>
-                          </span>
-                          <span className="col-span-1">
-                            <HoverCard key="feedPrice2">
-                              <HoverCardTrigger asChild>
-                                <Input
-                                  disabled
-                                  className="ml-1"
-                                  value={
-                                    formCallPrice && parsedAsset
-                                      ? (1 / formCallPrice).toFixed(
-                                          parsedAsset.p
-                                        )
-                                      : ""
-                                  }
-                                  readOnly
-                                />
-                              </HoverCardTrigger>
-                              <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
-                                {parsedAsset.s}/{parsedCollateralAsset.s}
-                              </HoverCardContent>
-                            </HoverCard>
-                          </span>
-                        </span>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name="debtAmount"
-                    render={({ field }) => (
-                      <FormItem className="mt-2">
-                        <FormLabel>{t("Smartcoin:debtAmount")}</FormLabel>
-                        <FormDescription
-                          style={{ marginTop: 0, paddingTop: 0 }}
-                        >
-                          <span className="grid grid-cols-1 md:grid-cols-3 mt-0 pt-0">
-                            <span className="col-span-1 text-left">
-                              {t("Smartcoin:debtAmountDescription", {
-                                asset: parsedAsset ? parsedAsset.s : "?",
-                              })}
-                            </span>
-                            <span
-                              className={`col-span-1 md:text-right ${
-                                debtAssetHoldings &&
-                                debtAssetHoldings.toString().includes("-")
-                                  ? "text-red-500 dark:text-red-400"
-                                  : ""
-                              }`}
-                            >
-                              {t("Smartcoin:debtAmountBalance", {
-                                balance: debtAssetHoldings ?? "",
-                                asset: parsedAsset ? parsedAsset.s : "",
-                              })}
-                            </span>
-                            <span
-                              className={`hidden md:block col-span-1`}
-                            ></span>
-                          </span>
-                        </FormDescription>
-                        <FormControl>
-                          <span className="grid grid-cols-12">
-                            <span className="col-span-2 md:col-span-1">
-                              <HoverCard key="debtLockCard">
-                                <HoverCardTrigger asChild>
-                                  <Toggle
-                                    variant="outline"
-                                    onClick={() => {
-                                      if (debtLock === "editable") {
-                                        setDebtLock("locked");
-                                        setRatioLock("editable");
-                                        setCollateralLock("editable");
-                                      }
-                                    }}
-                                  >
-                                    {debtLock === "editable" ? (
-                                      <LockOpen2Icon className="h-4 w-4" />
-                                    ) : (
-                                      <LockClosedIcon className="h-4 w-4" />
-                                    )}
-                                  </Toggle>
-                                </HoverCardTrigger>
-                                <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
-                                  {debtLock === "editable"
-                                    ? t("Smartcoin:lockDebtAmount")
-                                    : t("Smartcoin:debtAmountLocked")}
-                                </HoverCardContent>
-                              </HoverCard>
-                            </span>
-                            <span className="col-span-10 md:col-span-7">
-                              <Input
-                                label={t("Smartcoin:amountOfDebtToIssue")}
-                                value={
-                                  debtAmount
-                                    ? `${debtAmount} ${parsedAsset.s}`
-                                    : `0 ${parsedAsset.s}`
-                                }
-                                disabled
-                                readOnly
-                                className="mb-3"
-                              />
-                            </span>
-                            <span className="col-span-12 sm:mt-3 md:mt-0 md:col-span-4 md:ml-3">
-                              {debtLock === "editable" ? (
-                                <Popover>
-                                  <PopoverTrigger>
-                                    <span
-                                      onClick={() => {
-                                        event.preventDefault();
-                                      }}
-                                      className="inline-block border border-border rounded pl-4 pb-1 pr-4"
-                                    >
-                                      <Label>
-                                        {t("Smartcoin:changeDebtAmount")}
-                                      </Label>
-                                    </span>
-                                  </PopoverTrigger>
-                                  <PopoverContent>
-                                    <Label>
-                                      {t("Smartcoin:provideNewDebtAmount")}
-                                    </Label>{" "}
-                                    <Input
-                                      placeholder={debtAmount}
-                                      className="mb-2 mt-1"
-                                      onChange={(event) => {
-                                        const input = event.target.value;
-                                        const regex = assetAmountRegex({
-                                          precision: parsedAsset.p,
-                                        });
-                                        if (
-                                          input &&
-                                          input.length &&
-                                          regex.test(input)
-                                        ) {
-                                          debouncedDebtAmount(
-                                            input,
-                                            currentFeedSettlementPrice,
-                                            collateralAmount,
-                                            ratioValue,
-                                            parsedAsset.p, // debt precision
-                                            parsedCollateralAsset.p, // collateral precision
-                                            debtLock,
-                                            collateralLock,
-                                            ratioLock
-                                          );
-                                        }
-                                      }}
-                                    />
-                                  </PopoverContent>
-                                </Popover>
-                              ) : null}
-                            </span>
-                          </span>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="collateralAmount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("Smartcoin:collateralAmount")}</FormLabel>
-                        <FormDescription
-                          style={{ marginTop: 0, paddingTop: 0 }}
-                        >
-                          <span className="grid grid-cols-1 md:grid-cols-3 mt-0 pt-0">
-                            <span className="col-span-1 text-left">
-                              {t("Smartcoin:collateralAmountDescription", {
-                                asset: parsedCollateralAsset
-                                  ? parsedCollateralAsset.s
-                                  : "?",
-                              })}
-                            </span>
-                            <span
-                              className={`col-span-1 md:text-right ${
-                                collateralAssetHoldings &&
-                                collateralAssetHoldings.toString().includes("-")
-                                  ? "text-red-500 dark:text-red-400"
-                                  : ""
-                              }`}
-                            >
-                              {t("Smartcoin:collateralAmountBalance", {
-                                balance: collateralAssetHoldings ?? 0,
-                                asset: parsedCollateralAsset
-                                  ? parsedCollateralAsset.s
-                                  : "",
-                              })}
-                            </span>
-                            <span className="hidden md:block"></span>
-                          </span>
-                        </FormDescription>
-                        <FormControl>
-                          <span className="grid grid-cols-12">
-                            <span className="col-span-2 md:col-span-1">
-                              <HoverCard key="collateralLockCard">
-                                <HoverCardTrigger asChild>
-                                  <Toggle
-                                    variant="outline"
-                                    onClick={() => {
-                                      if (collateralLock === "editable") {
-                                        setDebtLock("editable");
-                                        setRatioLock("editable");
-                                        setCollateralLock("locked");
-                                      }
-                                    }}
-                                  >
-                                    {collateralLock === "editable" ? (
-                                      <LockOpen2Icon className="h-4 w-4" />
-                                    ) : (
-                                      <LockClosedIcon className="h-4 w-4" />
-                                    )}
-                                  </Toggle>
-                                </HoverCardTrigger>
-                                <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
-                                  {collateralLock === "editable"
-                                    ? t("Smartcoin:lockCollateralAmount")
-                                    : t("Smartcoin:collateralAmountLocked")}
-                                </HoverCardContent>
-                              </HoverCard>
-                            </span>
-                            <span className="col-span-10 md:col-span-7">
-                              <Input
-                                label={t(
-                                  "Smartcoin:amountOfCollateralToCommit"
-                                )}
-                                placeholder={
-                                  collateralAmount && collateralAmount > 0
-                                    ? `${collateralAmount} ${parsedCollateralAsset.s}`
-                                    : `? ${parsedCollateralAsset.s}`
-                                }
-                                readOnly
-                                disabled
-                                className="mb-3"
-                              />
-                            </span>
-                            <span className="col-span-12 sm:mt-3 md:mt-0 md:col-span-4 md:ml-3">
-                              {collateralLock === "editable" ? (
-                                <Popover>
-                                  <PopoverTrigger>
-                                    <span
-                                      onClick={() => {
-                                        event.preventDefault();
-                                      }}
-                                      className="inline-block border border-border rounded pl-4 pb-1 pr-4"
-                                    >
-                                      <Label>
-                                        {t("Smartcoin:changeCollateralAmount")}
-                                      </Label>
-                                    </span>
-                                  </PopoverTrigger>
-                                  <PopoverContent>
-                                    <Label>
-                                      {t(
-                                        "Smartcoin:provideNewCollateralAmount"
-                                      )}
-                                    </Label>{" "}
-                                    <Input
-                                      placeholder={collateralAmount}
-                                      className="mb-2 mt-1"
-                                      onChange={(event) => {
-                                        const input = event.target.value;
-                                        const regex = assetAmountRegex({
-                                          precision: parsedCollateralAsset.p,
-                                        });
-                                        if (
-                                          input &&
-                                          input.length &&
-                                          regex.test(input)
-                                        ) {
-                                          debouncedCollateralAmount(
-                                            input,
-                                            currentFeedSettlementPrice,
-                                            debtAmount,
-                                            collateralAmount,
-                                            parsedAsset.p,
-                                            parsedCollateralAsset.p,
-                                            ratioValue,
-                                            debtLock,
-                                            collateralLock,
-                                            ratioLock
-                                          );
-                                        }
-                                      }}
-                                    />
-                                  </PopoverContent>
-                                </Popover>
-                              ) : null}
-                            </span>
-                          </span>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="ratioValue"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t("Smartcoin:collateralDebtRatio")}
-                        </FormLabel>
-                        <FormDescription>
-                          <span className="grid grid-cols-1 md:grid-cols-3 mt-0 pt-0">
-                            <span className="col-span-1 text-left">
-                              {t("Smartcoin:collateralDebtRatioDescription")}
-                            </span>
-                            <span className="col-span-1 md:text-right">
-                              {t("Smartcoin:collateralDebtRatioMin", {
-                                min: parsedBitasset.mcr / 1000,
-                              })}
-                            </span>
-                            <span className="hidden md:block"></span>
-                          </span>
-                        </FormDescription>
-                        <FormControl>
-                          <span className="grid grid-cols-12">
-                            <span className="col-span-2 md:col-span-1">
-                              <HoverCard key="ratioLockCard">
-                                <HoverCardTrigger asChild>
-                                  <Toggle
-                                    variant="outline"
-                                    onClick={() => {
-                                      if (ratioLock === "editable") {
-                                        setDebtLock("editable");
-                                        setRatioLock("locked");
-                                        setCollateralLock("editable");
-                                      } else {
-                                        setDebtLock("editable");
-                                        setRatioLock("editable");
-                                        setCollateralLock("locked");
-                                      }
-                                    }}
-                                  >
-                                    {ratioLock === "editable" ? (
-                                      <LockOpen2Icon className="h-4 w-4" />
-                                    ) : (
-                                      <LockClosedIcon className="h-4 w-4" />
-                                    )}
-                                  </Toggle>
-                                </HoverCardTrigger>
-                                <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
-                                  {ratioLock === "editable"
-                                    ? t("Smartcoin:lockRatioValue")
-                                    : t("Smartcoin:unlockRatioValue")}
-                                </HoverCardContent>
-                              </HoverCard>
-                            </span>
-                            <span className="col-span-12 md:col-span-7">
-                              {ratioValue ? (
-                                <Input
-                                  label={t("Smartcoin:ratioOfCollateralToDebt")}
-                                  placeholder={ratioValue}
-                                  className="mb-3"
-                                  disabled
-                                  readOnly
-                                />
-                              ) : (
-                                <Input
-                                  label={t("Smartcoin:ratioOfCollateralToDebt")}
-                                  className="mb-3"
-                                  disabled
-                                  readOnly
-                                />
-                              )}
-                              {ratioLock === "editable" ? (
-                                <Slider
-                                  defaultValue={[ratioValue]}
-                                  value={[ratioValue]}
-                                  max={20}
-                                  min={parsedBitasset.mcr / 1000}
-                                  step={0.01}
-                                  onValueChange={(value) => {
-                                    debouncedSetRatioValue(
-                                      value[0],
-                                      currentFeedSettlementPrice,
-                                      debtAmount,
-                                      collateralAmount,
-                                      parsedBitasset.mcr,
-                                      parsedAsset.p,
-                                      parsedCollateralAsset.p,
-                                      debtLock,
-                                      collateralLock,
-                                      ratioLock
-                                    );
-                                  }}
-                                />
-                              ) : null}
-                            </span>
-                            <span className="col-span-12 sm:mt-3 md:mt-0 md:col-span-4 md:ml-3">
-                              {ratioLock === "editable" ? (
-                                <Popover>
-                                  <PopoverTrigger>
-                                    <span
-                                      onClick={() => {
-                                        event.preventDefault();
-                                      }}
-                                      className="inline-block border border-border rounded pl-4 pb-1 pr-4"
-                                    >
-                                      <Label>
-                                        {t("Smartcoin:changeRatioValue")}
-                                      </Label>
-                                    </span>
-                                  </PopoverTrigger>
-                                  <PopoverContent>
-                                    <Label>
-                                      {t("Smartcoin:provideNewRatio")}
-                                    </Label>{" "}
-                                    <Input
-                                      placeholder={ratioValue}
-                                      className="mb-2 mt-1"
-                                      onChange={(event) => {
-                                        const input = event.target.value;
-                                        const regex = /^[0-9]*\.?[0-9]*$/;
-                                        if (
-                                          input &&
-                                          input.length &&
-                                          regex.test(input)
-                                        ) {
-                                          debouncedSetRatioValue(
-                                            input,
-                                            currentFeedSettlementPrice,
-                                            debtAmount,
-                                            collateralAmount,
-                                            parsedBitasset.mcr,
-                                            parsedAsset.p,
-                                            parsedCollateralAsset.p,
-                                            debtLock,
-                                            collateralLock,
-                                            ratioLock
-                                          );
-                                        }
-                                      }}
-                                    />
-                                  </PopoverContent>
-                                </Popover>
-                              ) : null}
-                            </span>
-                          </span>
-                        </FormControl>
-                        {ratioValue &&
-                        parsedBitasset &&
-                        ratioValue < parsedBitasset.mcr / 1000 ? (
-                          <FormMessage>
-                            {t("Smartcoin:debtCollateralRatioWarning", {
-                              min: parsedBitasset.mcr / 1000,
-                            })}
-                          </FormMessage>
-                        ) : null}
-                      </FormItem>
-                    )}
-                  />
-
-                  <br />
-                  <FormField
-                    control={form.control}
-                    name="tcrValue"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <span className="inline-flex items-center gap-2">
-                            <Checkbox
-                              id="terms1"
-                              className="mr-2"
-                              checked={tcrEnabled}
-                              onClick={() => setTCREnabled(!tcrEnabled)}
-                            />
-                            <span className="text-sm">
-                              {t("Smartcoin:enableTargetCollateralRatio")}
-                            </span>
-                          </span>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  {tcrEnabled ? (
-                    <FormField
-                      control={form.control}
-                      name="tcrValue"
-                      render={({ field }) => (
-                        <FormItem className="mt-0">
-                          <FormLabel>
-                            {t("Smartcoin:targetCollateralRatioValue")}
-                          </FormLabel>
-                          <FormDescription>
-                            <span className="grid grid-cols-1 md:grid-cols-3 mt-0 pt-0">
-                              <span className="col-span-1 text-left">
-                                {t(
-                                  "Smartcoin:targetCollateralRatioDescription"
-                                )}
-                              </span>
-                              <span className="col-span-1 md:text-right">
-                                {t("Smartcoin:targetCollateralRatioMin", {
-                                  min: parsedBitasset.mcr / 1000,
-                                })}
-                              </span>
-                              <span className="hidden md:block"></span>
-                            </span>
-                          </FormDescription>
-                          <FormControl>
-                            <span className="grid grid-cols-12">
-                              <span className="col-span-8">
-                                <Input
-                                  label={t("Smartcoin:ratioOfCollateralToDebt")}
-                                  placeholder={tcrValue}
-                                  disabled
-                                  readOnly
-                                />
-                                <Slider
-                                  className="mt-3"
-                                  defaultValue={[
-                                    tcrValue ?? parsedBitasset.mcr / 1000,
-                                  ]}
-                                  max={20}
-                                  min={parsedBitasset.mcr / 1000}
-                                  step={0.1}
-                                  onValueChange={(value) => {
-                                    debouncedSetTCRValue(
-                                      value[0],
-                                      parsedBitasset.mcr
-                                    );
-                                  }}
-                                />
-                              </span>
-
-                              <span className="col-span-4 ml-3">
-                                <Popover>
-                                  <PopoverTrigger>
-                                    <span
-                                      onClick={() => {
-                                        event.preventDefault();
-                                      }}
-                                      className="inline-block border border-border rounded pl-4 pb-1 pr-4"
-                                    >
-                                      <Label>
-                                        {t("Smartcoin:changeTCRValue")}
-                                      </Label>
-                                    </span>
-                                  </PopoverTrigger>
-                                  <PopoverContent>
-                                    <Label>
-                                      {t("Smartcoin:provideNewTCR")}
-                                    </Label>
-                                    <Input
-                                      placeholder={tcrValue}
-                                      className="mb-2 mt-1"
-                                      onChange={(event) => {
-                                        const input = event.target.value;
-                                        const regex = /^[0-9]*\.?[0-9]*$/;
-                                        if (
-                                          input &&
-                                          input.length &&
-                                          regex.test(input)
-                                        ) {
-                                          debouncedSetTCRValue(
-                                            input,
-                                            parsedBitasset.mcr
-                                          );
-                                        }
-                                      }}
-                                    />
-                                  </PopoverContent>
-                                </Popover>
-                              </span>
-                            </span>
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  ) : null}
-
-                  <FormField
-                    control={form.control}
-                    name="networkFee"
-                    render={({ field }) => (
-                      <FormItem className="mb-1 mt-3">
-                        <FormLabel>
-                          {t("Smartcoin:networkBroadcastFee")}
-                        </FormLabel>
-                        <FormDescription>
-                          {t("Smartcoin:networkBroadcastFeeDescription")}
-                        </FormDescription>
-                        <FormControl>
-                          <Input
-                            disabled
-                            placeholder={fee ? `${fee} BTS` : ""}
-                            className="w-1/6"
-                            readOnly
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  {(debtAssetHoldings &&
-                    debtAssetHoldings.toString().includes("-")) ||
-                  (collateralAssetHoldings &&
-                    collateralAssetHoldings.toString().includes("-")) ? (
-                    <>
-                      <Button className="mt-5 mb-3" disabled>
-                        {t("Smartcoin:submit")}
-                      </Button>
-                    </>
-                  ) : (
-                    <Button className="mt-5 mb-3" type="submit">
-                      {t("Smartcoin:submit")}
-                    </Button>
-                  )}
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+          <CDPForm
+            form={form}
+            usr={usr}
+            parsedAsset={parsedAsset}
+            parsedCollateralAsset={parsedCollateralAsset}
+            parsedBitasset={parsedBitasset}
+            currentFeedSettlementPrice={currentFeedSettlementPrice}
+            formCallPrice={formCallPrice}
+            fee={fee}
+            debtLock={debtLock}
+            setDebtLock={setDebtLock}
+            collateralLock={collateralLock}
+            setCollateralLock={setCollateralLock}
+            ratioLock={ratioLock}
+            setRatioLock={setRatioLock}
+            debtAmount={debtAmount}
+            collateralAmount={collateralAmount}
+            ratioValue={ratioValue}
+            tcrEnabled={tcrEnabled}
+            setTCREnabled={setTCREnabled}
+            tcrValue={tcrValue}
+            debtAssetHoldings={debtAssetHoldings}
+            collateralAssetHoldings={collateralAssetHoldings}
+            debouncedDebtAmount={debouncedDebtAmount}
+            debouncedCollateralAmount={debouncedCollateralAmount}
+            debouncedSetRatioValue={debouncedSetRatioValue}
+            debouncedSetTCRValue={debouncedSetTCRValue}
+            setShowDialog={setShowDialog}
+          />
         ) : null}
 
         {!invalidUrlParams && !parsedBitasset ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                {t("Smartcoin:collateralDebtPositionFormTitle")}
-              </CardTitle>
-              <CardDescription>
-                {t("Smartcoin:collateralDebtPositionFormDescription")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form>
-                  <FormField
-                    control={form.control}
-                    name="account"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("Smartcoin:account")}</FormLabel>{" "}
-                        <FormControl>
-                          <Input
-                            disabled
-                            placeholder="Bitshares account (1.2.x)"
-                            className="mb-3 mt-3"
-                            readOnly
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="borrowAsset"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          <span className="grid grid-cols-2 mt-2">
-                            <span className="col-span-1 mt-1">
-                              {t("Smartcoin:assetToBorrow")}
-                            </span>
-                            <span className="col-span-1 text-right">
-                              <Badge>{t("Smartcoin:changeAsset")}</Badge>
-                            </span>
-                          </span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            disabled
-                            placeholder="Bitshares smartcoin (1.3.x)"
-                            className="mb-3 mt-3"
-                            readOnly
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="feedPrice"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>current feed price</FormLabel>
-                        <FormControl>
-                          <Input
-                            disabled
-                            className="mb-3 mt-3"
-                            placeholder=""
-                            readOnly
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="callPrice"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("Smartcoin:yourCallPrice")}</FormLabel>{" "}
-                        <FormControl>
-                          <Input
-                            disabled
-                            className="mb-3 mt-3"
-                            value=""
-                            readOnly
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="debtAmount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Debt amount</FormLabel>
-                        <FormDescription
-                          style={{ marginTop: 0, paddingTop: 0 }}
-                        >
-                          <span className="grid grid-cols-3 mt-0 pt-0">
-                            <span className="col-span-2 mt-0 pt-0 text-sm">
-                              {t("Smartcoin:amountToBorrowDescription")}
-                            </span>
-                            <span className="col-span-1 text-right text-sm">
-                              {t("Smartcoin:availableToBorrow", {
-                                available: 0,
-                              })}
-                            </span>
-                          </span>
-                        </FormDescription>
-                        <FormControl>
-                          <span className="grid grid-cols-12 gaps-2">
-                            <span className="col-span-1">
-                              <Toggle variant="outline">
-                                <LockOpen2Icon className="h-4 w-4" />
-                              </Toggle>
-                            </span>
-                            <span className="col-span-9">
-                              <Input
-                                placeholder="0"
-                                className="mb-3"
-                                disabled
-                                readOnly
-                              />
-                            </span>
-                            <span className="col-span-2 ml-3">
-                              <Button variant="outline">
-                                {t("Smartcoin:change")}
-                              </Button>{" "}
-                            </span>
-                          </span>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="collateralAmount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t("Smartcoin:collateralAmountPlaceholder")}
-                        </FormLabel>
-                        <FormDescription className="mt-0 pt-0">
-                          <span className="grid grid-cols-3 mt-0 pt-0">
-                            <span className="col-span-2 mt-0 pt-0 text-sm">
-                              {t(
-                                "Smartcoin:collateralAmountDescriptionPlaceholder"
-                              )}
-                            </span>
-                            <span className="col-span-1 text-right text-sm">
-                              {t("Smartcoin:availableCollateral", {
-                                available: 0,
-                              })}
-                            </span>
-                          </span>
-                        </FormDescription>
-                        <FormControl>
-                          <span className="grid grid-cols-12 gaps-2">
-                            <span className="col-span-1">
-                              <Toggle variant="outline">
-                                <LockOpen2Icon className="h-4 w-4" />
-                              </Toggle>
-                            </span>
-                            <span className="col-span-9">
-                              <Input
-                                placeholder="0"
-                                className="mb-3"
-                                disabled
-                                readOnly
-                              />
-                            </span>
-                            <span className="col-span-2 ml-3">
-                              <Button variant="outline">
-                                {t("Smartcoin:change")}
-                              </Button>
-                            </span>
-                          </span>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="ratioValue"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t("Smartcoin:ratioOfCollateralToDebt")}
-                        </FormLabel>{" "}
-                        <FormControl>
-                          <span className="grid grid-cols-12">
-                            <span className="col-span-1">
-                              <Toggle variant="outline">
-                                <LockOpen2Icon className="h-4 w-4" />
-                              </Toggle>
-                            </span>
-                            <span className="col-span-11">
-                              <Input
-                                value={ratioValue}
-                                placeholder={ratioValue}
-                                className="mb-3"
-                                disabled
-                                readOnly
-                              />
-                            </span>
-                          </span>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <Slider defaultValue={[2]} max={20} min={1.4} step={0.01} />
-                  <br />
-                  <span className="items-top flex space-x-2">
-                    <Checkbox id="terms1" />
-                    <span className="grid gap-1.5 leading-none">
-                      <label
-                        htmlFor="terms1"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        {t("Smartcoin:enableTargetCollateralRatio")}
-                      </label>
-                    </span>
-                  </span>
-
-                  <FormField
-                    control={form.control}
-                    name="networkFee"
-                    render={({ field }) => (
-                      <FormItem className="mb-1 mt-3">
-                        <FormLabel>
-                          {t("Smartcoin:networkBroadcastFee")}
-                        </FormLabel>
-                        <FormDescription>
-                          {t("Smartcoin:networkBroadcastFeeDescription")}
-                        </FormDescription>
-                        <FormControl>
-                          <Input disabled readOnly />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <Button
-                    className="mt-5 mb-3"
-                    variant="outline"
-                    disabled
-                    type="submit"
-                  >
-                    Submit
-                  </Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+          <PlaceholderForm form={form} ratioValue={ratioValue} />
         ) : null}
 
         {!invalidUrlParams &&
@@ -2232,168 +1003,23 @@ export default function Smartcoin(properties) {
         settlementFund &&
         settlementFund.finalSettlementFund &&
         settlementFund.finalSettlementFund > 0 ? (
-          <>
-            <div className="grid grid-cols-1 mt-2 mb-2">
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle>
-                    {t("Smartcoin:settlementFundTitle", {
-                      symbol: finalAsset.symbol,
-                    })}
-                  </CardTitle>
-                  <CardDescription>
-                    {t("Smartcoin:settlementFundDescription")}
-                    <br />
-                    {t("Smartcoin:borrowingUnavailable")}{" "}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-4">
-                    <div className="col-span-1">
-                      {t("Smartcoin:fund")}
-                      <br />
-                      <span className="text-sm">
-                        {settlementFund.finalSettlementFund}
-                        <br />
-                        {parsedCollateralAsset.s}
-                      </span>
-                    </div>
-                    <div className="col-span-1">
-                      {t("Smartcoin:settlementPrice")} <br />
-                      <span className="text-sm">
-                        {settlementFund.finalSettlementPrice}
-                        <br />
-                        {parsedAsset.s}/{parsedCollateralAsset.s}
-                      </span>
-                    </div>
-                    <div className="col-span-1">
-                      {t("Smartcoin:currentPrice")}
-                      <br />
-                      <span className="text-sm">
-                        {(1 / currentFeedSettlementPrice).toFixed(
-                          parsedAsset.p
-                        )}
-                      </span>
-                    </div>
-                    <div className="col-span-1">
-                      {t("Smartcoin:fundingRatio")}
-                      <br />
-                      <span className="text-sm">
-                        {(
-                          (1 /
-                            currentFeedSettlementPrice /
-                            settlementFund.finalSettlementPrice) *
-                          100
-                        ).toFixed(2)}
-                        {" % ("}
-                        <span className="text-red-500 dark:text-red-400">
-                          {"-"}
-                          {(
-                            100 -
-                            (1 /
-                              currentFeedSettlementPrice /
-                              settlementFund.finalSettlementPrice) *
-                              100
-                          ).toFixed(2)}
-                          {" %"}
-                        </span>
-                        {")"}
-                      </span>
-                    </div>
-                  </div>
-                  <a href={`/settlement/index.html?id=${finalAsset.id}`}>
-                    <Button className="mt-3 pb-2">
-                      {t("Smartcoin:bidOnSettlementFund", {
-                        symbol: finalAsset.symbol,
-                      })}
-                    </Button>
-                  </a>
-                </CardContent>
-              </Card>
-            </div>
-          </>
+          <GlobalSettlementCard
+            settlementFund={settlementFund}
+            parsedCollateralAsset={parsedCollateralAsset}
+            parsedAsset={parsedAsset}
+            finalAsset={finalAsset}
+            currentFeedSettlementPrice={currentFeedSettlementPrice}
+          />
         ) : null}
 
         {individualSettlementFund && individualSettlementFund._debt ? (
-          <>
-            <div className="grid grid-cols-1 mt-2 mb-2">
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle>
-                    {t("Smartcoin:individualSettlementFund", {
-                      symbol: finalAsset.symbol,
-                    })}
-                  </CardTitle>{" "}
-                  <CardDescription>
-                    {t("Smartcoin:individualSettlementFundDescription")}
-                    <br />
-                    {t("Smartcoin:fundsCanBeBidOn")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-4">
-                    <div className="col-span-1">
-                      {t("Smartcoin:fund")}
-                      <br />
-                      <span className="text-sm">
-                        {individualSettlementFund._fund}
-                        <br />
-                        {parsedCollateralAsset.s}
-                      </span>
-                    </div>
-                    <div className="col-span-1">
-                      {t("Smartcoin:debt2")}
-                      <br />
-                      <span className="text-sm">
-                        {individualSettlementFund._debt}
-                        <br />
-                        {parsedAsset.s}
-                      </span>
-                    </div>
-                    <div className="col-span-1">
-                      {t("Smartcoin:feedPrice")}
-                      <br />
-                      <span className="text-sm">
-                        {individualSettlementPrice.toFixed(parsedAsset.p)}
-                      </span>
-                    </div>
-                    <div className="col-span-1">
-                      {t("Smartcoin:fundingRatio")}
-                      <br />
-                      <span className="text-sm">
-                        {(
-                          ((individualSettlementFund._debt *
-                            individualSettlementPrice) /
-                            individualSettlementFund._fund) *
-                          100
-                        ).toFixed(2)}
-                        {" % ("}
-                        <span className="text-red-500 dark:text-red-400">
-                          {"-"}
-                          {(
-                            100 -
-                            ((individualSettlementFund._debt *
-                              individualSettlementPrice) /
-                              individualSettlementFund._fund) *
-                              100
-                          ).toFixed(2)}
-                          {" %"}
-                        </span>
-                        {")"}
-                      </span>
-                    </div>
-                  </div>
-                  <a href={`/settlement/index.html?id=${finalAsset.id}`}>
-                    <Button className="mt-3 pb-2">
-                      {t("Smartcoin:bidOnSettlementFund", {
-                        symbol: finalAsset.symbol,
-                      })}
-                    </Button>
-                  </a>
-                </CardContent>
-              </Card>
-            </div>
-          </>
+          <IndividualSettlementCard
+            individualSettlementFund={individualSettlementFund}
+            individualSettlementPrice={individualSettlementPrice}
+            parsedCollateralAsset={parsedCollateralAsset}
+            parsedAsset={parsedAsset}
+            finalAsset={finalAsset}
+          />
         ) : null}
 
         {usrMarginPositions && usrMarginPositions.length ? (
@@ -2627,264 +1253,40 @@ export default function Smartcoin(properties) {
         ) : null}
       </div>
 
-      {!invalidUrlParams ? (
-        <div className="grid grid-cols-1 mt-5">
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="grid grid-cols-2">
-                <div className="col-span-1">
-                  <CardTitle>
-                    {parsedAsset && parsedCollateralAsset
-                      ? t("Smartcoin:orderBookForAssets", {
-                          asset1: parsedAsset.s,
-                          asset2: parsedCollateralAsset.s,
-                        })
-                      : t("Smartcoin:orderBookLoading")}
-                  </CardTitle>
-                  <CardDescription>
-                    {t("Smartcoin:orderBookNote")}
-                  </CardDescription>
-                </div>
-                <div className="col-span-1 text-right">
-                  <a
-                    href={
-                      parsedAsset && parsedCollateralAsset
-                        ? `/dex/index.html?market=${parsedAsset.s}_${parsedCollateralAsset.s}`
-                        : ""
-                    }
-                  >
-                    <Button>{t("Smartcoin:goToMarket")}</Button>
-                  </a>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <Tabs defaultValue="buy" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 gap-2">
-                  {activeOrderTab === "buy" ? (
-                    <TabsTrigger value="buy" style={activeTabStyle}>
-                      {t("Smartcoin:viewingBuyOrders")}
-                    </TabsTrigger>
-                  ) : (
-                    <TabsTrigger
-                      value="buy"
-                      onClick={() => setActiveOrderTab("buy")}
-                    >
-                      {t("Smartcoin:viewBuyOrders")}
-                    </TabsTrigger>
-                  )}
-                  {activeOrderTab === "sell" ? (
-                    <TabsTrigger value="sell" style={activeTabStyle}>
-                      {t("Smartcoin:viewingSellOrders")}
-                    </TabsTrigger>
-                  ) : (
-                    <TabsTrigger
-                      value="sell"
-                      onClick={() => setActiveOrderTab("sell")}
-                    >
-                      {t("Smartcoin:viewSellOrders")}
-                    </TabsTrigger>
-                  )}
-                </TabsList>
-                <TabsContent value="buy">
-                  {buyOrders && buyOrders.length ? (
-                    <>
-                      <div className="grid grid-cols-4">
-                        <div className="col-span-1">{t("Smartcoin:price")}</div>
-                        <div className="col-span-1">
-                          {parsedCollateralAsset.s}
-                        </div>
-                        <div className="col-span-1">{parsedAsset.s}</div>
-                        <div className="col-span-1">{t("Smartcoin:total")}</div>
-                      </div>
-                      <div className="w-full max-h-[260px] overflow-auto">
-                        <List
-                          rowComponent={OrderRow}
-                          rowCount={buyOrders.length}
-                          rowHeight={25}
-                          rowProps={{}}
-                        />
-                      </div>
-                    </>
-                  ) : null}
-                  {buyOrders && !buyOrders.length
-                    ? t("Smartcoin:noBuyOrdersFound")
-                    : null}
-                  {!buyOrders ? t("Smartcoin:loading") : null}
-                </TabsContent>
-                <TabsContent value="sell">
-                  {sellOrders && sellOrders.length ? (
-                    <>
-                      <div className="grid grid-cols-4">
-                        <div className="col-span-1">{t("Smartcoin:price")}</div>
-                        <div className="col-span-1">{parsedAsset.s}</div>
-                        <div className="col-span-1">
-                          {parsedCollateralAsset.s}
-                        </div>
-                        <div className="col-span-1">{t("Smartcoin:total")}</div>
-                      </div>
-                      <div className="w-full max-h-[260px] overflow-auto">
-                        <List
-                          rowComponent={OrderRow}
-                          rowCount={sellOrders.length}
-                          rowHeight={25}
-                          rowProps={{}}
-                        />
-                      </div>
-                    </>
-                  ) : null}
-                  {sellOrders && !sellOrders.length
-                    ? "No sell orders found"
-                    : null}
-                  {!sellOrders ? "Loading..." : null}
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
-        </div>
+      {!invalidUrlParams && parsedAsset && parsedCollateralAsset ? (
+        <OrderBookCard
+          parsedAsset={parsedAsset}
+          parsedCollateralAsset={parsedCollateralAsset}
+          activeOrderTab={activeOrderTab}
+          setActiveOrderTab={setActiveOrderTab}
+          buyOrders={buyOrders}
+          sellOrders={sellOrders}
+        />
       ) : null}
 
-      {!invalidUrlParams ? (
-        <div className="grid grid-cols-1 mt-5">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle>
-                {parsedAsset && parsedCollateralAsset
-                  ? t("Smartcoin:callOrdersForAssets", {
-                      asset1: parsedAsset.s,
-                      asset2: parsedCollateralAsset.s,
-                    })
-                  : t("Smartcoin:callOrdersLoading")}
-              </CardTitle>
-              <CardDescription>
-                {t("Smartcoin:checkMarginPositions")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {assetCallOrders && assetCallOrders.length ? (
-                <>
-                  <div className="grid grid-cols-4 md:grid-cols-6">
-                    <div className="col-span-1">{t("Smartcoin:borrower")}</div>
-                    <div className="col-span-1">
-                      {t("Smartcoin:collateral")}
-                    </div>
-                    <div className="col-span-1">{t("Smartcoin:debt")}</div>
-                    <div className="col-span-1">{t("Smartcoin:callPrice")}</div>
-                    <div className="hidden md:block col-span-1">
-                      {t("Smartcoin:tcr")}
-                    </div>
-                    <div className="hidden md:block col-span-1">
-                      {t("Smartcoin:ratio")}
-                    </div>
-                  </div>
-                  <div className="w-full max-h-[260px] overflow-auto">
-                    <List
-                      rowComponent={MarginPositionRow}
-                      rowCount={assetCallOrders.length}
-                      rowHeight={25}
-                      rowProps={{}}
-                    />
-                  </div>
-                </>
-              ) : null}
-              {assetCallOrders && !assetCallOrders.length
-                ? t("Smartcoin:noCallOrdersFound")
-                : null}
-              {!assetCallOrders ? t("Smartcoin:loading") : null}
-            </CardContent>
-          </Card>
-        </div>
+      {!invalidUrlParams && parsedAsset && parsedCollateralAsset ? (
+        <CallOrdersCard
+          parsedAsset={parsedAsset}
+          parsedCollateralAsset={parsedCollateralAsset}
+          assetCallOrders={assetCallOrders}
+          currentFeedSettlementPrice={currentFeedSettlementPrice}
+        />
       ) : null}
 
-      {!invalidUrlParams ? (
-        <div className="grid grid-cols-1 mt-5">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle>
-                {parsedAsset && parsedCollateralAsset
-                  ? t("Smartcoin:settleOrdersForAssets", {
-                      asset1: parsedAsset.s,
-                      asset2: parsedCollateralAsset.s,
-                    })
-                  : t("Smartcoin:settleOrdersLoading")}
-              </CardTitle>
-              <CardDescription>
-                {t("Smartcoin:checkSettleOrders")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {assetSettleOrders && assetSettleOrders.length ? (
-                <>
-                  <div className="grid grid-cols-6">
-                    <div className="col-span-1">{t("Smartcoin:owner")}</div>
-                    <div className="col-span-1">{t("Smartcoin:balance2")}</div>
-                    <div className="col-span-1">
-                      {t("Smartcoin:settlementDate")}
-                    </div>
-                  </div>
-                  <div className="w-full max-h-[260px] overflow-auto">
-                    <List
-                      rowComponent={SettlementRow}
-                      rowCount={assetSettleOrders.length}
-                      rowHeight={25}
-                      rowProps={{}}
-                    />
-                  </div>
-                </>
-              ) : null}
-              {assetSettleOrders && !assetSettleOrders.length
-                ? t("Smartcoin:noSettleOrdersFound")
-                : null}
-              {!assetSettleOrders ? t("Smartcoin:loading") : null}
-            </CardContent>
-          </Card>
-        </div>
+      {!invalidUrlParams && parsedAsset && parsedCollateralAsset ? (
+        <SettleOrdersCard
+          parsedAsset={parsedAsset}
+          parsedCollateralAsset={parsedCollateralAsset}
+          assetSettleOrders={assetSettleOrders}
+        />
       ) : null}
 
-      {!invalidUrlParams ? (
-        <div className="grid grid-cols-1 mt-5">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle>
-                {parsedAsset && parsedCollateralAsset
-                  ? t("Smartcoin:priceFeedsForAsset", { asset: parsedAsset.s })
-                  : t("Smartcoin:priceFeedsLoading")}
-              </CardTitle>
-              <CardDescription>
-                {t("Smartcoin:checkLatestPriceFeeds")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {finalBitasset && finalBitasset.feeds ? (
-                <>
-                  <div className="grid grid-cols-11">
-                    <div className="col-span-2">{t("Smartcoin:user")}</div>
-                    <div className="col-span-2">{t("Smartcoin:date")}</div>
-                    <div className="col-span-2">{t("Smartcoin:cer")}</div>
-                    <div className="col-span-2">
-                      {t("Smartcoin:settlement")}
-                    </div>
-                    <div className="col-span-1">{t("Smartcoin:icr")}</div>
-                    <div className="col-span-1">{t("Smartcoin:mcr")}</div>
-                    <div className="col-span-1">{t("Smartcoin:mssr")}</div>
-                  </div>
-                  <div className="w-full max-h-[260px] overflow-auto">
-                    <List
-                      rowComponent={PriceFeedRow}
-                      rowCount={finalBitasset.feeds.length}
-                      rowHeight={25}
-                      rowProps={{}}
-                    />
-                  </div>
-                </>
-              ) : null}
-              {finalBitasset && !finalBitasset.feeds.length
-                ? t("Smartcoin:noSmartcoinFeedsFound")
-                : null}
-              {!finalBitasset ? t("Smartcoin:loading") : null}
-            </CardContent>
-          </Card>
-        </div>
+      {!invalidUrlParams && parsedAsset && parsedCollateralAsset ? (
+        <PriceFeedsCard
+          parsedAsset={parsedAsset}
+          parsedCollateralAsset={parsedCollateralAsset}
+          finalBitasset={finalBitasset}
+        />
       ) : null}
 
       <RisksCard />
