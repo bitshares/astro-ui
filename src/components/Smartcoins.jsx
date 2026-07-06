@@ -9,6 +9,7 @@ import { List } from "react-window";
 import Fuse from "fuse.js";
 import { useStore } from "@nanostores/react";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
+import { HandCoins, User, Coins, Tag, Activity } from "lucide-react";
 
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
@@ -348,131 +349,108 @@ export default function Smartcoins(properties) {
 
     return (
       <div style={{ ...style }} key={`acard-${bitasset.asset_id}`}>
-        <div className="ml-2 mr-2 overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-sm shadow-[0_0_20px_-5px] shadow-indigo-950/10">
-          <div className="pb-1 p-4">
-            <h3 className="text-lg font-semibold">
-              <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">{thisBitassetData.symbol}</span>
-              {" ("}
-              <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">{thisBitassetData.id}</span>
-              {")"}
-            </h3>
-            <div className="text-md text-muted-foreground mt-1">
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="grid grid-cols-1 gap-1 text-sm">
-                  {issuer ? (
-                    <div>
-                      {t("Smartcoins:createdBy")}{" "}
-                      <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-bold">{issuer.name}</span>
-                      {" ("}
-                      <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-bold">{issuer.id}</span>
-                      {")"}
-                    </div>
-                  ) : null}
-                  <div>
-                    {t("Smartcoins:collateral")}:
-                    <b>
-                      {" "}
-                      <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">{thisCollateralAssetData.symbol}</span>
-                      {" ("}
-                      <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">{thisCollateralAssetData.id}</span>
-                      {")"}
-                    </b>
-                  </div>
+        <div className="ml-2 mr-2 overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-sm shadow-[0_0_20px_-5px] shadow-indigo-950/10 hover:border-indigo-500/25 hover:shadow-[0_0_25px_-5px] shadow-indigo-500/15 transition-all duration-300">
+          <div className="h-px bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent" />
+          <div className="p-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-bold tracking-tight">
+                <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                  {thisBitassetData.symbol}
+                </span>
+                <span className="ml-2 text-xs font-normal text-muted-foreground/60">
+                  ({thisBitassetData.id})
+                </span>
+              </h3>
+              {_price > 0 ? (
+                <a href={`/smartcoin/index.html?id=${bitasset.asset_id}`} className="shrink-0">
+                  <Button className="h-7 px-3 text-xs bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_10px_-3px] shadow-indigo-500/40 border-0 font-semibold hover:from-indigo-400 hover:to-cyan-400 hover:shadow-[0_0_18px_-3px] hover:shadow-indigo-500/60 active:scale-95 transition-all duration-200 cursor-pointer">
+                    {t("Smartcoins:proceedToBorrow", { asset: thisBitassetData.s })}
+                  </Button>
+                </a>
+              ) : (
+                <Button disabled className="h-7 px-3 text-xs shrink-0">
+                  {t("Smartcoins:proceedToBorrow", { asset: thisBitassetData.s })}
+                </Button>
+              )}
+            </div>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 text-sm text-muted-foreground">
+              {issuer ? (
+                <div className="flex items-center gap-1.5">
+                  <User className="h-3.5 w-3.5 text-indigo-400/70" />
+                  <span>{t("Smartcoins:createdBy")}</span>
+                  <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-semibold">{issuer.name}</span>
+                  <span className="text-xs text-muted-foreground/40">({issuer.id})</span>
                 </div>
-                <div className="grid grid-cols-2 gap-1 text-sm sm:mt-3">
-                  <div className="grid grid-cols-1 gap-1">
-                    <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5">
-                      {`MCR: ${
-                        bitasset.current_feed.maintenance_collateral_ratio / 10
-                      }`}
-                    </Badge>
-                    <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5">
-                      {`MSSR: ${
-                        bitasset.current_feed.maximum_short_squeeze_ratio / 10
-                      }`}
-                    </Badge>
-                    <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5">
-                      {`ICR: ${
-                        bitasset.current_feed.initial_collateral_ratio / 10
-                      }`}
-                    </Badge>
-                  </div>
-                  <div className="grid grid-cols-1 gap-1">
-                    <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5">
-                      {t("Smartcoins:feedQty", {
-                        qty: bitasset.feeds?.length ?? 0,
-                      })}
-                    </Badge>
-                    {_issuer_permissions &&
-                    Object.keys(_issuer_permissions).length > 0 ? (
-                      <Dialog>
-                        <DialogTrigger>
-                          <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5">
-                            {`${t("Predictions:permissions")}: ${
-                              Object.keys(_issuer_permissions).length
-                            }`}
-                            <QuestionMarkCircledIcon className="ml-1" />
-                          </Badge>
-                        </DialogTrigger>
-                        <DialogContent className="bg-card">
-                          <DialogHeader>
-                            <DialogTitle>
-                              {t("Predictions:permissions")}
-                            </DialogTitle>
-                            <DialogDescription className="text-foreground">
-                              {Object.keys(_issuer_permissions).join(", ")}
-                            </DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
-                    ) : (
-                      <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5">
-                        {t("Predictions:permissions")}: 0
-                      </Badge>
-                    )}
-                    {_flags && Object.keys(_flags).length > 0 ? (
-                      <Dialog>
-                        <DialogTrigger>
-                          <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5">
-                            {`${t("Predictions:flags")}: ${
-                              Object.keys(_flags).length
-                            }`}
-                            <QuestionMarkCircledIcon className="ml-1" />
-                          </Badge>
-                        </DialogTrigger>
-                        <DialogContent className="bg-card">
-                          <DialogHeader>
-                            <DialogTitle>{t("Predictions:flags")}</DialogTitle>
-                            <DialogDescription className="text-foreground">
-                              {Object.keys(_flags).join(", ")}
-                            </DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
-                    ) : (
-                      <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5">
-                        {t("Predictions:flags")}: 0
-                      </Badge>
-                    )}
-                  </div>
-                </div>
+              ) : null}
+              <div className="flex items-center gap-1.5">
+                <Coins className="h-3.5 w-3.5 text-cyan-400/70" />
+                <span>{t("Smartcoins:collateral")}:</span>
+                <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-semibold">{thisCollateralAssetData.symbol}</span>
+                <span className="text-xs text-muted-foreground/40">({thisCollateralAssetData.id})</span>
               </div>
             </div>
-          </div>
-          <div className="px-4 pb-5">
-            {_price > 0 ? (
-              <a href={`/smartcoin/index.html?id=${bitasset.asset_id}`}>
-                <Button className="h-8 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0">
-                  {t("Smartcoins:proceedToBorrow", {
-                    asset: thisBitassetData.s,
-                  })}
-                </Button>
-              </a>
-            ) : (
-              <Button disabled className="h-8">
-                {t("Smartcoins:proceedToBorrow", { asset: thisBitassetData.s })}
-              </Button>
-            )}
+            <div className="flex flex-wrap items-center gap-1.5 mt-2">
+              <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5 text-xs">
+                <Tag className="h-3 w-3 mr-1 text-indigo-400/70" />
+                MCR {bitasset.current_feed.maintenance_collateral_ratio / 10}
+              </Badge>
+              <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5 text-xs">
+                <Tag className="h-3 w-3 mr-1 text-indigo-400/70" />
+                MSSR {bitasset.current_feed.maximum_short_squeeze_ratio / 10}
+              </Badge>
+              <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5 text-xs">
+                <Tag className="h-3 w-3 mr-1 text-indigo-400/70" />
+                ICR {bitasset.current_feed.initial_collateral_ratio / 10}
+              </Badge>
+              <Badge variant="outline" className="border-cyan-500/20 bg-cyan-500/5 text-xs">
+                <Activity className="h-3 w-3 mr-1 text-cyan-400/70" />
+                {t("Smartcoins:feedQty", { qty: bitasset.feeds?.length ?? 0 })}
+              </Badge>
+              {_issuer_permissions && Object.keys(_issuer_permissions).length > 0 ? (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Badge variant="outline" className="border-violet-500/20 bg-violet-500/5 text-xs cursor-pointer hover:bg-violet-500/10 transition-colors">
+                      {t("Predictions:permissions")}: {Object.keys(_issuer_permissions).length}
+                      <QuestionMarkCircledIcon className="ml-1 h-3 w-3" />
+                    </Badge>
+                  </DialogTrigger>
+                  <DialogContent className="bg-card">
+                    <DialogHeader>
+                      <DialogTitle>{t("Predictions:permissions")}</DialogTitle>
+                      <DialogDescription className="text-foreground">
+                        {Object.keys(_issuer_permissions).join(", ")}
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+              ) : (
+                <Badge variant="outline" className="border-violet-500/20 bg-violet-500/5 text-xs">
+                  {t("Predictions:permissions")}: 0
+                </Badge>
+              )}
+              {_flags && Object.keys(_flags).length > 0 ? (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Badge variant="outline" className="border-amber-500/20 bg-amber-500/5 text-xs cursor-pointer hover:bg-amber-500/10 transition-colors">
+                      {t("Predictions:flags")}: {Object.keys(_flags).length}
+                      <QuestionMarkCircledIcon className="ml-1 h-3 w-3" />
+                    </Badge>
+                  </DialogTrigger>
+                  <DialogContent className="bg-card">
+                    <DialogHeader>
+                      <DialogTitle>{t("Predictions:flags")}</DialogTitle>
+                      <DialogDescription className="text-foreground">
+                        {Object.keys(_flags).join(", ")}
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+              ) : (
+                <Badge variant="outline" className="border-amber-500/20 bg-amber-500/5 text-xs">
+                  {t("Predictions:flags")}: 0
+                </Badge>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -538,13 +516,18 @@ export default function Smartcoins(properties) {
             <div className="pointer-events-none absolute -left-20 -top-20 h-40 w-40 rounded-full bg-indigo-500/10 blur-3xl" />
             <div className="pointer-events-none absolute -right-20 -bottom-20 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl" />
             <div className="p-6">
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-                  {t("Smartcoins:selectBorrowableAsset")}
-                </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {t("Smartcoins:smartcoinDescription")}
-                </p>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 text-indigo-600 dark:text-indigo-300">
+                  <HandCoins className="h-4.5 w-4.5" strokeWidth={2.25} />
+                </span>
+                <div>
+                  <h2 className="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                    {t("Smartcoins:selectBorrowableAsset")}
+                  </h2>
+                  <p className="text-xs text-muted-foreground/70 mt-0.5">
+                    {t("Smartcoins:smartcoinDescription")}
+                  </p>
+                </div>
               </div>
               <div className="w-full">
                 <div className="grid w-full grid-cols-1 md:grid-cols-4 gap-2 mb-3">
@@ -660,7 +643,7 @@ export default function Smartcoins(properties) {
                           <List
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
-                            rowHeight={235}
+                            rowHeight={130}
                             rowProps={{}}
                           />
                         </div>
@@ -668,7 +651,7 @@ export default function Smartcoins(properties) {
                           <List
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
-                            rowHeight={325}
+                            rowHeight={165}
                             rowProps={{}}
                           />
                         </div>
@@ -724,7 +707,7 @@ export default function Smartcoins(properties) {
                           <List
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
-                            rowHeight={235}
+                            rowHeight={130}
                             rowProps={{}}
                           />
                         </div>
@@ -732,7 +715,7 @@ export default function Smartcoins(properties) {
                           <List
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
-                            rowHeight={325}
+                            rowHeight={165}
                             rowProps={{}}
                           />
                         </div>
@@ -794,7 +777,7 @@ export default function Smartcoins(properties) {
                                 ? relevantBitassetData.length
                                 : 0
                             }
-                            rowHeight={235}
+                            rowHeight={130}
                             rowProps={{}}
                           />
                         </div>
@@ -806,7 +789,7 @@ export default function Smartcoins(properties) {
                                 ? relevantBitassetData.length
                                 : 0
                             }
-                            rowHeight={325}
+                            rowHeight={165}
                             rowProps={{}}
                           />
                         </div>
@@ -903,7 +886,7 @@ export default function Smartcoins(properties) {
                               <List
                                 rowComponent={SearchRow}
                                 rowCount={thisResult.length}
-                                rowHeight={235}
+                                rowHeight={130}
                                 rowProps={{}}
                               />
                             </div>
@@ -911,7 +894,7 @@ export default function Smartcoins(properties) {
                               <List
                                 rowComponent={SearchRow}
                                 rowCount={thisResult.length}
-                                rowHeight={325}
+                                rowHeight={165}
                                 rowProps={{}}
                               />
                             </div>

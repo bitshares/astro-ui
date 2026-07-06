@@ -942,7 +942,7 @@ export default function Smartcoin(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-indigo-950/20">
+      <div className="relative overflow-hidden rounded-2xl border border-border shadow-2xl shadow-indigo-950/20">
         <span
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/70 to-transparent"
@@ -1122,11 +1122,6 @@ export default function Smartcoin(properties) {
               <div className="grid grid-cols-2">
                 <div className="col-span-1">
                   <Label>{t("Smartcoin:smartcoinInfo")}</Label>
-                </div>
-                <div className="col-span-1 text-right">
-                  <Button variant="outline" classnamecontents="h-5 mb-2">
-                    {t("Smartcoin:viewBitassetOnbitshares")}
-                  </Button>
                 </div>
               </div>
 
