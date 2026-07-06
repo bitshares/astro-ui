@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { LockOpen2Icon } from "@radix-ui/react-icons";
+import { Landmark } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,16 +17,21 @@ export default function PlaceholderForm({ form, ratioValue }) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          {t("Smartcoin:collateralDebtPositionFormTitle")}
-        </CardTitle>
-        <CardDescription>
-          {t("Smartcoin:collateralDebtPositionFormDescription")}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+    <div className="rounded-xl border border-indigo-500/15 bg-card/60">
+      <div className="p-5 sm:p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+            <Landmark className="h-4 w-4" strokeWidth={2.25} />
+          </span>
+          <div>
+            <h3 className="text-base font-semibold text-foreground tracking-tight">
+              {t("Smartcoin:collateralDebtPositionFormTitle")}
+            </h3>
+            <p className="text-xs text-muted-foreground/70 mt-0.5">
+              {t("Smartcoin:collateralDebtPositionFormDescription")}
+            </p>
+          </div>
+        </div>
         <Form {...form}>
           <form>
             <FormField
@@ -39,7 +44,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                     <Input
                       disabled
                       placeholder="Bitshares account (1.2.x)"
-                      className="mb-3 mt-3"
+                      className="mb-3 mt-3 border-indigo-500/20 bg-card/60"
                       readOnly
                     />
                   </FormControl>
@@ -58,7 +63,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                         {t("Smartcoin:assetToBorrow")}
                       </span>
                       <span className="col-span-1 text-right">
-                        <Badge>{t("Smartcoin:changeAsset")}</Badge>
+                        <Badge className="border-indigo-400/30 bg-indigo-500/10 dark:text-indigo-200 text-indigo-700">{t("Smartcoin:changeAsset")}</Badge>
                       </span>
                     </span>
                   </FormLabel>
@@ -66,7 +71,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                     <Input
                       disabled
                       placeholder="Bitshares smartcoin (1.3.x)"
-                      className="mb-3 mt-3"
+                      className="mb-3 mt-3 border-indigo-500/20 bg-card/60"
                       readOnly
                     />
                   </FormControl>
@@ -83,7 +88,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                   <FormControl>
                     <Input
                       disabled
-                      className="mb-3 mt-3"
+                      className="mb-3 mt-3 border-indigo-500/20 bg-card/60"
                       placeholder=""
                       readOnly
                     />
@@ -101,7 +106,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                   <FormControl>
                     <Input
                       disabled
-                      className="mb-3 mt-3"
+                      className="mb-3 mt-3 border-indigo-500/20 bg-card/60"
                       value=""
                       readOnly
                     />
@@ -133,20 +138,20 @@ export default function PlaceholderForm({ form, ratioValue }) {
                   <FormControl>
                     <span className="grid grid-cols-12 gaps-2">
                       <span className="col-span-1">
-                        <Toggle variant="outline">
+                        <Toggle variant="outline" className="border-indigo-400/20 text-muted-foreground">
                           <LockOpen2Icon className="h-4 w-4" />
                         </Toggle>
                       </span>
                       <span className="col-span-9">
                         <Input
                           placeholder="0"
-                          className="mb-3"
+                          className="mb-3 border-indigo-500/20 bg-card/60"
                           disabled
                           readOnly
                         />
                       </span>
                       <span className="col-span-2 ml-3">
-                        <Button variant="outline">
+                        <Button variant="outline" className="border-indigo-400/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-500/20 transition-colors">
                           {t("Smartcoin:change")}
                         </Button>{" "}
                       </span>
@@ -181,20 +186,20 @@ export default function PlaceholderForm({ form, ratioValue }) {
                   <FormControl>
                     <span className="grid grid-cols-12 gaps-2">
                       <span className="col-span-1">
-                        <Toggle variant="outline">
+                        <Toggle variant="outline" className="border-indigo-400/20 text-muted-foreground">
                           <LockOpen2Icon className="h-4 w-4" />
                         </Toggle>
                       </span>
                       <span className="col-span-9">
                         <Input
                           placeholder="0"
-                          className="mb-3"
+                          className="mb-3 border-indigo-500/20 bg-card/60"
                           disabled
                           readOnly
                         />
                       </span>
                       <span className="col-span-2 ml-3">
-                        <Button variant="outline">
+                        <Button variant="outline" className="border-indigo-400/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-500/20 transition-colors">
                           {t("Smartcoin:change")}
                         </Button>
                       </span>
@@ -215,7 +220,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                   <FormControl>
                     <span className="grid grid-cols-12">
                       <span className="col-span-1">
-                        <Toggle variant="outline">
+                        <Toggle variant="outline" className="border-indigo-400/20 text-muted-foreground">
                           <LockOpen2Icon className="h-4 w-4" />
                         </Toggle>
                       </span>
@@ -223,7 +228,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                         <Input
                           value={ratioValue}
                           placeholder={ratioValue}
-                          className="mb-3"
+                          className="mb-3 border-indigo-500/20 bg-card/60"
                           disabled
                           readOnly
                         />
@@ -259,14 +264,14 @@ export default function PlaceholderForm({ form, ratioValue }) {
                     {t("Smartcoin:networkBroadcastFeeDescription")}
                   </FormDescription>
                   <FormControl>
-                    <Input disabled readOnly />
+                    <Input disabled readOnly className="border-indigo-500/20 bg-card/60" />
                   </FormControl>
                 </FormItem>
               )}
             />
 
             <Button
-              className="mt-5 mb-3"
+              className="mt-5 mb-3 bg-muted text-muted-foreground cursor-not-allowed"
               variant="outline"
               disabled
               type="submit"
@@ -275,7 +280,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
             </Button>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

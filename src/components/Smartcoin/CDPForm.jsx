@@ -1,15 +1,8 @@
 import { LockOpen2Icon, LockClosedIcon } from "@radix-ui/react-icons";
+import { Sparkles, Landmark, ArrowRight, Info, Wallet, Percent } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { assetAmountRegex } from "@/lib/common.js";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 import {
   Popover,
@@ -79,16 +72,21 @@ export default function CDPForm({
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <CardTitle>{t("Smartcoin:CDPFormTitle")}</CardTitle>
-        <CardDescription>
-          {t("Smartcoin:CDPFormDescription1")}
-          <br />
-          {t("Smartcoin:CDPFormDescription2")}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+    <div className="rounded-xl border border-indigo-500/15 bg-card/60">
+      <div className="p-5 sm:p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+            <Landmark className="h-4 w-4" strokeWidth={2.25} />
+          </span>
+          <div>
+            <h3 className="text-base font-semibold text-foreground tracking-tight">
+              {t("Smartcoin:CDPFormTitle")}
+            </h3>
+            <p className="text-xs text-muted-foreground/70 mt-0.5">
+              {t("Smartcoin:CDPFormDescription1")}
+            </p>
+          </div>
+        </div>
         <Form {...form}>
           <form
             onSubmit={() => {
@@ -132,7 +130,7 @@ export default function CDPForm({
                         <Input
                           disabled
                           placeholder="Bitshares account (1.2.x)"
-                          className="mb-3"
+                          className="mb-3 border-indigo-500/20 bg-card/60"
                           value={`${usr.username} (${usr.id})`}
                           readOnly
                         />
@@ -155,7 +153,7 @@ export default function CDPForm({
                         <Input
                           disabled
                           placeholder="Bitshares smartcoin (1.3.x)"
-                          className="mb-1"
+                          className="mb-1 border-indigo-500/20 bg-card/60"
                           value={`${parsedAsset ? parsedAsset.s : ""} (${
                             parsedAsset ? parsedAsset.id : ""
                           })`}
@@ -165,7 +163,7 @@ export default function CDPForm({
                       <span className="col-span-2">
                         <a href="/smartcoins/index.html">
                           <Button
-                            className="ml-3 bg-card"
+                            className="ml-3 border-indigo-400/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-500/20 transition-colors"
                             variant="outline"
                           >
                             {t("Smartcoin:changeAssetButton")}
@@ -179,43 +177,106 @@ export default function CDPForm({
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle>
-                    {t("Smartcoin:currentFeedPriceTitle")}
-                  </CardTitle>
-                  <CardDescription>
-                    {t("Smartcoin:currentFeedPriceDescription")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <span className="grid grid-cols-2">
-                    <span className="col-span-1">
-                      <HoverCard key="feedPrice1">
-                        <HoverCardTrigger asChild>
-                          <Input
-                            disabled
-                            className="mr-1"
-                            value={currentFeedSettlementPrice ?? ""}
-                            readOnly
-                          />
-                        </HoverCardTrigger>
-                        <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
-                          {parsedCollateralAsset.s}/{parsedAsset.s}
-                        </HoverCardContent>
-                      </HoverCard>
-                    </span>
-                    <span className="col-span-1">
-                      <HoverCard key="feedPrice2">
-                        <HoverCardTrigger asChild>
-                          <Input
-                            disabled
-                            className="ml-1"
-                            value={
-                              currentFeedSettlementPrice
-                                ? (
-                                    1 / currentFeedSettlementPrice
-                                  ).toFixed(parsedAsset.p)
+              <div className="rounded-xl border border-indigo-500/15 bg-card/40 p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-indigo-400/20 bg-gradient-to-br from-indigo-500/15 to-cyan-500/15 dark:text-indigo-200/80 text-indigo-600/80">
+                    <Info className="h-3 w-3" strokeWidth={2.5} />
+                  </span>
+                  <div>
+                    <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80">
+                      {t("Smartcoin:currentFeedPriceTitle")}
+                    </div>
+                    <div className="text-[10px] text-muted-foreground/60">
+                      {t("Smartcoin:currentFeedPriceDescription")}
+                    </div>
+                  </div>
+                </div>
+                <span className="grid grid-cols-2">
+                  <span className="col-span-1">
+                    <HoverCard key="feedPrice1">
+                      <HoverCardTrigger asChild>
+                        <Input
+                          disabled
+                          className="mr-1 border-indigo-500/20 bg-card/60"
+                          value={currentFeedSettlementPrice ?? ""}
+                          readOnly
+                        />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
+                        {parsedCollateralAsset.s}/{parsedAsset.s}
+                      </HoverCardContent>
+                    </HoverCard>
+                  </span>
+                  <span className="col-span-1">
+                    <HoverCard key="feedPrice2">
+                      <HoverCardTrigger asChild>
+                        <Input
+                          disabled
+                          className="ml-1 border-indigo-500/20 bg-card/60"
+                          value={
+                            currentFeedSettlementPrice
+                              ? (
+                                  1 / currentFeedSettlementPrice
+                                ).toFixed(parsedAsset.p)
+                              : ""
+                          }
+                          readOnly
+                        />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
+                        {parsedAsset.s}/{parsedCollateralAsset.s}
+                      </HoverCardContent>
+                    </HoverCard>
+                  </span>
+                </span>
+              </div>
+              <div className="rounded-xl border border-indigo-500/15 bg-card/40 p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-indigo-400/20 bg-gradient-to-br from-indigo-500/15 to-cyan-500/15 dark:text-indigo-200/80 text-indigo-600/80">
+                    <Percent className="h-3 w-3" strokeWidth={2.5} />
+                  </span>
+                  <div>
+                    <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80">
+                      {t("Smartcoin:marginCallPriceTitle")}
+                    </div>
+                    <div className="text-[10px] text-muted-foreground/60">
+                      {t("Smartcoin:marginCallPriceDescription")}
+                    </div>
+                  </div>
+                </div>
+                <span className="grid grid-cols-2">
+                  <span className="col-span-1">
+                    <HoverCard key="feedPrice1">
+                      <HoverCardTrigger asChild>
+                        <Input
+                          disabled
+                          className="mr-1 border-indigo-500/20 bg-card/60"
+                          value={
+                            formCallPrice && parsedCollateralAsset
+                              ? formCallPrice.toFixed(
+                                  parsedCollateralAsset.p
+                                )
+                              : ""
+                          }
+                          readOnly
+                        />
+                      </HoverCardTrigger>
+                      <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
+                        {parsedCollateralAsset.s}/{parsedAsset.s}
+                      </HoverCardContent>
+                    </HoverCard>
+                  </span>
+                  <span className="col-span-1">
+                    <HoverCard key="feedPrice2">
+                      <HoverCardTrigger asChild>
+                        <Input
+                          disabled
+                          className="ml-1 border-indigo-500/20 bg-card/60"
+                          value={
+                            formCallPrice && parsedAsset
+                              ? (1 / formCallPrice).toFixed(
+                                  parsedAsset.p
+                                  )
                                 : ""
                             }
                             readOnly
@@ -227,65 +288,8 @@ export default function CDPForm({
                       </HoverCard>
                     </span>
                   </span>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle>
-                    {t("Smartcoin:marginCallPriceTitle")}
-                  </CardTitle>
-                  <CardDescription>
-                    {t("Smartcoin:marginCallPriceDescription")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <span className="grid grid-cols-2">
-                    <span className="col-span-1">
-                      <HoverCard key="feedPrice1">
-                        <HoverCardTrigger asChild>
-                          <Input
-                            disabled
-                            className="mr-1"
-                            value={
-                              formCallPrice && parsedCollateralAsset
-                                ? formCallPrice.toFixed(
-                                    parsedCollateralAsset.p
-                                  )
-                                : ""
-                            }
-                            readOnly
-                          />
-                        </HoverCardTrigger>
-                        <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
-                          {parsedCollateralAsset.s}/{parsedAsset.s}
-                        </HoverCardContent>
-                      </HoverCard>
-                    </span>
-                    <span className="col-span-1">
-                      <HoverCard key="feedPrice2">
-                        <HoverCardTrigger asChild>
-                          <Input
-                            disabled
-                            className="ml-1"
-                            value={
-                              formCallPrice && parsedAsset
-                                ? (1 / formCallPrice).toFixed(
-                                    parsedAsset.p
-                                  )
-                                : ""
-                            }
-                            readOnly
-                          />
-                        </HoverCardTrigger>
-                        <HoverCardContent className="w-40 text-sm text-center pt-1 pb-1">
-                          {parsedAsset.s}/{parsedCollateralAsset.s}
-                        </HoverCardContent>
-                      </HoverCard>
-                    </span>
-                  </span>
-                </CardContent>
-              </Card>
-            </div>
+                </div>
+              </div>
 
             <FormField
               control={form.control}
@@ -334,6 +338,10 @@ export default function CDPForm({
                                   setCollateralLock("editable");
                                 }
                               }}
+                              className={debtLock === "locked"
+                                ? "border-indigo-400/40 bg-indigo-500/15 dark:text-indigo-200 text-indigo-700"
+                                : ""
+                              }
                             >
                               {debtLock === "editable" ? (
                                 <LockOpen2Icon className="h-4 w-4" />
@@ -359,7 +367,7 @@ export default function CDPForm({
                           }
                           disabled
                           readOnly
-                          className="mb-3"
+                          className="mb-3 border-indigo-500/20 bg-card/60"
                         />
                       </span>
                       <span className="col-span-12 sm:mt-3 md:mt-0 md:col-span-4 md:ml-3">
@@ -370,7 +378,7 @@ export default function CDPForm({
                                 onClick={() => {
                                   event.preventDefault();
                                 }}
-                                className="inline-block border border-border rounded pl-4 pb-1 pr-4"
+                                className="inline-block border border-indigo-400/30 bg-indigo-500/10 rounded-lg pl-4 pb-1 pr-4 hover:bg-indigo-500/20 transition-colors cursor-pointer"
                               >
                                 <Label>
                                   {t("Smartcoin:changeDebtAmount")}
@@ -467,6 +475,10 @@ export default function CDPForm({
                                   setCollateralLock("locked");
                                 }
                               }}
+                              className={collateralLock === "locked"
+                                ? "border-indigo-400/40 bg-indigo-500/15 dark:text-indigo-200 text-indigo-700"
+                                : ""
+                              }
                             >
                               {collateralLock === "editable" ? (
                                 <LockOpen2Icon className="h-4 w-4" />
@@ -494,7 +506,7 @@ export default function CDPForm({
                           }
                           readOnly
                           disabled
-                          className="mb-3"
+                          className="mb-3 border-indigo-500/20 bg-card/60"
                         />
                       </span>
                       <span className="col-span-12 sm:mt-3 md:mt-0 md:col-span-4 md:ml-3">
@@ -505,7 +517,7 @@ export default function CDPForm({
                                 onClick={() => {
                                   event.preventDefault();
                                 }}
-                                className="inline-block border border-border rounded pl-4 pb-1 pr-4"
+                                className="inline-block border border-indigo-400/30 bg-indigo-500/10 rounded-lg pl-4 pb-1 pr-4 hover:bg-indigo-500/20 transition-colors cursor-pointer"
                               >
                                 <Label>
                                   {t("Smartcoin:changeCollateralAmount")}
@@ -595,6 +607,10 @@ export default function CDPForm({
                                   setCollateralLock("locked");
                                 }
                               }}
+                              className={ratioLock === "locked"
+                                ? "border-indigo-400/40 bg-indigo-500/15 dark:text-indigo-200 text-indigo-700"
+                                : ""
+                              }
                             >
                               {ratioLock === "editable" ? (
                                 <LockOpen2Icon className="h-4 w-4" />
@@ -615,14 +631,14 @@ export default function CDPForm({
                           <Input
                             label={t("Smartcoin:ratioOfCollateralToDebt")}
                             placeholder={ratioValue}
-                            className="mb-3"
+                            className="mb-3 border-indigo-500/20 bg-card/60"
                             disabled
                             readOnly
                           />
                         ) : (
                           <Input
                             label={t("Smartcoin:ratioOfCollateralToDebt")}
-                            className="mb-3"
+                            className="mb-3 border-indigo-500/20 bg-card/60"
                             disabled
                             readOnly
                           />
@@ -659,7 +675,7 @@ export default function CDPForm({
                                 onClick={() => {
                                   event.preventDefault();
                                 }}
-                                className="inline-block border border-border rounded pl-4 pb-1 pr-4"
+                                className="inline-block border border-indigo-400/30 bg-indigo-500/10 rounded-lg pl-4 pb-1 pr-4 hover:bg-indigo-500/20 transition-colors cursor-pointer"
                               >
                                 <Label>
                                   {t("Smartcoin:changeRatioValue")}
@@ -794,7 +810,7 @@ export default function CDPForm({
                                 onClick={() => {
                                   event.preventDefault();
                                 }}
-                                className="inline-block border border-border rounded pl-4 pb-1 pr-4"
+                                className="inline-block border border-indigo-400/30 bg-indigo-500/10 rounded-lg pl-4 pb-1 pr-4 hover:bg-indigo-500/20 transition-colors cursor-pointer"
                               >
                                 <Label>
                                   {t("Smartcoin:changeTCRValue")}
@@ -848,7 +864,7 @@ export default function CDPForm({
                     <Input
                       disabled
                       placeholder={fee ? `${fee} BTS` : ""}
-                      className="w-1/6"
+                      className="w-1/6 border-indigo-500/20 bg-card/60"
                       readOnly
                     />
                   </FormControl>
@@ -861,18 +877,22 @@ export default function CDPForm({
             (collateralAssetHoldings &&
               collateralAssetHoldings.toString().includes("-")) ? (
               <>
-                <Button className="mt-5 mb-3" disabled>
+                <Button className="mt-5 mb-3 bg-muted text-muted-foreground cursor-not-allowed" disabled>
                   {t("Smartcoin:submit")}
                 </Button>
               </>
             ) : (
-              <Button className="mt-5 mb-3" type="submit">
+              <Button
+                className="mt-5 mb-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_4px_14px_-4px_rgba(99,102,241,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(99,102,241,0.6)] hover:from-indigo-600 hover:to-cyan-600 transition-all"
+                type="submit"
+              >
                 {t("Smartcoin:submit")}
+                <span className="ml-2">→</span>
               </Button>
             )}
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

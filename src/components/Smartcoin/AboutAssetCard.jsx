@@ -1,14 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Info } from "lucide-react";
 
 import {
   Dialog,
@@ -40,71 +33,74 @@ export default function AboutAssetCard({
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   return (
-    <Card className="mt-2">
-      <CardHeader className="pb-2">
-        <CardTitle>
-          <div className="grid grid-cols-8">
-            <div className="col-span-6">
-              {type === "debt"
-                ? t("Smartcoin:aboutAsset", {
-                    assetType:
-                      bitassetInfo.issuer?.id === "1.2.0"
-                        ? "Bitasset"
-                        : "Smartcoin",
-                    asset: assetInfo.s,
-                    id: assetInfo.id,
-                  })
-                : t("Smartcoin:aboutBackingCollateral", {
-                    asset: assetInfo.s,
-                    id: assetInfo.id,
-                  })}
-            </div>
-            <div className="col-span-2 text-right">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="h-5">
-                    {t("Smartcoin:viewJSON")}
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px] bg-card">
-                  <DialogHeader>
-                    <DialogTitle>
-                      {t("Smartcoin:jsonSummaryData", { asset: assetInfo.s })}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {t("Smartcoin:dataUsedToRender")}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid grid-cols-1">
-                    <div className="col-span-1">
-                      <ScrollArea className="h-72 rounded-md border text-sm">
-                        <pre>
-                          {JSON.stringify(
-                            { fullAssetInfo, fullBitassetInfo },
-                            null,
-                            2,
-                          )}
-                        </pre>
-                      </ScrollArea>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
+    <div className="mt-2 rounded-xl border border-indigo-500/15 bg-card/60">
+      <div className="p-5">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+              <Info className="h-4 w-4" strokeWidth={2.25} />
+            </span>
+            <div>
+              <h3 className="text-sm font-semibold text-foreground tracking-tight">
+                {type === "debt"
+                  ? t("Smartcoin:aboutAsset", {
+                      assetType:
+                        bitassetInfo.issuer?.id === "1.2.0"
+                          ? "Bitasset"
+                          : "Smartcoin",
+                      asset: assetInfo.s,
+                      id: assetInfo.id,
+                    })
+                  : t("Smartcoin:aboutBackingCollateral", {
+                      asset: assetInfo.s,
+                      id: assetInfo.id,
+                    })}
+              </h3>
+              <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+                {type === "debt"
+                  ? t("Smartcoin:researchBeforeBorrow", { asset: assetInfo.s })
+                  : t("Smartcoin:researchBeforeBacking", { asset: assetInfo.s })}
+              </p>
             </div>
           </div>
-        </CardTitle>
-        <CardDescription>
-          {type === "debt"
-            ? t("Smartcoin:researchBeforeBorrow", { asset: assetInfo.s })
-            : t("Smartcoin:researchBeforeBacking", { asset: assetInfo.s })}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="border-indigo-400/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-500/20 transition-colors text-xs">
+                {t("Smartcoin:viewJSON")}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[600px] bg-card">
+              <DialogHeader>
+                <DialogTitle>
+                  {t("Smartcoin:jsonSummaryData", { asset: assetInfo.s })}
+                </DialogTitle>
+                <DialogDescription>
+                  {t("Smartcoin:dataUsedToRender")}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid grid-cols-1">
+                <div className="col-span-1">
+                  <ScrollArea className="h-72 rounded-md border text-sm">
+                    <pre>
+                      {JSON.stringify(
+                        { fullAssetInfo, fullBitassetInfo },
+                        null,
+                        2,
+                      )}
+                    </pre>
+                  </ScrollArea>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
         <div className="grid grid-cols-2">
           <div className="col-span-1">
-            <Label>{t("Smartcoin:generalAssetInfo")}</Label>
+            <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80">
+              {t("Smartcoin:generalAssetInfo")}
+            </div>
           </div>
-          <div className="col-span-1 text-right">
+          <div className="col-span-1 text-right text-xs text-muted-foreground/60">
             {t("Smartcoin:viewAssetOnbitshares")}
           </div>
         </div>
@@ -246,14 +242,14 @@ export default function AboutAssetCard({
           <>
             <div className="grid grid-cols-2">
               <div className="col-span-1">
-                <Label>
+                <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80">
                   {bitassetInfo.issuer?.id === "1.2.0"
                     ? t("Smartcoin:bitassetInfo")
                     : t("Smartcoin:smartcoinInfo")}
-                </Label>
+                </div>
               </div>
               <div className="col-span-1 text-right">
-                <Button variant="outline" className="h-5 mb-2">
+                <Button variant="outline" className="h-5 border-indigo-400/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-500/20 transition-colors text-xs">
                   {t("Smartcoin:viewBitassetOnbitshares")}
                 </Button>
               </div>
@@ -516,22 +512,24 @@ export default function AboutAssetCard({
           </>
         ) : null}
 
-        <Label className="pb-0">{t("Smartcoin:assetFlags")}</Label>
-        <br />
+        <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80 mb-1">
+          {t("Smartcoin:assetFlags")}
+        </div>
         {assetInfoFlags && assetInfoFlags.length ? (
           assetInfoFlags
         ) : (
           <span className="text-sm">{t("Smartcoin:noFlagsEnabled")}</span>
         )}
         <br />
-        <Label>{t("Smartcoin:assetPermissions")}</Label>
-        <br />
+        <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80 mb-1 mt-3">
+          {t("Smartcoin:assetPermissions")}
+        </div>
         {assetPermissions && assetPermissions.length ? (
           assetPermissions
         ) : (
           <span className="text-sm">{t("Smartcoin:noPermissionsEnabled")}</span>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

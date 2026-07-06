@@ -1,10 +1,11 @@
 import { List } from "react-window";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import { BookOpen, BarChart3, AlertTriangle, Radio } from "lucide-react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 import {
   MarginPositionRow,
@@ -12,11 +13,6 @@ import {
   SettlementRow,
   PriceFeedRow,
 } from "@/components/Smartcoin/SmartcoinRows.jsx";
-
-const activeTabStyle = {
-  backgroundColor: "hsl(var(--primary))",
-  color: "hsl(var(--primary-foreground))",
-};
 
 export function OrderBookCard({
   parsedAsset,
@@ -30,136 +26,137 @@ export function OrderBookCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <Card>
-        <CardHeader className="pb-3">
-          <div className="grid grid-cols-2">
-            <div className="col-span-1">
-              <CardTitle>
+      <div className="rounded-xl border border-indigo-500/15 bg-card/60 p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+              <BookOpen className="h-4 w-4" strokeWidth={2.25} />
+            </span>
+            <div>
+              <h3 className="text-sm font-semibold text-foreground tracking-tight">
                 {parsedAsset && parsedCollateralAsset
                   ? t("Smartcoin:orderBookForAssets", {
                       asset1: parsedAsset.s,
                       asset2: parsedCollateralAsset.s,
                     })
                   : t("Smartcoin:orderBookLoading")}
-              </CardTitle>
-              <CardDescription>
+              </h3>
+              <p className="text-[10px] text-muted-foreground/60 mt-0.5">
                 {t("Smartcoin:orderBookNote")}
-              </CardDescription>
-            </div>
-            <div className="col-span-1 text-right">
-              <a
-                href={
-                  parsedAsset && parsedCollateralAsset
-                    ? `/dex/index.html?market=${parsedAsset.s}_${parsedCollateralAsset.s}`
-                    : ""
-                }
-              >
-                <Button>{t("Smartcoin:goToMarket")}</Button>
-              </a>
+              </p>
             </div>
           </div>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="buy" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 gap-2">
-              {activeOrderTab === "buy" ? (
-                <TabsTrigger value="buy" style={activeTabStyle}>
-                  {t("Smartcoin:viewingBuyOrders")}
-                </TabsTrigger>
-              ) : (
-                <TabsTrigger
-                  value="buy"
-                  onClick={() => setActiveOrderTab("buy")}
-                >
-                  {t("Smartcoin:viewBuyOrders")}
-                </TabsTrigger>
+          <a
+            href={
+              parsedAsset && parsedCollateralAsset
+                ? `/dex/index.html?market=${parsedAsset.s}_${parsedCollateralAsset.s}`
+                : ""
+            }
+          >
+            <Button className="bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_4px_14px_-4px_rgba(99,102,241,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(99,102,241,0.6)] hover:from-indigo-600 hover:to-cyan-600 transition-all text-xs">
+              {t("Smartcoin:goToMarket")}
+            </Button>
+          </a>
+        </div>
+        <Tabs defaultValue="buy" className="w-full">
+          <div className="inline-flex rounded-xl border border-border bg-card/40 p-1 gap-1 mb-3 w-full">
+            <button
+              type="button"
+              onClick={() => setActiveOrderTab("buy")}
+              className={cn(
+                "flex-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center justify-center gap-1.5",
+                activeOrderTab === "buy"
+                  ? "bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 dark:text-indigo-100 text-indigo-700 border border-indigo-400/40 shadow-[0_0_18px_-8px_rgba(99,102,241,0.6)]"
+                  : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
               )}
-              {activeOrderTab === "sell" ? (
-                <TabsTrigger value="sell" style={activeTabStyle}>
-                  {t("Smartcoin:viewingSellOrders")}
-                </TabsTrigger>
-              ) : (
-                <TabsTrigger
-                  value="sell"
-                  onClick={() => setActiveOrderTab("sell")}
-                >
-                  {t("Smartcoin:viewSellOrders")}
-                </TabsTrigger>
+            >
+              {t("Smartcoin:viewBuyOrders")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveOrderTab("sell")}
+              className={cn(
+                "flex-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center justify-center gap-1.5",
+                activeOrderTab === "sell"
+                  ? "bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 dark:text-indigo-100 text-indigo-700 border border-indigo-400/40 shadow-[0_0_18px_-8px_rgba(99,102,241,0.6)]"
+                  : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
               )}
-            </TabsList>
-            <TabsContent value="buy">
-              {buyOrders && buyOrders.length ? (
-                <>
-                  <div className="grid grid-cols-4">
-                    <div className="col-span-1">{t("Smartcoin:price")}</div>
-                    <div className="col-span-1">
-                      {parsedCollateralAsset.s}
-                    </div>
-                    <div className="col-span-1">{parsedAsset.s}</div>
-                    <div className="col-span-1">{t("Smartcoin:total")}</div>
+            >
+              {t("Smartcoin:viewSellOrders")}
+            </button>
+          </div>
+          <TabsContent value="buy">
+            {buyOrders && buyOrders.length ? (
+              <>
+                <div className="grid grid-cols-4 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                  <div className="col-span-1">{t("Smartcoin:price")}</div>
+                  <div className="col-span-1">
+                    {parsedCollateralAsset.s}
                   </div>
-                  <div className="w-full max-h-[260px] overflow-auto">
-                    <List
-                      rowComponent={(props) => (
-                        <OrderRow
-                          {...props}
-                          activeOrderTab={activeOrderTab}
-                          buyOrders={buyOrders}
-                          sellOrders={sellOrders}
-                          parsedAsset={parsedAsset}
-                          parsedCollateralAsset={parsedCollateralAsset}
-                        />
-                      )}
-                      rowCount={buyOrders.length}
-                      rowHeight={25}
-                      rowProps={{}}
-                    />
+                  <div className="col-span-1">{parsedAsset.s}</div>
+                  <div className="col-span-1">{t("Smartcoin:total")}</div>
+                </div>
+                <div className="w-full max-h-[260px] overflow-auto rounded-lg border border-border/60 bg-card/40">
+                  <List
+                    rowComponent={(props) => (
+                      <OrderRow
+                        {...props}
+                        activeOrderTab={activeOrderTab}
+                        buyOrders={buyOrders}
+                        sellOrders={sellOrders}
+                        parsedAsset={parsedAsset}
+                        parsedCollateralAsset={parsedCollateralAsset}
+                      />
+                    )}
+                    rowCount={buyOrders.length}
+                    rowHeight={25}
+                    rowProps={{}}
+                  />
+                </div>
+              </>
+            ) : null}
+            {buyOrders && !buyOrders.length
+              ? t("Smartcoin:noBuyOrdersFound")
+              : null}
+            {!buyOrders ? t("Smartcoin:loading") : null}
+          </TabsContent>
+          <TabsContent value="sell">
+            {sellOrders && sellOrders.length ? (
+              <>
+                <div className="grid grid-cols-4 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                  <div className="col-span-1">{t("Smartcoin:price")}</div>
+                  <div className="col-span-1">{parsedAsset.s}</div>
+                  <div className="col-span-1">
+                    {parsedCollateralAsset.s}
                   </div>
-                </>
-              ) : null}
-              {buyOrders && !buyOrders.length
-                ? t("Smartcoin:noBuyOrdersFound")
-                : null}
-              {!buyOrders ? t("Smartcoin:loading") : null}
-            </TabsContent>
-            <TabsContent value="sell">
-              {sellOrders && sellOrders.length ? (
-                <>
-                  <div className="grid grid-cols-4">
-                    <div className="col-span-1">{t("Smartcoin:price")}</div>
-                    <div className="col-span-1">{parsedAsset.s}</div>
-                    <div className="col-span-1">
-                      {parsedCollateralAsset.s}
-                    </div>
-                    <div className="col-span-1">{t("Smartcoin:total")}</div>
-                  </div>
-                  <div className="w-full max-h-[260px] overflow-auto">
-                    <List
-                      rowComponent={(props) => (
-                        <OrderRow
-                          {...props}
-                          activeOrderTab={activeOrderTab}
-                          buyOrders={buyOrders}
-                          sellOrders={sellOrders}
-                          parsedAsset={parsedAsset}
-                          parsedCollateralAsset={parsedCollateralAsset}
-                        />
-                      )}
-                      rowCount={sellOrders.length}
-                      rowHeight={25}
-                      rowProps={{}}
-                    />
-                  </div>
-                </>
-              ) : null}
-              {sellOrders && !sellOrders.length
-                ? "No sell orders found"
-                : null}
-              {!sellOrders ? "Loading..." : null}
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+                  <div className="col-span-1">{t("Smartcoin:total")}</div>
+                </div>
+                <div className="w-full max-h-[260px] overflow-auto rounded-lg border border-border/60 bg-card/40">
+                  <List
+                    rowComponent={(props) => (
+                      <OrderRow
+                        {...props}
+                        activeOrderTab={activeOrderTab}
+                        buyOrders={buyOrders}
+                        sellOrders={sellOrders}
+                        parsedAsset={parsedAsset}
+                        parsedCollateralAsset={parsedCollateralAsset}
+                      />
+                    )}
+                    rowCount={sellOrders.length}
+                    rowHeight={25}
+                    rowProps={{}}
+                  />
+                </div>
+              </>
+            ) : null}
+            {sellOrders && !sellOrders.length
+              ? t("Smartcoin:noSellOrdersFound")
+              : null}
+            {!sellOrders ? t("Smartcoin:loading") : null}
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
@@ -174,61 +171,64 @@ export function CallOrdersCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle>
-            {parsedAsset && parsedCollateralAsset
-              ? t("Smartcoin:callOrdersForAssets", {
-                  asset1: parsedAsset.s,
-                  asset2: parsedCollateralAsset.s,
-                })
-              : t("Smartcoin:callOrdersLoading")}
-          </CardTitle>
-          <CardDescription>
-            {t("Smartcoin:checkMarginPositions")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {assetCallOrders && assetCallOrders.length ? (
-            <>
-              <div className="grid grid-cols-4 md:grid-cols-6">
-                <div className="col-span-1">{t("Smartcoin:borrower")}</div>
-                <div className="col-span-1">
-                  {t("Smartcoin:collateral")}
-                </div>
-                <div className="col-span-1">{t("Smartcoin:debt")}</div>
-                <div className="col-span-1">{t("Smartcoin:callPrice")}</div>
-                <div className="hidden md:block col-span-1">
-                  {t("Smartcoin:tcr")}
-                </div>
-                <div className="hidden md:block col-span-1">
-                  {t("Smartcoin:ratio")}
-                </div>
+      <div className="rounded-xl border border-indigo-500/15 bg-card/60 p-4">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+            <BarChart3 className="h-4 w-4" strokeWidth={2.25} />
+          </span>
+          <div>
+            <h3 className="text-sm font-semibold text-foreground tracking-tight">
+              {parsedAsset && parsedCollateralAsset
+                ? t("Smartcoin:callOrdersForAssets", {
+                    asset1: parsedAsset.s,
+                    asset2: parsedCollateralAsset.s,
+                  })
+                : t("Smartcoin:callOrdersLoading")}
+            </h3>
+            <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+              {t("Smartcoin:checkMarginPositions")}
+            </p>
+          </div>
+        </div>
+        {assetCallOrders && assetCallOrders.length ? (
+          <>
+            <div className="grid grid-cols-4 md:grid-cols-6 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+              <div className="col-span-1">{t("Smartcoin:borrower")}</div>
+              <div className="col-span-1">
+                {t("Smartcoin:collateral")}
               </div>
-              <div className="w-full max-h-[260px] overflow-auto">
-                <List
-                  rowComponent={(props) => (
-                    <MarginPositionRow
-                      {...props}
-                      assetCallOrders={assetCallOrders}
-                      parsedCollateralAsset={parsedCollateralAsset}
-                      parsedAsset={parsedAsset}
-                      currentFeedSettlementPrice={currentFeedSettlementPrice}
-                    />
-                  )}
-                  rowCount={assetCallOrders.length}
-                  rowHeight={25}
-                  rowProps={{}}
-                />
+              <div className="col-span-1">{t("Smartcoin:debt")}</div>
+              <div className="col-span-1">{t("Smartcoin:callPrice")}</div>
+              <div className="hidden md:block col-span-1">
+                {t("Smartcoin:tcr")}
               </div>
-            </>
-          ) : null}
-          {assetCallOrders && !assetCallOrders.length
-            ? t("Smartcoin:noCallOrdersFound")
-            : null}
-          {!assetCallOrders ? t("Smartcoin:loading") : null}
-        </CardContent>
-      </Card>
+              <div className="hidden md:block col-span-1">
+                {t("Smartcoin:ratio")}
+              </div>
+            </div>
+            <div className="w-full max-h-[260px] overflow-auto rounded-lg border border-border/60 bg-card/40">
+              <List
+                rowComponent={(props) => (
+                  <MarginPositionRow
+                    {...props}
+                    assetCallOrders={assetCallOrders}
+                    parsedCollateralAsset={parsedCollateralAsset}
+                    parsedAsset={parsedAsset}
+                    currentFeedSettlementPrice={currentFeedSettlementPrice}
+                  />
+                )}
+                rowCount={assetCallOrders.length}
+                rowHeight={25}
+                rowProps={{}}
+              />
+            </div>
+          </>
+        ) : null}
+        {assetCallOrders && !assetCallOrders.length
+          ? t("Smartcoin:noCallOrdersFound")
+          : null}
+        {!assetCallOrders ? t("Smartcoin:loading") : null}
+      </div>
     </div>
   );
 }
@@ -242,51 +242,54 @@ export function SettleOrdersCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle>
-            {parsedAsset && parsedCollateralAsset
-              ? t("Smartcoin:settleOrdersForAssets", {
-                  asset1: parsedAsset.s,
-                  asset2: parsedCollateralAsset.s,
-                })
-              : t("Smartcoin:settleOrdersLoading")}
-          </CardTitle>
-          <CardDescription>
-            {t("Smartcoin:checkSettleOrders")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {assetSettleOrders && assetSettleOrders.length ? (
-            <>
-              <div className="grid grid-cols-6">
-                <div className="col-span-1">{t("Smartcoin:owner")}</div>
-                <div className="col-span-1">{t("Smartcoin:balance2")}</div>
-                <div className="col-span-1">
-                  {t("Smartcoin:settlementDate")}
-                </div>
+      <div className="rounded-xl border border-amber-500/15 bg-card/60 p-4">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-amber-400/30 bg-gradient-to-br from-amber-500/20 to-orange-500/20 dark:text-amber-200 text-amber-700 flex-shrink-0">
+            <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
+          </span>
+          <div>
+            <h3 className="text-sm font-semibold text-foreground tracking-tight">
+              {parsedAsset && parsedCollateralAsset
+                ? t("Smartcoin:settleOrdersForAssets", {
+                    asset1: parsedAsset.s,
+                    asset2: parsedCollateralAsset.s,
+                  })
+                : t("Smartcoin:settleOrdersLoading")}
+            </h3>
+            <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+              {t("Smartcoin:checkSettleOrders")}
+            </p>
+          </div>
+        </div>
+        {assetSettleOrders && assetSettleOrders.length ? (
+          <>
+            <div className="grid grid-cols-6 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+              <div className="col-span-1">{t("Smartcoin:owner")}</div>
+              <div className="col-span-1">{t("Smartcoin:balance2")}</div>
+              <div className="col-span-1">
+                {t("Smartcoin:settlementDate")}
               </div>
-              <div className="w-full max-h-[260px] overflow-auto">
-                <List
-                  rowComponent={(props) => (
-                    <SettlementRow
-                      {...props}
-                      assetSettleOrders={assetSettleOrders}
-                    />
-                  )}
-                  rowCount={assetSettleOrders.length}
-                  rowHeight={25}
-                  rowProps={{}}
-                />
-              </div>
-            </>
-          ) : null}
-          {assetSettleOrders && !assetSettleOrders.length
-            ? t("Smartcoin:noSettleOrdersFound")
-            : null}
-          {!assetSettleOrders ? t("Smartcoin:loading") : null}
-        </CardContent>
-      </Card>
+            </div>
+            <div className="w-full max-h-[260px] overflow-auto rounded-lg border border-border/60 bg-card/40">
+              <List
+                rowComponent={(props) => (
+                  <SettlementRow
+                    {...props}
+                    assetSettleOrders={assetSettleOrders}
+                  />
+                )}
+                rowCount={assetSettleOrders.length}
+                rowHeight={25}
+                rowProps={{}}
+              />
+            </div>
+          </>
+        ) : null}
+        {assetSettleOrders && !assetSettleOrders.length
+          ? t("Smartcoin:noSettleOrdersFound")
+          : null}
+        {!assetSettleOrders ? t("Smartcoin:loading") : null}
+      </div>
     </div>
   );
 }
@@ -300,54 +303,57 @@ export function PriceFeedsCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle>
-            {parsedAsset && parsedCollateralAsset
-              ? t("Smartcoin:priceFeedsForAsset", { asset: parsedAsset.s })
-              : t("Smartcoin:priceFeedsLoading")}
-          </CardTitle>
-          <CardDescription>
-            {t("Smartcoin:checkLatestPriceFeeds")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {finalBitasset && finalBitasset.feeds ? (
-            <>
-              <div className="grid grid-cols-11">
-                <div className="col-span-2">{t("Smartcoin:user")}</div>
-                <div className="col-span-2">{t("Smartcoin:date")}</div>
-                <div className="col-span-2">{t("Smartcoin:cer")}</div>
-                <div className="col-span-2">
-                  {t("Smartcoin:settlement")}
-                </div>
-                <div className="col-span-1">{t("Smartcoin:icr")}</div>
-                <div className="col-span-1">{t("Smartcoin:mcr")}</div>
-                <div className="col-span-1">{t("Smartcoin:mssr")}</div>
+      <div className="rounded-xl border border-indigo-500/15 bg-card/60 p-4">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+            <Radio className="h-4 w-4" strokeWidth={2.25} />
+          </span>
+          <div>
+            <h3 className="text-sm font-semibold text-foreground tracking-tight">
+              {parsedAsset && parsedCollateralAsset
+                ? t("Smartcoin:priceFeedsForAsset", { asset: parsedAsset.s })
+                : t("Smartcoin:priceFeedsLoading")}
+            </h3>
+            <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+              {t("Smartcoin:checkLatestPriceFeeds")}
+            </p>
+          </div>
+        </div>
+        {finalBitasset && finalBitasset.feeds ? (
+          <>
+            <div className="grid grid-cols-11 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+              <div className="col-span-2">{t("Smartcoin:user")}</div>
+              <div className="col-span-2">{t("Smartcoin:date")}</div>
+              <div className="col-span-2">{t("Smartcoin:cer")}</div>
+              <div className="col-span-2">
+                {t("Smartcoin:settlement")}
               </div>
-              <div className="w-full max-h-[260px] overflow-auto">
-                <List
-                  rowComponent={(props) => (
-                    <PriceFeedRow
-                      {...props}
-                      finalBitasset={finalBitasset}
-                      parsedAsset={parsedAsset}
-                      parsedCollateralAsset={parsedCollateralAsset}
-                    />
-                  )}
-                  rowCount={finalBitasset.feeds.length}
-                  rowHeight={25}
-                  rowProps={{}}
-                />
-              </div>
-            </>
-          ) : null}
-          {finalBitasset && !finalBitasset.feeds.length
-            ? t("Smartcoin:noSmartcoinFeedsFound")
-            : null}
-          {!finalBitasset ? t("Smartcoin:loading") : null}
-        </CardContent>
-      </Card>
+              <div className="col-span-1">{t("Smartcoin:icr")}</div>
+              <div className="col-span-1">{t("Smartcoin:mcr")}</div>
+              <div className="col-span-1">{t("Smartcoin:mssr")}</div>
+            </div>
+            <div className="w-full max-h-[260px] overflow-auto rounded-lg border border-border/60 bg-card/40">
+              <List
+                rowComponent={(props) => (
+                  <PriceFeedRow
+                    {...props}
+                    finalBitasset={finalBitasset}
+                    parsedAsset={parsedAsset}
+                    parsedCollateralAsset={parsedCollateralAsset}
+                  />
+                )}
+                rowCount={finalBitasset.feeds.length}
+                rowHeight={25}
+                rowProps={{}}
+              />
+            </div>
+          </>
+        ) : null}
+        {finalBitasset && !finalBitasset.feeds.length
+          ? t("Smartcoin:noSmartcoinFeedsFound")
+          : null}
+        {!finalBitasset ? t("Smartcoin:loading") : null}
+      </div>
     </div>
   );
 }

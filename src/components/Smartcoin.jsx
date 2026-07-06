@@ -942,9 +942,23 @@ export default function Smartcoin(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
-      <div className="grid grid-cols-1 gap-3">
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-indigo-950/20">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/70 to-transparent"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-indigo-500/10 blur-3xl"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-cyan-500/10 blur-3xl"
+        />
+        <div className="relative p-5 sm:p-6">
+          <div className="grid grid-cols-1 gap-3">
         {marketSearch && invalidUrlParams ? (
-          <Card>
+          <Card className="border-indigo-500/15 bg-card/60">
             <CardHeader>
               <CardTitle>{t("Smartcoin:invalidSmartcoinIdTitle")}</CardTitle>
               <CardDescription>
@@ -1290,6 +1304,8 @@ export default function Smartcoin(properties) {
       ) : null}
 
       <RisksCard />
+        </div>
+      </div>
     </div>
   );
 }

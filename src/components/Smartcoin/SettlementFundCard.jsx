@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import { AlertTriangle } from "lucide-react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 export function GlobalSettlementCard({
@@ -19,82 +19,78 @@ export function GlobalSettlementCard({
 
   return (
     <div className="grid grid-cols-1 mt-2 mb-2">
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle>
-            {t("Smartcoin:settlementFundTitle", {
-              symbol: finalAsset.symbol,
-            })}
-          </CardTitle>
-          <CardDescription>
-            {t("Smartcoin:settlementFundDescription")}
-            <br />
-            {t("Smartcoin:borrowingUnavailable")}{" "}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-4">
-            <div className="col-span-1">
-              {t("Smartcoin:fund")}
-              <br />
-              <span className="text-sm">
-                {settlementFund.finalSettlementFund}
+      <div className="rounded-xl border border-red-500/15 bg-card/60">
+        <div className="p-5">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-400/30 bg-gradient-to-br from-red-500/20 to-amber-500/20 dark:text-red-200 text-red-700 flex-shrink-0">
+              <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
+            </span>
+            <div>
+              <h3 className="text-sm font-semibold text-foreground tracking-tight">
+                {t("Smartcoin:settlementFundTitle", {
+                  symbol: finalAsset.symbol,
+                })}
+              </h3>
+              <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+                {t("Smartcoin:settlementFundDescription")}
                 <br />
-                {parsedCollateralAsset.s}
-              </span>
+                {t("Smartcoin:borrowingUnavailable")}
+              </p>
             </div>
-            <div className="col-span-1">
-              {t("Smartcoin:settlementPrice")} <br />
-              <span className="text-sm">
-                {settlementFund.finalSettlementPrice}
-                <br />
-                {parsedAsset.s}/{parsedCollateralAsset.s}
-              </span>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+              <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                {t("Smartcoin:fund")}
+              </div>
+              <div className="font-mono text-sm tabular-nums dark:text-red-100/90 text-red-700 font-semibold">
+                {settlementFund.finalSettlementFund} {parsedCollateralAsset.s}
+              </div>
             </div>
-            <div className="col-span-1">
-              {t("Smartcoin:currentPrice")}
-              <br />
-              <span className="text-sm">
-                {(1 / currentFeedSettlementPrice).toFixed(
-                  parsedAsset.p
-                )}
-              </span>
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+              <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                {t("Smartcoin:settlementPrice")}
+              </div>
+              <div className="font-mono text-sm tabular-nums dark:text-red-100/90 text-red-700 font-semibold">
+                {settlementFund.finalSettlementPrice} {parsedAsset.s}/{parsedCollateralAsset.s}
+              </div>
             </div>
-            <div className="col-span-1">
-              {t("Smartcoin:fundingRatio")}
-              <br />
-              <span className="text-sm">
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+              <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                {t("Smartcoin:currentPrice")}
+              </div>
+              <div className="font-mono text-sm tabular-nums dark:text-red-100/90 text-red-700 font-semibold">
+                {(1 / currentFeedSettlementPrice).toFixed(parsedAsset.p)}
+              </div>
+            </div>
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+              <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                {t("Smartcoin:fundingRatio")}
+              </div>
+              <div className="font-mono text-sm tabular-nums dark:text-red-100/90 text-red-700 font-semibold">
                 {(
                   (1 /
                     currentFeedSettlementPrice /
                     settlementFund.finalSettlementPrice) *
                   100
-                ).toFixed(2)}
-                {" % ("}
-                <span className="text-red-500 dark:text-red-400">
-                  {"-"}
-                  {(
-                    100 -
-                    (1 /
-                      currentFeedSettlementPrice /
-                      settlementFund.finalSettlementPrice) *
-                      100
-                  ).toFixed(2)}
-                  {" %"}
+                ).toFixed(2)}%
+                <span className="text-red-500 dark:text-red-400 text-xs ml-1">
+                  (-{(100 - (1 / currentFeedSettlementPrice / settlementFund.finalSettlementPrice) * 100).toFixed(2)}%)
                 </span>
-                {")"}
-              </span>
+              </div>
             </div>
           </div>
+
           <a href={`/settlement/index.html?id=${finalAsset.id}`}>
-            <Button className="mt-3 pb-2">
+            <Button className="bg-gradient-to-r from-red-500 to-amber-500 text-white shadow-[0_4px_14px_-4px_rgba(239,68,68,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(239,68,68,0.6)] hover:from-red-600 hover:to-amber-600 transition-all">
               {t("Smartcoin:bidOnSettlementFund", {
                 symbol: finalAsset.symbol,
               })}
             </Button>
           </a>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
@@ -114,81 +110,78 @@ export function IndividualSettlementCard({
 
   return (
     <div className="grid grid-cols-1 mt-2 mb-2">
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle>
-            {t("Smartcoin:individualSettlementFund", {
-              symbol: finalAsset.symbol,
-            })}
-          </CardTitle>{" "}
-          <CardDescription>
-            {t("Smartcoin:individualSettlementFundDescription")}
-            <br />
-            {t("Smartcoin:fundsCanBeBidOn")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-4">
-            <div className="col-span-1">
-              {t("Smartcoin:fund")}
-              <br />
-              <span className="text-sm">
-                {individualSettlementFund._fund}
+      <div className="rounded-xl border border-amber-500/15 bg-card/60">
+        <div className="p-5">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-amber-400/30 bg-gradient-to-br from-amber-500/20 to-orange-500/20 dark:text-amber-200 text-amber-700 flex-shrink-0">
+              <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
+            </span>
+            <div>
+              <h3 className="text-sm font-semibold text-foreground tracking-tight">
+                {t("Smartcoin:individualSettlementFund", {
+                  symbol: finalAsset.symbol,
+                })}
+              </h3>
+              <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+                {t("Smartcoin:individualSettlementFundDescription")}
                 <br />
-                {parsedCollateralAsset.s}
-              </span>
+                {t("Smartcoin:fundsCanBeBidOn")}
+              </p>
             </div>
-            <div className="col-span-1">
-              {t("Smartcoin:debt2")}
-              <br />
-              <span className="text-sm">
-                {individualSettlementFund._debt}
-                <br />
-                {parsedAsset.s}
-              </span>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+              <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                {t("Smartcoin:fund")}
+              </div>
+              <div className="font-mono text-sm tabular-nums dark:text-amber-100/90 text-amber-700 font-semibold">
+                {individualSettlementFund._fund} {parsedCollateralAsset.s}
+              </div>
             </div>
-            <div className="col-span-1">
-              {t("Smartcoin:feedPrice")}
-              <br />
-              <span className="text-sm">
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+              <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                {t("Smartcoin:debt2")}
+              </div>
+              <div className="font-mono text-sm tabular-nums dark:text-amber-100/90 text-amber-700 font-semibold">
+                {individualSettlementFund._debt} {parsedAsset.s}
+              </div>
+            </div>
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+              <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                {t("Smartcoin:feedPrice")}
+              </div>
+              <div className="font-mono text-sm tabular-nums dark:text-amber-100/90 text-amber-700 font-semibold">
                 {individualSettlementPrice.toFixed(parsedAsset.p)}
-              </span>
+              </div>
             </div>
-            <div className="col-span-1">
-              {t("Smartcoin:fundingRatio")}
-              <br />
-              <span className="text-sm">
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+              <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                {t("Smartcoin:fundingRatio")}
+              </div>
+              <div className="font-mono text-sm tabular-nums dark:text-amber-100/90 text-amber-700 font-semibold">
                 {(
                   ((individualSettlementFund._debt *
                     individualSettlementPrice) /
                     individualSettlementFund._fund) *
                   100
-                ).toFixed(2)}
-                {" % ("}
-                <span className="text-red-500 dark:text-red-400">
-                  {"-"}
-                  {(
-                    100 -
-                    ((individualSettlementFund._debt *
-                      individualSettlementPrice) /
-                      individualSettlementFund._fund) *
-                      100
-                  ).toFixed(2)}
-                  {" %"}
+                ).toFixed(2)}%
+                <span className="text-red-500 dark:text-red-400 text-xs ml-1">
+                  (-{(100 - ((individualSettlementFund._debt * individualSettlementPrice) / individualSettlementFund._fund) * 100).toFixed(2)}%)
                 </span>
-                {")"}
-              </span>
+              </div>
             </div>
           </div>
+
           <a href={`/settlement/index.html?id=${finalAsset.id}`}>
-            <Button className="mt-3 pb-2">
+            <Button className="bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-[0_4px_14px_-4px_rgba(245,158,11,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(245,158,11,0.6)] hover:from-amber-600 hover:to-orange-600 transition-all">
               {t("Smartcoin:bidOnSettlementFund", {
                 symbol: finalAsset.symbol,
               })}
             </Button>
           </a>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
