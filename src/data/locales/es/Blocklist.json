@@ -8,5 +8,14 @@
   "addUserDialogDescription": "Busque una cuenta para agregar a su lista de bloqueo personal. Las cuentas bloqueadas estarán ocultas en toda su vista.",
   "usersEmptyTitle": "Sin cuentas bloqueadas",
   "usersEmptyDescription": "Aún no ha bloqueado ninguna cuenta. Bloquee cuentas para ocultarlas de su vista.",
-  "remove": "Eliminar de la lista negra"
+  "remove": "Eliminar de la lista negra",
+  "favouriteAccount": "Cuenta favorita",
+  "unfavouriteAccount": "Eliminar de favoritos",
+  "blockAccount": "Bloquear cuenta",
+  "alreadyBlocked": "Ya bloqueado",
+  "ownerActions": "Opciones de cuenta",
+  "blockConfirmTitle": "¿Bloquear a {{name}}?",
+  "blockConfirmDescription": "¿Está seguro de que desea bloquear esta cuenta? Se ocultará de su vista en toda la aplicación.",
+  "blockConfirmAction": "Bloquear",
+  "blockConfirmCancel": "Cancelar"
 }

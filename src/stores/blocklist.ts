@@ -62,8 +62,7 @@ function addBlockedUser(chain: string, user: UserBlock) {
   if (users.find((u) => u.id === user.id)) {
     return;
   }
-  users.push(user);
-  $userBlockList.set({ ...$userBlockList.get(), [chain]: users });
+  $userBlockList.set({ ...$userBlockList.get(), [chain]: [...users, user] });
 }
 
 function removeBlockedUser(chain: string, user: UserBlock) {
@@ -72,8 +71,7 @@ function removeBlockedUser(chain: string, user: UserBlock) {
   if (index === -1) {
     return;
   }
-  users.splice(index, 1);
-  $userBlockList.set({ ...$userBlockList.get(), [chain]: users });
+  $userBlockList.set({ ...$userBlockList.get(), [chain]: users.toSpliced(index, 1) });
 }
 
 function updateBlockList(users: string[]) {

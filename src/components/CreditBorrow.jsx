@@ -45,6 +45,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 
 import { Avatar } from "./Avatar.tsx";
 
@@ -122,6 +132,17 @@ export default function CreditBorrow(properties) {
 
   const [allOffers, setAllOffers] = useState([]);
   const [showExpired, setShowExpired] = useState(false);
+  const [blockConfirmOpen, setBlockConfirmOpen] = useState(false);
+  const [blockTarget, setBlockTarget] = useState(null);
+  const [isDesktop, setIsDesktop] = useState(
+    typeof window !== "undefined" ? window.innerWidth >= 768 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     async function fetchCreditOffers() {
@@ -387,26 +408,26 @@ export default function CreditBorrow(properties) {
                             <Star className="h-4 w-4 mr-2" />
                           )}
                           {favouriteUsers.some((u) => u.id === res.owner_account)
-                            ? t("CreditBorrow:card.unfavouriteAccount")
-                            : t("CreditBorrow:card.favouriteAccount")}
+                            ? t("Blocklist:unfavouriteAccount")
+                            : t("Blocklist:favouriteAccount")}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => {
                             if (chainUserBlockList.some((u) => u.id === res.owner_account)) {
                               return;
                             }
-                            const chain = usr?.chain ?? "bitshares";
-                            addBlockedUser(chain, {
+                            setBlockTarget({
                               name: res.owner_name,
                               id: res.owner_account,
                             });
+                            setBlockConfirmOpen(true);
                           }}
                           disabled={chainUserBlockList.some((u) => u.id === res.owner_account)}
                         >
                           <Ban className="h-4 w-4 mr-2" />
                           {chainUserBlockList.some((u) => u.id === res.owner_account)
-                            ? t("CreditBorrow:card.alreadyBlocked")
-                            : t("CreditBorrow:card.blockAccount")}
+                            ? t("Blocklist:alreadyBlocked")
+                            : t("Blocklist:blockAccount")}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -421,15 +442,25 @@ export default function CreditBorrow(properties) {
 
             <div className="rounded-lg border border-border/60 bg-card/40 p-3 mb-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div>
-                  <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
-                    {t("CreditBorrow:common.offering")}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                      {t("CreditBorrow:common.offering")}
+                    </div>
+                    <div className="font-mono text-sm tabular-nums dark:text-emerald-100/90 text-emerald-700 font-semibold">
+                      {humanReadableFloat(res.current_balance, foundAsset.precision)} {foundAsset.symbol}
+                    </div>
                   </div>
-                  <div className="font-mono text-sm tabular-nums dark:text-emerald-100/90 text-emerald-700">
-                    {humanReadableFloat(res.current_balance, foundAsset.precision)} {foundAsset.symbol}
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                      {t("CreditBorrow:common.fee", { fee: "" })}
+                    </div>
+                    <div className="font-mono text-xs tabular-nums dark:text-emerald-100/90 text-emerald-700">
+                      {(res.fee_rate / 10000).toFixed(2)}%
+                    </div>
                   </div>
                 </div>
-                <div>
+                <div className="grid grid-cols-1">
                   <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
                     {t("CreditBorrow:common.accepting")}
                   </div>
@@ -439,27 +470,31 @@ export default function CreditBorrow(properties) {
                           .map((asset) => asset[0])
                           .map((x) => assets.find((y) => y.id === x)?.symbol)
                           .filter((x) => x)
-                          .map((x, index, array) => (
-                            <span key={`${x}-${index}`}>
-                              {x}
-                              {index < array.length - 1 && ", "}
-                            </span>
-                          ))
+                          .map((x, index, array) => {
+                            const assetForSymbol = assets.find((y) => y.symbol === x);
+                            const hasBalance = assetForSymbol && balanceAssetIDs && balanceAssetIDs.includes(assetForSymbol.id);
+                            return (
+                              <>
+                                <span
+                                  key={`${x}-${index}`}
+                                  className={cn(
+                                    "inline",
+                                    hasBalance ? "font-semibold text-foreground" : "text-muted-foreground/60"
+                                  )}
+                                >
+                                  {x}
+                                </span>
+                                {index < array.length - 1 ? ", " : ""}
+                              </>
+                            );
+                          })
                       : t("CreditBorrow:common.loading")}
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
-              <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
-                <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
-                  {t("CreditBorrow:common.fee", { fee: "" })}
-                </div>
-                <div className="font-mono text-xs tabular-nums dark:text-emerald-100/90 text-emerald-700">
-                  {(res.fee_rate / 10000).toFixed(2)}%
-                </div>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
               <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
                 <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
                   {t("CreditBorrow:common.repayPeriod", { repayPeriod: "" })}
@@ -681,23 +716,13 @@ export default function CreditBorrow(properties) {
                     </span>
                   </div>
                   {assets && offers && offers.length ? (
-                    <div className="w-full max-h-[500px] overflow-auto">
-                      <span className="hidden md:block">
-                        <List
-                          rowComponent={OfferRow}
-                          rowCount={offers.length}
-                          rowHeight={330}
-                          rowProps={{}}
-                        />
-                      </span>
-                      <span className="block md:hidden">
-                        <List
-                          rowComponent={OfferRow}
-                          rowCount={offers.length}
-                          rowHeight={380}
-                          rowProps={{}}
-                        />
-                      </span>
+                    <div className="w-full">
+                      <List
+                        rowComponent={OfferRow}
+                        rowCount={offers.length}
+                        rowHeight={isDesktop ? 330 : 380}
+                        rowProps={{}}
+                      />
                     </div>
                   ) : null}
                 </div>
@@ -716,23 +741,13 @@ export default function CreditBorrow(properties) {
                     </span>
                   </div>
                   {assets && compatibleOffers && compatibleOffers.length ? (
-                    <div className="w-full max-h-[500px] overflow-auto">
-                      <span className="hidden md:block">
-                        <List
-                          rowComponent={BalanceRow}
-                          rowCount={compatibleOffers.length}
-                          rowHeight={330}
-                          rowProps={{}}
-                        />
-                      </span>
-                      <span className="block md:hidden">
-                        <List
-                          rowComponent={BalanceRow}
-                          rowCount={compatibleOffers.length}
-                          rowHeight={380}
-                          rowProps={{}}
-                        />
-                      </span>
+                    <div className="w-full">
+                      <List
+                        rowComponent={BalanceRow}
+                        rowCount={compatibleOffers.length}
+                        rowHeight={isDesktop ? 330 : 380}
+                        rowProps={{}}
+                      />
                     </div>
                   ) : (
                     <div className="text-center py-8 text-muted-foreground text-sm">
@@ -802,23 +817,13 @@ export default function CreditBorrow(properties) {
                   {["borrow", "collateral", "owner_name"].includes(activeSearch) && (
                     <>
                       {thisResult && thisResult.length ? (
-                        <div className="w-full max-h-[500px] overflow-auto">
-                          <span className="hidden md:block">
-                            <List
-                              rowComponent={SearchRow}
-                              rowCount={thisResult.length}
-                              rowHeight={330}
-                              rowProps={{}}
-                            />
-                          </span>
-                          <span className="block md:hidden">
-                            <List
-                              rowComponent={SearchRow}
-                              rowCount={thisResult.length}
-                              rowHeight={380}
-                              rowProps={{}}
-                            />
-                          </span>
+                        <div className="w-full">
+                          <List
+                            rowComponent={SearchRow}
+                            rowCount={thisResult.length}
+                            rowHeight={isDesktop ? 330 : 380}
+                            rowProps={{}}
+                          />
                         </div>
                       ) : null}
                       {thisInput && thisResult && !thisResult.length ? (
@@ -841,6 +846,35 @@ export default function CreditBorrow(properties) {
           )}
         </div>
       </Card>
+
+      <AlertDialog open={blockConfirmOpen} onOpenChange={setBlockConfirmOpen}>
+        <AlertDialogContent className="bg-card">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {t("Blocklist:blockConfirmTitle", { name: blockTarget?.name ?? "" })}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("Blocklist:blockConfirmDescription")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("Blocklist:blockConfirmCancel")}</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-rose-600 hover:bg-rose-500 text-white"
+              onClick={() => {
+                if (blockTarget) {
+                  const chain = usr?.chain ?? "bitshares";
+                  addBlockedUser(chain, blockTarget);
+                }
+                setBlockTarget(null);
+                setBlockConfirmOpen(false);
+              }}
+            >
+              {t("Blocklist:blockConfirmAction")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

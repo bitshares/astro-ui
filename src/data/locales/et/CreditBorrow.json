@@ -35,7 +35,6 @@
     "noResults": "Tulemusi ei leitud",
     "loading": "Pakkumiste laadimine...",
     "hideExpired": "Peida aegunud pakkumised",
-    "showExpired": "Kuva aegunud pakkumised",
-    "alreadyBlocked": "Juba blokeeritud"
+    "showExpired": "Kuva aegunud pakkumised"
   }
 }

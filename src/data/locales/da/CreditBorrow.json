@@ -35,7 +35,6 @@
     "noResults": "Ingen resultater fundet",
     "loading": "Indlæser tilbud...",
     "hideExpired": "Skjul udløbne tilbud",
-    "showExpired": "Vis udløbne tilbud",
-    "alreadyBlocked": "Allerede blokeret"
+    "showExpired": "Vis udløbne tilbud"
   }
 }

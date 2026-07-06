@@ -8,5 +8,14 @@
   "addUserDialogDescription": "Otsige kontot, et lisada oma isiklikku blokeerimisnimekirja. Blokeeritud kontod peidetakse kogu vaates.",
   "usersEmptyTitle": "Blokeeritud kontod puuduvad",
   "usersEmptyDescription": "Te pole veel ühtegi kontot blokeerinud. Blokeerige kontod, et neid vaatest peita.",
-  "remove": "Eemalda mustast nimekirjast"
+  "remove": "Eemalda mustast nimekirjast",
+  "favouriteAccount": "Lemmikkonto",
+  "unfavouriteAccount": "Eemalda lemmikutest",
+  "blockAccount": "Blokeeri konto",
+  "alreadyBlocked": "Juba blokeeritud",
+  "ownerActions": "Konto valikud",
+  "blockConfirmTitle": "Blokeeri {{name}}?",
+  "blockConfirmDescription": "Kas olete kindel, et soovite selle konto blokeerida? See peidetakse kogu rakenduse vaates.",
+  "blockConfirmAction": "Blokeeri",
+  "blockConfirmCancel": "Tühista"
 }

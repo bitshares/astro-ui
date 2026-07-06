@@ -35,7 +35,6 @@
     "noResults": "Aucun résultat trouvé",
     "loading": "Chargement des offres...",
     "hideExpired": "Masquer les offres expirées",
-    "showExpired": "Afficher les offres expirées",
-    "alreadyBlocked": "Déjà bloqué"
+    "showExpired": "Afficher les offres expirées"
   }
 }

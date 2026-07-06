@@ -8,5 +8,14 @@
   "addUserDialogDescription": "ค้นหาบัญชีเพื่อเพิ่มในรายการบล็อกส่วนตัวของคุณ บัญชีที่ถูกบล็อกจะซ่อนจากการแสดงผลทั้งหมด",
   "usersEmptyTitle": "ไม่มีบัญชีที่ถูกบล็อก",
   "usersEmptyDescription": "คุณยังไม่ได้บล็อกบัญชีใดๆ บล็อกบัญชีเพื่อซ่อนจากการแสดงผล",
-  "remove": "ลบออกจากรายการบัญชีดำ"
+  "remove": "ลบออกจากรายการบัญชีดำ",
+  "favouriteAccount": "บัญชีโปรด",
+  "unfavouriteAccount": "ลบออกจากรายการโปรด",
+  "blockAccount": "บล็อกบัญชี",
+  "alreadyBlocked": "บล็อกแล้ว",
+  "ownerActions": "ตัวเลือกบัญชี",
+  "blockConfirmTitle": "บล็อก {{name}}?",
+  "blockConfirmDescription": "คุณแน่ใจหรือไม่ว่าต้องการบล็อกบัญชีนี้ บัญชีนี้จะถูกซ่อนจากการแสดงผลทั่วทั้งแอปพลิเคชัน",
+  "blockConfirmAction": "บล็อก",
+  "blockConfirmCancel": "ยกเลิก"
 }

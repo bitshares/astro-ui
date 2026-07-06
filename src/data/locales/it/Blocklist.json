@@ -8,5 +8,14 @@
   "addUserDialogDescription": "Cerca un account da aggiungere alla tua lista di blocco personale. Gli account bloccati saranno nascosti in tutta la tua visualizzazione.",
   "usersEmptyTitle": "Nessun account bloccato",
   "usersEmptyDescription": "Non hai ancora bloccato nessun account. Blocca account per nasconderli dalla tua visualizzazione.",
-  "remove": "Rimuovi dalla lista nera"
+  "remove": "Rimuovi dalla lista nera",
+  "favouriteAccount": "Account preferito",
+  "unfavouriteAccount": "Rimuovi dai preferiti",
+  "blockAccount": "Blocca account",
+  "alreadyBlocked": "Già bloccato",
+  "ownerActions": "Opzioni account",
+  "blockConfirmTitle": "Bloccare {{name}}?",
+  "blockConfirmDescription": "Sei sicuro di voler bloccare questo account? Sarà nascosto dalla tua visualizzazione in tutta l'applicazione.",
+  "blockConfirmAction": "Blocca",
+  "blockConfirmCancel": "Annulla"
 }

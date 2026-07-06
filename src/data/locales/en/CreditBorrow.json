@@ -35,11 +35,6 @@
     "noResults": "No results found",
     "loading": "Loading offers...",
     "hideExpired": "Hide expired offers",
-    "showExpired": "Show expired offers",
-    "favouriteAccount": "Favourite account",
-    "unfavouriteAccount": "Remove from favourites",
-    "blockAccount": "Block account",
-    "alreadyBlocked": "Already blocked",
-    "ownerActions": "Account options"
+    "showExpired": "Show expired offers"
   }
 }

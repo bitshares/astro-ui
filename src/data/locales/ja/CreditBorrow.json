@@ -35,7 +35,6 @@
     "noResults": "結果が見つかりませんでした",
     "loading": "オファーを読み込んでいます...",
     "hideExpired": "期限切れのオファーを非表示",
-    "showExpired": "期限切れのオファーを表示",
-    "alreadyBlocked": "ブロック済み"
+    "showExpired": "期限切れのオファーを表示"
   }
 }

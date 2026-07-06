@@ -8,5 +8,14 @@
   "addUserDialogDescription": "Søg efter en konto for at tilføje til din personlige udelukkelsesliste. Blokerede konti vil være skjulte i din visning.",
   "usersEmptyTitle": "Ingen blokerede konti",
   "usersEmptyDescription": "Du har ikke blokeret nogen konti endnu. Bloker konti for at skjule dem fra din visning.",
-  "remove": "Fjern fra udelukkelsesliste"
+  "remove": "Fjern fra udelukkelsesliste",
+  "favouriteAccount": "Favoritkonto",
+  "unfavouriteAccount": "Fjern fra favoritter",
+  "blockAccount": "Bloker konto",
+  "alreadyBlocked": "Allerede blokeret",
+  "ownerActions": "Kontoindstillinger",
+  "blockConfirmTitle": "Bloker {{name}}?",
+  "blockConfirmDescription": "Er du sikker på, at du vil blokere denne konto? De vil blive skjult fra din visning i hele applikationen.",
+  "blockConfirmAction": "Bloker",
+  "blockConfirmCancel": "Annuller"
 }

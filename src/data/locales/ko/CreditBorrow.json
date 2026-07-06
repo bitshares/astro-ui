@@ -35,7 +35,6 @@
     "noResults": "검색결과가 없습니다",
     "loading": "쿠폰 로드 중...",
     "hideExpired": "만료된 제안 숨기기",
-    "showExpired": "만료된 제안 표시",
-    "alreadyBlocked": "이미 차단됨"
+    "showExpired": "만료된 제안 표시"
   }
 }

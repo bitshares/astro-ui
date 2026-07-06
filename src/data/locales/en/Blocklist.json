@@ -8,5 +8,14 @@
   "addUserDialogDescription": "Search for an account to add to your personal blocklist. Blocked accounts will be hidden from your view across the application.",
   "usersEmptyTitle": "No blocked accounts",
   "usersEmptyDescription": "You haven't blocked any accounts yet. Block accounts to hide them from your view.",
-  "remove": "Remove from blocklist"
+  "remove": "Remove from blocklist",
+  "favouriteAccount": "Favourite account",
+  "unfavouriteAccount": "Remove from favourites",
+  "blockAccount": "Block account",
+  "alreadyBlocked": "Already blocked",
+  "ownerActions": "Account options",
+  "blockConfirmTitle": "Block {{name}}?",
+  "blockConfirmDescription": "Are you sure you want to block this account? They will be hidden from your view across the application.",
+  "blockConfirmAction": "Block",
+  "blockConfirmCancel": "Cancel"
 }
