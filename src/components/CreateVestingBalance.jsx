@@ -45,6 +45,8 @@ import HoverInfo from "@/components/common/HoverInfo.tsx";
 import AssetDropDown from "@/components/Market/AssetDropDownCard.jsx";
 import { humanReadableFloat, blockchainFloat } from "@/lib/common.js";
 
+import { PiggyBank, User, Coins, Calendar, Clock, Shield, Timer, ArrowRight, Info, Zap } from "lucide-react";
+
 export default function CreateVestingBalance(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
@@ -166,42 +168,64 @@ export default function CreateVestingBalance(properties) {
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-1/2">
       <div className="grid grid-cols-1 gap-3">
-        <Card>
-          <CardHeader className="pb-1">
-            <CardTitle>{t("CreateVestingBalance:card.title")}</CardTitle>
+        <Card className="relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500" />
+          <div className="absolute top-8 left-8 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-8 right-8 w-40 h-40 bg-green-500/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <CardHeader className="pb-1 relative z-10">
+            <CardTitle className="flex items-center gap-3 text-xl">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-green-600 shadow-lg shadow-emerald-500/30">
+                <PiggyBank className="w-5 h-5 text-white" />
+              </div>
+              {t("CreateVestingBalance:card.title")}
+            </CardTitle>
             <CardDescription>
               {t("CreateVestingBalance:card.description")}
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 gap-3">
-              <div className="grid grid-cols-2 gap-2 mt-1 mb-2">
-                <span className="col-span-2">
-                  <HoverInfo
-                    header={t("CreateVestingBalance:policy")}
-                    content={t("CreateVestingBalance:policyDescription")}
-                    type="header"
-                  />
-                </span>
-                <Button
-                  onClick={() => setPolicy("ccd")}
-                  variant={policy === "ccd" ? "" : "outline"}
-                  size="md"
-                >
-                  {t("CreateVestingBalance:ccd")}
-                </Button>
-                <Button
-                  onClick={() => setPolicy("lvc")}
-                  variant={policy === "lvc" ? "" : "outline"}
-                  size="md"
-                >
-                  {t("CreateVestingBalance:lvc")}
-                </Button>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <CardContent className="relative z-10">
+              <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-2 gap-2 mt-1 mb-2">
+                  <span className="col-span-2">
+                    <HoverInfo
+                      header={t("CreateVestingBalance:policy")}
+                      content={t("CreateVestingBalance:policyDescription")}
+                      type="header"
+                    />
+                  </span>
+                  <Button
+                    onClick={() => setPolicy("ccd")}
+                    variant={policy === "ccd" ? "" : "outline"}
+                    size="md"
+                    className={policy === "ccd" 
+                      ? "bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white shadow-lg shadow-emerald-500/30" 
+                      : "border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-500 transition-colors"}
+                  >
+                    <Coins className="w-4 h-4 mr-2" />
+                    {t("CreateVestingBalance:ccd")}
+                  </Button>
+                  <Button
+                    onClick={() => setPolicy("lvc")}
+                    variant={policy === "lvc" ? "" : "outline"}
+                    size="md"
+                    className={policy === "lvc" 
+                      ? "bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white shadow-lg shadow-green-500/30" 
+                      : "border-green-500/30 hover:bg-green-500/10 hover:text-green-500 transition-colors"}
+                  >
+                    <Timer className="w-4 h-4 mr-2" />
+                    {t("CreateVestingBalance:lvc")}
+                  </Button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <span className="col-span-1">
                   <HoverInfo
-                    header={t("CreateVestingBalance:target")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-emerald-500" />
+                        {t("CreateVestingBalance:target")}
+                      </span>
+                    }
                     content={t("CreateVestingBalance:targetDescription")}
                     type="header"
                   />
@@ -215,13 +239,19 @@ export default function CreateVestingBalance(properties) {
                       }}
                     >
                       <DialogTrigger asChild>
-                        <Button variant="outline" className="hover:shadow-lg">
+                        <Button variant="outline" className="hover:shadow-lg border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-500 transition-colors">
                           {t("CreateVestingBalance:selectAccount")}
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[375px] bg-card">
+                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 rounded-t-lg" />
+                        <div className="absolute top-8 left-8 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+                        <div className="absolute bottom-8 right-8 w-40 h-40 bg-green-500/10 rounded-full blur-3xl pointer-events-none" />
                         <DialogHeader>
-                          <DialogTitle>
+                          <DialogTitle className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-green-600 shadow-lg shadow-emerald-500/30">
+                              <User className="w-4 h-4 text-white" />
+                            </div>
                             {!usr || !usr.chain
                               ? t("Transfer:bitsharesAccountSearch")
                               : null}
@@ -241,7 +271,6 @@ export default function CreateVestingBalance(properties) {
                           excludedUsers={[]}
                           setChosenAccount={(_account) => {
                             if (_account) {
-                              //console.log({ _account, usr });
                               setTargetUser(_account);
                             }
                             setTargetUserDialogOpen(false);
@@ -254,7 +283,7 @@ export default function CreateVestingBalance(properties) {
                         setTargetUser({ id: usr.id, name: usr.username });
                       }}
                       variant="outline"
-                      className="hover:shadow-lg"
+                      className="hover:shadow-lg border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-500 transition-colors"
                     >
                       {t("CreateVestingBalance:myAccount")}
                     </Button>
@@ -268,13 +297,19 @@ export default function CreateVestingBalance(properties) {
                         ? `${targetUser.name} (${targetUser.id})`
                         : "??? (1.2.x)"
                     }
+                    className="bg-emerald-500/5 border-emerald-500/20"
                   />
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-2 mt-1">
                 <span className="col-span-1">
                   <HoverInfo
-                    header={t("CreateVestingBalance:asset")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Coins className="w-4 h-4 text-green-500" />
+                        {t("CreateVestingBalance:asset")}
+                      </span>
+                    }
                     content={t("CreateVestingBalance:assetDescription")}
                     type="header"
                   />
@@ -298,13 +333,19 @@ export default function CreateVestingBalance(properties) {
                       assetData ? `${assetData.symbol} (${assetData.id})` : ""
                     }
                     disabled
+                    className="bg-green-500/5 border-green-500/20"
                   />
                 </span>
               </div>
               <div className="grid grid-cols-2 mt-1">
                 <span className="col-span-1">
                   <HoverInfo
-                    header={t("CreateVestingBalance:amount")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <ArrowRight className="w-4 h-4 text-teal-500" />
+                        {t("CreateVestingBalance:amount")}
+                      </span>
+                    }
                     content={t("CreateVestingBalance:amountDescription")}
                     type="header"
                   />
@@ -317,7 +358,7 @@ export default function CreateVestingBalance(properties) {
                 </span>
                 <span className="col-span-1 text-right">
                   <Button
-                    className="mt-2 ml-1 hover:shadow-md"
+                    className="mt-2 ml-1 hover:shadow-md border-teal-500/30 hover:bg-teal-500/10 hover:text-teal-500 transition-colors"
                     onClick={() => {
                       setAmount(chosenAssetBalance);
                     }}
@@ -331,14 +372,19 @@ export default function CreateVestingBalance(properties) {
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="mt-2"
+                    className="mt-2 bg-teal-500/5 border-teal-500/20"
                   />
                 </span>
               </div>
               {policy === "ccd" ? (
-                <div className="grid grid-cols-1 mt-1">
+                <div className="grid grid-cols-1 mt-1 p-4 bg-gradient-to-r from-emerald-500/10 to-green-500/10 border border-emerald-500/20 rounded-lg">
                   <HoverInfo
-                    header={t("CreateVestingBalance:startClaim")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-emerald-500" />
+                        {t("CreateVestingBalance:startClaim")}
+                      </span>
+                    }
                     content={t("CreateVestingBalance:startClaimDescription")}
                     type="header"
                   />
@@ -362,7 +408,12 @@ export default function CreateVestingBalance(properties) {
                     />
                   </div>
                   <HoverInfo
-                    header={t("CreateVestingBalance:vestingSeconds")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-green-500" />
+                        {t("CreateVestingBalance:vestingSeconds")}
+                      </span>
+                    }
                     content={t(
                       "CreateVestingBalance:vestingSecondsDescription"
                     )}
@@ -372,14 +423,19 @@ export default function CreateVestingBalance(properties) {
                     type="number"
                     value={vestingSeconds}
                     onChange={(e) => setVestingSeconds(e.target.value)}
-                    className="w-1/2 mt-2"
+                    className="w-1/2 mt-2 bg-emerald-500/5 border-emerald-500/20"
                   />
                 </div>
               ) : null}
               {policy === "lvc" ? (
-                <div className="grid grid-cols-1 mt-1">
+                <div className="grid grid-cols-1 mt-1 p-4 bg-gradient-to-r from-green-500/10 to-teal-500/10 border border-green-500/20 rounded-lg">
                   <HoverInfo
-                    header={t("CreateVestingBalance:beginTime")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-green-500" />
+                        {t("CreateVestingBalance:beginTime")}
+                      </span>
+                    }
                     content={t("CreateVestingBalance:beginTimeDescription")}
                     type="header"
                   />
@@ -403,7 +459,12 @@ export default function CreateVestingBalance(properties) {
                     />
                   </div>
                   <HoverInfo
-                    header={t("CreateVestingBalance:vestingCliffSeconds")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Shield className="w-4 h-4 text-teal-500" />
+                        {t("CreateVestingBalance:vestingCliffSeconds")}
+                      </span>
+                    }
                     content={t(
                       "CreateVestingBalance:vestingCliffSecondsDescription"
                     )}
@@ -413,10 +474,15 @@ export default function CreateVestingBalance(properties) {
                     type="number"
                     value={vestingCliffSeconds}
                     onChange={(e) => setVestingCliffSeconds(e.target.value)}
-                    className="w-1/2 mt-2 mb-1"
+                    className="w-1/2 mt-2 mb-1 bg-green-500/5 border-green-500/20"
                   />
                   <HoverInfo
-                    header={t("CreateVestingBalance:vestingDurationSeconds")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Timer className="w-4 h-4 text-emerald-500" />
+                        {t("CreateVestingBalance:vestingDurationSeconds")}
+                      </span>
+                    }
                     content={t(
                       "CreateVestingBalance:vestingDurationSecondsDescription"
                     )}
@@ -426,12 +492,12 @@ export default function CreateVestingBalance(properties) {
                     type="number"
                     value={vestingDurationSeconds}
                     onChange={(e) => setVestingDurationSeconds(e.target.value)}
-                    className="w-1/2 mt-2"
+                    className="w-1/2 mt-2 bg-emerald-500/5 border-emerald-500/20"
                   />
                 </div>
               ) : null}
               <Button
-                className="h-8 mt-4"
+                className="h-10 mt-4 w-full bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 hover:from-emerald-600 hover:via-green-600 hover:to-teal-600 text-white shadow-lg shadow-emerald-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/40 hover:-translate-y-0.5"
                 onClick={() => {
                   setShowDialog(true);
                 }}
