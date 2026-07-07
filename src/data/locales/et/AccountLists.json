@@ -15,5 +15,13 @@
   "addToWhitelist": "Lisa valgesse nimekirja",
   "addToBlacklist": "Lisa musta nimekirja",
   "addAccountToList": "Lisa konto loendisse",
-  "removeAccountFromList": "Selle konto eemaldamine loendist."
+  "removeAccountFromList": "Selle konto eemaldamine loendist.",
+  "viewingWhitelist": "Valge nimekiri kuvamisel",
+  "viewingBlacklist": "Must nimekiri kuvamisel",
+  "whitelistedCount": "{{count}} lubatud",
+  "blacklistedCount": "{{count}} mustas nimekirjas",
+  "selectTargetHint": "Valige konto, mida oma loendisse lisada",
+  "accountName": "Konto nimi",
+  "whitelistIcon": "Valge nimekiri",
+  "blacklistIcon": "Must nimekiri"
 }

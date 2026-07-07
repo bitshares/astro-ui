@@ -8,5 +8,11 @@
   "benefit3": "Nu i stand til at generere premium kontonavne.",
   "wantToPurchase": "Vil du købe et livstidsmedlemskab til din konto?",
   "purchaseButton": "Køb LTM",
-  "headerText": "Køb et livstidsmedlemskab for {{username}}"
+  "headerText": "Køb et livstidsmedlemskab for {{username}}",
+  "memberBadge": "LTM aktiv",
+  "exclusiveBenefits": "Eksklusive fordele",
+  "feeRebate": "Gebyrrabat",
+  "referralEarnings": "Henvisningsindtægter",
+  "premiumNames": "Premium-navne",
+  "readyToUpgrade": "Klar til at opgradere?"
 }

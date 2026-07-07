@@ -8,5 +8,11 @@
   "benefit3": "이제 프리미엄 계정 이름을 생성할 수 있습니다.",
   "wantToPurchase": "귀하의 계정에 대한 평생 멤버십을 구매하고 싶으십니까?",
   "purchaseButton": "장기 구매",
-  "headerText": "평생회원권 구매시 {{username}}"
+  "headerText": "평생회원권 구매시 {{username}}",
+  "memberBadge": "LTM 활성",
+  "exclusiveBenefits": "독점 혜택",
+  "feeRebate": "수수료 리베이트",
+  "referralEarnings": "추천 수익",
+  "premiumNames": "프리미엄 이름",
+  "readyToUpgrade": "업그레이드할 준비가 되셨나요?"
 }

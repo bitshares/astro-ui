@@ -8,5 +8,11 @@
   "benefit3": "Ora in grado di generare nomi di account premium.",
   "wantToPurchase": "Vuoi acquistare un abbonamento a vita per il tuo account?",
   "purchaseButton": "Acquista LTM",
-  "headerText": "Acquistare un abbonamento a vita per {{username}}"
+  "headerText": "Acquistare un abbonamento a vita per {{username}}",
+  "memberBadge": "LTM attivo",
+  "exclusiveBenefits": "Vantaggi esclusivi",
+  "feeRebate": "Rimborso commissioni",
+  "referralEarnings": "Guadagni da referral",
+  "premiumNames": "Nomi premium",
+  "readyToUpgrade": "Pronto per l'upgrade?"
 }

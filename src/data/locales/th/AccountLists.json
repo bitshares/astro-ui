@@ -15,5 +15,13 @@
   "addToWhitelist": "เพิ่มลงในไวท์ลิสต์",
   "addToBlacklist": "เพิ่มเข้าแบล็คลิสต์",
   "addAccountToList": "เพิ่มบัญชีลงในรายการ",
-  "removeAccountFromList": "กำลังลบบัญชีนี้ออกจากรายการนี้"
+  "removeAccountFromList": "กำลังลบบัญชีนี้ออกจากรายการนี้",
+  "viewingWhitelist": "กำลังดูไวท์ลิสต์",
+  "viewingBlacklist": "กำลังดูบัญชีดำ",
+  "whitelistedCount": "{{count}} รายการในไวท์ลิสต์",
+  "blacklistedCount": "{{count}} รายการในบัญชีดำ",
+  "selectTargetHint": "เลือกบัญชีที่ต้องการเพิ่มในรายการของคุณ",
+  "accountName": "ชื่อบัญชี",
+  "whitelistIcon": "ไวท์ลิสต์",
+  "blacklistIcon": "บัญชีดำ"
 }

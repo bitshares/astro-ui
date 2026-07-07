@@ -1,12 +1,18 @@
 {
   "cardTitle": "Adhésion LTM",
   "cardDescription": "Achetez un abonnement à vie",
-  "alreadyMember": "Ce compte a déjà acheté un abonnement à vie !",
-  "benefitsTitle": "Avantages de votre adhésion active à vie :",
-  "benefit1": "Recevez une remise de 80 % sur tous les frais de votre solde d'acquisition.",
+  "alreadyMember": "Ce compte a déjà acheté un abonnement à vie !",
+  "benefitsTitle": "Avantages de votre adhésion active à vie :",
+  "benefit1": "Recevez une remise de 80 % sur tous les frais de votre solde d'acquisition.",
   "benefit2": "Gagnez passivement une part des frais dépensés par vos utilisateurs référés.",
   "benefit3": "Désormais capable de générer des noms de comptes premium.",
-  "wantToPurchase": "Vous souhaitez acheter un abonnement à vie pour votre compte ?",
+  "wantToPurchase": "Vous souhaitez acheter un abonnement à vie pour votre compte ?",
   "purchaseButton": "Acheter un LTM",
-  "headerText": "Acheter un abonnement à vie pour {{username}}"
+  "headerText": "Acheter un abonnement à vie pour {{username}}",
+  "memberBadge": "LTM actif",
+  "exclusiveBenefits": "Avantages exclusifs",
+  "feeRebate": "Remise sur les frais",
+  "referralEarnings": "Gains de parrainage",
+  "premiumNames": "Noms premium",
+  "readyToUpgrade": "Prêt à passer au supérieur ?"
 }

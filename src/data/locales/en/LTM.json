@@ -1,12 +1,18 @@
 {
-  "cardTitle": "LTM membership",
-  "cardDescription": "Purchase a lifetime membership",
-  "alreadyMember": "This account already has purchased a lifetime membership!",
-  "benefitsTitle": "Your active lifetime membership benefits:",
+  "cardTitle": "Lifetime Membership",
+  "cardDescription": "Buy a lifetime membership for exclusive benefits",
+  "alreadyMember": "You're a Lifetime Member!",
+  "benefitsTitle": "Your active benefits",
   "benefit1": "Receive an 80% rebate on all fees into your vesting balance.",
   "benefit2": "Passively earn a share of fees spent by your referred users.",
   "benefit3": "Now able to generate premium account names.",
-  "wantToPurchase": "Want to purchase a lifetime membership for your account?",
+  "wantToPurchase": "Upgrade your account to Lifetime Membership and unlock exclusive perks.",
   "purchaseButton": "Purchase LTM",
-  "headerText": "Purchasing a lifetime membership for {{username}}"
+  "headerText": "Purchasing a lifetime membership for {{username}}",
+  "memberBadge": "LTM Active",
+  "exclusiveBenefits": "Exclusive Benefits",
+  "feeRebate": "Fee Rebate",
+  "referralEarnings": "Referral Earnings",
+  "premiumNames": "Premium Names",
+  "readyToUpgrade": "Ready to upgrade?"
 }

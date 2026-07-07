@@ -63,7 +63,7 @@ import { cn } from "@/lib/utils";
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 
-import { debounce } from "@/lib/common";
+import { debounce, assetAmountRegex } from "@/lib/common";
 
 import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
@@ -675,28 +675,19 @@ export default function Inventory(properties) {
     setFormPrices(newPrices);
   }
 
-  // Debounced enforcement: trim decimals to precision, clamp to max supply (human units)
+  // Debounced enforcement: clamp to max supply (human units)
   const debouncedPriceRowEnforce = useCallback(
-    debounce((rawInput, precision, maxSupply, updateCallback) => {
-      let p = precision;
+    debounce((rawInput, maxSupply, updateCallback) => {
       let ms = maxSupply;
-
-      if (p === undefined || p === null) return; // cannot enforce precision
 
       let value = String(rawInput ?? "").trim();
       if (!value) return;
 
-      // Trim decimal places (no rounding) according to precision
-      if (value.includes(".")) {
-        const [whole, frac] = value.split(".");
-        const trimmed = (frac || "").slice(0, Number(p) || 0);
-        value = (Number(p) || 0) > 0 ? `${whole}.${trimmed}` : whole;
-      }
-
       // Clamp against max supply (convert max_supply from base units to human units)
       let maxHuman;
       if (ms !== undefined && ms !== null) {
-        const divisor = Math.pow(10, Number(p) || 0);
+        const p = value.includes(".") ? (value.split(".")[1] || "").length : 0;
+        const divisor = Math.pow(10, p);
         const msNum = typeof ms === "string" ? Number(ms) : ms;
         if (Number.isFinite(msNum)) {
           maxHuman = msNum / divisor;
@@ -707,9 +698,10 @@ export default function Inventory(properties) {
       if (!Number.isFinite(num)) return;
       let finalVal = value;
       if (maxHuman !== undefined && num > maxHuman) {
+        const p = value.includes(".") ? (value.split(".")[1] || "").length : 0;
         finalVal =
-          (Number(p) || 0) > 0
-            ? maxHuman.toFixed(Number(p) || 0)
+          p > 0
+            ? maxHuman.toFixed(p)
             : String(Math.floor(maxHuman));
       }
 
@@ -811,11 +803,6 @@ export default function Inventory(properties) {
         : null;
     }, [selectedAsset, assets]);
 
-    const assetPrecision = useMemo(() => {
-      if (!chosenAssetData) return;
-      return chosenAssetData.precision;
-    }, [chosenAssetData]);
-
     const assetMaxSupply = useMemo(() => {
       if (!chosenAssetData) return;
       return chosenAssetData.max_supply;
@@ -849,15 +836,18 @@ export default function Inventory(properties) {
               <Input
                 placeholder={t("Inventory:placeholderPrice")}
                 value={inputPrice ?? ""}
+                inputMode="decimal"
                 onChange={(e) => {
-                  const val = e.target.value;
-                  setInputPrice(val);
-                  debouncedPriceRowEnforce(
-                    val,
-                    assetPrecision,
-                    assetMaxSupply,
-                    setInputPrice
-                  );
+                  const input = e.target.value;
+                  const regex = assetAmountRegex(chosenAssetData);
+                  if (regex.test(input)) {
+                    setInputPrice(input);
+                    debouncedPriceRowEnforce(
+                      input,
+                      assetMaxSupply,
+                      setInputPrice
+                    );
+                  }
                 }}
                 disabled={!selectedAsset}
               />
@@ -1072,7 +1062,17 @@ export default function Inventory(properties) {
           <div className="grid grid-cols-2 gap-2">
             <Input
               value={newItemType}
-              onChange={(e) => setNewItemType(e.target.value)}
+              onChange={(e) => {
+                const sanitized = e.target.value.replace(/[^a-zA-Z0-9 _-]/g, "");
+                setNewItemType(sanitized);
+              }}
+              onKeyDown={(e) => {
+                const allowed = /[a-zA-Z0-9 _-]/;
+                const ctrlKeys = ["Backspace","Delete","ArrowLeft","ArrowRight","Tab","Home","End"];
+                if (ctrlKeys.includes(e.key) || (e.ctrlKey || e.metaKey)) return;
+                if (!allowed.test(e.key)) e.preventDefault();
+              }}
+              maxLength={50}
               className="focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
             />
             <Button
@@ -1127,6 +1127,10 @@ export default function Inventory(properties) {
       }
       const removed = removeCategory(selected);
       if (removed) {
+        if (selected === value) {
+          const remaining = storedItemCategories.filter((c) => c !== selected);
+          setValue(remaining.length ? remaining[0] : "");
+        }
         setSelected("");
         setOpen(false);
       } else {

@@ -15,5 +15,13 @@
   "addToWhitelist": "Aggiungi alla lista bianca",
   "addToBlacklist": "Aggiungi alla lista nera",
   "addAccountToList": "Aggiungi account all'elenco",
-  "removeAccountFromList": "Rimozione di questo account da questo elenco."
+  "removeAccountFromList": "Rimozione di questo account da questo elenco.",
+  "viewingWhitelist": "Visualizzazione lista bianca",
+  "viewingBlacklist": "Visualizzazione lista nera",
+  "whitelistedCount": "{{count}} nella lista bianca",
+  "blacklistedCount": "{{count}} nella lista nera",
+  "selectTargetHint": "Scegli un account da aggiungere alla tua lista",
+  "accountName": "Nome account",
+  "whitelistIcon": "Lista bianca",
+  "blacklistIcon": "Lista nera"
 }

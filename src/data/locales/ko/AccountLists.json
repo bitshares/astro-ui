@@ -15,5 +15,13 @@
   "addToWhitelist": "화이트리스트에 추가",
   "addToBlacklist": "블랙리스트에 추가",
   "addAccountToList": "목록에 계정 추가",
-  "removeAccountFromList": "이 목록에서 이 계정을 제거합니다."
+  "removeAccountFromList": "이 목록에서 이 계정을 제거합니다.",
+  "viewingWhitelist": "화이트리스트 보기",
+  "viewingBlacklist": "블랙리스트 보기",
+  "whitelistedCount": "{{count}}개 화이트리스트됨",
+  "blacklistedCount": "{{count}}개 블랙리스트됨",
+  "selectTargetHint": "목록에 추가할 계정을 선택하세요",
+  "accountName": "계정 이름",
+  "whitelistIcon": "화이트리스트",
+  "blacklistIcon": "블랙리스트"
 }
