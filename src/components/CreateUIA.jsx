@@ -3,10 +3,9 @@ import React, {
   useEffect,
   useSyncExternalStore,
   useMemo,
-  useCallback,
 } from "react";
 import { useStore } from "@nanostores/react";
-import { List } from "react-window";
+
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
@@ -14,45 +13,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
-import { Label } from "@/components/ui/label";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 
 import HoverInfo from "@/components/common/HoverInfo.tsx";
-import AssetPermission from "@/components/common/AssetPermission.tsx";
-import AssetFlag from "@/components/common/AssetFlag.tsx";
 import DeepLinkDialog from "@/components/common/DeepLinkDialog.jsx";
-import ExternalLink from "@/components/common/ExternalLink.jsx";
 import AssetDropDown from "@/components/Market/AssetDropDownCard.jsx";
-
-import AccountSearch from "@/components/AccountSearch.jsx";
-import { Avatar } from "./Avatar.tsx";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $currentUser } from "@/stores/users.ts";
@@ -63,11 +36,21 @@ import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 import {
   getPermissions,
   getFlags,
-  debounce,
   humanReadableFloat,
   blockchainFloat,
   getFlagBooleans,
 } from "@/lib/common.js";
+
+import {
+  usePermissionFlagCascade,
+  useDescriptionSerializer,
+  useDebouncedFormInputs,
+  NFTSection,
+  PermissionsFlagsPanel,
+  ExtensionsSection,
+  AuthorityListsSection,
+  MarketFilteringSection,
+} from "@/components/asset-form/index.js";
 
 function getImages(nft_object) {
   if (!nft_object) return [];
@@ -198,35 +181,13 @@ export default function UIA(properties) {
   const [feeSharingWhitelist, setFeeSharingWhitelist] = useState([]); // whitelist_market_fee_sharing
   const [takerFee, setTakerFee] = useState(0); // taker_fee_percent
 
-  useEffect(() => {
-    if (!permWhiteList) {
-      setFlagWhiteList(false);
-    }
-  }, [permWhiteList]);
-
-  useEffect(() => {
-    if (!permTransferRestricted) {
-      setFlagTransferRestricted(false);
-    }
-  }, [permTransferRestricted]);
-
-  useEffect(() => {
-    if (!permDisableConfidential) {
-      setFlagDisableConfidential(false);
-    }
-  }, [permDisableConfidential]);
-
-  useEffect(() => {
-    if (!permChargeMarketFee) {
-      setFlagChargeMarketFee(false);
-    }
-  }, [permChargeMarketFee]);
-
-  useEffect(() => {
-    if (!permOverrideAuthority) {
-      setFlagOverrideAuthority(false);
-    }
-  }, [permOverrideAuthority]);
+  usePermissionFlagCascade([
+    { perm: permWhiteList, setFlag: setFlagWhiteList },
+    { perm: permTransferRestricted, setFlag: setFlagTransferRestricted },
+    { perm: permDisableConfidential, setFlag: setFlagDisableConfidential },
+    { perm: permChargeMarketFee, setFlag: setFlagChargeMarketFee },
+    { perm: permOverrideAuthority, setFlag: setFlagOverrideAuthority },
+  ]);
 
   const [showDialog, setShowDialog] = useState(false);
 
@@ -289,71 +250,24 @@ export default function UIA(properties) {
   const [newMediaType, setNewMediaType] = useState("");
   const [newMediaUrl, setNewMediaUrl] = useState("");
 
-  const description = useMemo(() => {
-    let _description = { main: desc, short_name: shortName, market };
-
-    if (enabledNFT) {
-      const nft_object = {
-        acknowledgements: acknowledgements,
-        artist: artist,
-        attestation: attestation,
-        encoding: "ipfs",
-        holder_license: holderLicense,
-        license: license,
-        narrative: narrative,
-        title: title,
-        tags: tags,
-        type: type,
-      };
-
-      nftMedia.forEach((image) => {
-        // Supports png, jpeg & gif, following the NFT spec
-        const imageType = image.type;
-        if (!nft_object[`media_${imageType}_multihash`]) {
-          // only the first image is used for the main image
-          nft_object[`media_${imageType}_multihash`] = image.url;
-        }
-
-        const sameTypeFiles = nftMedia.filter((img) => img.type === imageType);
-        if (sameTypeFiles && sameTypeFiles.length > 1) {
-          if (!nft_object[`media_${imageType}_multihashes`]) {
-            // initialise the ipfs multihashes array
-            nft_object[`media_${imageType}_multihashes`] = [
-              {
-                url: image.url,
-              },
-            ];
-          } else {
-            // add the image to the ipfs multihashes array
-            nft_object[`media_${imageType}_multihashes`].push({
-              url: image.url,
-            });
-          }
-        }
-      });
-
-      _description["nft_object"] = nft_object;
-    }
-
-    return JSON.stringify(_description);
-  }, [
-    // NFT dependencies
-    enabledNFT,
-    acknowledgements,
-    artist,
-    attestation,
-    holderLicense,
-    license,
-    narrative,
-    title,
-    tags,
-    type,
-    nftMedia,
-    // Asset dependencies
+  const description = useDescriptionSerializer({
     desc,
-    market,
     shortName,
-  ]);
+    market,
+    enabledNFT,
+    nftFields: {
+      acknowledgements,
+      artist,
+      attestation,
+      holderLicense,
+      license,
+      narrative,
+      title,
+      tags,
+      type,
+    },
+    nftMedia,
+  });
 
   const [editing, setEditing] = useState(false); // editing mode
   const [existingAssetID, setExistingAssetID] = useState(); // existing asset ID
@@ -452,93 +366,10 @@ export default function UIA(properties) {
     editing,
   ]);
 
-  const debouncedMax = useCallback(
-    debounce((input, setMaxCommissionFunction) => {
-      let parsedInput = parseFloat(input);
-      if (isNaN(parsedInput) || parsedInput <= 0 || commission <= 0) {
-        setMaxCommissionFunction(0);
-        return;
-      }
-
-      const maximum = maxSupply * (commission / 100);
-      if (parsedInput > maximum) {
-        setMaxCommissionFunction(maximum);
-      }
-    }, 500),
-    [commission, maxSupply]
-  );
-
-  const debouncedPercent = useCallback(
-    debounce((input, setCommissionFunction) => {
-      let parsedInput = parseFloat(input);
-      if (isNaN(parsedInput) || parsedInput <= 0) {
-        setCommissionFunction(0);
-        return;
-      }
-
-      const split = parsedInput.toString().split(".");
-      if (split.length > 1) {
-        const decimals = split[1].length;
-        if (decimals > 2) {
-          parsedInput = parseFloat(parsedInput.toFixed(2));
-        }
-      }
-
-      if (parsedInput > 100) {
-        setCommissionFunction(100);
-      } else if (parsedInput < 0.01) {
-        setCommissionFunction(0.01);
-      } else {
-        setCommissionFunction(parsedInput);
-      }
-    }, 500),
-    []
-  );
-
-  const MediaRow = ({ index, style }) => {
-    if (!nftMedia || !nftMedia.length || !nftMedia[index]) {
-      return;
-    }
-
-    let res = nftMedia[index];
-
-    return (
-      <div
-        style={{ ...style }}
-        key={`dialogrow-${index}`}
-        className="grid grid-cols-4"
-      >
-        <div className="col-span-1">{res.type}</div>
-        <div className="col-span-1">
-          <Dialog>
-            <DialogTrigger>
-              <Button className="h-5" variant="outline">
-                Full URL
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-card w-full max-w-4xl">
-              <DialogHeader>
-                <DialogTitle>Full IPFS URL</DialogTitle>
-              </DialogHeader>
-              <p>{res.url}</p>
-            </DialogContent>
-          </Dialog>
-        </div>
-        <div className="col-span-1">{res.url.split("/").pop()}</div>
-        <div className="col-span-1">
-          <Button
-            variant="outline"
-            className="w-5 h-5"
-            onClick={() => {
-              setNFTMedia(nftMedia.filter((x) => x.url !== res.url));
-            }}
-          >
-            ❌
-          </Button>
-        </div>
-      </div>
-    );
-  };
+  const { debouncedPercent, debouncedMax } = useDebouncedFormInputs({
+    commission,
+    maxSupply,
+  });
 
   const [
     whitelistMarketFeeSharingDialogOpen,
@@ -548,251 +379,6 @@ export default function UIA(properties) {
     useState(false);
   const [blacklistAuthorityDialogOpen, setBlacklistAuthorityDialogOpen] =
     useState(false);
-
-  const allowedMarketsRow = ({ index, style }) => {
-    let res = allowedMarkets[index];
-    if (!res) {
-      return null;
-    }
-
-    const currentAsset = assets.find((x) => x.id === res);
-    const issuer = marketSearch.find((x) => x.id === res);
-
-    return (
-      <div style={{ ...style }} key={`acard-${res}`}>
-        <Card className="ml-2 mr-2 mt-1">
-          <CardHeader className="pb-3 pt-3">
-            <span className="grid grid-cols-12">
-              <span className="col-span-11">
-                <div className="">
-                  {currentAsset
-                    ? `${currentAsset.symbol} (${currentAsset.id})`
-                    : res}
-                </div>
-                <div className="text-sm">
-                  {t("Smartcoins:createdBy")}{" "}
-                  {issuer && issuer.u ? issuer.u : currentAsset.issuer}
-                </div>
-              </span>
-              <span className="col-span-1">
-                <Button
-                  variant="outline"
-                  className="mr-2 mt-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const _update = allowedMarkets.filter((x) => x !== res);
-                    setAllowedMarkets(_update);
-                  }}
-                >
-                  ❌
-                </Button>
-              </span>
-            </span>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
-
-  const bannedMarketsRow = ({ index, style }) => {
-    let res = bannedMarkets[index];
-    if (!res) {
-      return null;
-    }
-
-    const currentAsset = assets.find((x) => x.id === res);
-    const issuer = marketSearch.find((x) => x.id === res);
-
-    return (
-      <div style={{ ...style }} key={`acard-${res}`}>
-        <Card className="ml-2 mr-2 mt-1">
-          <CardHeader className="pb-3 pt-3">
-            <span className="grid grid-cols-12">
-              <span className="col-span-11">
-                <div className="">
-                  {currentAsset
-                    ? `${currentAsset.symbol} (${currentAsset.id})`
-                    : res}
-                </div>
-                <div className="text-sm">
-                  {t("Smartcoins:createdBy")}{" "}
-                  {issuer && issuer.u ? issuer.u : currentAsset.issuer}
-                </div>
-              </span>
-              <span className="col-span-1">
-                <Button
-                  variant="outline"
-                  className="mr-2 mt-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const _update = bannedMarkets.filter((x) => x !== res);
-                    setBannedMarkets(_update);
-                  }}
-                >
-                  ❌
-                </Button>
-              </span>
-            </span>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
-
-  const feeSharingWhitelistRow = ({ index, style }) => {
-    let res = feeSharingWhitelist[index];
-    if (!res) {
-      return null;
-    }
-
-    return (
-      <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="ml-2 mr-2 mt-1">
-          <CardHeader className="pb-3 pt-3">
-            <span className="grid grid-cols-12">
-              <span className="col-span-1">
-                <Avatar
-                  size={40}
-                  name={res.name}
-                  extra="Borrower"
-                  expression={{ eye: "normal", mouth: "open" }}
-                  colors={[
-                    "#92A1C6",
-                    "#146A7C",
-                    "#F0AB3D",
-                    "#C271B4",
-                    "#C20D90",
-                  ]}
-                />
-              </span>
-              <span className="col-span-10 ml-3">
-                #{index + 1}: {res.name} ({res.id})
-              </span>
-              <span className="col-span-1">
-                <Button
-                  variant="outline"
-                  className="mr-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const _update = feeSharingWhitelist.filter(
-                      (x) => x.id !== res.id
-                    );
-                    setFeeSharingWhitelist(_update);
-                  }}
-                >
-                  ❌
-                </Button>
-              </span>
-            </span>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
-
-  const whitelistAuthorityRow = ({ index, style }) => {
-    let res = whitelistAuthorities[index];
-    if (!res) {
-      return null;
-    }
-
-    return (
-      <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="ml-2 mr-2 mt-1">
-          <CardHeader className="pb-3 pt-3">
-            <span className="grid grid-cols-12">
-              <span className="col-span-1">
-                <Avatar
-                  size={40}
-                  name={res.name}
-                  extra="Borrower"
-                  expression={{ eye: "normal", mouth: "open" }}
-                  colors={[
-                    "#92A1C6",
-                    "#146A7C",
-                    "#F0AB3D",
-                    "#C271B4",
-                    "#C20D90",
-                  ]}
-                />
-              </span>
-              <span className="col-span-10 ml-3">
-                #{index + 1}: {res.name} ({res.id})
-              </span>
-              <span className="col-span-1">
-                <Button
-                  variant="outline"
-                  className="mr-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const _update = whitelistAuthorities.filter(
-                      (x) => x.id !== res.id
-                    );
-                    setWhitelistAuthorities(_update);
-                  }}
-                >
-                  ❌
-                </Button>
-              </span>
-            </span>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
-
-  const blacklistAuthorityRow = ({ index, style }) => {
-    let res = blacklistAuthorities[index];
-    if (!res) {
-      return null;
-    }
-
-    return (
-      <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="ml-2 mr-2 mt-1">
-          <CardHeader className="pb-3 pt-3">
-            <span className="grid grid-cols-12">
-              <span className="col-span-1">
-                <Avatar
-                  size={40}
-                  name={res.name ? res.name : ""}
-                  extra="Borrower"
-                  expression={{ eye: "normal", mouth: "open" }}
-                  colors={[
-                    "#92A1C6",
-                    "#146A7C",
-                    "#F0AB3D",
-                    "#C271B4",
-                    "#C20D90",
-                  ]}
-                />
-              </span>
-              <span className="col-span-9 ml-3">
-                {res.name
-                  ? `#${index + 1}: ${res.name} (${res.id})`
-                  : `#${index + 1}: ${res.id}`}
-              </span>
-              <span className="col-span-1">
-                <Button
-                  variant="outline"
-                  className="mr-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const _update = blacklistAuthorities.filter(
-                      (x) => x.id !== res.id
-                    );
-                    setBlacklistAuthorities(_update);
-                  }}
-                >
-                  ❌
-                </Button>
-              </span>
-            </span>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
 
   const [permanentlyDisabledCMF, setPermanentlyDisabledCMF] = useState(false);
   const [permanentlyDisabledDC, setPermanentlyDisabledDC] = useState(false);
@@ -1249,1232 +835,106 @@ export default function UIA(properties) {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-5 mt-4">
-                    <AssetFlag
-                      alreadyDisabled={false}
-                      id={"allowed_markets"}
-                      allowedText={t(
-                        "AssetCommon:extensions.allowed_markets.enabled"
-                      )}
-                      enabledInfo={t(
-                        "AssetCommon:extensions.allowed_markets.enabledInfo"
-                      )}
-                      disabledText={t(
-                        "AssetCommon:extensions.allowed_markets.disabled"
-                      )}
-                      disabledInfo={t(
-                        "AssetCommon:extensions.allowed_markets.disabledInfo"
-                      )}
-                      permission={true}
-                      flag={allowedMarketsEnabled}
-                      setFlag={setAllowedMarketsEnabled}
-                    />
-                    {allowedMarketsEnabled ? (
-                      <AssetDropDown
-                        assetSymbol={""}
-                        assetData={null}
-                        storeCallback={(input) => {
-                          if (
-                            !allowedMarkets.includes(input) &&
-                            !bannedMarkets.includes(input)
-                          ) {
-                            const _foundAsset = assets.find(
-                              (x) => x.symbol === input
-                            );
-                            setAllowedMarkets([
-                              ...allowedMarkets,
-                              _foundAsset.id,
-                            ]);
-                          }
-                        }}
-                        otherAsset={null}
-                        marketSearch={marketSearch}
-                        type={"backing"}
-                        chain={usr && usr.chain ? usr.chain : "bitshares"}
-                        balances={balances}
-                      />
-                    ) : null}
-                  </div>
-                  {allowedMarketsEnabled ? (
-                    <div className="mt-3 border border-border rounded">
-                      <div className="w-full max-h-[210px] overflow-auto">
-                        <List
-                          rowComponent={allowedMarketsRow}
-                          rowCount={allowedMarkets.length}
-                          rowHeight={90}
-                          rowProps={{}}
-                        />
-                      </div>
-                    </div>
-                  ) : null}
-                  <div className="grid grid-cols-2 gap-5 mt-4">
-                    <AssetFlag
-                      alreadyDisabled={false}
-                      id={"banned_markets"}
-                      allowedText={t(
-                        "AssetCommon:extensions.banned_markets.enabled"
-                      )}
-                      enabledInfo={t(
-                        "AssetCommon:extensions.banned_markets.enabledInfo"
-                      )}
-                      disabledText={t(
-                        "AssetCommon:extensions.banned_markets.disabled"
-                      )}
-                      disabledInfo={t(
-                        "AssetCommon:extensions.banned_markets.disabledInfo"
-                      )}
-                      permission={true}
-                      flag={bannedMarketsEnabled}
-                      setFlag={setBannedMarketsEnabled}
-                    />
-                    {bannedMarketsEnabled ? (
-                      <AssetDropDown
-                        assetSymbol={""}
-                        assetData={null}
-                        storeCallback={(input) => {
-                          if (
-                            !bannedMarkets.includes(input) &&
-                            !allowedMarkets.includes(input)
-                          ) {
-                            const _foundAsset = assets.find(
-                              (x) => x.symbol === input
-                            );
-                            setBannedMarkets([
-                              ...bannedMarkets,
-                              _foundAsset.id,
-                            ]);
-                          }
-                        }}
-                        otherAsset={null}
-                        marketSearch={marketSearch}
-                        type={"backing"}
-                        chain={usr && usr.chain ? usr.chain : "bitshares"}
-                        balances={balances}
-                      />
-                    ) : null}
-                  </div>
-                  {bannedMarketsEnabled ? (
-                    <div className="mt-2 border border-border rounded">
-                      <div className="w-full max-h-[210px] overflow-auto">
-                        <List
-                          rowComponent={bannedMarketsRow}
-                          rowCount={bannedMarkets.length}
-                          rowHeight={90}
-                          rowProps={{}}
-                        />
-                      </div>
-                    </div>
-                  ) : null}
+                   <MarketFilteringSection
+                     allowedMarketsEnabled={allowedMarketsEnabled}
+                     setAllowedMarketsEnabled={setAllowedMarketsEnabled}
+                     allowedMarkets={allowedMarkets}
+                     setAllowedMarkets={setAllowedMarkets}
+                     bannedMarketsEnabled={bannedMarketsEnabled}
+                     setBannedMarketsEnabled={setBannedMarketsEnabled}
+                     bannedMarkets={bannedMarkets}
+                     setBannedMarkets={setBannedMarkets}
+                     assets={assets}
+                     marketSearch={marketSearch}
+                     usr={usr}
+                     balances={balances}
+                   />
                   <Separator className="my-4 mt-5" />
                 </div>
-                <div className="col-span-2">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div>
-                      <HoverInfo
-                        content={t("AssetCommon:permissions.header_content")}
-                        header={t("AssetCommon:permissions.header")}
-                        type="header"
-                      />
-                      <AssetPermission
-                        alreadyDisabled={permanentlyDisabledCMF}
-                        id={"charge_market_fee"}
-                        allowedText={t(
-                          "AssetCommon:permissions.charge_market_fee.about"
-                        )}
-                        enabledInfo={t(
-                          "AssetCommon:permissions.charge_market_fee.enabledInfo"
-                        )}
-                        disabledText={t(
-                          "AssetCommon:permissions.charge_market_fee.about"
-                        )}
-                        disabledInfo={t(
-                          "AssetCommon:permissions.charge_market_fee.disabledInfo"
-                        )}
-                        permission={permChargeMarketFee}
-                        setPermission={setPermChargeMarketFee}
-                        flag={flagChargeMarketFee}
-                        setFlag={setFlagChargeMarketFee}
-                      />
-                      <AssetPermission
-                        alreadyDisabled={permanentlyDisabledWL}
-                        id={"white_list"}
-                        allowedText={t(
-                          "AssetCommon:permissions.white_list.about"
-                        )}
-                        enabledInfo={t(
-                          "AssetCommon:permissions.white_list.enabledInfo"
-                        )}
-                        disabledText={t(
-                          "AssetCommon:permissions.white_list.about"
-                        )}
-                        disabledInfo={t(
-                          "AssetCommon:permissions.white_list.disabledInfo"
-                        )}
-                        permission={permWhiteList}
-                        setPermission={setPermWhiteList}
-                        flag={flagWhiteList}
-                        setFlag={setFlagWhiteList}
-                      />
-                      <AssetPermission
-                        alreadyDisabled={permanentlyDisabledTR}
-                        id={"transfer_restricted"}
-                        allowedText={t(
-                          "AssetCommon:permissions.transfer_restricted.about"
-                        )}
-                        enabledInfo={t(
-                          "AssetCommon:permissions.transfer_restricted.enabledInfo"
-                        )}
-                        disabledText={t(
-                          "AssetCommon:permissions.transfer_restricted.about"
-                        )}
-                        disabledInfo={t(
-                          "AssetCommon:permissions.transfer_restricted.disabledInfo"
-                        )}
-                        permission={permTransferRestricted}
-                        setPermission={setPermTransferRestricted}
-                        flag={flagTransferRestricted}
-                        setFlag={setFlagTransferRestricted}
-                      />
-                      <AssetPermission
-                        alreadyDisabled={permanentlyDisabledDC}
-                        id={"disable_confidential"}
-                        allowedText={t(
-                          "AssetCommon:permissions.disable_confidential.about"
-                        )}
-                        enabledInfo={t(
-                          "AssetCommon:permissions.disable_confidential.enabledInfo"
-                        )}
-                        disabledText={t(
-                          "AssetCommon:permissions.disable_confidential.about"
-                        )}
-                        disabledInfo={t(
-                          "AssetCommon:permissions.disable_confidential.disabledInfo"
-                        )}
-                        permission={permDisableConfidential}
-                        setPermission={setPermDisableConfidential}
-                        flag={flagDisableConfidential}
-                        setFlag={setFlagDisableConfidential}
-                      />
-                      <AssetPermission
-                        alreadyDisabled={permanentlyDisabledOA}
-                        id={"override_authority"}
-                        allowedText={t(
-                          "AssetCommon:permissions.override_authority.about"
-                        )}
-                        enabledInfo={t(
-                          "AssetCommon:permissions.override_authority.enabledInfo"
-                        )}
-                        disabledText={t(
-                          "AssetCommon:permissions.override_authority.about"
-                        )}
-                        disabledInfo={t(
-                          "AssetCommon:permissions.override_authority.disabledInfo"
-                        )}
-                        permission={permOverrideAuthority}
-                        setPermission={setPermOverrideAuthority}
-                        flag={flagOverrideAuthority}
-                        setFlag={setFlagOverrideAuthority}
-                      />
-                    </div>
+                 <PermissionsFlagsPanel
+                   permissions={[
+                     { id: "charge_market_fee", alreadyDisabled: permanentlyDisabledCMF, perm: permChargeMarketFee, setPerm: setPermChargeMarketFee, flag: flagChargeMarketFee, setFlag: setFlagChargeMarketFee },
+                     { id: "white_list", alreadyDisabled: permanentlyDisabledWL, perm: permWhiteList, setPerm: setPermWhiteList, flag: flagWhiteList, setFlag: setFlagWhiteList },
+                     { id: "transfer_restricted", alreadyDisabled: permanentlyDisabledTR, perm: permTransferRestricted, setPerm: setPermTransferRestricted, flag: flagTransferRestricted, setFlag: setFlagTransferRestricted },
+                     { id: "disable_confidential", alreadyDisabled: permanentlyDisabledDC, perm: permDisableConfidential, setPerm: setPermDisableConfidential, flag: flagDisableConfidential, setFlag: setFlagDisableConfidential },
+                     { id: "override_authority", alreadyDisabled: permanentlyDisabledOA, perm: permOverrideAuthority, setPerm: setPermOverrideAuthority, flag: flagOverrideAuthority, setFlag: setFlagOverrideAuthority },
+                   ]}
+                    flags={[
+                      { id: "charge_market_fee_flag", key: "charge_market_fee", alreadyDisabled: permanentlyDisabledCMF, flag: flagChargeMarketFee, setFlag: setFlagChargeMarketFee, permission: permChargeMarketFee },
+                      { id: "white_list_flag", key: "white_list", alreadyDisabled: permanentlyDisabledWL, flag: flagWhiteList, setFlag: setFlagWhiteList, permission: permWhiteList },
+                      { id: "transfer_restricted_flag", key: "transfer_restricted", alreadyDisabled: permanentlyDisabledTR, flag: flagTransferRestricted, setFlag: setFlagTransferRestricted, permission: permTransferRestricted },
+                      { id: "disable_confidential_flag", key: "disable_confidential", alreadyDisabled: permanentlyDisabledDC, flag: flagDisableConfidential, setFlag: setFlagDisableConfidential, permission: permDisableConfidential },
+                      { id: "override_authority_flag", key: "override_authority", alreadyDisabled: permanentlyDisabledOA, flag: flagOverrideAuthority, setFlag: setFlagOverrideAuthority, permission: permOverrideAuthority },
+                    ]}
+                   issuerPermissions={issuer_permissions}
+                   flagsValue={flags}
+                 />
+                 <ExtensionsSection
+                   flagChargeMarketFee={flagChargeMarketFee}
+                   commission={commission}
+                   setCommission={setCommission}
+                   maxCommission={maxCommission}
+                   setMaxCommission={setMaxCommission}
+                   enabledReferrerReward={enabledReferrerReward}
+                   setEnabledReferrerReward={setEnabledReferrerReward}
+                   referrerReward={referrerReward}
+                   setReferrerReward={setReferrerReward}
+                   enabledFeeSharingWhitelist={enabledFeeSharingWhitelist}
+                   setEnabledFeeSharingWhitelist={setEnabledFeeSharingWhitelist}
+                   feeSharingWhitelist={feeSharingWhitelist}
+                   setFeeSharingWhitelist={setFeeSharingWhitelist}
+                   whitelistMarketFeeSharingDialogOpen={whitelistMarketFeeSharingDialogOpen}
+                   setWhitelistMarketFeeSharingDialogOpen={setWhitelistMarketFeeSharingDialogOpen}
+                   enabledTakerFee={enabledTakerFee}
+                   setEnabledTakerFee={setEnabledTakerFee}
+                   takerFee={takerFee}
+                   setTakerFee={setTakerFee}
+                   debouncedPercent={debouncedPercent}
+                   debouncedMax={debouncedMax}
+                   usr={usr}
+                 />
 
-                    <div>
-                      <HoverInfo
-                        content={t("AssetCommon:flags.header_content")}
-                        header={t("AssetCommon:flags.header")}
-                        type="header"
-                      />
-                      <AssetFlag
-                        alreadyDisabled={permanentlyDisabledCMF}
-                        id={"charge_market_fee_flag"}
-                        allowedText={t(
-                          "AssetCommon:flags.charge_market_fee.about"
-                        )}
-                        enabledInfo={t(
-                          "AssetCommon:flags.charge_market_fee.enabledInfo"
-                        )}
-                        disabledText={t(
-                          "AssetCommon:flags.charge_market_fee.about"
-                        )}
-                        disabledInfo={t(
-                          "AssetCommon:flags.charge_market_fee.disabledInfo"
-                        )}
-                        permission={permChargeMarketFee}
-                        flag={flagChargeMarketFee}
-                        setFlag={setFlagChargeMarketFee}
-                      />
-                      <AssetFlag
-                        alreadyDisabled={permanentlyDisabledWL}
-                        id={"white_list_flag"}
-                        allowedText={t("AssetCommon:flags.white_list.about")}
-                        enabledInfo={t(
-                          "AssetCommon:flags.white_list.enabledInfo"
-                        )}
-                        disabledText={t("AssetCommon:flags.white_list.about")}
-                        disabledInfo={t(
-                          "AssetCommon:flags.white_list.disabledInfo"
-                        )}
-                        permission={permWhiteList}
-                        flag={flagWhiteList}
-                        setFlag={setFlagWhiteList}
-                      />
-                      <AssetFlag
-                        alreadyDisabled={permanentlyDisabledTR}
-                        id={"transfer_restricted_flag"}
-                        allowedText={t(
-                          "AssetCommon:flags.transfer_restricted.about"
-                        )}
-                        enabledInfo={t(
-                          "AssetCommon:flags.transfer_restricted.enabledInfo"
-                        )}
-                        disabledText={t(
-                          "AssetCommon:flags.transfer_restricted.about"
-                        )}
-                        disabledInfo={t(
-                          "AssetCommon:flags.transfer_restricted.disabledInfo"
-                        )}
-                        permission={permTransferRestricted}
-                        flag={flagTransferRestricted}
-                        setFlag={setFlagTransferRestricted}
-                      />
-                      <AssetFlag
-                        alreadyDisabled={permanentlyDisabledDC}
-                        id={"disable_confidential_flag"}
-                        allowedText={t(
-                          "AssetCommon:flags.disable_confidential.about"
-                        )}
-                        enabledInfo={t(
-                          "AssetCommon:flags.disable_confidential.enabledInfo"
-                        )}
-                        disabledText={t(
-                          "AssetCommon:flags.disable_confidential.about"
-                        )}
-                        disabledInfo={t(
-                          "AssetCommon:flags.disable_confidential.disabledInfo"
-                        )}
-                        permission={permDisableConfidential}
-                        flag={flagDisableConfidential}
-                        setFlag={setFlagDisableConfidential}
-                      />
-                      <AssetFlag
-                        alreadyDisabled={permanentlyDisabledOA}
-                        id={"override_authority_flag"}
-                        allowedText={t(
-                          "AssetCommon:flags.override_authority.about"
-                        )}
-                        enabledInfo={t(
-                          "AssetCommon:flags.override_authority.enabledInfo"
-                        )}
-                        disabledText={t(
-                          "AssetCommon:flags.override_authority.about"
-                        )}
-                        disabledInfo={t(
-                          "AssetCommon:flags.override_authority.disabledInfo"
-                        )}
-                        permission={permOverrideAuthority}
-                        flag={flagOverrideAuthority}
-                        setFlag={setFlagOverrideAuthority}
-                      />
-                    </div>
-                  </div>
-                  <Separator className="my-4 mt-5" />
-                </div>
-                {flagChargeMarketFee ? (
-                  <div className="col-span-2 mb-4">
-                    <HoverInfo
-                      content={t("AssetCommon:extensions.header_content")}
-                      header={t("AssetCommon:extensions.header")}
-                      type="header"
-                    />
-                    <div className="grid grid-cols-2 gap-5 mb-2">
-                      <div>
-                        <HoverInfo
-                          content={t("AssetCommon:market_fee.header_content")}
-                          header={t("AssetCommon:market_fee.header")}
-                        />
-                        <Input
-                          value={commission}
-                          type="number"
-                          min="0"
-                          max="100"
-                          step="0.01"
-                          onInput={(e) => {
-                            setCommission(e.currentTarget.value);
-                            debouncedPercent(
-                              e.currentTarget.value,
-                              setCommission
-                            );
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <HoverInfo
-                          content={t(
-                            "AssetCommon:max_market_fee.header_content"
-                          )}
-                          header={t("AssetCommon:max_market_fee.header")}
-                        />
-                        <Input
-                          placeholder={0}
-                          value={maxCommission}
-                          type="number"
-                          min="0"
-                          pattern="^\d*(\.\d{0,2})?$"
-                          onInput={(e) => {
-                            setMaxCommission(e.currentTarget.value);
-                            debouncedMax(
-                              e.currentTarget.value,
-                              setMaxCommission
-                            );
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <AssetFlag
-                      alreadyDisabled={false}
-                      id={"reward_percent"}
-                      allowedText={t(
-                        "AssetCommon:extensions.reward_percent.enabled"
-                      )}
-                      enabledInfo={t(
-                        "AssetCommon:extensions.reward_percent.enabledInfo"
-                      )}
-                      disabledText={t(
-                        "AssetCommon:extensions.reward_percent.disabled"
-                      )}
-                      disabledInfo={t(
-                        "AssetCommon:extensions.reward_percent.disabledInfo"
-                      )}
-                      permission={true}
-                      flag={enabledReferrerReward}
-                      setFlag={setEnabledReferrerReward}
-                    />
+                 <AuthorityListsSection
+                   flagWhiteList={flagWhiteList}
+                   whitelistAuthorities={whitelistAuthorities}
+                   setWhitelistAuthorities={setWhitelistAuthorities}
+                   blacklistAuthorities={blacklistAuthorities}
+                   setBlacklistAuthorities={setBlacklistAuthorities}
+                   whitelistAuthorityDialogOpen={whitelistAuthorityDialogOpen}
+                   setWhitelistAuthorityDialogOpen={setWhitelistAuthorityDialogOpen}
+                   blacklistAuthorityDialogOpen={blacklistAuthorityDialogOpen}
+                   setBlacklistAuthorityDialogOpen={setBlacklistAuthorityDialogOpen}
+                   usr={usr}
+                 />
 
-                    {enabledReferrerReward ? (
-                      <>
-                        <HoverInfo
-                          content={t(
-                            "AssetCommon:extensions.reward_percent.header_content"
-                          )}
-                          header={t(
-                            "AssetCommon:extensions.reward_percent.header"
-                          )}
-                        />
-                        <Input
-                          placeholder={0}
-                          value={referrerReward}
-                          type="number"
-                          min="0"
-                          max="100"
-                          step="0.01"
-                          pattern="^\d*(\.\d{0,2})?$"
-                          onInput={(e) => {
-                            setReferrerReward(e.currentTarget.value);
-                            debouncedPercent(
-                              e.currentTarget.value,
-                              setReferrerReward
-                            );
-                          }}
-                        />
-                      </>
-                    ) : null}
-
-                    <AssetFlag
-                      alreadyDisabled={false}
-                      id={"whitelist_market_fee_sharing"}
-                      allowedText={t(
-                        "AssetCommon:extensions.whitelist_market_fee_sharing.enabled"
-                      )}
-                      enabledInfo={t(
-                        "AssetCommon:extensions.whitelist_market_fee_sharing.enabledInfo"
-                      )}
-                      disabledText={t(
-                        "AssetCommon:extensions.whitelist_market_fee_sharing.disabled"
-                      )}
-                      disabledInfo={t(
-                        "AssetCommon:extensions.whitelist_market_fee_sharing.disabledInfo"
-                      )}
-                      permission={true}
-                      flag={enabledFeeSharingWhitelist}
-                      setFlag={setEnabledFeeSharingWhitelist}
-                    />
-
-                    {enabledFeeSharingWhitelist ? (
-                      <>
-                        <HoverInfo
-                          content={t(
-                            "AssetCommon:extensions.whitelist_market_fee_sharing.header_content"
-                          )}
-                          header={t(
-                            "AssetCommon:extensions.whitelist_market_fee_sharing.header"
-                          )}
-                        />
-                        <div className="grid grid-cols-12 mt-1">
-                          <span className="col-span-9 border border-border rounded">
-                            <div className="w-full max-h-[210px] overflow-auto">
-                              <List
-                                rowComponent={feeSharingWhitelistRow}
-                                rowCount={feeSharingWhitelist.length}
-                                rowHeight={100}
-                                rowProps={{}}
-                              />
-                            </div>
-                          </span>
-                          <span className="col-span-3 ml-3 text-center">
-                            <Dialog
-                              open={whitelistMarketFeeSharingDialogOpen}
-                              onOpenChange={(open) => {
-                                setWhitelistMarketFeeSharingDialogOpen(open);
-                              }}
-                            >
-                              <DialogTrigger asChild>
-                                <Button variant="outline" className="ml-3 mt-1">
-                                  ➕ {t("CreditOfferEditor:addUser")}
-                                </Button>
-                              </DialogTrigger>
-                              <DialogContent className="sm:max-w-[375px] bg-card">
-                                <DialogHeader>
-                                  <DialogTitle>
-                                    {!usr || !usr.chain
-                                      ? t("Transfer:bitsharesAccountSearch")
-                                      : null}
-                                    {usr && usr.chain === "bitshares"
-                                      ? t("Transfer:bitsharesAccountSearchBTS")
-                                      : null}
-                                    {usr && usr.chain !== "bitshares"
-                                      ? t("Transfer:bitsharesAccountSearchTEST")
-                                      : null}
-                                  </DialogTitle>
-                                </DialogHeader>
-                                <AccountSearch
-                                  chain={
-                                    usr && usr.chain ? usr.chain : "bitshares"
-                                  }
-                                  excludedUsers={[]}
-                                  setChosenAccount={(_account) => {
-                                    if (
-                                      _account &&
-                                      !feeSharingWhitelist.find(
-                                        (_usr) => _usr.id === _account.id
-                                      )
-                                    ) {
-                                      setFeeSharingWhitelist(
-                                        feeSharingWhitelist &&
-                                          feeSharingWhitelist.length
-                                          ? [...feeSharingWhitelist, _account]
-                                          : [_account]
-                                      );
-                                    }
-                                    setWhitelistMarketFeeSharingDialogOpen(
-                                      false
-                                    );
-                                  }}
-                                />
-                              </DialogContent>
-                            </Dialog>
-                          </span>
-                        </div>
-                      </>
-                    ) : null}
-
-                    <AssetFlag
-                      alreadyDisabled={false}
-                      id={"taker_fee_percent"}
-                      allowedText={t(
-                        "AssetCommon:extensions.taker_fee_percent.enabled"
-                      )}
-                      enabledInfo={t(
-                        "AssetCommon:extensions.taker_fee_percent.enabledInfo"
-                      )}
-                      disabledText={t(
-                        "AssetCommon:extensions.taker_fee_percent.disabled"
-                      )}
-                      disabledInfo={t(
-                        "AssetCommon:extensions.taker_fee_percent.disabledInfo"
-                      )}
-                      permission={true}
-                      flag={enabledTakerFee}
-                      setFlag={setEnabledTakerFee}
-                    />
-
-                    {enabledTakerFee ? (
-                      <>
-                        <HoverInfo
-                          content={t(
-                            "AssetCommon:extensions.taker_fee_percent.header_content"
-                          )}
-                          header={t(
-                            "AssetCommon:extensions.taker_fee_percent.header"
-                          )}
-                        />
-                        <Input
-                          placeholder={t(
-                            "AssetCommon:extensions.taker_fee_percent.placeholder"
-                          )}
-                          value={takerFee}
-                          type="number"
-                          min="0"
-                          max="100"
-                          step="0.01"
-                          pattern="^\d*(\.\d{0,2})?$"
-                          onInput={(e) => {
-                            setTakerFee(e.currentTarget.value);
-                            debouncedPercent(
-                              e.currentTarget.value,
-                              setTakerFee
-                            );
-                          }}
-                        />
-                      </>
-                    ) : null}
-                  </div>
-                ) : null}
-
-                {flagWhiteList ? (
-                  <div className="col-span-2 mb-3">
-                    <HoverInfo
-                      content={t("AssetCommon:whitelist.header_content")}
-                      header={t("AssetCommon:whitelist.header")}
-                      type="header"
-                    />
-                    <div className="grid grid-cols-12 mt-1">
-                      <span className="col-span-9 border border-border rounded">
-                        <div className="w-full max-h-[210px] overflow-auto">
-                          <List
-                            rowComponent={whitelistAuthorityRow}
-                            rowCount={whitelistAuthorities.length}
-                            rowHeight={100}
-                            rowProps={{}}
-                          />
-                        </div>
-                      </span>
-                      <span className="col-span-3 ml-3 text-center">
-                        <Dialog
-                          open={whitelistAuthorityDialogOpen}
-                          onOpenChange={(open) => {
-                            setWhitelistAuthorityDialogOpen(open);
-                          }}
-                        >
-                          <DialogTrigger asChild>
-                            <Button variant="outline" className="ml-3 mt-1">
-                              ➕ {t("CreditOfferEditor:addUser")}
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-[375px] bg-card">
-                            <DialogHeader>
-                              <DialogTitle>
-                                {!usr || !usr.chain
-                                  ? t("Transfer:bitsharesAccountSearch")
-                                  : null}
-                                {usr && usr.chain === "bitshares"
-                                  ? t("Transfer:bitsharesAccountSearchBTS")
-                                  : null}
-                                {usr && usr.chain !== "bitshares"
-                                  ? t("Transfer:bitsharesAccountSearchTEST")
-                                  : null}
-                              </DialogTitle>
-                            </DialogHeader>
-                            <AccountSearch
-                              chain={usr && usr.chain ? usr.chain : "bitshares"}
-                              excludedUsers={
-                                usr && usr.username && usr.username.length
-                                  ? [usr]
-                                  : []
-                              }
-                              setChosenAccount={(_account) => {
-                                if (
-                                  _account &&
-                                  !whitelistAuthorities.find(
-                                    (_usr) => _usr.id === _account.id
-                                  )
-                                ) {
-                                  setWhitelistAuthorities(
-                                    whitelistAuthorities &&
-                                      whitelistAuthorities.length
-                                      ? [...whitelistAuthorities, _account]
-                                      : [_account]
-                                  );
-                                }
-                                setWhitelistAuthorityDialogOpen(false);
-                              }}
-                            />
-                          </DialogContent>
-                        </Dialog>
-                      </span>
-                    </div>
-                  </div>
-                ) : null}
-                {flagWhiteList ? (
-                  <div className="col-span-2 mb-3">
-                    <HoverInfo
-                      content={t("AssetCommon:blacklist.header_content")}
-                      header={t("AssetCommon:blacklist.header")}
-                      type="header"
-                    />
-                    <div className="grid grid-cols-12 mt-1">
-                      <span className="col-span-9 border border-border rounded">
-                        <div className="w-full max-h-[210px] overflow-auto">
-                          <List
-                            rowComponent={blacklistAuthorityRow}
-                            rowCount={blacklistAuthorities.length}
-                            rowHeight={75}
-                            rowProps={{}}
-                          />
-                        </div>
-                      </span>
-                      <span className="col-span-3 ml-3 text-center">
-                        <Dialog
-                          open={blacklistAuthorityDialogOpen}
-                          onOpenChange={(open) => {
-                            setBlacklistAuthorityDialogOpen(open);
-                          }}
-                        >
-                          <DialogTrigger asChild>
-                            <Button variant="outline" className="ml-3 mt-1">
-                              ➕ {t("CreditOfferEditor:addUser")}
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-[375px] bg-card">
-                            <DialogHeader>
-                              <DialogTitle>
-                                {!usr || !usr.chain
-                                  ? t("Transfer:bitsharesAccountSearch")
-                                  : null}
-                                {usr && usr.chain === "bitshares"
-                                  ? t("Transfer:bitsharesAccountSearchBTS")
-                                  : null}
-                                {usr && usr.chain !== "bitshares"
-                                  ? t("Transfer:bitsharesAccountSearchTEST")
-                                  : null}
-                              </DialogTitle>
-                            </DialogHeader>
-                            <AccountSearch
-                              chain={usr && usr.chain ? usr.chain : "bitshares"}
-                              excludedUsers={
-                                usr && usr.username && usr.username.length
-                                  ? [usr]
-                                  : []
-                              }
-                              setChosenAccount={(_account) => {
-                                if (
-                                  _account &&
-                                  !blacklistAuthorities.find(
-                                    (_usr) => _usr.id === _account.id
-                                  )
-                                ) {
-                                  setBlacklistAuthorities(
-                                    blacklistAuthorities &&
-                                      blacklistAuthorities.length
-                                      ? [...blacklistAuthorities, _account]
-                                      : [_account]
-                                  );
-                                }
-                                setBlacklistAuthorityDialogOpen(false);
-                              }}
-                            />
-                          </DialogContent>
-                        </Dialog>
-                      </span>
-                    </div>
-                  </div>
-                ) : null}
-
-                <div className="col-span-2 grid grid-cols-1 md:grid-cols-2">
-                  <HoverInfo
-                    content={t("AssetCommon:nft.main_header_content")}
-                    header={t("AssetCommon:nft.main_header")}
-                    type="header"
-                  />
-                  <div className={`text-right mb-${!enabledNFT ? 5 : 1}`}>
-                    {!enabledNFT ? (
-                      <Button
-                        variant="outline"
-                        onClick={() => setEnabledNFT(true)}
-                        className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-background rounded-md group-hover:bg-opacity-0"
-                      >
-                        {t("AssetCommon:nft.disabled")}
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="outline"
-                        onClick={() => setEnabledNFT(false)}
-                      >
-                        {t("AssetCommon:nft.enabled")}
-                      </Button>
-                    )}
-                  </div>
-                </div>
-                {enabledNFT ? (
-                  <>
-                    <div className="col-span-2 mb-3">
-                      <Label>
-                        {t("AssetCommon:nft.currentIPFSFiles", {
-                          count: nftMedia.length,
-                        })}
-                      </Label>
-                      <br />
-                      <Label>{t("AssetCommon:nft.supportedFiletypes")}</Label>
-                      <br />
-                      <Dialog
-                        onOpenChange={(open) => {
-                          if (!open) {
-                            setNewMediaUrl("");
-                          }
-                        }}
-                      >
-                        <DialogTrigger>
-                          <Button className="h-8 mt-3" variant="outline">
-                            {t("AssetCommon:nft.modifyMultimediaContents")}
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="bg-card w-full max-w-4xl">
-                          <DialogHeader>
-                            <DialogTitle>
-                              {t("AssetCommon:nft.modifyingMultimediaContents")}
-                            </DialogTitle>
-                          </DialogHeader>
-                          <Card>
-                            <CardHeader>
-                              <CardTitle>
-                                {t("AssetCommon:nft.currentIPFSMedia")}
-                              </CardTitle>
-                              <CardDescription>
-                                {t("AssetCommon:nft.referencesIPFSObjects", {
-                                  count: nftMedia.length,
-                                })}
-                              </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                              {!nftMedia || !nftMedia.length ? (
-                                <p>{t("AssetCommon:nft.noIPFSMediaFound")}</p>
-                              ) : (
-                                <>
-                                  <div className="grid grid-cols-4">
-                                    <div className="col-span-1">
-                                      {t("AssetCommon:nft.type")}
-                                    </div>
-                                    <div className="col-span-1">
-                                      {t("AssetCommon:nft.contentIdentifier")}
-                                    </div>
-                                    <div className="col-span-1">
-                                      {t("AssetCommon:nft.filename")}
-                                    </div>
-                                    <div className="col-span-1">
-                                      {t("AssetCommon:nft.delete")}
-                                    </div>
-                                  </div>
-                                  <div className="w-full max-h-[125px] overflow-auto">
-                                    <List
-                                      rowComponent={MediaRow}
-                                      rowCount={nftMedia.length}
-                                      rowHeight={25}
-                                      rowProps={{}}
-                                    />
-                                  </div>
-                                </>
-                              )}
-                            </CardContent>
-                          </Card>
-
-                          <Card>
-                            <CardHeader>
-                              <CardTitle>
-                                {t("AssetCommon:nft.addNewIPFSMedia")}
-                              </CardTitle>
-                              <CardDescription>
-                                {t("AssetCommon:nft.noIPFSGateway")}
-                              </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="grid grid-cols-4">
-                                <div className="col-span-3 mr-3">
-                                  <Input
-                                    placeholder={t(
-                                      "AssetCommon:nft.mediaURLPlaceholder"
-                                    )}
-                                    type="text"
-                                    onInput={(e) =>
-                                      setNewMediaUrl(e.currentTarget.value)
-                                    }
-                                    onKeyDown={(e) => {
-                                      if (
-                                        e.key === "Enter" &&
-                                        newMediaUrl &&
-                                        newMediaType
-                                      ) {
-                                        const temp_urls = nftMedia.map(
-                                          (x) => x.url
-                                        );
-                                        if (temp_urls.includes(newMediaUrl)) {
-                                          console.log("Already exists");
-                                          setNewMediaUrl("");
-                                          return;
-                                        }
-
-                                        setNFTMedia(
-                                          nftMedia && nftMedia.length
-                                            ? [
-                                                ...nftMedia,
-                                                {
-                                                  url: newMediaUrl,
-                                                  type: newMediaType,
-                                                },
-                                              ]
-                                            : [
-                                                {
-                                                  url: newMediaUrl,
-                                                  type: newMediaType,
-                                                },
-                                              ]
-                                        );
-                                        setNewMediaUrl("");
-                                      }
-                                    }}
-                                    value={newMediaUrl}
-                                  />
-                                </div>
-                                <div className="col-span-1">
-                                  <Select onValueChange={setNewMediaType}>
-                                    <SelectTrigger className="w-[105px]">
-                                      <SelectValue
-                                        placeholder={t(
-                                          "AssetCommon:nft.fileTypePlaceholder"
-                                        )}
-                                      />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectGroup>
-                                        <SelectLabel>
-                                          {t("AssetCommon:nft.imageFormats")}
-                                        </SelectLabel>
-                                        <SelectItem value="PNG">PNG</SelectItem>
-                                        <SelectItem value="WEBP">
-                                          WEBP
-                                        </SelectItem>
-                                        <SelectItem value="JPEG">
-                                          JPEG
-                                        </SelectItem>
-                                        <SelectItem value="GIF">GIF</SelectItem>
-                                        <SelectItem value="TIFF">
-                                          TIFF
-                                        </SelectItem>
-                                        <SelectItem value="BMP">BMP</SelectItem>
-                                        <SelectLabel>
-                                          {t("AssetCommon:nft.audioFormats")}
-                                        </SelectLabel>
-                                        <SelectItem value="MP3">MP3</SelectItem>
-                                        <SelectItem value="MP4">MP4</SelectItem>
-                                        <SelectItem value="M4A">M4A</SelectItem>
-                                        <SelectItem value="OGG">OGG</SelectItem>
-                                        <SelectItem value="FLAC">
-                                          FLAC
-                                        </SelectItem>
-                                        <SelectItem value="WAV">WAV</SelectItem>
-                                        <SelectItem value="WMA">WMA</SelectItem>
-                                        <SelectItem value="AAC">AAC</SelectItem>
-                                        <SelectLabel>
-                                          {t("AssetCommon:nft.videoFormats")}
-                                        </SelectLabel>
-                                        <SelectItem value="WEBM">
-                                          WEBM
-                                        </SelectItem>
-                                        <SelectItem value="MOV">MOV</SelectItem>
-                                        <SelectItem value="QT">QT</SelectItem>
-                                        <SelectItem value="AVI">AVI</SelectItem>
-                                        <SelectItem value="WMV">WMV</SelectItem>
-                                        <SelectItem value="MPEG">
-                                          MPEG
-                                        </SelectItem>
-                                        <SelectLabel>
-                                          {t("AssetCommon:nft.documentFormats")}
-                                        </SelectLabel>
-                                        <SelectItem value="PDF">PDF</SelectItem>
-                                        <SelectItem value="DOCX">
-                                          DOCX
-                                        </SelectItem>
-                                        <SelectItem value="ODT">ODT</SelectItem>
-                                        <SelectItem value="XLSX">
-                                          XLSX
-                                        </SelectItem>
-                                        <SelectItem value="ODS">ODS</SelectItem>
-                                        <SelectItem value="PPTX">
-                                          PPTX
-                                        </SelectItem>
-                                        <SelectItem value="TXT">TXT</SelectItem>
-                                        <SelectLabel>
-                                          {t("AssetCommon:nft.threeDFormats")}
-                                        </SelectLabel>
-                                        <SelectItem value="OBJ">OBJ</SelectItem>
-                                        <SelectItem value="FBX">FBX</SelectItem>
-                                        <SelectItem value="GLTF">
-                                          GLTF
-                                        </SelectItem>
-                                        <SelectItem value="3DS">3DS</SelectItem>
-                                        <SelectItem value="STL">STL</SelectItem>
-                                        <SelectItem value="COLLADA">
-                                          COLLADA
-                                        </SelectItem>
-                                        <SelectItem value="3MF">3MF</SelectItem>
-                                        <SelectItem value="BLEND">
-                                          BLEND
-                                        </SelectItem>
-                                        <SelectItem value="SKP">SKP</SelectItem>
-                                        <SelectItem value="VOX">VOX</SelectItem>
-                                      </SelectGroup>
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                                <div className="col-span-4">
-                                  {newMediaType &&
-                                  newMediaType.length &&
-                                  newMediaUrl &&
-                                  newMediaUrl.length ? (
-                                    <Button
-                                      className="mt-3"
-                                      onClick={() => {
-                                        const temp_urls = nftMedia.map(
-                                          (x) => x.url
-                                        );
-                                        if (temp_urls.includes(newMediaUrl)) {
-                                          console.log("Already exists");
-                                          setNewMediaUrl("");
-                                          return;
-                                        }
-
-                                        setNFTMedia([
-                                          ...nftMedia,
-                                          {
-                                            url: newMediaUrl,
-                                            type: newMediaType,
-                                          },
-                                        ]);
-                                        setNewMediaUrl("");
-                                      }}
-                                    >
-                                      {t("AssetCommon:nft.submit")}
-                                    </Button>
-                                  ) : (
-                                    <Button className="mt-3" disabled>
-                                      {t("AssetCommon:nft.submit")}
-                                    </Button>
-                                  )}
-                                  <Dialog>
-                                    <DialogTrigger>
-                                      <Button className="mt-3 ml-3">
-                                        {t(
-                                          "AssetCommon:nft.ipfsHostingSolutions"
-                                        )}
-                                      </Button>
-                                    </DialogTrigger>
-                                    <DialogContent className="bg-card">
-                                      <DialogHeader>
-                                        <DialogTitle>
-                                          {t(
-                                            "AssetCommon:nft.ipfsHostingSolutions"
-                                          )}
-                                        </DialogTitle>
-                                        <DialogDescription>
-                                          {t(
-                                            "AssetCommon:nft.ipfsHostingDescription"
-                                          )}
-                                        </DialogDescription>
-                                      </DialogHeader>
-                                      <div className="grid grid-cols-3 gap-3">
-                                        <ExternalLink
-                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
-                                          type="button"
-                                          text={"Pinata.cloud"}
-                                          hyperlink={
-                                            "https://www.pinata.cloud/"
-                                          }
-                                        />
-                                        <ExternalLink
-                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
-                                          type="button"
-                                          text={"NFT.storage"}
-                                          hyperlink={"https://nft.storage/"}
-                                        />
-                                        <ExternalLink
-                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
-                                          type="button"
-                                          text={"Web3.storage"}
-                                          hyperlink={"https://web3.storage/"}
-                                        />
-                                        <ExternalLink
-                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
-                                          type="button"
-                                          text={"Fleek.co"}
-                                          hyperlink={
-                                            "https://fleek.co/ipfs-gateway/"
-                                          }
-                                        />
-                                        <ExternalLink
-                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
-                                          type="button"
-                                          text={"Infura.io"}
-                                          hyperlink={
-                                            "https://infura.io/product/ipfs"
-                                          }
-                                        />
-                                        <ExternalLink
-                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
-                                          type="button"
-                                          text={"StorJ"}
-                                          hyperlink={
-                                            "https://landing.storj.io/permanently-pin-with-storj-dcs"
-                                          }
-                                        />
-                                        <ExternalLink
-                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
-                                          type="button"
-                                          text={"Eternum.io"}
-                                          hyperlink={"https://www.eternum.io/"}
-                                        />
-                                        <ExternalLink
-                                          classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
-                                          type="button"
-                                          text={"IPFS Docs"}
-                                          hyperlink={
-                                            "https://blog.ipfs.io/2021-04-05-storing-nfts-on-ipfs/"
-                                          }
-                                        />
-                                      </div>
-                                    </DialogContent>
-                                  </Dialog>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </DialogContent>
-                      </Dialog>
-                    </div>
-                    <div className="col-span-2 mb-2">
-                      <HoverInfo
-                        content={t("AssetCommon:nft.header_content")}
-                        header={t("AssetCommon:nft.header")}
-                        type="header"
-                      />
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div className="col-span-1">
-                          <HoverInfo
-                            content={t("AssetCommon:nft.NFTTitleContent")}
-                            header={t("AssetCommon:nft.NFTTitleHeader")}
-                          />
-                          <Input
-                            placeholder={t("AssetCommon:nft.TitlePlaceholder")}
-                            value={title}
-                            type="text"
-                            onInput={(e) => setTitle(e.currentTarget.value)}
-                          />
-                          <HoverInfo
-                            content={t("AssetCommon:nft.NFTArtistContent")}
-                            header={t("AssetCommon:nft.NFTArtistHeader")}
-                          />
-                          <Input
-                            placeholder={t("AssetCommon:nft.ArtistPlaceholder")}
-                            value={artist}
-                            type="text"
-                            onInput={(e) => setArtist(e.currentTarget.value)}
-                          />
-                          <HoverInfo
-                            content={t("AssetCommon:nft.NFTNarrativeContent")}
-                            header={t("AssetCommon:nft.NFTNarrativeHeader")}
-                          />
-                          <Input
-                            placeholder={t(
-                              "AssetCommon:nft.NarrativePlaceholder"
-                            )}
-                            value={narrative}
-                            type="text"
-                            onInput={(e) => setNarrative(e.currentTarget.value)}
-                          />
-                          <HoverInfo
-                            content={t("AssetCommon:nft.NFTTagsContent")}
-                            header={t("AssetCommon:nft.NFTTagsHeader")}
-                          />
-                          <Input
-                            placeholder={t("AssetCommon:nft.TagsPlaceholder")}
-                            value={tags}
-                            type="text"
-                            onInput={(e) => setTags(e.currentTarget.value)}
-                          />
-                          <HoverInfo
-                            content={t("AssetCommon:nft.NFTTypeContent")}
-                            header={t("AssetCommon:nft.NFTTypeHeader")}
-                          />
-                          <Input
-                            placeholder={t("AssetCommon:nft.TypePlaceholder")}
-                            value={type}
-                            type="text"
-                            onInput={(e) => setType(e.currentTarget.value)}
-                          />
-                        </div>
-                        <div className="col-span-1">
-                          <HoverInfo
-                            content={t("AssetCommon:nft.NFTAttestationContent")}
-                            header={t("AssetCommon:nft.NFTAttestationHeader")}
-                          />
-                          <Input
-                            placeholder={t(
-                              "AssetCommon:nft.AttestationPlaceholder"
-                            )}
-                            value={attestation}
-                            type="text"
-                            onInput={(e) =>
-                              setAttestation(e.currentTarget.value)
-                            }
-                          />
-                          <HoverInfo
-                            content={t(
-                              "AssetCommon:nft.NFTAcknowledgementsContent"
-                            )}
-                            header={t(
-                              "AssetCommon:nft.NFTAcknowledgementsHeader"
-                            )}
-                          />
-                          <Input
-                            placeholder={t(
-                              "AssetCommon:nft.AcknowledgementsPlaceholder"
-                            )}
-                            value={acknowledgements}
-                            type="text"
-                            onInput={(e) =>
-                              setAcknowledgements(e.currentTarget.value)
-                            }
-                          />
-                          <HoverInfo
-                            content={t(
-                              "AssetCommon:nft.NFTHolderLicenseContent"
-                            )}
-                            header={t("AssetCommon:nft.NFTHolderLicenseHeader")}
-                          />
-                          <Input
-                            placeholder={t(
-                              "AssetCommon:nft.HolderLicensePlaceholder"
-                            )}
-                            value={holderLicense}
-                            type="text"
-                            onInput={(e) =>
-                              setHolderLicense(e.currentTarget.value)
-                            }
-                          />
-                          <HoverInfo
-                            content={t("AssetCommon:nft.NFTLicenseContent")}
-                            header={t("AssetCommon:nft.NFTLicenseHeader")}
-                          />
-                          <Input
-                            placeholder={t(
-                              "AssetCommon:nft.LicensePlaceholder"
-                            )}
-                            value={license}
-                            type="text"
-                            onInput={(e) => setLicense(e.currentTarget.value)}
-                          />
-                        </div>
-                      </div>
-                      <Separator className="my-4 mt-5" />
-                    </div>
-                  </>
-                ) : null}
+                 <NFTSection
+                   enabledNFT={enabledNFT}
+                   setEnabledNFT={setEnabledNFT}
+                   nftMedia={nftMedia}
+                   setNFTMedia={setNFTMedia}
+                   newMediaType={newMediaType}
+                   setNewMediaType={setNewMediaType}
+                   newMediaUrl={newMediaUrl}
+                   setNewMediaUrl={setNewMediaUrl}
+                   title={title}
+                   setTitle={setTitle}
+                   artist={artist}
+                   setArtist={setArtist}
+                   narrative={narrative}
+                   setNarrative={setNarrative}
+                   tags={tags}
+                   setTags={setTags}
+                   type={type}
+                   setType={setType}
+                   attestation={attestation}
+                   setAttestation={setAttestation}
+                   acknowledgements={acknowledgements}
+                   setAcknowledgements={setAcknowledgements}
+                   holderLicense={holderLicense}
+                   setHolderLicense={setHolderLicense}
+                   license={license}
+                   setLicense={setLicense}
+                 />
 
                 <div className="col-span-2">
                   <Button
