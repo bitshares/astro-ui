@@ -10,6 +10,19 @@ import { List } from "react-window";
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import {
+  Files,
+  FileOutput,
+  Inbox,
+  FileText,
+  Pencil,
+  Trash2,
+  Copy,
+  CheckCircle2,
+  CreditCard,
+  Save,
+  ShoppingCart,
+} from "lucide-react";
 
 import pkg from "bs58";
 const { decode } = pkg;
@@ -20,6 +33,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 import {
   Empty,
@@ -221,7 +235,7 @@ export default function InvoiceStorage() {
 
     return (
       <div style={style} className="px-2">
-        <Card className="hover:bg-card">
+        <Card className="rounded-xl border border-emerald-500/15 bg-card/60 hover:border-emerald-500/30 hover:bg-emerald-500/[0.03] hover:shadow-md hover:shadow-emerald-500/5 transition-all">
           <CardContent className="pt-2 pb-2">
             <div className="grid grid-cols-4 lg:grid-cols-12 gap-2 text-sm">
               <div
@@ -289,7 +303,7 @@ export default function InvoiceStorage() {
               <div className="flex lg:hidden">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button size="sm">
+                    <Button size="sm" variant="outline" className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10">
                       {t("InvoiceStorage:headers.actions")}
                     </Button>
                   </DialogTrigger>
@@ -298,12 +312,14 @@ export default function InvoiceStorage() {
                       <Button
                         size="sm"
                         variant="outline"
+                        className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
                         onClick={(e) => {
                           e.stopPropagation();
                           setDetailsInvoice(inv);
                           setDetailsOpen(true);
                         }}
                       >
+                        <FileText className="h-3.5 w-3.5 mr-1.5" />
                         {t("InvoiceStorage:actions.view")}
                       </Button>
                       {canPay ? (
@@ -313,7 +329,8 @@ export default function InvoiceStorage() {
                           )}`}
                           title={t("InvoiceStorage:actions.payTitle")}
                         >
-                          <Button size="sm">
+                          <Button size="sm" className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
+                            <CreditCard className="h-3.5 w-3.5 mr-1.5" />
                             {t("InvoiceStorage:actions.pay")}
                           </Button>
                         </a>
@@ -321,6 +338,7 @@ export default function InvoiceStorage() {
                       <Button
                         size="sm"
                         variant="outline"
+                        className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
                         onClick={(e) => {
                           e.stopPropagation();
                           if (!entry || !entry.code) return;
@@ -335,14 +353,23 @@ export default function InvoiceStorage() {
                         }}
                         disabled={copied}
                       >
-                        {copied
-                          ? t("InvoiceStorage:actions.copied")
-                          : t("InvoiceStorage:actions.copy")}
+                        {copied ? (
+                          <>
+                            <CheckCircle2 className="h-3.5 w-3.5 mr-1.5" />
+                            {t("InvoiceStorage:actions.copied")}
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="h-3.5 w-3.5 mr-1.5" />
+                            {t("InvoiceStorage:actions.copy")}
+                          </>
+                        )}
                       </Button>
                       {viewMode === "generated" ? (
                         <Button
                           size="sm"
                           variant="outline"
+                          className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
                           onClick={(e) => {
                             e.stopPropagation();
                             setMetaEditingCode(entry.code);
@@ -362,6 +389,7 @@ export default function InvoiceStorage() {
                             setMetaDialogOpen(true);
                           }}
                         >
+                          <Pencil className="h-3.5 w-3.5 mr-1.5" />
                           {t("InvoiceStorage:actions.update")}
                         </Button>
                       ) : null}
@@ -374,6 +402,7 @@ export default function InvoiceStorage() {
                           setDeleteDialogOpen(true);
                         }}
                       >
+                        <Trash2 className="h-3.5 w-3.5 mr-1.5" />
                         {t("InvoiceStorage:actions.delete")}
                       </Button>
                     </div>
@@ -384,12 +413,14 @@ export default function InvoiceStorage() {
                 <Button
                   size="sm"
                   variant="outline"
+                  className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
                   onClick={(e) => {
                     e.stopPropagation();
                     setDetailsInvoice(inv);
                     setDetailsOpen(true);
                   }}
                 >
+                  <FileText className="h-3.5 w-3.5 mr-1.5" />
                   {t("InvoiceStorage:actions.view")}
                 </Button>
                 {canPay ? (
@@ -399,12 +430,16 @@ export default function InvoiceStorage() {
                     )}`}
                     title={t("InvoiceStorage:actions.payTitle")}
                   >
-                    <Button size="sm">{t("InvoiceStorage:actions.pay")}</Button>
+                    <Button size="sm" className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
+                      <CreditCard className="h-3.5 w-3.5 mr-1.5" />
+                      {t("InvoiceStorage:actions.pay")}
+                    </Button>
                   </a>
                 ) : null}
                 <Button
                   size="sm"
                   variant="outline"
+                  className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
                   onClick={(e) => {
                     e.stopPropagation();
                     if (!entry || !entry.code) return;
@@ -418,14 +453,23 @@ export default function InvoiceStorage() {
                   }}
                   disabled={copied}
                 >
-                  {copied
-                    ? t("InvoiceStorage:actions.copied")
-                    : t("InvoiceStorage:actions.copy")}
+                  {copied ? (
+                    <>
+                      <CheckCircle2 className="h-3.5 w-3.5 mr-1.5" />
+                      {t("InvoiceStorage:actions.copied")}
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-3.5 w-3.5 mr-1.5" />
+                      {t("InvoiceStorage:actions.copy")}
+                    </>
+                  )}
                 </Button>
                 {viewMode === "generated" ? (
                   <Button
                     size="sm"
                     variant="outline"
+                    className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
                     onClick={(e) => {
                       e.stopPropagation();
                       setMetaEditingCode(entry.code);
@@ -440,6 +484,7 @@ export default function InvoiceStorage() {
                       setMetaDialogOpen(true);
                     }}
                   >
+                    <Pencil className="h-3.5 w-3.5 mr-1.5" />
                     {t("InvoiceStorage:actions.update")}
                   </Button>
                 ) : null}
@@ -452,6 +497,7 @@ export default function InvoiceStorage() {
                     setDeleteDialogOpen(true);
                   }}
                 >
+                  <Trash2 className="h-3.5 w-3.5 mr-1.5" />
                   {t("InvoiceStorage:actions.delete")}
                 </Button>
               </div>
@@ -483,67 +529,107 @@ export default function InvoiceStorage() {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full">
-        <div className="grid grid-cols-1 gap-3">
-          <div className="mb-3 grid grid-cols-2 md:w-1/2 mx-auto text-center gap-2">
-            <Button
-              variant={viewMode === "generated" ? "secondary" : "default"}
-              size="sm"
-              onClick={() => setViewMode("generated")}
-            >
-              {t("InvoiceStorage:toggle.generated")}
-            </Button>
-            <Button
-              variant={viewMode === "received" ? "secondary" : "default"}
-              size="sm"
-              onClick={() => setViewMode("received")}
-            >
-              {t("InvoiceStorage:toggle.received")}
-            </Button>
-          </div>
-          {decodedInvoices.length ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  {viewMode === "generated"
-                    ? t("InvoiceStorage:title.generated")
-                    : t("InvoiceStorage:title.received")}
-                </CardTitle>
-                <CardDescription>
-                  {viewMode === "generated"
-                    ? t("InvoiceStorage:description.generated")
-                    : t("InvoiceStorage:description.received")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="border">
-                  <div className="grid grid-cols-4 lg:grid-cols-12 text-sm px-2 py-1">
-                    <div className="col-span-1 lg:col-span-2">
-                      {t("InvoiceStorage:headers.recipientId")}
-                    </div>
-                    <div className="hidden lg:block col-span-1">
-                      {t("InvoiceStorage:headers.recipientName")}
-                    </div>
-                    <div className="col-span-1">
-                      {t("InvoiceStorage:headers.identifier")}
-                    </div>
-                    <div className="hidden lg:block col-span-2">
-                      {t("InvoiceStorage:headers.note")}
-                    </div>
-                    <div className="hidden lg:block col-span-1">
-                      {t("InvoiceStorage:headers.when")}
-                    </div>
-                    <div className="hidden lg:block col-span-1">
-                      {t("InvoiceStorage:headers.itemQty")}
-                    </div>
-                    <div className="col-span-1">
-                      {viewMode === "generated"
-                        ? t("InvoiceStorage:headers.status")
-                        : ""}
-                    </div>
-                    <div className="col-span-1 lg:col-span-3">
-                      {t("InvoiceStorage:headers.actions")}
-                    </div>
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700 flex-shrink-0">
+                  <Files className="h-4.5 w-4.5" strokeWidth={2.25} />
+                </span>
+                <div>
+                  <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                    {viewMode === "generated"
+                      ? t("InvoiceStorage:title.generated")
+                      : t("InvoiceStorage:title.received")}
+                  </h2>
+                  <p className="text-xs text-muted-foreground/70 mt-0.5">
+                    {viewMode === "generated"
+                      ? t("InvoiceStorage:description.generated")
+                      : t("InvoiceStorage:description.received")}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="inline-flex rounded-xl border border-border bg-card/40 p-1 gap-1 mb-5">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setViewMode("generated")}
+                className={cn(
+                  "px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center gap-1.5",
+                  viewMode === "generated"
+                    ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:text-emerald-100 text-emerald-700 border border-emerald-400/40 shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
+                    : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
+                )}
+              >
+                <FileOutput className="h-3.5 w-3.5" />
+                {viewMode === "generated"
+                  ? t("InvoiceStorage:toggle.generated")
+                  : t("InvoiceStorage:toggle.generated")}
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setViewMode("received")}
+                className={cn(
+                  "px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center gap-1.5",
+                  viewMode === "received"
+                    ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:text-emerald-100 text-emerald-700 border border-emerald-400/40 shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
+                    : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
+                )}
+              >
+                <Inbox className="h-3.5 w-3.5" />
+                {viewMode === "received"
+                  ? t("InvoiceStorage:toggle.received")
+                  : t("InvoiceStorage:toggle.received")}
+              </Button>
+            </div>
+
+            {decodedInvoices.length ? (
+              <div className="rounded-xl border border-emerald-500/15 bg-card/40 p-3">
+                <div className="grid grid-cols-4 lg:grid-cols-12 text-center">
+                  <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 col-span-1 lg:col-span-2">
+                    {t("InvoiceStorage:headers.recipientId")}
                   </div>
+                  <div className="hidden lg:block col-span-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                    {t("InvoiceStorage:headers.recipientName")}
+                  </div>
+                  <div className="col-span-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                    {t("InvoiceStorage:headers.identifier")}
+                  </div>
+                  <div className="hidden lg:block col-span-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                    {t("InvoiceStorage:headers.note")}
+                  </div>
+                  <div className="hidden lg:block col-span-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                    {t("InvoiceStorage:headers.when")}
+                  </div>
+                  <div className="hidden lg:block col-span-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                    {t("InvoiceStorage:headers.itemQty")}
+                  </div>
+                  <div className="col-span-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                    {viewMode === "generated"
+                      ? t("InvoiceStorage:headers.status")
+                      : ""}
+                  </div>
+                  <div className="col-span-1 lg:col-span-3 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                    {t("InvoiceStorage:headers.actions")}
+                  </div>
+                </div>
                   <div className="w-full max-h-[420px] min-h-[360px] overflow-auto border mt-1">
                     <List
                       rowComponent={InvoiceRow}
@@ -553,30 +639,32 @@ export default function InvoiceStorage() {
                     />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card>
-              <CardContent>
-                <Empty>
-                  <EmptyHeader>
-                    <EmptyMedia variant="icon">📄</EmptyMedia>
-                    <EmptyTitle>{t("InvoiceStorage:empty.title")}</EmptyTitle>
-                    <EmptyDescription>
-                      {t("InvoiceStorage:empty.description")}
-                    </EmptyDescription>
-                  </EmptyHeader>
-                </Empty>
-              </CardContent>
-            </Card>
+            ) : (
+            <div className="flex flex-col items-center gap-3 py-12">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                <FileText className="h-6 w-6" strokeWidth={1.75} />
+              </span>
+              <p className="text-sm text-muted-foreground">
+                {t("InvoiceStorage:empty.title")}
+              </p>
+              <p className="text-xs text-muted-foreground/70">
+                {t("InvoiceStorage:empty.description")}
+              </p>
+            </div>
           )}
-        </div>
+          </div>
+        </Card>
       </div>
 
       <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
         <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
           <DialogHeader>
-            <DialogTitle>{t("InvoiceStorage:details.title")}</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                <FileText className="h-4 w-4" />
+              </span>
+              {t("InvoiceStorage:details.title")}
+            </DialogTitle>
             <DialogDescription>
               {t("InvoiceStorage:details.description")}
             </DialogDescription>
@@ -594,7 +682,7 @@ export default function InvoiceStorage() {
                   <Input
                     value={detailsInvoice.recipientId || ""}
                     readOnly
-                    className="mt-2"
+                    className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
                   />
                 </div>
                 <div>
@@ -606,7 +694,7 @@ export default function InvoiceStorage() {
                   <Input
                     value={detailsInvoice.recipientName || ""}
                     readOnly
-                    className="mt-2"
+                    className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
                   />
                 </div>
               </div>
@@ -621,7 +709,7 @@ export default function InvoiceStorage() {
                   <Input
                     value={detailsInvoice.identifier || ""}
                     readOnly
-                    className="mt-2"
+                    className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
                   />
                 </div>
                 <div>
@@ -637,7 +725,7 @@ export default function InvoiceStorage() {
                         : ""
                     }
                     readOnly
-                    className="mt-2"
+                    className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
                   />
                 </div>
               </div>
@@ -650,7 +738,7 @@ export default function InvoiceStorage() {
               <Textarea
                 value={detailsInvoice.note || ""}
                 readOnly
-                className="mt-2"
+                className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
               />
 
               {(
@@ -660,12 +748,17 @@ export default function InvoiceStorage() {
                   : Array.isArray(detailsInvoice.items) &&
                     detailsInvoice.items.length
               ) ? (
-                <Card className="mt-5">
+                <Card className="mt-5 rounded-xl border border-emerald-500/15 bg-card/60 backdrop-blur-sm">
                   <CardHeader>
-                    <CardTitle>{t("InvoiceStorage:items.title")}</CardTitle>
+                    <CardTitle className="flex items-center gap-2">
+                      <ShoppingCart className="h-4 w-4 dark:text-emerald-200/70 text-emerald-600/80" />
+                      <span className="text-sm font-medium uppercase tracking-wider dark:text-emerald-200/70 text-emerald-600/80">
+                        {t("InvoiceStorage:items.title")}
+                      </span>
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="border">
+                    <div className="rounded-xl border border-emerald-500/15 bg-card/40">
                       <div className="grid grid-cols-12 text-center text-sm px-2 py-1">
                         <div className="col-span-8 text-left">
                           {t("InvoiceStorage:items.headers.name")}
@@ -730,7 +823,10 @@ export default function InvoiceStorage() {
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent className="bg-card">
           <AlertDialogHeader>
-            <AlertDialogTitle>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-rose-400/30 bg-gradient-to-br from-rose-500/20 to-red-500/20 dark:text-rose-200 text-rose-700">
+                <Trash2 className="h-4 w-4" />
+              </span>
               {t("InvoiceStorage:deleteDialog.title")}
             </AlertDialogTitle>
             <AlertDialogDescription>
@@ -741,7 +837,10 @@ export default function InvoiceStorage() {
             <AlertDialogCancel onClick={cancelDelete}>
               {t("InvoiceStorage:deleteDialog.cancel")}
             </AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete}>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-rose-600 hover:bg-rose-500 text-white"
+            >
               {t("InvoiceStorage:deleteDialog.confirm")}
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -750,7 +849,12 @@ export default function InvoiceStorage() {
       <Dialog open={itemDetailsOpen} onOpenChange={setItemDetailsOpen}>
         <DialogContent className="sm:max-w-[640px] bg-card">
           <DialogHeader>
-            <DialogTitle>{t("InvoiceStorage:itemDetails.title")}</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                <FileText className="h-4 w-4" />
+              </span>
+              {t("InvoiceStorage:itemDetails.title")}
+            </DialogTitle>
             <DialogDescription>
               {t("InvoiceStorage:itemDetails.description")}
             </DialogDescription>
@@ -873,7 +977,12 @@ export default function InvoiceStorage() {
       <Dialog open={metaDialogOpen} onOpenChange={setMetaDialogOpen}>
         <DialogContent className="sm:max-w-[720px] bg-card">
           <DialogHeader>
-            <DialogTitle>{t("InvoiceStorage:meta.title")}</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                <Pencil className="h-4 w-4" />
+              </span>
+              {t("InvoiceStorage:meta.title")}
+            </DialogTitle>
             <DialogDescription>
               {t("InvoiceStorage:meta.description")}
             </DialogDescription>
@@ -972,6 +1081,7 @@ export default function InvoiceStorage() {
               <Button
                 variant="outline"
                 onClick={() => setMetaDialogOpen(false)}
+                className="border-emerald-500/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
               >
                 {t("InvoiceStorage:meta.cancel")}
               </Button>
@@ -988,7 +1098,9 @@ export default function InvoiceStorage() {
                   }
                   setMetaDialogOpen(false);
                 }}
+                className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
               >
+                <Save className="h-3.5 w-3.5 mr-1.5" />
                 {t("InvoiceStorage:meta.save")}
               </Button>
             </div>
