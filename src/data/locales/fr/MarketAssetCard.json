@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "Informations sur le ratio de compression court maximum",
   "maximumShortSqueezeRatioDescription": "Le ratio maximum de compression à court terme est le ratio maximum avec lequel une position de dette sera protégée contre les compressions à découvert.",
   "moreAboutMaximumShortSqueezeRatio": "En savoir plus sur le ratio de compression court maximum",
-  "borrowButton": "Emprunter"
+  "borrowButton": "Emprunter",
+  "assetDetails": "Détails de l'actif",
+  "smartcoinParameters": "Paramètres Smartcoin"
 }

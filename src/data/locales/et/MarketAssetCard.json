@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "Teave maksimaalse lühikese pigistussuhte kohta",
   "maximumShortSqueezeRatioDescription": "Maksimaalne lühiajalise squeeze suhtarv on maksimaalne suhtarv, mida võlapositsioon on kaitstud lühikese squeeze eest.",
   "moreAboutMaximumShortSqueezeRatio": "Lisateavet maksimaalse lühikese pigistamise suhte kohta",
-  "borrowButton": "Laena"
+  "borrowButton": "Laena",
+  "assetDetails": "Vara üksikasjad",
+  "smartcoinParameters": "Smartcoin-i parameetrid"
 }

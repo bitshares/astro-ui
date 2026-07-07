@@ -24,12 +24,14 @@ export default function MyOpenOrders(properties) {
   const accent = isBuy
     ? {
         text: "text-emerald-300",
+        textBright: "dark:text-emerald-300 text-emerald-700",
         chip: "bg-emerald-500/10 border-emerald-500/30 text-emerald-300",
         border: "border-emerald-500/30",
         glow: "from-emerald-500/15 via-emerald-500/3 to-transparent",
       }
     : {
         text: "text-rose-300",
+        textBright: "dark:text-rose-300 text-rose-700",
         chip: "bg-rose-500/10 border-rose-500/30 text-rose-300",
         border: "border-rose-500/30",
         glow: "from-rose-500/15 via-rose-500/3 to-transparent",
@@ -76,7 +78,7 @@ export default function MyOpenOrders(properties) {
             )}
           </div>
           <div>
-            <h3 className={cn("text-sm font-semibold", accent.text)}>
+            <h3 className={cn("text-sm font-semibold", accent.textBright)}>
               {isBuy
                 ? t("MyOpenOrders:openBuyOrdersTitle")
                 : t("MyOpenOrders:openSellOrdersTitle")}

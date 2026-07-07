@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "Maximum short squeeze ratio info",
   "maximumShortSqueezeRatioDescription": "The max short squeeze ratio is the maximum ratio which a debt position will be protected against short squeezes.",
   "moreAboutMaximumShortSqueezeRatio": "More about the max short squeeze ratio",
-  "borrowButton": "Borrow"
+  "borrowButton": "Borrow",
+  "assetDetails": "Asset Details",
+  "smartcoinParameters": "Smartcoin Parameters"
 }

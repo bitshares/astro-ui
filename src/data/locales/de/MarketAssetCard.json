@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "Informationen zum maximalen Short-Squeeze-Verhältnis",
   "maximumShortSqueezeRatioDescription": "Die maximale Short-Squeeze-Ratio ist das maximale Verhältnis, mit dem eine Schuldenposition vor Short-Squeeze geschützt wird.",
   "moreAboutMaximumShortSqueezeRatio": "Mehr über das maximale Short-Squeeze-Verhältnis",
-  "borrowButton": "Ausleihen"
+  "borrowButton": "Ausleihen",
+  "assetDetails": "Asset-Details",
+  "smartcoinParameters": "Smartcoin-Parameter"
 }

@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "Informazioni sul rapporto massimo di compressione breve",
   "maximumShortSqueezeRatioDescription": "Il rapporto massimo di short squeeze è il rapporto massimo con il quale una posizione debitoria sarà protetta dagli short squeeze.",
   "moreAboutMaximumShortSqueezeRatio": "Maggiori informazioni sul rapporto massimo di compressione breve",
-  "borrowButton": "Prestito"
+  "borrowButton": "Prestito",
+  "assetDetails": "Dettagli dell'asset",
+  "smartcoinParameters": "Parametri Smartcoin"
 }

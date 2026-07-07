@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "最大ショートスクイーズ率情報",
   "maximumShortSqueezeRatioDescription": "最大ショートスクイーズ比率は、債務ポジションがショートスクイーズから保護される最大比率です。",
   "moreAboutMaximumShortSqueezeRatio": "最大ショートスクイーズ率の詳細",
-  "borrowButton": "借りる"
+  "borrowButton": "借りる",
+  "assetDetails": "資産詳細",
+  "smartcoinParameters": "スマートコインパラメータ"
 }

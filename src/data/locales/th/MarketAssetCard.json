@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "ข้อมูลอัตราส่วนการบีบสั้นสูงสุด",
   "maximumShortSqueezeRatioDescription": "อัตราส่วนการบีบชอร์ตสูงสุดคืออัตราส่วนสูงสุดที่สถานะหนี้จะได้รับการคุ้มครองจากการบีบชอร์ต",
   "moreAboutMaximumShortSqueezeRatio": "ข้อมูลเพิ่มเติมเกี่ยวกับอัตราส่วนการบีบสั้นสูงสุด",
-  "borrowButton": "ยืม"
+  "borrowButton": "ยืม",
+  "assetDetails": "รายละเอียดสินทรัพย์",
+  "smartcoinParameters": "พารามิเตอร์ Smartcoin"
 }

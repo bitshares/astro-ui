@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "Informações máximas sobre a taxa de compressão curta",
   "maximumShortSqueezeRatioDescription": "O índice máximo de compressão curta é o índice máximo pelo qual uma posição de dívida será protegida contra restrições curtas.",
   "moreAboutMaximumShortSqueezeRatio": "Mais sobre a taxa máxima de compressão curta",
-  "borrowButton": "Emprestar"
+  "borrowButton": "Emprestar",
+  "assetDetails": "Detalhes do ativo",
+  "smartcoinParameters": "Parâmetros Smartcoin"
 }

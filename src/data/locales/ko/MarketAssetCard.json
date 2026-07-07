@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "최대 쇼트 스퀴즈 비율 정보",
   "maximumShortSqueezeRatioDescription": "최대 숏 스퀴즈 비율은 숏 스퀴즈로부터 부채 포지션을 보호할 수 있는 최대 비율입니다.",
   "moreAboutMaximumShortSqueezeRatio": "최대 숏 스퀴즈 비율에 대한 추가 정보",
-  "borrowButton": "빌리다"
+  "borrowButton": "빌리다",
+  "assetDetails": "자산 세부정보",
+  "smartcoinParameters": "스마트코인 매개변수"
 }

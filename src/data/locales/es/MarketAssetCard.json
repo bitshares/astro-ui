@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "Información máxima sobre la relación de compresión corta",
   "maximumShortSqueezeRatioDescription": "El ratio máximo de contracción corta es el ratio máximo en el que una posición de deuda estará protegida contra constricciones cortas.",
   "moreAboutMaximumShortSqueezeRatio": "Más información sobre la relación máxima de compresión corta",
-  "borrowButton": "Pedir prestado"
+  "borrowButton": "Pedir prestado",
+  "assetDetails": "Detalles del activo",
+  "smartcoinParameters": "Parámetros Smartcoin"
 }

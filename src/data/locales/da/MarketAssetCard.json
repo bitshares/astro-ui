@@ -145,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "Maksimal kort squeeze-forhold info",
   "maximumShortSqueezeRatioDescription": "Det maksimale short squeeze-forhold er det maksimale forhold, som en gældsposition vil være beskyttet mod short squeeze.",
   "moreAboutMaximumShortSqueezeRatio": "Mere om det maksimale short squeeze-forhold",
-  "borrowButton": "Låne"
+  "borrowButton": "Låne",
+  "assetDetails": "Aktiver detaljer",
+  "smartcoinParameters": "Smartcoin-parametre"
 }
