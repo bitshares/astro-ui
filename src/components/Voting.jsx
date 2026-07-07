@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { sha256 } from "@noble/hashes/sha2.js";
 import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
+import { Vote, Check, X, Ticket, ArrowUp, ArrowDown } from "lucide-react";
 
 import {
   Card,
@@ -621,8 +622,8 @@ export default function Witnesses(properties) {
 
     return (
       <div style={style} key={witness.id}>
-        <Card className={`mb-1 ${witness.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
-          <CardContent className="pt-3 pb-3 text-sm">
+        <div className={`mb-1 relative overflow-hidden rounded-xl border ${witness.active ? "border-emerald-500/20 bg-emerald-500/5" : "border-indigo-500/15 bg-card/60"} backdrop-blur-xl shadow-sm hover:border-indigo-500/25 transition-all duration-300`}>
+          <div className="p-3 text-sm">
             <div className="grid grid-cols-4 gap-2 items-center">
               <div className="flex items-center">
                 <span className="hidden md:block">
@@ -677,12 +678,12 @@ export default function Witnesses(properties) {
                   }}
                   value={isToggled}
                 >
-                  {isToggled ? "✔️" : "✖️"}
+                  {isToggled ? <Check className="h-4 w-4 text-emerald-500" /> : <X className="h-4 w-4 text-rose-500" />}
                 </Toggle>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   };
@@ -698,8 +699,8 @@ export default function Witnesses(properties) {
 
     return (
       <div style={style} key={member.id}>
-        <Card className={`mb-1 ${member.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
-          <CardContent className="pt-3 pb-3 text-sm">
+        <div className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-emerald-500/20 bg-emerald-500/5" : "border-indigo-500/15 bg-card/60"} backdrop-blur-xl shadow-sm hover:border-indigo-500/25 transition-all duration-300`}>
+          <div className="p-3 text-sm">
             <div className="grid grid-cols-4 gap-2 items-center">
               <div className="flex items-center">
                 <span className="hidden md:block">
@@ -755,12 +756,12 @@ export default function Witnesses(properties) {
                   }}
                   value={isToggled}
                 >
-                  {isToggled ? "✔️" : "✖️"}
+                  {isToggled ? <Check className="h-4 w-4 text-emerald-500" /> : <X className="h-4 w-4 text-rose-500" />}
                 </Toggle>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   };
@@ -778,13 +779,13 @@ export default function Witnesses(properties) {
 
     return (
       <div style={style} key={worker.id}>
-        <Card className={`mb-1`}>
-          <CardContent className="pt-3 pb-3 text-sm">
+        <div className={`mb-1 relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 backdrop-blur-xl shadow-sm hover:border-indigo-500/25 transition-all duration-300`}>
+          <div className="p-3 text-sm">
             <div className="grid grid-cols-8 md:grid-cols-12 gap-2 items-center">
               <div>
                 {budgetConsumers.find((bc) => bc.id === worker.id)
-                  ? "✅"
-                  : "❌"}
+                  ? <Check className="h-3.5 w-3.5 text-emerald-500" />
+                  : <X className="h-3.5 w-3.5 text-rose-500" />}
               </div>
               <div className="hidden md:block">
                 <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
@@ -831,12 +832,12 @@ export default function Witnesses(properties) {
                   }}
                   value={isToggled}
                 >
-                  {isToggled ? "✔️" : "✖️"}
+                  {isToggled ? <Check className="h-4 w-4 text-emerald-500" /> : <X className="h-4 w-4 text-rose-500" />}
                 </Toggle>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   };
@@ -846,32 +847,38 @@ export default function Witnesses(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("Voting:title")}</CardTitle>
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-indigo-950/20">
+        <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-500/20 to-violet-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-violet-500/20 to-indigo-500/20 blur-3xl" />
+        <div className="h-1 w-full bg-gradient-to-r from-indigo-400/70 via-violet-400/70 to-indigo-400/70" />
+        <CardHeader className="pb-0">
+          <CardTitle className="text-lg bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent flex items-center gap-2">
+            <Vote className="h-5 w-5 text-indigo-500" />
+            {t("Voting:title")}
+          </CardTitle>
           <CardDescription>{t("Voting:description")}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 pt-2">
           <Input
             placeholder={t("Witnesses:filterPlaceholder")}
             onChange={(e) => debouncedFilterChange(e.target.value)}
-            className="mb-4 w-full md:w-1/3"
+            className="mb-4 w-full md:w-1/3 border-indigo-500/20 bg-card/60 focus-visible:ring-indigo-400/40 focus-visible:border-indigo-400/50"
           />
           <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
             <Button
-              variant={selectedVoteType === "witnesses" ? "default" : "outline"}
+              className={selectedVoteType === "witnesses" ? "bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-md shadow-indigo-500/30 transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
               onClick={() => setSelectedVoteType("witnesses")}
             >
               {t("Voting:tabs.witnesses")}
             </Button>
             <Button
-              variant={selectedVoteType === "committee" ? "default" : "outline"}
+              className={selectedVoteType === "committee" ? "bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-md shadow-indigo-500/30 transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
               onClick={() => setSelectedVoteType("committee")}
             >
               {t("Voting:tabs.committee")}
             </Button>
             <Button
-              variant={selectedVoteType === "workers" ? "default" : "outline"}
+              className={selectedVoteType === "workers" ? "bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-md shadow-indigo-500/30 transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
               onClick={() => setSelectedVoteType("workers")}
             >
               {t("Voting:tabs.workers")}
@@ -880,7 +887,7 @@ export default function Witnesses(properties) {
 
           {selectedVoteType === "witnesses" ? (
             <div className="w-full">
-              <div className="grid grid-cols-4 gap-2 p-2 bg-accent rounded-t-md font-semibold text-sm">
+              <div className="grid grid-cols-4 gap-2 p-2 bg-gradient-to-r from-indigo-500/10 to-violet-500/10 rounded-t-md font-semibold text-sm">
                 <div
                   className="cursor-pointer"
                   onClick={() => handleWitnessSort("name")}
@@ -922,7 +929,7 @@ export default function Witnesses(properties) {
           ) : null}
           {selectedVoteType === "committee" ? (
             <div className="w-full">
-              <div className="grid grid-cols-4 gap-2 p-2 bg-accent rounded-t-md font-semibold text-sm">
+              <div className="grid grid-cols-4 gap-2 p-2 bg-gradient-to-r from-indigo-500/10 to-violet-500/10 rounded-t-md font-semibold text-sm">
                 <div onClick={() => handleCommitteeSort("name")}>
                   {t("CommitteeMembers:name")}{" "}
                   {committeeSortKey === "name"
@@ -961,7 +968,7 @@ export default function Witnesses(properties) {
           ) : null}
           {selectedVoteType === "workers" ? (
             <div className="w-full">
-              <div className="grid grid-cols-8 md:grid-cols-12 gap-2 p-2 bg-accent rounded-t-md font-semibold text-sm">
+              <div className="grid grid-cols-8 md:grid-cols-12 gap-2 p-2 bg-gradient-to-r from-indigo-500/10 to-violet-500/10 rounded-t-md font-semibold text-sm">
                 <div>{t("Voting:workers.active")}</div>
                 <div className="hidden md:block">
                   {t("CommitteeMembers:ids")}
@@ -1018,15 +1025,18 @@ export default function Witnesses(properties) {
           ) : null}
         </CardContent>
         <CardFooter>
-          <Button onClick={() => setShowDialog(true)} disabled={!checkedVotes}>
+          <Button className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-violet-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer" onClick={() => setShowDialog(true)} disabled={!checkedVotes}>
             {t("Voting:submit")}
           </Button>
         </CardFooter>
       </Card>
-      <Card className="mt-5 w-full md:w-1/2 mx-auto">
+      <Card className="mt-5 w-full md:w-1/2 mx-auto relative overflow-hidden border-violet-500/15 bg-card/60 backdrop-blur-xl shadow-lg shadow-violet-950/10">
+        <div className="pointer-events-none absolute -top-20 -left-20 h-40 w-40 rounded-full bg-gradient-to-br from-violet-500/20 to-purple-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-gradient-to-br from-purple-500/20 to-violet-500/20 blur-3xl" />
+        <div className="h-0.5 w-full bg-gradient-to-r from-violet-400/50 via-purple-400/50 to-violet-400/50" />
         <Empty className="mt-5">
           <EmptyHeader>
-            <EmptyMedia variant="icon">❔</EmptyMedia>
+            <EmptyMedia variant="icon"><Ticket className="h-10 w-10 text-violet-500" /></EmptyMedia>
             <EmptyTitle>{t("Voting:ticket.title")}</EmptyTitle>
             <EmptyDescription>
               {t("Voting:ticket.descriptionLine1")}
@@ -1035,7 +1045,7 @@ export default function Witnesses(properties) {
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <Button asChild>
+            <Button asChild className="bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-md shadow-violet-500/20 hover:from-violet-400 hover:to-purple-400 hover:shadow-violet-500/40 active:scale-95 transition-all duration-200 cursor-pointer">
               <a href="/create_ticket/index.html">
                 {t("Voting:ticket.createButton")}
               </a>

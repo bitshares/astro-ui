@@ -503,13 +503,6 @@ export default function PortfolioOpenOrders({
                 <span className="text-xl font-bold tracking-tight">
                   {t("PortfolioTabs:openOrdersTitle")}
                 </span>
-                {hasOrders ? (
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    {t("PortfolioTabs:orderSummaryCount", {
-                      count: sortedOpenOrders.length,
-                    })}
-                  </p>
-                ) : null}
               </div>
             </div>
             <Button

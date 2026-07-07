@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { sha256 } from "@noble/hashes/sha2.js";
 import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
+import { Eye, ArrowUpDown } from "lucide-react";
 
 import {
   Card,
@@ -331,8 +332,8 @@ export default function Witnesses(properties) {
 
       return (
         <div style={style} key={`vote${currentVote}`}>
-          <Card className={`mb-1 ${witness.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
-            <CardContent className="pt-3 pb-3 text-sm">
+          <Card className={`mb-1 relative overflow-hidden ${witness.active ? "border-emerald-500/20 bg-emerald-500/5" : "border-indigo-500/15 bg-card/60"} backdrop-blur-xl shadow-sm hover:border-indigo-500/25 transition-all duration-300`}>
+            <CardContent className="p-3 text-sm">
               <div className="col-span-3 flex items-center">
                 <Avatar
                   size={30}
@@ -355,81 +356,81 @@ export default function Witnesses(properties) {
       );
     };
 
-    return (
-      <div style={style} key={witness.id}>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Card className={`mb-1 ${witness.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
-              <CardContent className="pt-3 pb-3 text-sm">
-                <div className="grid grid-cols-12 gap-2 items-center">
-                  <div className="col-span-4 md:col-span-3 flex items-center">
-                    <span className="hidden md:block">
-                      <Avatar
-                        size={30}
-                        name={witness.name}
-                        extra={`W${index}`}
-                        expression={
-                          witness.signingKey ===
-                            "BTS1111111111111111111111111111111114T1Anm" ||
-                          !witness.active
-                            ? { eye: "sleepy", mouth: "unhappy" }
-                            : { eye: "normal", mouth: "open" }
-                        }
-                        colors={[
-                          "#F0AB3D",
-                          "#C271B4",
-                          "#C20D90",
-                          "#92A1C6",
-                          "#146A7C",
-                        ]}
-                      />
-                    </span>
-                    <span className="ml-2">{witness.name}</span>
-                  </div>
-                  <div className="col-span-4 md:col-span-2">
-                    <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
-                      {witness.id}
-                    </span>{" "}
-                    (
-                    <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
-                      {witness.account_id}
-                    </span>
-                    )
-                  </div>
-                  <div className="hidden md:block col-span-3">
-                    {witness.last_aslot_time
-                      ? formatTimeAgo(witness.last_aslot_time, t)
-                      : "N/A"}
-                    {witness.last_block_num ? (
-                      <>
-                        <br />
-                        <span className="text-xs">
-                          (
-                          <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
-                            #{witness.last_block_num}
+      return (
+        <div style={style} key={witness.id}>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Card className={`mb-1 relative overflow-hidden ${witness.active ? "border-emerald-500/20 bg-emerald-500/5" : "border-indigo-500/15 bg-card/60"} backdrop-blur-xl shadow-sm hover:border-indigo-500/25 transition-all duration-300`}>
+                <CardContent className="p-3 text-sm">
+                  <div className="grid grid-cols-12 gap-2 items-center">
+                    <div className="col-span-4 md:col-span-3 flex items-center">
+                      <span className="hidden md:block">
+                        <Avatar
+                          size={30}
+                          name={witness.name}
+                          extra={`W${index}`}
+                          expression={
+                            witness.signingKey ===
+                              "BTS1111111111111111111111111111111114T1Anm" ||
+                            !witness.active
+                              ? { eye: "sleepy", mouth: "unhappy" }
+                              : { eye: "normal", mouth: "open" }
+                          }
+                          colors={[
+                            "#F0AB3D",
+                            "#C271B4",
+                            "#C20D90",
+                            "#92A1C6",
+                            "#146A7C",
+                          ]}
+                        />
+                      </span>
+                      <span className="ml-2">{witness.name}</span>
+                    </div>
+                    <div className="col-span-4 md:col-span-2">
+                      <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
+                        {witness.id}
+                      </span>{" "}
+                      (
+                      <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
+                        {witness.account_id}
+                      </span>
+                      )
+                    </div>
+                    <div className="hidden md:block col-span-3">
+                      {witness.last_aslot_time
+                        ? formatTimeAgo(witness.last_aslot_time, t)
+                        : "N/A"}
+                      {witness.last_block_num ? (
+                        <>
+                          <br />
+                          <span className="text-xs">
+                            (
+                            <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
+                              #{witness.last_block_num}
+                            </span>
+                            )
                           </span>
-                          )
-                        </span>
-                      </>
-                    ) : null}
+                        </>
+                      ) : null}
+                    </div>
+                    <div
+                      className={`hidden md:block col-span-1 text-center font-medium ${missedClass}`}
+                    >
+                      {witness.total_missed}
+                    </div>
+                    <div className="col-span-4 md:col-span-3 text-right pr-3">
+                      {humanReadableFloat(witness.total_votes, 5).toLocaleString(
+                        undefined,
+                        { minimumFractionDigits: 0, maximumFractionDigits: 0 }
+                      )}
+                      {_chain === "bitshares" ? " BTS" : " TEST"}
+                    </div>
                   </div>
-                  <div
-                    className={`hidden md:block col-span-1 text-center font-medium ${missedClass}`}
-                  >
-                    {witness.total_missed}
-                  </div>
-                  <div className="col-span-4 md:col-span-3 text-right pr-3">
-                    {humanReadableFloat(witness.total_votes, 5).toLocaleString(
-                      undefined,
-                      { minimumFractionDigits: 0, maximumFractionDigits: 0 }
-                    )}
-                    {_chain === "bitshares" ? " BTS" : " TEST"}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px] bg-card">
+                </CardContent>
+              </Card>
+            </DialogTrigger>
+          <DialogContent className="sm:max-w-[500px] bg-card/60 backdrop-blur-xl border-indigo-500/15">
             <DialogHeader>
               <DialogTitle>
                 {t("Witnesses:votesFor", { name: witness.name })}:
@@ -461,16 +462,22 @@ export default function Witnesses(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("Witnesses:title")}</CardTitle>
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-indigo-950/20">
+        <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 blur-3xl" />
+        <div className="h-1 w-full bg-gradient-to-r from-indigo-400/70 via-cyan-400/70 to-indigo-400/70" />
+        <CardHeader className="pb-0">
+          <CardTitle className="text-lg bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent flex items-center gap-2">
+            <Eye className="h-5 w-5 text-indigo-500" />
+            {t("Witnesses:title")}
+          </CardTitle>
           <CardDescription>{t("Witnesses:description")}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 pt-2">
           <Input
             placeholder={t("Witnesses:filterPlaceholder")}
             onChange={(e) => debouncedFilterChange(e.target.value)}
-            className="mb-4 w-full md:w-1/3"
+            className="mb-4 w-full md:w-1/3 border-indigo-500/20 bg-card/60 focus-visible:ring-indigo-400/40 focus-visible:border-indigo-400/50"
           />
           {!sortedWitnesses ||
           !sortedWitnesses.length ||
@@ -481,9 +488,9 @@ export default function Witnesses(properties) {
             </div>
           ) : (
             <div className="w-full">
-              <div className="grid grid-cols-12 gap-2 p-2 bg-accent rounded-t-md font-semibold text-sm sticky top-0 z-10">
+              <div className="grid grid-cols-12 gap-2 p-2 bg-gradient-to-r from-indigo-500/10 to-cyan-500/10 rounded-t-md font-semibold text-sm sticky top-0 z-10">
                 <div
-                  className="col-span-4 md:col-span-3 cursor-pointer"
+                  className="col-span-4 md:col-span-3 cursor-pointer bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent"
                   onClick={() => handleSort("name")}
                 >
                   {t("Witnesses:name")}{" "}
@@ -500,7 +507,7 @@ export default function Witnesses(properties) {
                   {t("Witnesses:lastBlock")}
                 </div>
                 <div
-                  className="hidden md:block col-span-1 text-center cursor-pointer"
+                  className="hidden md:block col-span-1 text-center cursor-pointer bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent"
                   onClick={() => handleSort("missed")}
                 >
                   {t("Witnesses:missed")}{" "}
@@ -511,7 +518,7 @@ export default function Witnesses(properties) {
                     : ""}
                 </div>
                 <div
-                  className="col-span-4 md:col-span-3 text-right pr-3 cursor-pointer"
+                  className="col-span-4 md:col-span-3 text-right pr-3 cursor-pointer bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent"
                   onClick={() => handleSort("votes")}
                 >
                   {t("Witnesses:votes")}{" "}

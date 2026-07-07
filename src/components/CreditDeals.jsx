@@ -9,15 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { HandCoins, Coins, ShieldAlert, AlertTriangle, Repeat } from "lucide-react";
 
 import {
   Empty,
@@ -304,15 +296,15 @@ export default function CreditDeals(properties) {
 
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="ml-2 mr-2 pb-3">
-          <CardHeader className="pb-1">
-            <CardTitle>
+        <div className="ml-2 mr-2 relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 backdrop-blur-xl shadow-md shadow-indigo-950/10 hover:border-indigo-500/25 hover:shadow-indigo-500/15 transition-all duration-300 pb-3">
+          <div className="p-3 pb-1">
+            <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">
               {t("CreditDeals:dealNo")}
               {res.id.replace("1.22.", "")}
               {t("CreditDeals:with")}
               {type === "borrower" ? res.offer_owner : res.borrower}
-            </CardTitle>
-            <CardDescription>
+            </h3>
+            <p className="text-sm text-muted-foreground mt-1">
               {type === "borrower"
                 ? t("CreditDeals:borrowed")
                 : t("CreditDeals:lent")}
@@ -340,17 +332,17 @@ export default function CreditDeals(properties) {
               <b>
                 {remainingTime} ({res.latest_repay_time})
               </b>
-            </CardDescription>
-          </CardHeader>
+            </p>
+          </div>
           {type === "borrower" ? (
-            <CardFooter className="pb-0 mt-2">
-              <Button onClick={() => setOpenRepay(true)}>
+            <div className="px-3 pb-0 mt-2">
+              <Button className="bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md shadow-rose-500/20 hover:from-rose-400 hover:to-pink-400 hover:shadow-rose-500/40 active:scale-95 transition-all duration-200 cursor-pointer" onClick={() => setOpenRepay(true)}>
                 {t("CreditDeals:repayLoan")}
               </Button>
               <a
                 href={`/dex/index.html?market=${debtAsset.symbol}_${collateralAsset.symbol}`}
               >
-                <Button className="ml-2">
+                <Button className="ml-2 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer">
                   {t("CreditDeals:trade", { symbol: debtAsset.symbol })}
                 </Button>
               </a>
@@ -583,7 +575,7 @@ export default function CreditDeals(properties) {
                           !finalRepayAmount ||
                           debtAssetBalance < finalRepayment ? (
                             <Button
-                              className="mt-5 mb-3"
+                              className="mt-5 mb-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
                               variant="outline"
                               disabled
                               type="submit"
@@ -592,7 +584,7 @@ export default function CreditDeals(properties) {
                             </Button>
                           ) : (
                             <Button
-                              className="mt-5 mb-3"
+                              className="mt-5 mb-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
                               variant="outline"
                               type="submit"
                             >
@@ -641,9 +633,9 @@ export default function CreditDeals(properties) {
                   </DialogContent>
                 </Dialog>
               ) : null}
-            </CardFooter>
+            </div>
           ) : null}
-        </Card>
+        </div>
       </div>
     );
   }
@@ -668,51 +660,46 @@ export default function CreditDeals(properties) {
     return <CommonRow style={style} res={res} type="lender" />;
   };
 
-  const activeTabStyle = {
-    backgroundColor: "hsl(var(--primary))",
-    color: "hsl(var(--primary-foreground))",
-  };
-
   const [activeTab, setActiveTab] = useState("borrowings");
 
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full lg:w-1/2">
         <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("CreditDeals:card.title")}</CardTitle>
-              <CardDescription>
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-indigo-950/20">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-indigo-400/70 via-cyan-400/70 to-indigo-400/70" />
+            <div className="p-4 pb-0">
+              <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent flex items-center gap-2">
+                <HandCoins className="h-5 w-5 text-indigo-500" />
+                {t("CreditDeals:card.title")}
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
                 {t("CreditDeals:card.description")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </p>
+            </div>
+            <div className="p-4 pt-2">
               <Tabs defaultValue="borrowings" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 gap-2">
-                  {activeTab === "borrowings" ? (
-                    <TabsTrigger value="borrowings" style={activeTabStyle}>
-                      {t("CreditDeals:card.viewingBorrowings")}
-                    </TabsTrigger>
-                  ) : (
-                    <TabsTrigger
-                      value="borrowings"
-                      onClick={() => setActiveTab("borrowings")}
-                    >
-                      {t("CreditDeals:card.viewBorrowings")}
-                    </TabsTrigger>
-                  )}
-                  {activeTab === "lendings" ? (
-                    <TabsTrigger value="lendings" style={activeTabStyle}>
-                      {t("CreditDeals:card.viewingLendings")}
-                    </TabsTrigger>
-                  ) : (
-                    <TabsTrigger
-                      value="lendings"
-                      onClick={() => setActiveTab("lendings")}
-                    >
-                      {t("CreditDeals:card.viewLendings")}
-                    </TabsTrigger>
-                  )}
+                <TabsList className="grid w-full grid-cols-2 gap-2 mt-4 mx-4 w-[calc(100%-2rem)] bg-muted/50">
+                  <TabsTrigger
+                    value="borrowings"
+                    onClick={() => setActiveTab("borrowings")}
+                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-indigo-500/30 transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {activeTab === "borrowings"
+                      ? t("CreditDeals:card.viewingBorrowings")
+                      : t("CreditDeals:card.viewBorrowings")}
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="lendings"
+                    onClick={() => setActiveTab("lendings")}
+                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-indigo-500/30 transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {activeTab === "lendings"
+                      ? t("CreditDeals:card.viewingLendings")
+                      : t("CreditDeals:card.viewLendings")}
+                  </TabsTrigger>
                 </TabsList>
                 <TabsContent value="borrowings">
                   {borrowerDeals && borrowerDeals.length ? (
@@ -745,7 +732,7 @@ export default function CreditDeals(properties) {
                       </EmptyHeader>
                       <EmptyContent>
                         <a href="/borrow/index.html">
-                          <Button>{t("Home:borrow.title")}</Button>
+                          <Button className="bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer">{t("Home:borrow.title")}</Button>
                         </a>
                       </EmptyContent>
                     </Empty>
@@ -786,22 +773,26 @@ export default function CreditDeals(properties) {
                   {!lenderDeals ? t("CreditDeals:card.loading") : null}
                 </TabsContent>
               </Tabs>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
         <div className="grid grid-cols-1 gap-3 mt-5">
-          <Card>
-            <CardHeader className="pb-0">
-              <CardTitle>
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-amber-950/10">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-orange-500/20 to-amber-500/20 blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-amber-400/70 via-orange-400/70 to-amber-400/70" />
+            <div className="p-4 pb-0">
+              <h3 className="text-base font-semibold tracking-tight bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent flex items-center gap-2">
+                <ShieldAlert className="h-4 w-4 text-amber-500" />
                 {activeTab === "borrowings"
                   ? t("CreditDeals:risks.borrowerTitle")
                   : t("CreditDeals:risks.lenderTitle")}
-              </CardTitle>
-              <CardDescription>
+              </h3>
+              <p className="text-sm text-muted-foreground mt-1">
                 {t("CreditDeals:risks.description")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="text-sm">
+              </p>
+            </div>
+            <div className="p-4 pt-2 text-sm">
               <ul className="ml-2 list-disc [&>li]:mt-2 pl-2">
                 {activeTab === "borrowings" ? (
                   <li>
@@ -834,8 +825,8 @@ export default function CreditDeals(properties) {
                   <li>{t("CreditDeals:risks.lender.risk4")}</li>
                 )}
               </ul>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </>

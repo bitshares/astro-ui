@@ -8,14 +8,9 @@ import { useStore } from "@nanostores/react";
 import { List } from "react-window";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import { Trophy, Copy } from "lucide-react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 
 import {
   Table,
@@ -36,6 +31,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 import ExternalLink from "@/components/common/ExternalLink.jsx";
 
@@ -179,8 +175,8 @@ export default function TicketLeaderboard() {
       <div key={r.id} style={style}>
         <Dialog>
           <DialogTrigger asChild>
-            <Card className="hover:bg-accent">
-              <CardContent>
+            <Card className="relative overflow-hidden border-amber-500/15 bg-card/60 backdrop-blur-xl shadow-sm hover:border-amber-500/25 hover:shadow-amber-500/10 transition-all duration-300">
+              <div className="p-4">
                 <div className="grid grid-cols-3">
                   <div className="text-xs lg:text-lg mt-5">{name}</div>
 
@@ -196,10 +192,10 @@ export default function TicketLeaderboard() {
                     {r.percent.toFixed(2)}%
                   </div>
                 </div>
-              </CardContent>
+              </div>
             </Card>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[720px] bg-card">
+          <DialogContent className="sm:max-w-[720px] bg-card/60 backdrop-blur-xl border-amber-500/15">
             <div className="flex items-center gap-2 mt-3 text-center">
               <Table>
                 <TableBody>
@@ -239,7 +235,7 @@ export default function TicketLeaderboard() {
                       {r.tickets.map((tid) => (
                         <Badge
                           key={tid}
-                          className="cursor-pointer hover:bg-accent mr-1"
+                          className="cursor-pointer border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20 transition-colors mr-1"
                           variant="secondary"
                           onClick={() => {
                             setActiveTicketId(tid);
@@ -270,19 +266,18 @@ export default function TicketLeaderboard() {
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
       <div className="grid grid-cols-1 gap-3">
-        <Card>
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-amber-950/20">
+          <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
+          <div className="h-1 w-full bg-gradient-to-r from-amber-400/70 via-orange-400/70 to-amber-400/70" />
           <CardHeader className="pb-1">
-            <CardTitle>
+            <CardTitle className="text-lg bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent flex items-center gap-2">
+              <Trophy className="h-5 w-5 text-amber-500" />
               {t("TicketsLeaderboard:title", "Ticket leaderboard")}
             </CardTitle>
-            <CardDescription>
-              {t(
-                "TicketsLeaderboard:description",
-                "Combined effective ticket amounts by account."
-              )}
-            </CardDescription>
+            <CardDescription>{t("TicketsLeaderboard:description", "Combined effective ticket amounts by account.")}</CardDescription>
           </CardHeader>
-          <CardContent>
+          <div className="p-4 pt-2">
             <div className="text-sm mb-3">
               {t("TicketsLeaderboard:total", {
                 amount: leaderboard.total.toLocaleString(
@@ -292,10 +287,10 @@ export default function TicketLeaderboard() {
                 asset: assetSymbol,
               })}
             </div>
-            <div className="grid grid-cols-3">
-              <div>{t("TicketsLeaderboard:th.account", "Account")}</div>
-              <div>{t("TicketsLeaderboard:th.amount", "Effective amount")}</div>
-              <div>{t("TicketsLeaderboard:th.percent", "% of total")}</div>
+            <div className="grid grid-cols-3 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-lg px-3 py-2 mb-2">
+              <div className="text-sm font-medium">{t("TicketsLeaderboard:th.account", "Account")}</div>
+              <div className="text-sm font-medium">{t("TicketsLeaderboard:th.amount", "Effective amount")}</div>
+              <div className="text-sm font-medium">{t("TicketsLeaderboard:th.percent", "% of total")}</div>
             </div>
             <div className="w-full max-h-[320px] overflow-auto">
               <List
@@ -305,12 +300,12 @@ export default function TicketLeaderboard() {
                 rowProps={{}}
               />
             </div>
-          </CardContent>
+          </div>
         </Card>
 
         {showTicketDialog && activeTicketId ? (
           <Dialog open={showTicketDialog} onOpenChange={setShowTicketDialog}>
-            <DialogContent className="sm:max-w-[720px] bg-card">
+            <DialogContent className="sm:max-w-[720px] bg-card/60 backdrop-blur-xl border-amber-500/15">
               <DialogHeader>
                 <DialogTitle>
                   {t("TicketsLeaderboard:ticketDialog.title", "Ticket details")}
@@ -332,7 +327,7 @@ export default function TicketLeaderboard() {
               <div className="flex items-center gap-2 mt-3 justify-end">
                 <Button
                   size="sm"
-                  variant="outline"
+                  className="bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/20 hover:from-amber-400 hover:to-orange-400 active:scale-95 transition-all duration-200 cursor-pointer"
                   onClick={async () => {
                     try {
                       await navigator.clipboard.writeText(

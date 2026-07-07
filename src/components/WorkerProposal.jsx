@@ -9,8 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
-
-import { Field, FieldGroup, FieldError } from "@/components/ui/field";
+import { HardHat, Send } from "lucide-react";
 
 import {
   Card,
@@ -19,6 +18,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Field, FieldGroup, FieldError } from "@/components/ui/field";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -197,14 +198,16 @@ export default function WorkerCreate(properties) {
   if (coreAssetLoading) {
     return (
       <div className="container mx-auto mt-5 mb-5">
-        <Card>
-          <CardHeader>
+        <Card className="relative overflow-hidden border-emerald-500/15 bg-card/60 backdrop-blur-xl shadow-lg shadow-emerald-950/20">
+          <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-teal-500/20 to-emerald-500/20 blur-3xl" />
+          <div className="p-4">
             <Skeleton className="h-8 w-3/4" />
-            <Skeleton className="h-4 w-1/2" />
-          </CardHeader>
-          <CardContent>
+            <Skeleton className="h-4 w-1/2 mt-2" />
+          </div>
+          <div className="p-4 pt-0">
             <Skeleton className="h-64 w-full" />
-          </CardContent>
+          </div>
         </Card>
       </div>
     );
@@ -213,12 +216,18 @@ export default function WorkerCreate(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("WorkerCreate:title")}</CardTitle>
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-emerald-950/20">
+          <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-teal-500/20 to-emerald-500/20 blur-3xl" />
+          <div className="h-1 w-full bg-gradient-to-r from-emerald-400/70 via-teal-400/70 to-emerald-400/70" />
+          <CardHeader className="pb-0">
+            <CardTitle className="text-lg bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent flex items-center gap-2">
+              <HardHat className="h-5 w-5 text-emerald-500" />
+              {t("WorkerCreate:title")}
+            </CardTitle>
             <CardDescription>{t("WorkerCreate:description")}</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 pt-2">
             <form
               onSubmit={form.handleSubmit(() => setShowDialog(true))}
               className="space-y-4"
@@ -249,6 +258,7 @@ export default function WorkerCreate(properties) {
                         id="workerName"
                         placeholder={t("WorkerCreate:namePlaceholder")}
                         maxLength={MAX_WORKER_NAME_LENGTH}
+                        className="border-emerald-500/20 bg-card/60 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
                       />
                       {fieldState.error && (
                         <FieldError>{fieldState.error.message}</FieldError>
@@ -282,6 +292,7 @@ export default function WorkerCreate(properties) {
                         id="workerUrl"
                         placeholder={t("WorkerCreate:urlPlaceholder")}
                         maxLength={MAX_URL_LENGTH}
+                        className="border-emerald-500/20 bg-card/60 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
                       />
                       {fieldState.error && (
                         <FieldError>{fieldState.error.message}</FieldError>
@@ -385,21 +396,37 @@ export default function WorkerCreate(properties) {
                   render={({ field, fieldState }) => (
                     <Field invalid={fieldState.invalid}>
                       <HoverInfo
-                        content={t("WorkerCreate:dailyPayInfo")}
+                        content={t("WorkerCreate:dailyPayInfo", {
+                          coresymbol: _chain === "bitshares" ? "BTS" : "TEST",
+                        })}
                         header={t("WorkerCreate:dailyPayInfoHeader")}
                       />
-                      <Input
-                        {...field}
-                        id="dailyPay"
-                        type="number"
-                        step={"1"}
-                        onChange={(e) => {
-                          const value = safeParseFloat(e.target.value, 0);
-                          field.onChange(value);
-                        }}
-                        className="w-1/4"
-                        disabled={!coreAsset}
-                      />
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="md:col-span-2">
+                          <Input
+                            {...field}
+                            id="dailyPay"
+                            type="number"
+                            step={"1"}
+                            placeholder={t("WorkerCreate:dailyPayLabel", {
+                              coresymbol: _chain === "bitshares" ? "BTS" : "TEST",
+                            })}
+                            onChange={(e) => {
+                              const value = safeParseFloat(e.target.value, 0);
+                              field.onChange(value);
+                            }}
+                            className="border-emerald-500/20 bg-card/60 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                            disabled={!coreAsset}
+                          />
+                        </div>
+                        <div>
+                          <Input
+                            value={`${_chain === "bitshares" ? "BTS" : "TEST"} (1.3.0)`}
+                            disabled
+                            className="border-emerald-500/10 bg-muted/50 text-muted-foreground cursor-not-allowed"
+                          />
+                        </div>
+                      </div>
                       {fieldState.error && (
                         <FieldError>{fieldState.error.message}</FieldError>
                       )}
@@ -421,7 +448,7 @@ export default function WorkerCreate(properties) {
                           onValueChange={field.onChange}
                           value={field.value}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="border-emerald-500/20 bg-card/60">
                             <SelectValue
                               placeholder={t(
                                 "WorkerCreate:workerTypePlaceholder"
@@ -470,6 +497,7 @@ export default function WorkerCreate(properties) {
                             onChange={(e) =>
                               field.onChange(safeParseInt(e.target.value, 0))
                             }
+                            className="border-emerald-500/20 bg-card/60 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
                           />
                           {fieldState.error && (
                             <FieldError>{fieldState.error.message}</FieldError>
@@ -482,9 +510,10 @@ export default function WorkerCreate(properties) {
 
                 <Button
                   type="submit"
-                  className="mt-4"
+                  className="mt-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20 hover:from-emerald-400 hover:to-teal-400 hover:shadow-emerald-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
                   disabled={!form.formState.isValid || !canSubmit}
                 >
+                  <Send className="h-4 w-4 mr-2" />
                   {t("WorkerCreate:publishButton")}
                 </Button>
               </FieldGroup>

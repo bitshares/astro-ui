@@ -11,14 +11,8 @@ import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { sha256 } from "@noble/hashes/sha2.js";
 import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Users, ArrowUpDown } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 import {
   Dialog,
@@ -250,25 +244,25 @@ export default function CommitteeMembers(properties) {
 
       return (
         <div style={style} key={`vote${currentVote}`}>
-          <Card className={`mb-1 ${member.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
-            <CardContent className="pt-3 pb-3 text-sm">
-              <div className="col-span-3 flex items-center">
-                <Avatar
-                  size={30}
-                  name={accountName}
-                  extra={`WL${index}`}
-                  expression={{ eye: "normal", mouth: "open" }}
-                  colors={[
-                    "#F0AB3D",
-                    "#C271B4",
-                    "#C20D90",
-                    "#92A1C6",
-                    "#146A7C",
-                  ]}
-                />
-                <span className="ml-2">{accountName}</span>
-              </div>
-            </CardContent>
+          <Card className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-emerald-500/20 bg-emerald-500/5" : "border-violet-500/15 bg-card/60"} backdrop-blur-xl shadow-sm hover:border-violet-500/25 transition-all duration-300`}>
+          <div className="p-3 text-sm">
+            <div className="col-span-3 flex items-center">
+              <Avatar
+                size={30}
+                name={accountName}
+                extra={`WL${index}`}
+                expression={{ eye: "normal", mouth: "open" }}
+                colors={[
+                  "#F0AB3D",
+                  "#C271B4",
+                  "#C20D90",
+                  "#92A1C6",
+                  "#146A7C",
+                ]}
+              />
+              <span className="ml-2">{accountName}</span>
+            </div>
+          </div>
           </Card>
         </div>
       );
@@ -278,8 +272,8 @@ export default function CommitteeMembers(properties) {
       <div style={style} key={member.id}>
         <Dialog>
           <DialogTrigger asChild>
-            <Card className={`mb-1 ${member.active ? "bg-green-100 dark:bg-green-500/15" : ""}`}>
-              <CardContent className="pt-3 pb-3 text-sm">
+            <Card className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-emerald-500/20 bg-emerald-500/5" : "border-violet-500/15 bg-card/60"} backdrop-blur-xl shadow-sm hover:border-violet-500/25 transition-all duration-300`}>
+              <div className="p-3 text-sm">
                 <div className="grid grid-cols-3 gap-2 items-center">
                   <div className="flex items-center">
                     <span className="hidden md:block">
@@ -317,10 +311,10 @@ export default function CommitteeMembers(properties) {
                     {_chain === "bitshares" ? " BTS" : " TEST"}
                   </div>
                 </div>
-              </CardContent>
+              </div>
             </Card>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px] bg-card">
+          <DialogContent className="sm:max-w-[500px] bg-card/60 backdrop-blur-xl border-violet-500/15">
             <DialogHeader>
               <DialogTitle>
                 {t("CommitteeMembers:votesFor", { name: member.name })}:
@@ -351,17 +345,24 @@ export default function CommitteeMembers(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("CommitteeMembers:title")}</CardTitle>
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-violet-950/20">
+        <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-violet-500/20 to-purple-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-purple-500/20 to-violet-500/20 blur-3xl" />
+        <div className="h-1 w-full bg-gradient-to-r from-violet-400/70 via-purple-400/70 to-violet-400/70" />
+        {/* content */}
+        <CardHeader className="pb-0">
+          <CardTitle className="text-lg bg-gradient-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent flex items-center gap-2">
+            <Users className="h-5 w-5 text-violet-500" />
+            {t("CommitteeMembers:title")}
+          </CardTitle>
           <CardDescription>{t("CommitteeMembers:description")}</CardDescription>
         </CardHeader>
-        <CardContent>
-          <Input
-            placeholder={t("CommitteeMembers:filterPlaceholder")}
-            onChange={(e) => debouncedFilterChange(e.target.value)}
-            className="mb-4 w-full md:w-1/3"
-          />
+        <CardContent className="p-4 pt-2">
+            <Input
+              placeholder={t("CommitteeMembers:filterPlaceholder")}
+              onChange={(e) => debouncedFilterChange(e.target.value)}
+              className="mb-4 w-full md:w-1/3 border-violet-500/20 bg-card/60 focus-visible:ring-violet-400/40 focus-visible:border-violet-400/50"
+            />
           {loading || !sortedMembers || !sortedMembers.length ? (
             <div className="space-y-2">
               <Skeleton className="h-12 w-full" />
@@ -369,12 +370,13 @@ export default function CommitteeMembers(properties) {
             </div>
           ) : (
             <div className="w-full">
-              <div className="grid grid-cols-3 gap-2 p-2 bg-accent rounded-t-md font-semibold text-sm sticky top-0 z-10">
+              <div className="grid grid-cols-3 gap-2 p-2 bg-gradient-to-r from-violet-500/10 to-purple-500/10 rounded-t-md font-semibold text-sm sticky top-0 z-10">
                 <div
-                  className="cursor-pointer"
+                  className="cursor-pointer flex items-center gap-1"
                   onClick={() => handleSort("name")}
                 >
                   {t("CommitteeMembers:name")}{" "}
+                  <ArrowUpDown className="h-3.5 w-3.5 opacity-50" />
                   {sortKey === "name"
                     ? sortDirection === "asc"
                       ? "▲"
@@ -383,10 +385,11 @@ export default function CommitteeMembers(properties) {
                 </div>
                 <div>{t("CommitteeMembers:ids")}</div>
                 <div
-                  className="text-right pr-3 cursor-pointer"
+                  className="text-right pr-3 cursor-pointer flex items-center justify-end gap-1"
                   onClick={() => handleSort("votes")}
                 >
                   {t("CommitteeMembers:votes")}{" "}
+                  <ArrowUpDown className="h-3.5 w-3.5 opacity-50" />
                   {sortKey === "votes"
                     ? sortDirection === "asc"
                       ? "▲"

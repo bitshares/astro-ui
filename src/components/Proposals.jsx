@@ -11,15 +11,7 @@ import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
 
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { FileText, ShieldAlert, CheckCircle, XCircle, AlertTriangle, Clock } from "lucide-react";
 
 import {
   Dialog,
@@ -56,7 +48,6 @@ import { createObjectStore } from "@/nanoeffects/Objects.ts";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 import HoverInfo from "@/components/common/HoverInfo.tsx";
 import ExternalLink from "./common/ExternalLink.jsx";
-import { Separator } from "./ui/separator.jsx";
 
 const operationStrings = [
   "transfer",
@@ -264,16 +255,16 @@ export default function Proposals(properties) {
 
     return (
       <div style={{ ...style }} key={`card-${proposal.id}`}>
-        <Card className="ml-3 mr-3 mt-3">
-          <CardContent>
+        <div className="ml-3 mr-3 mt-3 relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 backdrop-blur-xl shadow-md shadow-indigo-950/10 hover:border-indigo-500/25 hover:shadow-indigo-500/15 transition-all duration-300">
+          <div className="p-4">
             <div className="grid grid-cols-1 gap-3">
               <div className="grid grid-cols-2 gap-3 mt-3">
                 <div className="col-span-2">
                   {t("Proposals:proposalID")}
                   {": "}
-                  <span className="hover:text-purple-500 dark:hover:text-purple-400">{proposal.id}</span>
+                  <span className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">{proposal.id}</span>
                   <Badge
-                    className="ml-3"
+                    className="ml-3 border-indigo-500/20 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 cursor-pointer hover:bg-indigo-500/20 transition-colors"
                     onClick={() => {
                       setViewJSON(true);
                       setJSON(proposal);
@@ -287,7 +278,7 @@ export default function Proposals(properties) {
                   {": "}
                   <b>
                     {proposerAccount && proposerAccount.name ? (
-                      <span className="hover:text-purple-500 dark:hover:text-purple-400">
+                      <span className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">
                         {proposerAccount.name}
                       </span>
                     ) : (
@@ -295,7 +286,7 @@ export default function Proposals(properties) {
                     )}
                   </b>{" "}
                   (
-                  <span className="hover:text-purple-500 dark:hover:text-purple-400">{proposer}</span>
+                  <span className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">{proposer}</span>
                   )
                 </div>
                 <div className="col-span-2">
@@ -315,7 +306,7 @@ export default function Proposals(properties) {
                   content={t("Proposals:operationsDescription")}
                   type="header"
                 />
-                <div className="border rounded-md pl-2 pb-2 mt-2">
+                <div className="border border-indigo-500/15 rounded-xl pl-2 pb-2 mt-2 bg-card/60">
                   {operations.length && operations.length > 10 ? (
                     <Badge
                       onClick={() => {
@@ -324,14 +315,14 @@ export default function Proposals(properties) {
                           operations,
                         });
                       }}
-                      className=""
+                      className="border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400 cursor-pointer hover:bg-amber-500/20 transition-colors"
                     >
                       ⚠️ {operations.length} operations
                     </Badge>
                   ) : (
                     operations.map((x) => (
                       <Badge
-                        className="ml-1"
+                        className="ml-1 border-cyan-500/20 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 cursor-pointer hover:bg-cyan-500/20 transition-colors"
                         onClick={() => {
                           setViewJSON(true);
                           setJSON({
@@ -346,18 +337,18 @@ export default function Proposals(properties) {
                 </div>
               </div>
             </div>
-          </CardContent>
-          <CardFooter>
+          </div>
+          <div className="px-4 pb-4">
             <div className="grid grid-cols-2 gap-3 w-full">
               <div className="col-span-2">
-                <Separator />
+                <div className="h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent my-2" />
               </div>
               <div className="flex space-x-3">
                 <Button
                   onClick={() => {
                     setApproveOpen(true);
                   }}
-                  className="w-1/2"
+                  className="w-1/2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20 hover:from-emerald-400 hover:to-teal-400 hover:shadow-emerald-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                   {t("Proposals:beginApprovalProcess")}
                 </Button>
@@ -366,14 +357,14 @@ export default function Proposals(properties) {
                     setRejectOpen(true);
                     setRejectedProposalID(proposal.id);
                   }}
-                  className="w-1/2"
+                  className="w-1/2 bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md shadow-rose-500/20 hover:from-rose-400 hover:to-pink-400 hover:shadow-rose-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                   {t("Proposals:reject")}
                 </Button>
               </div>
             </div>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
         {approveOpen ? (
           <Dialog
             open={approveOpen}
@@ -430,6 +421,7 @@ export default function Proposals(properties) {
                                   setChosenProposal(proposal);
                                 }
                               }}
+                              className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20 hover:from-emerald-400 hover:to-teal-400 hover:shadow-emerald-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
                             >
                               {t("Proposals:approveProposedOperation")}
                             </Button>
@@ -439,6 +431,7 @@ export default function Proposals(properties) {
                                 setApprovedCount(0);
                                 setChosenProposal();
                               }}
+                              className="bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md shadow-rose-500/20 hover:from-rose-400 hover:to-pink-400 hover:shadow-rose-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
                             >
                               {t("Proposals:rejectProposedOperation")}
                             </Button>
@@ -459,14 +452,20 @@ export default function Proposals(properties) {
     <>
       <div className="container mx-auto mt-5 mb-5">
         <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("Proposals:cardTitle")}</CardTitle>
-              <CardDescription>
-                <p>{t("Proposals:cardDescription")}</p>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-indigo-950/20">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-indigo-400/70 via-cyan-400/70 to-indigo-400/70" />
+            <div className="p-4 pb-0">
+              <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent flex items-center gap-2">
+                <FileText className="h-5 w-5 text-indigo-500" />
+                {t("Proposals:cardTitle")}
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                {t("Proposals:cardDescription")}
+              </p>
+            </div>
+            <div className="p-4 pt-2">
               <div className="grid grid-cols-1 gap-3">
                 {filteredProposals && filteredProposals.length ? (
                   <div className="w-full border-2 max-h-[500px] overflow-auto">
@@ -480,31 +479,37 @@ export default function Proposals(properties) {
                 ) : (
                   <Empty>
                     <EmptyHeader>
-                      <EmptyMedia variant="icon">❕</EmptyMedia>
+                      <EmptyMedia variant="icon"><FileText className="h-10 w-10 text-indigo-500" /></EmptyMedia>
                       <EmptyTitle>{t("Proposals:noProposals")}</EmptyTitle>
                     </EmptyHeader>
                   </Empty>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle>{t("Proposals:risksTitle")}</CardTitle>
-              <CardDescription>
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-amber-950/10">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-orange-500/20 to-amber-500/20 blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-amber-400/70 via-orange-400/70 to-amber-400/70" />
+            <div className="p-4 pb-0">
+              <h3 className="text-base font-semibold tracking-tight bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent flex items-center gap-2">
+                <ShieldAlert className="h-4 w-4 text-amber-500" />
+                {t("Proposals:risksTitle")}
+              </h3>
+              <p className="text-sm text-muted-foreground mt-1">
                 {t("Proposals:risksDescription")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </p>
+            </div>
+            <div className="p-4 pt-2">
               <span className="text-sm">
                 <ul className="ml-2 list-disc [&>li]:mt-1 pl-2">
                   <li>{t("Proposals:risk1")}</li>
                   <li>{t("Proposals:risk2")}</li>
                 </ul>
               </span>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {viewJSON && json ? (
             <Dialog
@@ -528,7 +533,7 @@ export default function Proposals(properties) {
                   rows={15}
                 />
                 <Button
-                  className="w-1/4 mt-2"
+                  className="w-1/4 mt-2 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
                   onClick={() => {
                     navigator.clipboard.writeText(
                       JSON.stringify(json, null, 2)
