@@ -45,9 +45,36 @@ import {
 } from "@/stores/favourites.ts";
 
 const TYPE_ACCENTS = {
-  buy: { bar: "from-emerald-400/70", chip: "border-emerald-400/30 bg-emerald-500/15 text-emerald-200", label: "Buy" },
-  sell: { bar: "from-rose-400/70", chip: "border-rose-400/30 bg-rose-500/15 text-rose-200", label: "Sell" },
-  pool: { bar: "from-amber-400/70", chip: "border-amber-400/30 bg-amber-500/15 text-amber-200", label: "Pool" },
+  buy: {
+    bar: "from-emerald-400/70",
+    chip: "border-emerald-400/30 bg-emerald-500/15 text-emerald-200",
+    label: "Buy",
+    border: "border-emerald-500/20",
+    bg: "bg-emerald-500/[0.04]",
+    hoverBorder: "hover:border-emerald-400/50",
+    hoverBg: "hover:bg-emerald-500/10",
+    iconColor: "text-emerald-300",
+  },
+  sell: {
+    bar: "from-rose-400/70",
+    chip: "border-rose-400/30 bg-rose-500/15 text-rose-200",
+    label: "Sell",
+    border: "border-rose-500/20",
+    bg: "bg-rose-500/[0.04]",
+    hoverBorder: "hover:border-rose-400/50",
+    hoverBg: "hover:bg-rose-500/10",
+    iconColor: "text-rose-300",
+  },
+  pool: {
+    bar: "from-amber-400/70",
+    chip: "border-amber-400/30 bg-amber-500/15 text-amber-200",
+    label: "Pool",
+    border: "border-amber-500/20",
+    bg: "bg-amber-500/[0.04]",
+    hoverBorder: "hover:border-amber-400/50",
+    hoverBg: "hover:bg-amber-500/10",
+    iconColor: "text-amber-300",
+  },
 };
 
 const DIALOG_CLASS =
@@ -126,7 +153,12 @@ export default function MarketAssetCard(properties) {
   const typeAccent = TYPE_ACCENTS[type] || TYPE_ACCENTS.buy;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-xl shadow-black/30">
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-xl border bg-card/60 backdrop-blur-xl",
+        typeAccent.border,
+      )}
+    >
       <span
         aria-hidden="true"
         className={cn(
@@ -232,9 +264,15 @@ export default function MarketAssetCard(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="h-8 gap-1.5 border-border bg-card/40 hover:border-cyan-400/40 hover:bg-cyan-500/10 text-foreground/80 hover:text-accent-foreground text-xs"
+                className={cn(
+                  "h-8 gap-1.5 border text-foreground/80 hover:text-accent-foreground text-xs",
+                  typeAccent.border,
+                  typeAccent.bg,
+                  typeAccent.hoverBorder,
+                  typeAccent.hoverBg,
+                )}
               >
-                <Coins className="h-3 w-3 text-cyan-300" />
+                <Coins className={cn("h-3 w-3", typeAccent.iconColor)} />
                 {t("MarketAssetCard:supply")}
               </Button>
             </DialogTrigger>
@@ -292,9 +330,15 @@ export default function MarketAssetCard(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="h-8 gap-1.5 border-border bg-card/40 hover:border-violet-400/40 hover:bg-violet-500/10 text-foreground/80 hover:text-accent-foreground text-xs"
+                className={cn(
+                  "h-8 gap-1.5 border text-foreground/80 hover:text-accent-foreground text-xs",
+                  typeAccent.border,
+                  typeAccent.bg,
+                  typeAccent.hoverBorder,
+                  typeAccent.hoverBg,
+                )}
               >
-                <ExternalLink className="h-3 w-3 text-violet-300" />
+                <ExternalLink className={cn("h-3 w-3", typeAccent.iconColor)} />
                 {t("MarketAssetCard:links")}
               </Button>
             </DialogTrigger>
@@ -355,26 +399,6 @@ export default function MarketAssetCard(properties) {
                     hyperlink={`https://ex.xbts.io/#/asset/${asset}`}
                   />
                 </div>
-
-                <div className="mt-2">
-                  <b className="text-foreground">{t("MarketAssetCard:quickLinks")}</b>
-                </div>
-                <div>
-                  <ExternalLinkButton
-                    classnamecontents=""
-                    variant="outline"
-                    type="button"
-                    text={`Pools`}
-                    hyperlink={`/swap/index.html?asset=${asset}`}
-                  />
-                  <ExternalLinkButton
-                    classnamecontents="ml-2"
-                    variant="outline"
-                    type="button"
-                    text={`Credit Offers`}
-                    hyperlink={`/lend/index.html?asset=${asset}`}
-                  />
-                </div>
               </div>
             </DialogContent>
           </Dialog>
@@ -382,9 +406,15 @@ export default function MarketAssetCard(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="h-8 gap-1.5 border-border bg-card/40 hover:border-amber-400/40 hover:bg-amber-500/10 text-foreground/80 hover:text-accent-foreground text-xs"
+                className={cn(
+                  "h-8 gap-1.5 border text-foreground/80 hover:text-accent-foreground text-xs",
+                  typeAccent.border,
+                  typeAccent.bg,
+                  typeAccent.hoverBorder,
+                  typeAccent.hoverBg,
+                )}
               >
-                <FileJson className="h-3 w-3 text-amber-300" />
+                <FileJson className={cn("h-3 w-3", typeAccent.iconColor)} />
                 {t("MarketAssetCard:json")}
               </Button>
             </DialogTrigger>
@@ -886,9 +916,15 @@ export default function MarketAssetCard(properties) {
                   <DialogTrigger asChild>
                     <Button
                       variant="outline"
-                      className="h-7 gap-1.5 border-border bg-card/40 hover:border-cyan-400/40 hover:bg-cyan-500/10 text-foreground/80 hover:text-accent-foreground text-xs"
+                      className={cn(
+                        "h-7 gap-1.5 border text-foreground/80 hover:text-accent-foreground text-xs",
+                        typeAccent.border,
+                        typeAccent.bg,
+                        typeAccent.hoverBorder,
+                        typeAccent.hoverBg,
+                      )}
                     >
-                      <Info className="h-3 w-3" />
+                      <Info className={cn("h-3 w-3", typeAccent.iconColor)} />
                       {t("MarketAssetCard:smartcoinInfoButton")}
                     </Button>
                   </DialogTrigger>

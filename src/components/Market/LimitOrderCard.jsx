@@ -505,7 +505,7 @@ export default function LimitOrderCard(properties) {
             )}
           </div>
           <div className="flex-1">
-            <h3 className={cn("text-base font-semibold", accent.textBright)}>
+            <h3 className={cn("text-base font-semibold", accent.text)}>
               {isBuy
                 ? t("LimitOrderCard:buyingWith", {
                     assetA: thisAssetA,

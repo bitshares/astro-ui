@@ -30,6 +30,7 @@ import AssetDropDown from "./Market/AssetDropDownCard.jsx";
 import MarketAssetCard from "./Market/MarketAssetCard.jsx";
 import MarketSummaryTabs from "./Market/MarketSummaryTabs.jsx";
 import Sparkline from "./Market/Sparkline.jsx";
+import ExternalLink from "./common/ExternalLink.jsx";
 import { getTimeSince } from "@/lib/common";
 import { cn } from "@/lib/utils";
 
@@ -228,6 +229,146 @@ export default function Market(properties) {
     }));
   }, [publicMarketHistory]);
 
+  // Order book stats
+  const orderBookStats = useMemo(() => {
+    const stats = {
+      buyOrderCount: 0,
+      sellOrderCount: 0,
+      totalBuyDepth: 0,
+      totalSellDepth: 0,
+      largestBuyWall: 0,
+      largestSellWall: 0,
+    };
+
+    if (buyOrders && buyOrders.length) {
+      stats.buyOrderCount = buyOrders.length;
+      stats.totalBuyDepth = buyOrders.reduce(
+        (acc, order) => acc + parseFloat(order.base),
+        0
+      );
+      stats.largestBuyWall = Math.max(
+        ...buyOrders.map((order) => parseFloat(order.base))
+      );
+    }
+
+    if (sellOrders && sellOrders.length) {
+      stats.sellOrderCount = sellOrders.length;
+      stats.totalSellDepth = sellOrders.reduce(
+        (acc, order) => acc + parseFloat(order.base),
+        0
+      );
+      stats.largestSellWall = Math.max(
+        ...sellOrders.map((order) => parseFloat(order.base))
+      );
+    }
+
+    return stats;
+  }, [buyOrders, sellOrders]);
+
+  // Market history stats
+  const marketHistoryStats = useMemo(() => {
+    const stats = {
+      completedBuyTrades: 0,
+      completedSellTrades: 0,
+      totalBuyVolume: 0,
+      totalSellVolume: 0,
+      avgBuyTradeSize: 0,
+      avgSellTradeSize: 0,
+    };
+
+    if (publicMarketHistory && publicMarketHistory.length) {
+      const buyTrades = publicMarketHistory.filter((x) => x.type === "buy");
+      const sellTrades = publicMarketHistory.filter((x) => x.type === "sell");
+
+      stats.completedBuyTrades = buyTrades.length;
+      stats.completedSellTrades = sellTrades.length;
+
+      stats.totalBuyVolume = buyTrades.reduce(
+        (acc, trade) => acc + parseFloat(trade.amount),
+        0
+      );
+      stats.totalSellVolume = sellTrades.reduce(
+        (acc, trade) => acc + parseFloat(trade.amount),
+        0
+      );
+
+      stats.avgBuyTradeSize =
+        stats.completedBuyTrades > 0
+          ? stats.totalBuyVolume / stats.completedBuyTrades
+          : 0;
+      stats.avgSellTradeSize =
+        stats.completedSellTrades > 0
+          ? stats.totalSellVolume / stats.completedSellTrades
+          : 0;
+    }
+
+    return stats;
+  }, [publicMarketHistory]);
+
+  // User activity stats
+  const userActivityStats = useMemo(() => {
+    const stats = {
+      myOpenBuyOrders: 0,
+      myOpenSellOrders: 0,
+      myBuyOrderValue: 0,
+      mySellOrderValue: 0,
+      myCompletedBuyTrades: 0,
+      myCompletedSellTrades: 0,
+      myBuyTradeVolume: 0,
+      mySellTradeVolume: 0,
+    };
+
+    // My open orders
+    if (usrLimitOrders && usrLimitOrders.length) {
+      const buyOrdersFiltered = usrLimitOrders.filter(
+        (order) => order.sell_price.quote.asset_id === assetBData?.id
+      );
+      const sellOrdersFiltered = usrLimitOrders.filter(
+        (order) => order.sell_price.quote.asset_id === assetAData?.id
+      );
+
+      stats.myOpenBuyOrders = buyOrdersFiltered.length;
+      stats.myOpenSellOrders = sellOrdersFiltered.length;
+
+      stats.myBuyOrderValue = buyOrdersFiltered.reduce(
+        (acc, order) => acc + parseFloat(order.for_sale || 0),
+        0
+      );
+      stats.mySellOrderValue = sellOrdersFiltered.reduce(
+        (acc, order) => acc + parseFloat(order.for_sale || 0),
+        0
+      );
+    }
+
+    // My completed trades
+    if (usrHistory && usrHistory.length && assetAData && assetBData) {
+      const myBuyTrades = usrHistory.filter(
+        (x) =>
+          x.op[1].pays.asset_id === assetBData.id &&
+          x.op[1].receives.asset_id === assetAData.id
+      );
+      const mySellTrades = usrHistory.filter(
+        (x) =>
+          x.op[1].pays.asset_id === assetAData.id &&
+          x.op[1].receives.asset_id === assetBData.id
+      );
+
+      stats.myCompletedBuyTrades = myBuyTrades.length;
+      stats.myCompletedSellTrades = mySellTrades.length;
+
+      stats.myBuyTradeVolume = myBuyTrades.reduce(
+        (acc, trade) => acc + parseFloat(trade.op[1].receives.amount || 0),
+        0
+      );
+      stats.mySellTradeVolume = mySellTrades.reduce(
+        (acc, trade) => acc + parseFloat(trade.op[1].receives.amount || 0),
+        0
+      );
+    }
+
+    return stats;
+  }, [usrLimitOrders, usrHistory, assetAData, assetBData]);
+
   const marketSummaryCard = (
     <div
       className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl"
@@ -239,7 +380,7 @@ export default function Market(properties) {
             <BarChart3 className="h-4 w-4" />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-semibold text-cyan-200">
+            <h3 className="text-sm font-semibold text-cyan-300">
               {t("Market:marketSummary")}
             </h3>
             <p className="text-[11px] text-muted-foreground/70 font-mono tabular-nums truncate">
@@ -330,7 +471,7 @@ export default function Market(properties) {
                 <span className="text-muted-foreground">
                   <Activity className="h-3.5 w-3.5" />
                 </span>
-                <span>Spread</span>
+                <span>{t("Market:spread")}</span>
               </div>
               <div className="flex items-center gap-1.5 text-xs font-mono tabular-nums font-semibold">
                 <span className="text-foreground/85">
@@ -346,11 +487,208 @@ export default function Market(properties) {
                       : "bg-rose-500/15 text-rose-300"
                   )}
                 >
-                  {spreadInfo.pct < 1 ? "TIGHT" : spreadInfo.pct < 5 ? "NORMAL" : "WIDE"}
+                  {spreadInfo.pct < 1
+                    ? t("Market:spreadTight")
+                    : spreadInfo.pct < 5
+                    ? t("Market:spreadNormal")
+                    : t("Market:spreadWide")}
                 </span>
               </div>
             </div>
           ) : null}
+
+          {/* Order Book Stats */}
+          <div className="pt-2 mt-2 border-t border-border/40">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+              {t("Market:orderBookSection")}
+            </p>
+          </div>
+          <SummaryRow
+            icon={<TrendingUp className="h-3.5 w-3.5" />}
+            label={t("Market:openBuyOrders")}
+            value={orderBookStats.buyOrderCount}
+            color="text-emerald-300"
+          />
+          <SummaryRow
+            icon={<TrendingDown className="h-3.5 w-3.5" />}
+            label={t("Market:openSellOrders")}
+            value={orderBookStats.sellOrderCount}
+            color="text-rose-300"
+          />
+          <SummaryRow
+            icon={<TrendingUp className="h-3.5 w-3.5" />}
+            label={t("Market:totalBuyDepth")}
+            value={
+              assetBData
+                ? orderBookStats.totalBuyDepth.toFixed(assetBData.precision)
+                : orderBookStats.totalBuyDepth.toFixed(2)
+            }
+            color="text-emerald-300"
+          />
+          <SummaryRow
+            icon={<TrendingDown className="h-3.5 w-3.5" />}
+            label={t("Market:totalSellDepth")}
+            value={
+              assetBData
+                ? orderBookStats.totalSellDepth.toFixed(assetBData.precision)
+                : orderBookStats.totalSellDepth.toFixed(2)
+            }
+            color="text-rose-300"
+          />
+          <SummaryRow
+            icon={<TrendingUp className="h-3.5 w-3.5" />}
+            label={t("Market:largestBuyWall")}
+            value={
+              assetBData
+                ? orderBookStats.largestBuyWall.toFixed(assetBData.precision)
+                : orderBookStats.largestBuyWall.toFixed(2)
+            }
+            color="text-emerald-300"
+          />
+          <SummaryRow
+            icon={<TrendingDown className="h-3.5 w-3.5" />}
+            label={t("Market:largestSellWall")}
+            value={
+              assetBData
+                ? orderBookStats.largestSellWall.toFixed(assetBData.precision)
+                : orderBookStats.largestSellWall.toFixed(2)
+            }
+            color="text-rose-300"
+          />
+
+          {/* Recent Trades Stats */}
+          <div className="pt-2 mt-2 border-t border-border/40">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+              {t("Market:recentTradesSection")}
+            </p>
+          </div>
+          <SummaryRow
+            icon={<TrendingUp className="h-3.5 w-3.5" />}
+            label={t("Market:completedBuyTrades")}
+            value={marketHistoryStats.completedBuyTrades}
+            color="text-emerald-300"
+          />
+          <SummaryRow
+            icon={<TrendingDown className="h-3.5 w-3.5" />}
+            label={t("Market:completedSellTrades")}
+            value={marketHistoryStats.completedSellTrades}
+            color="text-rose-300"
+          />
+          <SummaryRow
+            icon={<Wallet className="h-3.5 w-3.5" />}
+            label={t("Market:totalBuyVolume")}
+            value={
+              assetAData
+                ? marketHistoryStats.totalBuyVolume.toFixed(assetAData.precision)
+                : marketHistoryStats.totalBuyVolume.toFixed(2)
+            }
+            color="text-emerald-300"
+          />
+          <SummaryRow
+            icon={<Wallet className="h-3.5 w-3.5" />}
+            label={t("Market:totalSellVolume")}
+            value={
+              assetAData
+                ? marketHistoryStats.totalSellVolume.toFixed(assetAData.precision)
+                : marketHistoryStats.totalSellVolume.toFixed(2)
+            }
+            color="text-rose-300"
+          />
+          <SummaryRow
+            icon={<Activity className="h-3.5 w-3.5" />}
+            label={t("Market:avgBuyTradeSize")}
+            value={
+              assetAData
+                ? marketHistoryStats.avgBuyTradeSize.toFixed(assetAData.precision)
+                : marketHistoryStats.avgBuyTradeSize.toFixed(2)
+            }
+            color="text-emerald-300"
+          />
+          <SummaryRow
+            icon={<Activity className="h-3.5 w-3.5" />}
+            label={t("Market:avgSellTradeSize")}
+            value={
+              assetAData
+                ? marketHistoryStats.avgSellTradeSize.toFixed(assetAData.precision)
+                : marketHistoryStats.avgSellTradeSize.toFixed(2)
+            }
+            color="text-rose-300"
+          />
+
+          {/* User Activity Stats */}
+          {(usrLimitOrders?.length > 0 || usrHistory?.length > 0) && (
+            <>
+              <div className="pt-2 mt-2 border-t border-border/40">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                  {t("Market:myActivitySection")}
+                </p>
+              </div>
+              <SummaryRow
+                icon={<TrendingUp className="h-3.5 w-3.5" />}
+                label={t("Market:myOpenBuyOrders")}
+                value={userActivityStats.myOpenBuyOrders}
+                color="text-emerald-300"
+              />
+              <SummaryRow
+                icon={<TrendingDown className="h-3.5 w-3.5" />}
+                label={t("Market:myOpenSellOrders")}
+                value={userActivityStats.myOpenSellOrders}
+                color="text-rose-300"
+              />
+              <SummaryRow
+                icon={<Wallet className="h-3.5 w-3.5" />}
+                label={t("Market:myBuyOrderValue")}
+                value={
+                  assetAData
+                    ? userActivityStats.myBuyOrderValue.toFixed(assetAData.precision)
+                    : userActivityStats.myBuyOrderValue.toFixed(2)
+                }
+                color="text-emerald-300"
+              />
+              <SummaryRow
+                icon={<Wallet className="h-3.5 w-3.5" />}
+                label={t("Market:mySellOrderValue")}
+                value={
+                  assetAData
+                    ? userActivityStats.mySellOrderValue.toFixed(assetAData.precision)
+                    : userActivityStats.mySellOrderValue.toFixed(2)
+                }
+                color="text-rose-300"
+              />
+              <SummaryRow
+                icon={<TrendingUp className="h-3.5 w-3.5" />}
+                label={t("Market:myCompletedBuyTrades")}
+                value={userActivityStats.myCompletedBuyTrades}
+                color="text-emerald-300"
+              />
+              <SummaryRow
+                icon={<TrendingDown className="h-3.5 w-3.5" />}
+                label={t("Market:myCompletedSellTrades")}
+                value={userActivityStats.myCompletedSellTrades}
+                color="text-rose-300"
+              />
+              <SummaryRow
+                icon={<Wallet className="h-3.5 w-3.5" />}
+                label={t("Market:myBuyTradeVolume")}
+                value={
+                  assetAData
+                    ? userActivityStats.myBuyTradeVolume.toFixed(assetAData.precision)
+                    : userActivityStats.myBuyTradeVolume.toFixed(2)
+                }
+                color="text-emerald-300"
+              />
+              <SummaryRow
+                icon={<Wallet className="h-3.5 w-3.5" />}
+                label={t("Market:mySellTradeVolume")}
+                value={
+                  assetAData
+                    ? userActivityStats.mySellTradeVolume.toFixed(assetAData.precision)
+                    : userActivityStats.mySellTradeVolume.toFixed(2)
+                }
+                color="text-rose-300"
+              />
+            </>
+          )}
         </div>
 
         {usr.chain === "bitshares" ? (
@@ -359,32 +697,26 @@ export default function Market(properties) {
               {t("Market:externalMarketLinks")}
             </p>
             <div className="flex flex-wrap gap-2">
-              <a
-                href={
+              <ExternalLink
+                hyperlink={
                   activeLimitCard === "buy"
                     ? `https://bts.exchange/#/market/${assetA}_${assetB}`
                     : `https://bts.exchange/#/market/${assetB}_${assetA}`
                 }
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-accent/40 hover:bg-accent/60 hover:border-accent/50 dark:hover:border-white/20 px-2.5 py-1.5 text-xs text-foreground/80 hover:text-accent-foreground transition-all"
-              >
-                <ExternalLinkIcon className="h-3 w-3" />
-                BTS.Exchange
-              </a>
-              <a
-                href={
+                type="text"
+                text="BTS.Exchange"
+                classnamecontents="inline-flex items-center gap-1.5 rounded-md border border-border bg-accent/40 hover:bg-accent/60 hover:border-accent/50 dark:hover:border-white/20 px-2.5 py-1.5 text-xs text-foreground/80 hover:text-accent-foreground transition-all cursor-pointer"
+              />
+              <ExternalLink
+                hyperlink={
                   activeLimitCard === "buy"
                     ? `https://ex.xbts.io/market/${assetA}_${assetB}`
                     : `https://ex.xbts.io/market/${assetB}_${assetA}`
                 }
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-accent/40 hover:bg-accent/60 hover:border-accent/50 dark:hover:border-white/20 px-2.5 py-1.5 text-xs text-foreground/80 hover:text-accent-foreground transition-all"
-              >
-                <ExternalLinkIcon className="h-3 w-3" />
-                XBTS
-              </a>
+                type="text"
+                text="XBTS"
+                classnamecontents="inline-flex items-center gap-1.5 rounded-md border border-border bg-accent/40 hover:bg-accent/60 hover:border-accent/50 dark:hover:border-white/20 px-2.5 py-1.5 text-xs text-foreground/80 hover:text-accent-foreground transition-all cursor-pointer"
+              />
 
               {/* Internal links: Pools and Credit Offers for quick access */}
               <a
@@ -423,7 +755,7 @@ export default function Market(properties) {
                     <Repeat className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-cyan-200">
+                    <h3 className="text-sm font-semibold text-cyan-300">
                       {t("Market:controls")}
                     </h3>
                     <p className="text-[11px] text-muted-foreground/70 font-mono">
@@ -542,115 +874,128 @@ export default function Market(properties) {
             />
           </div>
           <div className="col-span-1">
-            <div className="grid grid-cols-1 gap-y-4">
-              <div className="flex-grow" style={{ paddingBottom: "0px" }}>
-                {assetADetails ? (
-                  <MarketAssetCard
-                    asset={assetA}
-                    assetData={assetAData}
-                    assetDetails={assetADetails}
-                    bitassetData={assetABitassetData}
-                    marketSearch={marketSearch}
-                    chain={usr.chain}
-                    usrBalances={usrBalances}
-                    type={activeLimitCard === "buy" ? "buy" : "sell"}
-                    otherAsset={assetB}
-                    storeCallback={setAssetA}
-                  />
-                ) : (
-                  <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl"
-
-                  >
-                    <div className="relative p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="text-xs text-muted-foreground">
-                          {activeLimitCard === "buy"
-                            ? t("Market:quoteAsset")
-                            : t("Market:baseAsset")}
-                        </div>
-                        <div className="text-[11px] text-muted-foreground">
-                          {t("Market:loading")}
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Skeleton className="h-4 w-[250px] bg-accent/30 dark:bg-white/[0.05]" />
-                        <Skeleton className="h-4 w-[200px] bg-accent/30 dark:bg-white/[0.05]" />
-                        <Skeleton className="h-4 w-[250px] bg-accent/30 dark:bg-white/[0.05]" />
-                        <Skeleton className="h-4 w-[200px] bg-accent/30 dark:bg-white/[0.05]" />
-                      </div>
+            {tickerData && assetAData && assetBData ? marketSummaryCard : (
+              <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl"
+              >
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-cyan-500/15 via-cyan-500/3 to-transparent" />
+                <div className="relative">
+                  <div className="flex items-center gap-2.5 border-b border-border/60 px-4 py-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">
+                      <BarChart3 className="h-4 w-4" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-sm font-semibold text-cyan-300">
+                        {t("Market:marketSummary")}
+                      </h3>
+                      <p className="text-[11px] text-muted-foreground/70 font-mono">❔/❔</p>
                     </div>
                   </div>
-                )}
-              </div>
-
-              <div className="flex-grow">
-                {assetBDetails ? (
-                  <MarketAssetCard
-                    asset={assetB}
-                    assetData={assetBData}
-                    assetDetails={assetBDetails}
-                    bitassetData={assetBBitassetData}
-                    marketSearch={marketSearch}
-                    chain={usr.chain}
-                    usrBalances={usrBalances}
-                    type={activeLimitCard === "sell" ? "buy" : "sell"}
-                    otherAsset={assetA}
-                    storeCallback={setAssetB}
-                  />
-                ) : (
-                  <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl"
-
-                  >
-                    <div className="relative p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="text-xs text-muted-foreground">
-                          {activeLimitCard === "sell"
-                            ? t("Market:baseAsset")
-                            : t("Market:quoteAsset")}
-                        </div>
-                        <div className="text-[11px] text-muted-foreground">
-                          {t("Market:loading")}
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Skeleton className="h-4 w-[250px] bg-accent/30 dark:bg-white/[0.05]" />
-                        <Skeleton className="h-4 w-[200px] bg-accent/30 dark:bg-white/[0.05]" />
-                        <Skeleton className="h-4 w-[250px] bg-accent/30 dark:bg-white/[0.05]" />
-                        <Skeleton className="h-4 w-[200px] bg-accent/30 dark:bg-white/[0.05]" />
-                      </div>
+                  <div className="p-4 space-y-2.5">
+                    <SummaryRow icon={<Activity className="h-3.5 w-3.5" />} label={t("Market:latestPrice")} value="❔" color="text-muted-foreground" />
+                    <SummaryRow icon={<TrendingUp className="h-3.5 w-3.5" />} label={t("Market:24HrChange")} value="❔" color="text-muted-foreground" />
+                    <SummaryRow icon={<Wallet className="h-3.5 w-3.5" />} label={t("Market:24HrBaseVolume")} value="❔" color="text-muted-foreground" />
+                    <SummaryRow icon={<Wallet className="h-3.5 w-3.5" />} label={t("Market:24HrQuoteVolume")} value="❔" color="text-muted-foreground" />
+                    <SummaryRow icon={<TrendingDown className="h-3.5 w-3.5" />} label={t("Market:lowestAsk")} value="❔" color="text-muted-foreground" />
+                    <SummaryRow icon={<TrendingUp className="h-3.5 w-3.5" />} label={t("Market:highestBid")} value="❔" color="text-muted-foreground" />
+                    <div className="pt-2 mt-2 border-t border-border/40">
+                      <Skeleton className="h-3 w-20 bg-accent/30 dark:bg-white/[0.05]" />
                     </div>
-                  </div>
-                )}
-              </div>
-
-              {tickerData && assetAData && assetBData ? marketSummaryCard : (
-                <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl"
-                >
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-cyan-500/15 via-cyan-500/3 to-transparent" />
-                  <div className="relative">
-                    <div className="flex items-center gap-2.5 border-b border-border/60 px-4 py-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">
-                        <BarChart3 className="h-4 w-4" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-sm font-semibold text-cyan-200">
-                          {t("Market:marketSummary")}
-                        </h3>
-                        <p className="text-[11px] text-muted-foreground/70 font-mono">❔/❔</p>
-                      </div>
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <div className="pt-2 mt-2 border-t border-border/40">
+                      <Skeleton className="h-3 w-24 bg-accent/30 dark:bg-white/[0.05]" />
                     </div>
-                    <div className="p-4 space-y-2.5">
-                      <SummaryRow icon={<Activity className="h-3.5 w-3.5" />} label={t("Market:latestPrice")} value="❔" color="text-muted-foreground" />
-                      <SummaryRow icon={<TrendingUp className="h-3.5 w-3.5" />} label={t("Market:24HrChange")} value="❔" color="text-muted-foreground" />
-                      <SummaryRow icon={<Wallet className="h-3.5 w-3.5" />} label={t("Market:24HrBaseVolume")} value="❔" color="text-muted-foreground" />
-                      <SummaryRow icon={<Wallet className="h-3.5 w-3.5" />} label={t("Market:24HrQuoteVolume")} value="❔" color="text-muted-foreground" />
-                      <SummaryRow icon={<TrendingDown className="h-3.5 w-3.5" />} label={t("Market:lowestAsk")} value="❔" color="text-muted-foreground" />
-                      <SummaryRow icon={<TrendingUp className="h-3.5 w-3.5" />} label={t("Market:highestBid")} value="❔" color="text-muted-foreground" />
-                    </div>
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-full bg-accent/30 dark:bg-white/[0.05]" />
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+          <div>
+            {assetADetails ? (
+              <MarketAssetCard
+                asset={assetA}
+                assetData={assetAData}
+                assetDetails={assetADetails}
+                bitassetData={assetABitassetData}
+                marketSearch={marketSearch}
+                chain={usr.chain}
+                usrBalances={usrBalances}
+                type={activeLimitCard === "buy" ? "buy" : "sell"}
+                otherAsset={assetB}
+                storeCallback={setAssetA}
+              />
+            ) : (
+              <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl">
+                <div className="relative p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="text-xs text-muted-foreground">
+                      {activeLimitCard === "buy"
+                        ? t("Market:quoteAsset")
+                        : t("Market:baseAsset")}
+                    </div>
+                    <div className="text-[11px] text-muted-foreground">
+                      {t("Market:loading")}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px] bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-[200px] bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-[250px] bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-[200px] bg-accent/30 dark:bg-white/[0.05]" />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          <div>
+            {assetBDetails ? (
+              <MarketAssetCard
+                asset={assetB}
+                assetData={assetBData}
+                assetDetails={assetBDetails}
+                bitassetData={assetBBitassetData}
+                marketSearch={marketSearch}
+                chain={usr.chain}
+                usrBalances={usrBalances}
+                type={activeLimitCard === "sell" ? "buy" : "sell"}
+                otherAsset={assetA}
+                storeCallback={setAssetB}
+              />
+            ) : (
+              <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl">
+                <div className="relative p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="text-xs text-muted-foreground">
+                      {activeLimitCard === "sell"
+                        ? t("Market:baseAsset")
+                        : t("Market:quoteAsset")}
+                    </div>
+                    <div className="text-[11px] text-muted-foreground">
+                      {t("Market:loading")}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px] bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-[200px] bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-[250px] bg-accent/30 dark:bg-white/[0.05]" />
+                    <Skeleton className="h-4 w-[200px] bg-accent/30 dark:bg-white/[0.05]" />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
