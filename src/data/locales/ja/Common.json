@@ -1,0 +1,11 @@
+{
+  "submit": "送信",
+  "insufficient_funds": "残高不足。",
+  "permissions": "権限",
+  "flags": "フラグ",
+  "expiryHeader": "有効期限",
+  "expiryContent": "あなたの指値注文は、存在しなくなるまでDEX上でこの間アクティブのままになります。'fill or kill'を選択し、一致するDEX売却指値注文がない場合、操作は失敗し、時間と手数料を節約できます。",
+  "setPriceFeeders": "価格フィーダーを設定",
+  "setPriceFeedersDescription": "このアセットの価格フィーダーを設定します。価格フィーダーは清算価格の提供を担当します。",
+  "settingPriceFeeders": "価格フィーダーを設定中"
+}

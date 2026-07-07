@@ -436,7 +436,7 @@ export default function SameTFunds(properties) {
               {newAmount > humanReadableAssetBalance ? (
                 <Badge variant="destructive" className="gap-1.5">
                   <ExclamationTriangleIcon />
-                  {t("Predictions:insufficient_funds")}
+                  {t("Common:insufficient_funds")}
                 </Badge>
               ) : null}
             </div>
@@ -782,7 +782,7 @@ export default function SameTFunds(properties) {
             {createAmount > lendingAssetBalance ? (
               <Badge variant="destructive" className="gap-1.5">
                 <ExclamationTriangleIcon />
-                {t("Predictions:insufficient_funds")}
+                {t("Common:insufficient_funds")}
               </Badge>
             ) : null}
           </div>

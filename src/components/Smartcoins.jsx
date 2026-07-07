@@ -410,13 +410,13 @@ export default function Smartcoins(properties) {
                 <Dialog>
                   <DialogTrigger asChild>
                     <Badge variant="outline" className="border-violet-500/20 bg-violet-500/5 text-xs cursor-pointer hover:bg-violet-500/10 transition-colors">
-                      {t("Predictions:permissions")}: {Object.keys(_issuer_permissions).length}
+                      {t("Common:permissions")}: {Object.keys(_issuer_permissions).length}
                       <QuestionMarkCircledIcon className="ml-1 h-3 w-3" />
                     </Badge>
                   </DialogTrigger>
                   <DialogContent className="bg-card">
                     <DialogHeader>
-                      <DialogTitle>{t("Predictions:permissions")}</DialogTitle>
+                      <DialogTitle>{t("Common:permissions")}</DialogTitle>
                       <DialogDescription className="text-foreground">
                         {Object.keys(_issuer_permissions).join(", ")}
                       </DialogDescription>
@@ -425,20 +425,20 @@ export default function Smartcoins(properties) {
                 </Dialog>
               ) : (
                 <Badge variant="outline" className="border-violet-500/20 bg-violet-500/5 text-xs">
-                  {t("Predictions:permissions")}: 0
+                  {t("Common:permissions")}: 0
                 </Badge>
               )}
               {_flags && Object.keys(_flags).length > 0 ? (
                 <Dialog>
                   <DialogTrigger asChild>
                     <Badge variant="outline" className="border-amber-500/20 bg-amber-500/5 text-xs cursor-pointer hover:bg-amber-500/10 transition-colors">
-                      {t("Predictions:flags")}: {Object.keys(_flags).length}
+                      {t("Common:flags")}: {Object.keys(_flags).length}
                       <QuestionMarkCircledIcon className="ml-1 h-3 w-3" />
                     </Badge>
                   </DialogTrigger>
                   <DialogContent className="bg-card">
                     <DialogHeader>
-                      <DialogTitle>{t("Predictions:flags")}</DialogTitle>
+                      <DialogTitle>{t("Common:flags")}</DialogTitle>
                       <DialogDescription className="text-foreground">
                         {Object.keys(_flags).join(", ")}
                       </DialogDescription>
@@ -447,7 +447,7 @@ export default function Smartcoins(properties) {
                 </Dialog>
               ) : (
                 <Badge variant="outline" className="border-amber-500/20 bg-amber-500/5 text-xs">
-                  {t("Predictions:flags")}: 0
+                  {t("Common:flags")}: 0
                 </Badge>
               )}
             </div>

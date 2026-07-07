@@ -572,8 +572,8 @@ export default function TimedTransfer(properties) {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="grid grid-cols-1 gap-3">
                       <HoverInfo
-                        content={t("Predictions:sellDialog.expiryContent")}
-                        header={t("Predictions:sellDialog.expiryHeader")}
+                        content={t("Common:expiryContent")}
+                        header={t("Common:expiryHeader")}
                       />
                       <Select
                         onValueChange={(selectedExpiry) => {

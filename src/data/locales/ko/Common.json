@@ -1,0 +1,11 @@
+{
+  "submit": "제출",
+  "insufficient_funds": "잔액이 부족합니다.",
+  "permissions": "권한",
+  "flags": "플래그",
+  "expiryHeader": "만료",
+  "expiryContent": "지정가 주문은 더 이상 존재하지 않기 전까지 DEX에서 활성 상태로 유지됩니다. 'fill or kill'을 선택하고 일치하는 DEX 판매 지정가 주문이 없으면操作이 실패하여 시간과 수수료를 절약할 수 있습니다.",
+  "setPriceFeeders": "가격 피더 설정",
+  "setPriceFeedersDescription": "이 자산의 가격 피더를 설정합니다. 가격 피더는 청산 가격을 제공하는 역할을 합니다.",
+  "settingPriceFeeders": "가격 피더 설정 중"
+}

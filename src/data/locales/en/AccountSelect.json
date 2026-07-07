@@ -3,27 +3,38 @@
   "forgetPrompt": "Account: {{user}}",
   "forgetButton": "Forget this account",
   "noChain": {
-    "title": "⚙️ Select a blockchain to continue",
-    "description": "Which blockchain do you want to use?",
+    "title": "Select a network to continue",
+    "description": "Which network would you like to use?",
     "testnet": "testnet"
   },
   "noMode": {
-    "titleBTS": "Use a new or existing Bitshares account?",
-    "titleTEST": "Use a new or existing Bitshares testnet account?",
-    "description": "How do you want to proceed?",
-    "new": "New account",
-    "existing": "Existing account",
+    "titleBTS": "How would you like to access Bitshares?",
+    "titleTEST": "How would you like to access Bitshares testnet?",
+    "description": "Choose an option below",
+    "new": "New Account",
+    "existing": "Existing Account",
     "back": "Back"
   },
   "new": {
-    "title": "account selection",
-    "initDesc": "Enter your Bitshares account name",
-    "description": "Proceed with the following account?",
+    "title": "Find Account",
+    "initDesc": "Enter your Bitshares account name or ID",
+    "description": "Is this the correct account?",
     "back": "Go back",
     "continue": "Continue"
   },
   "existing": {
     "description": "Select one of your previously used accounts",
-    "none": "No accounts found."
-  }
+    "none": "No saved accounts found",
+    "noneHint": "You can add accounts by using the New Account option"
+  },
+  "step1": "Network",
+  "step2": "Account",
+  "step3": "Confirm",
+  "mainnet": "Mainnet (BTS)",
+  "testnetLabel": "Test network (TEST)",
+  "newAccountSubtitle": "Search for any account on the network",
+  "existingAccountSubtitle": "{{count}} account saved",
+  "existingAccountSubtitle_plural": "{{count}} accounts saved",
+  "removeAccount": "Remove account",
+  "removeAccountLabel": "Remove {{username}}"
 }

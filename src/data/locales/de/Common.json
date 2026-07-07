@@ -1,0 +1,11 @@
+{
+  "submit": "Absenden",
+  "insufficient_funds": "Unzureichendes Guthaben.",
+  "permissions": "Berechtigungen",
+  "flags": "Flaggen",
+  "expiryHeader": "Ablauf",
+  "expiryContent": "Ihre Limit-Order bleibt so lange auf dem DEX aktiv, bevor sie nicht mehr existiert. Wenn Sie 'fill or kill' wählen und es keine passende DEX-Verkaufs-Limit-Order gibt, wird die Operation fehlschlagen und Ihre Zeit und Gebühren sparen.",
+  "setPriceFeeders": "Preis-Feeder einstellen",
+  "setPriceFeedersDescription": "Stellen Sie die Preis-Feeder für diesen Asset ein. Preis-Feeder sind verantwortlich für die Bereitstellung des Abwicklungspreises.",
+  "settingPriceFeeders": "Preis-Feeder werden eingestellt"
+}

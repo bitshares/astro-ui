@@ -914,7 +914,7 @@ export default function CreditOfferEditor(properties) {
                 {((!foundAssetBalance && lendingAmount > 0) ||
                   (foundAssetBalance && foundAssetBalance < lendingAmount)) && (
                   <p className="text-xs text-red-400 mt-2">
-                    {t("Predictions:insufficient_funds")}
+                    {t("Common:insufficient_funds")}
                   </p>
                 )}
               </div>

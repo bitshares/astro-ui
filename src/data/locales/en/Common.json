@@ -1,0 +1,11 @@
+{
+  "submit": "Submit",
+  "insufficient_funds": "Insufficient balance.",
+  "permissions": "Permissions",
+  "flags": "Flags",
+  "expiryHeader": "Expiry",
+  "expiryContent": "Your limit order will remain active on the DEX for this long before no longer existing. If you select 'fill or kill' then if there's no matching DEX sell limit order the operation will fail, saving your time and fees.",
+  "setPriceFeeders": "Set price feeders",
+  "setPriceFeedersDescription": "Set the price feeders for this asset. Price feeders are responsible for providing the settlement price.",
+  "settingPriceFeeders": "Setting price feeders"
+}

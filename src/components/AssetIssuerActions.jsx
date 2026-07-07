@@ -680,7 +680,7 @@ function AssetIssuerActions(props) {
           }}
           className="hover:shadow-inner"
         >
-          {t(`Predictions:pricefeeder`)}
+          {t(`Common:setPriceFeeders`)}
         </DropdownMenuItem>
       ),
     });
@@ -1223,10 +1223,10 @@ function AssetIssuerActions(props) {
           <DialogContent className="sm:max-w-[600px] bg-card">
             <DialogHeader>
               <DialogTitle>
-                {t(`Predictions:priceFeederDialog.title`)}
+                {t(`Common:setPriceFeeders`)}
               </DialogTitle>
               <DialogDescription>
-                {t(`Predictions:priceFeederDialog.description`)}
+                {t(`Common:setPriceFeedersDescription`)}
               </DialogDescription>
             </DialogHeader>
             <div className="grid grid-cols-1 gap-2">
@@ -1308,7 +1308,7 @@ function AssetIssuerActions(props) {
                     setPriceFeedPublishersDeeplinkDialog(true);
                   }}
                 >
-                  {t("Predictions:submit")}
+                  {t("Common:submit")}
                 </Button>
               </div>
             </div>
@@ -1320,7 +1320,7 @@ function AssetIssuerActions(props) {
                 userID={currentUser.id}
                 dismissCallback={setPriceFeedPublishersDeeplinkDialog}
                 key={`deeplink-pricefeeddialog-${asset.id}`}
-                headerText={t(`Predictions:dialogContent.header_pricefeeder`)}
+                headerText={t(`Common:settingPriceFeeders`)}
                 trxJSON={[
                   {
                     issuer: currentUser.id,

@@ -113,17 +113,18 @@ function StepIndicator({ currentStep, totalSteps, accentColor, step1Label, step2
 
 function BlockchainButton({ name, subtitle, onClick, icon, accentColor }) {
   return (
-    <button
+    <Button
+      variant="outline"
       onClick={onClick}
       className={cn(
-        "group relative w-full text-left px-5 py-4 rounded-xl",
-        "bg-accent/40 dark:bg-white/[0.05] border border-border/80",
+        "group relative w-full text-left px-5 py-4 h-auto rounded-xl",
+        "bg-accent/40 dark:bg-white/[0.05] border-border/80",
         "hover:bg-accent/60 hover:border-border",
         "transition-all duration-200 ease-out",
-        "focus:outline-none focus:ring-2 focus:ring-violet-500/40 focus:ring-offset-0"
+        "focus:ring-2 focus:ring-violet-500/40 focus:ring-offset-0"
       )}
     >
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 w-full">
         <div
           className="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200 group-hover:scale-105"
           style={{
@@ -139,7 +140,7 @@ function BlockchainButton({ name, subtitle, onClick, icon, accentColor }) {
         </div>
         <ChevronRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-foreground/70 group-hover:translate-x-0.5 transition-all" />
       </div>
-    </button>
+    </Button>
   );
 }
 
@@ -147,17 +148,18 @@ function AccountCard({ user, onClick, onRemove, accentColor, isCurrentChain, t }
   const userAccent = user.accentColor || accentColor;
 
   const content = (
-    <button
+    <Button
+      variant="outline"
       onClick={onClick}
       className={cn(
-        "group relative w-full text-left px-4 py-3.5 rounded-xl",
-        "bg-accent/40 dark:bg-white/[0.05] border border-border/80",
+        "group relative w-full text-left px-4 py-3.5 h-auto rounded-xl",
+        "bg-accent/40 dark:bg-white/[0.05] border-border/80",
         "hover:bg-accent/60 hover:border-border",
         "transition-all duration-200 ease-out",
-        "focus:outline-none focus:ring-2 focus:ring-violet-500/40"
+        "focus:ring-2 focus:ring-violet-500/40"
       )}
     >
-      <div className="flex items-center gap-3.5">
+      <div className="flex items-center gap-3.5 w-full">
         <div
           className="relative h-11 w-11 rounded-full overflow-hidden ring-2 flex-shrink-0"
           style={{
@@ -186,30 +188,31 @@ function AccountCard({ user, onClick, onRemove, accentColor, isCurrentChain, t }
         </div>
         <ChevronRight className="w-4 h-4 text-foreground/20 group-hover:text-muted-foreground transition-colors flex-shrink-0" />
       </div>
-    </button>
+    </Button>
   );
 
   if (onRemove) {
     return (
       <div className="flex items-stretch gap-2">
         <div className="flex-1">{content}</div>
-        <button
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={(e) => {
             e.stopPropagation();
             onRemove();
           }}
           className={cn(
-            "flex items-center justify-center w-10 rounded-xl flex-shrink-0",
-            "bg-accent/40 dark:bg-white/[0.05] border border-border/80",
+            "w-10 h-auto rounded-xl flex-shrink-0",
             "hover:bg-rose-500/10 hover:border-rose-500/30",
             "transition-all duration-200 group/remove",
-            "focus:outline-none focus:ring-2 focus:ring-rose-500/40"
+            "focus:ring-2 focus:ring-rose-500/40"
           )}
           title={t("AccountSelect:removeAccount")}
           aria-label={t("AccountSelect:removeAccountLabel", { username: user.username })}
         >
           <X className="w-4 h-4 text-muted-foreground/50 group-hover/remove:text-rose-400 transition-colors" />
-        </button>
+        </Button>
       </div>
     );
   }
@@ -378,16 +381,14 @@ export default function AccountSelect(properties) {
             onClick={() => setMode("existing")}
             accentColor={accentColor}
           />
-          <button
+          <Button
+            variant="ghost"
             onClick={() => setChain(null)}
-            className={cn(
-              "flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground/70",
-              "transition-colors duration-200 mt-4 px-2 py-1"
-            )}
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground/70 mt-4 px-2 py-1 h-auto"
           >
             <ArrowLeft className="w-4 h-4" />
             {t("AccountSelect:noMode.back")}
-          </button>
+          </Button>
         </div>
       ) : null}
 
@@ -438,20 +439,18 @@ export default function AccountSelect(properties) {
           ) : null}
 
           <div className="flex items-center gap-3 pt-2">
-            <button
+            <Button
+              variant="ghost"
               onClick={() => {
                 setMode(null);
                 setAccountInput("");
                 setErrorMessage(null);
               }}
-              className={cn(
-                "flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground/70",
-                "transition-colors duration-200 px-2 py-1"
-              )}
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground/70 px-2 py-1 h-auto"
             >
               <ArrowLeft className="w-4 h-4" />
               {t("AccountSelect:new.back")}
-            </button>
+            </Button>
             <div className="flex-1" />
             {accountInput && !inProgress ? (
               <Button
@@ -517,19 +516,17 @@ export default function AccountSelect(properties) {
             />
           )}
 
-          <button
+          <Button
+            variant="ghost"
             onClick={() => {
               setErrorMessage(null);
               setSearchResponse(null);
             }}
-            className={cn(
-              "flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground/70",
-              "transition-colors duration-200 px-2 py-1"
-            )}
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground/70 px-2 py-1 h-auto"
           >
             <ArrowLeft className="w-4 h-4" />
             {t("AccountSelect:new.back")}
-          </button>
+          </Button>
         </div>
       ) : null}
 
@@ -569,16 +566,14 @@ export default function AccountSelect(properties) {
             )}
           </div>
 
-          <button
+          <Button
+            variant="ghost"
             onClick={() => setMode(null)}
-            className={cn(
-              "flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground/70",
-              "transition-colors duration-200 px-2 py-1"
-            )}
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground/70 px-2 py-1 h-auto"
           >
             <ArrowLeft className="w-4 h-4" />
             {t("AccountSelect:noMode.back")}
-          </button>
+          </Button>
         </div>
       ) : null}
     </div>
