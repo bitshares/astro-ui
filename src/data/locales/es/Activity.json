@@ -28,7 +28,8 @@
       "seller": "Vendedor: {{seller}} ({{opSeller}})",
       "selling": "Vendiendo: {{amount}}",
       "buying": "Comprando: {{amount}}",
-      "price": "Precio: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "Precio: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "Extensiones: {{extensions}}"
     },
     "tooltip": "Una oferta para vender una cantidad de un activo a un tipo de cambio específico en un momento determinado."
   },

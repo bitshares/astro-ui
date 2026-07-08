@@ -19,5 +19,7 @@
   "addAsset": "Lisage vara",
   "featured": "Esiletõstetud varad",
   "laenatud": "Laenatud",
-  "saldo": "saldo"
+  "saldo": "saldo",
+  "borrowed": "Laenatud",
+  "balance": "Saldo"
 }

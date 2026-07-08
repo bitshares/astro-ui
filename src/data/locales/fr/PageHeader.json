@@ -1,4 +1,5 @@
 {
+  "invoicingHeading": "Système de facturation",
   "accountOverviewsHeading": "Présentation du compte",
   "blockchainOverviewsHeading": "Blockchain Aperçu",
   "poolTracker": "Présentation de la piscine en vedette",
@@ -24,7 +25,6 @@
   "creditDeals": "Opérations de crédit",
   "settingsHeading": "Paramètres",
   "governanceHeading": "Gouvernance",
-  "invoicingHeading": "Invoicing System",
   "simpleSwap": "Échange simple",
   "vestAssets": "Actifs acquis",
   "sameTFunds": "Fonds identiques",
@@ -97,12 +97,20 @@
     "create_pool": "Créez un nouveau pool de liquidités en convertissant un actif émis par un utilisateur existant en un jeton d'actif de partage de pool.",
     "invoice_inventory": "Gérez les articles en stock et les prix associés pour la facturation.",
     "create_invoice": "Créez une facture en sélectionnant les articles en stock, en définissant les quantités et en générant un mémo d'identification pour le paiement.",
-    "pay_invoice": "Traitez et gérez le paiement des codes de facture qui vous sont envoyés par les vendeurs sur la blockchain Bitshares."
+    "pay_invoice": "Traitez et gérez le paiement des codes de facture qui vous sont envoyés par les vendeurs sur la blockchain Bitshares.",
+    "committee": "Utilisez cette page pour surveiller les membres actuels du comité, leurs statistiques et leurs votes.",
+    "witnesses": "Utilisez cette page pour surveiller les témoins actuels, leurs statistiques et leurs votes.",
+    "create_worker": "Utilisez le formulaire ci-dessous pour créer une proposition de worker et sécuriser le financement de votre projet !",
+    "barter": "Utilisez le formulaire ci-dessous pour troquer avec un autre compte blockchain, en créant un échange personnalisé pair-à-pair.",
+    "governance": "Utilisez le formulaire ci-dessous pour créer/mettre à jour un rôle de témoin ou de membre du comité.",
+    "favourites": "Gérez et consultez vos actifs et comptes favoris.",
+    "blocked-users": "Consultez et gérez vos listes de blocage du comité et personnelles."
   },
   "back": "Retourner",
   "usage": "Conçu pour être utilisé avec ",
   "multiwallet": "multi-portefeuille",
   "tfund_user": "Échange de fonds Same-T",
   "createAccount": "Créer un compte",
-  "transferFundsHeading": "Transférer des fonds"
+  "transferFundsHeading": "Transférer des fonds",
+  "exchangeFundsHeading": "Échanger des fonds"
 }

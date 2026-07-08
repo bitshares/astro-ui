@@ -24,6 +24,17 @@
   },
   "existing": {
     "description": "Seleccione una de sus cuentas utilizadas anteriormente",
-    "none": "No se encontraron cuentas."
-  }
+    "none": "No se encontraron cuentas.",
+    "noneHint": "Puede añadir cuentas usando la opción Nueva cuenta"
+  },
+  "step1": "Red",
+  "step2": "Cuenta",
+  "step3": "Confirmar",
+  "mainnet": "Mainnet (BTS)",
+  "testnetLabel": "Red de prueba (TEST)",
+  "newAccountSubtitle": "Busque cualquier cuenta en la red",
+  "existingAccountSubtitle": "{{count}} cuenta guardada",
+  "existingAccountSubtitle_plural": "{{count}} cuentas guardadas",
+  "removeAccount": "Eliminar cuenta",
+  "removeAccountLabel": "Eliminar {{username}}"
 }

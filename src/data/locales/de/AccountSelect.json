@@ -24,6 +24,17 @@
   },
   "existing": {
     "description": "Wählen Sie eines Ihrer zuvor verwendeten Konten aus",
-    "none": "Keine Konten gefunden."
-  }
+    "none": "Keine Konten gefunden.",
+    "noneHint": "Sie können Konten hinzufügen, indem Sie die Option Neues Konto verwenden"
+  },
+  "step1": "Netzwerk",
+  "step2": "Konto",
+  "step3": "Bestätigen",
+  "mainnet": "Mainnet (BTS)",
+  "testnetLabel": "Testnetz (TEST)",
+  "newAccountSubtitle": "Suchen Sie nach einem beliebigen Konto im Netzwerk",
+  "existingAccountSubtitle": "{{count}} Konto gespeichert",
+  "existingAccountSubtitle_plural": "{{count}} Konten gespeichert",
+  "removeAccount": "Konto entfernen",
+  "removeAccountLabel": "{{username}} entfernen"
 }

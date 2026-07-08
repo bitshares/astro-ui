@@ -1,4 +1,5 @@
 {
+  "about": "Sobre",
   "permissions": {
     "header": "Permissões do ativo",
     "header_content": "Nota: Desativar permissões é uma decisão permanente",
@@ -310,5 +311,10 @@
     "supportedFiletypes": "Os tipos de arquivos suportados incluem imagens, vídeo, áudio, arquivos 3D, documentos, etc.",
     "main_header_content": "As configurações abaixo definem como seu token não fungível se comportará na blockchain Bitshares. O criador do ativo é responsável por configurar adequadamente seu token não fungível.",
     "main_header": "Configuração de token não fungível"
+  },
+  "sectionHeader": {
+    "stepBadge": "Etapa {{number}}",
+    "optional": "· Opcional",
+    "recommended": "· Recomendado"
   }
 }

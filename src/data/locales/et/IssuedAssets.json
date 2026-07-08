@@ -99,5 +99,6 @@
   "amount": "Summa",
   "useMax": "Kasutage max",
   "noAssetInBalance": "Sellel kontol ei ole seda vara.",
-  "overrideHeader": "Tuleta meelde {{amount}} {{symbol}} alates {{account}}"
+  "overrideHeader": "Tuleta meelde {{amount}} {{symbol}} alates {{account}}",
+  "collateralBid": "Paku tagatisele"
 }

@@ -1,4 +1,5 @@
 {
+  "invoicingHeading": "請求システム",
   "accountOverviewsHeading": "アカウントの概要",
   "blockchainOverviewsHeading": "ブロックチェーンの概要",
   "poolTracker": "特集プールの概要",
@@ -24,7 +25,6 @@
   "creditDeals": "クレジット取引",
   "settingsHeading": "設定",
   "governanceHeading": "ガバナンス",
-  "invoicingHeading": "Invoicing System",
   "simpleSwap": "単純な交換",
   "vestAssets": "ベスト資産",
   "sameTFunds": "Same-T ファンド",
@@ -97,12 +97,20 @@
     "create_pool": "既存のユーザー発行資産をプール共有資産トークンに変換して、新しい流動性プールを作成します。",
     "invoice_inventory": "請求書の在庫品目と関連する価格を管理します。",
     "create_invoice": "在庫品目を選択し、数量を設定し、支払い用の識別メモを生成して請求書を作成します。",
-    "pay_invoice": "Bitshares ブロックチェーン上の販売者から送信された請求書コードの支払いを処理および処理します。"
+    "pay_invoice": "Bitshares ブロックチェーン上の販売者から送信された請求書コードの支払いを処理および処理します。",
+    "committee": "このページで現在の委員会メンバー、その統計、および投票を監視します。",
+    "witnesses": "このページで現在の証人、その統計、および投票を監視します。",
+    "create_worker": "以下のフォームを使用してワーカー提案を作成し、プロジェクトの資金を確保してください！",
+    "barter": "以下のフォームを使用して別のブロックチェーンアカウントと物々交換し、カスタムのピアツーピア取引を作成します。",
+    "governance": "以下のフォームを使用して証人または委員会メンバーの役割を作成/更新します。",
+    "favourites": "お気に入りのアセットとアカウントを管理および表示します。",
+    "blocked-users": "委員会および個人のブロックリストを表示および管理します。"
   },
   "back": "戻る",
   "usage": "で使用するように設計されています ",
   "multiwallet": "マルチウォレット",
   "tfund_user": "Same-T ファンド取引",
   "createAccount": "アカウントの作成",
-  "transferFundsHeading": "資金の移動"
+  "transferFundsHeading": "資金の移動",
+  "exchangeFundsHeading": "資金を交換"
 }

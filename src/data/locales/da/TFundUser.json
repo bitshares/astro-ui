@@ -32,5 +32,17 @@
   "balance": "Balance",
   "difference": "Forskel",
   "finalAmount": "Endelig beløb",
-  "offering": "Offer"
+  "offering": "Offer",
+  "selected": "Valgt",
+  "borrowAmount": "Lånebeløb",
+  "removeBorrow": "Fjern",
+  "stepIndicator": "Trin 1",
+  "stepIndicator2": "Trin 2",
+  "stepIndicator3": "Trin 3",
+  "action": "Handling",
+  "editOperation": "Rediger handling",
+  "addOperationTooltip": "Tilføj en ny limit-ordre til kæden",
+  "noFundsAvailable": "Ingen Same-T Funds tilgængelige",
+  "noFundsDescription": "Der er i øjeblikket ingen Same-T Funds tilgængelige at låne fra.",
+  "operation": "Operation"
 }

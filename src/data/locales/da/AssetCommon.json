@@ -1,4 +1,5 @@
 {
+  "about": "Om",
   "permissions": {
     "header": "Aktivets tilladelser",
     "header_content": "Bemærk: Deaktivering af tilladelser er en permanent beslutning",
@@ -310,5 +311,10 @@
     "supportedFiletypes": "Understøttede filtyper omfatter billeder, video, lyd, 3D-filer, dokumenter osv.",
     "main_header_content": "Indstillingerne nedenfor definerer, hvordan dit ikke-fungible token vil opføre sig på Bitshares blockchain. Aktivets skaber er ansvarlig for korrekt at konfigurere deres ikke-fungible token.",
     "main_header": "Ikke-fungibel token-konfiguration"
+  },
+  "sectionHeader": {
+    "stepBadge": "Trin {{number}}",
+    "optional": "· Valgfri",
+    "recommended": "· Anbefalet"
   }
 }

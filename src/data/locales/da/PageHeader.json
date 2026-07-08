@@ -1,4 +1,5 @@
 {
+  "invoicingHeading": "Faktureringssystem",
   "accountOverviewsHeading": "Kontooversigter",
   "blockchainOverviewsHeading": "Blockchain -oversigter",
   "poolTracker": "Fremhævet pooloversigt",
@@ -24,7 +25,6 @@
   "creditDeals": "Kreditaftaler",
   "settingsHeading": "Indstillinger",
   "governanceHeading": "Governance",
-  "invoicingHeading": "Invoicing System",
   "simpleSwap": "Simpelt bytte",
   "vestAssets": "Vest Aktiver",
   "sameTFunds": "Same-T Funds",
@@ -97,12 +97,20 @@
     "create_pool": "Opret en ny likviditetspulje ved at konvertere et eksisterende brugerudstedt aktiv til et puljeaktieaktivtoken.",
     "invoice_inventory": "Håndtere lagervarer og tilhørende priser til fakturering.",
     "create_invoice": "Opret en faktura ved at vælge lagervarer, angive mængder og generere et identifikationsnotat til betaling.",
-    "pay_invoice": "Behandle og håndtere betaling for fakturakoder sendt til dig af sælgere på Bitshares blockchain."
+    "pay_invoice": "Behandle og håndtere betaling for fakturakoder sendt til dig af sælgere på Bitshares blockchain.",
+    "committee": "Brug denne side til at overvåge de nuværende komitémedlemmer, deres statistik og deres stemmer.",
+    "witnesses": "Brug denne side til at overvåge de nuværende vidner, deres statistik og deres stemmer.",
+    "create_worker": "Brug formularen nedenfor til at oprette et worker-forslag og sikre din projektfinansiering!",
+    "barter": "Brug formularen nedenfor til at bytte med en anden blockchain-konto og oprette en tilpasset peer-to-peer-handel.",
+    "governance": "Brug formularen nedenfor til at oprette/opdatere enten en vidne- eller komitémedlemsrolle.",
+    "favourites": "Administrer og se dine favorit-aktiver og konti.",
+    "blocked-users": "Se og administrer dine komité- og personlige blokeringslister."
   },
   "back": "Gå tilbage",
   "usage": "Designet til brug med ",
   "multiwallet": "multiwallet",
   "tfund_user": "Same-T Fund Trade",
   "createAccount": "Opret konto",
-  "transferFundsHeading": "Overfør midler"
+  "transferFundsHeading": "Overfør midler",
+  "exchangeFundsHeading": "Veksl penge"
 }

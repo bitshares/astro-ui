@@ -73,7 +73,10 @@
   "generatedInvoice": {
     "dialogTitle": "Loodud arve",
     "dialogDescription": "Esitage kliendile arve tasumiseks järgmine arve kood.",
-    "copyButton": "Kopeerige arve kood lõikelauale"
+    "copyButton": "Kopeerige arve kood lõikelauale",
+    "copiedButton": "Arvekood kopeeritud lõikelauale!",
+    "invoiceSaved": "Arve salvestatud!",
+    "saveInvoice": "Salvesta arve"
   },
   "scanner": {
     "scan": "Skaneeri",

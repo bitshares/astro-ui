@@ -65,5 +65,79 @@
   },
   "format": {
     "recipientField": "{{name}} ({{id}})"
+  },
+  "inventory": {
+    "header": "Lagerbeholdning",
+    "addItem": "Tilføj vare",
+    "searchPlaceholder": "Søg i lager...",
+    "selectItemDialog": {
+      "title": "Vælg vare",
+      "description": "Vælg en vare, der skal føjes til denne faktura."
+    },
+    "table": {
+      "name": "Navn",
+      "inStock": "På lager",
+      "price": "Pris"
+    }
+  },
+  "selectedItems": {
+    "table": {
+      "name": "Navn",
+      "nameTooltip": "Navnet på den vare, der købes.",
+      "quantity": "Mængde der købes",
+      "quantityTooltip": "Antal enheder af varen, som faktura-betaleren køber.",
+      "totalPossiblePrices": "Totale mulige priser",
+      "totalPricesTooltip": "Faktura-betaleren betaler kun én af disse aktivtyper pr. købt vare."
+    },
+    "row": {
+      "quantityTitle": "Mængde der købes: {{quantity}}",
+      "totalsTitle": "Totaler"
+    }
+  },
+  "prices": {
+    "countLabel": "{{count}} priser",
+    "possibleTotals": {
+      "dialogTitle": "Mulige totaler",
+      "dialogDescription": "Ved at betale ét af følgende aktivbeløb har faktura-betaleren betalt fakturaen fuldt ud for denne mængde af denne vare."
+    }
+  },
+  "quantity": {
+    "dialogTitle": "Mængde",
+    "dialogDescription": "Hvor mange \"{{name}}\" skal tilføjes?",
+    "add": "Tilføj"
+  },
+  "itemDetails": {
+    "dialogTitle": "Varedetaljer",
+    "dialogDescription": "Fulde egenskaber for den valgte vare."
+  },
+  "emptyInventory": {
+    "title": "Ingen varer på lager endnu!",
+    "description": "Du skal oprette lagerbeholdning, før en faktura kan genereres!",
+    "button": "Varelaget"
+  },
+  "generateInvoice": {
+    "button": "Generer faktura",
+    "buttonActive": "generer faktura"
+  },
+  "generatedInvoice": {
+    "dialogTitle": "Genereret faktura",
+    "dialogDescription": "Giv kunden følgende fakturakode for at betale fakturaen.",
+    "copyButton": "Kopiér fakturakode til udklipsholder",
+    "copiedButton": "Fakturakode kopieret til udklipsholder!",
+    "invoiceSaved": "Faktura gemt!",
+    "saveInvoice": "Gem faktura"
+  },
+  "scanner": {
+    "scan": "Scan",
+    "dialogTitle": "Scan stregkode",
+    "dialogDescription": "Ret din kamera mod en stregkode for at tilføje den tilsvarende vare.",
+    "rear": "Bag",
+    "front": "Front",
+    "torchOn": "Lygte til",
+    "torchOff": "Lygte fra",
+    "close": "Luk",
+    "retry": "Prøv igen",
+    "switch": "Skift",
+    "itemNotFound": "Vare ikke fundet"
   }
 }

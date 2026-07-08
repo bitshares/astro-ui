@@ -367,8 +367,32 @@
       "description": "Hjælper dig med at undgå ondsindede konti og deres blockchain-objekter!"
     }
   },
+  "sections": {
+    "exchangingSubtitle": "Handel, swap, stake og byt på DEX'en",
+    "transferSubtitle": "Send aktiver og administrer tilladelser",
+    "debtSubtitle": "Lån, udlån og udsted sikret gæld",
+    "assetCreationSubtitle": "Opret tokens, smartcoins og likviditetspools",
+    "accountSubtitle": "Administrer din portefølje, ordrer og favoritter",
+    "blockchainSubtitle": "Udforsk blockchain-data, pools og trackere",
+    "governanceSubtitle": "Stem, registrer roller og opret worker-forslag",
+    "invoicingSubtitle": "Opret, send og betal fakturaer on-chain",
+    "settingsSubtitle": "Kontolister, noder og konfiguration"
+  },
+  "configure_visuals": {
+    "title": "Konfigurer visuals",
+    "subtitle": "Tilpas bølgebaggrunde, aurora-glød, partikler og slørings effekter",
+    "hover1": "Vælg mellem foruddefinerede farvepaletter eller definer dine egne farver.",
+    "hover2": "Juster bølgeantal, hastighed, tykkelse og aurora-intensitet."
+  },
   "waveHero": {
     "title": "En næste generation af Bitshares-klient!",
     "subtitle": "Bygget med den nyeste teknologi, designet til brugervenlighed!"
+  },
+  "hero": {
+    "title": "Børsen for alle.",
+    "subtitle": "Handel, swap, stake, lån, udlån og mere på den decentrale Bitshares-børs. Non-custodial, tillidsfri og drevet af blockchain-teknologi.",
+    "ctaPrimary": "Start handel",
+    "ctaSecondary": "Simpel swap",
+    "scrollForMore": "Rul for mere"
   }
 }

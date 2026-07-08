@@ -1,4 +1,5 @@
 {
+  "invoicingHeading": "Arveldussüsteem",
   "accountOverviewsHeading": "Konto ülevaated",
   "blockchainOverviewsHeading": "Blockchaini ülevaated",
   "poolTracker": "Esitatud basseini ülevaade",
@@ -24,7 +25,6 @@
   "creditDeals": "Krediiditehingud",
   "settingsHeading": "Seaded",
   "governanceHeading": "Juhtimine",
-  "invoicingHeading": "Invoicing System",
   "simpleSwap": "Lihtne vahetus",
   "vestAssets": "Vesti varad",
   "sameTFunds": "Sama-T fondid",
@@ -97,12 +97,20 @@
     "create_pool": "Looge uus likviidsuskogum, teisendades olemasoleva kasutaja väljastatud vara kogumi aktsiavara märgiks.",
     "invoice_inventory": "Hallake laoartikleid ja nendega seotud hindu arveldamiseks.",
     "create_invoice": "Koostage arve, valides laoartikleid, määrates kogused ja genereerides maksmiseks tunnusmemo.",
-    "pay_invoice": "Töödelge ja käsitlege Bitsharesi plokiahelas müüjate poolt teile saadetud arvekoodide eest tasumist."
+    "pay_invoice": "Töödelge ja käsitlege Bitsharesi plokiahelas müüjate poolt teile saadetud arvekoodide eest tasumist.",
+    "committee": "Kasutage seda lehte praeguste komitee liikmete, nende statistika ja häälte jälgimiseks.",
+    "witnesses": "Kasutage seda lehte praeguste tunnistajate, nende statistika ja häälte jälgimiseks.",
+    "create_worker": "Kasutage allolevat vormi töötajapakkumise loomiseks ja oma projekti rahastamise kindlustamiseks!",
+    "barter": "Kasutage allolevat vormi teise plokiahela konto vastu vahetamiseks ja kohandatud üks-ühele kaubanduse loomiseks.",
+    "governance": "Kasutage allolevat vormi kas tunnistaja või komitee liikme rolli loomiseks/uuendamiseks.",
+    "favourites": "Halda ja vaadake oma lemmikvarasid ja kontosid.",
+    "blocked-users": "Vaadake ja halduge oma komitee ja isiklikke blokeerimisnimekirju."
   },
   "back": "Mine tagasi",
   "usage": "Mõeldud kasutamiseks koos ",
   "multiwallet": "multirahakott",
   "tfund_user": "Same-T Fund Trade",
   "createAccount": "Loo konto",
-  "transferFundsHeading": "Raha ülekandmine"
+  "transferFundsHeading": "Raha ülekandmine",
+  "exchangeFundsHeading": "Vaheta vahendeid"
 }

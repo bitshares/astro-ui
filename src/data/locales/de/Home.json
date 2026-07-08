@@ -367,8 +367,32 @@
       "description": "Hilft Ihnen, bösartige Konten und deren Blockchain-Objekte zu vermeiden!"
     }
   },
+  "sections": {
+    "exchangingSubtitle": "Handeln, tauschen, staken und tauschen Sie auf der DEX",
+    "transferSubtitle": "Vermögenswerte senden und Berechtigungen verwalten",
+    "debtSubtitle": "Leihen, verleihen und besicherte Schulden ausgeben",
+    "assetCreationSubtitle": "Token, Smartcoins und Liquiditätspools erstellen",
+    "accountSubtitle": "Verwalten Sie Ihr Portfolio, Aufträge und Favoriten",
+    "blockchainSubtitle": "Blockchain-Daten, Pools und Tracker erkunden",
+    "governanceSubtitle": "Abstimmen, Rollen registrieren und Worker-Vorschläge erstellen",
+    "invoicingSubtitle": "Rechnungen on-chain erstellen, senden und bezahlen",
+    "settingsSubtitle": "Kontolisten, Nodes und Konfiguration"
+  },
+  "configure_visuals": {
+    "title": "Visuals konfigurieren",
+    "subtitle": "Wellen-Hintergründe, Aurora-Glühen, Partikel und Unschärfe-Effekte anpassen",
+    "hover1": "Wählen Sie aus vordefinierten Farbpaletten oder definieren Sie eigene Farben.",
+    "hover2": "Passen Sie Wellenanzahl, Geschwindigkeit, Stärke und Aurora-Intensität an."
+  },
   "waveHero": {
     "title": "Ein Bitshares-Client der nächsten Generation!",
     "subtitle": "Gebaut mit der neuesten Technologie und auf Benutzerfreundlichkeit ausgelegt!"
+  },
+  "hero": {
+    "title": "Die Börse für jeden.",
+    "subtitle": "Handeln, tauschen, staken, leihen, verleihen und mehr auf der dezentralen Bitshares-Börse. Non-custodial, vertrauenslos und durch Blockchain-Technologie betrieben.",
+    "ctaPrimary": "Handel starten",
+    "ctaSecondary": "Einfacher Swap",
+    "scrollForMore": "Für mehr scrollen"
   }
 }

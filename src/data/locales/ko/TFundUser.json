@@ -32,5 +32,17 @@
   "balance": "잔액",
   "difference": "차이",
   "finalAmount": "최종 금액",
-  "offering": "제공"
+  "offering": "제공",
+  "selected": "선택됨",
+  "borrowAmount": "대출 금액",
+  "removeBorrow": "제거",
+  "stepIndicator": "단계 1",
+  "stepIndicator2": "단계 2",
+  "stepIndicator3": "단계 3",
+  "action": "작업",
+  "editOperation": "작업 편집",
+  "addOperationTooltip": "새 지정가 주문을 체인에 추가",
+  "noFundsAvailable": "Same-T Funds 이용 불가",
+  "noFundsDescription": "현재 빌릴 수 있는 Same-T Funds가 없습니다。",
+  "operation": "작업"
 }

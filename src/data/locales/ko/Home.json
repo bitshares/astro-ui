@@ -367,8 +367,32 @@
       "description": "악의적인 계정과 해당 블록체인 개체를 방지하는 데 도움이 됩니다!"
     }
   },
+  "sections": {
+    "exchangingSubtitle": "DEX에서 거래, 스왑, 스테이킹 및 물물교환",
+    "transferSubtitle": "자산을 전송하고 권한 관리",
+    "debtSubtitle": "대출, 거래 및 담보부 채무 발행",
+    "assetCreationSubtitle": "토큰, 스마트코인 및 유동성 풀 생성",
+    "accountSubtitle": "포트폴리오, 주문 및 즐겨찾기 관리",
+    "blockchainSubtitle": "블록체인 데이터, 풀 및 트래커 탐색",
+    "governanceSubtitle": "투표, 역할 등록 및 워커 제안 생성",
+    "invoicingSubtitle": "온체인에서 청구서 생성, 전송 및 결제",
+    "settingsSubtitle": "계정 목록, 노드 및 설정"
+  },
+  "configure_visuals": {
+    "title": "비주얼 구성",
+    "subtitle": "파동 배경, 오로라 글로우, 파티클 및 블러 효과 사용자 지정",
+    "hover1": "미리 정의된 색상 팔레트에서 선택하거나 직접 색상을 정의하세요.",
+    "hover2": "파동 수, 속도, 두께 및 오로라 강도를 조정하세요."
+  },
   "waveHero": {
     "title": "차세대 Bitshares 클라이언트!",
     "subtitle": "최신 기술로 제작되어 사용하기 쉽도록 설계되었습니다!"
+  },
+  "hero": {
+    "title": "모두를 위한 거래소.",
+    "subtitle": "Bitshares 분산형 거래소에서 거래, 스왑, 스테이킹, 대출, 거래 등이 가능합니다. 비수탁형, 신뢰 불필요, 블록체인 기술 기반.",
+    "ctaPrimary": "거래 시작",
+    "ctaSecondary": "심플 스왑",
+    "scrollForMore": "더 보려면 스크롤"
   }
 }

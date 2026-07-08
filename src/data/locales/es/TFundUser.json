@@ -32,5 +32,17 @@
   "balance": "Saldo",
   "difference": "Diferencia",
   "finalAmount": "Monto final",
-  "offering": "Oferta"
+  "offering": "Oferta",
+  "selected": "Seleccionado",
+  "borrowAmount": "Monto del préstamo",
+  "removeBorrow": "Eliminar",
+  "stepIndicator": "Paso 1",
+  "stepIndicator2": "Paso 2",
+  "stepIndicator3": "Paso 3",
+  "action": "Acción",
+  "editOperation": "Editar operación",
+  "addOperationTooltip": "Añadir una nueva orden límite a la cadena",
+  "noFundsAvailable": "No hay Same-T Funds disponibles",
+  "noFundsDescription": "No hay Same-T Funds disponibles para pedir prestado actualmente.",
+  "operation": "Operación"
 }

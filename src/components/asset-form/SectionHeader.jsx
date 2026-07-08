@@ -1,4 +1,6 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+import { locale } from "@/lib/i18n";
 
 const STEP_COLORS = {
   1: { icon: "bg-violet-500/15 text-violet-400 ring-violet-500/30", badge: "bg-violet-500/15 text-violet-400", border: "border-violet-500/20" },
@@ -10,6 +12,7 @@ const STEP_COLORS = {
 };
 
 export default function SectionHeader({ icon: Icon, title, description, step, optional, recommended, right }) {
+  const { t } = useTranslation("AssetCommon", { i18n: locale.get() });
   const colors = STEP_COLORS[step] || STEP_COLORS[1];
   return (
     <div className="flex items-start gap-3 border-b border-border px-6 py-4">
@@ -20,9 +23,9 @@ export default function SectionHeader({ icon: Icon, title, description, step, op
         <div className="flex items-center gap-2">
           {step && (
             <span className={"inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider " + colors.badge}>
-              Step {step}
-              {recommended ? ` · Recommended` : ""}
-              {optional ? ` · Optional` : ""}
+              {t("AssetCommon:sectionHeader.stepBadge", { number: step })}
+              {recommended ? ` ${t("AssetCommon:sectionHeader.recommended")}` : ""}
+              {optional ? ` ${t("AssetCommon:sectionHeader.optional")}` : ""}
             </span>
           )}
         </div>

@@ -1,4 +1,5 @@
 {
+  "invoicingHeading": "Sistema di fatturazione",
   "accountOverviewsHeading": "Panoramiche dell'account",
   "blockchainOverviewsHeading": "Panoramiche blockchain",
   "poolTracker": "Panoramica della piscina in primo piano",
@@ -24,7 +25,6 @@
   "creditDeals": "Accordi di credito",
   "settingsHeading": "Impostazioni",
   "governanceHeading": "Governo",
-  "invoicingHeading": "Invoicing System",
   "simpleSwap": "Scambio semplice",
   "vestAssets": "Vestire le risorse",
   "sameTFunds": "Fondi Same-T",
@@ -97,12 +97,20 @@
     "create_pool": "Crea un nuovo pool di liquidità convertendo un asset esistente emesso dall'utente in un token di asset condiviso del pool.",
     "invoice_inventory": "Gestisci gli articoli di inventario e i prezzi associati per la fatturazione.",
     "create_invoice": "Crea una fattura selezionando gli articoli di inventario, impostando le quantità e generando una nota identificativa per il pagamento.",
-    "pay_invoice": "Elabora e gestisci il pagamento per i codici fattura inviati dai venditori sulla blockchain di Bitshares."
+    "pay_invoice": "Elabora e gestisci il pagamento per i codici fattura inviati dai venditori sulla blockchain di Bitshares.",
+    "committee": "Usa questa pagina per monitorare gli attuali membri del comitato, le loro statistiche e i loro voti.",
+    "witnesses": "Usa questa pagina per monitorare gli attuali testimoni, le loro statistiche e i loro voti.",
+    "create_worker": "Usa il modulo sottostante per creare una proposta di worker e assicurare il finanziamento del tuo progetto!",
+    "barter": "Usa il modulo sottostante per barattare con un altro account blockchain, creando uno scambio personalizzato peer-to-peer.",
+    "governance": "Usa il modulo sottostante per creare/aggiornare un ruolo di testimone o di membro del comitato.",
+    "favourites": "Gestisci e visualizza i tuoi asset e account preferiti.",
+    "blocked-users": "Visualizza e gestisci le tue liste di blocco del comitato e personali."
   },
   "back": "Torna indietro",
   "usage": "Progettato per l'uso con ",
   "multiwallet": "multiportafoglio",
   "tfund_user": "Commercio di fondi Same-T",
   "createAccount": "Crea account",
-  "transferFundsHeading": "Trasferire fondi"
+  "transferFundsHeading": "Trasferire fondi",
+  "exchangeFundsHeading": "Scambia fondi"
 }

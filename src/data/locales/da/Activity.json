@@ -28,7 +28,8 @@
       "seller": "Sælger: {{seller}} ({{opSeller}})",
       "selling": "Sælger: {{amount}}",
       "buying": "Køber: {{amount}}",
-      "price": "Pris: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "Pris: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "Udvidelser: {{extensions}}"
     },
     "tooltip": "Et tilbud om at sælge et beløb af et aktiv til en bestemt valutakurs inden for et bestemt tidspunkt"
   },

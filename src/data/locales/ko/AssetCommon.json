@@ -1,4 +1,5 @@
 {
+  "about": "정보",
   "permissions": {
     "header": "자산의 권한",
     "header_content": "참고: 권한 비활성화는 영구적인 결정입니다.",
@@ -310,5 +311,10 @@
     "supportedFiletypes": "지원되는 파일 형식에는 이미지, 비디오, 오디오, 3D 파일, 문서 등이 포함됩니다.",
     "main_header_content": "아래 설정은 대체 불가능한 토큰이 Bitshares 블록체인에서 작동하는 방식을 정의합니다. 자산 생성자는 대체 불가능한 토큰을 올바르게 구성할 책임이 있습니다.",
     "main_header": "대체 불가능한 토큰 구성"
+  },
+  "sectionHeader": {
+    "stepBadge": "단계 {{number}}",
+    "optional": "· 선택 사항",
+    "recommended": "· 권장"
   }
 }

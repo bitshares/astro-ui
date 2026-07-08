@@ -73,7 +73,10 @@
   "generatedInvoice": {
     "dialogTitle": "生成された請求書",
     "dialogDescription": "請求書を支払うために次の請求書コードを顧客に提供します。",
-    "copyButton": "請求書コードをクリップボードにコピーします"
+    "copyButton": "請求書コードをクリップボードにコピーします",
+    "copiedButton": "請求書コードをクリップボードにコピーしました！",
+    "invoiceSaved": "請求書を保存しました！",
+    "saveInvoice": "請求書を保存"
   },
   "scanner": {
     "scan": "スキャン",

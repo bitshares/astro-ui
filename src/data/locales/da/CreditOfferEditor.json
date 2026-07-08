@@ -58,5 +58,7 @@
   "risksPoint3": "Hvis du ikke konfigurerer tilladte låntagere, så kan alle Bitshares blockchain-brugere acceptere aftalen i sin helhed. Overvej at bruge den godkendte lånerfunktionalitet til at låne ud til kendte/registrerede brugere.",
   "risksPoint4": "Låntagere er ikke forpligtet til at tilbagebetale de udlånte aktiver, og de bliver heller ikke straffet for at gøre det, de kan vælge at misligholde lånet og miste deres sikkerhed. Du kan først kræve de udlånte aktiver eller sikkerheden tilbage efter tilbagebetalingsperiodens udløb. ",
   "risksPoint5": "Udløbet af en kreditaftale kan overskride kredittilbuddets udløbsdato, du bør ikke antage, at du får dine udlånte aktiver tilbage, før udløbet + sidste tilbagebetalingsperiode er passeret.",
-  "risksPoint6": "Vær opmærksom på modpartsrisici, hvis du bruger børsstøttede aktiver (EBA) til sikkerhedsstillelse eller udlånsformål, da deres værdi kan svinge baseret på deres tredjepartsrisici."
+  "risksPoint6": "Vær opmærksom på modpartsrisici, hvis du bruger børsstøttede aktiver (EBA) til sikkerhedsstillelse eller udlånsformål, da deres værdi kan svinge baseret på deres tredjepartsrisici.",
+  "noCollateral": "Ingen sikkerhed tilføjet endnu",
+  "noPreApprovedBorrowers": "Ingen forhåndsgodkendte låntagere"
 }

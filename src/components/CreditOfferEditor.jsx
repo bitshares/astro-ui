@@ -1076,8 +1076,8 @@ export default function CreditOfferEditor(properties) {
                       {t("CreditOfferEditor:expirationDate")}
                     </span>
                   </div>
-                  <Popover>
-                    <PopoverTrigger asChild>
+                  <Dialog>
+                    <DialogTrigger asChild>
                       <Button
                         variant={"outline"}
                         className={cn(
@@ -1094,8 +1094,8 @@ export default function CreditOfferEditor(properties) {
                           </span>
                         )}
                       </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[350px] bg-card border border-border rounded-2xl p-0">
                       <Calendar
                         mode="single"
                         selected={expiration}
@@ -1114,8 +1114,8 @@ export default function CreditOfferEditor(properties) {
                         }}
                         initialFocus
                       />
-                    </PopoverContent>
-                  </Popover>
+                    </DialogContent>
+                  </Dialog>
                   <p className="text-[10px] text-muted-foreground mt-2">
                     {t("CreditOfferEditor:creditOfferEnds")}
                   </p>
@@ -1143,7 +1143,7 @@ export default function CreditOfferEditor(properties) {
                         />
                       ) : (
                         <div className="text-center py-8 text-muted-foreground text-sm">
-                          No collateral added yet
+                          {t("CreditOfferEditor:noCollateral")}
                         </div>
                       )}
                     </div>
@@ -1246,9 +1246,9 @@ export default function CreditOfferEditor(properties) {
                         rowProps={{}}
                       />
                     ) : (
-                      <div className="text-center py-8 text-muted-foreground text-sm">
-                        No pre-approved borrowers
-                      </div>
+                        <div className="text-center py-8 text-muted-foreground text-sm">
+                          {t("CreditOfferEditor:noPreApprovedBorrowers")}
+                        </div>
                     )}
                   </div>
                 </div>

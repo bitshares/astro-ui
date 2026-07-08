@@ -24,6 +24,17 @@
   },
   "existing": {
     "description": "Vælg en af ​​dine tidligere brugte konti",
-    "none": "Ingen konti fundet."
-  }
+    "none": "Ingen konti fundet.",
+    "noneHint": "Du kan tilføje konti ved at bruge indstillingen Ny konto"
+  },
+  "step1": "Netværk",
+  "step2": "Konto",
+  "step3": "Bekræft",
+  "mainnet": "Mainnet (BTS)",
+  "testnetLabel": "Testnetværk (TEST)",
+  "newAccountSubtitle": "Søg efter enhver konto på netværket",
+  "existingAccountSubtitle": "{{count}} konto gemt",
+  "existingAccountSubtitle_plural": "{{count}} konti gemt",
+  "removeAccount": "Fjern konto",
+  "removeAccountLabel": "Fjern {{username}}"
 }

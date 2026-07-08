@@ -1,4 +1,5 @@
 {
+  "invoicingHeading": "Rechnungssystem",
   "accountOverviewsHeading": "Kontoübersichten",
   "blockchainOverviewsHeading": "Blockchain -Übersichten",
   "poolTracker": "Ausgewählter Poolüberblick",
@@ -24,7 +25,6 @@
   "creditDeals": "Kreditgeschäfte",
   "settingsHeading": "Einstellungen",
   "governanceHeading": "Regierungsführung",
-  "invoicingHeading": "Invoicing System",
   "simpleSwap": "Einfacher Tausch",
   "vestAssets": "Vest-Vermögen",
   "sameTFunds": "Same-T-Fonds",
@@ -97,12 +97,20 @@
     "create_pool": "Erstellen Sie einen neuen Liquiditätspool, indem Sie einen vorhandenen, vom Benutzer ausgegebenen Vermögenswert in einen Pool-Share-Asset-Token umwandeln.",
     "invoice_inventory": "Verwalten Sie Lagerartikel und zugehörige Preise für die Rechnungsstellung.",
     "create_invoice": "Erstellen Sie eine Rechnung, indem Sie Lagerartikel auswählen, Mengen festlegen und ein Identifikationsmemo für die Zahlung erstellen.",
-    "pay_invoice": "Verarbeiten und wickeln Sie die Zahlung für Rechnungscodes ab, die Ihnen von Verkäufern auf der Bitshares-Blockchain zugesandt werden."
+    "pay_invoice": "Verarbeiten und wickeln Sie die Zahlung für Rechnungscodes ab, die Ihnen von Verkäufern auf der Bitshares-Blockchain zugesandt werden.",
+    "committee": "Nutzen Sie diese Seite, um die aktuellen Komiteemitglieder, ihre Statistiken und ihre Stimmen zu überwachen.",
+    "witnesses": "Nutzen Sie diese Seite, um die aktuellen Zeugen, ihre Statistiken und ihre Stimmen zu überwachen.",
+    "create_worker": "Nutzen Sie das folgende Formular, um einen Worker-Vorschlag zu erstellen und die Finanzierung Ihres Projekts zu sichern!",
+    "barter": "Nutzen Sie das folgende Formular, um mit einem anderen Blockchain-Konto zu tauschen und ein benutzerdefinierten Peer-to-Peer-Handel zu erstellen.",
+    "governance": "Nutzen Sie das folgende Formular, um entweder eine Zeugen- oder eine Komiteemitgliedsrolle zu erstellen/aktualisieren.",
+    "favourites": "Verwalten und zeigen Sie Ihre Lieblingsassets und Konten an.",
+    "blocked-users": "Sehen und verwalten Sie Ihre Komitee- und persönlichen Blocklisten."
   },
   "back": "Geh zurück",
   "usage": "Konzipiert für den Einsatz mit ",
   "multiwallet": "Multiwallet",
   "tfund_user": "Same-T Fund Trade",
   "createAccount": "Konto erstellen",
-  "transferFundsHeading": "Geld überweisen"
+  "transferFundsHeading": "Geld überweisen",
+  "exchangeFundsHeading": "Geld tauschen"
 }

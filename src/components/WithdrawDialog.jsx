@@ -38,11 +38,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -705,8 +700,8 @@ export default function WithdrawPermissions(properties) {
                         </SelectContent>
                       </Select>
                       {expiryType === "specific" ? (
-                        <Popover>
-                          <PopoverTrigger asChild>
+                        <Dialog>
+                          <DialogTrigger asChild>
                             <Button
                               variant={"outline"}
                               className={cn(
@@ -723,8 +718,8 @@ export default function WithdrawPermissions(properties) {
                                 </span>
                               )}
                             </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[350px] bg-card border border-border rounded-2xl p-0">
                             <Calendar
                               mode="single"
                               selected={date}
@@ -744,8 +739,8 @@ export default function WithdrawPermissions(properties) {
                               }}
                               initialFocus
                             />
-                          </PopoverContent>
-                        </Popover>
+                          </DialogContent>
+                        </Dialog>
                       ) : null}
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />

@@ -1,4 +1,5 @@
 {
+  "invoicingHeading": "청구 시스템",
   "accountOverviewsHeading": "계정 개요",
   "blockchainOverviewsHeading": "블록 체인 개요",
   "poolTracker": "추천 풀 개요",
@@ -24,7 +25,6 @@
   "creditDeals": "신용 거래",
   "settingsHeading": "설정",
   "governanceHeading": "통치",
-  "invoicingHeading": "Invoicing System",
   "simpleSwap": "단순 교환",
   "vestAssets": "조끼 자산",
   "sameTFunds": "Same-T 펀드",
@@ -97,12 +97,20 @@
     "create_pool": "기존 사용자 발행 자산을 풀 공유 자산 토큰으로 변환하여 새로운 유동성 풀을 생성합니다.",
     "invoice_inventory": "송장 발행을 위한 재고 품목 및 관련 가격을 관리합니다.",
     "create_invoice": "재고 항목을 선택하고 수량을 설정하고 결제를 위한 식별자 메모를 생성하여 송장을 생성합니다.",
-    "pay_invoice": "Bitshares 블록체인의 판매자가 귀하에게 보낸 송장 코드에 대한 결제를 처리하고 처리합니다."
+    "pay_invoice": "Bitshares 블록체인의 판매자가 귀하에게 보낸 송장 코드에 대한 결제를 처리하고 처리합니다.",
+    "committee": "이 페이지에서 현재 위원회 멤버, 통계 및 투표를 모니터링하세요。",
+    "witnesses": "이 페이지에서 현재 증인, 통계 및 투표를 모니터링하세요。",
+    "create_worker": "아래 양식을 사용하여 워커 제안을 만들고 프로젝트 자금을 확보하세요!",
+    "barter": "아래 양식을 사용하여 다른 블록체인 계정과 물물교환하고 맞춤형 P2P 거래를 만드세요。",
+    "governance": "아래 양식을 사용하여 증인 또는 위원회 멤버 역할을 만들거나 업데이트하세요。",
+    "favourites": "즐겨찾는 자산 및 계정을 관리하고 확인하세요。",
+    "blocked-users": "위원회 및 개인 차단 목록을 보고 관리하세요。"
   },
   "back": "돌아가기",
   "usage": "다음과 함께 사용하도록 설계됨 ",
   "multiwallet": "다중 지갑",
   "tfund_user": "Same-T Fund 거래",
   "createAccount": "계정 만들기",
-  "transferFundsHeading": "자금 이체"
+  "transferFundsHeading": "자금 이체",
+  "exchangeFundsHeading": "자금 교환"
 }

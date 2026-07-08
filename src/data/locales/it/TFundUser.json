@@ -32,5 +32,17 @@
   "balance": "Saldo",
   "difference": "Differenza",
   "finalAmount": "Importo finale",
-  "offering": "Offerta"
+  "offering": "Offerta",
+  "selected": "Selezionato",
+  "borrowAmount": "Importo preso in prestito",
+  "removeBorrow": "Rimuovi",
+  "stepIndicator": "Passo 1",
+  "stepIndicator2": "Passo 2",
+  "stepIndicator3": "Passo 3",
+  "action": "Azione",
+  "editOperation": "Modifica operazione",
+  "addOperationTooltip": "Aggiungi un nuovo ordine limite alla catena",
+  "noFundsAvailable": "Nessun Same-T Funds disponibile",
+  "noFundsDescription": "Al momento non ci sono Same-T Funds disponibili da cui prendere in prestito.",
+  "operation": "Operazione"
 }

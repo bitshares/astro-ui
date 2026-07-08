@@ -28,7 +28,8 @@
       "seller": "ผู้ขาย: {{seller}} ({{opSeller}})",
       "selling": "ขาย: {{amount}}",
       "buying": "กำลังซื้อ: {{amount}}",
-      "price": "ราคา: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "ราคา: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "ส่วนขยาย: {{extensions}}"
     },
     "tooltip": "การเสนอขายสินทรัพย์ตามอัตราแลกเปลี่ยนที่ระบุภายในระยะเวลาหนึ่ง"
   },

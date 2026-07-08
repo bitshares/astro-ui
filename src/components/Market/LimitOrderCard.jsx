@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 
 import { cn } from "@/lib/utils";
-const Calendar = lazy(() => import("@/components/ui/calendar"));
+const Calendar = lazy(() => import("@/components/ui/calendar").then(m => ({ default: m.Calendar })));
 import {
   Popover,
   PopoverContent,
@@ -64,6 +64,11 @@ import {
   assetAmountRegex,
 } from "@/lib/common.js";
 import DeepLinkDialog from "../common/DeepLinkDialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 /**
  * Creating a market card component for buy and sell limit orders
@@ -1044,8 +1049,8 @@ export default function LimitOrderCard(properties) {
                     </Select>
                     <FieldDescription>
                       {expiryType === "specific" ? (
-                        <Popover>
-                          <PopoverTrigger asChild>
+                        <Dialog>
+                          <DialogTrigger asChild>
                             <Button
                               variant={"outline"}
                               className={cn(
@@ -1062,8 +1067,8 @@ export default function LimitOrderCard(properties) {
                                 </span>
                               )}
                             </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[350px] bg-card border border-border rounded-2xl p-0">
                             <Suspense fallback={<div className="h-[300px] w-[280px] bg-muted animate-pulse rounded" />}>
                               <Calendar
                                 mode="single"
@@ -1084,8 +1089,8 @@ export default function LimitOrderCard(properties) {
                                 initialFocus
                               />
                             </Suspense>
-                          </PopoverContent>
-                        </Popover>
+                          </DialogContent>
+                        </Dialog>
                       ) : null}
                       {expiryType === "fkill"
                         ? t("LimitOrderCard:expiry.fkillDescription")

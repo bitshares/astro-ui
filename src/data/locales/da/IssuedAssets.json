@@ -99,5 +99,6 @@
   "amount": "Beløb",
   "useMax": "Brug max",
   "noAssetInBalance": "Denne konto indeholder ikke dette aktiv.",
-  "overrideHeader": "Minde om {{amount}} {{symbol}} fra {{account}}"
+  "overrideHeader": "Minde om {{amount}} {{symbol}} fra {{account}}",
+  "collateralBid": "Byde på sikkerhed"
 }

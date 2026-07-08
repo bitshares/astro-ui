@@ -99,5 +99,6 @@
   "amount": "Menge",
   "useMax": "Benutzen Sie max",
   "noAssetInBalance": "Dieses Konto enthält diesen Vermögenswert nicht.",
-  "overrideHeader": "Abrufen {{amount}} {{symbol}} aus {{account}}"
+  "overrideHeader": "Abrufen {{amount}} {{symbol}} aus {{account}}",
+  "collateralBid": "Gebot auf Sicherheiten abgeben"
 }

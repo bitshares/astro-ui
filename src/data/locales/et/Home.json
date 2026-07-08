@@ -367,8 +367,32 @@
       "description": "Aitab vältida pahatahtlikke kontosid ja nende plokiahela objekte!"
     }
   },
+  "sections": {
+    "exchangingSubtitle": "Kauple, vaheta, stake'i ja barterda DEX-is",
+    "transferSubtitle": "Saada varasid ja halda õigusi",
+    "debtSubtitle": "Võta laenu, anna laenu ja emiteeri tagatud võlg",
+    "assetCreationSubtitle": "Loo tokeneid, smartcoine ja likviidsuspütleid",
+    "accountSubtitle": "Halda oma portfelli, tellimusi ja lemmikuid",
+    "blockchainSubtitle": "Uuri plokiahela andmeid, pütleid ja jälgijaid",
+    "governanceSubtitle": "Hääleta, registreeri rolle ja loo töötajapakkumisi",
+    "invoicingSubtitle": "Loo, saada ja maksa arveid plokiahelas",
+    "settingsSubtitle": "Kontonimekirjad, sõlmed ja seadistus"
+  },
+  "configure_visuals": {
+    "title": "Konfigureeri visuaale",
+    "subtitle": "Kohanda laine taustu, aurora-sära, osakesi ja udu efekte",
+    "hover1": "Vali eelmääratletud värvipalettide hulgast või määra oma värvid.",
+    "hover2": "Kohanda laine arvu, kiirust, paksust ja aurora intensiivsust."
+  },
   "waveHero": {
     "title": "Järgmise põlvkonna Bitsharesi klient!",
     "subtitle": "Ehitatud uusima tehnoloogiaga, mõeldud kasutusmugavuseks!"
+  },
+  "hero": {
+    "title": "Vahetus kõigile.",
+    "subtitle": "Kauple, vaheta, stake'i, laena, anna laenu ja muud Bitsharesi detsentraliseeritud börsil. Mitte-sotsiodiaalne, usaldusvaba ja plokiahela tehnoloogial põhinev.",
+    "ctaPrimary": "Alusta kauplemist",
+    "ctaSecondary": "Lihtne vahetus",
+    "scrollForMore": "Keri edasi"
   }
 }

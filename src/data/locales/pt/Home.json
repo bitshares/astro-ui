@@ -367,8 +367,32 @@
       "description": "Ajuda você a evitar contas maliciosas e seus objetos blockchain!"
     }
   },
+  "sections": {
+    "exchangingSubtitle": "Negocie, troque, stake e permute na DEX",
+    "transferSubtitle": "Envie ativos e gerencie permissões",
+    "debtSubtitle": "Empreste, tome emprestado e emita dívida colateralizada",
+    "assetCreationSubtitle": "Crie tokens, smartcoins e pools de liquidez",
+    "accountSubtitle": "Gerencie sua carteira, ordens e favoritos",
+    "blockchainSubtitle": "Explore dados blockchain, pools e rastreadores",
+    "governanceSubtitle": "Vote, registre funções e crie propostas de worker",
+    "invoicingSubtitle": "Crie, envie e pague faturas on-chain",
+    "settingsSubtitle": "Listas de contas, nós e configuração"
+  },
+  "configure_visuals": {
+    "title": "Configurar visuais",
+    "subtitle": "Personalize fundos ondulados, brilho aurora, partículas e efeitos de desfoque",
+    "hover1": "Escolha entre paletas de cores predefinidas ou defina suas próprias cores.",
+    "hover2": "Ajuste a quantidade, velocidade, espessura das ondas e a intensidade da aurora."
+  },
   "waveHero": {
     "title": "Um cliente Bitshares de próxima geração!",
     "subtitle": "Construído com a mais recente tecnologia, projetado para facilidade de uso!"
+  },
+  "hero": {
+    "title": "A exchange para todos.",
+    "subtitle": "Negocie, troque, stake, empreste, tome emprestado e mais na exchange descentralizada Bitshares. Non-custodial, sem confiança e baseada em tecnologia blockchain.",
+    "ctaPrimary": "Começar a negociar",
+    "ctaSecondary": "Swap simples",
+    "scrollForMore": "Role para mais"
   }
 }

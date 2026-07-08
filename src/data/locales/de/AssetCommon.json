@@ -1,4 +1,5 @@
 {
+  "about": "Über",
   "permissions": {
     "header": "Berechtigungen des Assets",
     "header_content": "Hinweis: Das Deaktivieren von Berechtigungen ist eine dauerhafte Entscheidung",
@@ -310,5 +311,10 @@
     "supportedFiletypes": "Zu den unterstützten Dateitypen gehören Bilder, Video, Audio, 3D-Dateien, Dokumente usw.",
     "main_header_content": "Die folgenden Einstellungen definieren, wie sich Ihr nicht fungibler Token auf der Bitshares-Blockchain verhält. Der Ersteller des Assets ist für die ordnungsgemäße Konfiguration seines nicht fungiblen Tokens verantwortlich.",
     "main_header": "Nicht fungible Token-Konfiguration"
+  },
+  "sectionHeader": {
+    "stepBadge": "Schritt {{number}}",
+    "optional": "· Optional",
+    "recommended": "· Empfohlen"
   }
 }

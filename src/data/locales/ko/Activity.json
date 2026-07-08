@@ -28,7 +28,8 @@
       "seller": "판매자: {{seller}} ({{opSeller}})",
       "selling": "판매: {{amount}}",
       "buying": "구매: {{amount}}",
-      "price": "가격: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "가격: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "확장 기능: {{extensions}}"
     },
     "tooltip": "특정 시점까지 특정 환율로 자산 금액을 판매하겠다는 제안"
   },

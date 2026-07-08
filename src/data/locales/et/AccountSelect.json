@@ -24,6 +24,17 @@
   },
   "existing": {
     "description": "Valige üks oma varem kasutatud kontodest",
-    "none": "Ühtegi kontot ei leitud."
-  }
+    "none": "Ühtegi kontot ei leitud.",
+    "noneHint": "Kontosid saate lisada, kasutades valikut Uus konto"
+  },
+  "step1": "Võrk",
+  "step2": "Konto",
+  "step3": "Kinnita",
+  "mainnet": "Mainnet (BTS)",
+  "testnetLabel": "Testvõrk (TEST)",
+  "newAccountSubtitle": "Otsi mis tahes kontot võrgust",
+  "existingAccountSubtitle": "{{count}} konto salvestatud",
+  "existingAccountSubtitle_plural": "{{count}} kontot salvestatud",
+  "removeAccount": "Eemalda konto",
+  "removeAccountLabel": "Eemalda {{username}}"
 }

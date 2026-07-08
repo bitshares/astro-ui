@@ -18,5 +18,9 @@
   "secondsAgo_other": "{{count}} วินาทีที่ผ่านมา",
   "minutesAgo_other": "{{count}} นาทีที่ผ่านมา",
   "hoursAgo_other": "{{count}} ชั่วโมงที่ผ่านมา",
-  "daysAgo_other": "{{count}} เมื่อวันก่อน"
+  "daysAgo_other": "{{count}} เมื่อวันก่อน",
+  "secondsAgo_one": "{{count}} วินาทีที่ผ่านมา",
+  "minutesAgo_one": "{{count}} นาทีที่ผ่านมา",
+  "hoursAgo_one": "{{count}} ชั่วโมงที่ผ่านมา",
+  "daysAgo_one": "{{count}} วันที่ผ่านมา"
 }

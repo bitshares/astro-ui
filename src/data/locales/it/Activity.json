@@ -28,7 +28,8 @@
       "seller": "Venditore: {{seller}} ({{opSeller}})",
       "selling": "Vendita: {{amount}}",
       "buying": "Acquisto: {{amount}}",
-      "price": "Prezzo: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "Prezzo: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "Estensioni: {{extensions}}"
     },
     "tooltip": "Un'offerta di vendita di un importo di un bene a un tasso di cambio specificato entro un determinato periodo"
   },

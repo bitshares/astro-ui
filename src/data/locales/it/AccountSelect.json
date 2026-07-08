@@ -24,6 +24,17 @@
   },
   "existing": {
     "description": "Seleziona uno degli account utilizzati in precedenza",
-    "none": "Nessun account trovato."
-  }
+    "none": "Nessun account trovato.",
+    "noneHint": "Puoi aggiungere account usando l'opzione Nuovo account"
+  },
+  "step1": "Rete",
+  "step2": "Account",
+  "step3": "Conferma",
+  "mainnet": "Mainnet (BTS)",
+  "testnetLabel": "Rete di test (TEST)",
+  "newAccountSubtitle": "Cerca qualsiasi account sulla rete",
+  "existingAccountSubtitle": "{{count}} account salvato",
+  "existingAccountSubtitle_plural": "{{count}} account salvati",
+  "removeAccount": "Rimuovi account",
+  "removeAccountLabel": "Rimuovi {{username}}"
 }

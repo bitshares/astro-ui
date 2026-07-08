@@ -28,7 +28,8 @@
       "seller": "Müüja: {{seller}} ({{opSeller}})",
       "selling": "Müük: {{amount}}",
       "buying": "Ostmine: {{amount}}",
-      "price": "Hind: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "Hind: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "Laiendused: {{extensions}}"
     },
     "tooltip": "Pakkumine müüa teatud summa vara kindlaksmääratud vahetuskursiga teatud ajaks"
   },

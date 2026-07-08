@@ -208,7 +208,7 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
 
   const { text: expiryText, status: expiryStatus } = formatTimeRemaining(expiration, now);
 
-  const marketHref = `/dex.html?market=${sellAsset?.symbol ?? "?"}_${
+  const marketHref = `/dex/index.html?market=${sellAsset?.symbol ?? "?"}_${
     buyAsset?.symbol ?? "?"
   }`;
   const updateHref = `/order.html?id=${orderId}`;
@@ -609,7 +609,7 @@ export default function PortfolioOpenOrders({
                 </EmptyHeader>
                 <EmptyContent>
                   <Button asChild className="bg-cyan-600 hover:bg-cyan-500 text-foreground">
-                    <a href="/dex.html">
+                    <a href="/dex/index.html">
                       {t("PortfolioTabs:noOpenOrdersCta")}
                     </a>
                   </Button>

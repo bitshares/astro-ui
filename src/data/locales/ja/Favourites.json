@@ -23,5 +23,6 @@
   "clear": "クリア",
   "transfer": "移行",
   "timedTransfer": "時間指定転送",
-  "vestAssets": "ベスト資産"
+  "vestAssets": "ベスト資産",
+  "addAsset": "アセットを追加"
 }

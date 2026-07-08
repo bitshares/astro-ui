@@ -24,6 +24,17 @@
   },
   "existing": {
     "description": "Sélectionnez l'un de vos comptes précédemment utilisés",
-    "none": "Aucun compte trouvé."
-  }
+    "none": "Aucun compte trouvé.",
+    "noneHint": "Vous pouvez ajouter des comptes en utilisant l'option Nouveau compte"
+  },
+  "step1": "Réseau",
+  "step2": "Compte",
+  "step3": "Confirmer",
+  "mainnet": "Mainnet (BTS)",
+  "testnetLabel": "Réseau de test (TEST)",
+  "newAccountSubtitle": "Recherchez n'importe quel compte sur le réseau",
+  "existingAccountSubtitle": "{{count}} compte enregistré",
+  "existingAccountSubtitle_plural": "{{count}} comptes enregistrés",
+  "removeAccount": "Supprimer le compte",
+  "removeAccountLabel": "Supprimer {{username}}"
 }

@@ -32,5 +32,17 @@
   "balance": "Solde",
   "difference": "Différence",
   "finalAmount": "Montant final",
-  "offering": "Offre"
+  "offering": "Offre",
+  "selected": "Sélectionné",
+  "borrowAmount": "Montant emprunté",
+  "removeBorrow": "Supprimer",
+  "stepIndicator": "Étape 1",
+  "stepIndicator2": "Étape 2",
+  "stepIndicator3": "Étape 3",
+  "action": "Action",
+  "editOperation": "Modifier l'opération",
+  "addOperationTooltip": "Ajouter un nouvel ordre limité à la chaîne",
+  "noFundsAvailable": "Aucun Same-T Funds disponible",
+  "noFundsDescription": "Il n'y a actuellement aucun Same-T Funds disponible à emprunter.",
+  "operation": "Opération"
 }

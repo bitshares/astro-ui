@@ -1,4 +1,5 @@
 {
+  "invoicingHeading": "Sistema de faturamento",
   "accountOverviewsHeading": "Visão geral da conta",
   "blockchainOverviewsHeading": "Visão geral do blockchain",
   "poolTracker": "Visão geral da piscina em destaque",
@@ -24,7 +25,6 @@
   "creditDeals": "Ofertas de crédito",
   "settingsHeading": "Configurações",
   "governanceHeading": "Governança",
-  "invoicingHeading": "Invoicing System",
   "simpleSwap": "Troca simples",
   "vestAssets": "Ativos de colete",
   "sameTFunds": "Fundos Same-T",
@@ -97,12 +97,20 @@
     "create_pool": "Crie um novo pool de liquidez convertendo um ativo existente emitido pelo usuário em um token de ativo de compartilhamento do pool.",
     "invoice_inventory": "Gerencie itens de estoque e preços associados para faturamento.",
     "create_invoice": "Crie uma fatura selecionando itens de estoque, definindo quantidades e gerando uma nota identificadora para pagamento.",
-    "pay_invoice": "Processe e administre o pagamento de códigos de fatura enviados a você por vendedores no blockchain Bitshares."
+    "pay_invoice": "Processe e administre o pagamento de códigos de fatura enviados a você por vendedores no blockchain Bitshares.",
+    "committee": "Use esta página para monitorar os atuais membros do comitê, suas estatísticas e seus votos.",
+    "witnesses": "Use esta página para monitorar as atuais testemunhas, suas estatísticas e seus votos.",
+    "create_worker": "Use o formulário abaixo para criar uma proposta de worker e garantir o financiamento do seu projeto!",
+    "barter": "Use o formulário abaixo para trocar com outra conta blockchain, criando uma troca personalizada peer-to-peer.",
+    "governance": "Use o formulário abaixo para criar/atualizar uma função de testemunha ou membro do comitê.",
+    "favourites": "Gerencie e veja seus ativos e contas favoritos.",
+    "blocked-users": "Veja e gerencie suas listas de bloqueio do comitê e pessoais."
   },
   "back": "Volte",
   "usage": "Projetado para uso com ",
   "multiwallet": "carteira múltipla",
   "tfund_user": "Negociação de Fundo Same-T",
   "createAccount": "Criar Conta",
-  "transferFundsHeading": "Transferir fundos"
+  "transferFundsHeading": "Transferir fundos",
+  "exchangeFundsHeading": "Trocar fundos"
 }

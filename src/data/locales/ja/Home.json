@@ -367,8 +367,32 @@
       "description": "悪意のあるアカウントとそのブロックチェーン オブジェクトを回避するのに役立ちます。"
     }
   },
+  "sections": {
+    "exchangingSubtitle": "DEXで取引、スワップ、ステーキング、物々交換",
+    "transferSubtitle": "アセットを送信し、権限を管理",
+    "debtSubtitle": "借り入れ、貸し出し、そして担保付債務を発行",
+    "assetCreationSubtitle": "トークン、スマートコイン、流動性プールを作成",
+    "accountSubtitle": "ポートフォリオ、注文、お気に入りを管理",
+    "blockchainSubtitle": "ブロックチェーンデータ、プール、トラッカーを探索",
+    "governanceSubtitle": "投票、ロール登録、ワーカー提案の作成",
+    "invoicingSubtitle": "オンチェーンで請求書を作成、送信、支払い",
+    "settingsSubtitle": "アカウント一覧、ノード、設定"
+  },
+  "configure_visuals": {
+    "title": "ビジュアルを設定",
+    "subtitle": "波の背景、オーロラグロー、パーティクル、ブラー効果をカスタマイズ",
+    "hover1": "事前定義されたカラーパレットから選ぶか、独自の色を定義します。",
+    "hover2": "波の数、速度、太さ、オーロラの強度を調整します。"
+  },
   "waveHero": {
     "title": "次世代のビットシェアクライアント!",
     "subtitle": "最新技術を駆使し、使いやすさを追求した設計！"
+  },
+  "hero": {
+    "title": "みんなのための取引所。",
+    "subtitle": "Bitsharesの分散型取引所で取引、スワップ、ステーキング、借り入れ、貸し出しなどができます。非管理型、信頼不要、ブロックチェーン技術による稼働。",
+    "ctaPrimary": "取引を始める",
+    "ctaSecondary": "シンプルスワップ",
+    "scrollForMore": "さらにスクロール"
   }
 }

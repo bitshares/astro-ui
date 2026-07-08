@@ -28,7 +28,8 @@
       "seller": "販売者: {{seller}} ({{opSeller}})",
       "selling": "販売: {{amount}}",
       "buying": "購入: {{amount}}",
-      "price": "価格: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "価格: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "拡張機能: {{extensions}}"
     },
     "tooltip": "一定の期間までに指定された為替レートで一定量の資産を売却するというオファー"
   },

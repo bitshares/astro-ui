@@ -32,5 +32,17 @@
   "balance": "Saldo",
   "difference": "Diferença",
   "finalAmount": "Valor final",
-  "offering": "Oferta"
+  "offering": "Oferta",
+  "selected": "Selecionado",
+  "borrowAmount": "Valor emprestado",
+  "removeBorrow": "Remover",
+  "stepIndicator": "Etapa 1",
+  "stepIndicator2": "Etapa 2",
+  "stepIndicator3": "Etapa 3",
+  "action": "Ação",
+  "editOperation": "Editar operação",
+  "addOperationTooltip": "Adicionar uma nova ordem limitada à cadeia",
+  "noFundsAvailable": "Nenhum Same-T Funds disponível",
+  "noFundsDescription": "Atualmente não há Same-T Funds disponíveis para empréstimo.",
+  "operation": "Operação"
 }

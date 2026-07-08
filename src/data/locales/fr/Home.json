@@ -367,8 +367,32 @@
       "description": "Vous aide à éviter les comptes malveillants et leurs objets blockchain !"
     }
   },
+  "sections": {
+    "exchangingSubtitle": "Échangez, swappez, stakez et troquez sur le DEX",
+    "transferSubtitle": "Envoyez des actifs et gérez les permissions",
+    "debtSubtitle": "Empruntez, prêtez et émettez de la dette adossée",
+    "assetCreationSubtitle": "Créez des tokens, des smartcoins et des pools de liquidité",
+    "accountSubtitle": "Gérez votre portfolio, vos ordres et vos favoris",
+    "blockchainSubtitle": "Explorez les données blockchain, les pools et les trackers",
+    "governanceSubtitle": "Votez, enregistrez des rôles et créez des propositions de worker",
+    "invoicingSubtitle": "Créez, envoyez et payez des factures on-chain",
+    "settingsSubtitle": "Listes de comptes, nœuds et configuration"
+  },
+  "configure_visuals": {
+    "title": "Configurer les visuels",
+    "subtitle": "Personnalisez les arrière-plans ondulés, la lueur aurora, les particules et les effets de flou",
+    "hover1": "Choisissez parmi des palettes de couleurs prédéfinies ou définissez vos propres couleurs.",
+    "hover2": "Ajustez le nombre, la vitesse, l'épaisseur des vagues et l'intensité de l'aurore."
+  },
   "waveHero": {
     "title": "Un client Bitshares de nouvelle génération !",
     "subtitle": "Construit avec les dernières technologies, conçu pour une utilisation facile !"
+  },
+  "hero": {
+    "title": "L'échange pour tous.",
+    "subtitle": "Échangez, swappez, stakez, empruntez, prêtez et plus encore sur l'exchange décentralisé Bitshares. Non-custodial, sans confiance et propulsé par la technologie blockchain.",
+    "ctaPrimary": "Commencer à trader",
+    "ctaSecondary": "Swap simple",
+    "scrollForMore": "Faites défiler pour plus"
   }
 }

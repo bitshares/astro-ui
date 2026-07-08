@@ -32,5 +32,17 @@
   "balance": "Guthaben",
   "difference": "Differenz",
   "finalAmount": "Endbetrag",
-  "offering": "Angebot"
+  "offering": "Angebot",
+  "selected": "Ausgewählt",
+  "borrowAmount": "Leihbetrag",
+  "removeBorrow": "Entfernen",
+  "stepIndicator": "Schritt 1",
+  "stepIndicator2": "Schritt 2",
+  "stepIndicator3": "Schritt 3",
+  "action": "Aktion",
+  "editOperation": "Operation bearbeiten",
+  "addOperationTooltip": "Eine neue Limit-Order zur Chain hinzufügen",
+  "noFundsAvailable": "Keine Same-T Funds verfügbar",
+  "noFundsDescription": "Es sind derzeit keine Same-T Funds zum Ausleihen verfügbar.",
+  "operation": "Operation"
 }

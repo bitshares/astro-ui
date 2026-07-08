@@ -34,7 +34,7 @@ export default function HoverInfo({ header, content, type }: HoverInfoProps) {
       >
         <h4 className="scroll-m-20 text-md font-semibold tracking-tight">
           <div className="flex items-center">
-            <span>{t("Predictions:about")}:</span>
+            <span>{t("AssetCommon:about")}:</span>
             <span className="ml-2">{header}</span>
           </div>
         </h4>

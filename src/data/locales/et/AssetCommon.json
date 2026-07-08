@@ -1,4 +1,5 @@
 {
+  "about": "Teave",
   "permissions": {
     "header": "Vara load",
     "header_content": "Märkus. Lubade keelamine on püsiv otsus",
@@ -310,5 +311,10 @@
     "supportedFiletypes": "Toetatud failitüübid hõlmavad pilte, videoid, heli, 3D-faile, dokumente jne.",
     "main_header_content": "Allolevad seaded määravad, kuidas teie mitteasendatav token käitub Bitsharesi plokiahelas. Vara looja vastutab oma mitteasendatava märgi õige konfigureerimise eest.",
     "main_header": "Mitteasendatav märgi konfiguratsioon"
+  },
+  "sectionHeader": {
+    "stepBadge": "Samm {{number}}",
+    "optional": "· Valikuline",
+    "recommended": "· Soovitatav"
   }
 }

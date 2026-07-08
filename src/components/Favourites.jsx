@@ -379,7 +379,7 @@ export default function Favourites(properties) {
         ? bitassetData.find((data) => data.id === fullAsset.bitasset_data_id)
         : null;
 
-    const tradeHref = `/dex.html?market=${item.symbol}_${
+    const tradeHref = `/dex/index.html?market=${item.symbol}_${
       item.symbol === "BTS" ? "HONEST.USD" : "BTS"
     }`;
 
@@ -669,7 +669,7 @@ export default function Favourites(properties) {
                             </div>
                             <div className="mt-3 flex items-center gap-2 flex-wrap">
                               <ActionPill
-                                href={`/dex.html?market=${pair}`}
+                                href={`/dex/index.html?market=${pair}`}
                                 icon={ArrowLeftRight}
                                 accent="slate"
                               >
@@ -711,7 +711,7 @@ export default function Favourites(properties) {
                             </div>
                             <div className="flex items-center gap-2 flex-shrink-0">
                               <ActionPill
-                                href={`/dex.html?market=${pair}`}
+                                href={`/dex/index.html?market=${pair}`}
                                 icon={ArrowLeftRight}
                                 accent="slate"
                               >

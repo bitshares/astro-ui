@@ -72,7 +72,7 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
-const Calendar = lazy(() => import("@/components/ui/calendar"));
+const Calendar = lazy(() => import("@/components/ui/calendar").then(m => ({ default: m.Calendar })));
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Toggle } from "@/components/ui/toggle";
 import { Badge } from "@/components/ui/badge";
@@ -1181,8 +1181,8 @@ export default function MarketOrder(properties) {
                             </span>
                             <span className="col-span-4 text-center ml-3">
                               {expiryType === "specific" ? (
-                                <Popover>
-                                  <PopoverTrigger asChild>
+                                <Dialog>
+                                  <DialogTrigger asChild>
                                     <Button
                                       variant={"outline"}
                                       className={cn(
@@ -1199,11 +1199,8 @@ export default function MarketOrder(properties) {
                                         </span>
                                       )}
                                     </Button>
-                                  </PopoverTrigger>
-                                  <PopoverContent
-                                    className="w-auto p-0 !bg-background !border"
-                                    align="start"
-                                  >
+                                  </DialogTrigger>
+                                  <DialogContent className="sm:max-w-[350px] bg-card border border-border rounded-2xl p-0">
                                     <Suspense fallback={<div className="h-[300px] w-[280px] bg-muted animate-pulse rounded" />}>
                                       <Calendar
                                       mode="single"
@@ -1228,8 +1225,8 @@ export default function MarketOrder(properties) {
                                       initialFocus
                                     />
                                     </Suspense>
-                                  </PopoverContent>
-                                </Popover>
+                                  </DialogContent>
+                                </Dialog>
                               ) : null}
                             </span>
                             <span className="col-span-1"></span>

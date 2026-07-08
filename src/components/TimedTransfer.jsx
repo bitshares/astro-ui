@@ -49,11 +49,6 @@ import {
 } from "@/components/ui/tooltip";
 
 import { Avatar as Av, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -634,8 +629,8 @@ export default function TimedTransfer(properties) {
                         </SelectContent>
                       </Select>
                       {expiryType === "specific" ? (
-                        <Popover>
-                          <PopoverTrigger asChild>
+                        <Dialog>
+                          <DialogTrigger asChild>
                             <Button
                               variant={"outline"}
                               className={cn(
@@ -652,8 +647,8 @@ export default function TimedTransfer(properties) {
                                 </span>
                               )}
                             </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[350px] bg-card border border-border rounded-2xl p-0">
                             <Calendar
                               mode="single"
                               selected={date}
@@ -672,8 +667,8 @@ export default function TimedTransfer(properties) {
                               }}
                               initialFocus
                             />
-                          </PopoverContent>
-                        </Popover>
+                          </DialogContent>
+                        </Dialog>
                       ) : null}
                     </div>
 

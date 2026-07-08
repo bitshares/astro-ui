@@ -8,6 +8,7 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
+  HoverCardPortal,
 } from "@/components/ui/hover-card";
 
 interface Props {
@@ -45,26 +46,27 @@ export default function AssetPermission({
     return (
       <HoverCard>
         <HoverCardTrigger>{children}</HoverCardTrigger>
-        <HoverCardContent className={"w-80 mt-1"} align="start">
-          <h4 className="scroll-m-20 text-md font-semibold tracking-tight">
-            {t("Predictions:about")}: {id}
-          </h4>
-          <p className="leading-6 text-sm [&:not(:first-child)]:mt-1">
-            {alreadyDisabled || !permission ? disabledInfo : enabledInfo}
-          </p>
-        </HoverCardContent>
+        <HoverCardPortal>
+          <HoverCardContent className={"w-80 mt-1 bg-popover text-popover-foreground border-border z-[9999]"} align="start">
+            <h4 className="scroll-m-20 text-md font-semibold tracking-tight">
+              {t("AssetCommon:about")}: {id}
+            </h4>
+            <p className="leading-6 text-sm text-popover-foreground/70 [&:not(:first-child)]:mt-1">
+              {alreadyDisabled || !permission ? disabledInfo : enabledInfo}
+            </p>
+          </HoverCardContent>
+        </HoverCardPortal>
       </HoverCard>
     );
   };
 
   if (alreadyDisabled) {
     return (
-      <span className="grid grid-cols-12">
+      <span className="grid grid-cols-12 items-center gap-2 pl-3">
         <span>
           <Checkbox
             checked={false}
             id={id}
-            className="align-middle mr-2"
             disabled
           />
         </span>
@@ -74,14 +76,14 @@ export default function AssetPermission({
           </MakeHover>
         </span>
         <MakeHover>
-          <InfoCircledIcon className="text-muted-foreground mt-3" />
+          <InfoCircledIcon className="text-muted-foreground" />
         </MakeHover>
       </span>
     );
   }
 
   return (
-    <span className="grid grid-cols-12">
+    <span className="grid grid-cols-12 items-center gap-2 pl-3">
       <span>
         <Checkbox
           onClick={(e) => {
@@ -93,7 +95,6 @@ export default function AssetPermission({
             }
           }}
           id={id}
-          className="align-middle mr-2"
           checked={permission}
         />
       </span>
@@ -103,7 +104,7 @@ export default function AssetPermission({
         </MakeHover>
       </span>
       <MakeHover>
-        <InfoCircledIcon className="text-muted-foreground mt-3" />
+        <InfoCircledIcon className="text-muted-foreground" />
       </MakeHover>
     </span>
   );

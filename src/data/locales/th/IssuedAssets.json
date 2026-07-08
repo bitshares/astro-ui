@@ -99,5 +99,6 @@
   "amount": "จำนวน",
   "useMax": "ใช้สูงสุด",
   "noAssetInBalance": "บัญชีนี้ไม่ได้ถือครองสินทรัพย์นี้",
-  "overrideHeader": "จำ {{amount}} {{symbol}} จาก {{account}}"
+  "overrideHeader": "จำ {{amount}} {{symbol}} จาก {{account}}",
+  "collateralBid": "ประมูลหลักประกัน"
 }

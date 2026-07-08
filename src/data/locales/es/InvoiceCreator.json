@@ -65,5 +65,79 @@
   },
   "format": {
     "recipientField": "{{name}} ({{id}})"
+  },
+  "inventory": {
+    "header": "Artículos de inventario",
+    "addItem": "Añadir artículo",
+    "searchPlaceholder": "Buscar en inventario...",
+    "selectItemDialog": {
+      "title": "Seleccionar artículo",
+      "description": "Elija un artículo para añadir a esta factura."
+    },
+    "table": {
+      "name": "Nombre",
+      "inStock": "En stock",
+      "price": "Precio"
+    }
+  },
+  "selectedItems": {
+    "table": {
+      "name": "Nombre",
+      "nameTooltip": "El nombre del artículo que se compra.",
+      "quantity": "Cantidad comprada",
+      "quantityTooltip": "Número de unidades del artículo que compra el pagador de la factura.",
+      "totalPossiblePrices": "Precios totales posibles",
+      "totalPricesTooltip": "El pagador de la factura solo pagará uno de estos tipos de activo por artículo comprado."
+    },
+    "row": {
+      "quantityTitle": "Cantidad comprada: {{quantity}}",
+      "totalsTitle": "Totales"
+    }
+  },
+  "prices": {
+    "countLabel": "{{count}} precios",
+    "possibleTotals": {
+      "dialogTitle": "Totales posibles",
+      "dialogDescription": "Al pagar uno de los siguientes montos de activo, el pagador de la factura habrá pagado la factura completa por esta cantidad de este artículo."
+    }
+  },
+  "quantity": {
+    "dialogTitle": "Cantidad",
+    "dialogDescription": "¿Cuántos \"{{name}}\" añadir?",
+    "add": "Añadir"
+  },
+  "itemDetails": {
+    "dialogTitle": "Detalles del artículo",
+    "dialogDescription": "Propiedades completas del artículo seleccionado."
+  },
+  "emptyInventory": {
+    "title": "¡Aún no hay artículos en el inventario!",
+    "description": "¡Necesita crear artículos de inventario antes de poder generar una factura!",
+    "button": "Inventario de artículos"
+  },
+  "generateInvoice": {
+    "button": "Generar factura",
+    "buttonActive": "generar factura"
+  },
+  "generatedInvoice": {
+    "dialogTitle": "Factura generada",
+    "dialogDescription": "Proporcione al cliente el siguiente código de factura para pagarla.",
+    "copyButton": "Copiar código de factura al portapapeles",
+    "copiedButton": "¡Código de factura copiado al portapapeles!",
+    "invoiceSaved": "¡Factura guardada!",
+    "saveInvoice": "Guardar factura"
+  },
+  "scanner": {
+    "scan": "Escanear",
+    "dialogTitle": "Escanear código de barras",
+    "dialogDescription": "Apunte su cámara a un código de barras para añadir el artículo correspondiente.",
+    "rear": "Trasera",
+    "front": "Frontal",
+    "torchOn": "Linterna encendida",
+    "torchOff": "Linterna apagada",
+    "close": "Cerrar",
+    "retry": "Reintentar",
+    "switch": "Cambiar",
+    "itemNotFound": "Artículo no encontrado"
   }
 }

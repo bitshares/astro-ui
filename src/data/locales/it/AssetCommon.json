@@ -1,4 +1,5 @@
 {
+  "about": "Informazioni su",
   "permissions": {
     "header": "Permessi dell'asset",
     "header_content": "Nota: la disabilitazione delle autorizzazioni è una decisione permanente",
@@ -310,5 +311,10 @@
     "supportedFiletypes": "I tipi di file supportati includono immagini, video, audio, file 3D, documenti, ecc.",
     "main_header_content": "Le impostazioni seguenti definiscono come si comporterà il tuo token non fungibile sulla blockchain di Bitshares. Il creatore della risorsa è responsabile della corretta configurazione del proprio token non fungibile.",
     "main_header": "Configurazione del token non fungibile"
+  },
+  "sectionHeader": {
+    "stepBadge": "Passo {{number}}",
+    "optional": "· Opzionale",
+    "recommended": "· Consigliato"
   }
 }

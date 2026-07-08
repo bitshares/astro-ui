@@ -99,5 +99,6 @@
   "amount": "Quantità",
   "useMax": "Usa massimo",
   "noAssetInBalance": "Questo account non contiene questa risorsa.",
-  "overrideHeader": "Richiamo {{amount}} {{symbol}} da {{account}}"
+  "overrideHeader": "Richiamo {{amount}} {{symbol}} da {{account}}",
+  "collateralBid": "Offri sulla garanzia"
 }
