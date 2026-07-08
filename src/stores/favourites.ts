@@ -28,16 +28,6 @@ type StoredPairs = {
   bitshares_testnet: MarketPair[] | [];
 };
 
-type Organisation = {
-  symbol: string;
-  id: string;
-};
-
-type StoredOrganisations = {
-  bitshares: Organisation[] | [];
-  bitshares_testnet: Organisation[] | [];
-};
-
 const $favouriteAssets = persistentMap<StoredAssets>(
   "favouriteAssets",
   {

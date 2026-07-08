@@ -12,15 +12,12 @@ import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 
 
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 
 import HoverInfo from "@/components/common/HoverInfo.tsx";
@@ -51,6 +48,17 @@ import {
   AuthorityListsSection,
   MarketFilteringSection,
 } from "@/components/asset-form/index.js";
+
+import SectionHeader from "@/components/asset-form/SectionHeader.jsx";
+
+import {
+  Hash,
+  ShieldCheck,
+  Settings,
+  Image,
+  Coins,
+  Send,
+} from "lucide-react";
 
 function getImages(nft_object) {
   if (!nft_object) return [];
@@ -236,6 +244,9 @@ export default function UIA(properties) {
 
   // NFT info
   const [enabledNFT, setEnabledNFT] = useState(false);
+
+  // Extensions (market filtering + authorities + fee extensions)
+  const [enabledExtensions, setEnabledExtensions] = useState(false);
   const [acknowledgements, setAcknowledgements] = useState("");
   const [artist, setArtist] = useState("");
   const [attestation, setAttestation] = useState("");
@@ -569,6 +580,21 @@ export default function UIA(properties) {
             setTakerFee(propsAsset.options.extensions.taker_fee_percent / 100);
           }
 
+          // Detect if extensions should be enabled based on existing flags/markets
+          if (
+            _flags.charge_market_fee ||
+            _flags.white_list ||
+            (propsAsset.options.whitelist_markets && propsAsset.options.whitelist_markets.length > 0) ||
+            (propsAsset.options.blacklist_markets && propsAsset.options.blacklist_markets.length > 0)
+          ) {
+            setEnabledExtensions(true);
+          }
+
+          // Detect if NFT should be enabled based on description containing nft_object
+          if (propsAsset.options.description && propsAsset.options.description.includes("nft_object")) {
+            setEnabledNFT(true);
+          }
+
           setCerBaseAmount(
             humanReadableFloat(
               propsAsset.options.core_exchange_rate.base.amount,
@@ -592,25 +618,38 @@ export default function UIA(properties) {
 
   return (
     <>
-      <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader className="pb-1">
-              <CardTitle>
-                🍬{" "}
-                {t(
-                  !editing
-                    ? "CreateUIA:card.title_create"
-                    : "CreateUIA:card.title_edit"
-                )}
-              </CardTitle>
-              <CardDescription>
-                {t("CreateUIA:card.description")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2">
-                <div className="col-span-2">
+      <div className="min-h-screen pb-16">
+        <div className="container mx-auto max-w-4xl px-4 pt-6 sm:pt-8">
+          <div className="rounded-xl border border-border bg-card/60 backdrop-blur-xl px-6 py-5 shadow-lg shadow-black/20 ring-1 dark:ring-white/[0.06] ring-border">
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400 shadow-md shadow-emerald-500/10 ring-1 ring-emerald-500/30">
+                <Coins className="h-6 w-6" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h1 className="text-xl font-bold tracking-tight text-foreground">
+                  {t(
+                    !editing
+                      ? "CreateUIA:card.title_create"
+                      : "CreateUIA:card.title_edit"
+                  )}
+                </h1>
+                <p className="mt-0.5 text-sm text-muted-foreground">
+                  {t("CreateUIA:card.description")}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6">
+          <Card className="overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20">
+            <SectionHeader
+              icon={Hash}
+              title={t("AssetCommon:asset_details.title")}
+              description={t("AssetCommon:asset_details.title_content")}
+              step={1}
+            />
+            <CardContent className="p-6">
                   <HoverInfo
                     content={t("AssetCommon:asset_details.title_content")}
                     header={t("AssetCommon:asset_details.title")}
@@ -834,23 +873,17 @@ export default function UIA(properties) {
                       />
                     </div>
                   </div>
+            </CardContent>
+          </Card>
 
-                   <MarketFilteringSection
-                     allowedMarketsEnabled={allowedMarketsEnabled}
-                     setAllowedMarketsEnabled={setAllowedMarketsEnabled}
-                     allowedMarkets={allowedMarkets}
-                     setAllowedMarkets={setAllowedMarkets}
-                     bannedMarketsEnabled={bannedMarketsEnabled}
-                     setBannedMarketsEnabled={setBannedMarketsEnabled}
-                     bannedMarkets={bannedMarkets}
-                     setBannedMarkets={setBannedMarkets}
-                     assets={assets}
-                     marketSearch={marketSearch}
-                     usr={usr}
-                     balances={balances}
-                   />
-                  <Separator className="my-4 mt-5" />
-                </div>
+          <Card className="overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20">
+            <SectionHeader
+              icon={ShieldCheck}
+              title={t("AssetCommon:permissions.header")}
+              description={t("AssetCommon:permissions.header_content")}
+              step={2}
+            />
+            <CardContent className="p-6">
                  <PermissionsFlagsPanel
                    permissions={[
                      { id: "charge_market_fee", alreadyDisabled: permanentlyDisabledCMF, perm: permChargeMarketFee, setPerm: setPermChargeMarketFee, flag: flagChargeMarketFee, setFlag: setFlagChargeMarketFee },
@@ -869,46 +902,112 @@ export default function UIA(properties) {
                    issuerPermissions={issuer_permissions}
                    flagsValue={flags}
                  />
-                 <ExtensionsSection
-                   flagChargeMarketFee={flagChargeMarketFee}
-                   commission={commission}
-                   setCommission={setCommission}
-                   maxCommission={maxCommission}
-                   setMaxCommission={setMaxCommission}
-                   enabledReferrerReward={enabledReferrerReward}
-                   setEnabledReferrerReward={setEnabledReferrerReward}
-                   referrerReward={referrerReward}
-                   setReferrerReward={setReferrerReward}
-                   enabledFeeSharingWhitelist={enabledFeeSharingWhitelist}
-                   setEnabledFeeSharingWhitelist={setEnabledFeeSharingWhitelist}
-                   feeSharingWhitelist={feeSharingWhitelist}
-                   setFeeSharingWhitelist={setFeeSharingWhitelist}
-                   whitelistMarketFeeSharingDialogOpen={whitelistMarketFeeSharingDialogOpen}
-                   setWhitelistMarketFeeSharingDialogOpen={setWhitelistMarketFeeSharingDialogOpen}
-                   enabledTakerFee={enabledTakerFee}
-                   setEnabledTakerFee={setEnabledTakerFee}
-                   takerFee={takerFee}
-                   setTakerFee={setTakerFee}
-                   debouncedPercent={debouncedPercent}
-                   debouncedMax={debouncedMax}
-                   usr={usr}
-                 />
+            </CardContent>
+          </Card>
 
-                 <AuthorityListsSection
-                   flagWhiteList={flagWhiteList}
-                   whitelistAuthorities={whitelistAuthorities}
-                   setWhitelistAuthorities={setWhitelistAuthorities}
-                   blacklistAuthorities={blacklistAuthorities}
-                   setBlacklistAuthorities={setBlacklistAuthorities}
-                   whitelistAuthorityDialogOpen={whitelistAuthorityDialogOpen}
-                   setWhitelistAuthorityDialogOpen={setWhitelistAuthorityDialogOpen}
-                   blacklistAuthorityDialogOpen={blacklistAuthorityDialogOpen}
-                   setBlacklistAuthorityDialogOpen={setBlacklistAuthorityDialogOpen}
-                   usr={usr}
-                 />
+          <Card
+            className={
+              "overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20 transition-colors " +
+              (enabledExtensions ? "ring-1 ring-emerald-500/30" : "")
+            }
+          >
+            <SectionHeader
+              icon={Settings}
+              title={t("AssetCommon:extensions.header")}
+              description={t("AssetCommon:extensions.header_content")}
+              step={3}
+              optional
+              right={
+                <Switch
+                  checked={enabledExtensions}
+                  onCheckedChange={setEnabledExtensions}
+                  className="mt-1 shrink-0 data-[state=checked]:bg-emerald-500 data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-white/[0.12] [&>span]:bg-white"
+                />
+              }
+            />
+            {enabledExtensions && (
+              <CardContent className="space-y-6 p-6">
+                <MarketFilteringSection
+                  allowedMarketsEnabled={allowedMarketsEnabled}
+                  setAllowedMarketsEnabled={setAllowedMarketsEnabled}
+                  allowedMarkets={allowedMarkets}
+                  setAllowedMarkets={setAllowedMarkets}
+                  bannedMarketsEnabled={bannedMarketsEnabled}
+                  setBannedMarketsEnabled={setBannedMarketsEnabled}
+                  bannedMarkets={bannedMarkets}
+                  setBannedMarkets={setBannedMarkets}
+                  assets={assets}
+                  marketSearch={marketSearch}
+                  usr={usr}
+                  balances={balances}
+                />
 
-                 <NFTSection
-                   enabledNFT={enabledNFT}
+                <ExtensionsSection
+                  flagChargeMarketFee={flagChargeMarketFee}
+                  commission={commission}
+                  setCommission={setCommission}
+                  maxCommission={maxCommission}
+                  setMaxCommission={setMaxCommission}
+                  enabledReferrerReward={enabledReferrerReward}
+                  setEnabledReferrerReward={setEnabledReferrerReward}
+                  referrerReward={referrerReward}
+                  setReferrerReward={setReferrerReward}
+                  enabledFeeSharingWhitelist={enabledFeeSharingWhitelist}
+                  setEnabledFeeSharingWhitelist={setEnabledFeeSharingWhitelist}
+                  feeSharingWhitelist={feeSharingWhitelist}
+                  setFeeSharingWhitelist={setFeeSharingWhitelist}
+                  whitelistMarketFeeSharingDialogOpen={whitelistMarketFeeSharingDialogOpen}
+                  setWhitelistMarketFeeSharingDialogOpen={setWhitelistMarketFeeSharingDialogOpen}
+                  enabledTakerFee={enabledTakerFee}
+                  setEnabledTakerFee={setEnabledTakerFee}
+                  takerFee={takerFee}
+                  setTakerFee={setTakerFee}
+                  debouncedPercent={debouncedPercent}
+                  debouncedMax={debouncedMax}
+                  usr={usr}
+                />
+
+                <AuthorityListsSection
+                  flagWhiteList={flagWhiteList}
+                  whitelistAuthorities={whitelistAuthorities}
+                  setWhitelistAuthorities={setWhitelistAuthorities}
+                  blacklistAuthorities={blacklistAuthorities}
+                  setBlacklistAuthorities={setBlacklistAuthorities}
+                  whitelistAuthorityDialogOpen={whitelistAuthorityDialogOpen}
+                  setWhitelistAuthorityDialogOpen={setWhitelistAuthorityDialogOpen}
+                  blacklistAuthorityDialogOpen={blacklistAuthorityDialogOpen}
+                  setBlacklistAuthorityDialogOpen={setBlacklistAuthorityDialogOpen}
+                  usr={usr}
+                />
+              </CardContent>
+            )}
+          </Card>
+
+          <Card
+            className={
+              "overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20 transition-colors " +
+              (enabledNFT ? "ring-1 ring-amber-500/30" : "")
+            }
+          >
+            <SectionHeader
+              icon={Image}
+              title={t("AssetCommon:nft.main_header")}
+              description={t("AssetCommon:nft.main_header_content")}
+              step={4}
+              optional
+              right={
+                <Switch
+                  checked={enabledNFT}
+                  onCheckedChange={setEnabledNFT}
+                  className="mt-1 shrink-0 data-[state=checked]:bg-amber-500 data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-white/[0.12] [&>span]:bg-white"
+                />
+              }
+            />
+            {enabledNFT && (
+              <CardContent className="p-6">
+                   <NFTSection
+                     enabledNFT={enabledNFT}
+                     hideToggle
                    setEnabledNFT={setEnabledNFT}
                    nftMedia={nftMedia}
                    setNFTMedia={setNFTMedia}
@@ -933,19 +1032,24 @@ export default function UIA(properties) {
                    holderLicense={holderLicense}
                    setHolderLicense={setHolderLicense}
                    license={license}
-                   setLicense={setLicense}
-                 />
+                    setLicense={setLicense}
+                   />
+              </CardContent>
+            )}
+          </Card>
 
-                <div className="col-span-2">
-                  <Button
-                    className="h-8"
-                    onClick={() => {
-                      setShowDialog(true);
-                    }}
-                  >
-                    {t("CreateUIA:buttons.submit")}
-                  </Button>
-                </div>
+          <Card className="overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20">
+            <CardContent className="p-6">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
+                <Button
+                  className="h-10 px-8 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25"
+                  onClick={() => {
+                    setShowDialog(true);
+                  }}
+                >
+                  <Send className="mr-2 h-4 w-4" />
+                  {t("CreateUIA:buttons.submit")}
+                </Button>
               </div>
             </CardContent>
           </Card>

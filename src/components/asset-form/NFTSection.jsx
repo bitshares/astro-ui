@@ -62,34 +62,39 @@ export default function NFTSection({
   setHolderLicense,
   license,
   setLicense,
+  hideToggle,
 }) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   return (
     <div className="col-span-2 grid grid-cols-1 md:grid-cols-2">
-      <HoverInfo
-        content={t("AssetCommon:nft.main_header_content")}
-        header={t("AssetCommon:nft.main_header")}
-        type="header"
-      />
-      <div className={`text-right mb-${!enabledNFT ? 5 : 1}`}>
-        {!enabledNFT ? (
-          <Button
-            variant="outline"
-            onClick={() => setEnabledNFT(true)}
-            className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-background rounded-md group-hover:bg-opacity-0"
-          >
-            {t("AssetCommon:nft.disabled")}
-          </Button>
-        ) : (
-          <Button
-            variant="outline"
-            onClick={() => setEnabledNFT(false)}
-          >
-            {t("AssetCommon:nft.enabled")}
-          </Button>
-        )}
-      </div>
+      {!hideToggle && (
+        <>
+          <HoverInfo
+            content={t("AssetCommon:nft.main_header_content")}
+            header={t("AssetCommon:nft.main_header")}
+            type="header"
+          />
+          <div className={`text-right mb-${!enabledNFT ? 5 : 1}`}>
+            {!enabledNFT ? (
+              <Button
+                variant="outline"
+                onClick={() => setEnabledNFT(true)}
+                className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-background rounded-md group-hover:bg-opacity-0"
+              >
+                {t("AssetCommon:nft.disabled")}
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={() => setEnabledNFT(false)}
+              >
+                {t("AssetCommon:nft.enabled")}
+              </Button>
+            )}
+          </div>
+        </>
+      )}
       {enabledNFT ? (
         <>
           <div className="col-span-2 mb-3">
