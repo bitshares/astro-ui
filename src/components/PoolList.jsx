@@ -222,7 +222,7 @@ export default function CustomPoolOverview(properties) {
       <div style={style} key={`poolNo${index}`}>
         <Dialog>
           <DialogTrigger asChild>
-            <Card className="hover:bg-purple-100 dark:hover:bg-purple-500/15">
+            <Card className="hover:bg-[hsl(var(--accent-1))] dark:hover:bg-[hsl(var(--accent-1)/0.15)]">
               <CardHeader className="p-0">
                 <CardDescription>
                   <div

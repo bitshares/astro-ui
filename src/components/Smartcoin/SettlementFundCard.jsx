@@ -26,13 +26,13 @@ export function GlobalSettlementCard({
 
   return (
     <div className="grid grid-cols-1 mt-2 mb-2">
-      <Card className="relative overflow-hidden rounded-xl border border-red-500/15 bg-card/60 shadow-lg shadow-red-950/10">
-        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-400/60 to-transparent" />
-        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-red-500/8 blur-3xl" />
-        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-amber-500/8 blur-3xl" />
+      <Card className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-danger)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-danger)/0.1)]">
+        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-danger)/0.6)] to-transparent" />
+        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-danger)/0.08)] blur-3xl" />
+        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
         <CardContent className="relative p-5">
           <CardHeader className="flex flex-row items-center gap-3 mb-4 p-0">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-400/30 bg-gradient-to-br from-red-500/20 to-amber-500/20 dark:text-red-200 text-red-700 flex-shrink-0">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-danger)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-danger)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))] flex-shrink-0">
               <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
             </span>
             <div>
@@ -54,7 +54,7 @@ export function GlobalSettlementCard({
               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
                 {t("Smartcoin:fund")}
               </div>
-              <div className="font-mono text-sm tabular-nums dark:text-red-100/90 text-red-700 font-semibold">
+              <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-danger-fg)/0.9)] text-[hsl(var(--accent-danger-fg))] font-semibold">
                 {settlementFund.finalSettlementFund} {parsedCollateralAsset.s}
               </div>
             </div>
@@ -62,7 +62,7 @@ export function GlobalSettlementCard({
               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
                 {t("Smartcoin:settlementPrice")}
               </div>
-              <div className="font-mono text-sm tabular-nums dark:text-red-100/90 text-red-700 font-semibold">
+              <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-danger-fg)/0.9)] text-[hsl(var(--accent-danger-fg))] font-semibold">
                 {settlementFund.finalSettlementPrice} {parsedAsset.s}/{parsedCollateralAsset.s}
               </div>
             </div>
@@ -70,7 +70,7 @@ export function GlobalSettlementCard({
               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
                 {t("Smartcoin:currentPrice")}
               </div>
-              <div className="font-mono text-sm tabular-nums dark:text-red-100/90 text-red-700 font-semibold">
+              <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-danger-fg)/0.9)] text-[hsl(var(--accent-danger-fg))] font-semibold">
                 {(1 / currentFeedSettlementPrice).toFixed(parsedAsset.p)}
               </div>
             </div>
@@ -78,14 +78,14 @@ export function GlobalSettlementCard({
               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
                 {t("Smartcoin:fundingRatio")}
               </div>
-              <div className="font-mono text-sm tabular-nums dark:text-red-100/90 text-red-700 font-semibold">
+              <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-danger-fg)/0.9)] text-[hsl(var(--accent-danger-fg))] font-semibold">
                 {(
                   (1 /
                     currentFeedSettlementPrice /
                     settlementFund.finalSettlementPrice) *
                   100
                 ).toFixed(2)}%
-                <span className="text-red-500 dark:text-red-400 text-xs ml-1">
+                <span className="text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] text-xs ml-1">
                   (-{(100 - (1 / currentFeedSettlementPrice / settlementFund.finalSettlementPrice) * 100).toFixed(2)}%)
                 </span>
               </div>
@@ -93,7 +93,7 @@ export function GlobalSettlementCard({
           </div>
 
           <a href={`/settlement/index.html?id=${finalAsset.id}`}>
-            <Button className="bg-gradient-to-r from-red-500 to-amber-500 text-white shadow-[0_4px_14px_-4px_rgba(239,68,68,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(239,68,68,0.6)] hover:from-red-600 hover:to-amber-600 transition-all">
+            <Button className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-1))] text-white shadow-[0_4px_14px_-4px_rgba(239,68,68,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(239,68,68,0.6)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-1))] transition-all">
               {t("Smartcoin:bidOnSettlementFund", {
                 symbol: finalAsset.symbol,
               })}
@@ -120,13 +120,13 @@ export function IndividualSettlementCard({
 
   return (
     <div className="grid grid-cols-1 mt-2 mb-2">
-      <Card className="relative overflow-hidden rounded-xl border border-amber-500/15 bg-card/60 shadow-lg shadow-amber-950/10">
-        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
-        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-amber-500/8 blur-3xl" />
-        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-orange-500/8 blur-3xl" />
+      <Card className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
         <CardContent className="relative p-5">
           <CardHeader className="flex flex-row items-center gap-3 mb-4 p-0">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-amber-400/30 bg-gradient-to-br from-amber-500/20 to-orange-500/20 dark:text-amber-200 text-amber-700 flex-shrink-0">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
               <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
             </span>
             <div>
@@ -148,7 +148,7 @@ export function IndividualSettlementCard({
               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
                 {t("Smartcoin:fund")}
               </div>
-              <div className="font-mono text-sm tabular-nums dark:text-amber-100/90 text-amber-700 font-semibold">
+              <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
                 {individualSettlementFund._fund} {parsedCollateralAsset.s}
               </div>
             </div>
@@ -156,7 +156,7 @@ export function IndividualSettlementCard({
               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
                 {t("Smartcoin:debt2")}
               </div>
-              <div className="font-mono text-sm tabular-nums dark:text-amber-100/90 text-amber-700 font-semibold">
+              <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
                 {individualSettlementFund._debt} {parsedAsset.s}
               </div>
             </div>
@@ -164,7 +164,7 @@ export function IndividualSettlementCard({
               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
                 {t("Smartcoin:feedPrice")}
               </div>
-              <div className="font-mono text-sm tabular-nums dark:text-amber-100/90 text-amber-700 font-semibold">
+              <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
                 {individualSettlementPrice.toFixed(parsedAsset.p)}
               </div>
             </div>
@@ -172,14 +172,14 @@ export function IndividualSettlementCard({
               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
                 {t("Smartcoin:fundingRatio")}
               </div>
-              <div className="font-mono text-sm tabular-nums dark:text-amber-100/90 text-amber-700 font-semibold">
+              <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
                 {(
                   ((individualSettlementFund._debt *
                     individualSettlementPrice) /
                     individualSettlementFund._fund) *
                   100
                 ).toFixed(2)}%
-                <span className="text-red-500 dark:text-red-400 text-xs ml-1">
+                <span className="text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] text-xs ml-1">
                   (-{(100 - ((individualSettlementFund._debt * individualSettlementPrice) / individualSettlementFund._fund) * 100).toFixed(2)}%)
                 </span>
               </div>
@@ -187,7 +187,7 @@ export function IndividualSettlementCard({
           </div>
 
           <a href={`/settlement/index.html?id=${finalAsset.id}`}>
-            <Button className="bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-[0_4px_14px_-4px_rgba(245,158,11,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(245,158,11,0.6)] hover:from-amber-600 hover:to-orange-600 transition-all">
+            <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-[0_4px_14px_-4px_rgba(245,158,11,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(245,158,11,0.6)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all">
               {t("Smartcoin:bidOnSettlementFund", {
                 symbol: finalAsset.symbol,
               })}

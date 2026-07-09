@@ -264,26 +264,26 @@ export default function TimedTransfer(properties) {
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-teal-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-teal-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-cyan-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-start gap-3 mb-4">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-teal-500/25 bg-gradient-to-br from-teal-500/[0.06] to-transparent dark:text-teal-200 text-teal-700">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Clock className="h-4 w-4" strokeWidth={2.25} />
               </span>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <Badge
                     variant="outline"
-                    className="border-teal-400/30 bg-teal-500/10 dark:text-teal-200 text-teal-700 text-[10px]"
+                    className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px]"
                   >
                     Proposal
                   </Badge>
@@ -729,7 +729,7 @@ export default function TimedTransfer(properties) {
 
                   {!transferAmount ? (
                     <Button
-                      className="mt-5 mb-3 h-11 rounded-xl font-semibold transition-all border-teal-400/40 bg-gradient-to-br from-teal-500/10 to-cyan-500/10 dark:text-teal-200 text-teal-700 hover:bg-teal-500/20 hover:border-teal-400/60 hover:shadow-[0_0_24px_-6px_rgba(20,184,166,0.4)]"
+                      className="mt-5 mb-3 h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(20,184,166,0.4)]"
                       variant="outline"
                       disabled
                       type="submit"
@@ -739,7 +739,7 @@ export default function TimedTransfer(properties) {
                     </Button>
                   ) : (
                     <Button
-                      className="mt-5 mb-3 h-11 rounded-xl font-semibold transition-all border-teal-400/40 bg-gradient-to-br from-teal-500/10 to-cyan-500/10 dark:text-teal-200 text-teal-700 hover:bg-teal-500/20 hover:border-teal-400/60 hover:shadow-[0_0_24px_-6px_rgba(20,184,166,0.4)]"
+                      className="mt-5 mb-3 h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(20,184,166,0.4)]"
                       variant="outline"
                       type="submit"
                     >
@@ -803,7 +803,7 @@ export default function TimedTransfer(properties) {
               <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/50 to-transparent"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-success)/0.5)] to-transparent"
                 />
                 <div className="relative p-4">
                   <h4 className="text-sm font-semibold text-foreground mb-2">{t("Transfer:doubleCheckTitle")}</h4>
@@ -825,10 +825,10 @@ export default function TimedTransfer(properties) {
           ) : null}
           {targetUser && targetUser.name ? (
             <div className="col-span-1">
-              <div className="relative overflow-hidden rounded-2xl border border-amber-500/20 bg-card/60 backdrop-blur-xl">
+              <div className="relative overflow-hidden rounded-2xl border border-[hsl(var(--accent-warning)/0.2)] bg-card/60 backdrop-blur-xl">
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/50 to-transparent"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-warning)/0.5)] to-transparent"
                 />
                 <div className="relative p-4">
                   <h4 className="text-sm font-semibold text-foreground mb-2">{t("Transfer:scamAlertTitle")}</h4>

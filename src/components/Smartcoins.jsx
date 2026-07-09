@@ -349,12 +349,12 @@ export default function Smartcoins(properties) {
 
     return (
       <div style={{ ...style }} key={`acard-${bitasset.asset_id}`}>
-        <div className="ml-2 mr-2 overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-sm shadow-[0_0_20px_-5px] shadow-indigo-950/10 hover:border-indigo-500/25 hover:shadow-[0_0_25px_-5px] shadow-indigo-500/15 transition-all duration-300">
-          <div className="h-px bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent" />
+        <div className="ml-2 mr-2 overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-sm shadow-[0_0_20px_-5px] shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[0_0_25px_-5px] shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300">
+          <div className="h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.4)] to-transparent" />
           <div className="p-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold tracking-tight">
-                <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
                   {thisBitassetData.symbol}
                 </span>
                 <span className="ml-2 text-xs font-normal text-muted-foreground/60">
@@ -363,7 +363,7 @@ export default function Smartcoins(properties) {
               </h3>
               {_price > 0 ? (
                 <a href={`/smartcoin/index.html?id=${bitasset.asset_id}`} className="shrink-0">
-                  <Button className="h-7 px-3 text-xs bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_10px_-3px] shadow-indigo-500/40 border-0 font-semibold hover:from-indigo-400 hover:to-cyan-400 hover:shadow-[0_0_18px_-3px] hover:shadow-indigo-500/60 active:scale-95 transition-all duration-200 cursor-pointer">
+                  <Button className="h-7 px-3 text-xs bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_10px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0 font-semibold hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[0_0_18px_-3px] hover:shadow-[color:hsl(var(--accent-1)/0.6)] active:scale-95 transition-all duration-200 cursor-pointer">
                     {t("Smartcoins:proceedToBorrow", { asset: thisBitassetData.s })}
                   </Button>
                 </a>
@@ -376,40 +376,40 @@ export default function Smartcoins(properties) {
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 text-sm text-muted-foreground">
               {issuer ? (
                 <div className="flex items-center gap-1.5">
-                  <User className="h-3.5 w-3.5 text-indigo-400/70" />
+                  <User className="h-3.5 w-3.5 text-[hsl(var(--accent-1-fg)/0.7)]" />
                   <span>{t("Smartcoins:createdBy")}</span>
-                  <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-semibold">{issuer.name}</span>
+                  <span className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent font-semibold">{issuer.name}</span>
                   <span className="text-xs text-muted-foreground/40">({issuer.id})</span>
                 </div>
               ) : null}
               <div className="flex items-center gap-1.5">
-                <Coins className="h-3.5 w-3.5 text-cyan-400/70" />
+                <Coins className="h-3.5 w-3.5 text-[hsl(var(--accent-2-fg)/0.7)]" />
                 <span>{t("Smartcoins:collateral")}:</span>
-                <span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent font-semibold">{thisCollateralAssetData.symbol}</span>
+                <span className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent font-semibold">{thisCollateralAssetData.symbol}</span>
                 <span className="text-xs text-muted-foreground/40">({thisCollateralAssetData.id})</span>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-1.5 mt-2">
-              <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5 text-xs">
-                <Tag className="h-3 w-3 mr-1 text-indigo-400/70" />
+              <Badge variant="outline" className="border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] text-xs">
+                <Tag className="h-3 w-3 mr-1 text-[hsl(var(--accent-1-fg)/0.7)]" />
                 MCR {bitasset.current_feed.maintenance_collateral_ratio / 10}
               </Badge>
-              <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5 text-xs">
-                <Tag className="h-3 w-3 mr-1 text-indigo-400/70" />
+              <Badge variant="outline" className="border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] text-xs">
+                <Tag className="h-3 w-3 mr-1 text-[hsl(var(--accent-1-fg)/0.7)]" />
                 MSSR {bitasset.current_feed.maximum_short_squeeze_ratio / 10}
               </Badge>
-              <Badge variant="outline" className="border-indigo-500/20 bg-indigo-500/5 text-xs">
-                <Tag className="h-3 w-3 mr-1 text-indigo-400/70" />
+              <Badge variant="outline" className="border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] text-xs">
+                <Tag className="h-3 w-3 mr-1 text-[hsl(var(--accent-1-fg)/0.7)]" />
                 ICR {bitasset.current_feed.initial_collateral_ratio / 10}
               </Badge>
-              <Badge variant="outline" className="border-cyan-500/20 bg-cyan-500/5 text-xs">
-                <Activity className="h-3 w-3 mr-1 text-cyan-400/70" />
+              <Badge variant="outline" className="border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.05)] text-xs">
+                <Activity className="h-3 w-3 mr-1 text-[hsl(var(--accent-2-fg)/0.7)]" />
                 {t("Smartcoins:feedQty", { qty: bitasset.feeds?.length ?? 0 })}
               </Badge>
               {_issuer_permissions && Object.keys(_issuer_permissions).length > 0 ? (
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Badge variant="outline" className="border-violet-500/20 bg-violet-500/5 text-xs cursor-pointer hover:bg-violet-500/10 transition-colors">
+                    <Badge variant="outline" className="border-[hsl(var(--accent-3)/0.2)] bg-[hsl(var(--accent-3)/0.05)] text-xs cursor-pointer hover:bg-[hsl(var(--accent-3)/0.1)] transition-colors">
                       {t("Common:permissions")}: {Object.keys(_issuer_permissions).length}
                       <QuestionMarkCircledIcon className="ml-1 h-3 w-3" />
                     </Badge>
@@ -424,14 +424,14 @@ export default function Smartcoins(properties) {
                   </DialogContent>
                 </Dialog>
               ) : (
-                <Badge variant="outline" className="border-violet-500/20 bg-violet-500/5 text-xs">
+                <Badge variant="outline" className="border-[hsl(var(--accent-3)/0.2)] bg-[hsl(var(--accent-3)/0.05)] text-xs">
                   {t("Common:permissions")}: 0
                 </Badge>
               )}
               {_flags && Object.keys(_flags).length > 0 ? (
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Badge variant="outline" className="border-amber-500/20 bg-amber-500/5 text-xs cursor-pointer hover:bg-amber-500/10 transition-colors">
+                    <Badge variant="outline" className="border-[hsl(var(--accent-warning)/0.2)] bg-[hsl(var(--accent-warning)/0.05)] text-xs cursor-pointer hover:bg-[hsl(var(--accent-warning)/0.1)] transition-colors">
                       {t("Common:flags")}: {Object.keys(_flags).length}
                       <QuestionMarkCircledIcon className="ml-1 h-3 w-3" />
                     </Badge>
@@ -446,7 +446,7 @@ export default function Smartcoins(properties) {
                   </DialogContent>
                 </Dialog>
               ) : (
-                <Badge variant="outline" className="border-amber-500/20 bg-amber-500/5 text-xs">
+                <Badge variant="outline" className="border-[hsl(var(--accent-warning)/0.2)] bg-[hsl(var(--accent-warning)/0.05)] text-xs">
                   {t("Common:flags")}: 0
                 </Badge>
               )}
@@ -511,17 +511,17 @@ export default function Smartcoins(properties) {
     <>
       <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
         <div className="grid grid-cols-1 gap-3">
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_0_40px_-8px] shadow-indigo-950/20">
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/70 to-transparent" />
-            <div className="pointer-events-none absolute -left-20 -top-20 h-40 w-40 rounded-full bg-indigo-500/10 blur-3xl" />
-            <div className="pointer-events-none absolute -right-20 -bottom-20 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl" />
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_0_40px_-8px] shadow-[color:hsl(var(--accent-1)/0.2)]">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent" />
+            <div className="pointer-events-none absolute -left-20 -top-20 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl" />
+            <div className="pointer-events-none absolute -right-20 -bottom-20 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl" />
             <div className="p-6">
               <div className="flex items-center gap-3 mb-6">
-                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 text-indigo-600 dark:text-indigo-300">
+                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">
                   <HandCoins className="h-4.5 w-4.5" strokeWidth={2.25} />
                 </span>
                 <div>
-                  <h2 className="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                  <h2 className="text-xl font-bold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
                     {t("Smartcoins:selectBorrowableAsset")}
                   </h2>
                   <p className="text-xs text-muted-foreground/70 mt-0.5">
@@ -532,7 +532,7 @@ export default function Smartcoins(properties) {
               <div className="w-full">
                 <div className="grid w-full grid-cols-1 md:grid-cols-4 gap-2 mb-3">
                   <Button
-                    className={activeTab === "all" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}
+                    className={activeTab === "all" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}
                     variant={activeTab === "all" ? undefined : "outline"}
                     onClick={() => {
                       if (activeTab !== "all") {
@@ -546,7 +546,7 @@ export default function Smartcoins(properties) {
                       : t("Smartcoins:viewAllAssets")}
                   </Button>
                   <Button
-                    className={activeTab === "compatible" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}
+                    className={activeTab === "compatible" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}
                     variant={activeTab === "compatible" ? undefined : "outline"}
                     onClick={() => {
                       if (activeTab !== "compatible") {
@@ -560,7 +560,7 @@ export default function Smartcoins(properties) {
                       : t("Smartcoins:viewCompatible")}
                   </Button>
                   <Button
-                    className={activeTab === "holdings" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}
+                    className={activeTab === "holdings" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}
                     variant={activeTab === "holdings" ? undefined : "outline"}
                     onClick={() => {
                       if (activeTab !== "holdings") {
@@ -574,7 +574,7 @@ export default function Smartcoins(properties) {
                       : t("Smartcoins:viewHoldings")}
                   </Button>
                   <Button
-                    className={activeTab === "search" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}
+                    className={activeTab === "search" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}
                     variant={activeTab === "search" ? undefined : "outline"}
                     onClick={() => {
                       if (activeTab !== "search") {
@@ -593,7 +593,7 @@ export default function Smartcoins(properties) {
                   </Button>
                 </div>
 
-                <div className="my-4 mb-3 mt-1 h-px bg-gradient-to-r from-transparent via-indigo-400/50 to-transparent" />
+                <div className="my-4 mb-3 mt-1 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.5)] to-transparent" />
 
                 {activeTab === "all" && (
                   <>
@@ -603,7 +603,7 @@ export default function Smartcoins(properties) {
                           setMode("bitassets");
                         }}
                         variant={`${mode === "bitassets" ? "" : "outline"}`}
-                        className={`h-6 md:mb-3 md:ml-2 ${mode === "bitassets" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}`}
+                        className={`h-6 md:mb-3 md:ml-2 ${mode === "bitassets" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:bitassets")}
                       </Button>
@@ -612,7 +612,7 @@ export default function Smartcoins(properties) {
                           setMode("honest");
                         }}
                         variant={`${mode === "honest" ? "" : "outline"}`}
-                        className={`h-6 md:mb-3 md:ml-2 ${mode === "honest" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}`}
+                        className={`h-6 md:mb-3 md:ml-2 ${mode === "honest" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         Honest™️ Smartcoins
                       </Button>
@@ -623,7 +623,7 @@ export default function Smartcoins(properties) {
                         variant={`${
                           mode === "privateSmartcoins" ? "" : "outline"
                         }`}
-                        className={`h-6 md:mb-3 md:mr-2 ${mode === "privateSmartcoins" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}`}
+                        className={`h-6 md:mb-3 md:mr-2 ${mode === "privateSmartcoins" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:privateSmartcoins")}
                       </Button>
@@ -667,7 +667,7 @@ export default function Smartcoins(properties) {
                           setMode("bitassets");
                         }}
                         variant={`${mode === "bitassets" ? "" : "outline"}`}
-                        className={`h-6 mb-3 ml-2 ${mode === "bitassets" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}`}
+                        className={`h-6 mb-3 ml-2 ${mode === "bitassets" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:bitassets")}
                       </Button>
@@ -676,7 +676,7 @@ export default function Smartcoins(properties) {
                           setMode("honest");
                         }}
                         variant={`${mode === "honest" ? "" : "outline"}`}
-                        className={`h-6 mb-3 ml-2 ${mode === "honest" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}`}
+                        className={`h-6 mb-3 ml-2 ${mode === "honest" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         Honest™️ Smartcoins
                       </Button>
@@ -687,7 +687,7 @@ export default function Smartcoins(properties) {
                         variant={`${
                           mode === "privateSmartcoins" ? "" : "outline"
                         }`}
-                        className={`h-6 mb-3 mr-2 ${mode === "privateSmartcoins" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}`}
+                        className={`h-6 mb-3 mr-2 ${mode === "privateSmartcoins" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:privateSmartcoins")}
                       </Button>
@@ -731,7 +731,7 @@ export default function Smartcoins(properties) {
                           setMode("bitassets");
                         }}
                         variant={`${mode === "bitassets" ? "" : "outline"}`}
-                        className={`h-6 mb-3 ml-2 ${mode === "bitassets" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}`}
+                        className={`h-6 mb-3 ml-2 ${mode === "bitassets" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:bitassets")}
                       </Button>
@@ -740,7 +740,7 @@ export default function Smartcoins(properties) {
                           setMode("honest");
                         }}
                         variant={`${mode === "honest" ? "" : "outline"}`}
-                        className={`h-6 mb-3 ml-2 ${mode === "honest" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}`}
+                        className={`h-6 mb-3 ml-2 ${mode === "honest" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         Honest™️ Smartcoins
                       </Button>
@@ -751,7 +751,7 @@ export default function Smartcoins(properties) {
                         variant={`${
                           mode === "privateSmartcoins" ? "" : "outline"
                         }`}
-                        className={`h-6 mb-3 mr-2 ${mode === "privateSmartcoins" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0" : ""}`}
+                        className={`h-6 mb-3 mr-2 ${mode === "privateSmartcoins" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:privateSmartcoins")}
                       </Button>
@@ -804,7 +804,7 @@ export default function Smartcoins(properties) {
                     </h5>{" "}
                     <div className="grid w-full grid-cols-1 sm:grid-cols-3 gap-2">
                       <Button
-                        className={activeSearch === "borrow" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0 h-6" : "h-6"}
+                        className={activeSearch === "borrow" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0 h-6" : "h-6"}
                         variant={
                           activeSearch === "borrow" ? undefined : "outline"
                         }
@@ -824,7 +824,7 @@ export default function Smartcoins(properties) {
                           : t("Smartcoins:searchByBorrowable")}
                       </Button>
                       <Button
-                        className={activeSearch === "collateral" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0 h-6" : "h-6"}
+                        className={activeSearch === "collateral" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0 h-6" : "h-6"}
                         variant={
                           activeSearch === "collateral" ? undefined : "outline"
                         }
@@ -844,7 +844,7 @@ export default function Smartcoins(properties) {
                           : t("Smartcoins:searchByCollateral")}
                       </Button>
                       <Button
-                        className={activeSearch === "issuer" ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_15px_-3px] shadow-indigo-500/40 border-0 h-6" : "h-6"}
+                        className={activeSearch === "issuer" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0 h-6" : "h-6"}
                         variant={
                           activeSearch === "issuer" ? undefined : "outline"
                         }
@@ -869,7 +869,7 @@ export default function Smartcoins(properties) {
                       placeholder={
                         thisSearchInput ?? t("Smartcoins:enterSearchText")
                       }
-                      className="mb-3 mt-3 w-full border-indigo-500/20 bg-card/60"
+                      className="mb-3 mt-3 w-full border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                       value={thisSearchInput || ""}
                       onChange={(event) => {
                         setThisSearchInput(event.target.value);

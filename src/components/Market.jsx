@@ -373,14 +373,14 @@ export default function Market(properties) {
     <div
       className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-cyan-500/15 via-cyan-500/3 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[hsl(var(--accent-1)/0.15)] via-[hsl(var(--accent-1)/0.03)] to-transparent" />
       <div className="relative">
         <div className="flex items-center gap-2.5 border-b border-border/60 px-4 py-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))]">
             <BarChart3 className="h-4 w-4" />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-semibold text-cyan-300">
+            <h3 className="text-sm font-semibold text-[hsl(var(--accent-1-fg))]">
               {t("Market:marketSummary")}
             </h3>
             <p className="text-[11px] text-muted-foreground/70 font-mono tabular-nums truncate">
@@ -407,7 +407,7 @@ export default function Market(properties) {
                 ? trimPrice(tickerData.latest, assetAData.precision)
                 : "?"
             }
-            color="text-amber-300"
+            color="text-[hsl(var(--accent-warning-fg))]"
           />
           <SummaryRow
             icon={<TrendingUp className="h-3.5 w-3.5" />}
@@ -417,8 +417,8 @@ export default function Market(properties) {
               !tickerData
                 ? "text-muted-foreground"
                 : isPositiveChange
-                ? "text-emerald-300"
-                : "text-rose-300"
+                ? "text-[hsl(var(--accent-success-fg))]"
+                : "text-[hsl(var(--accent-danger-fg))]"
             }
           />
           <SummaryRow
@@ -453,7 +453,7 @@ export default function Market(properties) {
                 ? trimPrice(tickerData.lowest_ask, assetAData.precision)
                 : "?"
             }
-            color="text-rose-300"
+            color="text-[hsl(var(--accent-danger-fg))]"
           />
           <SummaryRow
             icon={<TrendingUp className="h-3.5 w-3.5" />}
@@ -463,7 +463,7 @@ export default function Market(properties) {
                 ? trimPrice(tickerData.highest_bid, assetAData.precision)
                 : "?"
             }
-            color="text-emerald-300"
+            color="text-[hsl(var(--accent-success-fg))]"
           />
           {spreadInfo ? (
             <div className="flex items-center justify-between gap-2 rounded-md border border-border/60 bg-white/[0.025] px-2.5 py-2 mt-1">
@@ -481,10 +481,10 @@ export default function Market(properties) {
                   className={cn(
                     "rounded-md px-1.5 py-0.5 text-[10px] font-bold",
                     spreadInfo.pct < 1
-                      ? "bg-emerald-500/15 text-emerald-300"
+                      ? "bg-[hsl(var(--accent-success)/0.15)] text-[hsl(var(--accent-success-fg))]"
                       : spreadInfo.pct < 5
-                      ? "bg-amber-500/15 text-amber-300"
-                      : "bg-rose-500/15 text-rose-300"
+                      ? "bg-[hsl(var(--accent-warning)/0.15)] text-[hsl(var(--accent-warning-fg))]"
+                      : "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))]"
                   )}
                 >
                   {spreadInfo.pct < 1
@@ -507,13 +507,13 @@ export default function Market(properties) {
             icon={<TrendingUp className="h-3.5 w-3.5" />}
             label={t("Market:openBuyOrders")}
             value={orderBookStats.buyOrderCount}
-            color="text-emerald-300"
+            color="text-[hsl(var(--accent-success-fg))]"
           />
           <SummaryRow
             icon={<TrendingDown className="h-3.5 w-3.5" />}
             label={t("Market:openSellOrders")}
             value={orderBookStats.sellOrderCount}
-            color="text-rose-300"
+            color="text-[hsl(var(--accent-danger-fg))]"
           />
           <SummaryRow
             icon={<TrendingUp className="h-3.5 w-3.5" />}
@@ -523,7 +523,7 @@ export default function Market(properties) {
                 ? orderBookStats.totalBuyDepth.toFixed(assetBData.precision)
                 : orderBookStats.totalBuyDepth.toFixed(2)
             }
-            color="text-emerald-300"
+            color="text-[hsl(var(--accent-success-fg))]"
           />
           <SummaryRow
             icon={<TrendingDown className="h-3.5 w-3.5" />}
@@ -533,7 +533,7 @@ export default function Market(properties) {
                 ? orderBookStats.totalSellDepth.toFixed(assetBData.precision)
                 : orderBookStats.totalSellDepth.toFixed(2)
             }
-            color="text-rose-300"
+            color="text-[hsl(var(--accent-danger-fg))]"
           />
           <SummaryRow
             icon={<TrendingUp className="h-3.5 w-3.5" />}
@@ -543,7 +543,7 @@ export default function Market(properties) {
                 ? orderBookStats.largestBuyWall.toFixed(assetBData.precision)
                 : orderBookStats.largestBuyWall.toFixed(2)
             }
-            color="text-emerald-300"
+            color="text-[hsl(var(--accent-success-fg))]"
           />
           <SummaryRow
             icon={<TrendingDown className="h-3.5 w-3.5" />}
@@ -553,7 +553,7 @@ export default function Market(properties) {
                 ? orderBookStats.largestSellWall.toFixed(assetBData.precision)
                 : orderBookStats.largestSellWall.toFixed(2)
             }
-            color="text-rose-300"
+            color="text-[hsl(var(--accent-danger-fg))]"
           />
 
           {/* Recent Trades Stats */}
@@ -566,13 +566,13 @@ export default function Market(properties) {
             icon={<TrendingUp className="h-3.5 w-3.5" />}
             label={t("Market:completedBuyTrades")}
             value={marketHistoryStats.completedBuyTrades}
-            color="text-emerald-300"
+            color="text-[hsl(var(--accent-success-fg))]"
           />
           <SummaryRow
             icon={<TrendingDown className="h-3.5 w-3.5" />}
             label={t("Market:completedSellTrades")}
             value={marketHistoryStats.completedSellTrades}
-            color="text-rose-300"
+            color="text-[hsl(var(--accent-danger-fg))]"
           />
           <SummaryRow
             icon={<Wallet className="h-3.5 w-3.5" />}
@@ -582,7 +582,7 @@ export default function Market(properties) {
                 ? marketHistoryStats.totalBuyVolume.toFixed(assetAData.precision)
                 : marketHistoryStats.totalBuyVolume.toFixed(2)
             }
-            color="text-emerald-300"
+            color="text-[hsl(var(--accent-success-fg))]"
           />
           <SummaryRow
             icon={<Wallet className="h-3.5 w-3.5" />}
@@ -592,7 +592,7 @@ export default function Market(properties) {
                 ? marketHistoryStats.totalSellVolume.toFixed(assetAData.precision)
                 : marketHistoryStats.totalSellVolume.toFixed(2)
             }
-            color="text-rose-300"
+            color="text-[hsl(var(--accent-danger-fg))]"
           />
           <SummaryRow
             icon={<Activity className="h-3.5 w-3.5" />}
@@ -602,7 +602,7 @@ export default function Market(properties) {
                 ? marketHistoryStats.avgBuyTradeSize.toFixed(assetAData.precision)
                 : marketHistoryStats.avgBuyTradeSize.toFixed(2)
             }
-            color="text-emerald-300"
+            color="text-[hsl(var(--accent-success-fg))]"
           />
           <SummaryRow
             icon={<Activity className="h-3.5 w-3.5" />}
@@ -612,7 +612,7 @@ export default function Market(properties) {
                 ? marketHistoryStats.avgSellTradeSize.toFixed(assetAData.precision)
                 : marketHistoryStats.avgSellTradeSize.toFixed(2)
             }
-            color="text-rose-300"
+            color="text-[hsl(var(--accent-danger-fg))]"
           />
 
           {/* User Activity Stats */}
@@ -627,13 +627,13 @@ export default function Market(properties) {
                 icon={<TrendingUp className="h-3.5 w-3.5" />}
                 label={t("Market:myOpenBuyOrders")}
                 value={userActivityStats.myOpenBuyOrders}
-                color="text-emerald-300"
+                color="text-[hsl(var(--accent-success-fg))]"
               />
               <SummaryRow
                 icon={<TrendingDown className="h-3.5 w-3.5" />}
                 label={t("Market:myOpenSellOrders")}
                 value={userActivityStats.myOpenSellOrders}
-                color="text-rose-300"
+                color="text-[hsl(var(--accent-danger-fg))]"
               />
               <SummaryRow
                 icon={<Wallet className="h-3.5 w-3.5" />}
@@ -643,7 +643,7 @@ export default function Market(properties) {
                     ? userActivityStats.myBuyOrderValue.toFixed(assetAData.precision)
                     : userActivityStats.myBuyOrderValue.toFixed(2)
                 }
-                color="text-emerald-300"
+                color="text-[hsl(var(--accent-success-fg))]"
               />
               <SummaryRow
                 icon={<Wallet className="h-3.5 w-3.5" />}
@@ -653,19 +653,19 @@ export default function Market(properties) {
                     ? userActivityStats.mySellOrderValue.toFixed(assetAData.precision)
                     : userActivityStats.mySellOrderValue.toFixed(2)
                 }
-                color="text-rose-300"
+                color="text-[hsl(var(--accent-danger-fg))]"
               />
               <SummaryRow
                 icon={<TrendingUp className="h-3.5 w-3.5" />}
                 label={t("Market:myCompletedBuyTrades")}
                 value={userActivityStats.myCompletedBuyTrades}
-                color="text-emerald-300"
+                color="text-[hsl(var(--accent-success-fg))]"
               />
               <SummaryRow
                 icon={<TrendingDown className="h-3.5 w-3.5" />}
                 label={t("Market:myCompletedSellTrades")}
                 value={userActivityStats.myCompletedSellTrades}
-                color="text-rose-300"
+                color="text-[hsl(var(--accent-danger-fg))]"
               />
               <SummaryRow
                 icon={<Wallet className="h-3.5 w-3.5" />}
@@ -675,7 +675,7 @@ export default function Market(properties) {
                     ? userActivityStats.myBuyTradeVolume.toFixed(assetAData.precision)
                     : userActivityStats.myBuyTradeVolume.toFixed(2)
                 }
-                color="text-emerald-300"
+                color="text-[hsl(var(--accent-success-fg))]"
               />
               <SummaryRow
                 icon={<Wallet className="h-3.5 w-3.5" />}
@@ -685,7 +685,7 @@ export default function Market(properties) {
                     ? userActivityStats.mySellTradeVolume.toFixed(assetAData.precision)
                     : userActivityStats.mySellTradeVolume.toFixed(2)
                 }
-                color="text-rose-300"
+                color="text-[hsl(var(--accent-danger-fg))]"
               />
             </>
           )}
@@ -748,14 +748,14 @@ export default function Market(properties) {
           <div className="col-span-1 space-y-4">
             <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl"
               >
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-cyan-500/15 via-cyan-500/3 to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[hsl(var(--accent-1)/0.15)] via-[hsl(var(--accent-1)/0.03)] to-transparent" />
               <div className="relative flex items-center justify-between gap-2 px-4 py-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))]">
                     <Repeat className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-cyan-300">
+                    <h3 className="text-sm font-semibold text-[hsl(var(--accent-1-fg))]">
                       {t("Market:controls")}
                     </h3>
                     <p className="text-[11px] text-muted-foreground/70 font-mono">
@@ -765,7 +765,7 @@ export default function Market(properties) {
                 </div>
               </div>
               <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 pb-4">
-                <div className="rounded-lg border border-cyan-500/20 bg-cyan-500/[0.04] px-3 py-2">
+                <div className="rounded-lg border border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.04)] px-3 py-2">
                   <AssetDropDown
                     assetSymbol={assetA}
                     assetData={assetAData}
@@ -780,12 +780,12 @@ export default function Market(properties) {
                 </div>
                 <a
                   href={`/dex/index.html?market=${assetB}_${assetA}`}
-                  className="group flex h-10 w-10 items-center justify-center rounded-full border border-border bg-accent/40 hover:bg-cyan-500/10 hover:border-cyan-500/40 transition-all"
+                  className="group flex h-10 w-10 items-center justify-center rounded-full border border-border bg-accent/40 hover:bg-[hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.4)] transition-all"
                   title="Swap assets"
                 >
-                  <ArrowLeftRight className="h-4 w-4 text-foreground/70 group-hover:text-cyan-300 group-hover:rotate-180 transition-all duration-300" />
+                  <ArrowLeftRight className="h-4 w-4 text-foreground/70 group-hover:text-[hsl(var(--accent-1-fg))] group-hover:rotate-180 transition-all duration-300" />
                 </a>
-                <div className="rounded-lg border border-blue-500/20 bg-blue-500/[0.04] px-3 py-2">
+                <div className="rounded-lg border border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.04)] px-3 py-2">
                   <AssetDropDown
                     assetSymbol={assetB}
                     assetData={assetBData}
@@ -821,7 +821,7 @@ export default function Market(properties) {
                 className={cn(
                   "flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all",
                   activeLimitCard === "buy"
-                    ? "bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white shadow-lg shadow-emerald-900/30"
+                    ? "bg-gradient-to-r from-[hsl(var(--accent-success))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-lg shadow-[color:hsl(var(--accent-success)/0.3)]"
                     : "text-muted-foreground hover:text-foreground/80 hover:bg-accent/40",
                   (!assetAData || !assetBData) && "opacity-50 cursor-not-allowed"
                 )}
@@ -847,7 +847,7 @@ export default function Market(properties) {
                 className={cn(
                   "flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all",
                   activeLimitCard === "sell"
-                    ? "bg-gradient-to-r from-rose-500 via-orange-500 to-amber-500 text-white shadow-lg shadow-rose-900/30"
+                    ? "bg-gradient-to-r from-[hsl(var(--accent-danger))] via-[hsl(var(--accent-warning))] to-[hsl(var(--accent-warning))] text-white shadow-lg shadow-[color:hsl(var(--accent-danger)/0.3)]"
                     : "text-muted-foreground hover:text-foreground/80 hover:bg-accent/40",
                   (!assetAData || !assetBData) && "opacity-50 cursor-not-allowed"
                 )}
@@ -877,14 +877,14 @@ export default function Market(properties) {
             {tickerData && assetAData && assetBData ? marketSummaryCard : (
               <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl"
               >
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-cyan-500/15 via-cyan-500/3 to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[hsl(var(--accent-1)/0.15)] via-[hsl(var(--accent-1)/0.03)] to-transparent" />
                 <div className="relative">
                   <div className="flex items-center gap-2.5 border-b border-border/60 px-4 py-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))]">
                       <BarChart3 className="h-4 w-4" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-sm font-semibold text-cyan-300">
+                      <h3 className="text-sm font-semibold text-[hsl(var(--accent-1-fg))]">
                         {t("Market:marketSummary")}
                       </h3>
                       <p className="text-[11px] text-muted-foreground/70 font-mono">❔/❔</p>

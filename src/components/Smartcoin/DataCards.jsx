@@ -33,13 +33,13 @@ export function OrderBookCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <Card className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10 p-4">
-        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
-        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
-        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+      <Card className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)] p-4">
+        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
               <BookOpen className="h-4 w-4" strokeWidth={2.25} />
             </span>
             <CardHeader className="p-0">
@@ -63,7 +63,7 @@ export function OrderBookCard({
                 : ""
             }
           >
-            <Button className="bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_4px_14px_-4px_rgba(99,102,241,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(99,102,241,0.6)] hover:from-indigo-600 hover:to-cyan-600 transition-all text-xs">
+            <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_4px_14px_-4px_rgba(99,102,241,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(99,102,241,0.6)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] transition-all text-xs">
               {t("Smartcoin:goToMarket")}
             </Button>
           </a>
@@ -76,7 +76,7 @@ export function OrderBookCard({
               className={cn(
                 "flex-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center justify-center gap-1.5",
                 activeOrderTab === "buy"
-                  ? "bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 dark:text-indigo-100 text-indigo-700 border border-indigo-400/40 shadow-[0_0_18px_-8px_rgba(99,102,241,0.6)]"
+                  ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(99,102,241,0.6)]"
                   : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
               )}
             >
@@ -88,7 +88,7 @@ export function OrderBookCard({
               className={cn(
                 "flex-1 px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center justify-center gap-1.5",
                 activeOrderTab === "sell"
-                  ? "bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 dark:text-indigo-100 text-indigo-700 border border-indigo-400/40 shadow-[0_0_18px_-8px_rgba(99,102,241,0.6)]"
+                  ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(99,102,241,0.6)]"
                   : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
               )}
             >
@@ -181,12 +181,12 @@ export function CallOrdersCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <Card className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10 p-4">
-        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
-        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
-        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+      <Card className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)] p-4">
+        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
         <div className="flex items-center gap-3 mb-4">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
             <BarChart3 className="h-4 w-4" strokeWidth={2.25} />
           </span>
           <CardHeader className="p-0">
@@ -255,9 +255,9 @@ export function SettleOrdersCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <Card className="rounded-xl border border-amber-500/15 bg-card/60 p-4">
+      <Card className="rounded-xl border border-[hsl(var(--accent-warning)/0.15)] bg-card/60 p-4">
         <div className="flex items-center gap-3 mb-4">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-amber-400/30 bg-gradient-to-br from-amber-500/20 to-orange-500/20 dark:text-amber-200 text-amber-700 flex-shrink-0">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-warning)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.2)] to-[hsl(var(--accent-warning)/0.2)] dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))] flex-shrink-0">
             <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
           </span>
           <CardHeader className="p-0">
@@ -316,12 +316,12 @@ export function PriceFeedsCard({
 
   return (
     <div className="grid grid-cols-1 mt-5">
-      <Card className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10 p-4">
-        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
-        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
-        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+      <Card className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)] p-4">
+        <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+        <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+        <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
         <div className="flex items-center gap-3 mb-4">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
             <Radio className="h-4 w-4" strokeWidth={2.25} />
           </span>
           <CardHeader className="p-0">

@@ -622,7 +622,7 @@ export default function UIA(properties) {
         <div className="container mx-auto max-w-4xl px-4 pt-6 sm:pt-8">
           <div className="rounded-xl border border-border bg-card/60 backdrop-blur-xl px-6 py-5 shadow-lg shadow-black/20 ring-1 dark:ring-white/[0.06] ring-border">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400 shadow-md shadow-emerald-500/10 ring-1 ring-emerald-500/30">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] ring-1 ring-[hsl(var(--accent-1)/0.3)]">
                 <Coins className="h-6 w-6" />
               </div>
               <div className="flex-1 min-w-0">
@@ -908,7 +908,7 @@ export default function UIA(properties) {
           <Card
             className={
               "overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20 transition-colors " +
-              (enabledExtensions ? "ring-1 ring-emerald-500/30" : "")
+              (enabledExtensions ? "ring-1 ring-[hsl(var(--accent-1)/0.3)]" : "")
             }
           >
             <SectionHeader
@@ -921,7 +921,7 @@ export default function UIA(properties) {
                 <Switch
                   checked={enabledExtensions}
                   onCheckedChange={setEnabledExtensions}
-                  className="mt-1 shrink-0 data-[state=checked]:bg-emerald-500 data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-white/[0.12] [&>span]:bg-white"
+                  className="mt-1 shrink-0 data-[state=checked]:bg-[hsl(var(--accent-1))] data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-white/[0.12] [&>span]:bg-white"
                 />
               }
             />
@@ -986,7 +986,7 @@ export default function UIA(properties) {
           <Card
             className={
               "overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20 transition-colors " +
-              (enabledNFT ? "ring-1 ring-amber-500/30" : "")
+              (enabledNFT ? "ring-1 ring-[hsl(var(--accent-warning)/0.3)]" : "")
             }
           >
             <SectionHeader
@@ -999,7 +999,7 @@ export default function UIA(properties) {
                 <Switch
                   checked={enabledNFT}
                   onCheckedChange={setEnabledNFT}
-                  className="mt-1 shrink-0 data-[state=checked]:bg-amber-500 data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-white/[0.12] [&>span]:bg-white"
+                  className="mt-1 shrink-0 data-[state=checked]:bg-[hsl(var(--accent-warning))] data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-white/[0.12] [&>span]:bg-white"
                 />
               }
             />
@@ -1042,7 +1042,7 @@ export default function UIA(properties) {
             <CardContent className="p-6">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
                 <Button
-                  className="h-10 px-8 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25"
+                  className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]"
                   onClick={() => {
                     setShowDialog(true);
                   }}

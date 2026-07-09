@@ -48,43 +48,43 @@ import {
 
 const TYPE_ACCENTS = {
   buy: {
-    bar: "from-emerald-400/70",
-    glow: "from-emerald-500/15 via-emerald-500/3 to-transparent",
-    chip: "border-emerald-400/30 bg-emerald-500/15 text-emerald-300",
+    bar: "from-[hsl(var(--accent-success)/0.7)]",
+    glow: "from-[hsl(var(--accent-success)/0.15)] via-[hsl(var(--accent-success)/0.03)] to-transparent",
+    chip: "border-[hsl(var(--accent-success)/0.3)] bg-[hsl(var(--accent-success)/0.15)] text-[hsl(var(--accent-success-fg))]",
     label: "Buy",
-    border: "border-emerald-500/20",
-    bg: "bg-emerald-500/[0.04]",
-    hoverBorder: "hover:border-emerald-400/50",
-    hoverBg: "hover:bg-emerald-500/10",
-    iconColor: "text-emerald-300",
-    badge: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30",
-    rowBg: "bg-emerald-500/[0.03]",
+    border: "border-[hsl(var(--accent-success)/0.2)]",
+    bg: "bg-[hsl(var(--accent-success)/0.04)]",
+    hoverBorder: "hover:border-[hsl(var(--accent-success)/0.5)]",
+    hoverBg: "hover:bg-[hsl(var(--accent-success)/0.1)]",
+    iconColor: "text-[hsl(var(--accent-success-fg))]",
+    badge: "bg-[hsl(var(--accent-success)/0.1)] text-[hsl(var(--accent-success-fg))] border-[hsl(var(--accent-success)/0.3)]",
+    rowBg: "bg-[hsl(var(--accent-success)/0.03)]",
   },
   sell: {
-    bar: "from-rose-400/70",
-    glow: "from-rose-500/15 via-rose-500/3 to-transparent",
-    chip: "border-rose-400/30 bg-rose-500/15 text-rose-300",
+    bar: "from-[hsl(var(--accent-danger)/0.7)]",
+    glow: "from-[hsl(var(--accent-danger)/0.15)] via-[hsl(var(--accent-danger)/0.03)] to-transparent",
+    chip: "border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))]",
     label: "Sell",
-    border: "border-rose-500/20",
-    bg: "bg-rose-500/[0.04]",
-    hoverBorder: "hover:border-rose-400/50",
-    hoverBg: "hover:bg-rose-500/10",
-    iconColor: "text-rose-300",
-    badge: "bg-rose-500/10 text-rose-300 border-rose-500/30",
-    rowBg: "bg-rose-500/[0.03]",
+    border: "border-[hsl(var(--accent-danger)/0.2)]",
+    bg: "bg-[hsl(var(--accent-danger)/0.04)]",
+    hoverBorder: "hover:border-[hsl(var(--accent-danger)/0.5)]",
+    hoverBg: "hover:bg-[hsl(var(--accent-danger)/0.1)]",
+    iconColor: "text-[hsl(var(--accent-danger-fg))]",
+    badge: "bg-[hsl(var(--accent-danger)/0.1)] text-[hsl(var(--accent-danger-fg))] border-[hsl(var(--accent-danger)/0.3)]",
+    rowBg: "bg-[hsl(var(--accent-danger)/0.03)]",
   },
   pool: {
-    bar: "from-amber-400/70",
-    glow: "from-amber-500/15 via-amber-500/3 to-transparent",
-    chip: "border-amber-400/30 bg-amber-500/15 text-amber-300",
+    bar: "from-[hsl(var(--accent-warning)/0.7)]",
+    glow: "from-[hsl(var(--accent-warning)/0.15)] via-[hsl(var(--accent-warning)/0.03)] to-transparent",
+    chip: "border-[hsl(var(--accent-warning)/0.3)] bg-[hsl(var(--accent-warning)/0.15)] text-[hsl(var(--accent-warning-fg))]",
     label: "Pool",
-    border: "border-amber-500/20",
-    bg: "bg-amber-500/[0.04]",
-    hoverBorder: "hover:border-amber-400/50",
-    hoverBg: "hover:bg-amber-500/10",
-    iconColor: "text-amber-300",
-    badge: "bg-amber-500/10 text-amber-300 border-amber-500/30",
-    rowBg: "bg-amber-500/[0.03]",
+    border: "border-[hsl(var(--accent-warning)/0.2)]",
+    bg: "bg-[hsl(var(--accent-warning)/0.04)]",
+    hoverBorder: "hover:border-[hsl(var(--accent-warning)/0.5)]",
+    hoverBg: "hover:bg-[hsl(var(--accent-warning)/0.1)]",
+    iconColor: "text-[hsl(var(--accent-warning-fg))]",
+    badge: "bg-[hsl(var(--accent-warning)/0.1)] text-[hsl(var(--accent-warning-fg))] border-[hsl(var(--accent-warning)/0.3)]",
+    rowBg: "bg-[hsl(var(--accent-warning)/0.03)]",
   },
 };
 
@@ -294,8 +294,8 @@ export default function MarketAssetCard(properties) {
                     className={cn(
                       "inline-flex h-7 w-7 items-center justify-center rounded-lg border transition-colors",
                       isFavourite
-                        ? "border-rose-400/40 bg-rose-500/15 text-rose-300 hover:bg-rose-500/25"
-                        : "border-border bg-card/40 text-muted-foreground hover:text-rose-300 hover:border-rose-400/30 hover:bg-rose-500/10",
+                        ? "border-[hsl(var(--accent-danger)/0.4)] bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.25)]"
+                        : "border-border bg-card/40 text-muted-foreground hover:text-[hsl(var(--accent-danger-fg))] hover:border-[hsl(var(--accent-danger)/0.3)] hover:bg-[hsl(var(--accent-danger)/0.1)]",
                     )}
                     aria-label={isFavourite ? "Unfavourite" : "Favourite"}
                   >
@@ -621,7 +621,7 @@ export default function MarketAssetCard(properties) {
                     </ScrollArea>
                     <Button
                       variant="outline"
-                      className="mt-2 border-border bg-card/40 hover:border-amber-400/40 hover:bg-amber-500/10 text-foreground/80 hover:text-accent-foreground"
+                      className="mt-2 border-border bg-card/40 hover:border-[hsl(var(--accent-warning)/0.4)] hover:bg-[hsl(var(--accent-warning)/0.1)] text-foreground/80 hover:text-accent-foreground"
                       onClick={() => {
                         navigator.clipboard.writeText(
                           JSON.stringify(

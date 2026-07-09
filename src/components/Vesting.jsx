@@ -123,19 +123,19 @@ export default function Vesting(properties) {
 
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <div className="m-2 rounded-xl border border-emerald-500/20 bg-gradient-to-r from-emerald-500/[0.04] to-transparent hover:border-emerald-500/30 hover:bg-emerald-500/[0.06] transition-all px-4 py-3">
+        <div className="m-2 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.04)] to-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] transition-all px-4 py-3">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-400/30 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Coins className="h-3 w-3" />
               </span>
-              <span className="font-mono text-sm font-semibold text-emerald-400">
+              <span className="font-mono text-sm font-semibold text-[hsl(var(--accent-1-fg))]">
                 {readableBalance}
               </span>
             </div>
             <Badge
               variant="outline"
-              className="border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 text-[10px] font-mono"
+              className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px] font-mono"
             >
               {res.id}
             </Badge>
@@ -180,7 +180,7 @@ export default function Vesting(properties) {
                 setChosenVestingBalance({ res, readableBalance });
                 setShowDialog(true);
               }}
-              className="w-full h-9 rounded-xl font-semibold transition-all border-emerald-400/40 bg-gradient-to-br from-emerald-500/10 to-green-500/10 dark:text-emerald-100 text-emerald-700 hover:bg-emerald-500/20 hover:border-emerald-400/60 hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)]"
+              className="w-full h-9 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)]"
             >
               <ArrowUpCircle className="h-4 w-4 mr-2" />
               {t(
@@ -200,26 +200,26 @@ export default function Vesting(properties) {
       <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-emerald-500/10 blur-3xl"
+          className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-green-500/10 blur-3xl"
+          className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
         />
         <div className="relative p-5 sm:p-6">
           <div className="flex items-start gap-3 mb-4">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-emerald-500/25 bg-gradient-to-br from-emerald-500/[0.06] to-transparent dark:text-emerald-200 text-emerald-700">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
               <PiggyBank className="h-4 w-4" strokeWidth={2.25} />
             </span>
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <Badge
                   variant="outline"
-                  className="border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 text-[10px]"
+                  className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px]"
                 >
                   Vesting
                 </Badge>
@@ -239,8 +239,8 @@ export default function Vesting(properties) {
               variant={vestingType === "cashback" ? "" : "outline"}
               className={
                 vestingType === "cashback"
-                  ? "border-emerald-400/40 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 hover:bg-emerald-500/20"
-                  : "border-border hover:border-emerald-400/30 hover:bg-emerald-500/[0.03]"
+                  ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)]"
+                  : "border-border hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)]"
               }
             >
               <Coins className="h-4 w-4 mr-2" />
@@ -251,8 +251,8 @@ export default function Vesting(properties) {
               variant={vestingType === "market_fee_sharing" ? "" : "outline"}
               className={
                 vestingType === "market_fee_sharing"
-                  ? "border-emerald-400/40 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 hover:bg-emerald-500/20"
-                  : "border-border hover:border-emerald-400/30 hover:bg-emerald-500/[0.03]"
+                  ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)]"
+                  : "border-border hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)]"
               }
             >
               <TrendingUp className="h-4 w-4 mr-2" />
@@ -272,9 +272,9 @@ export default function Vesting(properties) {
               </div>
             ) : null}
             {chosenVestingData && !chosenVestingData.length ? (
-              <Empty className="mt-4 border border-dashed border-emerald-500/20 rounded-xl bg-emerald-500/[0.03]">
+              <Empty className="mt-4 border border-dashed border-[hsl(var(--accent-1)/0.2)] rounded-xl bg-[hsl(var(--accent-1)/0.03)]">
                 <EmptyHeader>
-                  <EmptyMedia variant="icon" className="bg-emerald-500/15 text-emerald-400">
+                  <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
                     <PiggyBank className="w-6 h-6" />
                   </EmptyMedia>
                   <EmptyTitle className="text-foreground/80">

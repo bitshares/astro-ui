@@ -81,6 +81,7 @@ const pages = [
   "InvoiceStorage",
   "InstantTrade",
   "Visuals",
+  "ThemeCustomizer",
   "Common"
 ];
 

@@ -394,5 +394,13 @@
     "ctaPrimary": "Inizia a fare trading",
     "ctaSecondary": "Swap semplice",
     "scrollForMore": "Scorri per altro"
+  },
+  "theme_customizer": {
+    "title": "Personalizzazione del tema",
+    "subtitle": "Crea e modifica temi che ricolorano ogni pagina, navigazione e componente"
+  },
+  "home_link": {
+    "title": "Home",
+    "subtitle": "Torna alla dashboard principale"
   }
 }

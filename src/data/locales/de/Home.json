@@ -394,5 +394,13 @@
     "ctaPrimary": "Handel starten",
     "ctaSecondary": "Einfacher Swap",
     "scrollForMore": "Für mehr scrollen"
+  },
+  "theme_customizer": {
+    "title": "Design-Anpassung",
+    "subtitle": "Erstelle und bearbeite Designs, die jede Seite, Navigation und Komponente neu einfärben"
+  },
+  "home_link": {
+    "title": "Startseite",
+    "subtitle": "Zurück zum Haupt-Dashboard"
   }
 }

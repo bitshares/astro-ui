@@ -69,12 +69,12 @@ import {
 import SmartcoinOptionsSection from "@/components/Smartcoin/SmartcoinOptionsSection.jsx";
 
 const STEP_COLORS = {
-  1: { icon: "bg-violet-500/15 text-violet-400 ring-violet-500/30", badge: "bg-violet-500/15 text-violet-400", border: "border-violet-500/20" },
-  2: { icon: "bg-cyan-500/15 text-cyan-400 ring-cyan-500/30", badge: "bg-cyan-500/15 text-cyan-400", border: "border-cyan-500/20" },
-  3: { icon: "bg-amber-500/15 text-amber-400 ring-amber-500/30", badge: "bg-amber-500/15 text-amber-400", border: "border-amber-500/20" },
-  4: { icon: "bg-emerald-500/15 text-emerald-400 ring-emerald-500/30", badge: "bg-emerald-500/15 text-emerald-400", border: "border-emerald-500/20" },
-  5: { icon: "bg-rose-500/15 text-rose-400 ring-rose-500/30", badge: "bg-rose-500/15 text-rose-400", border: "border-rose-500/20" },
-  6: { icon: "bg-indigo-500/15 text-indigo-400 ring-indigo-500/30", badge: "bg-indigo-500/15 text-indigo-400", border: "border-indigo-500/20" },
+  1: { icon: "bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))] ring-[hsl(var(--accent-1)/0.3)]", badge: "bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]", border: "border-[hsl(var(--accent-1)/0.2)]" },
+  2: { icon: "bg-[hsl(var(--accent-3)/0.15)] text-[hsl(var(--accent-3-fg))] ring-[hsl(var(--accent-3)/0.3)]", badge: "bg-[hsl(var(--accent-3)/0.15)] text-[hsl(var(--accent-3-fg))]", border: "border-[hsl(var(--accent-3)/0.2)]" },
+  3: { icon: "bg-[hsl(var(--accent-warning)/0.15)] text-[hsl(var(--accent-warning-fg))] ring-[hsl(var(--accent-warning)/0.3)]", badge: "bg-[hsl(var(--accent-warning)/0.15)] text-[hsl(var(--accent-warning-fg))]", border: "border-[hsl(var(--accent-warning)/0.2)]" },
+  4: { icon: "bg-[hsl(var(--accent-success)/0.15)] text-[hsl(var(--accent-success-fg))] ring-[hsl(var(--accent-success)/0.3)]", badge: "bg-[hsl(var(--accent-success)/0.15)] text-[hsl(var(--accent-success-fg))]", border: "border-[hsl(var(--accent-success)/0.2)]" },
+  5: { icon: "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] ring-[hsl(var(--accent-danger)/0.3)]", badge: "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))]", border: "border-[hsl(var(--accent-danger)/0.2)]" },
+  6: { icon: "bg-[hsl(var(--accent-2)/0.15)] text-[hsl(var(--accent-2-fg))] ring-[hsl(var(--accent-2)/0.3)]", badge: "bg-[hsl(var(--accent-2)/0.15)] text-[hsl(var(--accent-2-fg))]", border: "border-[hsl(var(--accent-2)/0.2)]" },
 };
 
 function SectionHeader({ icon: Icon, title, description, step, optional, right }) {
@@ -1146,7 +1146,7 @@ export default function CreateSmartcoin(properties) {
         <div className="container mx-auto max-w-4xl px-4 pt-6 sm:pt-8">
           <div className="rounded-xl border border-border bg-card/60 backdrop-blur-xl px-6 py-5 shadow-lg shadow-black/20 ring-1 dark:ring-white/[0.06] ring-border">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-violet-500/20 text-violet-400 shadow-md shadow-violet-500/10 ring-1 ring-violet-500/30">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] ring-1 ring-[hsl(var(--accent-1)/0.3)]">
                 <Coins className="h-6 w-6" />
               </div>
               <div className="flex-1 min-w-0">
@@ -1731,13 +1731,13 @@ export default function CreateSmartcoin(properties) {
                 {editing &&
                 !hasEditedAssetOptions &&
                 !hasEditedBitassetOptions ? (
-                  <Button className="h-10 px-8 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white shadow-md shadow-violet-500/25" disabled>
+                  <Button className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]" disabled>
                     <Send className="mr-2 h-4 w-4" />
                     {t("CreateUIA:buttons.submit")}
                   </Button>
                 ) : (
                   <Button
-                    className="h-10 px-8 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white shadow-md shadow-violet-500/25"
+                    className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]"
                     onClick={() => {
                       setShowDialog(true);
                     }}

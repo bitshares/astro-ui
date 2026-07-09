@@ -104,7 +104,8 @@
     "barter": "Brug formularen nedenfor til at bytte med en anden blockchain-konto og oprette en tilpasset peer-to-peer-handel.",
     "governance": "Brug formularen nedenfor til at oprette/opdatere enten en vidne- eller komitémedlemsrolle.",
     "favourites": "Administrer og se dine favorit-aktiver og konti.",
-    "blocked-users": "Se og administrer dine komité- og personlige blokeringslister."
+    "blocked-users": "Se og administrer dine komité- og personlige blokeringslister.",
+    "theme_customizer": "Opret og rediger temaer for at farvelægge hver side, dens indlejrede komponenter og navigationsaccenter."
   },
   "back": "Gå tilbage",
   "usage": "Designet til brug med ",

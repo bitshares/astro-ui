@@ -69,6 +69,13 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { itemAccent, sectionAccent } from "@/lib/accentClasses.js";
+import {
+  $customTheme,
+  getThemeForPage,
+  resolveItemAccent,
+  resolveSectionAccent,
+} from "@/stores/customTheme.ts";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $currentUser } from "@/stores/users.ts";
@@ -127,178 +134,24 @@ const ITEM_ICONS = {
   create_liquidity_pool: Droplets,
 };
 
-const ITEM_ACCENTS = {
-  dex: { bar: "from-indigo-500 to-cyan-500", chip: "bg-indigo-500/30 text-indigo-100 border-indigo-400/50", glow: "bg-indigo-500/30", text: "dark:text-indigo-200 text-indigo-700" },
-  instant_trade: { bar: "from-amber-500 to-orange-500", chip: "bg-amber-500/30 text-amber-100 border-amber-400/50", glow: "bg-amber-500/30", text: "dark:text-amber-200 text-amber-700" },
-  swap: { bar: "from-blue-500 to-indigo-500", chip: "bg-blue-500/30 text-blue-100 border-blue-400/50", glow: "bg-blue-500/30", text: "dark:text-blue-200 text-blue-700" },
-  stake: { bar: "from-cyan-500 to-sky-500", chip: "bg-cyan-500/30 text-cyan-100 border-cyan-400/50", glow: "bg-cyan-500/30", text: "dark:text-cyan-200 text-cyan-700" },
-  barter: { bar: "from-sky-500 to-blue-500", chip: "bg-sky-500/30 text-sky-100 border-sky-400/50", glow: "bg-sky-500/30", text: "dark:text-sky-200 text-sky-700" },
-  tfund_user: { bar: "from-emerald-500 to-teal-500", chip: "bg-emerald-500/30 text-emerald-100 border-emerald-400/50", glow: "bg-emerald-500/30", text: "dark:text-emerald-200 text-emerald-700" },
-  transfer: { bar: "from-sky-500 to-blue-500", chip: "bg-sky-500/30 text-sky-100 border-sky-400/50", glow: "bg-sky-500/30", text: "dark:text-sky-200 text-sky-700" },
-  timed_transfer: { bar: "from-cyan-500 to-sky-500", chip: "bg-cyan-500/30 text-cyan-100 border-cyan-400/50", glow: "bg-cyan-500/30", text: "dark:text-cyan-200 text-cyan-700" },
-  withdraw_permissions: { bar: "from-blue-500 to-indigo-500", chip: "bg-blue-500/30 text-blue-100 border-blue-400/50", glow: "bg-blue-500/30", text: "dark:text-blue-200 text-blue-700" },
-  htlc: { bar: "from-violet-500 to-purple-500", chip: "bg-violet-500/30 text-violet-100 border-violet-400/50", glow: "bg-violet-500/30", text: "dark:text-violet-200 text-violet-700" },
-  create_vesting: { bar: "from-fuchsia-500 to-pink-500", chip: "bg-fuchsia-500/30 text-fuchsia-100 border-fuchsia-400/50", glow: "bg-fuchsia-500/30", text: "dark:text-fuchsia-200 text-fuchsia-700" },
-  borrow: { bar: "from-emerald-500 to-teal-500", chip: "bg-emerald-500/30 text-emerald-100 border-emerald-400/50", glow: "bg-emerald-500/30", text: "dark:text-emerald-200 text-emerald-700" },
-  lend: { bar: "from-amber-500 to-orange-500", chip: "bg-amber-500/30 text-amber-100 border-amber-400/50", glow: "bg-amber-500/30", text: "dark:text-amber-200 text-amber-700" },
-  smartcoins: { bar: "from-indigo-500 to-cyan-500", chip: "bg-indigo-500/30 text-indigo-100 border-indigo-400/50", glow: "bg-indigo-500/30", text: "dark:text-indigo-200 text-indigo-700" },
-  tfunds: { bar: "from-rose-500 to-red-500", chip: "bg-rose-500/30 text-rose-100 border-rose-400/50", glow: "bg-rose-500/30", text: "dark:text-rose-200 text-rose-700" },
-  portfolio_balances: { bar: "from-emerald-500 to-teal-500", chip: "bg-emerald-500/30 text-emerald-100 border-emerald-400/50", glow: "bg-emerald-500/30", text: "dark:text-emerald-200 text-emerald-700" },
-  portfolio_open_orders: { bar: "from-cyan-500 to-sky-500", chip: "bg-cyan-500/30 text-cyan-100 border-cyan-400/50", glow: "bg-cyan-500/30", text: "dark:text-cyan-200 text-cyan-700" },
-  favourites: { bar: "from-amber-500 to-yellow-500", chip: "bg-amber-500/30 text-amber-100 border-amber-400/50", glow: "bg-amber-500/30", text: "dark:text-amber-200 text-amber-700" },
-  issued_assets: { bar: "from-violet-500 to-purple-500", chip: "bg-violet-500/30 text-violet-100 border-violet-400/50", glow: "bg-violet-500/30", text: "dark:text-violet-200 text-violet-700" },
-  offers: { bar: "from-sky-500 to-blue-500", chip: "bg-sky-500/30 text-sky-100 border-sky-400/50", glow: "bg-sky-500/30", text: "dark:text-sky-200 text-sky-700" },
-  deals: { bar: "from-blue-500 to-indigo-500", chip: "bg-blue-500/30 text-blue-100 border-blue-400/50", glow: "bg-blue-500/30", text: "dark:text-blue-200 text-blue-700" },
-  vesting: { bar: "from-fuchsia-500 to-pink-500", chip: "bg-fuchsia-500/30 text-fuchsia-100 border-fuchsia-400/50", glow: "bg-fuchsia-500/30", text: "dark:text-fuchsia-200 text-fuchsia-700" },
-  proposals: { bar: "from-rose-500 to-red-500", chip: "bg-rose-500/30 text-rose-100 border-rose-400/50", glow: "bg-rose-500/30", text: "dark:text-rose-200 text-rose-700" },
-  blocks: { bar: "from-slate-500 to-gray-500", chip: "bg-accent/30 text-slate-100 border-slate-400/50", glow: "bg-accent/30", text: "dark:text-slate-200 text-slate-700" },
-  custom_pool_tracker: { bar: "from-teal-500 to-cyan-500", chip: "bg-teal-500/30 text-teal-100 border-teal-400/50", glow: "bg-teal-500/30", text: "dark:text-teal-200 text-teal-700" },
-  pools: { bar: "from-cyan-500 to-sky-500", chip: "bg-cyan-500/30 text-cyan-100 border-cyan-400/50", glow: "bg-cyan-500/30", text: "dark:text-cyan-200 text-cyan-700" },
-  vote: { bar: "from-indigo-500 to-violet-500", chip: "bg-indigo-500/30 text-indigo-100 border-indigo-400/50", glow: "bg-indigo-500/30", text: "dark:text-indigo-200 text-indigo-700" },
-  witnesses: { bar: "from-amber-500 to-orange-500", chip: "bg-amber-500/30 text-amber-100 border-amber-400/50", glow: "bg-amber-500/30", text: "dark:text-amber-200 text-amber-700" },
-  committee: { bar: "from-emerald-500 to-teal-500", chip: "bg-emerald-500/30 text-emerald-100 border-emerald-400/50", glow: "bg-emerald-500/30", text: "dark:text-emerald-200 text-emerald-700" },
-  governance: { bar: "from-violet-500 to-purple-500", chip: "bg-violet-500/30 text-violet-100 border-violet-400/50", glow: "bg-violet-500/30", text: "dark:text-violet-200 text-violet-700" },
-  create_worker: { bar: "from-sky-500 to-blue-500", chip: "bg-sky-500/30 text-sky-100 border-sky-400/50", glow: "bg-sky-500/30", text: "dark:text-sky-200 text-sky-700" },
-  create_ticket: { bar: "from-fuchsia-500 to-pink-500", chip: "bg-fuchsia-500/30 text-fuchsia-100 border-fuchsia-400/50", glow: "bg-fuchsia-500/30", text: "dark:text-fuchsia-200 text-fuchsia-700" },
-  ticket_leaderboard: { bar: "from-rose-500 to-red-500", chip: "bg-rose-500/30 text-rose-100 border-rose-400/50", glow: "bg-rose-500/30", text: "dark:text-rose-200 text-rose-700" },
-  invoice_inventory: { bar: "from-amber-500 to-orange-500", chip: "bg-amber-500/30 text-amber-100 border-amber-400/50", glow: "bg-amber-500/30", text: "dark:text-amber-200 text-amber-700" },
-  create_invoice: { bar: "from-cyan-500 to-sky-500", chip: "bg-cyan-500/30 text-cyan-100 border-cyan-400/50", glow: "bg-cyan-500/30", text: "dark:text-cyan-200 text-cyan-700" },
-  pay_invoice: { bar: "from-emerald-500 to-teal-500", chip: "bg-emerald-500/30 text-emerald-100 border-emerald-400/50", glow: "bg-emerald-500/30", text: "dark:text-emerald-200 text-emerald-700" },
-  stored_invoices: { bar: "from-sky-500 to-blue-500", chip: "bg-sky-500/30 text-sky-100 border-sky-400/50", glow: "bg-sky-500/30", text: "dark:text-sky-200 text-sky-700" },
-  accountLists: { bar: "from-slate-500 to-gray-500", chip: "bg-accent/30 text-slate-100 border-slate-400/50", glow: "bg-accent/30", text: "dark:text-slate-200 text-slate-700" },
-  ltm: { bar: "from-amber-500 to-yellow-500", chip: "bg-amber-500/30 text-amber-100 border-amber-400/50", glow: "bg-amber-500/30", text: "dark:text-amber-200 text-amber-700" },
-  nodes: { bar: "from-teal-500 to-cyan-500", chip: "bg-teal-500/30 text-teal-100 border-teal-400/50", glow: "bg-teal-500/30", text: "dark:text-teal-200 text-teal-700" },
-  create_account: { bar: "from-emerald-500 to-green-500", chip: "bg-emerald-500/30 text-emerald-100 border-emerald-400/50", glow: "bg-emerald-500/30", text: "dark:text-emerald-200 text-emerald-700" },
-  blocked_users: { bar: "from-rose-500 to-red-500", chip: "bg-rose-500/30 text-rose-100 border-rose-400/50", glow: "bg-rose-500/30", text: "dark:text-rose-200 text-rose-700" },
-  configure_visuals: { bar: "from-violet-500 to-fuchsia-500", chip: "bg-violet-500/30 text-violet-100 border-violet-400/50", glow: "bg-violet-500/30", text: "dark:text-violet-200 text-violet-700" },
-  about: { bar: "from-blue-500 to-indigo-500", chip: "bg-blue-500/30 text-blue-100 border-blue-400/50", glow: "bg-blue-500/30", text: "dark:text-blue-200 text-blue-700" },
-  create_uia: { bar: "from-violet-500 to-fuchsia-500", chip: "bg-violet-500/30 text-violet-100 border-violet-400/50", glow: "bg-violet-500/30", text: "dark:text-violet-200 text-violet-700" },
-  create_smartcoin: { bar: "from-violet-500 to-purple-500", chip: "bg-violet-500/30 text-violet-100 border-violet-400/50", glow: "bg-violet-500/30", text: "dark:text-violet-200 text-violet-700" },
-  create_liquidity_pool: { bar: "from-fuchsia-500 to-pink-500", chip: "bg-fuchsia-500/30 text-fuchsia-100 border-fuchsia-400/50", glow: "bg-fuchsia-500/30", text: "dark:text-fuchsia-200 text-fuchsia-700" },
-};
-
-const SECTION_STYLES = {
-  exchanging: {
-    icon: Repeat,
-    titleKey: "PageHeader:exchangingFundsHeading",
-    subtitleKey: "Home:sections.exchangingSubtitle",
-    border: "border-cyan-400/20",
-    bg: "from-cyan-500/15 dark:via-slate-900/20 via-slate-100/40 to-blue-500/10",
-    iconBg: "bg-cyan-500/15",
-    iconBorder: "border-cyan-400/25",
-    iconText: "dark:text-cyan-200 text-cyan-700",
-    blobA: "bg-cyan-500/30",
-    blobB: "bg-blue-500/20",
-    underline: "from-cyan-500/0 via-cyan-400/60 to-blue-500/0",
-  },
-  transfer: {
-    icon: Send,
-    titleKey: "PageHeader:transferFundsHeading",
-    subtitleKey: "Home:sections.transferSubtitle",
-    border: "border-sky-400/20",
-    bg: "from-sky-500/15 dark:via-slate-900/20 via-slate-100/40 to-blue-500/10",
-    iconBg: "bg-sky-500/15",
-    iconBorder: "border-sky-400/25",
-    iconText: "dark:text-sky-200 text-sky-700",
-    blobA: "bg-sky-500/30",
-    blobB: "bg-blue-500/20",
-    underline: "from-sky-500/0 via-sky-400/60 to-blue-500/0",
-  },
-  debt: {
-    icon: Coins,
-    titleKey: "PageHeader:formsOfDebtHeading",
-    subtitleKey: "Home:sections.debtSubtitle",
-    border: "border-emerald-400/20",
-    bg: "from-emerald-500/15 dark:via-slate-900/20 via-slate-100/40 to-teal-500/10",
-    iconBg: "bg-emerald-500/15",
-    iconBorder: "border-emerald-400/25",
-    iconText: "dark:text-emerald-200 text-emerald-700",
-    blobA: "bg-emerald-500/30",
-    blobB: "bg-teal-500/20",
-    underline: "from-emerald-500/0 via-emerald-400/60 to-teal-500/0",
-  },
-  assetCreation: {
-    icon: Gem,
-    titleKey: "PageHeader:assetCreation",
-    subtitleKey: "Home:sections.assetCreationSubtitle",
-    border: "border-violet-400/20",
-    bg: "from-violet-500/15 dark:via-slate-900/20 via-slate-100/40 to-fuchsia-500/10",
-    iconBg: "bg-violet-500/15",
-    iconBorder: "border-violet-400/25",
-    iconText: "dark:text-violet-200 text-violet-700",
-    blobA: "bg-violet-500/30",
-    blobB: "bg-fuchsia-500/20",
-    underline: "from-violet-500/0 via-violet-400/60 to-fuchsia-500/0",
-  },
-  account: {
-    icon: Wallet,
-    titleKey: "PageHeader:accountOverviewsHeading",
-    subtitleKey: "Home:sections.accountSubtitle",
-    border: "border-emerald-400/20",
-    bg: "from-emerald-500/15 dark:via-slate-900/20 via-slate-100/40 to-sky-500/10",
-    iconBg: "bg-emerald-500/15",
-    iconBorder: "border-emerald-400/25",
-    iconText: "dark:text-emerald-200 text-emerald-700",
-    blobA: "bg-emerald-500/30",
-    blobB: "bg-sky-500/20",
-    underline: "from-emerald-500/0 via-emerald-400/60 to-sky-500/0",
-  },
-  blockchain: {
-    icon: Globe,
-    titleKey: "PageHeader:blockchainOverviewsHeading",
-    subtitleKey: "Home:sections.blockchainSubtitle",
-    border: "border-slate-400/20",
-    bg: "from-slate-500/15 dark:via-slate-900/20 via-slate-100/40 to-gray-500/10",
-    iconBg: "bg-accent/15",
-    iconBorder: "border-slate-400/25",
-    iconText: "dark:text-slate-200 text-foreground",
-    blobA: "bg-accent/30",
-    blobB: "bg-card0/20",
-    underline: "from-slate-500/0 via-slate-400/60 to-gray-500/0",
-  },
-  governance: {
-    icon: Vote,
-    titleKey: "PageHeader:governanceHeading",
-    subtitleKey: "Home:sections.governanceSubtitle",
-    border: "border-indigo-400/20",
-    bg: "from-indigo-500/15 dark:via-slate-900/20 via-slate-100/40 to-violet-500/10",
-    iconBg: "bg-indigo-500/15",
-    iconBorder: "border-indigo-400/25",
-    iconText: "dark:text-indigo-200 text-indigo-700",
-    blobA: "bg-indigo-500/30",
-    blobB: "bg-violet-500/20",
-    underline: "from-indigo-500/0 via-indigo-400/60 to-violet-500/0",
-  },
-  invoicing: {
-    icon: Receipt,
-    titleKey: "PageHeader:invoicingHeading",
-    subtitleKey: "Home:sections.invoicingSubtitle",
-    border: "border-amber-400/20",
-    bg: "from-amber-500/15 dark:via-slate-900/20 via-slate-100/40 to-orange-500/10",
-    iconBg: "bg-amber-500/15",
-    iconBorder: "border-amber-400/25",
-    iconText: "dark:text-amber-200 text-amber-700",
-    blobA: "bg-amber-500/30",
-    blobB: "bg-orange-500/20",
-    underline: "from-amber-500/0 via-amber-400/60 to-orange-500/0",
-  },
-  settings: {
-    icon: Wrench,
-    titleKey: "PageHeader:settingsHeading",
-    subtitleKey: "Home:sections.settingsSubtitle",
-    border: "border-violet-400/20",
-    bg: "from-violet-500/15 dark:via-slate-900/20 via-slate-100/40 to-rose-500/10",
-    iconBg: "bg-violet-500/15",
-    iconBorder: "border-violet-400/25",
-    iconText: "dark:text-violet-200 text-violet-700",
-    blobA: "bg-violet-500/30",
-    blobB: "bg-rose-500/20",
-    underline: "from-violet-500/0 via-violet-400/60 to-rose-500/0",
-  },
+// Section metadata (icon + i18n keys). All colors now come from the theme via
+// resolveSectionAccent()/resolveItemAccent() + the accent registry.
+const SECTION_META = {
+  exchanging: { icon: Repeat, titleKey: "PageHeader:exchangingFundsHeading", subtitleKey: "Home:sections.exchangingSubtitle" },
+  transfer: { icon: Send, titleKey: "PageHeader:transferFundsHeading", subtitleKey: "Home:sections.transferSubtitle" },
+  debt: { icon: Coins, titleKey: "PageHeader:formsOfDebtHeading", subtitleKey: "Home:sections.debtSubtitle" },
+  assetCreation: { icon: Gem, titleKey: "PageHeader:assetCreation", subtitleKey: "Home:sections.assetCreationSubtitle" },
+  account: { icon: Wallet, titleKey: "PageHeader:accountOverviewsHeading", subtitleKey: "Home:sections.accountSubtitle" },
+  blockchain: { icon: Globe, titleKey: "PageHeader:blockchainOverviewsHeading", subtitleKey: "Home:sections.blockchainSubtitle" },
+  governance: { icon: Vote, titleKey: "PageHeader:governanceHeading", subtitleKey: "Home:sections.governanceSubtitle" },
+  invoicing: { icon: Receipt, titleKey: "PageHeader:invoicingHeading", subtitleKey: "Home:sections.invoicingSubtitle" },
+  settings: { icon: Wrench, titleKey: "PageHeader:settingsHeading", subtitleKey: "Home:sections.settingsSubtitle" },
 };
 
 export default function Home(properties) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
+  useStore($customTheme);
+  const theme = getThemeForPage("index");
   const usr = useSyncExternalStore(
     $currentUser.subscribe,
     $currentUser.get,
@@ -418,14 +271,10 @@ export default function Home(properties) {
     { key: "configure_visuals", href: "/visuals/index.html", titleKey: "Home:configure_visuals.title", subtitleKey: "Home:configure_visuals.subtitle", hoverKeys: ["Home:configure_visuals.hover1", "Home:configure_visuals.hover2"] },
   ];
 
-  const renderHoverCard = (card) => {
+  const renderHoverCard = (card, sectionKey) => {
     const Icon = ITEM_ICONS[card.key] || Sparkles;
-    const accent = ITEM_ACCENTS[card.key] || {
-      bar: "from-border/40 to-border/20",
-      chip: "bg-accent/30 dark:bg-white/[0.05] text-foreground/80 border-foreground/15",
-      glow: "bg-accent/30 dark:bg-white/[0.05]",
-      text: "text-foreground/80",
-    };
+    const pair = resolveItemAccent(theme, card.key, sectionKey);
+    const accent = itemAccent(pair.primary, pair.secondary);
     return (
       <HoverCard key={card.key} openDelay={120} closeDelay={80}>
         <HoverCardTrigger asChild>
@@ -513,15 +362,17 @@ export default function Home(properties) {
     );
   };
 
-  const renderCardGrid = (cards, gridColsClass = "lg:grid-cols-3") => (
+  const renderCardGrid = (cards, sectionKey, gridColsClass = "lg:grid-cols-3") => (
     <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridColsClass} gap-3 sm:gap-4`}>
-      {cards.map((card) => renderHoverCard(card))}
+      {cards.map((card) => renderHoverCard(card, sectionKey))}
     </div>
   );
 
   const renderSection = (cards, sectionKey) => {
-    const style = SECTION_STYLES[sectionKey] || SECTION_STYLES.settings;
-    const SectionIcon = style.icon;
+    const meta = SECTION_META[sectionKey] || SECTION_META.settings;
+    const pair = resolveSectionAccent(theme, sectionKey);
+    const style = sectionAccent(pair.primary, pair.secondary);
+    const SectionIcon = meta.icon;
     return (
       <section className="mt-10 sm:mt-14">
         <div
@@ -558,19 +409,19 @@ export default function Home(properties) {
             </span>
             <div className="min-w-0 flex-1">
               <h2 className="text-base sm:text-lg font-semibold text-foreground tracking-tight leading-tight">
-                {t(style.titleKey)}
+                {t(meta.titleKey)}
               </h2>
               <p className="mt-1 text-[13px] sm:text-sm text-muted-foreground leading-snug">
-                {t(style.subtitleKey)}
+                {t(meta.subtitleKey)}
               </p>
             </div>
             <div
               aria-hidden="true"
               className="hidden md:flex items-center gap-1 pr-1"
             >
-              <span className={cn("h-1.5 w-1.5 rounded-full", style.iconBg.replace("/15", "/80"))} />
-              <span className={cn("h-1.5 w-1.5 rounded-full opacity-60", style.iconBg.replace("/15", "/60"))} />
-              <span className={cn("h-1.5 w-1.5 rounded-full opacity-30", style.iconBg.replace("/15", "/40"))} />
+              <span className={cn("h-1.5 w-1.5 rounded-full", style.dot)} />
+              <span className={cn("h-1.5 w-1.5 rounded-full opacity-60", style.dot)} />
+              <span className={cn("h-1.5 w-1.5 rounded-full opacity-30", style.dot)} />
             </div>
           </div>
           <div
@@ -582,7 +433,7 @@ export default function Home(properties) {
           />
         </div>
         <div className="mt-3 sm:mt-4">
-          {renderCardGrid(cards, sectionKey === "account" ? "lg:grid-cols-3" : "lg:grid-cols-3")}
+          {renderCardGrid(cards, sectionKey, "lg:grid-cols-3")}
         </div>
       </section>
     );

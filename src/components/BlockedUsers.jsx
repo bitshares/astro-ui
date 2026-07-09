@@ -66,7 +66,7 @@ function RemoveButton({ onClick, label }) {
             size="icon"
             aria-label={label}
             onClick={onClick}
-            className="h-8 w-8 rounded-full text-muted-foreground/60 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+            className="h-8 w-8 rounded-full text-muted-foreground/60 hover:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] transition-colors"
           >
             <Trash2 className="h-4 w-4" />
           </Button>
@@ -158,11 +158,11 @@ export default function BlockedUsers() {
     <div className="container mx-auto mt-5 mb-10 max-w-4xl text-foreground">
       <div className="grid grid-cols-1 gap-3">
         <Card className="bg-card/60 border-border shadow-lg shadow-black/20 backdrop-blur-sm">
-          <div className="h-1 w-full bg-gradient-to-r from-rose-500 to-red-500" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-danger))]" />
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2">
-              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-rose-500/15 flex-shrink-0">
-                <ShieldOff className="h-5 w-5 text-rose-400" />
+              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[hsl(var(--accent-1)/0.15)] flex-shrink-0">
+                <ShieldOff className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
               </span>
               {t("Blocklist:committeeHeader")}
             </CardTitle>
@@ -178,13 +178,13 @@ export default function BlockedUsers() {
         </Card>
 
         <Card className="bg-card/60 border-border shadow-lg shadow-black/20 backdrop-blur-sm">
-          <div className="h-1 w-full bg-gradient-to-r from-rose-500 to-red-500" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-danger))]" />
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-rose-500/15 flex-shrink-0">
-                    <Ban className="h-5 w-5 text-rose-400" />
+                  <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[hsl(var(--accent-1)/0.15)] flex-shrink-0">
+                    <Ban className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
                   </span>
                   {t("Blocklist:usersHeader")}
                 </CardTitle>
@@ -199,7 +199,7 @@ export default function BlockedUsers() {
                 onOpenChange={(open) => setAddDialogOpen(open)}
               >
                 <DialogTrigger asChild>
-                  <Button variant="outline" className="border-rose-500/30 text-rose-400 hover:bg-rose-500/10 gap-1.5">
+                  <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] gap-1.5">
                     <Plus className="h-3.5 w-3.5" />
                     {t("Blocklist:addUser")}
                   </Button>
@@ -207,8 +207,8 @@ export default function BlockedUsers() {
                 <DialogContent className="sm:max-w-[420px]">
                   <DialogHeader>
                     <div className="flex items-center gap-2">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-rose-500/30 bg-rose-500/15">
-                        <UserX className="h-4 w-4 text-rose-400" />
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.15)]">
+                        <UserX className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
                       </div>
                       <div>
                         <DialogTitle>{t("Blocklist:addUserDialogTitle")}</DialogTitle>
@@ -251,7 +251,7 @@ export default function BlockedUsers() {
             ) : (
               <Empty className="mt-2 border border-border/60 rounded-xl bg-accent/20">
                 <EmptyHeader>
-                  <EmptyMedia variant="icon" className="bg-rose-500/15 text-rose-400">
+                  <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
                     <Ban className="h-6 w-6" />
                   </EmptyMedia>
                   <EmptyTitle className="text-foreground/80">{t("Blocklist:usersEmptyTitle")}</EmptyTitle>

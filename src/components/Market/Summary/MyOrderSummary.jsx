@@ -34,7 +34,7 @@ export default function MyOrderSummary(properties) {
   );
 
   const isBuy = type === "buy";
-  const accent = isBuy ? "text-emerald-300" : "text-rose-300";
+  const accent = isBuy ? "text-[hsl(var(--accent-success-fg))]" : "text-[hsl(var(--accent-danger-fg))]";
 
   const filteredUsrLimitOrders = useMemo(
     () =>

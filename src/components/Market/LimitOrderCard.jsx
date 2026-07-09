@@ -458,27 +458,27 @@ export default function LimitOrderCard(properties) {
   const isBuy = orderType === "buy";
   const accent = isBuy
     ? {
-        text: "text-emerald-300",
-        textBright: "text-emerald-200",
-        bg: "bg-emerald-500/[0.06]",
-        border: "border-emerald-500/30",
-        glow: "from-emerald-500/15 via-emerald-500/3 to-transparent",
-        chip: "bg-emerald-500/10 border-emerald-500/30 text-emerald-300",
-        gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-        ring: "ring-emerald-500/30",
-        focusBorder: "focus-within:border-emerald-400/60",
+        text: "text-[hsl(var(--accent-success-fg))]",
+        textBright: "text-[hsl(var(--accent-success-fg))]",
+        bg: "bg-[hsl(var(--accent-success)/0.06)]",
+        border: "border-[hsl(var(--accent-success)/0.3)]",
+        glow: "from-[hsl(var(--accent-success)/0.15)] via-[hsl(var(--accent-success)/0.03)] to-transparent",
+        chip: "bg-[hsl(var(--accent-success)/0.1)] border-[hsl(var(--accent-success)/0.3)] text-[hsl(var(--accent-success-fg))]",
+        gradient: "from-[hsl(var(--accent-success))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))]",
+        ring: "ring-[hsl(var(--accent-success)/0.3)]",
+        focusBorder: "focus-within:border-[hsl(var(--accent-success)/0.6)]",
         focusShadow: "focus-within:shadow-[0_0_0_3px_rgba(16,185,129,0.18)]",
       }
     : {
-        text: "text-rose-300",
-        textBright: "text-rose-200",
-        bg: "bg-rose-500/[0.06]",
-        border: "border-rose-500/30",
-        glow: "from-rose-500/15 via-rose-500/3 to-transparent",
-        chip: "bg-rose-500/10 border-rose-500/30 text-rose-300",
-        gradient: "from-rose-500 via-orange-500 to-amber-500",
-        ring: "ring-rose-500/30",
-        focusBorder: "focus-within:border-rose-400/60",
+        text: "text-[hsl(var(--accent-danger-fg))]",
+        textBright: "text-[hsl(var(--accent-danger-fg))]",
+        bg: "bg-[hsl(var(--accent-danger)/0.06)]",
+        border: "border-[hsl(var(--accent-danger)/0.3)]",
+        glow: "from-[hsl(var(--accent-danger)/0.15)] via-[hsl(var(--accent-danger)/0.03)] to-transparent",
+        chip: "bg-[hsl(var(--accent-danger)/0.1)] border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))]",
+        gradient: "from-[hsl(var(--accent-danger))] via-[hsl(var(--accent-warning))] to-[hsl(var(--accent-warning))]",
+        ring: "ring-[hsl(var(--accent-danger)/0.3)]",
+        focusBorder: "focus-within:border-[hsl(var(--accent-danger)/0.6)]",
         focusShadow: "focus-within:shadow-[0_0_0_3px_rgba(244,63,94,0.18)]",
       };
 
@@ -718,7 +718,7 @@ export default function LimitOrderCard(properties) {
                         <button
                           type="button"
                           onClick={handleMaxAmount}
-                          className="rounded-md border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider dark:text-cyan-200 text-cyan-700 hover:bg-cyan-500/20 hover:border-cyan-500/50 transition-colors active:scale-95"
+                          className="rounded-md border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-colors active:scale-95"
                         >
                           MAX
                         </button>
@@ -861,7 +861,7 @@ export default function LimitOrderCard(properties) {
                         <button
                           type="button"
                           onClick={handleMaxTotal}
-                          className="rounded-md border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider dark:text-cyan-200 text-cyan-700 hover:bg-cyan-500/20 hover:border-cyan-500/50 transition-colors active:scale-95"
+                          className="rounded-md border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-colors active:scale-95"
                         >
                           MAX
                         </button>
@@ -1116,7 +1116,7 @@ export default function LimitOrderCard(properties) {
                       className={cn(
                         "flex items-center justify-between gap-3 rounded-lg border px-3 py-2.5 transition-colors cursor-pointer",
                         osoEnabled
-                          ? "border-cyan-500/30 bg-cyan-500/[0.06]"
+                          ? "border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.06)]"
                           : "border-border/60 bg-accent/20 hover:bg-accent/40"
                       )}
                       onClick={() => {
@@ -1131,7 +1131,7 @@ export default function LimitOrderCard(properties) {
                           className={cn(
                             "flex h-7 w-7 shrink-0 items-center justify-center rounded-md border",
                             osoEnabled
-                              ? "border-cyan-500/30 bg-cyan-500/10 dark:text-cyan-300 text-cyan-700"
+                              ? "border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                               : "border-border bg-accent/40 text-muted-foreground/70"
                           )}
                         >
@@ -1152,7 +1152,7 @@ export default function LimitOrderCard(properties) {
                         className={cn(
                           "h-5 w-5 shrink-0 rounded-sm border flex items-center justify-center transition-colors",
                           osoEnabled
-                            ? "border-cyan-400 bg-cyan-500 text-foreground"
+                            ? "border-[hsl(var(--accent-1))] bg-[hsl(var(--accent-1))] text-foreground"
                             : "border-accent/50 dark:border-white/20 bg-transparent"
                         )}
                       >
@@ -1164,7 +1164,7 @@ export default function LimitOrderCard(properties) {
               />
 
               {osoEnabled ? (
-                <div className="mt-2 space-y-2 rounded-lg border border-cyan-500/20 bg-cyan-500/[0.03] p-3 sm:p-4">
+                <div className="mt-2 space-y-2 rounded-lg border border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.03)] p-3 sm:p-4">
                   <Controller
                     name="osoSpread"
                     control={form.control}
@@ -1469,8 +1469,8 @@ export default function LimitOrderCard(properties) {
                   className={cn(
                     "mt-2 flex items-center justify-between gap-3 rounded-lg border px-3 py-2.5",
                     isBuy
-                      ? "border-emerald-500/20 bg-emerald-500/[0.04]"
-                      : "border-rose-500/20 bg-rose-500/[0.04]"
+                      ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.04)]"
+                      : "border-[hsl(var(--accent-danger)/0.2)] bg-[hsl(var(--accent-danger)/0.04)]"
                   )}
                 >
                   <div className="flex items-center gap-2 min-w-0">
@@ -1503,9 +1503,9 @@ export default function LimitOrderCard(properties) {
               ) : null}
               {!amount || !price || !expiry ? (
                 <div className="mt-2 mb-1 grid grid-cols-2 gap-2">
-                  <div className="flex items-center justify-center gap-1.5 h-12 rounded-xl border border-amber-400/20 bg-amber-500/[0.06]">
-                    <Zap className="h-3.5 w-3.5 dark:text-amber-400 text-amber-700" strokeWidth={2.5} />
-                    <span className="font-mono text-xs dark:text-amber-400 text-amber-700">
+                  <div className="flex items-center justify-center gap-1.5 h-12 rounded-xl border border-[hsl(var(--accent-warning)/0.2)] bg-[hsl(var(--accent-warning)/0.06)]">
+                    <Zap className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))]" strokeWidth={2.5} />
+                    <span className="font-mono text-xs dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))]">
                       {fee ? `${fee.toFixed(5)} ${usr.chain === "bitshares" ? "BTS" : "TEST"}` : `0.00000 ${usr.chain === "bitshares" ? "BTS" : "TEST"}`}
                     </span>
                   </div>
@@ -1520,9 +1520,9 @@ export default function LimitOrderCard(properties) {
                 </div>
               ) : (
                 <div className="mt-2 mb-1 grid grid-cols-2 gap-2">
-                  <div className="flex items-center justify-center gap-1.5 h-12 rounded-xl border border-amber-400/20 bg-amber-500/[0.06]">
-                    <Zap className="h-3.5 w-3.5 dark:text-amber-400 text-amber-700" strokeWidth={2.5} />
-                    <span className="font-mono text-xs dark:text-amber-400 text-amber-700">
+                  <div className="flex items-center justify-center gap-1.5 h-12 rounded-xl border border-[hsl(var(--accent-warning)/0.2)] bg-[hsl(var(--accent-warning)/0.06)]">
+                    <Zap className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))]" strokeWidth={2.5} />
+                    <span className="font-mono text-xs dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))]">
                       {fee ? `${fee.toFixed(5)} ${usr.chain === "bitshares" ? "BTS" : "TEST"}` : `0.00000 ${usr.chain === "bitshares" ? "BTS" : "TEST"}`}
                     </span>
                   </div>

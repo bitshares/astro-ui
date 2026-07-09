@@ -175,7 +175,7 @@ export default function TicketLeaderboard() {
       <div key={r.id} style={style}>
         <Dialog>
           <DialogTrigger asChild>
-            <Card className="relative overflow-hidden border-amber-500/15 bg-card/60 backdrop-blur-xl shadow-sm hover:border-amber-500/25 hover:shadow-amber-500/10 transition-all duration-300">
+            <Card className="relative overflow-hidden border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.1)] transition-all duration-300">
               <div className="p-4">
                 <div className="grid grid-cols-3">
                   <div className="text-xs lg:text-lg mt-5">{name}</div>
@@ -195,7 +195,7 @@ export default function TicketLeaderboard() {
               </div>
             </Card>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[720px] bg-card/60 backdrop-blur-xl border-amber-500/15">
+          <DialogContent className="sm:max-w-[720px] bg-card/60 backdrop-blur-xl border-[hsl(var(--accent-1)/0.15)]">
             <div className="flex items-center gap-2 mt-3 text-center">
               <Table>
                 <TableBody>
@@ -204,7 +204,7 @@ export default function TicketLeaderboard() {
                       {t("TicketsLeaderboard:th.account", "Account")}
                     </TableCell>
                     <TableCell>
-                      <span className="hover:underline text-blue-600 dark:text-blue-400 cursor-pointer">
+                      <span className="hover:underline text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] cursor-pointer">
                         {name}
                       </span>
                     </TableCell>
@@ -235,7 +235,7 @@ export default function TicketLeaderboard() {
                       {r.tickets.map((tid) => (
                         <Badge
                           key={tid}
-                          className="cursor-pointer border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20 transition-colors mr-1"
+                          className="cursor-pointer border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors mr-1"
                           variant="secondary"
                           onClick={() => {
                             setActiveTicketId(tid);
@@ -266,13 +266,13 @@ export default function TicketLeaderboard() {
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
       <div className="grid grid-cols-1 gap-3">
-        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-amber-950/20">
-          <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
-          <div className="h-1 w-full bg-gradient-to-r from-amber-400/70 via-orange-400/70 to-amber-400/70" />
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.2)]">
+          <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl pointer-events-none" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-1)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
           <CardHeader className="pb-1">
-            <CardTitle className="text-lg bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent flex items-center gap-2">
-              <Trophy className="h-5 w-5 text-amber-500" />
+            <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] bg-clip-text text-transparent flex items-center gap-2">
+              <Trophy className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
               {t("TicketsLeaderboard:title", "Ticket leaderboard")}
             </CardTitle>
             <CardDescription>{t("TicketsLeaderboard:description", "Combined effective ticket amounts by account.")}</CardDescription>
@@ -287,7 +287,7 @@ export default function TicketLeaderboard() {
                 asset: assetSymbol,
               })}
             </div>
-            <div className="grid grid-cols-3 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-lg px-3 py-2 mb-2">
+            <div className="grid grid-cols-3 bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] rounded-lg px-3 py-2 mb-2">
               <div className="text-sm font-medium">{t("TicketsLeaderboard:th.account", "Account")}</div>
               <div className="text-sm font-medium">{t("TicketsLeaderboard:th.amount", "Effective amount")}</div>
               <div className="text-sm font-medium">{t("TicketsLeaderboard:th.percent", "% of total")}</div>
@@ -305,7 +305,7 @@ export default function TicketLeaderboard() {
 
         {showTicketDialog && activeTicketId ? (
           <Dialog open={showTicketDialog} onOpenChange={setShowTicketDialog}>
-            <DialogContent className="sm:max-w-[720px] bg-card/60 backdrop-blur-xl border-amber-500/15">
+            <DialogContent className="sm:max-w-[720px] bg-card/60 backdrop-blur-xl border-[hsl(var(--accent-1)/0.15)]">
               <DialogHeader>
                 <DialogTitle>
                   {t("TicketsLeaderboard:ticketDialog.title", "Ticket details")}
@@ -327,7 +327,7 @@ export default function TicketLeaderboard() {
               <div className="flex items-center gap-2 mt-3 justify-end">
                 <Button
                   size="sm"
-                  className="bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/20 hover:from-amber-400 hover:to-orange-400 active:scale-95 transition-all duration-200 cursor-pointer"
+                  className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] active:scale-95 transition-all duration-200 cursor-pointer"
                   onClick={async () => {
                     try {
                       await navigator.clipboard.writeText(

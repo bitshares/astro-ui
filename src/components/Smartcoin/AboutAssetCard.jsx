@@ -40,14 +40,14 @@ export default function AboutAssetCard({
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   return (
-    <Card className="mt-2 relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
-      <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
-      <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
-      <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+    <Card className="mt-2 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+      <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+      <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+      <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
       <CardContent className="relative p-5">
         <CardHeader className="flex flex-row items-center justify-between mb-4 p-0">
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
               <Info className="h-4 w-4" strokeWidth={2.25} />
             </span>
             <div>
@@ -75,7 +75,7 @@ export default function AboutAssetCard({
           </div>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" className="border-indigo-400/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-500/20 transition-colors text-xs">
+              <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors text-xs">
                 {t("Smartcoin:viewJSON")}
               </Button>
             </DialogTrigger>
@@ -106,7 +106,7 @@ export default function AboutAssetCard({
         </CardHeader>
         <div className="grid grid-cols-2">
           <div className="col-span-1">
-            <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80">
+            <div className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
               {t("Smartcoin:generalAssetInfo")}
             </div>
           </div>
@@ -249,7 +249,7 @@ export default function AboutAssetCard({
           <>
             <div className="grid grid-cols-2">
               <div className="col-span-1">
-                <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80">
+                <div className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                   {bitassetInfo.issuer?.id === "1.2.0"
                     ? t("Smartcoin:bitassetInfo")
                     : t("Smartcoin:smartcoinInfo")}
@@ -514,7 +514,7 @@ export default function AboutAssetCard({
           </>
         ) : null}
 
-        <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80 mb-1">
+        <div className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)] mb-1">
           {t("Smartcoin:assetFlags")}
         </div>
         {assetInfoFlags && assetInfoFlags.length ? (
@@ -523,7 +523,7 @@ export default function AboutAssetCard({
           <span className="text-sm">{t("Smartcoin:noFlagsEnabled")}</span>
         )}
         <br />
-        <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80 mb-1 mt-3">
+        <div className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)] mb-1 mt-3">
           {t("Smartcoin:assetPermissions")}
         </div>
         {assetPermissions && assetPermissions.length ? (

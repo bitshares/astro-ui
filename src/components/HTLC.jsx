@@ -245,10 +245,10 @@ export default function Htlc(properties) {
 
     return (
       <div style={style}>
-        <div className="m-2 rounded-xl border border-rose-500/20 bg-gradient-to-r from-rose-500/[0.04] to-transparent hover:border-rose-500/30 hover:bg-rose-500/[0.06] transition-all px-4 py-3">
+        <div className="m-2 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.04)] to-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] transition-all px-4 py-3">
           <div className="grid grid-cols-6 gap-2 items-center text-sm">
             <div className="col-span-1 flex items-center gap-2">
-              <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-rose-500/15 border border-rose-400/30 dark:text-rose-200 text-rose-700">
+              <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Send className="h-2.5 w-2.5" />
               </span>
               <span className="font-mono text-xs font-semibold text-foreground">{id}</span>
@@ -257,7 +257,7 @@ export default function Htlc(properties) {
               <span className="font-mono text-xs text-foreground/85">{toAccountName}</span>
             </div>
             <div className="col-span-1">
-              <span className="font-mono text-xs font-semibold text-rose-400">
+              <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-1-fg))]">
                 {formattedAmount} {asset?.symbol ?? asset_id}
               </span>
             </div>
@@ -284,7 +284,7 @@ export default function Htlc(properties) {
                 onOpenChange={setExtendDialogOpen}
               >
                 <DialogTrigger asChild>
-                  <Button variant="outline" size="sm" className="border-rose-400/30 bg-rose-500/10 dark:text-rose-200 text-rose-700 hover:bg-rose-500/20 hover:border-rose-400/50 transition-all">
+                  <Button variant="outline" size="sm" className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-all">
                     <Clock className="h-3 w-3 mr-1" />
                     {t("HTLC:extendButton")}
                   </Button>
@@ -292,7 +292,7 @@ export default function Htlc(properties) {
                 <DialogContent className="sm:max-w-[425px] !bg-card border border-border rounded-2xl">
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-rose-400/60 to-transparent"
+                    className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent"
                   />
                   <DialogHeader>
                     <DialogTitle className="text-foreground">
@@ -320,7 +320,7 @@ export default function Htlc(properties) {
                   <Button
                     onClick={() => setShowExtendDeeplink(true)}
                     disabled={!secondsToAdd || secondsToAdd < 60}
-                    className="w-full h-11 rounded-xl font-semibold transition-all border-rose-400/40 bg-gradient-to-br from-rose-500/10 to-pink-500/10 dark:text-rose-100 text-rose-700 hover:bg-rose-500/20 hover:border-rose-400/60 hover:shadow-[0_0_24px_-6px_rgba(244,63,94,0.4)]"
+                    className="w-full h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(244,63,94,0.4)]"
                   >
                     <Clock className="h-4 w-4 mr-2" />
                     {t("HTLC:extendButton")}
@@ -429,10 +429,10 @@ export default function Htlc(properties) {
 
     return (
       <div style={style}>
-        <div className="m-2 rounded-xl border border-emerald-500/20 bg-gradient-to-r from-emerald-500/[0.04] to-transparent hover:border-emerald-500/30 hover:bg-emerald-500/[0.06] transition-all px-4 py-3">
+        <div className="m-2 rounded-xl border border-[hsl(var(--accent-2)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-2)/0.04)] to-transparent hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.06)] transition-all px-4 py-3">
           <div className="grid grid-cols-6 gap-2 items-center text-sm">
             <div className="col-span-1 flex items-center gap-2">
-              <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-400/30 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
                 <Unlock className="h-2.5 w-2.5" />
               </span>
               <span className="font-mono text-xs font-semibold text-foreground">{id}</span>
@@ -441,7 +441,7 @@ export default function Htlc(properties) {
               <span className="font-mono text-xs text-foreground/85">{fromAccountName}</span>
             </div>
             <div className="col-span-1">
-              <span className="font-mono text-xs font-semibold text-emerald-400">
+              <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-2-fg))]">
                 {formattedAmount} {asset?.symbol ?? asset_id}
               </span>
             </div>
@@ -468,7 +468,7 @@ export default function Htlc(properties) {
                 onOpenChange={setRedeemDialogOpen}
               >
                 <DialogTrigger asChild>
-                  <Button variant="outline" size="sm" className="border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 hover:bg-emerald-500/20 hover:border-emerald-400/50 transition-all">
+                  <Button variant="outline" size="sm" className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.5)] transition-all">
                     <Key className="h-3 w-3 mr-1" />
                     {t("HTLC:redeemButton")}
                   </Button>
@@ -476,7 +476,7 @@ export default function Htlc(properties) {
                 <DialogContent className="sm:max-w-[425px] !bg-card border border-border rounded-2xl">
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent"
+                    className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-2)/0.6)] to-transparent"
                   />
                   <DialogHeader>
                     <DialogTitle className="text-foreground">
@@ -502,7 +502,7 @@ export default function Htlc(properties) {
                       <div className="rounded-xl border border-border/60 bg-card/40 p-4 space-y-2">
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-medium text-muted-foreground">{t("HTLC:calculatedHash")}</span>
-                          <code className="break-all font-mono text-xs text-emerald-400">
+                          <code className="break-all font-mono text-xs text-[hsl(var(--accent-2-fg))]">
                             {_calculatedHash ?? "Calculating..."}
                           </code>
                         </div>
@@ -513,12 +513,12 @@ export default function Htlc(properties) {
                         <div className="border-t border-border/40 pt-2 flex items-center gap-2">
                           <span className="text-xs font-medium text-muted-foreground">{t("HTLC:hashMatch")}</span>
                           {_calculatedHash === hashValue ? (
-                            <Badge variant="outline" className="border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 text-[10px]">
+                            <Badge variant="outline" className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] text-[10px]">
                               <CheckCircle2 className="h-3 w-3 mr-1" />
                               Match
                             </Badge>
                           ) : (
-                            <Badge variant="outline" className="border-red-400/30 bg-red-500/10 dark:text-red-200 text-red-700 text-[10px]">
+                            <Badge variant="outline" className="border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))] text-[10px]">
                               <XCircle className="h-3 w-3 mr-1" />
                               No Match
                             </Badge>
@@ -532,7 +532,7 @@ export default function Htlc(properties) {
                   _calculatedHash === hashValue ? (
                     <Button
                       onClick={() => setShowRedeemDeeplink(true)}
-                      className="w-full h-11 rounded-xl font-semibold transition-all border-emerald-400/40 bg-gradient-to-br from-emerald-500/10 to-green-500/10 dark:text-emerald-100 text-emerald-700 hover:bg-emerald-500/20 hover:border-emerald-400/60 hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)]"
+                      className="w-full h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-2)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.1)] to-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)]"
                     >
                       <Unlock className="h-4 w-4 mr-2" />
                       {t("HTLC:redeemButton")}
@@ -578,26 +578,26 @@ export default function Htlc(properties) {
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-rose-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-red-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-danger)/0.1)] blur-3xl"
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-start gap-3 mb-4">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-rose-500/25 bg-gradient-to-br from-rose-500/[0.06] to-transparent dark:text-rose-200 text-rose-700">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Lock className="h-4 w-4" strokeWidth={2.25} />
               </span>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <Badge
                     variant="outline"
-                    className="border-rose-400/30 bg-rose-500/10 dark:text-rose-200 text-rose-700 text-[10px]"
+                    className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px]"
                   >
                     HTLC
                   </Badge>
@@ -620,7 +620,7 @@ export default function Htlc(properties) {
                 />
                 <div className="text-right">
                   <Button
-                    className="border-rose-400/30 bg-rose-500/10 dark:text-rose-200 text-rose-700 hover:bg-rose-500/20 hover:border-rose-400/50 transition-all"
+                    className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-all"
                     onClick={() => setShowCreateDialog(true)}
                   >
                     <Lock className="h-4 w-4 mr-2" />

@@ -326,7 +326,7 @@ export default function SameTFunds(properties) {
         <DialogTrigger asChild>
           <button
             type="button"
-            className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium border border-rose-400/30 bg-rose-500/10 dark:text-rose-200 text-rose-700 hover:bg-rose-500/20 hover:border-rose-400/50 hover:shadow-[0_0_16px_-4px_rgba(244,63,94,0.4)] transition-all"
+            className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] hover:shadow-[0_0_16px_-4px_rgba(244,63,94,0.4)] transition-all"
           >
             <RefreshCw className="h-3 w-3" />
             {t("SameTFunds:update")}
@@ -335,7 +335,7 @@ export default function SameTFunds(properties) {
         <DialogContent className="sm:max-w-[520px] !bg-card border border-border rounded-2xl">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-rose-400/60 to-transparent"
+            className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent"
           />
           <DialogHeader>
             <DialogTitle className="text-foreground">
@@ -359,7 +359,7 @@ export default function SameTFunds(properties) {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="h-7 border-rose-400/30 bg-rose-500/10 hover:bg-rose-500/20 text-[10px] font-semibold uppercase tracking-wider dark:text-rose-200 text-rose-700"
+                        className="h-7 border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] hover:bg-[hsl(var(--accent-1)/0.2)] text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                         onClick={() => {
                           setNewAmount(humanReadableAssetBalance ? humanReadableAssetBalance : 0);
                         }}
@@ -391,7 +391,7 @@ export default function SameTFunds(properties) {
                 />
                 <Badge
                   variant="outline"
-                  className="h-9 px-3 font-mono text-xs border-rose-400/30 bg-rose-500/10 dark:text-rose-200 text-rose-700"
+                  className="h-9 px-3 font-mono text-xs border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                 >
                   {asset ? asset.symbol : "???"}
                 </Badge>
@@ -428,7 +428,7 @@ export default function SameTFunds(properties) {
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={() => setUpdateDialog(true)}
-                className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-xl text-sm font-medium bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-[0_4px_16px_-4px_rgba(244,63,94,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(244,63,94,0.7)] hover:from-rose-400 hover:to-pink-400 transition-all"
+                className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-xl text-sm font-medium bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-[0_4px_16px_-4px_rgba(244,63,94,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(244,63,94,0.7)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all"
               >
                 <RefreshCw className="h-4 w-4" />
                 {t("SameTFunds:update")}
@@ -452,7 +452,7 @@ export default function SameTFunds(properties) {
             <button
               type="button"
               onClick={() => setDeleteDialog(true)}
-              className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium border border-red-400/30 bg-red-500/10 dark:text-red-200 text-red-700 hover:bg-red-500/20 hover:border-red-400/50 hover:shadow-[0_0_16px_-4px_rgba(239,68,68,0.4)] transition-all"
+              className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium border border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.2)] hover:border-[hsl(var(--accent-danger)/0.5)] hover:shadow-[0_0_16px_-4px_rgba(239,68,68,0.4)] transition-all"
             >
               <Trash2 className="h-3 w-3" />
               {t("CustomPoolOverview:delete")}
@@ -467,28 +467,28 @@ export default function SameTFunds(properties) {
 
     return (
       <div style={style} key={`sametfund-${view}-${fund.id}`}>
-        <div className="group relative overflow-hidden rounded-xl border border-rose-400/15 bg-gradient-to-br from-rose-500/[0.04] to-transparent hover:border-rose-500/30 hover:shadow-lg hover:shadow-rose-500/5 transition-all mb-3">
+        <div className="group relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.04)] to-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:shadow-lg hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all mb-3">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-rose-400/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+            className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.4)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
           />
           <div className="px-4 py-3">
             <div className="flex items-start justify-between gap-2 mb-2">
               <div className="flex items-center gap-2 min-w-0">
-                <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-rose-500/15 border border-rose-400/30 dark:text-rose-200 text-rose-700">
+                <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                   <Landmark className="h-3.5 w-3.5" strokeWidth={2.5} />
                 </span>
                 <div className="min-w-0">
                   <span className="text-sm font-semibold text-foreground">
                     {t("SameTFunds:fund")}{" "}
-                    <span className="font-mono hover:text-rose-500 dark:hover:text-rose-400 transition-colors">
+                    <span className="font-mono hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">
                       #{fund.id.replace("1.20.", "")}
                     </span>
                   </span>
                   <span className="text-xs text-muted-foreground ml-1.5">
                     {t("CreditBorrow:common.by")}{" "}
                     {lender ? (
-                      <span className="font-medium hover:text-rose-500 dark:hover:text-rose-400 transition-colors">
+                      <span className="font-medium hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">
                         {lender.name}
                       </span>
                     ) : (
@@ -496,7 +496,7 @@ export default function SameTFunds(properties) {
                     )}
                   </span>
                   {lender && lender.id === lender.lifetime_referrer ? (
-                    <Badge className="ml-1.5 border-rose-400/30 bg-rose-500/10 dark:text-rose-200 text-rose-700 text-[10px] h-4 px-1.5">
+                    <Badge className="ml-1.5 border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px] h-4 px-1.5">
                       LTM
                     </Badge>
                   ) : null}
@@ -513,7 +513,7 @@ export default function SameTFunds(properties) {
                   {t("SameTFunds:offering")}
                 </div>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-sm font-semibold font-mono tabular-nums dark:text-rose-100/90 text-rose-700">
+                  <span className="text-sm font-semibold font-mono tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
                     {parseFloat(available).toLocaleString(undefined, {
                       maximumFractionDigits: asset ? asset.precision : 4,
                     })}
@@ -529,7 +529,7 @@ export default function SameTFunds(properties) {
                   {t("SameTFunds:fee")}
                 </div>
                 <div className="flex items-center gap-1">
-                  <Percent className="h-3 w-3 text-rose-400/70" />
+                  <Percent className="h-3 w-3 text-[hsl(var(--accent-1-fg)/0.7)]" />
                   <span className="text-sm font-mono tabular-nums text-foreground/85">
                     {feeRate.toFixed(2)}%
                   </span>
@@ -537,7 +537,7 @@ export default function SameTFunds(properties) {
                     <TooltipProvider delayDuration={200}>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-500/20 text-red-400 text-[9px] cursor-help">
+                          <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-[hsl(var(--accent-danger)/0.2)] text-[hsl(var(--accent-danger-fg))] text-[9px] cursor-help">
                             !
                           </span>
                         </TooltipTrigger>
@@ -635,7 +635,7 @@ export default function SameTFunds(properties) {
       <DialogTrigger asChild>
         <button
           type="button"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-rose-400/30 bg-rose-500/10 dark:text-rose-200 text-rose-700 hover:bg-rose-500/20 hover:border-rose-400/50 hover:shadow-[0_0_16px_-4px_rgba(244,63,94,0.4)] transition-all"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] hover:shadow-[0_0_16px_-4px_rgba(244,63,94,0.4)] transition-all"
         >
           <Plus className="h-3.5 w-3.5" />
           {t("SameTFunds:create")}
@@ -644,7 +644,7 @@ export default function SameTFunds(properties) {
       <DialogContent className="sm:max-w-[520px] !bg-card border border-border rounded-2xl">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-rose-400/60 to-transparent"
+          className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent"
         />
         <DialogHeader>
           <DialogTitle className="text-foreground">
@@ -702,7 +702,7 @@ export default function SameTFunds(properties) {
                         lendingAssetBalance ? lendingAssetBalance * pct : 0
                       )
                     }
-                    className="px-1.5 py-0.5 rounded-md text-[9px] font-semibold uppercase tracking-wider border border-rose-400/20 bg-rose-500/10 dark:text-rose-200 text-rose-700 hover:bg-rose-500/20 hover:border-rose-400/40 transition-colors"
+                    className="px-1.5 py-0.5 rounded-md text-[9px] font-semibold uppercase tracking-wider border border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.4)] transition-colors"
                   >
                     {Math.round(pct * 100)}%
                   </button>
@@ -730,7 +730,7 @@ export default function SameTFunds(properties) {
                     <button
                       type="button"
                       onClick={() => setCreateAmount(lendingAssetBalance ?? 0)}
-                      className="inline-flex items-center justify-center gap-1 h-9 px-3 rounded-lg border border-rose-400/30 bg-rose-500/10 text-[10px] font-semibold uppercase tracking-wider dark:text-rose-200 text-rose-700 hover:bg-rose-500/20 hover:border-rose-400/50 transition-colors"
+                      className="inline-flex items-center justify-center gap-1 h-9 px-3 rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-colors"
                     >
                       <Wallet className="h-3 w-3" />
                       {t("SameTFunds:updateDialog.balance")}
@@ -774,7 +774,7 @@ export default function SameTFunds(properties) {
           <div className="flex items-center gap-3 pt-2">
             <button
               onClick={() => setCreateDialog(true)}
-              className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-xl text-sm font-medium bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-[0_4px_16px_-4px_rgba(244,63,94,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(244,63,94,0.7)] hover:from-rose-400 hover:to-pink-400 transition-all"
+              className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-xl text-sm font-medium bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-[0_4px_16px_-4px_rgba(244,63,94,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(244,63,94,0.7)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all"
             >
               <Plus className="h-4 w-4" />
               {t("SameTFunds:create")}
@@ -815,9 +815,9 @@ export default function SameTFunds(properties) {
   const FundList = ({ funds, emptyKey }) => {
     if (!funds || !funds.length) {
       return (
-        <Empty className="mt-4 border border-dashed border-rose-500/20 rounded-xl bg-rose-500/[0.03]">
+        <Empty className="mt-4 border border-dashed border-[hsl(var(--accent-1)/0.2)] rounded-xl bg-[hsl(var(--accent-1)/0.03)]">
           <EmptyHeader>
-            <EmptyMedia variant="icon" className="bg-rose-500/15 text-rose-400">
+            <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
               <Landmark className="w-6 h-6" />
             </EmptyMedia>
             <EmptyTitle className="text-foreground/80">{t(emptyKey)}</EmptyTitle>
@@ -828,7 +828,7 @@ export default function SameTFunds(properties) {
 
     return (
       <div className="w-full mt-3">
-        <div className="rounded-xl border border-rose-400/10 bg-card/30 overflow-hidden">
+        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.1)] bg-card/30 overflow-hidden">
           <div className="hidden md:block">
             <List
               rowComponent={Row}
@@ -947,7 +947,7 @@ export default function SameTFunds(properties) {
               className={cn(
                 "px-3 py-1.5 text-xs font-medium rounded-lg transition-all",
                 active
-                  ? "bg-gradient-to-r from-rose-500/20 to-pink-500/20 dark:text-rose-100 text-rose-700 border border-rose-400/40 shadow-[0_0_18px_-8px_rgba(244,63,94,0.6)]"
+                  ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(244,63,94,0.6)]"
                   : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
               )}
             >
@@ -964,22 +964,22 @@ export default function SameTFunds(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 max-w-4xl">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-rose-950/20">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-rose-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-pink-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-4">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-rose-400/30 bg-gradient-to-br from-rose-500/20 to-pink-500/20 dark:text-rose-200 text-rose-700">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Landmark className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>

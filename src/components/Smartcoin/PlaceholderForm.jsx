@@ -24,13 +24,13 @@ export default function PlaceholderForm({ form, ratioValue }) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   return (
-    <Card className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
-      <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
-      <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
-      <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+    <Card className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+      <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+      <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+      <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
       <CardContent className="relative p-5 sm:p-6">
         <CardHeader className="flex flex-row items-center gap-3 mb-4 space-y-0">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
             <Landmark className="h-4 w-4" strokeWidth={2.25} />
           </span>
           <div>
@@ -54,7 +54,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                     <Input
                       disabled
                       placeholder="Bitshares account (1.2.x)"
-                      className="mb-3 mt-3 border-indigo-500/20 bg-card/60"
+                      className="mb-3 mt-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                       readOnly
                     />
                   </FormControl>
@@ -73,7 +73,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                         {t("Smartcoin:assetToBorrow")}
                       </span>
                       <span className="col-span-1 text-right">
-                        <Badge className="border-indigo-400/30 bg-indigo-500/10 dark:text-indigo-200 text-indigo-700">{t("Smartcoin:changeAsset")}</Badge>
+                        <Badge className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">{t("Smartcoin:changeAsset")}</Badge>
                       </span>
                     </span>
                   </FormLabel>
@@ -81,7 +81,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                     <Input
                       disabled
                       placeholder="Bitshares smartcoin (1.3.x)"
-                      className="mb-3 mt-3 border-indigo-500/20 bg-card/60"
+                      className="mb-3 mt-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                       readOnly
                     />
                   </FormControl>
@@ -98,7 +98,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                   <FormControl>
                     <Input
                       disabled
-                      className="mb-3 mt-3 border-indigo-500/20 bg-card/60"
+                      className="mb-3 mt-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                       placeholder=""
                       readOnly
                     />
@@ -116,7 +116,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                   <FormControl>
                     <Input
                       disabled
-                      className="mb-3 mt-3 border-indigo-500/20 bg-card/60"
+                      className="mb-3 mt-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                       value=""
                       readOnly
                     />
@@ -148,20 +148,20 @@ export default function PlaceholderForm({ form, ratioValue }) {
                   <FormControl>
                     <span className="grid grid-cols-12 gaps-2">
                       <span className="col-span-1">
-                        <Toggle variant="outline" className="border-indigo-400/20 text-muted-foreground">
+                        <Toggle variant="outline" className="border-[hsl(var(--accent-1)/0.2)] text-muted-foreground">
                           <LockOpen2Icon className="h-4 w-4" />
                         </Toggle>
                       </span>
                       <span className="col-span-9">
                         <Input
                           placeholder="0"
-                          className="mb-3 border-indigo-500/20 bg-card/60"
+                          className="mb-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                           disabled
                           readOnly
                         />
                       </span>
                       <span className="col-span-2 ml-3">
-                        <Button variant="outline" className="border-indigo-400/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-500/20 transition-colors">
+                        <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors">
                           {t("Smartcoin:change")}
                         </Button>{" "}
                       </span>
@@ -196,20 +196,20 @@ export default function PlaceholderForm({ form, ratioValue }) {
                   <FormControl>
                     <span className="grid grid-cols-12 gaps-2">
                       <span className="col-span-1">
-                        <Toggle variant="outline" className="border-indigo-400/20 text-muted-foreground">
+                        <Toggle variant="outline" className="border-[hsl(var(--accent-1)/0.2)] text-muted-foreground">
                           <LockOpen2Icon className="h-4 w-4" />
                         </Toggle>
                       </span>
                       <span className="col-span-9">
                         <Input
                           placeholder="0"
-                          className="mb-3 border-indigo-500/20 bg-card/60"
+                          className="mb-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                           disabled
                           readOnly
                         />
                       </span>
                       <span className="col-span-2 ml-3">
-                        <Button variant="outline" className="border-indigo-400/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-500/20 transition-colors">
+                        <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors">
                           {t("Smartcoin:change")}
                         </Button>
                       </span>
@@ -230,7 +230,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                   <FormControl>
                     <span className="grid grid-cols-12">
                       <span className="col-span-1">
-                        <Toggle variant="outline" className="border-indigo-400/20 text-muted-foreground">
+                        <Toggle variant="outline" className="border-[hsl(var(--accent-1)/0.2)] text-muted-foreground">
                           <LockOpen2Icon className="h-4 w-4" />
                         </Toggle>
                       </span>
@@ -238,7 +238,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                         <Input
                           value={ratioValue}
                           placeholder={ratioValue}
-                          className="mb-3 border-indigo-500/20 bg-card/60"
+                          className="mb-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                           disabled
                           readOnly
                         />
@@ -274,7 +274,7 @@ export default function PlaceholderForm({ form, ratioValue }) {
                     {t("Smartcoin:networkBroadcastFeeDescription")}
                   </FormDescription>
                   <FormControl>
-                    <Input disabled readOnly className="border-indigo-500/20 bg-card/60" />
+                    <Input disabled readOnly className="border-[hsl(var(--accent-1)/0.2)] bg-card/60" />
                   </FormControl>
                 </FormItem>
               )}

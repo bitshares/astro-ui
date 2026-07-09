@@ -394,5 +394,13 @@
     "ctaPrimary": "거래 시작",
     "ctaSecondary": "심플 스왑",
     "scrollForMore": "더 보려면 스크롤"
+  },
+  "theme_customizer": {
+    "title": "테마 사용자 지정",
+    "subtitle": "모든 페이지, 내비게이션, 구성 요소의 색상을 바꾸는 테마를 만들고 편집"
+  },
+  "home_link": {
+    "title": "홈",
+    "subtitle": "기본 대시보드로 돌아가기"
   }
 }

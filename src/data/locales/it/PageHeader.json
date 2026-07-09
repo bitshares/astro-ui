@@ -104,7 +104,8 @@
     "barter": "Usa il modulo sottostante per barattare con un altro account blockchain, creando uno scambio personalizzato peer-to-peer.",
     "governance": "Usa il modulo sottostante per creare/aggiornare un ruolo di testimone o di membro del comitato.",
     "favourites": "Gestisci e visualizza i tuoi asset e account preferiti.",
-    "blocked-users": "Visualizza e gestisci le tue liste di blocco del comitato e personali."
+    "blocked-users": "Visualizza e gestisci le tue liste di blocco del comitato e personali.",
+    "theme_customizer": "Crea e modifica temi per ricolorare ogni pagina, i suoi componenti annidati e gli accenti di navigazione."
   },
   "back": "Torna indietro",
   "usage": "Progettato per l'uso con ",

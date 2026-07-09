@@ -1261,7 +1261,7 @@ export default function MarketOrder(properties) {
                           className={cn(
                             "h-5 w-5 shrink-0 rounded-sm border flex items-center justify-center transition-colors",
                             osoEnabled
-                              ? "border-violet-500 bg-violet-600 text-foreground"
+                              ? "border-[hsl(var(--accent-3))] bg-[hsl(var(--accent-3))] text-foreground"
                               : "border-accent/50 dark:border-white/20 bg-transparent"
                           )}
                         >
@@ -1477,17 +1477,17 @@ export default function MarketOrder(properties) {
                   <Field>
                     <FieldLabel className="text-foreground/80">{t("MarketOrder:networkFeeLabel")}</FieldLabel>
                     <FieldContent>
-                      <div className="rounded-xl border border-amber-400/20 bg-amber-500/[0.06] p-3">
-                        <div className="text-[10px] font-medium uppercase tracking-wider dark:text-amber-200/80 text-amber-700 mb-1 inline-flex items-center gap-1">
+                      <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.06)] p-3">
+                        <div className="text-[10px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))] mb-1 inline-flex items-center gap-1">
                           <Zap className="h-3 w-3" strokeWidth={2.5} />
                           {t("MarketOrder:networkFeeLabel")}
                         </div>
-                        <div className="flex items-center gap-1 font-mono text-sm tabular-nums dark:text-amber-400 text-amber-700">
+                        <div className="flex items-center gap-1 font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                           <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
                           {fee ? fee.toFixed(5) : "0.00000"} {usr.chain === "bitshares" ? "BTS" : "TEST"}
                         </div>
                         {usr.id === usr.referrer ? (
-                          <div className="text-xs dark:text-amber-400/60 text-amber-600/80 mt-1">
+                          <div className="text-xs dark:text-[hsl(var(--accent-1-fg)/0.6)] text-[hsl(var(--accent-1-fg)/0.8)] mt-1">
                             {t("MarketOrder:rebateMessage", { rebate: trimPrice(fee * 0.8, 5) })}
                           </div>
                         ) : null}
@@ -1496,7 +1496,7 @@ export default function MarketOrder(properties) {
                   </Field>
 
                   <Button
-                    className="mt-2 mb-1 w-full h-12 gap-2 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-foreground font-semibold shadow-lg shadow-amber-900/30 hover:brightness-110 active:scale-[0.99] transition-all"
+                    className="mt-2 mb-1 w-full h-12 gap-2 bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-danger))] text-foreground font-semibold shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)] hover:brightness-110 active:scale-[0.99] transition-all"
                     onClick={(event) => {
                       setShowDialog(true);
                       event.preventDefault();
@@ -1564,9 +1564,9 @@ export default function MarketOrder(properties) {
                   quoteAsset ? quoteAsset.symbol : "?"
                 }_${baseAsset ? baseAsset.symbol : "?"}`}
               >
-                <Card className="!bg-background/60 !backdrop-blur-xl !border-sky-400/20 hover:!border-sky-400/40 transition-colors">
+                <Card className="!bg-background/60 !backdrop-blur-xl !border-[hsl(var(--accent-2)/0.2)] hover:!border-[hsl(var(--accent-2)/0.4)] transition-colors">
                   <CardHeader>
-                    <CardTitle className="dark:text-sky-200 text-sky-700">{t("MarketOrder:tradeOnDexTitle")}</CardTitle>
+                    <CardTitle className="dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">{t("MarketOrder:tradeOnDexTitle")}</CardTitle>
                     <CardDescription className="text-muted-foreground">
                       {t("MarketOrder:market")}{" "}
                       {quoteAsset ? quoteAsset.symbol : "?"}/
@@ -1582,13 +1582,13 @@ export default function MarketOrder(properties) {
             </div>
             <div className="col-span-1">
               <Card
-                className="mb-3 !bg-background/60 !backdrop-blur-xl !border-rose-400/20 hover:!border-rose-400/40 cursor-pointer transition-colors"
+                className="mb-3 !bg-background/60 !backdrop-blur-xl !border-[hsl(var(--accent-danger)/0.2)] hover:!border-[hsl(var(--accent-danger)/0.4)] cursor-pointer transition-colors"
                 onClick={() => {
                   setCancelDialog(true);
                 }}
               >
                 <CardHeader>
-                  <CardTitle className="text-rose-300">
+                  <CardTitle className="text-[hsl(var(--accent-danger-fg))]">
                     {t("MarketOrder:cancelLimitOrderTitle")}
                   </CardTitle>
                   <CardDescription className="text-muted-foreground">
@@ -1597,8 +1597,8 @@ export default function MarketOrder(properties) {
                     })}
                   </CardDescription>
                   <div className="flex items-center gap-1.5 mt-2 text-xs">
-                    <Zap className="h-3 w-3 text-rose-400" strokeWidth={2.5} />
-                    <span className="font-mono text-rose-400">{cancelFee ? cancelFee.toFixed(5) : "0.00000"} BTS</span>
+                    <Zap className="h-3 w-3 text-[hsl(var(--accent-danger-fg))]" strokeWidth={2.5} />
+                    <span className="font-mono text-[hsl(var(--accent-danger-fg))]">{cancelFee ? cancelFee.toFixed(5) : "0.00000"} BTS</span>
                     <span className="text-muted-foreground">fee</span>
                   </div>
                 </CardHeader>

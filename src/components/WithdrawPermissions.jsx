@@ -283,11 +283,11 @@ export default function WithdrawPermissions(properties) {
 
     return (
       <div style={style}>
-        <div className="m-2 rounded-xl border border-amber-500/20 bg-gradient-to-r from-amber-500/[0.04] to-transparent hover:border-amber-500/30 hover:bg-amber-500/[0.06] transition-all px-4 py-3">
+        <div className="m-2 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.04)] to-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] transition-all px-4 py-3">
           <div className="grid grid-cols-1 text-sm gap-2">
             <div className="grid grid-cols-2 gap-2">
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-amber-500/15 border border-amber-400/30 dark:text-amber-200 text-amber-700">
+                <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                   <ArrowUpRight className="h-2.5 w-2.5" />
                 </span>
                 <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:id")}</span>
@@ -301,7 +301,7 @@ export default function WithdrawPermissions(properties) {
             <div className="grid grid-cols-2 gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:withdraw_period_amount")}</span>
-                <span className="font-mono text-xs font-semibold text-amber-400">
+                <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-1-fg))]">
                   {withdrawAmount} {withdrawAsset.symbol}
                 </span>
               </div>
@@ -330,13 +330,13 @@ export default function WithdrawPermissions(properties) {
             <div className="grid grid-cols-2 gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:withdrawal_period_sec")}</span>
-                <Badge variant="outline" className="border-amber-400/30 bg-amber-500/10 dark:text-amber-200 text-amber-700 text-[10px] font-mono">
+                <Badge variant="outline" className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px] font-mono">
                   {formatDuration(withdrawal_period_sec)}
                 </Badge>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:time_remaining")}</span>
-                <Badge variant="outline" className="border-amber-400/30 bg-amber-500/10 dark:text-amber-200 text-amber-700 text-[10px] font-mono">
+                <Badge variant="outline" className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px] font-mono">
                   {formatDuration(timeTillNextPeriod)}
                 </Badge>
               </div>
@@ -348,7 +348,7 @@ export default function WithdrawPermissions(properties) {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:maximum_claimable")}</span>
-                <span className="font-mono text-xs font-semibold text-amber-400">
+                <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-1-fg))]">
                   {maximumClaimable} {withdrawAsset.symbol}
                 </span>
               </div>
@@ -378,7 +378,7 @@ export default function WithdrawPermissions(properties) {
                 onClick={() => {
                   setDeleteDialogOpen(true);
                 }}
-                className="border-red-400/30 bg-red-500/10 dark:text-red-200 text-red-700 hover:bg-red-500/20 hover:border-red-400/50 transition-all"
+                className="border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.2)] hover:border-[hsl(var(--accent-danger)/0.5)] transition-all"
               >
                 <Trash2 className="h-3.5 w-3.5 mr-1.5" />
                 {t("WithdrawPermissions:delete")}
@@ -472,11 +472,11 @@ export default function WithdrawPermissions(properties) {
 
     return (
       <div style={style}>
-        <div className="m-2 rounded-xl border border-orange-500/20 bg-gradient-to-r from-orange-500/[0.04] to-transparent hover:border-orange-500/30 hover:bg-orange-500/[0.06] transition-all px-4 py-3">
+        <div className="m-2 rounded-xl border border-[hsl(var(--accent-2)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-2)/0.04)] to-transparent hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.06)] transition-all px-4 py-3">
           <div className="grid grid-cols-1 text-sm gap-2">
             <div className="grid grid-cols-2 gap-2">
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-orange-500/15 border border-orange-400/30 dark:text-orange-200 text-orange-700">
+                <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
                   <ArrowDownLeft className="h-2.5 w-2.5" />
                 </span>
                 <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:id")}</span>
@@ -490,7 +490,7 @@ export default function WithdrawPermissions(properties) {
             <div className="grid grid-cols-2 gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:withdraw_period_amount")}</span>
-                <span className="font-mono text-xs font-semibold text-orange-400">
+                <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-2-fg))]">
                   {withdrawAmount} {withdrawAsset.symbol}
                 </span>
               </div>
@@ -519,13 +519,13 @@ export default function WithdrawPermissions(properties) {
             <div className="grid grid-cols-2 gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:withdrawal_period_sec")}</span>
-                <Badge variant="outline" className="border-orange-400/30 bg-orange-500/10 dark:text-orange-200 text-orange-700 text-[10px] font-mono">
+                <Badge variant="outline" className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] text-[10px] font-mono">
                   {formatDuration(withdrawal_period_sec)}
                 </Badge>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:time_remaining")}</span>
-                <Badge variant="outline" className="border-orange-400/30 bg-orange-500/10 dark:text-orange-200 text-orange-700 text-[10px] font-mono">
+                <Badge variant="outline" className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] text-[10px] font-mono">
                   {formatDuration(timeTillNextPeriod)}
                 </Badge>
               </div>
@@ -537,7 +537,7 @@ export default function WithdrawPermissions(properties) {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:maximum_claimable")}</span>
-                <span className="font-mono text-xs font-semibold text-orange-400">
+                <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-2-fg))]">
                   {maximumClaimable} {withdrawAsset.symbol}
                 </span>
               </div>
@@ -548,7 +548,7 @@ export default function WithdrawPermissions(properties) {
                 onClick={() => {
                   setOpenClaimDialog(true);
                 }}
-                className="w-1/4 mt-2 border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 hover:bg-emerald-500/20 hover:border-emerald-400/50 transition-all"
+                className="w-1/4 mt-2 border-[hsl(var(--accent-success)/0.3)] bg-[hsl(var(--accent-success)/0.1)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))] hover:bg-[hsl(var(--accent-success)/0.2)] hover:border-[hsl(var(--accent-success)/0.5)] transition-all"
               >
                 <ShieldCheck className="h-3.5 w-3.5 mr-1.5" />
                 {t("WithdrawPermissions:claim")}
@@ -602,26 +602,26 @@ export default function WithdrawPermissions(properties) {
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-amber-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-orange-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-start gap-3 mb-4">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-amber-500/25 bg-gradient-to-br from-amber-500/[0.06] to-transparent dark:text-amber-200 text-amber-700">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Shield className="h-4 w-4" strokeWidth={2.25} />
               </span>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <Badge
                     variant="outline"
-                    className="border-amber-400/30 bg-amber-500/10 dark:text-amber-200 text-amber-700 text-[10px]"
+                    className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px]"
                   >
                     Permissions
                   </Badge>
@@ -662,9 +662,9 @@ export default function WithdrawPermissions(properties) {
               ) : (
                 <>
                   <div className="col-span-12">
-                    <Empty className="border border-dashed border-amber-500/20 rounded-xl bg-amber-500/[0.03]">
+                    <Empty className="border border-dashed border-[hsl(var(--accent-1)/0.2)] rounded-xl bg-[hsl(var(--accent-1)/0.03)]">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon" className="bg-amber-500/15 text-amber-400">
+                        <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
                           <Shield className="w-6 h-6" />
                         </EmptyMedia>
                         <EmptyTitle className="text-foreground/80">
@@ -719,9 +719,9 @@ export default function WithdrawPermissions(properties) {
               ) : (
                 <>
                   <div className="col-span-12">
-                    <Empty className="border border-dashed border-orange-500/20 rounded-xl bg-orange-500/[0.03]">
+                    <Empty className="border border-dashed border-[hsl(var(--accent-2)/0.2)] rounded-xl bg-[hsl(var(--accent-2)/0.03)]">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon" className="bg-orange-500/15 text-orange-400">
+                        <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-2)/0.15)] text-[hsl(var(--accent-2-fg))]">
                           <ShieldAlert className="w-6 h-6" />
                         </EmptyMedia>
                         <EmptyTitle className="text-foreground/80">

@@ -26,7 +26,7 @@ export default function ThemeToggle() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="relative h-12 w-12 bg-card/55 backdrop-blur-xl dark:text-white text-foreground border border-border hover:border-cyan-400/50 hover:bg-card/60 transition-all duration-200 rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
+          className="relative h-12 w-12 bg-card/55 backdrop-blur-xl dark:text-white text-foreground border border-border hover:border-[hsl(var(--accent-1)/0.5)] hover:bg-card/60 transition-all duration-200 rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
           aria-label="Toggle theme"
         >
           <span

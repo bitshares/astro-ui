@@ -66,8 +66,25 @@ import {
   Palette,
   LineChart,
   Sparkles,
+  Home,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useStore } from "@nanostores/react";
+import { $customTheme, $currentPage, getThemeForPage, resolveSectionAccent } from "@/stores/customTheme.ts";
+import { getNavAccentClasses } from "@/lib/accentClasses.js";
+
+// Maps AppSidebar's local section keys to canonical nav section ids.
+const CANONICAL_SECTION = {
+  exchanging: "exchanging",
+  transfer: "transfer",
+  debt: "debt",
+  assets: "assetCreation",
+  accounts: "account",
+  chain: "blockchain",
+  gov: "governance",
+  invoicing: "invoicing",
+  settings: "settings",
+};
 
 const SECTION_ICONS = {
   exchanging: Repeat,
@@ -79,18 +96,6 @@ const SECTION_ICONS = {
   gov: Vote,
   invoicing: Receipt,
   settings: SlidersHorizontal,
-};
-
-const SECTION_ACCENTS = {
-  exchanging: { fg: "!dark:text-cyan-400 !text-cyan-600", bg: "dark:bg-cyan-500/15 bg-cyan-100" },
-  transfer: { fg: "!dark:text-sky-400 !text-sky-600", bg: "dark:bg-sky-500/15 bg-sky-100" },
-  debt: { fg: "!dark:text-emerald-400 !text-emerald-600", bg: "dark:bg-emerald-500/15 bg-emerald-100" },
-  assets: { fg: "!dark:text-violet-400 !text-violet-600", bg: "dark:bg-violet-500/15 bg-violet-100" },
-  accounts: { fg: "!dark:text-emerald-400 !text-emerald-600", bg: "dark:bg-emerald-500/15 bg-emerald-100" },
-  chain: { fg: "!dark:text-slate-400 !text-slate-600", bg: "dark:bg-slate-500/15 bg-slate-100" },
-  gov: { fg: "!dark:text-indigo-400 !text-indigo-600", bg: "dark:bg-indigo-500/15 bg-indigo-100" },
-  invoicing: { fg: "!dark:text-amber-400 !text-amber-600", bg: "dark:bg-amber-500/15 bg-amber-100" },
-  settings: { fg: "!dark:text-violet-400 !text-violet-600", bg: "dark:bg-violet-500/15 bg-violet-100" },
 };
 
 const ITEM_ICONS = {
@@ -137,21 +142,11 @@ const ITEM_ICONS = {
   create_account: UserPlus,
   blocked_users: UserX,
   configure_visuals: Palette,
+  theme_customizer: Palette,
+  home: Home,
   create_uia: Gem,
   create_smartcoin: Gem,
   create_liquidity_pool: Droplets,
-};
-
-const ITEM_ACCENTS = {
-  exchanging: { fg: "!dark:text-cyan-400 !text-cyan-600", bg: "dark:bg-cyan-500/15 bg-cyan-100" },
-  transfer: { fg: "!dark:text-sky-400 !text-sky-600", bg: "dark:bg-sky-500/15 bg-sky-100" },
-  debt: { fg: "!dark:text-emerald-400 !text-emerald-600", bg: "dark:bg-emerald-500/15 bg-emerald-100" },
-  assets: { fg: "!dark:text-violet-400 !text-violet-600", bg: "dark:bg-violet-500/15 bg-violet-100" },
-  accounts: { fg: "!dark:text-emerald-400 !text-emerald-600", bg: "dark:bg-emerald-500/15 bg-emerald-100" },
-  chain: { fg: "!dark:text-slate-400 !text-slate-600", bg: "dark:bg-slate-500/15 bg-slate-100" },
-  gov: { fg: "!dark:text-indigo-400 !text-indigo-600", bg: "dark:bg-indigo-500/15 bg-indigo-100" },
-  invoicing: { fg: "!dark:text-amber-400 !text-amber-600", bg: "dark:bg-amber-500/15 bg-amber-100" },
-  settings: { fg: "!dark:text-violet-400 !text-violet-600", bg: "dark:bg-violet-500/15 bg-violet-100" },
 };
 
 export default function AppSidebar() {
@@ -239,11 +234,14 @@ export default function AppSidebar() {
   ];
 
   const settingsHeading = [
+    { slug: "home", title: "Home:home_link.title", href: "/index.html" },
     { slug: "accountLists", title: "Home:accountLists.title", href: "/account_lists/index.html" },
     { slug: "blocked_users", title: "Home:blocked_users.title", href: "/blocked-users/index.html" },
     { slug: "ltm", title: "Home:ltm.title", href: "/ltm/index.html" },
     { slug: "nodes", title: "Home:nodes.title", href: "/nodes/index.html" },
     { slug: "create_account", title: "Home:create_account.title", href: "/create_account/index.html" },
+    { slug: "configure_visuals", title: "Home:configure_visuals.title", href: "/visuals/index.html" },
+    { slug: "theme_customizer", title: "Home:theme_customizer.title", href: "/theme/index.html" },
   ];
 
   const invoicingHeading = [
@@ -317,6 +315,15 @@ export default function AppSidebar() {
     },
   ];
 
+  useStore($customTheme);
+  const pageSlug = useStore($currentPage);
+  const themeForPage = getThemeForPage(pageSlug);
+  const accentFor = (key) => {
+    const pair = resolveSectionAccent(themeForPage, CANONICAL_SECTION[key]);
+    const a = getNavAccentClasses(pair.primary);
+    return { fg: a.color, bg: a.chipBg };
+  };
+
   const { openMobile, isMobile, setOpenMobile, setOpen } = useSidebar();
   const [accValue, setAccValue] = React.useState(sections[0].key);
 
@@ -338,6 +345,7 @@ export default function AppSidebar() {
         >
           {sections.map((section) => {
             const SectionIcon = SECTION_ICONS[section.key] || Settings;
+            const sectionAccent = accentFor(section.key);
             return (
               <AccordionItem
                 key={section.key}
@@ -346,8 +354,8 @@ export default function AppSidebar() {
               >
                 <AccordionTrigger className="py-2 text-sm hover:no-underline">
                   <SidebarGroupLabel className="px-2 py-0.5 text-[13px]">
-                    <span className={cn("mr-2 inline-flex items-center justify-center w-5 h-5 rounded", SECTION_ACCENTS[section.key]?.bg)}>
-                      <SectionIcon className={cn("h-3 w-3", SECTION_ACCENTS[section.key]?.fg)} />
+                    <span className={cn("mr-2 inline-flex items-center justify-center w-5 h-5 rounded", sectionAccent.bg)}>
+                      <SectionIcon className={cn("h-3 w-3", sectionAccent.fg)} />
                     </span>
                     <span className="dark:text-white/70 text-sidebar-foreground/70">{section.label}</span>
                   </SidebarGroupLabel>
@@ -358,7 +366,7 @@ export default function AppSidebar() {
                       <SidebarMenu>
                         {section.items.map((it) => {
                           const ItemIcon = ITEM_ICONS[it.slug] || Sparkles;
-                          const itemAccent = ITEM_ACCENTS[section.key] || { fg: "dark:text-white/60 text-muted-foreground", bg: "dark:bg-white/10 bg-accent" };
+                          const itemAccent = sectionAccent;
                           return (
                             <SidebarMenuItem key={it.href}>
                               <SidebarMenuButton

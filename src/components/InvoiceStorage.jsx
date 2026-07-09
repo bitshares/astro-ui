@@ -197,10 +197,10 @@ export default function InvoiceStorage() {
 
   const statusColorClasses = {
     waiting: "bg-accent text-foreground",
-    in_progress: "bg-blue-200 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300",
-    issue_detected: "bg-orange-200 dark:bg-orange-500/20 text-orange-700 dark:text-orange-300",
+    in_progress: "bg-[hsl(var(--accent-3))] dark:bg-[hsl(var(--accent-3)/0.2)] text-[hsl(var(--accent-3-fg))] dark:text-[hsl(var(--accent-3-fg))]",
+    issue_detected: "bg-[hsl(var(--accent-warning))] dark:bg-[hsl(var(--accent-warning)/0.2)] text-[hsl(var(--accent-warning-fg))] dark:text-[hsl(var(--accent-warning-fg))]",
     cancelled: "bg-accent text-foreground line-through",
-    completed: "bg-green-200 dark:bg-green-500/20 text-green-700 dark:text-green-300",
+    completed: "bg-[hsl(var(--accent-1))] dark:bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]",
   };
 
   const InvoiceRow = ({ index, style }) => {
@@ -235,7 +235,7 @@ export default function InvoiceStorage() {
 
     return (
       <div style={style} className="px-2">
-        <Card className="rounded-xl border border-emerald-500/15 bg-card/60 hover:border-emerald-500/30 hover:bg-emerald-500/[0.03] hover:shadow-md hover:shadow-emerald-500/5 transition-all">
+        <Card className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all">
           <CardContent className="pt-2 pb-2">
             <div className="grid grid-cols-4 lg:grid-cols-12 gap-2 text-sm">
               <div
@@ -303,7 +303,7 @@ export default function InvoiceStorage() {
               <div className="flex lg:hidden">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button size="sm" variant="outline" className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10">
+                    <Button size="sm" variant="outline" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
                       {t("InvoiceStorage:headers.actions")}
                     </Button>
                   </DialogTrigger>
@@ -312,7 +312,7 @@ export default function InvoiceStorage() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                        className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                         onClick={(e) => {
                           e.stopPropagation();
                           setDetailsInvoice(inv);
@@ -329,7 +329,7 @@ export default function InvoiceStorage() {
                           )}`}
                           title={t("InvoiceStorage:actions.payTitle")}
                         >
-                          <Button size="sm" className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
+                          <Button size="sm" className="w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
                             <CreditCard className="h-3.5 w-3.5 mr-1.5" />
                             {t("InvoiceStorage:actions.pay")}
                           </Button>
@@ -338,7 +338,7 @@ export default function InvoiceStorage() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                        className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                         onClick={(e) => {
                           e.stopPropagation();
                           if (!entry || !entry.code) return;
@@ -369,7 +369,7 @@ export default function InvoiceStorage() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                          className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                           onClick={(e) => {
                             e.stopPropagation();
                             setMetaEditingCode(entry.code);
@@ -413,7 +413,7 @@ export default function InvoiceStorage() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                  className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                   onClick={(e) => {
                     e.stopPropagation();
                     setDetailsInvoice(inv);
@@ -430,7 +430,7 @@ export default function InvoiceStorage() {
                     )}`}
                     title={t("InvoiceStorage:actions.payTitle")}
                   >
-                    <Button size="sm" className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
+                    <Button size="sm" className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
                       <CreditCard className="h-3.5 w-3.5 mr-1.5" />
                       {t("InvoiceStorage:actions.pay")}
                     </Button>
@@ -439,7 +439,7 @@ export default function InvoiceStorage() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                  className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                   onClick={(e) => {
                     e.stopPropagation();
                     if (!entry || !entry.code) return;
@@ -469,7 +469,7 @@ export default function InvoiceStorage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                    className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                     onClick={(e) => {
                       e.stopPropagation();
                       setMetaEditingCode(entry.code);
@@ -529,23 +529,23 @@ export default function InvoiceStorage() {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full">
-        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700 flex-shrink-0">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
                   <Files className="h-4.5 w-4.5" strokeWidth={2.25} />
                 </span>
                 <div>
@@ -572,7 +572,7 @@ export default function InvoiceStorage() {
                 className={cn(
                   "px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center gap-1.5",
                   viewMode === "generated"
-                    ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:text-emerald-100 text-emerald-700 border border-emerald-400/40 shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
+                    ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
                     : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
                 )}
               >
@@ -589,7 +589,7 @@ export default function InvoiceStorage() {
                 className={cn(
                   "px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center gap-1.5",
                   viewMode === "received"
-                    ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:text-emerald-100 text-emerald-700 border border-emerald-400/40 shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
+                    ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
                     : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
                 )}
               >
@@ -601,7 +601,7 @@ export default function InvoiceStorage() {
             </div>
 
             {decodedInvoices.length ? (
-              <div className="rounded-xl border border-emerald-500/15 bg-card/40 p-3">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40 p-3">
                 <div className="grid grid-cols-4 lg:grid-cols-12 text-center">
                   <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 col-span-1 lg:col-span-2">
                     {t("InvoiceStorage:headers.recipientId")}
@@ -641,7 +641,7 @@ export default function InvoiceStorage() {
                 </div>
             ) : (
             <div className="flex flex-col items-center gap-3 py-12">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <FileText className="h-6 w-6" strokeWidth={1.75} />
               </span>
               <p className="text-sm text-muted-foreground">
@@ -660,7 +660,7 @@ export default function InvoiceStorage() {
         <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <FileText className="h-4 w-4" />
               </span>
               {t("InvoiceStorage:details.title")}
@@ -682,7 +682,7 @@ export default function InvoiceStorage() {
                   <Input
                     value={detailsInvoice.recipientId || ""}
                     readOnly
-                    className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                    className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                   />
                 </div>
                 <div>
@@ -694,7 +694,7 @@ export default function InvoiceStorage() {
                   <Input
                     value={detailsInvoice.recipientName || ""}
                     readOnly
-                    className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                    className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                   />
                 </div>
               </div>
@@ -709,7 +709,7 @@ export default function InvoiceStorage() {
                   <Input
                     value={detailsInvoice.identifier || ""}
                     readOnly
-                    className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                    className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                   />
                 </div>
                 <div>
@@ -725,7 +725,7 @@ export default function InvoiceStorage() {
                         : ""
                     }
                     readOnly
-                    className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                    className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                   />
                 </div>
               </div>
@@ -738,7 +738,7 @@ export default function InvoiceStorage() {
               <Textarea
                 value={detailsInvoice.note || ""}
                 readOnly
-                className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
               />
 
               {(
@@ -748,17 +748,17 @@ export default function InvoiceStorage() {
                   : Array.isArray(detailsInvoice.items) &&
                     detailsInvoice.items.length
               ) ? (
-                <Card className="mt-5 rounded-xl border border-emerald-500/15 bg-card/60 backdrop-blur-sm">
+                <Card className="mt-5 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-sm">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <ShoppingCart className="h-4 w-4 dark:text-emerald-200/70 text-emerald-600/80" />
-                      <span className="text-sm font-medium uppercase tracking-wider dark:text-emerald-200/70 text-emerald-600/80">
+                      <ShoppingCart className="h-4 w-4 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                      <span className="text-sm font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                         {t("InvoiceStorage:items.title")}
                       </span>
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="rounded-xl border border-emerald-500/15 bg-card/40">
+                    <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40">
                       <div className="grid grid-cols-12 text-center text-sm px-2 py-1">
                         <div className="col-span-8 text-left">
                           {t("InvoiceStorage:items.headers.name")}
@@ -824,7 +824,7 @@ export default function InvoiceStorage() {
         <AlertDialogContent className="bg-card">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-rose-400/30 bg-gradient-to-br from-rose-500/20 to-red-500/20 dark:text-rose-200 text-rose-700">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-danger)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-danger)/0.2)] to-[hsl(var(--accent-danger)/0.2)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]">
                 <Trash2 className="h-4 w-4" />
               </span>
               {t("InvoiceStorage:deleteDialog.title")}
@@ -839,7 +839,7 @@ export default function InvoiceStorage() {
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
-              className="bg-rose-600 hover:bg-rose-500 text-white"
+              className="bg-[hsl(var(--accent-danger))] hover:bg-[hsl(var(--accent-danger))] text-white"
             >
               {t("InvoiceStorage:deleteDialog.confirm")}
             </AlertDialogAction>
@@ -850,7 +850,7 @@ export default function InvoiceStorage() {
         <DialogContent className="sm:max-w-[640px] bg-card">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <FileText className="h-4 w-4" />
               </span>
               {t("InvoiceStorage:itemDetails.title")}
@@ -978,7 +978,7 @@ export default function InvoiceStorage() {
         <DialogContent className="sm:max-w-[720px] bg-card">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Pencil className="h-4 w-4" />
               </span>
               {t("InvoiceStorage:meta.title")}
@@ -1081,7 +1081,7 @@ export default function InvoiceStorage() {
               <Button
                 variant="outline"
                 onClick={() => setMetaDialogOpen(false)}
-                className="border-emerald-500/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
               >
                 {t("InvoiceStorage:meta.cancel")}
               </Button>
@@ -1098,7 +1098,7 @@ export default function InvoiceStorage() {
                   }
                   setMetaDialogOpen(false);
                 }}
-                className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
+                className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
               >
                 <Save className="h-3.5 w-3.5 mr-1.5" />
                 {t("InvoiceStorage:meta.save")}

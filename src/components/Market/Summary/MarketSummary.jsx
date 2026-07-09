@@ -11,7 +11,7 @@ export default function MarketSummary(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   const isBuy = type === "buy";
-  const accent = isBuy ? "text-emerald-300" : "text-rose-300";
+  const accent = isBuy ? "text-[hsl(var(--accent-success-fg))]" : "text-[hsl(var(--accent-danger-fg))]";
 
   const filteredMarketHistory = useMemo(() => {
     return publicMarketHistory.filter((x) => x.type === type);

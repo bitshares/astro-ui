@@ -483,7 +483,7 @@ export default function Settlement(properties) {
                                 readOnly
                               />
                             </span>
-                            <span className="col-span-2 text-red-500 dark:text-red-400">
+                            <span className="col-span-2 text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]">
                               <Input
                                 disabled
                                 value={`-${(
@@ -689,7 +689,7 @@ export default function Settlement(properties) {
                                 readOnly
                               />
                             </span>
-                            <span className="col-span-2 text-red-500 dark:text-red-400">
+                            <span className="col-span-2 text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]">
                               <Input
                                 disabled
                                 value={`-${(

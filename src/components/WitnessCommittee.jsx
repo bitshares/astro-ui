@@ -155,26 +155,26 @@ export default function GovernanceActions(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5">
-        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-indigo-950/20">
-          <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-500/20 to-violet-500/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-violet-500/20 to-indigo-500/20 blur-3xl" />
-          <div className="h-1 w-full bg-gradient-to-r from-indigo-400/70 via-violet-400/70 to-indigo-400/70" />
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.2)]">
+          <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-1)/0.2)] blur-3xl" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
           <CardHeader className="pb-0">
-            <CardTitle className="text-lg bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent flex items-center gap-2">
-              <Shield className="h-5 w-5 text-indigo-500" />
+            <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+              <Shield className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
               {t("GovernanceActions:title")}
             </CardTitle>
             <CardDescription>{t("GovernanceActions:description")}</CardDescription>
           </CardHeader>
           <CardContent className="pt-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <Card className="relative overflow-hidden border-indigo-500/15 bg-card/60 backdrop-blur-xl shadow-md shadow-indigo-950/10">
-                <div className="pointer-events-none absolute -top-20 -left-20 h-40 w-40 rounded-full bg-gradient-to-br from-indigo-500/15 to-cyan-500/15 blur-3xl" />
-                <div className="pointer-events-none absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-gradient-to-br from-cyan-500/15 to-indigo-500/15 blur-3xl" />
-                <div className="h-0.5 w-full bg-gradient-to-r from-indigo-400/50 via-cyan-400/50 to-indigo-400/50" />
+              <Card className="relative overflow-hidden border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)]">
+                <div className="pointer-events-none absolute -top-20 -left-20 h-40 w-40 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.15)] to-[hsl(var(--accent-2)/0.15)] blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.15)] to-[hsl(var(--accent-1)/0.15)] blur-3xl" />
+                <div className="h-0.5 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.5)] via-[hsl(var(--accent-2)/0.5)] to-[hsl(var(--accent-1)/0.5)]" />
                 <CardHeader className="pb-0">
-                  <CardTitle className="text-base bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent flex items-center gap-2">
-                    <Eye className="h-4 w-4 text-indigo-500" />
+                  <CardTitle className="text-base bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+                    <Eye className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
                     {t("GovernanceActions:witnessActions")}
                   </CardTitle>
                   <CardDescription>{t("GovernanceActions:witnessDescription")}</CardDescription>
@@ -182,7 +182,7 @@ export default function GovernanceActions(properties) {
                 <CardContent className="space-y-4 pt-2">
                   {!witnessData ? (
                     <>
-                      <div className="h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
+                      <div className="h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.3)] to-transparent" />
                       <h3 className="text-base font-semibold tracking-tight text-foreground flex items-center gap-2">
                         <Settings className="h-4 w-4 text-muted-foreground" />
                         {t("GovernanceActions:registerWitness")}
@@ -197,7 +197,7 @@ export default function GovernanceActions(properties) {
                           placeholder="https://your-witness-info.com"
                           value={witnessUrl}
                           onChange={(e) => setWitnessUrl(e.target.value)}
-                          className="border-indigo-500/20 bg-card/60 focus-visible:ring-indigo-400/40"
+                          className="border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)]"
                         />
                       </div>
                       <div className="space-y-2">
@@ -210,13 +210,13 @@ export default function GovernanceActions(properties) {
                           placeholder="BTS..."
                           value={witnessSigningKey}
                           onChange={(e) => setWitnessSigningKey(e.target.value)}
-                          className="border-indigo-500/20 bg-card/60 focus-visible:ring-indigo-400/40"
+                          className="border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)]"
                         />
                       </div>
                       <Button
                         onClick={() => setShowWitnessCreateDialog(true)}
                         disabled={!witnessUrl || !witnessSigningKey}
-                        className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-violet-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                        className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                       >
                         {t("GovernanceActions:registerWitnessButton")}
                       </Button>
@@ -245,7 +245,7 @@ export default function GovernanceActions(properties) {
                           value={newWitnessUrl}
                           onChange={(e) => setNewWitnessUrl(e.target.value)}
                           disabled={!witnessData}
-                          className="border-indigo-500/20 bg-card/60 focus-visible:ring-indigo-400/40"
+                          className="border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)]"
                         />
                       </div>
                       <div className="space-y-2">
@@ -259,7 +259,7 @@ export default function GovernanceActions(properties) {
                           value={newWitnessSigningKey}
                           onChange={(e) => setNewWitnessSigningKey(e.target.value)}
                           disabled={!witnessData}
-                          className="border-indigo-500/20 bg-card/60 focus-visible:ring-indigo-400/40"
+                          className="border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)]"
                         />
                       </div>
                       <Button
@@ -268,7 +268,7 @@ export default function GovernanceActions(properties) {
                           !witnessData ||
                           (!newWitnessUrl && !newWitnessSigningKey)
                         }
-                        className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-violet-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                        className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                       >
                         {t("GovernanceActions:updateWitnessButton")}
                       </Button>
@@ -277,13 +277,13 @@ export default function GovernanceActions(properties) {
                 </CardContent>
               </Card>
 
-              <Card className="relative overflow-hidden border-violet-500/15 bg-card/60 backdrop-blur-xl shadow-md shadow-violet-950/10">
-                <div className="pointer-events-none absolute -top-20 -left-20 h-40 w-40 rounded-full bg-gradient-to-br from-violet-500/15 to-purple-500/15 blur-3xl" />
-                <div className="pointer-events-none absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-gradient-to-br from-purple-500/15 to-violet-500/15 blur-3xl" />
-                <div className="h-0.5 w-full bg-gradient-to-r from-violet-400/50 via-purple-400/50 to-violet-400/50" />
+              <Card className="relative overflow-hidden border-[hsl(var(--accent-2)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-2)/0.1)]">
+                <div className="pointer-events-none absolute -top-20 -left-20 h-40 w-40 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.15)] to-[hsl(var(--accent-3)/0.15)] blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-gradient-to-br from-[hsl(var(--accent-3)/0.15)] to-[hsl(var(--accent-2)/0.15)] blur-3xl" />
+                <div className="h-0.5 w-full bg-gradient-to-r from-[hsl(var(--accent-2)/0.5)] via-[hsl(var(--accent-3)/0.5)] to-[hsl(var(--accent-2)/0.5)]" />
                 <CardHeader className="pb-0">
-                  <CardTitle className="text-base bg-gradient-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent flex items-center gap-2">
-                    <Users className="h-4 w-4 text-violet-500" />
+                  <CardTitle className="text-base bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] bg-clip-text text-transparent flex items-center gap-2">
+                    <Users className="h-4 w-4 text-[hsl(var(--accent-2-fg))]" />
                     {t("GovernanceActions:committeeActions")}
                   </CardTitle>
                   <CardDescription>{t("GovernanceActions:committeeDescription")}</CardDescription>
@@ -291,7 +291,7 @@ export default function GovernanceActions(properties) {
                 <CardContent className="space-y-4 pt-2">
                   {!committeeData ? (
                     <>
-                      <div className="h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" />
+                      <div className="h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-2)/0.3)] to-transparent" />
                       <h3 className="text-base font-semibold tracking-tight text-foreground flex items-center gap-2">
                         <Settings className="h-4 w-4 text-muted-foreground" />
                         {t("GovernanceActions:registerCommittee")}
@@ -306,13 +306,13 @@ export default function GovernanceActions(properties) {
                           placeholder="https://your-committee-info.com"
                           value={committeeUrl}
                           onChange={(e) => setCommitteeUrl(e.target.value)}
-                          className="border-violet-500/20 bg-card/60 focus-visible:ring-violet-400/40"
+                          className="border-[hsl(var(--accent-2)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-2)/0.4)]"
                         />
                       </div>
                       <Button
                         onClick={() => setShowCommitteeCreateDialog(true)}
                         disabled={!committeeUrl}
-                        className="bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-md shadow-violet-500/20 hover:from-violet-400 hover:to-purple-400 hover:shadow-violet-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                        className="bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.2)] hover:from-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-3))] hover:shadow-[color:hsl(var(--accent-2)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                       >
                         {t("GovernanceActions:registerCommitteeButton")}
                       </Button>
@@ -341,13 +341,13 @@ export default function GovernanceActions(properties) {
                           value={newCommitteeUrl}
                           onChange={(e) => setNewCommitteeUrl(e.target.value)}
                           disabled={!committeeData}
-                          className="border-violet-500/20 bg-card/60 focus-visible:ring-violet-400/40"
+                          className="border-[hsl(var(--accent-2)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-2)/0.4)]"
                         />
                       </div>
                       <Button
                         onClick={() => setShowCommitteeUpdateDialog(true)}
                         disabled={!committeeData || !newCommitteeUrl}
-                        className="bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-md shadow-violet-500/20 hover:from-violet-400 hover:to-purple-400 hover:shadow-violet-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                        className="bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.2)] hover:from-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-3))] hover:shadow-[color:hsl(var(--accent-2)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                       >
                         {t("GovernanceActions:updateCommitteeButton")}
                       </Button>

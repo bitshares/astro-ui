@@ -65,25 +65,25 @@ export default function LTM(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:w-1/2">
-        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
           />
 
           <div className="relative p-5 sm:p-6">
             {/* Header */}
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                   <Crown className="h-4.5 w-4.5" strokeWidth={2.25} />
                 </span>
                 <div>
@@ -98,7 +98,7 @@ export default function LTM(properties) {
               {isMember && (
                 <Badge
                   variant="outline"
-                  className="gap-1.5 border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700"
+                  className="gap-1.5 border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                 >
                   <ShieldCheck className="h-3 w-3" />
                   {t("LTM:memberBadge")}
@@ -108,10 +108,10 @@ export default function LTM(properties) {
 
             {/* Already a member state */}
             {isMember && (
-              <div className="mb-5 rounded-xl border border-emerald-400/30 bg-emerald-500/5 p-4">
+              <div className="mb-5 rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.05)] p-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <Check className="h-4 w-4 dark:text-emerald-300 text-emerald-600" />
-                  <span className="text-sm font-medium dark:text-emerald-200 text-emerald-700">
+                  <Check className="h-4 w-4 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
+                  <span className="text-sm font-medium dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                     {t("LTM:alreadyMember")}
                   </span>
                 </div>
@@ -124,7 +124,7 @@ export default function LTM(properties) {
             {/* Benefits Section */}
             <div className="mb-5">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                   <Sparkles className="h-3 w-3" strokeWidth={2.25} />
                 </span>
                 <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
@@ -138,9 +138,9 @@ export default function LTM(properties) {
                   return (
                     <div
                       key={index}
-                      className="flex items-start gap-3 rounded-xl border border-border/60 bg-card/40 p-3.5 hover:border-emerald-500/20 hover:bg-emerald-500/[0.03] transition-all group"
+                      className="flex items-start gap-3 rounded-xl border border-border/60 bg-card/40 p-3.5 hover:border-[hsl(var(--accent-1)/0.2)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all group"
                     >
-                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700 group-hover:shadow-[0_0_12px_-4px_rgba(16,185,129,0.4)] transition-all">
+                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] group-hover:shadow-[0_0_12px_-4px_rgba(16,185,129,0.4)] transition-all">
                         <Icon className="h-4 w-4" strokeWidth={2.25} />
                       </span>
                       <div className="min-w-0">
@@ -161,7 +161,7 @@ export default function LTM(properties) {
             {!isMember && (
               <div className="rounded-xl border border-border/60 bg-card/40 p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                     <Crown className="h-3 w-3" strokeWidth={2.25} />
                   </span>
                   <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
@@ -172,7 +172,7 @@ export default function LTM(properties) {
                   {t("LTM:wantToPurchase")}
                 </p>
                 <Button
-                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
+                  className="w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
                   onClick={() => setShowDialog(true)}
                 >
                   <Crown className="h-4 w-4 mr-1.5" />

@@ -394,5 +394,13 @@
     "ctaPrimary": "取引を始める",
     "ctaSecondary": "シンプルスワップ",
     "scrollForMore": "さらにスクロール"
+  },
+  "theme_customizer": {
+    "title": "テーマのカスタマイズ",
+    "subtitle": "すべてのページ、ナビゲーション、コンポーネントを再配色するテーマを作成・編集"
+  },
+  "home_link": {
+    "title": "ホーム",
+    "subtitle": "メインダッシュボードに戻る"
   }
 }

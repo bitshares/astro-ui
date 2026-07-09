@@ -268,13 +268,13 @@ export default function CreateTicket() {
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:w-1/2">
       <div className="grid grid-cols-1 gap-3">
-        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-violet-950/20">
-          <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-violet-500/15 blur-3xl" />
-          <div className="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-purple-500/15 blur-3xl" />
-          <div className="h-1 w-full bg-gradient-to-r from-violet-400/70 via-purple-400/70 to-violet-400/70" />
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-2)/0.2)]">
+          <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.15)] blur-3xl" />
+          <div className="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-3)/0.15)] blur-3xl" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-2)/0.7)] via-[hsl(var(--accent-3)/0.7)] to-[hsl(var(--accent-2)/0.7)]" />
           <CardHeader className="pb-1">
-            <CardTitle className="text-lg bg-gradient-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent flex items-center gap-2">
-              <Ticket className="h-5 w-5 text-violet-500" />
+            <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] bg-clip-text text-transparent flex items-center gap-2">
+              <Ticket className="h-5 w-5 text-[hsl(var(--accent-2-fg))]" />
               {t("CreateTicket:title")}
             </CardTitle>
             <CardDescription>{t("CreateTicket:description")}</CardDescription>
@@ -295,7 +295,7 @@ export default function CreateTicket() {
                   size="md"
                   className={
                     lockType === "lock_180_days"
-                      ? "bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-md shadow-violet-500/30"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
                       : "text-muted-foreground border-border hover:bg-accent/50"
                   }
                 >
@@ -307,7 +307,7 @@ export default function CreateTicket() {
                   size="md"
                   className={
                     lockType === "lock_360_days"
-                      ? "bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-md shadow-violet-500/30"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
                       : "text-muted-foreground border-border hover:bg-accent/50"
                   }
                 >
@@ -319,7 +319,7 @@ export default function CreateTicket() {
                   size="md"
                   className={
                     lockType === "lock_720_days"
-                      ? "bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-md shadow-violet-500/30"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
                       : "text-muted-foreground border-border hover:bg-accent/50"
                   }
                 >
@@ -358,7 +358,7 @@ export default function CreateTicket() {
                       const clamped = Math.round(n * 100000) / 100000;
                       setAmount(clamped.toString());
                     }}
-                    className="mt-2 border-violet-500/20 bg-card/60"
+                    className="mt-2 border-[hsl(var(--accent-2)/0.2)] bg-card/60"
                   />
                 </span>
               </div>
@@ -373,7 +373,7 @@ export default function CreateTicket() {
                 </span>
               </div>
 
-              <Alert className="mt-3 border-violet-500/20 bg-violet-500/5">
+              <Alert className="mt-3 border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.05)]">
                 <AlertTitle>
                   {t(
                     "CreateTicket:thumbsupNotice.title",
@@ -389,7 +389,7 @@ export default function CreateTicket() {
               </Alert>
 
               <Button
-                className="h-8 mt-4 bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-md shadow-violet-500/30 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-8 mt-4 bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.3)] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={!amount || parseFloat(amount) <= 0}
                 onClick={() => setShowDialog(true)}
               >
@@ -401,23 +401,23 @@ export default function CreateTicket() {
         </Card>
 
         {usr && userTickets ? (
-          <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-indigo-950/10">
-            <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-indigo-500/15 blur-3xl" />
-            <div className="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-cyan-500/15 blur-3xl" />
-            <div className="h-1 w-full bg-gradient-to-r from-indigo-400/70 via-cyan-400/70 to-indigo-400/70" />
+          <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+            <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.15)] blur-3xl" />
+            <div className="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.15)] blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
             <CardHeader className="pb-1">
-              <CardTitle className="text-lg bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent flex items-center gap-2">
-                <Lock className="h-5 w-5 text-indigo-500" />
+              <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+                <Lock className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
                 {t("CreateTicket:myTickets.title")}
               </CardTitle>
               <CardDescription>{t("CreateTicket:myTickets.description")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-3">
-                <div className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-gradient-to-br from-indigo-500/5 to-transparent p-4">
+                <div className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.05)] to-transparent p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-indigo-400/30 bg-indigo-500/10">
-                      <Lock className="h-3.5 w-3.5 text-indigo-500" />
+                    <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)]">
+                      <Lock className="h-3.5 w-3.5 text-[hsl(var(--accent-1-fg))]" />
                     </div>
                     <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                       Total locked
@@ -428,10 +428,10 @@ export default function CreateTicket() {
                   </div>
                   <div className="text-xs text-muted-foreground mt-0.5">{assetSymbol}</div>
                 </div>
-                <div className="relative overflow-hidden rounded-xl border border-cyan-500/15 bg-gradient-to-br from-cyan-500/5 to-transparent p-4">
+                <div className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-2)/0.15)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.05)] to-transparent p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-cyan-400/30 bg-cyan-500/10">
-                      <Zap className="h-3.5 w-3.5 text-cyan-500" />
+                    <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)]">
+                      <Zap className="h-3.5 w-3.5 text-[hsl(var(--accent-2-fg))]" />
                     </div>
                     <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                       Effective power
@@ -446,10 +446,10 @@ export default function CreateTicket() {
 
               <div className="mt-4 grid grid-cols-1 gap-1.5">
                 {[
-                  { key: "lock_180_days", label: t("CreateTicket:radioB.sm"), value: userTotals.byType.lock_180_days, boost: 2, dotClass: "bg-emerald-500", badgeClass: "border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" },
-                  { key: "lock_360_days", label: t("CreateTicket:radioB.md"), value: userTotals.byType.lock_360_days, boost: 4, dotClass: "bg-blue-500", badgeClass: "border-blue-500/20 bg-blue-500/10 text-blue-600 dark:text-blue-400" },
-                  { key: "lock_720_days", label: t("CreateTicket:radioB.lg"), value: userTotals.byType.lock_720_days, boost: 8, dotClass: "bg-violet-500", badgeClass: "border-violet-500/20 bg-violet-500/10 text-violet-600 dark:text-violet-400" },
-                  { key: "lock_forever", label: t("CreateTicket:radioB.xl"), value: userTotals.byType.lock_forever, boost: 8, dotClass: "bg-amber-500", badgeClass: "border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400" },
+                  { key: "lock_180_days", label: t("CreateTicket:radioB.sm"), value: userTotals.byType.lock_180_days, boost: 2, dotClass: "bg-[hsl(var(--accent-success))]", badgeClass: "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.1)] text-[hsl(var(--accent-success-fg))] dark:text-[hsl(var(--accent-success-fg))]" },
+                  { key: "lock_360_days", label: t("CreateTicket:radioB.md"), value: userTotals.byType.lock_360_days, boost: 4, dotClass: "bg-[hsl(var(--accent-2))]", badgeClass: "border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]" },
+                  { key: "lock_720_days", label: t("CreateTicket:radioB.lg"), value: userTotals.byType.lock_720_days, boost: 8, dotClass: "bg-[hsl(var(--accent-2))]", badgeClass: "border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]" },
+                  { key: "lock_forever", label: t("CreateTicket:radioB.xl"), value: userTotals.byType.lock_forever, boost: 8, dotClass: "bg-[hsl(var(--accent-warning))]", badgeClass: "border-[hsl(var(--accent-warning)/0.2)] bg-[hsl(var(--accent-warning)/0.1)] text-[hsl(var(--accent-warning-fg))] dark:text-[hsl(var(--accent-warning-fg))]" },
                 ].map((item) => (
                   <div key={item.key} className="flex items-center justify-between rounded-lg border border-border/60 bg-card/40 px-3 py-2 text-sm">
                     <div className="flex items-center gap-2">
@@ -484,7 +484,7 @@ export default function CreateTicket() {
                   </Label>
                   <Table>
                     <TableHeader>
-                      <TableRow className="bg-gradient-to-r from-indigo-500/10 to-cyan-500/10">
+                      <TableRow className="bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)]">
                         <TableHead className="w-[120px]">
                           {t("CreateTicket:myTickets.table.id", "ID")}
                         </TableHead>
@@ -540,7 +540,7 @@ export default function CreateTicket() {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  className="border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10 hover:text-indigo-400"
+                                  className="border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]"
                                   onClick={() => openUpdateDialog(tk)}
                                 >
                                   {t("CreateTicket:buttons.update", "Update")}
@@ -583,7 +583,7 @@ export default function CreateTicket() {
 
         {updateDialogOpen && selectedTicket ? (
           <Dialog open={updateDialogOpen} onOpenChange={setUpdateDialogOpen}>
-            <DialogContent className="sm:max-w-[520px] bg-card/80 backdrop-blur-xl border border-violet-500/20 shadow-lg shadow-violet-950/20">
+            <DialogContent className="sm:max-w-[520px] bg-card/80 backdrop-blur-xl border border-[hsl(var(--accent-2)/0.2)] shadow-lg shadow-[color:hsl(var(--accent-2)/0.2)]">
               <DialogHeader>
                 <DialogTitle>
                   {t("CreateTicket:updateDialog.title", "Update ticket")}
@@ -622,7 +622,7 @@ export default function CreateTicket() {
                         )}
                       />
                     </SelectTrigger>
-                    <SelectContent className="bg-card/80 backdrop-blur-xl border border-violet-500/20">
+                    <SelectContent className="bg-card/80 backdrop-blur-xl border border-[hsl(var(--accent-2)/0.2)]">
                       <SelectItem value="lock_180_days">
                         {t("CreateTicket:radioB.sm")}
                       </SelectItem>
@@ -667,7 +667,7 @@ export default function CreateTicket() {
                         const clamped = Math.round(n * 100000) / 100000;
                         setUpdateAmount(clamped.toString());
                       }}
-                      className="border-violet-500/20 bg-card/60"
+                      className="border-[hsl(var(--accent-2)/0.2)] bg-card/60"
                     />
                   </div>
                 ) : null}

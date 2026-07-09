@@ -104,7 +104,8 @@
     "barter": "Use el formulario a continuación para trocar con otra cuenta blockchain, creando un intercambio personalizado de persona a persona.",
     "governance": "Use el formulario a continuación para crear/actualizar un rol de testigo o de miembro del comité.",
     "favourites": "Gestione y vea sus activos y cuentas favoritas.",
-    "blocked-users": "Vea y gestione sus listas de bloqueo del comité y personales."
+    "blocked-users": "Vea y gestione sus listas de bloqueo del comité y personales.",
+    "theme_customizer": "Crea y edita temas para recolorear cada página, sus componentes anidados y acentos de navegación."
   },
   "back": "Regresa",
   "usage": "Diseñado para usar con ",

@@ -277,7 +277,7 @@ export default function InvoiceCreator(properties) {
         <DialogContent className="sm:max-w-[640px] bg-card">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <ScanBarcode className="h-4 w-4" />
               </span>
               {t("InvoiceCreator:scanner.dialogTitle")}
@@ -366,7 +366,7 @@ export default function InvoiceCreator(properties) {
                 />
               ) : (
                 <div className="p-4">
-                  <p className="text-sm text-rose-600 dark:text-rose-400">
+                  <p className="text-sm text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]">
                     {String(scannerError?.message || scannerError)}
                   </p>
                   <div className="mt-2 flex gap-2">
@@ -478,7 +478,7 @@ export default function InvoiceCreator(properties) {
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="h-8 w-8 rounded-lg border border-rose-400/30 bg-rose-500/10 text-rose-700 dark:text-rose-200 hover:bg-rose-500/20 hover:border-rose-400/50 transition-all"
+                  className="h-8 w-8 rounded-lg border border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.2)] hover:border-[hsl(var(--accent-danger)/0.5)] transition-all"
                   onClick={() => {
                     setSelectedItems((prev) =>
                       prev.filter((_, i) => i !== index)
@@ -536,23 +536,23 @@ export default function InvoiceCreator(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full">
-        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
           />
           <div className="relative p-5 sm:p-6">
             <CardHeader className="p-0 mb-5">
               <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700 flex-shrink-0">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
                   <FilePlus className="h-4.5 w-4.5" strokeWidth={2.25} />
                 </span>
                 <div>
@@ -577,7 +577,7 @@ export default function InvoiceCreator(properties) {
                     <Input
                       value={`${usr ? `${usr.username} (${usr.id})` : ""}`}
                       readOnly
-                      className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                      className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                     />
                   </div>
                   <div>
@@ -589,7 +589,7 @@ export default function InvoiceCreator(properties) {
                     <Input
                       value={recipientName}
                       onChange={(e) => setRecipientName(e.target.value)}
-                      className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                      className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                     />
                   </div>
                 </div>
@@ -601,7 +601,7 @@ export default function InvoiceCreator(properties) {
                 <Input
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                  className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                 />
                 <HoverInfo
                   content={t("InvoiceCreator:note.info")}
@@ -611,18 +611,18 @@ export default function InvoiceCreator(properties) {
                 <Textarea
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                  className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                 />
 
                 {items && items.length ? (
                   <>
-                    <Card className="mt-5 rounded-xl border border-emerald-500/15 bg-card/60 backdrop-blur-sm">
+                    <Card className="mt-5 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-sm">
                       <CardHeader>
                         <CardTitle>
                           <div className="grid grid-cols-2">
                             <div className="flex items-center gap-2">
-                              <ShoppingCart className="h-4 w-4 dark:text-emerald-200/70 text-emerald-600/80" />
-                              <span className="text-sm font-medium uppercase tracking-wider dark:text-emerald-200/70 text-emerald-600/80">
+                              <ShoppingCart className="h-4 w-4 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                              <span className="text-sm font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                                 {t("InvoiceCreator:inventory.header")}
                               </span>
                             </div>
@@ -636,7 +636,7 @@ export default function InvoiceCreator(properties) {
                                   <DialogTrigger asChild>
                                     <Button
                                       variant="outline"
-                                      className="border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                                      className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                                       onClick={() => setAddDialogOpen(true)}
                                     >
                                       <FilePlus className="h-3.5 w-3.5 mr-1" />
@@ -646,7 +646,7 @@ export default function InvoiceCreator(properties) {
                                   <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
                                     <DialogHeader>
                                       <DialogTitle className="flex items-center gap-2">
-                                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                                           <ShoppingCart className="h-4 w-4" />
                                         </span>
                                         {t(
@@ -669,7 +669,7 @@ export default function InvoiceCreator(properties) {
                                           onChange={(e) =>
                                             setSearchQuery(e.target.value)
                                           }
-                                          className="focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                                          className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                                         />
                                       </div>
                                       <div className="border rounded">
@@ -708,8 +708,8 @@ export default function InvoiceCreator(properties) {
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="rounded-xl border border-emerald-500/15 bg-card/40">
-                          <div className="grid grid-cols-12 text-center text-sm px-2 py-1.5 border-b border-emerald-500/15">
+                        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40">
+                          <div className="grid grid-cols-12 text-center text-sm px-2 py-1.5 border-b border-[hsl(var(--accent-1)/0.15)]">
                             <div
                               className="col-span-5 text-left text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70"
                               title={t(
@@ -756,7 +756,7 @@ export default function InvoiceCreator(properties) {
                       <DialogContent className="sm:max-w-[420px] bg-card">
                         <DialogHeader>
                           <DialogTitle className="flex items-center gap-2">
-                            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                               <ShoppingCart className="h-4 w-4" />
                             </span>
                             {t("InvoiceCreator:quantity.dialogTitle")}
@@ -774,7 +774,7 @@ export default function InvoiceCreator(properties) {
                               min={1}
                               value={qtyValue}
                               onChange={(e) => setQtyValue(e.target.value)}
-                              className="focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                              className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                             />
                           </div>
                           <div className="text-right">
@@ -785,7 +785,7 @@ export default function InvoiceCreator(properties) {
                                 setQtyDialogOpen(false);
                                 setAddDialogOpen(false);
                               }}
-                              className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
+                              className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
                             >
                               {t("InvoiceCreator:quantity.add")}
                             </Button>
@@ -800,7 +800,7 @@ export default function InvoiceCreator(properties) {
                       <DialogContent className="sm:max-w-[640px] bg-card">
                         <DialogHeader>
                           <DialogTitle className="flex items-center gap-2">
-                            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                               <FileText className="h-4 w-4" />
                             </span>
                             {t("InvoiceCreator:itemDetails.dialogTitle")}
@@ -838,7 +838,7 @@ export default function InvoiceCreator(properties) {
                   <Empty>
                     <EmptyHeader>
                       <EmptyMedia variant="icon">
-                        <span className="text-emerald-600 dark:text-emerald-300">
+                        <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">
                           <PackageOpen />
                         </span>
                       </EmptyMedia>
@@ -852,7 +852,7 @@ export default function InvoiceCreator(properties) {
                     <EmptyContent>
                       <div className="text-center">
                         <a href="/invoice_inventory/index.html">
-                          <Button className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
+                          <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
                             {t("InvoiceCreator:emptyInventory.button")}
                           </Button>
                         </a>
@@ -867,7 +867,7 @@ export default function InvoiceCreator(properties) {
                 <div className="flex flex-wrap gap-3 items-center">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button onClick={handleGenerateInvoice} className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
+                      <Button onClick={handleGenerateInvoice} className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
                         {t(
                           "InvoiceCreator:generateInvoice.buttonActive",
                           "Proceed to pay invoice"
@@ -877,7 +877,7 @@ export default function InvoiceCreator(properties) {
                     <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
                       <DialogHeader>
                         <DialogTitle className="flex items-center gap-2">
-                          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                             <FileText className="h-4 w-4" />
                           </span>
                           {t("InvoiceCreator:generatedInvoice.dialogTitle")}
@@ -891,7 +891,7 @@ export default function InvoiceCreator(properties) {
                       <Textarea
                         value={generatedCode}
                         readOnly
-                        className="w-full h-48 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                        className="w-full h-48 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                       />
                       <div className="flex items-center gap-2 mt-2">
                         <Button
@@ -904,8 +904,8 @@ export default function InvoiceCreator(properties) {
                           disabled={!generatedCode || copied}
                           className={cn(
                             copied
-                              ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-200 border border-emerald-400/30"
-                              : "bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)]"
+                              ? "bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.3)]"
+                              : "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)]"
                           )}
                         >
                           {copied ? (
@@ -942,7 +942,7 @@ export default function InvoiceCreator(properties) {
                               : "default"
                           }
                           className={cn(
-                            !hasGeneratedInvoice(generatedCode) && "border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                            !hasGeneratedInvoice(generatedCode) && "border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                           )}
                         >
                           {hasGeneratedInvoice(generatedCode)
@@ -982,7 +982,7 @@ export default function InvoiceCreator(properties) {
                     className={cn(
                       generatedCode && hasGeneratedInvoice(generatedCode)
                         ? ""
-                        : "border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                        : "border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                     )}
                   >
                     {generatedCode && hasGeneratedInvoice(generatedCode)

@@ -195,11 +195,11 @@ const CreateAccount = () => {
     <div className="container mx-auto mt-5 mb-5 w-full lg:w-3/4 text-foreground">
       <div className="grid grid-cols-1 gap-3">
         <Card className="bg-card/60 border-border shadow-lg shadow-black/20 backdrop-blur-sm">
-          <div className="h-1 w-full bg-gradient-to-r from-emerald-500 to-green-500" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))]" />
           <CardHeader className="pb-5">
             <CardTitle className="flex items-center gap-2">
-              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500/15 flex-shrink-0">
-                <UserPlus className="h-5 w-5 text-emerald-400" />
+              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[hsl(var(--accent-1)/0.15)] flex-shrink-0">
+                <UserPlus className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
               </span>
               {t("CreateAccount:createAccount")}
             </CardTitle>
@@ -224,7 +224,7 @@ const CreateAccount = () => {
                 username.length &&
                 searched &&
                 (usernameAvailable === null || usernameAvailable === false) ? (
-                  <p className="mt-2 text-sm text-rose-400">
+                  <p className="mt-2 text-sm text-[hsl(var(--accent-danger-fg))]">
                     {t("CreateAccount:usernameUnavailable")}
                   </p>
                 ) : null}
@@ -237,7 +237,7 @@ const CreateAccount = () => {
                   username.includes("--") ||
                   username.split(".").length > 2 ||
                   /[^a-zA-Z0-9-.]/.test(username)) ? (
-                  <p className="mt-2 text-sm text-rose-400">
+                  <p className="mt-2 text-sm text-[hsl(var(--accent-danger-fg))]">
                     {t("CreateAccount:invalidUsername")}
                   </p>
                 ) : null}
@@ -347,7 +347,7 @@ const CreateAccount = () => {
                       id={id}
                       checked={checked}
                       onClick={() => set(!checked)}
-                      className="border-foreground/30 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
+                      className="border-foreground/30 data-[state=checked]:bg-[hsl(var(--accent-1))] data-[state=checked]:border-[hsl(var(--accent-1))]"
                     />
                     <label htmlFor={id} className="ml-2 mb-0 text-sm text-foreground/70">
                       {label}
@@ -362,13 +362,13 @@ const CreateAccount = () => {
                     {method === "ltm" && !deeplinkDialog ? (
                       <Button
                         onClick={() => setDeeplinkDialog(true)}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-foreground"
+                        className="bg-[hsl(var(--accent-1))] hover:bg-[hsl(var(--accent-1))] text-foreground"
                       >
                         {t("CreateAccount:generateDeeplink")}
                       </Button>
                     ) : null}
                     {method === "faucet" ? (
-                      <Button onClick={faucetConfirm} className="bg-emerald-600 hover:bg-emerald-500 text-foreground">
+                      <Button onClick={faucetConfirm} className="bg-[hsl(var(--accent-1))] hover:bg-[hsl(var(--accent-1))] text-foreground">
                         {t("CreateAccount:submit")}
                       </Button>
                     ) : null}
@@ -381,7 +381,7 @@ const CreateAccount = () => {
               </div>
             </div>
             {accountCreated ? (
-              <p className="mt-4 text-emerald-400 text-sm">{t("CreateAccount:accountCreated")}</p>
+              <p className="mt-4 text-[hsl(var(--accent-1-fg))] text-sm">{t("CreateAccount:accountCreated")}</p>
             ) : null}
             {faucetInProgress ? (
               <p className="mt-4 text-muted-foreground text-sm">{t("CreateAccount:faucetInProgress")}</p>

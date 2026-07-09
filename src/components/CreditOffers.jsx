@@ -110,9 +110,9 @@ export default function CreditOffers(properties) {
   function CommonRow({ index, style, res, foundAsset }) {
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <div className="ml-2 mr-2 relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 backdrop-blur-xl shadow-md shadow-indigo-950/10 hover:border-indigo-500/25 hover:shadow-indigo-500/15 transition-all duration-300">
+        <div className="ml-2 mr-2 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300">
           <div className="p-3 pb-1">
-            <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">
+            <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
               {t("CreditBorrow:common.offer")}
               {" #"}
               {res.id.replace("1.21.", "")}
@@ -175,7 +175,7 @@ export default function CreditOffers(properties) {
           </div>
           <div className="px-3 pb-5">
             <a href={`/lend/index.html?id=${res.id}`}>
-              <Button className="bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer">
+              <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
                 {t(
                   `CreditBorrow:common.${
                     usr.id === res.owner_account ? "edit" : "view"
@@ -215,14 +215,14 @@ export default function CreditOffers(properties) {
     <>
       <div className="container mx-auto mt-5 mb-5 w-full lg:w-1/2">
         <div className="grid grid-cols-1 gap-3">
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-indigo-950/20">
-            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 blur-3xl" />
-            <div className="h-1 w-full bg-gradient-to-r from-indigo-400/70 via-cyan-400/70 to-indigo-400/70" />
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.2)]">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-1)/0.2)] blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
             <div className="flex flex-row justify-between items-center p-4 pb-0">
               <div>
-                <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent flex items-center gap-2">
-                  <HandCoins className="h-5 w-5 text-indigo-500" />
+                <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+                  <HandCoins className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
                   {t("CreditOffers:card.title")}
                 </h2>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -232,7 +232,7 @@ export default function CreditOffers(properties) {
               <Button
                 variant="outline"
                 size="icon"
-                className="border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10"
+                className="border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] hover:bg-[hsl(var(--accent-1)/0.1)]"
                 onClick={() => setShowExpired(!showExpired)}
                 title={
                   showExpired
@@ -268,7 +268,7 @@ export default function CreditOffers(properties) {
                     </EmptyHeader>
                     <EmptyContent>
                       <a href="/lend/index.html">
-                        <Button className="bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer">
+                        <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
                           {t("CreditOffers:card.create")}
                         </Button>
                       </a>

@@ -164,7 +164,7 @@ export default function AssetDropDown(properties) {
             }, 0);
             setDialogOpen(false);
           }}
-          className="w-full text-left rounded-lg border border-border/60 bg-accent/20 hover:bg-cyan-500/[0.08] hover:border-cyan-500/30 transition-colors px-3 py-2.5 cursor-pointer"
+          className="w-full text-left rounded-lg border border-border/60 bg-accent/20 hover:bg-[hsl(var(--accent-1)/0.08)] hover:border-[hsl(var(--accent-1)/0.3)] transition-colors px-3 py-2.5 cursor-pointer"
         >
           <div className="text-sm font-semibold text-foreground/90">
             {mode === "search" || mode === "featured" || mode === "balances"
@@ -311,7 +311,7 @@ export default function AssetDropDown(properties) {
               onClick={() => setMode("search")}
               className={
                 mode === "search"
-                  ? "bg-cyan-500/15 border border-cyan-500/30 text-cyan-600 hover:bg-cyan-500/20 hover:text-cyan-500 dark:text-cyan-300 dark:hover:text-cyan-200"
+                  ? "bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                   : "text-muted-foreground hover:text-accent-foreground hover:bg-accent/40 border border-transparent"
               }
             >
@@ -324,7 +324,7 @@ export default function AssetDropDown(properties) {
                 onClick={() => setMode("balances")}
                 className={
                   mode === "balances"
-                    ? "bg-cyan-500/15 border border-cyan-500/30 text-cyan-600 hover:bg-cyan-500/20 hover:text-cyan-500 dark:text-cyan-300 dark:hover:text-cyan-200"
+                    ? "bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                     : "text-muted-foreground hover:text-accent-foreground hover:bg-accent/40 border border-transparent"
                 }
               >
@@ -337,7 +337,7 @@ export default function AssetDropDown(properties) {
               onClick={() => setMode("featured")}
               className={
                 mode === "featured"
-                  ? "bg-cyan-500/15 border border-cyan-500/30 text-cyan-600 hover:bg-cyan-500/20 hover:text-cyan-500 dark:text-cyan-300 dark:hover:text-cyan-200"
+                  ? "bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                   : "text-muted-foreground hover:text-accent-foreground hover:bg-accent/40 border border-transparent"
               }
             >
@@ -349,7 +349,7 @@ export default function AssetDropDown(properties) {
               onClick={() => setMode("favourites")}
               className={
                 mode === "favourites"
-                  ? "bg-cyan-500/15 border border-cyan-500/30 text-cyan-600 hover:bg-cyan-500/20 hover:text-cyan-500 dark:text-cyan-300 dark:hover:text-cyan-200"
+                  ? "bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                   : "text-muted-foreground hover:text-accent-foreground hover:bg-accent/40 border border-transparent"
               }
             >

@@ -104,7 +104,8 @@
     "barter": "Kasutage allolevat vormi teise plokiahela konto vastu vahetamiseks ja kohandatud üks-ühele kaubanduse loomiseks.",
     "governance": "Kasutage allolevat vormi kas tunnistaja või komitee liikme rolli loomiseks/uuendamiseks.",
     "favourites": "Halda ja vaadake oma lemmikvarasid ja kontosid.",
-    "blocked-users": "Vaadake ja halduge oma komitee ja isiklikke blokeerimisnimekirju."
+    "blocked-users": "Vaadake ja halduge oma komitee ja isiklikke blokeerimisnimekirju.",
+    "theme_customizer": "Loo ja muuda teemasid, et värvida iga leht, selle pesastatud komponendid ja navigeerimisrõhud."
   },
   "back": "Mine tagasi",
   "usage": "Mõeldud kasutamiseks koos ",

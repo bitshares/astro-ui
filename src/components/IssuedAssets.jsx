@@ -449,7 +449,7 @@ export default function IssuedAssets(properties) {
                 className="bg-card/60"
               />
               <Button
-                className="w-1/4 mt-2 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-white border-0"
+                className="w-1/4 mt-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white border-0"
                 onClick={() => {
                   navigator.clipboard.writeText(JSON.stringify(json, null, 2));
                 }}
@@ -464,19 +464,19 @@ export default function IssuedAssets(properties) {
 
     return (
       <div style={{ ...style }} key={`acard-${issuedAsset.id}`}>
-        <Card className="mx-2 mb-2 rounded-xl border border-rose-500/15 bg-card/60 hover:border-rose-500/30 hover:bg-rose-500/[0.03] hover:shadow-md hover:shadow-rose-500/5 transition-all">
+        <Card className="mx-2 mb-2 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all">
           <div className="p-4">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3 min-w-0">
                 <span className={cn(
                   "inline-flex h-9 w-9 items-center justify-center rounded-xl border flex-shrink-0",
                   activeTab === "smartcoins"
-                    ? "border-rose-400/30 bg-gradient-to-br from-rose-500/20 to-pink-500/20 dark:text-rose-200 text-rose-700"
+                    ? "border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                     : activeTab === "pools"
-                    ? "border-sky-400/30 bg-gradient-to-br from-sky-500/20 to-blue-500/20 dark:text-sky-200 text-sky-700"
+                    ? "border-[hsl(var(--accent-2)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]"
                     : activeTab === "nft"
-                    ? "border-amber-400/30 bg-gradient-to-br from-amber-500/20 to-yellow-500/20 dark:text-amber-200 text-amber-700"
-                    : "border-rose-400/30 bg-gradient-to-br from-rose-500/20 to-pink-500/20 dark:text-rose-200 text-rose-700"
+                    ? "border-[hsl(var(--accent-3)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-3-fg))] text-[hsl(var(--accent-3-fg))]"
+                    : "border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                 )}>
                   {activeTab === "smartcoins" ? (
                     <Droplets className="h-4 w-4" strokeWidth={2.25} />
@@ -497,7 +497,7 @@ export default function IssuedAssets(properties) {
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger>
-                            <AlertTriangle className="h-4 w-4 text-amber-400" />
+                            <AlertTriangle className="h-4 w-4 text-[hsl(var(--accent-3-fg))]" />
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>{t("IssuedAssets:inactiveSmartcoin")}</p>
@@ -530,23 +530,23 @@ export default function IssuedAssets(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5 max-w-4xl">
-      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-rose-950/20">
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-400/70 to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-rose-500/10 blur-3xl"
+          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-pink-500/10 blur-3xl"
+          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
         />
 
         <div className="relative p-5 sm:p-6">
           <div className="flex items-center gap-3 mb-5">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-rose-400/30 bg-gradient-to-br from-rose-500/20 to-pink-500/20 dark:text-rose-200 text-rose-700">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
               <Coins className="h-4.5 w-4.5" strokeWidth={2.25} />
             </span>
             <div>
@@ -574,7 +574,7 @@ export default function IssuedAssets(properties) {
                   className={cn(
                     "px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center gap-1.5",
                     active
-                      ? "bg-gradient-to-r from-rose-500/20 to-pink-500/20 dark:text-rose-100 text-rose-700 border border-rose-400/40 shadow-[0_0_18px_-8px_rgba(244,63,94,0.6)]"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(244,63,94,0.6)]"
                       : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
                   )}
                 >
@@ -587,7 +587,7 @@ export default function IssuedAssets(properties) {
 
           {loading ? (
             <div className="flex flex-col items-center gap-3 py-12">
-              <Spinner className="size-6 dark:text-rose-300 text-rose-700" />
+              <Spinner className="size-6 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
               <p className="text-foreground/70 text-sm">
                 {t("CreditBorrow:common.loading")}
               </p>
@@ -598,22 +598,22 @@ export default function IssuedAssets(properties) {
                 <div>
                   {relevantAssets.length > 0 && (
                     <div className="flex items-center gap-2 mb-3 px-1">
-                      <Coins className="h-3.5 w-3.5 dark:text-rose-200/70 text-rose-600/80" />
-                      <span className="text-xs font-medium uppercase tracking-wider dark:text-rose-200/70 text-rose-600/80">
+                      <Coins className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                      <span className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                         {t("IssuedAssets:listingUIA", { count: relevantAssets.length })}
                       </span>
                     </div>
                   )}
                   {(!loading && !relevantAssets) || !relevantAssets.length ? (
-                    <Empty className="mt-2 border border-dashed border-rose-500/20 rounded-xl bg-rose-500/[0.03]">
+                    <Empty className="mt-2 border border-dashed border-[hsl(var(--accent-1)/0.2)] rounded-xl bg-[hsl(var(--accent-1)/0.03)]">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon" className="bg-rose-500/15 text-rose-400">
+                        <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
                           <Coins className="w-6 h-6" />
                         </EmptyMedia>
                         <EmptyTitle className="text-foreground/80">{t("IssuedAssets:noUIA")}</EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent>
-                        <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-white border-0">
+                        <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white border-0">
                           <a href="/create_uia/index.html">
                             {t("PageHeader:create_uia")}
                           </a>
@@ -643,7 +643,7 @@ export default function IssuedAssets(properties) {
                         </>
                       ) : (
                         <div className="flex flex-col items-center gap-3 py-12">
-                          <Spinner className="size-6 dark:text-rose-300 text-rose-700" />
+                          <Spinner className="size-6 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
                           <p className="text-foreground/70 text-sm">
                             {t("CreditBorrow:common.loading")}
                           </p>
@@ -658,22 +658,22 @@ export default function IssuedAssets(properties) {
                 <div>
                   {relevantAssets.length > 0 && (
                     <div className="flex items-center gap-2 mb-3 px-1">
-                      <Layers className="h-3.5 w-3.5 dark:text-sky-200/70 text-sky-600/80" />
-                      <span className="text-xs font-medium uppercase tracking-wider dark:text-sky-200/70 text-sky-600/80">
+                      <Layers className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-2-fg)/0.7)] text-[hsl(var(--accent-2-fg)/0.8)]" />
+                      <span className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg)/0.7)] text-[hsl(var(--accent-2-fg)/0.8)]">
                         {t("IssuedAssets:listingPools", { count: relevantAssets.length })}
                       </span>
                     </div>
                   )}
                   {(!loading && !relevantAssets) || !relevantAssets.length ? (
-                    <Empty className="mt-2 border border-dashed border-sky-500/20 rounded-xl bg-sky-500/[0.03]">
+                    <Empty className="mt-2 border border-dashed border-[hsl(var(--accent-2)/0.2)] rounded-xl bg-[hsl(var(--accent-2)/0.03)]">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon" className="bg-sky-500/15 text-sky-400">
+                        <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-2)/0.15)] text-[hsl(var(--accent-2-fg))]">
                           <Layers className="w-6 h-6" />
                         </EmptyMedia>
                         <EmptyTitle className="text-foreground/80">{t("IssuedAssets:noPools")}</EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent>
-                        <Button asChild className="bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-400 hover:to-blue-400 text-white border-0">
+                        <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-2))] text-white border-0">
                           <a href="/create_pool/index.html">
                             {t("PageHeader:create_pool")}
                           </a>
@@ -703,7 +703,7 @@ export default function IssuedAssets(properties) {
                         </>
                       ) : (
                         <div className="flex flex-col items-center gap-3 py-12">
-                          <Spinner className="size-6 dark:text-sky-300 text-sky-700" />
+                          <Spinner className="size-6 dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]" />
                           <p className="text-foreground/70 text-sm">
                             {t("CreditBorrow:common.loading")}
                           </p>
@@ -718,16 +718,16 @@ export default function IssuedAssets(properties) {
                 <div>
                   {relevantAssets.length > 0 && (
                     <div className="flex items-center gap-2 mb-3 px-1">
-                      <Droplets className="h-3.5 w-3.5 dark:text-rose-200/70 text-rose-600/80" />
-                      <span className="text-xs font-medium uppercase tracking-wider dark:text-rose-200/70 text-rose-600/80">
+                      <Droplets className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                      <span className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                         {t("IssuedAssets:listingSmartcoins", { count: relevantAssets.length })}
                       </span>
                     </div>
                   )}
                   {(!loading && !relevantAssets) || !relevantAssets.length ? (
-                    <Empty className="mt-2 border border-dashed border-rose-500/20 rounded-xl bg-rose-500/[0.03]">
+                    <Empty className="mt-2 border border-dashed border-[hsl(var(--accent-1)/0.2)] rounded-xl bg-[hsl(var(--accent-1)/0.03)]">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon" className="bg-rose-500/15 text-rose-400">
+                        <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
                           <Droplets className="w-6 h-6" />
                         </EmptyMedia>
                         <EmptyTitle className="text-foreground/80">
@@ -735,7 +735,7 @@ export default function IssuedAssets(properties) {
                         </EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent>
-                        <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-white border-0">
+                        <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white border-0">
                           <a href="/create_smartcoin/index.html">
                             {t("PageHeader:create_smartcoin")}
                           </a>
@@ -769,16 +769,16 @@ export default function IssuedAssets(properties) {
                 <div>
                   {relevantAssets.length > 0 && (
                     <div className="flex items-center gap-2 mb-3 px-1">
-                      <Image className="h-3.5 w-3.5 dark:text-amber-200/70 text-amber-600/80" />
-                      <span className="text-xs font-medium uppercase tracking-wider dark:text-amber-200/70 text-amber-600/80">
+                      <Image className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-3-fg)/0.7)] text-[hsl(var(--accent-3-fg)/0.8)]" />
+                      <span className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-3-fg)/0.7)] text-[hsl(var(--accent-3-fg)/0.8)]">
                         {t("IssuedAssets:listingNFTs", { count: relevantAssets.length })}
                       </span>
                     </div>
                   )}
                   {(!loading && !relevantAssets) || !relevantAssets.length ? (
-                    <Empty className="mt-2 border border-dashed border-amber-500/20 rounded-xl bg-amber-500/[0.03]">
+                    <Empty className="mt-2 border border-dashed border-[hsl(var(--accent-3)/0.2)] rounded-xl bg-[hsl(var(--accent-3)/0.03)]">
                       <EmptyHeader>
-                        <EmptyMedia variant="icon" className="bg-amber-500/15 text-amber-400">
+                        <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-3)/0.15)] text-[hsl(var(--accent-3-fg))]">
                           <Image className="w-6 h-6" />
                         </EmptyMedia>
                         <EmptyTitle className="text-foreground/80">{t("IssuedAssets:noNFTs")}</EmptyTitle>

@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance } from "@/lib/i18n";
 
 const STEP_COLORS = {
-  1: { icon: "bg-violet-500/15 text-violet-400 ring-violet-500/30", badge: "bg-violet-500/15 text-violet-400", border: "border-violet-500/20" },
-  2: { icon: "bg-cyan-500/15 text-cyan-400 ring-cyan-500/30", badge: "bg-cyan-500/15 text-cyan-400", border: "border-cyan-500/20" },
-  3: { icon: "bg-amber-500/15 text-amber-400 ring-amber-500/30", badge: "bg-amber-500/15 text-amber-400", border: "border-amber-500/20" },
-  4: { icon: "bg-emerald-500/15 text-emerald-400 ring-emerald-500/30", badge: "bg-emerald-500/15 text-emerald-400", border: "border-emerald-500/20" },
-  5: { icon: "bg-rose-500/15 text-rose-400 ring-rose-500/30", badge: "bg-rose-500/15 text-rose-400", border: "border-rose-500/20" },
-  6: { icon: "bg-indigo-500/15 text-indigo-400 ring-indigo-500/30", badge: "bg-indigo-500/15 text-indigo-400", border: "border-indigo-500/20" },
+  1: { icon: "bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))] ring-[hsl(var(--accent-1)/0.3)]", badge: "bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]", border: "border-[hsl(var(--accent-1)/0.2)]" },
+  2: { icon: "bg-[hsl(var(--accent-3)/0.15)] text-[hsl(var(--accent-3-fg))] ring-[hsl(var(--accent-3)/0.3)]", badge: "bg-[hsl(var(--accent-3)/0.15)] text-[hsl(var(--accent-3-fg))]", border: "border-[hsl(var(--accent-3)/0.2)]" },
+  3: { icon: "bg-[hsl(var(--accent-warning)/0.15)] text-[hsl(var(--accent-warning-fg))] ring-[hsl(var(--accent-warning)/0.3)]", badge: "bg-[hsl(var(--accent-warning)/0.15)] text-[hsl(var(--accent-warning-fg))]", border: "border-[hsl(var(--accent-warning)/0.2)]" },
+  4: { icon: "bg-[hsl(var(--accent-success)/0.15)] text-[hsl(var(--accent-success-fg))] ring-[hsl(var(--accent-success)/0.3)]", badge: "bg-[hsl(var(--accent-success)/0.15)] text-[hsl(var(--accent-success-fg))]", border: "border-[hsl(var(--accent-success)/0.2)]" },
+  5: { icon: "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] ring-[hsl(var(--accent-danger)/0.3)]", badge: "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))]", border: "border-[hsl(var(--accent-danger)/0.2)]" },
+  6: { icon: "bg-[hsl(var(--accent-2)/0.15)] text-[hsl(var(--accent-2-fg))] ring-[hsl(var(--accent-2)/0.3)]", badge: "bg-[hsl(var(--accent-2)/0.15)] text-[hsl(var(--accent-2-fg))]", border: "border-[hsl(var(--accent-2)/0.2)]" },
 };
 
 export default function SectionHeader({ icon: Icon, title, description, step, optional, recommended, right }) {

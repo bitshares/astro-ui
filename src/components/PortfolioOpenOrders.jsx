@@ -113,7 +113,7 @@ function CopyIdButton({ orderId, t }) {
 function ActionIconLink({ href, icon: Icon, label, accent = "default" }) {
   const palette = {
     default: "text-muted-foreground hover:text-foreground/80 hover:bg-accent/60",
-    destructive: "text-rose-400 hover:bg-rose-500/10",
+    destructive: "text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)]",
   }[accent];
   return (
     <TooltipProvider delayDuration={300}>
@@ -145,7 +145,7 @@ function ActionLabelLink({
   const palette = {
     outline:
       "border border-border text-muted-foreground hover:bg-accent/60 hover:text-foreground/80",
-    destructive: "bg-rose-600 text-white hover:bg-rose-500",
+    destructive: "bg-[hsl(var(--accent-danger))] text-white hover:bg-[hsl(var(--accent-danger))]",
   }[accent];
   const className = `inline-flex h-8 items-center justify-center gap-1.5 px-3 rounded-full text-sm font-medium transition-colors ${palette}`;
   if (onClick && !href) {
@@ -169,9 +169,9 @@ function ActionLabelLink({
 }
 
 const expiryColor = {
-  healthy: "dark:text-emerald-400 text-emerald-700",
-  soon: "dark:text-amber-400 text-amber-700",
-  imminent: "dark:text-rose-400 text-rose-700",
+  healthy: "dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
+  soon: "dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))]",
+  imminent: "dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
   expired: "text-muted-foreground/60 line-through",
 };
 
@@ -224,7 +224,7 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
   return (
     <div style={{ ...style, paddingRight: "10px" }}>
       {/* Mobile: stacked card */}
-      <Card className="group bg-card/60 border border-border hover:bg-cyan-500/[0.03] hover:border-cyan-500/20 transition-all rounded-xl border-l-2 border-l-cyan-500/30 block md:hidden">
+      <Card className="group bg-card/60 border border-border hover:bg-[hsl(var(--accent-1)/0.03)] hover:border-[hsl(var(--accent-1)/0.2)] transition-all rounded-xl border-l-2 border-l-cyan-500/30 block md:hidden">
         <CardContent className="p-4 space-y-3">
           <div className="flex items-start justify-between gap-2">
             <div className="space-y-1 min-w-0">
@@ -232,7 +232,7 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
                 <span className={cn(
                   "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold",
                   sellAsset
-                    ? "bg-rose-500/15 text-rose-400 border-rose-500/30"
+                    ? "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] border-[hsl(var(--accent-danger)/0.3)]"
                     : "bg-accent/50 text-muted-foreground border-border"
                 )}>
                   {t("PortfolioTabs:badgeSell")}
@@ -245,7 +245,7 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
               <CopyIdButton orderId={orderId} t={t} />
             </div>
             <div className="text-right flex-shrink-0">
-              <div className="text-sm font-semibold dark:text-cyan-400 text-cyan-700">
+              <div className="text-sm font-semibold dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 {priceDisplay}
               </div>
               <div className="text-xs text-muted-foreground">
@@ -289,7 +289,7 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
       </Card>
 
       {/* Desktop: 4-col row */}
-      <Card className="group bg-card/60 border border-border hover:bg-cyan-500/[0.03] hover:border-cyan-500/20 transition-all rounded-xl border-l-2 border-l-cyan-500/30 hidden md:block">
+      <Card className="group bg-card/60 border border-border hover:bg-[hsl(var(--accent-1)/0.03)] hover:border-[hsl(var(--accent-1)/0.2)] transition-all rounded-xl border-l-2 border-l-cyan-500/30 hidden md:block">
         <CardContent className="p-4">
           <div className="grid grid-cols-[1.5fr_1fr_1fr_auto] gap-4 items-center">
             <div className="space-y-1.5 min-w-0">
@@ -297,7 +297,7 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
                 <span className={cn(
                   "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold flex-shrink-0",
                   sellAsset
-                    ? "bg-rose-500/15 text-rose-400 border-rose-500/30"
+                    ? "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] border-[hsl(var(--accent-danger)/0.3)]"
                     : "bg-accent/50 text-muted-foreground border-border"
                 )}>
                   {t("PortfolioTabs:badgeSell")}
@@ -310,7 +310,7 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
               <CopyIdButton orderId={orderId} t={t} />
             </div>
             <div className="min-w-0">
-              <div className="text-sm font-semibold dark:text-cyan-400 text-cyan-700">
+              <div className="text-sm font-semibold dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 {priceDisplay}
               </div>
               <div className="text-xs text-muted-foreground">
@@ -347,7 +347,7 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
                   setOrderID(orderId);
                   setShowDialog(true);
                 }}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-rose-400 hover:bg-rose-500/10 transition-colors"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)] transition-colors"
               >
                 <XCircle className="h-4 w-4" />
               </button>
@@ -493,11 +493,11 @@ export default function PortfolioOpenOrders({
     <div className="container mx-auto mt-5 mb-5 max-w-5xl text-foreground">
       <div className="grid grid-cols-1 gap-3">
         <Card className="bg-card/60 border-border shadow-lg shadow-black/20 backdrop-blur-sm">
-          <div className="h-1 w-full bg-gradient-to-r from-cyan-500 to-sky-500" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))]" />
           <CardTitle className="flex items-center justify-between gap-3 px-5 py-4">
             <div className="flex items-center gap-3 min-w-0">
-              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-cyan-500/15 flex-shrink-0">
-                <ClipboardList className="h-4 w-4 text-cyan-400" />
+              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[hsl(var(--accent-1)/0.15)] flex-shrink-0">
+                <ClipboardList className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
               </span>
               <div className="min-w-0">
                 <span className="text-xl font-bold tracking-tight">
@@ -516,7 +516,7 @@ export default function PortfolioOpenOrders({
               }}
               disabled={openOrdersLoading}
               aria-busy={openOrdersLoading}
-              className="gap-2 bg-cyan-600 hover:bg-cyan-500 text-foreground"
+              className="gap-2 bg-[hsl(var(--accent-1))] hover:bg-[hsl(var(--accent-1))] text-foreground"
             >
               {openOrdersLoading ? (
                 <Loader2Icon className="h-4 w-4 animate-spin" />
@@ -599,7 +599,7 @@ export default function PortfolioOpenOrders({
             ) : (
               <Empty className="mt-2 border border-border/60 rounded-xl bg-accent/20">
                 <EmptyHeader>
-                  <EmptyMedia variant="icon" className="bg-cyan-500/15 text-cyan-400">
+                  <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
                     <ClipboardList className="h-6 w-6" />
                   </EmptyMedia>
                   <EmptyTitle className="text-foreground/80">{t("PortfolioTabs:noOpenOrdersTitle")}</EmptyTitle>
@@ -608,7 +608,7 @@ export default function PortfolioOpenOrders({
                   </EmptyDescription>
                 </EmptyHeader>
                 <EmptyContent>
-                  <Button asChild className="bg-cyan-600 hover:bg-cyan-500 text-foreground">
+                  <Button asChild className="bg-[hsl(var(--accent-1))] hover:bg-[hsl(var(--accent-1))] text-foreground">
                     <a href="/dex/index.html">
                       {t("PortfolioTabs:noOpenOrdersCta")}
                     </a>

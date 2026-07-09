@@ -503,9 +503,9 @@ export default function CreditOfferEditor(properties) {
     let _updatedCollateral;
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="mx-2 mb-1 rounded-xl border border-violet-500/15 bg-card/60 hover:border-violet-500/30 hover:bg-violet-500/[0.03] transition-all">
+        <Card className="mx-2 mb-1 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all">
           <div className="p-3 flex items-center gap-3">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-violet-400/30 bg-gradient-to-br from-violet-500/20 to-purple-500/20 dark:text-violet-200 text-violet-700 flex-shrink-0">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
               <Coins className="h-3.5 w-3.5" strokeWidth={2.25} />
             </span>
             <div className="flex-1 min-w-0">
@@ -513,13 +513,13 @@ export default function CreditOfferEditor(properties) {
                 #{index + 1}: {_targetAsset.symbol}
               </div>
               <div className="text-xs text-muted-foreground">
-                {t("CreditOfferEditor:price")} <span className="font-mono dark:text-violet-200/90 text-violet-700">{res.price}</span> {_targetAsset.symbol}/{selectedAsset ?? ""}
+                {t("CreditOfferEditor:price")} <span className="font-mono dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">{res.price}</span> {_targetAsset.symbol}/{selectedAsset ?? ""}
               </div>
             </div>
             <div className="flex items-center gap-1.5 flex-shrink-0">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" size="icon" aria-label="Edit collateral price" className="h-8 w-8 border-violet-500/30 text-violet-400 hover:bg-violet-500/10">
+                  <Button variant="outline" size="icon" aria-label="Edit collateral price" className="h-8 w-8 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
                     <Settings className="h-3.5 w-3.5" />
                   </Button>
                 </PopoverTrigger>
@@ -555,7 +555,7 @@ export default function CreditOfferEditor(properties) {
                   />
                   <Button
                     variant="outline"
-                    className="mt-4 border-violet-500/30 text-violet-400 hover:bg-violet-500/10"
+                    className="mt-4 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                     onClick={() => {
                       if (
                         _updatedCollateral &&
@@ -574,7 +574,7 @@ export default function CreditOfferEditor(properties) {
                 variant="outline"
                 size="icon"
                 aria-label="Remove collateral"
-                className="h-8 w-8 border-red-500/30 text-red-400 hover:bg-red-500/10"
+                className="h-8 w-8 border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)]"
                 onClick={(e) => {
                   e.preventDefault();
                   const _newCollateral = acceptableCollateral.filter(
@@ -602,7 +602,7 @@ export default function CreditOfferEditor(properties) {
 
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="mx-2 mb-1 rounded-xl border border-violet-500/15 bg-card/60 hover:border-violet-500/30 hover:bg-violet-500/[0.03] transition-all">
+        <Card className="mx-2 mb-1 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all">
           <div className="p-3 flex items-center gap-3">
             <Avatar
               size={32}
@@ -625,13 +625,13 @@ export default function CreditOfferEditor(properties) {
                 #{index + 1}: {res.name}
               </div>
               <div className="text-xs text-muted-foreground">
-                {t("CreditOfferEditor:borrowLimit")}: <span className="font-mono dark:text-violet-200/90 text-violet-700">{res.amount} {foundAsset ? foundAsset.symbol : ""}</span>
+                {t("CreditOfferEditor:borrowLimit")}: <span className="font-mono dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">{res.amount} {foundAsset ? foundAsset.symbol : ""}</span>
               </div>
             </div>
             <div className="flex items-center gap-1.5 flex-shrink-0">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" size="icon" aria-label="Edit borrower limit" className="h-8 w-8 border-violet-500/30 text-violet-400 hover:bg-violet-500/10">
+                  <Button variant="outline" size="icon" aria-label="Edit borrower limit" className="h-8 w-8 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
                     <Settings className="h-3.5 w-3.5" />
                   </Button>
                 </PopoverTrigger>
@@ -667,7 +667,7 @@ export default function CreditOfferEditor(properties) {
                   />
                   <Button
                     variant="outline"
-                    className="mt-4 border-violet-500/30 text-violet-400 hover:bg-violet-500/10"
+                    className="mt-4 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                     onClick={() => {
                       if (_updatedAllowedAccounts) {
                         setAllowedAccounts(_updatedAllowedAccounts);
@@ -683,7 +683,7 @@ export default function CreditOfferEditor(properties) {
                 variant="outline"
                 size="icon"
                 aria-label="Remove borrower"
-                className="h-8 w-8 border-red-500/30 text-red-400 hover:bg-red-500/10"
+                className="h-8 w-8 border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)]"
                 onClick={(e) => {
                   e.preventDefault();
                   const _update = allowedAccounts.filter(
@@ -703,23 +703,23 @@ export default function CreditOfferEditor(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5 max-w-4xl">
-      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-violet-950/20">
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/70 to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-violet-500/10 blur-3xl"
+          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-purple-500/10 blur-3xl"
+          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
         />
 
         <div className="relative p-5 sm:p-6">
           <div className="flex items-center gap-3 mb-5">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-violet-400/30 bg-gradient-to-br from-violet-500/20 to-purple-500/20 dark:text-violet-200 text-violet-700">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
               <HandCoins className="h-4.5 w-4.5" strokeWidth={2.25} />
             </span>
             <div>
@@ -756,7 +756,7 @@ export default function CreditOfferEditor(properties) {
                         className="bg-card/60"
                       />
                       <a href={`/account/${offerOwner}`}>
-                        <Button variant="outline" size="sm" className="border-violet-500/30 text-violet-400 hover:bg-violet-500/10">
+                        <Button variant="outline" size="sm" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
                           {t("CreditOfferEditor:viewAccount")}
                         </Button>
                       </a>
@@ -775,7 +775,7 @@ export default function CreditOfferEditor(properties) {
                       />
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button variant="outline" size="sm" className="border-violet-500/30 text-violet-400 hover:bg-violet-500/10">
+                          <Button variant="outline" size="sm" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
                             JSON
                           </Button>
                         </DialogTrigger>
@@ -795,7 +795,7 @@ export default function CreditOfferEditor(properties) {
                           </ScrollArea>
                           <Button
                             variant="outline"
-                            className="border-violet-500/30 text-violet-400 hover:bg-violet-500/10"
+                            className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                             onClick={() => {
                               copyToClipboard(
                                 JSON.stringify(offerJSON, null, 4),
@@ -811,12 +811,12 @@ export default function CreditOfferEditor(properties) {
                 </div>
               ) : null}
 
-              <div className="rounded-xl border border-violet-400/20 bg-gradient-to-br from-violet-500/[0.06] to-transparent p-4 mb-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                     <Coins className="h-3 w-3" strokeWidth={2.5} />
                   </span>
-                  <span className="text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
+                  <span className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
                     {t("CreditOfferEditor:assetToLend")}
                   </span>
                 </div>
@@ -854,19 +854,19 @@ export default function CreditOfferEditor(properties) {
                 {foundAsset &&
                   balances &&
                   !balances.map((x) => x.asset_id).includes(foundAsset.id) && (
-                    <p className="text-xs text-red-400 mt-2">
+                    <p className="text-xs text-[hsl(var(--accent-danger-fg))] mt-2">
                       {t("Transfer:noAssetInAccount", { username: usr.username })}
                     </p>
                   )}
               </div>
 
-              <div className="rounded-xl border border-violet-400/20 bg-gradient-to-br from-violet-500/[0.06] to-transparent p-4 mb-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                       <HandCoins className="h-3 w-3" strokeWidth={2.5} />
                     </span>
-                    <span className="text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
+                    <span className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
                       {t("CreditOfferEditor:amountToLend")}
                     </span>
                   </div>
@@ -880,7 +880,7 @@ export default function CreditOfferEditor(properties) {
                         setLendingAmount(foundAssetBalance);
                         form.setValue("lendingAmount", foundAssetBalance);
                       }}
-                      className="border-violet-400/30 bg-violet-500/10 text-[10px] font-semibold uppercase tracking-wider dark:text-violet-200 text-violet-700 hover:bg-violet-500/20 hover:border-violet-400/50"
+                      className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)]"
                     >
                       {t("LimitOrderCard:useBalance")}
                     </Button>
@@ -913,18 +913,18 @@ export default function CreditOfferEditor(properties) {
                 />
                 {((!foundAssetBalance && lendingAmount > 0) ||
                   (foundAssetBalance && foundAssetBalance < lendingAmount)) && (
-                  <p className="text-xs text-red-400 mt-2">
+                  <p className="text-xs text-[hsl(var(--accent-danger-fg))] mt-2">
                     {t("Common:insufficient_funds")}
                   </p>
                 )}
               </div>
 
-              <div className="rounded-xl border border-violet-400/20 bg-gradient-to-br from-violet-500/[0.06] to-transparent p-4 mb-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                     <Percent className="h-3 w-3" strokeWidth={2.5} />
                   </span>
-                  <span className="text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
+                  <span className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
                     {t("CreditOfferEditor:lendingRate")}
                   </span>
                 </div>
@@ -934,12 +934,12 @@ export default function CreditOfferEditor(properties) {
                       value={`${rate} %`}
                       placeholder={`${rate} %`}
                       disabled
-                      className="bg-card/60 text-lg font-semibold dark:text-violet-100"
+                      className="bg-card/60 text-lg font-semibold dark:text-[hsl(var(--accent-1-fg))]"
                     />
                   </div>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className="border-violet-500/30 text-violet-400 hover:bg-violet-500/10">
+                      <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
                         {t("CreditOfferEditor:editLendingRate")}
                       </Button>
                     </PopoverTrigger>
@@ -981,7 +981,7 @@ export default function CreditOfferEditor(properties) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div className="rounded-xl border border-border/60 bg-card/40 p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <Clock className="h-3.5 w-3.5 dark:text-violet-200/70 text-violet-600/80" />
+                    <Clock className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
                     <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                       {t("CreditOfferEditor:repaymentPeriod")}
                     </span>
@@ -1033,7 +1033,7 @@ export default function CreditOfferEditor(properties) {
 
                 <div className="rounded-xl border border-border/60 bg-card/40 p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <Info className="h-3.5 w-3.5 dark:text-violet-200/70 text-violet-600/80" />
+                    <Info className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
                     <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                       {t("CreditOfferEditor:minimumAmount")}
                     </span>
@@ -1071,7 +1071,7 @@ export default function CreditOfferEditor(properties) {
 
                 <div className="rounded-xl border border-border/60 bg-card/40 p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <CalendarDays className="h-3.5 w-3.5 dark:text-violet-200/70 text-violet-600/80" />
+                    <CalendarDays className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
                     <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                       {t("CreditOfferEditor:expirationDate")}
                     </span>
@@ -1122,12 +1122,12 @@ export default function CreditOfferEditor(properties) {
                 </div>
               </div>
 
-              <div className="rounded-xl border border-violet-400/20 bg-gradient-to-br from-violet-500/[0.06] to-transparent p-4 mb-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                     <ShieldCheck className="h-3 w-3" strokeWidth={2.5} />
                   </span>
-                  <span className="text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
+                  <span className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
                     {t("CreditOfferEditor:acceptedCollateral")}
                   </span>
                 </div>
@@ -1167,13 +1167,13 @@ export default function CreditOfferEditor(properties) {
                 </p>
               </div>
 
-              <div className="rounded-xl border border-violet-400/20 bg-gradient-to-br from-violet-500/[0.06] to-transparent p-4 mb-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                       <Users className="h-3 w-3" strokeWidth={2.5} />
                     </span>
-                    <span className="text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
+                    <span className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
                       {t("CreditOfferEditor:preApprovedUsers")}
                     </span>
                   </div>
@@ -1187,7 +1187,7 @@ export default function CreditOfferEditor(properties) {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-violet-500/30 text-violet-400 hover:bg-violet-500/10"
+                        className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                       >
                         + {t("CreditOfferEditor:addUser")}
                       </Button>
@@ -1257,14 +1257,14 @@ export default function CreditOfferEditor(properties) {
                 </p>
               </div>
 
-              <div className="rounded-xl border border-violet-400/20 bg-violet-500/[0.05] p-4 mb-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] p-4 mb-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Zap className="h-3.5 w-3.5 dark:text-violet-200/80 text-violet-700" />
-                  <span className="text-[10px] font-medium uppercase tracking-wider dark:text-violet-200/80 text-violet-700">
+                  <Zap className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))]" />
+                  <span className="text-[10px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))]">
                     {t("CreditOfferEditor:networkFee")}
                   </span>
                 </div>
-                <div className="flex items-center gap-1 font-mono text-sm tabular-nums dark:text-violet-400 text-violet-700">
+                <div className="flex items-center gap-1 font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                   <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
                   {fee ? fee.toFixed(5) : "0.00000"}
                   <span className="text-muted-foreground">BTS</span>
@@ -1278,7 +1278,7 @@ export default function CreditOfferEditor(properties) {
 
               <Button
                 type="submit"
-                className="w-full h-14 rounded-2xl font-semibold text-white bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 hover:from-violet-400 hover:via-purple-400 hover:to-indigo-400 shadow-[0_8px_30px_-4px_rgba(139,92,246,0.6)] hover:shadow-[0_12px_40px_-4px_rgba(139,92,246,0.8)] active:scale-[0.99] transition-all flex items-center justify-center gap-2 text-base"
+                className="w-full h-14 rounded-2xl font-semibold text-white bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] shadow-[0_8px_30px_-4px_rgba(139,92,246,0.6)] hover:shadow-[0_12px_40px_-4px_rgba(139,92,246,0.8)] active:scale-[0.99] transition-all flex items-center justify-center gap-2 text-base"
               >
                 <HandCoins className="h-4.5 w-4.5" strokeWidth={2.25} />
                 {t("CreditOfferEditor:submit")}
@@ -1309,14 +1309,14 @@ export default function CreditOfferEditor(properties) {
         />
       ) : null}
 
-      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-violet-950/10 mt-5">
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.1)] mt-5">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/40 to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.4)] to-transparent"
         />
         <div className="relative p-5 sm:p-6">
           <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-red-500/15 border border-red-400/30 text-red-400">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-danger)/0.15)] border border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))]">
               <Info className="h-3 w-3" strokeWidth={2.5} />
             </span>
             <h3 className="text-sm font-semibold text-foreground">

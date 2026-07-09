@@ -739,10 +739,10 @@ export default function InstantTrade(properties) {
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl p-8 text-center">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent"
           />
           <div className="flex flex-col items-center gap-3">
-            <Spinner className="size-6 dark:text-amber-300 text-amber-700" />
+            <Spinner className="size-6 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
             <p className="text-foreground/70 text-sm">
               {t("MarketPlaceholder:loadingAssetDescription")}
             </p>
@@ -793,13 +793,13 @@ export default function InstantTrade(properties) {
 
     return (
       <div style={style}>
-        <div className="grid grid-cols-3 md:grid-cols-6 text-sm items-center border-b border-border/40 hover:bg-amber-500/[0.06] hover:border-amber-400/20 transition-colors py-1.5 px-2">
+        <div className="grid grid-cols-3 md:grid-cols-6 text-sm items-center border-b border-border/40 hover:bg-[hsl(var(--accent-1)/0.06)] hover:border-[hsl(var(--accent-1)/0.20)] transition-colors py-1.5 px-2">
           <div className="hidden md:block">
             <Dialog>
               <DialogTrigger asChild>
                 <button
                   type="button"
-                  className="text-[11px] font-mono dark:text-amber-200/70 text-amber-600/80 dark:hover:text-amber-100 hover:text-amber-800 hover:underline underline-offset-2"
+                  className="text-[11px] font-mono dark:text-[hsl(var(--accent-1-fg)/0.70)] text-[hsl(var(--accent-1-fg)/0.80)] dark:hover:text-[hsl(var(--accent-1-fg))] hover:text-[hsl(var(--accent-1-fg))] hover:underline underline-offset-2"
                 >
                   #{order.id}
                 </button>
@@ -826,7 +826,7 @@ export default function InstantTrade(properties) {
                   <div className="col-span-2 mt-3 flex items-center gap-2">
                     <Button
                       variant="outline"
-                      className="border-border bg-card/60 hover:bg-card/80 hover:border-amber-400/40 text-foreground"
+                      className="border-border bg-card/60 hover:bg-card/80 hover:border-[hsl(var(--accent-1)/0.40)] text-foreground"
                       onClick={() => {
                         copyToClipboard(
                           JSON.stringify([order, orderDetails], null, 4)
@@ -851,7 +851,7 @@ export default function InstantTrade(properties) {
             {orderDetails && orderDetails.on_fill.length ? (
               <Dialog>
                 <DialogTrigger asChild>
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-400/40 text-emerald-200 text-xs cursor-pointer hover:bg-emerald-500/25">
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-success)/0.15)] border border-[hsl(var(--accent-success)/0.40)] text-[hsl(var(--accent-success-fg))] text-xs cursor-pointer hover:bg-[hsl(var(--accent-success)/0.25)]">
                     ✓
                   </span>
                 </DialogTrigger>
@@ -877,7 +877,7 @@ export default function InstantTrade(properties) {
                     <div className="col-span-1 mt-3">
                       <Button
                         variant="outline"
-                        className="border-border bg-card/60 hover:bg-card/80 hover:border-emerald-400/40 text-foreground"
+                        className="border-border bg-card/60 hover:bg-card/80 hover:border-[hsl(var(--accent-success)/0.40)] text-foreground"
                         onClick={() => {
                           copyToClipboard(
                             JSON.stringify(orderDetails.on_fill, null, 4)
@@ -896,7 +896,7 @@ export default function InstantTrade(properties) {
           <div className="col-span-1 pl-3 font-mono text-right tabular-nums text-foreground/85">
             {quote.toFixed(assetAData.precision)}
           </div>
-          <div className="col-span-1 pl-3 font-mono text-right tabular-nums dark:text-amber-200/90 text-amber-700">
+          <div className="col-span-1 pl-3 font-mono text-right tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.90)] text-[hsl(var(--accent-1-fg))]">
             {price}
           </div>
           <div className="col-span-1 pl-3 font-mono text-right tabular-nums text-muted-foreground">
@@ -910,22 +910,22 @@ export default function InstantTrade(properties) {
   return (
     <div className="container mx-auto mt-5 mb-5 max-w-4xl">
       <div className="grid grid-cols-1 gap-5">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-amber-950/20">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.20)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-amber-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.10)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-orange-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-3)/0.10)] blur-3xl"
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-4">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-amber-400/30 bg-gradient-to-br from-amber-500/20 to-orange-500/20 dark:text-amber-200 text-amber-700">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Zap className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>
@@ -942,7 +942,7 @@ export default function InstantTrade(properties) {
             </div>
 
             <div className="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-3 items-stretch">
-              <div className="rounded-xl border border-amber-400/20 bg-gradient-to-br from-amber-500/[0.06] to-transparent p-2">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-2">
                 <AssetDropDown
                   assetSymbol={assetB}
                   assetData={assetBData}
@@ -963,7 +963,7 @@ export default function InstantTrade(properties) {
                 aria-label="Swap pair"
                 title="Swap pair"
               >
-                <span className="inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-border bg-card/80 dark:text-amber-200 text-amber-700 dark:hover:text-amber-100 hover:text-amber-800 hover:border-amber-400/50 hover:bg-card/80 hover:shadow-[0_0_24px_-6px_rgba(251,191,36,0.55)] transition-all group">
+                <span className="inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-border bg-card/80 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] hover:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.50)] hover:bg-card/80 hover:shadow-[0_0_24px_-6px_hsl(var(--accent-1)/0.55)] transition-all group">
                   {clicked ? (
                     <ReloadIcon className="h-4 w-4 animate-spin" />
                   ) : (
@@ -972,7 +972,7 @@ export default function InstantTrade(properties) {
                 </span>
               </a>
 
-              <div className="rounded-xl border border-blue-400/20 bg-gradient-to-br from-blue-500/[0.06] to-transparent p-2">
+              <div className="rounded-xl border border-[hsl(var(--accent-2)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.06)] to-transparent p-2">
                 <AssetDropDown
                   assetSymbol={assetA}
                   assetData={assetAData}
@@ -989,18 +989,18 @@ export default function InstantTrade(properties) {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-amber-950/10">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.10)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.40)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-amber-500/[0.07] blur-3xl"
+            className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-[hsl(var(--accent-1)/0.07)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-blue-500/[0.07] blur-3xl"
+            className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-[hsl(var(--accent-2)/0.07)] blur-3xl"
           />
           <div className="relative p-5 sm:p-6">
             {assetA && assetB && marketSearch && assetAData && assetBData ? (
@@ -1011,14 +1011,14 @@ export default function InstantTrade(properties) {
                       name="sellAmount"
                       control={form.control}
                       render={({ field, fieldState }) => (
-                        <div className="rounded-xl border border-amber-400/25 bg-gradient-to-br from-amber-500/[0.07] to-transparent p-3 sm:p-4">
+                        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.07)] to-transparent p-3 sm:p-4">
                           <Field
                             invalid={fieldState.invalid}
                             className="text-xs"
                           >
                             <FieldLabel className="text-foreground/80">
-                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-amber-200/90 text-amber-700">
-                                <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-amber-500/15 border border-amber-400/30 dark:text-amber-200 text-amber-700">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.90)] text-[hsl(var(--accent-1-fg))]">
+                                <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.30)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                                   <ArrowUp className="h-3 w-3" strokeWidth={2.5} />
                                 </span>
                                 {t(
@@ -1040,7 +1040,7 @@ export default function InstantTrade(properties) {
                               <button
                                 type="button"
                                 onClick={setMaxA}
-                                className="inline-flex items-center rounded-md border border-amber-400/30 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-amber-200 text-amber-700 hover:bg-amber-500/20 hover:border-amber-400/50 transition-colors"
+                                className="inline-flex items-center rounded-md border border-[hsl(var(--accent-1)/0.30)] bg-[hsl(var(--accent-1)/0.10)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.20)] hover:border-[hsl(var(--accent-1)/0.50)] transition-colors"
                               >
                                 MAX
                               </button>
@@ -1048,7 +1048,7 @@ export default function InstantTrade(properties) {
 
                             <Input
                               value={amountA}
-                              className="mt-2 h-14 sm:h-16 text-2xl sm:text-3xl font-semibold !bg-card/40 border-border text-foreground placeholder:text-muted-foreground/50 focus-visible:!ring-amber-400/40 focus-visible:border-amber-400/50"
+                              className="mt-2 h-14 sm:h-16 text-2xl sm:text-3xl font-semibold !bg-card/40 border-border text-foreground placeholder:text-muted-foreground/50 focus-visible:!ring-[hsl(var(--accent-1)/0.40)] focus-visible:border-[hsl(var(--accent-1)/0.50)]"
                               onChange={(event) => {
                                 const input = event.target.value;
                                 const regex = assetAmountRegex(assetAData);
@@ -1070,14 +1070,14 @@ export default function InstantTrade(properties) {
                       name="buyAmount"
                       control={form.control}
                       render={({ field, fieldState }) => (
-                        <div className="rounded-xl border border-blue-400/25 bg-gradient-to-br from-blue-500/[0.07] to-transparent p-3 sm:p-4">
+                        <div className="rounded-xl border border-[hsl(var(--accent-2)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.07)] to-transparent p-3 sm:p-4">
                           <Field
                             invalid={fieldState.invalid}
                             className="text-xs"
                           >
                             <FieldLabel className="text-foreground/80">
-                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-blue-200/90 text-blue-700">
-                                <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-blue-500/15 border border-blue-400/30 dark:text-blue-200 text-blue-700">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg)/0.90)] text-[hsl(var(--accent-2-fg))]">
+                                <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.30)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
                                   <ArrowDown
                                     className="h-3 w-3"
                                     strokeWidth={2.5}
@@ -1098,14 +1098,14 @@ export default function InstantTrade(properties) {
                               <button
                                 type="button"
                                 onClick={setMaxB}
-                                className="inline-flex items-center rounded-md border border-blue-400/30 bg-blue-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-blue-200 text-blue-700 hover:bg-blue-500/20 hover:border-blue-400/50 transition-colors"
+                                className="inline-flex items-center rounded-md border border-[hsl(var(--accent-2)/0.30)] bg-[hsl(var(--accent-2)/0.10)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.20)] hover:border-[hsl(var(--accent-2)/0.50)] transition-colors"
                               >
                                 MAX
                               </button>
                             </div>
                             <Input
                               value={amountB}
-                              className="mt-2 h-14 sm:h-16 text-2xl sm:text-3xl font-semibold !bg-card/40 border-border text-foreground placeholder:text-muted-foreground/50 focus-visible:!ring-blue-400/40 focus-visible:border-blue-400/50"
+                              className="mt-2 h-14 sm:h-16 text-2xl sm:text-3xl font-semibold !bg-card/40 border-border text-foreground placeholder:text-muted-foreground/50 focus-visible:!ring-[hsl(var(--accent-2)/0.40)] focus-visible:border-[hsl(var(--accent-2)/0.50)]"
                               onChange={(event) => {
                                 const input = event.target.value;
                                 const regex = assetAmountRegex(assetBData);
@@ -1163,15 +1163,15 @@ export default function InstantTrade(properties) {
                       name="avgPrice"
                       control={form.control}
                       render={() => (
-                        <div className="rounded-xl border border-amber-400/15 bg-card/40 p-3">
-                          <div className="text-[10px] font-medium uppercase tracking-wider dark:text-amber-200/70 text-amber-600/80 mb-1 inline-flex items-center gap-1">
+                        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40 p-3">
+                          <div className="text-[10px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.70)] text-[hsl(var(--accent-1-fg)/0.80)] mb-1 inline-flex items-center gap-1">
                             <TrendingUp className="h-3 w-3" strokeWidth={2.5} />
                             {t("InstantTrade:effective_average_price", {
                               assetB,
                               assetA,
                             })}
                           </div>
-                          <div className="font-mono text-sm tabular-nums dark:text-amber-100/90 text-amber-700">
+                          <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.90)] text-[hsl(var(--accent-1-fg))]">
                             {avgPrice || "—"}
                           </div>
                         </div>
@@ -1223,12 +1223,12 @@ export default function InstantTrade(properties) {
                       name="networkFee"
                       control={form.control}
                       render={() => (
-                        <div className="rounded-xl border border-amber-400/20 bg-amber-500/[0.05] p-3">
-                          <div className="text-[10px] font-medium uppercase tracking-wider dark:text-amber-200/80 text-amber-700 mb-1 inline-flex items-center gap-1">
+                        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-[hsl(var(--accent-1)/0.05)] p-3">
+                          <div className="text-[10px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.80)] text-[hsl(var(--accent-1-fg))] mb-1 inline-flex items-center gap-1">
                             <Zap className="h-3 w-3" strokeWidth={2.5} />
                             {t("InstantTrade:networkFee")}
                           </div>
-                          <div className="flex items-center gap-1 font-mono text-sm tabular-nums dark:text-amber-400 text-amber-700">
+                          <div className="flex items-center gap-1 font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                             <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
                             {limitOrderFee ? limitOrderFee.toFixed(5) : "0.00000"}
                             <span className="text-muted-foreground">BTS</span>
@@ -1283,7 +1283,7 @@ export default function InstantTrade(properties) {
                             className={cn(
                               "px-3 py-1.5 text-xs font-medium rounded-lg transition-all",
                               active
-                                ? "bg-gradient-to-r from-amber-500/20 to-orange-500/20 dark:text-amber-100 text-amber-700 border border-amber-400/40 shadow-[0_0_18px_-8px_rgba(251,191,36,0.6)]"
+                                ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.40)] shadow-[0_0_18px_-8px_hsl(var(--accent-1)/0.6)]"
                                 : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
                             )}
                           >
@@ -1325,7 +1325,7 @@ export default function InstantTrade(properties) {
                           <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                             {t("InstantTrade:networkFee")}
                           </span>
-                          <span className="flex items-center gap-1.5 font-mono dark:text-amber-400 text-amber-700 text-sm">
+                          <span className="flex items-center gap-1.5 font-mono dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-sm">
                             <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
                             {limitOrderFee.toFixed(5)} BTS
                           </span>
@@ -1333,7 +1333,7 @@ export default function InstantTrade(properties) {
                       )}
                       <button
                         type="submit"
-                        className="mt-6 w-full h-14 rounded-2xl font-semibold text-white bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 shadow-[0_8px_32px_-12px_rgba(251,146,60,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(251,146,60,0.9)] hover:from-amber-400 hover:via-orange-400 hover:to-red-400 transition-all flex items-center justify-center gap-2 text-base group"
+                        className="mt-6 w-full h-14 rounded-2xl font-semibold text-white bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-3))] to-[hsl(var(--accent-danger))] shadow-[0_8px_32px_-12px_hsl(var(--accent-3)/0.7)] hover:shadow-[0_12px_40px_-12px_hsl(var(--accent-3)/0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-3))] hover:to-[hsl(var(--accent-danger))] transition-all flex items-center justify-center gap-2 text-base group"
                       >
                         <Zap
                           className="h-4 w-4 group-hover:scale-110 transition-transform"
@@ -1352,7 +1352,7 @@ export default function InstantTrade(properties) {
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.40)] to-transparent"
           />
           <Accordion
             type="single"
@@ -1368,7 +1368,7 @@ export default function InstantTrade(properties) {
               <AccordionTrigger className="px-5 sm:px-6 py-4 hover:no-underline hover:bg-accent/20">
                 <div className="flex-1 text-left">
                   <div className="flex items-center gap-2 text-base sm:text-lg font-semibold text-foreground">
-                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-amber-400/30 bg-amber-500/10 dark:text-amber-200 text-amber-700">
+                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.30)] bg-[hsl(var(--accent-1)/0.10)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                       <TrendingUp className="h-3.5 w-3.5" strokeWidth={2.5} />
                     </span>
                     {t("MarketOrderCard:openBuyLimitOrdersTitle")}
@@ -1411,7 +1411,7 @@ export default function InstantTrade(properties) {
                       <div className="col-span-1 text-right">
                         {t("InstantTrade:amount_assetA", { assetA })}
                       </div>
-                      <div className="col-span-1 text-right dark:text-amber-200/70 text-amber-600/80">
+                      <div className="col-span-1 text-right dark:text-[hsl(var(--accent-1-fg)/0.70)] text-[hsl(var(--accent-1-fg)/0.80)]">
                         {t("InstantTrade:price_assetB_assetA", {
                           assetB,
                           assetA,
@@ -1432,7 +1432,7 @@ export default function InstantTrade(properties) {
                         />
                       ) : (
                         <div className="flex items-center justify-center h-full">
-                          <Spinner className="size-6 dark:text-amber-300 text-amber-700" />
+                          <Spinner className="size-6 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
                         </div>
                       )}
                     </div>
@@ -1448,7 +1448,7 @@ export default function InstantTrade(properties) {
                     variant="outline"
                     size="icon"
                     aria-label="Refresh"
-                    className="h-9 w-9 rounded-xl border-border bg-card/60 hover:bg-card/80 hover:border-amber-400/40 text-foreground/70 hover:text-accent-foreground"
+                    className="h-9 w-9 rounded-xl border-border bg-card/60 hover:bg-card/80 hover:border-[hsl(var(--accent-1)/0.40)] text-foreground/70 hover:text-accent-foreground"
                   >
                     <RefreshCw className="h-3.5 w-3.5" />
                   </Button>
@@ -1461,11 +1461,11 @@ export default function InstantTrade(properties) {
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.40)] to-transparent"
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-start gap-3 mb-4">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-amber-400/30 bg-gradient-to-br from-amber-500/20 to-orange-500/20 dark:text-amber-200 text-amber-700">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Wallet className="h-4 w-4" strokeWidth={2.25} />
               </span>
               <div className="flex-1 min-w-0">
@@ -1505,7 +1505,7 @@ export default function InstantTrade(properties) {
                   <div className="col-span-1 text-right">
                     {t("InstantTrade:amount_assetA", { assetA })}
                   </div>
-                  <div className="col-span-1 text-right dark:text-amber-200/70 text-amber-600/80">
+                  <div className="col-span-1 text-right dark:text-[hsl(var(--accent-1-fg)/0.70)] text-[hsl(var(--accent-1-fg)/0.80)]">
                     {t("InstantTrade:price_assetB_assetA", {
                       assetB,
                       assetA,
@@ -1538,7 +1538,7 @@ export default function InstantTrade(properties) {
                 variant="outline"
                 size="icon"
                 aria-label="Refresh"
-                className="h-9 w-9 rounded-xl border-border bg-card/60 hover:bg-card/80 hover:border-amber-400/40 text-foreground/70 hover:text-accent-foreground"
+                className="h-9 w-9 rounded-xl border-border bg-card/60 hover:bg-card/80 hover:border-[hsl(var(--accent-1)/0.40)] text-foreground/70 hover:text-accent-foreground"
               >
                 <RefreshCw className="h-3.5 w-3.5" />
               </Button>

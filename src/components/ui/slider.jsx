@@ -9,6 +9,11 @@ const VARIANTS = {
     range: "bg-foreground/30",
     thumb: "border-border bg-background shadow-sm",
   },
+  accent: {
+    track: "bg-[hsl(var(--accent-1)/0.20)]",
+    range: "bg-[hsl(var(--accent-1))]",
+    thumb: "border-[hsl(var(--accent-1)/0.50)] bg-[hsl(var(--accent-1))] shadow-[color:hsl(var(--accent-1)/0.30)]",
+  },
   violet: {
     track: "bg-violet-500/20",
     range: "bg-violet-500",

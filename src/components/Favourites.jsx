@@ -88,7 +88,7 @@ function RemoveButton({ onClick, label }) {
             size="icon"
             aria-label={label}
             onClick={onClick}
-            className="h-8 w-8 rounded-full text-muted-foreground/60 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+            className="h-8 w-8 rounded-full text-muted-foreground/60 hover:text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)] transition-colors"
           >
             <Trash2 className="h-4 w-4" />
           </Button>
@@ -104,7 +104,7 @@ function RemoveButton({ onClick, label }) {
 function ActionPill({ href, icon: Icon, children, accent = "slate" }) {
   const palette = {
     slate: "border-border text-foreground/70 hover:bg-accent/60 hover:text-accent-foreground",
-    emerald: "border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10",
+    emerald: "border-[hsl(var(--accent-success)/0.3)] text-[hsl(var(--accent-success-fg))] hover:bg-[hsl(var(--accent-success)/0.1)]",
   }[accent];
 
   return (
@@ -386,8 +386,8 @@ export default function Favourites(properties) {
     const renderCard = (layout) => {
       const isStacked = layout === "stacked";
       const cardCls = isStacked
-        ? "mb-3 group bg-card/60 border border-amber-500/15 hover:border-amber-500/30 hover:bg-amber-500/[0.03] hover:shadow-md hover:shadow-amber-500/5 transition-all rounded-xl block md:hidden"
-        : "mb-3 group bg-card/60 border border-amber-500/15 hover:border-amber-500/30 hover:bg-amber-500/[0.03] hover:shadow-md hover:shadow-amber-500/5 transition-all rounded-xl hidden md:block";
+        ? "mb-3 group bg-card/60 border border-[hsl(var(--accent-1)/0.15)] hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all rounded-xl block md:hidden"
+        : "mb-3 group bg-card/60 border border-[hsl(var(--accent-1)/0.15)] hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all rounded-xl hidden md:block";
       const headerCls = isStacked
         ? "px-4 py-4"
         : "px-4 py-4 flex flex-row items-center justify-between gap-3";
@@ -456,11 +456,11 @@ export default function Favourites(properties) {
   return (
     <div className="container mx-auto mt-5 mb-10 max-w-4xl text-foreground">
       <Card className="mb-8 rounded-xl overflow-hidden bg-card/60 border-border">
-        <div className="h-1 w-full bg-gradient-to-r from-amber-500 to-yellow-500" />
+        <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))]" />
         <CardHeader className="px-5 py-4 flex flex-row items-center justify-between bg-accent/30 dark:bg-white/[0.05] border-b border-border/60">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-amber-500/15 border border-amber-500/25 flex items-center justify-center">
-              <Star className="h-4 w-4 text-amber-400" />
+            <div className="h-9 w-9 rounded-lg bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.25)] flex items-center justify-center">
+              <Star className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
             </div>
             <div>
               <CardTitle className="text-xl font-bold tracking-tight text-foreground">
@@ -481,7 +481,7 @@ export default function Favourites(properties) {
               balances={null}
               triggerLabel={t("Favourites:addAsset")}
               triggerVariant="outline"
-              triggerClassName="border-amber-500/30 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300"
+              triggerClassName="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]"
             />
           </div>
         </CardHeader>
@@ -524,9 +524,9 @@ export default function Favourites(properties) {
               )}
             </>
           ) : (
-            <Empty className="mt-2 border border-dashed border-amber-500/20 rounded-xl bg-amber-500/[0.03]">
+            <Empty className="mt-2 border border-dashed border-[hsl(var(--accent-1)/0.2)] rounded-xl bg-[hsl(var(--accent-1)/0.03)]">
               <EmptyHeader>
-                <EmptyMedia variant="icon" className="bg-amber-500/15 text-amber-400"><Star className="w-6 h-6" /></EmptyMedia>
+                <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]"><Star className="w-6 h-6" /></EmptyMedia>
                 <EmptyTitle className="text-foreground/80">{t("Favourites:assetsEmptyTitle")}</EmptyTitle>
                 <EmptyDescription className="text-muted-foreground">
                   {t("Favourites:assetsEmptyDescription")}
@@ -538,11 +538,11 @@ export default function Favourites(properties) {
       </Card>
 
       <Card className="mb-8 rounded-xl overflow-hidden bg-card/60 border-border">
-        <div className="h-1 w-full bg-gradient-to-r from-cyan-500 to-sky-500" />
+        <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-2))]" />
         <CardHeader className="px-5 py-4 flex flex-row items-center justify-between bg-accent/30 dark:bg-white/[0.05] border-b border-border/60">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-cyan-500/15 border border-cyan-500/25 flex items-center justify-center">
-              <ArrowLeftRight className="h-4 w-4 text-cyan-400" />
+            <div className="h-9 w-9 rounded-lg bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.25)] flex items-center justify-center">
+              <ArrowLeftRight className="h-4 w-4 text-[hsl(var(--accent-2-fg))]" />
             </div>
             <div>
               <CardTitle className="text-xl font-bold tracking-tight text-foreground">
@@ -556,7 +556,7 @@ export default function Favourites(properties) {
             onOpenChange={(open) => setPairDialogOpen(open)}
           >
             <DialogTrigger asChild>
-              <Button variant="outline" className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300">
+              <Button variant="outline" className="border-[hsl(var(--accent-2)/0.3)] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.1)] hover:text-[hsl(var(--accent-2-fg))]">
                 {t("Favourites:addPair")}
               </Button>
             </DialogTrigger>
@@ -660,7 +660,7 @@ export default function Favourites(properties) {
                     if (!pair) return null;
                     return (
                       <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 group bg-card/60 border border-cyan-500/15 hover:border-cyan-500/30 hover:bg-cyan-500/[0.03] hover:shadow-md transition-all rounded-xl">
+                        <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
                           <CardHeader className="px-4 py-4">
                             <div className="space-y-1">
                               <CardTitle className="text-base text-foreground font-semibold">
@@ -702,7 +702,7 @@ export default function Favourites(properties) {
                     if (!pair) return null;
                     return (
                       <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 group bg-card/60 border border-cyan-500/15 hover:border-cyan-500/30 hover:bg-cyan-500/[0.03] hover:shadow-md transition-all rounded-xl">
+                        <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
                           <CardHeader className="px-4 py-4 flex flex-row items-center justify-between gap-3">
                             <div className="space-y-1">
                               <CardTitle className="text-base text-foreground font-semibold">
@@ -738,9 +738,9 @@ export default function Favourites(properties) {
               </div>
             </>
           ) : (
-            <Empty className="mt-2 border border-dashed border-cyan-500/20 rounded-xl bg-cyan-500/[0.03]">
+            <Empty className="mt-2 border border-dashed border-[hsl(var(--accent-2)/0.2)] rounded-xl bg-[hsl(var(--accent-2)/0.03)]">
               <EmptyHeader>
-                <EmptyMedia variant="icon" className="bg-cyan-500/15 text-cyan-400"><ArrowLeftRight className="w-6 h-6" /></EmptyMedia>
+                <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-2)/0.15)] text-[hsl(var(--accent-2-fg))]"><ArrowLeftRight className="w-6 h-6" /></EmptyMedia>
                 <EmptyTitle className="text-foreground/80">{t("Favourites:pairsEmptyTitle")}</EmptyTitle>
                 <EmptyDescription className="text-muted-foreground">
                   {t("Favourites:pairsEmptyDescription")}
@@ -752,11 +752,11 @@ export default function Favourites(properties) {
       </Card>
 
       <Card className="mb-8 rounded-xl overflow-hidden bg-card/60 border-border">
-        <div className="h-1 w-full bg-gradient-to-r from-sky-500 to-blue-500" />
+        <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-2))]" />
         <CardHeader className="px-5 py-4 flex flex-row items-center justify-between bg-accent/30 dark:bg-white/[0.05] border-b border-border/60">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-sky-500/15 border border-sky-500/25 flex items-center justify-center">
-              <Send className="h-4 w-4 text-sky-400" />
+            <div className="h-9 w-9 rounded-lg bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.25)] flex items-center justify-center">
+              <Send className="h-4 w-4 text-[hsl(var(--accent-2-fg))]" />
             </div>
             <div>
               <CardTitle className="text-xl font-bold tracking-tight text-foreground">
@@ -770,7 +770,7 @@ export default function Favourites(properties) {
             onOpenChange={(open) => setUserDialogOpen(open)}
           >
             <DialogTrigger asChild>
-              <Button variant="outline" className="border-sky-500/30 text-sky-400 hover:bg-sky-500/10 hover:text-sky-300">
+              <Button variant="outline" className="border-[hsl(var(--accent-2)/0.3)] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.1)] hover:text-[hsl(var(--accent-2-fg))]">
                 {t("Favourites:addUser")}
               </Button>
             </DialogTrigger>
@@ -799,7 +799,7 @@ export default function Favourites(properties) {
                     if (!user) return null;
                     return (
                       <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 group bg-card/60 border border-sky-500/15 hover:border-sky-500/30 hover:bg-sky-500/[0.03] hover:shadow-md transition-all rounded-xl">
+                        <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
                           <CardHeader className="px-4 py-4">
                             <div className="space-y-1 min-w-0">
                               <CardTitle className="text-base text-foreground truncate">
@@ -846,7 +846,7 @@ export default function Favourites(properties) {
                     if (!user) return null;
                     return (
                       <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 group bg-card/60 border border-sky-500/15 hover:border-sky-500/30 hover:bg-sky-500/[0.03] hover:shadow-md transition-all rounded-xl">
+                        <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
                           <CardHeader className="px-4 py-4 flex flex-row items-center justify-between gap-3">
                             <div className="space-y-1 min-w-0">
                               <CardTitle className="text-base text-foreground truncate">
@@ -887,9 +887,9 @@ export default function Favourites(properties) {
               </div>
             </>
           ) : (
-            <Empty className="mt-2 border border-dashed border-sky-500/20 rounded-xl bg-sky-500/[0.03]">
+            <Empty className="mt-2 border border-dashed border-[hsl(var(--accent-2)/0.2)] rounded-xl bg-[hsl(var(--accent-2)/0.03)]">
               <EmptyHeader>
-                <EmptyMedia variant="icon" className="bg-sky-500/15 text-sky-400"><Send className="w-6 h-6" /></EmptyMedia>
+                <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-2)/0.15)] text-[hsl(var(--accent-2-fg))]"><Send className="w-6 h-6" /></EmptyMedia>
                 <EmptyTitle className="text-foreground/80">{t("Favourites:usersEmptyTitle")}</EmptyTitle>
                 <EmptyDescription className="text-muted-foreground">
                   {t("Favourites:usersEmptyDescription")}

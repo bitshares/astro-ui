@@ -198,9 +198,9 @@ export default function WorkerCreate(properties) {
   if (coreAssetLoading) {
     return (
       <div className="container mx-auto mt-5 mb-5">
-        <Card className="relative overflow-hidden border-emerald-500/15 bg-card/60 backdrop-blur-xl shadow-lg shadow-emerald-950/20">
-          <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-teal-500/20 to-emerald-500/20 blur-3xl" />
+        <Card className="relative overflow-hidden border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.2)]">
+          <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-1)/0.2)] blur-3xl" />
           <div className="p-4">
             <Skeleton className="h-8 w-3/4" />
             <Skeleton className="h-4 w-1/2 mt-2" />
@@ -216,13 +216,13 @@ export default function WorkerCreate(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
-        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-emerald-950/20">
-          <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-teal-500/20 to-emerald-500/20 blur-3xl" />
-          <div className="h-1 w-full bg-gradient-to-r from-emerald-400/70 via-teal-400/70 to-emerald-400/70" />
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.2)]">
+          <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-1)/0.2)] blur-3xl" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
           <CardHeader className="pb-0">
-            <CardTitle className="text-lg bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent flex items-center gap-2">
-              <HardHat className="h-5 w-5 text-emerald-500" />
+            <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+              <HardHat className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
               {t("WorkerCreate:title")}
             </CardTitle>
             <CardDescription>{t("WorkerCreate:description")}</CardDescription>
@@ -258,7 +258,7 @@ export default function WorkerCreate(properties) {
                         id="workerName"
                         placeholder={t("WorkerCreate:namePlaceholder")}
                         maxLength={MAX_WORKER_NAME_LENGTH}
-                        className="border-emerald-500/20 bg-card/60 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                        className="border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                       />
                       {fieldState.error && (
                         <FieldError>{fieldState.error.message}</FieldError>
@@ -292,7 +292,7 @@ export default function WorkerCreate(properties) {
                         id="workerUrl"
                         placeholder={t("WorkerCreate:urlPlaceholder")}
                         maxLength={MAX_URL_LENGTH}
-                        className="border-emerald-500/20 bg-card/60 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                        className="border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                       />
                       {fieldState.error && (
                         <FieldError>{fieldState.error.message}</FieldError>
@@ -415,7 +415,7 @@ export default function WorkerCreate(properties) {
                               const value = safeParseFloat(e.target.value, 0);
                               field.onChange(value);
                             }}
-                            className="border-emerald-500/20 bg-card/60 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                            className="border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                             disabled={!coreAsset}
                           />
                         </div>
@@ -423,7 +423,7 @@ export default function WorkerCreate(properties) {
                           <Input
                             value={`${_chain === "bitshares" ? "BTS" : "TEST"} (1.3.0)`}
                             disabled
-                            className="border-emerald-500/10 bg-muted/50 text-muted-foreground cursor-not-allowed"
+                            className="border-[hsl(var(--accent-1)/0.1)] bg-muted/50 text-muted-foreground cursor-not-allowed"
                           />
                         </div>
                       </div>
@@ -448,7 +448,7 @@ export default function WorkerCreate(properties) {
                           onValueChange={field.onChange}
                           value={field.value}
                         >
-                          <SelectTrigger className="border-emerald-500/20 bg-card/60">
+                          <SelectTrigger className="border-[hsl(var(--accent-1)/0.2)] bg-card/60">
                             <SelectValue
                               placeholder={t(
                                 "WorkerCreate:workerTypePlaceholder"
@@ -497,7 +497,7 @@ export default function WorkerCreate(properties) {
                             onChange={(e) =>
                               field.onChange(safeParseInt(e.target.value, 0))
                             }
-                            className="border-emerald-500/20 bg-card/60 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                            className="border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                           />
                           {fieldState.error && (
                             <FieldError>{fieldState.error.message}</FieldError>
@@ -510,7 +510,7 @@ export default function WorkerCreate(properties) {
 
                 <Button
                   type="submit"
-                  className="mt-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20 hover:from-emerald-400 hover:to-teal-400 hover:shadow-emerald-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                  className="mt-4 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                   disabled={!form.formState.isValid || !canSubmit}
                 >
                   <Send className="h-4 w-4 mr-2" />

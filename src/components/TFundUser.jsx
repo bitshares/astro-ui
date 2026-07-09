@@ -76,25 +76,25 @@ import LimitOrderWizard from "./Market/LimitOrderWizard.jsx";
 
 const STEP_ACCENTS = {
   1: {
-    bar: "from-violet-400/80 via-purple-400/80 to-fuchsia-400/80",
-    glow: "bg-violet-500/10",
-    border: "border-violet-500/25",
-    text: "dark:text-violet-200 text-violet-700",
-    bg: "from-violet-500/[0.06] to-transparent",
+    bar: "from-[hsl(var(--accent-1)/0.8)] via-[hsl(var(--accent-1)/0.8)] to-[hsl(var(--accent-1)/0.8)]",
+    glow: "bg-[hsl(var(--accent-1)/0.1)]",
+    border: "border-[hsl(var(--accent-1)/0.25)]",
+    text: "dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]",
+    bg: "from-[hsl(var(--accent-1)/0.06)] to-transparent",
   },
   2: {
-    bar: "from-blue-400/80 via-cyan-400/80 to-teal-400/80",
-    glow: "bg-blue-500/10",
-    border: "border-blue-500/25",
-    text: "dark:text-blue-200 text-blue-700",
-    bg: "from-blue-500/[0.06] to-transparent",
+    bar: "from-[hsl(var(--accent-2)/0.8)] via-[hsl(var(--accent-2)/0.8)] to-[hsl(var(--accent-2)/0.8)]",
+    glow: "bg-[hsl(var(--accent-2)/0.1)]",
+    border: "border-[hsl(var(--accent-2)/0.25)]",
+    text: "dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]",
+    bg: "from-[hsl(var(--accent-2)/0.06)] to-transparent",
   },
   3: {
-    bar: "from-emerald-400/80 via-green-400/80 to-teal-400/80",
-    glow: "bg-emerald-500/10",
-    border: "border-emerald-500/25",
-    text: "dark:text-emerald-200 text-emerald-700",
-    bg: "from-emerald-500/[0.06] to-transparent",
+    bar: "from-[hsl(var(--accent-success)/0.8)] via-[hsl(var(--accent-success)/0.8)] to-[hsl(var(--accent-2)/0.8)]",
+    glow: "bg-[hsl(var(--accent-success)/0.1)]",
+    border: "border-[hsl(var(--accent-success)/0.25)]",
+    text: "dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
+    bg: "from-[hsl(var(--accent-success)/0.06)] to-transparent",
   },
 };
 
@@ -551,8 +551,8 @@ export default function TFundUser(properties) {
               className={cn(
                 "w-full text-left group relative overflow-hidden rounded-xl border transition-all",
                 hasExistingBorrow
-                  ? "border-violet-500/40 bg-gradient-to-br from-violet-500/[0.08] to-purple-500/[0.04] hover:border-violet-500/60 hover:shadow-[0_0_24px_-6px_rgba(139,92,246,0.3)]"
-                  : "border-border/60 bg-card/40 hover:border-violet-400/30 hover:bg-violet-500/[0.03]"
+                  ? "border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.08)] to-[hsl(var(--accent-1)/0.04)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(139,92,246,0.3)]"
+                  : "border-border/60 bg-card/40 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)]"
               )}
             >
               <span
@@ -560,14 +560,14 @@ export default function TFundUser(properties) {
                 className={cn(
                   "pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity",
                   hasExistingBorrow
-                    ? "via-violet-400/60"
-                    : "via-violet-400/30"
+                    ? "via-[hsl(var(--accent-1)/0.6)]"
+                    : "via-[hsl(var(--accent-1)/0.3)]"
                 )}
               />
               <div className="px-3 py-2">
                 <div className="grid grid-cols-4 gap-2 items-center text-sm">
                   <div className="flex items-center gap-1.5 col-span-1">
-                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700 shrink-0">
+                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] shrink-0">
                       <Landmark className="h-2.5 w-2.5" />
                     </span>
                     <span className="font-mono text-xs font-semibold text-foreground">
@@ -578,7 +578,7 @@ export default function TFundUser(properties) {
                     {lender ? lender.name : "???"}
                   </div>
                   <div className="font-mono text-xs tabular-nums text-foreground/85 col-span-1">
-                    <span className="dark:text-violet-100/90 text-violet-700 font-semibold">
+                    <span className="dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
                       {parseFloat(available).toLocaleString(undefined, {
                         maximumFractionDigits: asset ? asset.precision : 4,
                       })}
@@ -591,7 +591,7 @@ export default function TFundUser(properties) {
                     {hasExistingBorrow ? (
                       <Badge
                         variant="outline"
-                        className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 text-[10px] ml-1"
+                        className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px] ml-1"
                       >
                         {t("TFundUser:selected", "Selected")}
                       </Badge>
@@ -604,7 +604,7 @@ export default function TFundUser(properties) {
           <DialogContent className="sm:max-w-[520px] !bg-card border border-border rounded-2xl">
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/60 to-transparent"
+              className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent"
             />
             <DialogHeader>
               <DialogTitle className="text-foreground">
@@ -613,14 +613,14 @@ export default function TFundUser(properties) {
               <DialogDescription className="text-muted-foreground space-y-1">
                 <div>
                   {t("WithdrawPermissions:id")}:{" "}
-                  <span className="font-mono text-foreground/80 hover:text-violet-500 dark:hover:text-violet-400 transition-colors">
+                  <span className="font-mono text-foreground/80 hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">
                     {fund.id}
                   </span>
                 </div>
                 {lender ? (
                   <div>
                     {t("Smartcoin:owner")}:{" "}
-                    <span className="font-medium text-foreground/80 hover:text-violet-500 dark:hover:text-violet-400 transition-colors">
+                    <span className="font-medium text-foreground/80 hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">
                       {lender.name}
                     </span>
                   </div>
@@ -679,8 +679,8 @@ export default function TFundUser(properties) {
                         className={cn(
                           "px-2 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider border transition-all",
                           parseFloat(borrowAmount) === available * pct
-                            ? "border-violet-400/40 bg-violet-500/20 dark:text-violet-100 text-violet-700"
-                            : "border-border/60 bg-card/40 text-muted-foreground hover:border-violet-400/30 hover:bg-violet-500/10"
+                            ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
+                            : "border-border/60 bg-card/40 text-muted-foreground hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)]"
                         )}
                       >
                         {label}
@@ -695,7 +695,7 @@ export default function TFundUser(properties) {
                 className={cn(
                   "w-full h-11 rounded-xl font-semibold transition-all",
                   borrowAmount > 0
-                    ? "border-violet-400/40 bg-violet-500/10 dark:text-violet-100 text-violet-700 hover:bg-violet-500/20 hover:border-violet-400/60 hover:shadow-[0_0_24px_-6px_rgba(139,92,246,0.4)]"
+                    ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(139,92,246,0.4)]"
                     : "border-border text-muted-foreground"
                 )}
                 onClick={() => {
@@ -775,7 +775,7 @@ export default function TFundUser(properties) {
             <div className="flex items-center gap-2">
               <Badge
                 variant="outline"
-                className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 text-[10px]"
+                className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px]"
               >
                 {t("TFundUser:stepIndicator", "Step 1")}
               </Badge>
@@ -827,9 +827,9 @@ export default function TFundUser(properties) {
             </div>
           </>
         ) : (
-          <Empty className="border border-dashed border-violet-500/20 rounded-xl bg-violet-500/[0.03]">
+          <Empty className="border border-dashed border-[hsl(var(--accent-1)/0.2)] rounded-xl bg-[hsl(var(--accent-1)/0.03)]">
             <EmptyHeader>
-              <EmptyMedia variant="icon" className="bg-violet-500/15 text-violet-400">
+              <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
                 <Landmark className="w-6 h-6" />
               </EmptyMedia>
               <EmptyTitle className="text-foreground/80">
@@ -863,9 +863,9 @@ export default function TFundUser(properties) {
 
     return (
       <div style={style} key={`borrowposition-${_borrowPosition.id}`}>
-        <div className="group flex items-center justify-between rounded-lg border border-violet-500/15 bg-gradient-to-r from-violet-500/[0.04] to-transparent hover:border-violet-500/30 hover:bg-violet-500/[0.06] transition-all px-3 py-2">
+        <div className="group flex items-center justify-between rounded-lg border border-[hsl(var(--accent-1)/0.15)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.04)] to-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] transition-all px-3 py-2">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+            <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
               <Landmark className="h-2.5 w-2.5" />
             </span>
             <span className="font-mono text-xs font-semibold text-foreground">
@@ -880,7 +880,7 @@ export default function TFundUser(properties) {
               <span className="text-muted-foreground/60">{borrowAsset.symbol}</span>
             </span>
             <span className="text-muted-foreground/40">|</span>
-            <span className="font-mono text-xs tabular-nums text-rose-400/80">
+            <span className="font-mono text-xs tabular-nums text-[hsl(var(--accent-danger-fg)/0.8)]">
               +{feeAmount} <span className="text-muted-foreground/60">{borrowAsset.symbol}</span>
             </span>
           </div>
@@ -890,14 +890,14 @@ export default function TFundUser(properties) {
   };
 
   const BorrowPositionsSection = borrowPositions && borrowPositions.length ? (
-    <div className="relative overflow-hidden rounded-2xl border border-violet-500/20 bg-card/60 backdrop-blur-xl">
+    <div className="relative overflow-hidden rounded-2xl border border-[hsl(var(--accent-1)/0.2)] bg-card/60 backdrop-blur-xl">
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/40 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.4)] to-transparent"
       />
       <div className="relative p-4 sm:p-5">
         <div className="flex items-center gap-2 mb-3">
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
             <Wallet className="h-3 w-3" />
           </span>
           <h4 className="text-sm font-semibold text-foreground">
@@ -905,7 +905,7 @@ export default function TFundUser(properties) {
           </h4>
           <Badge
             variant="outline"
-            className="border-violet-400/20 bg-violet-500/10 dark:text-violet-200 text-violet-700 text-[10px]"
+            className="border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px]"
           >
             {borrowPositions.length}
           </Badge>
@@ -973,19 +973,19 @@ export default function TFundUser(properties) {
 
     return (
       <div style={style} key={`operation-summary-${_operation.id}-${index}`}>
-        <div className="group flex items-center justify-between rounded-lg border border-blue-500/15 bg-gradient-to-r from-blue-500/[0.04] to-transparent hover:border-blue-500/30 hover:bg-blue-500/[0.06] transition-all px-3 py-2">
+        <div className="group flex items-center justify-between rounded-lg border border-[hsl(var(--accent-2)/0.15)] bg-gradient-to-r from-[hsl(var(--accent-2)/0.04)] to-transparent hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.06)] transition-all px-3 py-2">
           <div className="flex items-center gap-3 min-w-0">
-            <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-blue-500/15 border border-blue-400/30 dark:text-blue-200 text-blue-700">
+            <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
               <TrendingUp className="h-2.5 w-2.5" />
             </span>
-            <span className="font-mono text-xs tabular-nums text-emerald-400 font-semibold">
+            <span className="font-mono text-xs tabular-nums text-[hsl(var(--accent-success-fg))] font-semibold">
               +{_amountPurchased}
             </span>
             <span className="text-xs text-foreground/80 font-medium">
               {_purchasedAsset.symbol}
             </span>
             <ChevronRight className="h-3 w-3 text-muted-foreground/40" />
-            <span className="font-mono text-xs tabular-nums text-rose-400/80">
+            <span className="font-mono text-xs tabular-nums text-[hsl(var(--accent-danger-fg)/0.8)]">
               -{_amountSold}
             </span>
             <span className="text-xs text-foreground/80 font-medium">
@@ -1006,7 +1006,7 @@ export default function TFundUser(properties) {
                       setSellingAsset(_soldAsset.symbol);
                       setAddOperationDialog(true);
                     }}
-                    className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-blue-400/30 bg-blue-500/10 dark:text-blue-200 text-blue-700 hover:bg-blue-500/20 hover:border-blue-400/50 transition-all opacity-0 group-hover:opacity-100"
+                    className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.5)] transition-all opacity-0 group-hover:opacity-100"
                   >
                     <Plus className="h-3 w-3" />
                   </button>
@@ -1052,7 +1052,7 @@ export default function TFundUser(properties) {
             <div className="flex items-center gap-2">
               <Badge
                 variant="outline"
-                className="border-blue-400/30 bg-blue-500/10 dark:text-blue-200 text-blue-700 text-[10px]"
+                className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] text-[10px]"
               >
                 {t("TFundUser:stepIndicator2", "Step 2")}
               </Badge>
@@ -1142,18 +1142,18 @@ export default function TFundUser(properties) {
 
     let _finalAmountColor = "text-foreground/85";
     if (_finalAmount < 0) {
-      _finalAmountColor = "text-red-400 font-semibold";
+      _finalAmountColor = "text-[hsl(var(--accent-danger-fg))] font-semibold";
     } else if (_finalAmount > 0) {
       _finalAmountColor = parseFloat(_diff) > 0
-        ? "text-emerald-400 font-semibold"
+        ? "text-[hsl(var(--accent-success-fg))] font-semibold"
         : "text-foreground/85";
     }
 
     let _diffColor = "text-muted-foreground/50";
     if (parseFloat(_diff) > 0) {
-      _diffColor = "text-emerald-400";
+      _diffColor = "text-[hsl(var(--accent-success-fg))]";
     } else if (parseFloat(_diff) < 0) {
-      _diffColor = "text-rose-400";
+      _diffColor = "text-[hsl(var(--accent-danger-fg))]";
     }
 
     return (
@@ -1216,7 +1216,7 @@ export default function TFundUser(properties) {
             <div className="flex items-center gap-2">
               <Badge
                 variant="outline"
-                className="border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 text-[10px]"
+                className="border-[hsl(var(--accent-success)/0.3)] bg-[hsl(var(--accent-success)/0.1)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))] text-[10px]"
               >
                 {t("TFundUser:stepIndicator3", "Step 3")}
               </Badge>
@@ -1250,9 +1250,9 @@ export default function TFundUser(properties) {
         </div>
 
         {operations && operations.length ? (
-          <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-500/[0.05] p-4">
+          <div className="mt-4 rounded-xl border border-[hsl(var(--accent-3)/0.2)] bg-[hsl(var(--accent-3)/0.05)] p-4">
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-amber-400/30 bg-amber-500/10 dark:text-amber-200 text-amber-700">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-[hsl(var(--accent-3)/0.3)] bg-[hsl(var(--accent-3)/0.1)] dark:text-[hsl(var(--accent-3-fg))] text-[hsl(var(--accent-3-fg))]">
                 <Zap className="h-3 w-3" />
               </span>
               <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">
@@ -1262,7 +1262,7 @@ export default function TFundUser(properties) {
             <div className="flex flex-wrap gap-2">
               <Badge
                 variant="outline"
-                className="border-amber-400/30 bg-amber-500/10 dark:text-amber-200 text-amber-700 font-mono"
+                className="border-[hsl(var(--accent-3)/0.3)] bg-[hsl(var(--accent-3)/0.1)] dark:text-[hsl(var(--accent-3-fg))] text-[hsl(var(--accent-3-fg))] font-mono"
               >
                 <Zap className="h-3 w-3 mr-1" />
                 {(
@@ -1279,7 +1279,7 @@ export default function TFundUser(properties) {
                     <Badge
                       key={symbol}
                       variant="outline"
-                      className="border-blue-400/30 bg-blue-500/10 dark:text-blue-200 text-blue-700 font-mono"
+                      className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] font-mono"
                     >
                       <Percent className="h-3 w-3 mr-1" />
                       {fee} {symbol}
@@ -1298,7 +1298,7 @@ export default function TFundUser(properties) {
     <div className="flex justify-center mt-6">
       <button
         onClick={() => setDeeplinkDialog(true)}
-        className="group relative overflow-hidden inline-flex items-center gap-2 h-12 px-8 rounded-2xl text-sm font-semibold bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 text-white shadow-[0_8px_32px_-12px_rgba(139,92,246,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(139,92,246,0.9)] hover:from-violet-400 hover:via-purple-400 hover:to-fuchsia-400 transition-all active:scale-[0.99]"
+        className="group relative overflow-hidden inline-flex items-center gap-2 h-12 px-8 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-[0_8px_32px_-12px_rgba(139,92,246,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(139,92,246,0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all active:scale-[0.99]"
       >
         <span
           aria-hidden="true"
@@ -1314,22 +1314,22 @@ export default function TFundUser(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-10 max-w-4xl">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-violet-950/20 mb-6">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)] mb-6">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-violet-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-fuchsia-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-2">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-violet-400/30 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 dark:text-violet-200 text-violet-700">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Sparkles className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>

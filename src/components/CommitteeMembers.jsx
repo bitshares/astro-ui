@@ -244,7 +244,7 @@ export default function CommitteeMembers(properties) {
 
       return (
         <div style={style} key={`vote${currentVote}`}>
-          <Card className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-emerald-500/20 bg-emerald-500/5" : "border-violet-500/15 bg-card/60"} backdrop-blur-xl shadow-sm hover:border-violet-500/25 transition-all duration-300`}>
+          <Card className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-2)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-2)/0.25)] transition-all duration-300`}>
           <div className="p-3 text-sm">
             <div className="col-span-3 flex items-center">
               <Avatar
@@ -272,7 +272,7 @@ export default function CommitteeMembers(properties) {
       <div style={style} key={member.id}>
         <Dialog>
           <DialogTrigger asChild>
-            <Card className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-emerald-500/20 bg-emerald-500/5" : "border-violet-500/15 bg-card/60"} backdrop-blur-xl shadow-sm hover:border-violet-500/25 transition-all duration-300`}>
+            <Card className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-2)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-2)/0.25)] transition-all duration-300`}>
               <div className="p-3 text-sm">
                 <div className="grid grid-cols-3 gap-2 items-center">
                   <div className="flex items-center">
@@ -314,7 +314,7 @@ export default function CommitteeMembers(properties) {
               </div>
             </Card>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px] bg-card/60 backdrop-blur-xl border-violet-500/15">
+          <DialogContent className="sm:max-w-[500px] bg-card/60 backdrop-blur-xl border-[hsl(var(--accent-2)/0.15)]">
             <DialogHeader>
               <DialogTitle>
                 {t("CommitteeMembers:votesFor", { name: member.name })}:
@@ -335,7 +335,7 @@ export default function CommitteeMembers(properties) {
                 />
               </div>
             ) : (
-              <div className="text-red-500 dark:text-red-400 text-center">N/A</div>
+              <div className="text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] text-center">N/A</div>
             )}
           </DialogContent>
         </Dialog>
@@ -345,14 +345,14 @@ export default function CommitteeMembers(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5">
-      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-violet-950/20">
-        <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-violet-500/20 to-purple-500/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-purple-500/20 to-violet-500/20 blur-3xl" />
-        <div className="h-1 w-full bg-gradient-to-r from-violet-400/70 via-purple-400/70 to-violet-400/70" />
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-2)/0.2)]">
+        <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-3)/0.2)] blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+        <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-2)/0.7)] via-[hsl(var(--accent-3)/0.7)] to-[hsl(var(--accent-2)/0.7)]" />
         {/* content */}
         <CardHeader className="pb-0">
-          <CardTitle className="text-lg bg-gradient-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent flex items-center gap-2">
-            <Users className="h-5 w-5 text-violet-500" />
+          <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] bg-clip-text text-transparent flex items-center gap-2">
+            <Users className="h-5 w-5 text-[hsl(var(--accent-2-fg))]" />
             {t("CommitteeMembers:title")}
           </CardTitle>
           <CardDescription>{t("CommitteeMembers:description")}</CardDescription>
@@ -361,7 +361,7 @@ export default function CommitteeMembers(properties) {
             <Input
               placeholder={t("CommitteeMembers:filterPlaceholder")}
               onChange={(e) => debouncedFilterChange(e.target.value)}
-              className="mb-4 w-full md:w-1/3 border-violet-500/20 bg-card/60 focus-visible:ring-violet-400/40 focus-visible:border-violet-400/50"
+              className="mb-4 w-full md:w-1/3 border-[hsl(var(--accent-2)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-2)/0.4)] focus-visible:border-[hsl(var(--accent-2)/0.5)]"
             />
           {loading || !sortedMembers || !sortedMembers.length ? (
             <div className="space-y-2">
@@ -370,7 +370,7 @@ export default function CommitteeMembers(properties) {
             </div>
           ) : (
             <div className="w-full">
-              <div className="grid grid-cols-3 gap-2 p-2 bg-gradient-to-r from-violet-500/10 to-purple-500/10 rounded-t-md font-semibold text-sm sticky top-0 z-10">
+              <div className="grid grid-cols-3 gap-2 p-2 bg-gradient-to-r from-[hsl(var(--accent-2)/0.1)] to-[hsl(var(--accent-3)/0.1)] rounded-t-md font-semibold text-sm sticky top-0 z-10">
                 <div
                   className="cursor-pointer flex items-center gap-1"
                   onClick={() => handleSort("name")}

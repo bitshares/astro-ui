@@ -121,7 +121,7 @@ function BlockchainButton({ name, subtitle, onClick, icon, accentColor }) {
         "bg-accent/40 dark:bg-white/[0.05] border-border/80",
         "hover:bg-accent/60 hover:border-border",
         "transition-all duration-200 ease-out",
-        "focus:ring-2 focus:ring-violet-500/40 focus:ring-offset-0"
+        "focus:ring-2 focus:ring-[hsl(var(--accent-3)/0.4)] focus:ring-offset-0"
       )}
     >
       <div className="flex items-center gap-4 w-full">
@@ -156,7 +156,7 @@ function AccountCard({ user, onClick, onRemove, accentColor, isCurrentChain, t }
         "bg-accent/40 dark:bg-white/[0.05] border-border/80",
         "hover:bg-accent/60 hover:border-border",
         "transition-all duration-200 ease-out",
-        "focus:ring-2 focus:ring-violet-500/40"
+        "focus:ring-2 focus:ring-[hsl(var(--accent-3)/0.4)]"
       )}
     >
       <div className="flex items-center gap-3.5 w-full">
@@ -204,14 +204,14 @@ function AccountCard({ user, onClick, onRemove, accentColor, isCurrentChain, t }
           }}
           className={cn(
             "w-10 h-auto rounded-xl flex-shrink-0",
-            "hover:bg-rose-500/10 hover:border-rose-500/30",
+            "hover:bg-[hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.3)]",
             "transition-all duration-200 group/remove",
-            "focus:ring-2 focus:ring-rose-500/40"
+            "focus:ring-2 focus:ring-[hsl(var(--accent-1)/0.4)]"
           )}
           title={t("AccountSelect:removeAccount")}
           aria-label={t("AccountSelect:removeAccountLabel", { username: user.username })}
         >
-          <X className="w-4 h-4 text-muted-foreground/50 group-hover/remove:text-rose-400 transition-colors" />
+          <X className="w-4 h-4 text-muted-foreground/50 group-hover/remove:text-[hsl(var(--accent-1-fg))] transition-colors" />
         </Button>
       </div>
     );
@@ -432,7 +432,7 @@ export default function AccountSelect(properties) {
           </div>
 
           {errorMessage ? (
-            <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 text-xs">
+            <div className="flex items-center gap-2 text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] text-xs">
               <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
               <span>{errorMessage}</span>
             </div>

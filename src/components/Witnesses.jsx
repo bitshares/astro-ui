@@ -304,13 +304,13 @@ export default function Witnesses(properties) {
     const witness = sortedWitnesses[index];
     if (!witness) return null;
 
-    let missedClass = "text-green-600 dark:text-green-400"; // Default (low missed)
+    let missedClass = "text-[hsl(var(--accent-success-fg))] dark:text-[hsl(var(--accent-success-fg))]"; // Default (low missed)
     if (witness.total_missed > 500 && witness.total_missed <= 1250) {
-      missedClass = "text-blue-600 dark:text-blue-400";
+      missedClass = "text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]";
     } else if (witness.total_missed > 1250 && witness.total_missed <= 2000) {
-      missedClass = "text-orange-600 dark:text-orange-400";
+      missedClass = "text-[hsl(var(--accent-warning-fg))] dark:text-[hsl(var(--accent-warning-fg))]";
     } else if (witness.total_missed > 2000) {
-      missedClass = "text-red-600 dark:text-red-400";
+      missedClass = "text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]";
     }
 
     const votes = witnessAccounts[witness.account_id]?.options.votes || [];
@@ -332,7 +332,7 @@ export default function Witnesses(properties) {
 
       return (
         <div style={style} key={`vote${currentVote}`}>
-          <Card className={`mb-1 relative overflow-hidden ${witness.active ? "border-emerald-500/20 bg-emerald-500/5" : "border-indigo-500/15 bg-card/60"} backdrop-blur-xl shadow-sm hover:border-indigo-500/25 transition-all duration-300`}>
+          <Card className={`mb-1 relative overflow-hidden ${witness.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
             <CardContent className="p-3 text-sm">
               <div className="col-span-3 flex items-center">
                 <Avatar
@@ -360,7 +360,7 @@ export default function Witnesses(properties) {
         <div style={style} key={witness.id}>
           <Dialog>
             <DialogTrigger asChild>
-              <Card className={`mb-1 relative overflow-hidden ${witness.active ? "border-emerald-500/20 bg-emerald-500/5" : "border-indigo-500/15 bg-card/60"} backdrop-blur-xl shadow-sm hover:border-indigo-500/25 transition-all duration-300`}>
+              <Card className={`mb-1 relative overflow-hidden ${witness.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
                 <CardContent className="p-3 text-sm">
                   <div className="grid grid-cols-12 gap-2 items-center">
                     <div className="col-span-4 md:col-span-3 flex items-center">
@@ -388,11 +388,11 @@ export default function Witnesses(properties) {
                       <span className="ml-2">{witness.name}</span>
                     </div>
                     <div className="col-span-4 md:col-span-2">
-                      <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
+                      <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
                         {witness.id}
                       </span>{" "}
                       (
-                      <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
+                      <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
                         {witness.account_id}
                       </span>
                       )
@@ -406,7 +406,7 @@ export default function Witnesses(properties) {
                           <br />
                           <span className="text-xs">
                             (
-                            <span className="text-blue-500 dark:text-blue-400 hover:text-purple-500 dark:hover:text-purple-400">
+                            <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
                               #{witness.last_block_num}
                             </span>
                             )
@@ -430,7 +430,7 @@ export default function Witnesses(properties) {
                 </CardContent>
               </Card>
             </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px] bg-card/60 backdrop-blur-xl border-indigo-500/15">
+          <DialogContent className="sm:max-w-[500px] bg-card/60 backdrop-blur-xl border-[hsl(var(--accent-1)/0.15)]">
             <DialogHeader>
               <DialogTitle>
                 {t("Witnesses:votesFor", { name: witness.name })}:
@@ -452,7 +452,7 @@ export default function Witnesses(properties) {
                 />
               </ScrollArea>
             ) : (
-              <div className="text-red-500 dark:text-red-400 text-center">N/A</div>
+              <div className="text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] text-center">N/A</div>
             )}
           </DialogContent>
         </Dialog>
@@ -462,13 +462,13 @@ export default function Witnesses(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5">
-      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-indigo-950/20">
-        <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 blur-3xl" />
-        <div className="h-1 w-full bg-gradient-to-r from-indigo-400/70 via-cyan-400/70 to-indigo-400/70" />
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.2)]">
+        <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-1)/0.2)] blur-3xl" />
+        <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
         <CardHeader className="pb-0">
-          <CardTitle className="text-lg bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent flex items-center gap-2">
-            <Eye className="h-5 w-5 text-indigo-500" />
+          <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+            <Eye className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
             {t("Witnesses:title")}
           </CardTitle>
           <CardDescription>{t("Witnesses:description")}</CardDescription>
@@ -477,7 +477,7 @@ export default function Witnesses(properties) {
           <Input
             placeholder={t("Witnesses:filterPlaceholder")}
             onChange={(e) => debouncedFilterChange(e.target.value)}
-            className="mb-4 w-full md:w-1/3 border-indigo-500/20 bg-card/60 focus-visible:ring-indigo-400/40 focus-visible:border-indigo-400/50"
+            className="mb-4 w-full md:w-1/3 border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
           />
           {!sortedWitnesses ||
           !sortedWitnesses.length ||
@@ -488,9 +488,9 @@ export default function Witnesses(properties) {
             </div>
           ) : (
             <div className="w-full">
-              <div className="grid grid-cols-12 gap-2 p-2 bg-gradient-to-r from-indigo-500/10 to-cyan-500/10 rounded-t-md font-semibold text-sm sticky top-0 z-10">
+              <div className="grid grid-cols-12 gap-2 p-2 bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)] rounded-t-md font-semibold text-sm sticky top-0 z-10">
                 <div
-                  className="col-span-4 md:col-span-3 cursor-pointer bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent"
+                  className="col-span-4 md:col-span-3 cursor-pointer bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent"
                   onClick={() => handleSort("name")}
                 >
                   {t("Witnesses:name")}{" "}
@@ -507,7 +507,7 @@ export default function Witnesses(properties) {
                   {t("Witnesses:lastBlock")}
                 </div>
                 <div
-                  className="hidden md:block col-span-1 text-center cursor-pointer bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent"
+                  className="hidden md:block col-span-1 text-center cursor-pointer bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent"
                   onClick={() => handleSort("missed")}
                 >
                   {t("Witnesses:missed")}{" "}
@@ -518,7 +518,7 @@ export default function Witnesses(properties) {
                     : ""}
                 </div>
                 <div
-                  className="col-span-4 md:col-span-3 text-right pr-3 cursor-pointer bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent"
+                  className="col-span-4 md:col-span-3 text-right pr-3 cursor-pointer bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent"
                   onClick={() => handleSort("votes")}
                 >
                   {t("Witnesses:votes")}{" "}

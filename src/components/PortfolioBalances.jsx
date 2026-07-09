@@ -257,7 +257,7 @@ export default function PortfolioBalances({
             currentAsset.symbol === "BTS" ? "HONEST.USD" : "BTS"
           }`}
         >
-          <Button variant="outline" className="mr-2 h-8 gap-1.5 px-3 rounded-full border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300">
+          <Button variant="outline" className="mr-2 h-8 gap-1.5 px-3 rounded-full border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]">
             <ArrowLeftRight className="h-3.5 w-3.5" />
             {t("PortfolioTabs:tradeButton")}
           </Button>
@@ -267,7 +267,7 @@ export default function PortfolioBalances({
 
     return (
       <div style={{ ...style, marginBottom: "8px" }}>
-        <Card className="bg-card/60 border-border hover:bg-emerald-500/[0.03] hover:border-emerald-500/20 transition-all">
+        <Card className="bg-card/60 border-border hover:bg-[hsl(var(--accent-1)/0.03)] hover:border-[hsl(var(--accent-1)/0.2)] transition-all">
           <div className="grid grid-cols-6">
             <div className="col-span-4 md:col-span-2 text-left">
               <CardHeader className="pt-3 pb-3">
@@ -284,7 +284,7 @@ export default function PortfolioBalances({
                       className="p-0 m-0 inline-flex items-center"
                     >
                       {isFavourited ? (
-                        <StarFilledIcon className="h-4 w-4 text-yellow-500" />
+                        <StarFilledIcon className="h-4 w-4 text-[hsl(var(--accent-warning-fg))]" />
                       ) : (
                         <StarIcon className="h-4 w-4 text-muted-foreground/60" />
                       )}
@@ -334,11 +334,11 @@ export default function PortfolioBalances({
     <div className="container mx-auto mt-5 mb-5 text-foreground">
       <div className="grid grid-cols-1 mt-5">
         <Card className="bg-card/60 border-border shadow-lg shadow-black/20">
-          <div className="h-1 w-full bg-gradient-to-r from-emerald-500 to-teal-500" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))]" />
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2">
-              <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-emerald-500/15">
-                <Wallet className="w-4 h-4 text-emerald-400" />
+              <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[hsl(var(--accent-1)/0.15)]">
+                <Wallet className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
               </span>
               {t("PortfolioTabs:accountBalances", { username: usr?.username })}
             </CardTitle>
@@ -408,8 +408,8 @@ export default function PortfolioBalances({
               </div>
             ) : (
               <div className="text-center py-8">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-500/15 mb-3">
-                  <Wallet className="w-6 h-6 text-emerald-400" />
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[hsl(var(--accent-1)/0.15)] mb-3">
+                  <Wallet className="w-6 h-6 text-[hsl(var(--accent-1-fg))]" />
                 </div>
                 <p className="text-muted-foreground text-sm">{t("PortfolioTabs:noBalancesFound")}</p>
               </div>

@@ -302,11 +302,11 @@ export default function Transfer(properties) {
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-xl shadow-black/30">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-violet-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-violet-500/[0.06] blur-3xl"
+            className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.06)] blur-3xl"
           />
           <div className="relative px-5 sm:px-6 pt-5 sm:pt-6 pb-3">
             <h2 className="text-lg font-semibold text-foreground tracking-tight">
@@ -426,7 +426,7 @@ export default function Transfer(properties) {
                               }}
                             >
                               <DialogTrigger asChild>
-                                <Button variant="outline" className="ml-3 mt-1 border-violet-500/30 text-violet-300 hover:bg-violet-500/10 hover:text-violet-200">
+                                <Button variant="outline" className="ml-3 mt-1 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]">
                                   {targetUser
                                     ? t("Transfer:changeTarget")
                                     : t("Transfer:provideTarget")}
@@ -534,14 +534,14 @@ export default function Transfer(properties) {
                               chain={usr && usr.chain ? usr.chain : "bitshares"}
                               balances={balances}
                               triggerVariant="outline"
-                              triggerClassName="w-auto border-violet-500/30 text-violet-300 hover:bg-violet-500/10 hover:text-violet-200 hover:border-violet-400/50"
+                              triggerClassName="w-auto border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.5)]"
                             />
                           </div>
                         </div>
                         <FieldDescription className="text-muted-foreground text-xs">
                           {t("Transfer:assetToTransferDescription")}
                         </FieldDescription>
-                        <FieldError className="text-rose-400 text-xs">
+                        <FieldError className="text-[hsl(var(--accent-danger-fg))] text-xs">
                           {foundAsset &&
                           balances &&
                           !balances
@@ -619,7 +619,7 @@ export default function Transfer(properties) {
                             label={t("Transfer:amountToTransferLabel")}
                             value={transferAmount}
                             placeholder={transferAmount}
-                            className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 focus-visible:ring-violet-400/50"
+                            className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 focus-visible:ring-[hsl(var(--accent-1)/0.5)]"
                             onChange={(event) => {
                               const input = event.target.value;
                               const regex = assetAmountRegex(foundAsset);
@@ -655,7 +655,7 @@ export default function Transfer(properties) {
                             label={t("Transfer:memoFieldLabel")}
                             value={memoContents}
                             placeholder={memoContents}
-                            className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 focus-visible:ring-violet-400/50"
+                            className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 focus-visible:ring-[hsl(var(--accent-1)/0.5)]"
                             onChange={(event) => {
                               const input = event.target.value;
                               setMemoContents(input);
@@ -694,7 +694,7 @@ export default function Transfer(properties) {
                             className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-3 mt-3"
                           />
                           {usr.id === usr.referrer ? (
-                            <FieldError className="text-emerald-400 text-xs">
+                            <FieldError className="text-[hsl(var(--accent-success-fg))] text-xs">
                               {t("Transfer:rebate", {
                                 rebate: trimPrice(fee * 0.8, 5),
                               })}
@@ -712,7 +712,7 @@ export default function Transfer(properties) {
 
                   {!transferAmount ? (
                     <Button
-                      className="mt-5 mb-3 border-violet-500/20 text-violet-300/50 cursor-default w-full sm:w-auto"
+                      className="mt-5 mb-3 border-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg)/0.5)] cursor-default w-full sm:w-auto"
                       variant="outline"
                       disabled
                       type="submit"
@@ -727,14 +727,14 @@ export default function Transfer(properties) {
                           <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                             {t("Transfer:networkFee")}
                           </span>
-                          <span className="flex items-center gap-1.5 font-mono text-violet-400 text-sm">
+                          <span className="flex items-center gap-1.5 font-mono text-[hsl(var(--accent-1-fg))] text-sm">
                             <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
                             {fee.toFixed(5)} {usr.chain === "bitshares" ? "BTS" : "TEST"}
                           </span>
                         </div>
                       )}
                       <Button
-                      className="mt-5 mb-3 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-foreground border-0 shadow-lg shadow-violet-900/30 hover:shadow-violet-800/40 transition-all w-full sm:w-auto"
+                      className="mt-5 mb-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-foreground border-0 shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)] hover:shadow-[color:hsl(var(--accent-1)/0.4)] transition-all w-full sm:w-auto"
                       type="submit"
                     >
                       <ArrowRight className="h-4 w-4 mr-1.5" />

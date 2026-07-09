@@ -346,7 +346,7 @@ export default function NFTSection({
                             </DialogHeader>
                             <div className="grid grid-cols-3 gap-3">
                               <ExternalLink
-                                classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
+                                classnamecontents="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                                 type="button"
                                 text={"Pinata.cloud"}
                                 hyperlink={
@@ -354,19 +354,19 @@ export default function NFTSection({
                                 }
                               />
                               <ExternalLink
-                                classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
+                                classnamecontents="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                                 type="button"
                                 text={"NFT.storage"}
                                 hyperlink={"https://nft.storage/"}
                               />
                               <ExternalLink
-                                classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
+                                classnamecontents="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                                 type="button"
                                 text={"Web3.storage"}
                                 hyperlink={"https://web3.storage/"}
                               />
                               <ExternalLink
-                                classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
+                                classnamecontents="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                                 type="button"
                                 text={"Fleek.co"}
                                 hyperlink={
@@ -374,7 +374,7 @@ export default function NFTSection({
                                 }
                               />
                               <ExternalLink
-                                classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
+                                classnamecontents="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                                 type="button"
                                 text={"Infura.io"}
                                 hyperlink={
@@ -382,7 +382,7 @@ export default function NFTSection({
                                 }
                               />
                               <ExternalLink
-                                classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
+                                classnamecontents="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                                 type="button"
                                 text={"StorJ"}
                                 hyperlink={
@@ -390,13 +390,13 @@ export default function NFTSection({
                                 }
                               />
                               <ExternalLink
-                                classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
+                                classnamecontents="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                                 type="button"
                                 text={"Eternum.io"}
                                 hyperlink={"https://www.eternum.io/"}
                               />
                               <ExternalLink
-                                classnamecontents="hover:text-purple-500 dark:hover:text-purple-400"
+                                classnamecontents="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                                 type="button"
                                 text={"IPFS Docs"}
                                 hyperlink={

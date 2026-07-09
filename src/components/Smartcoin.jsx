@@ -944,10 +944,10 @@ export default function Smartcoin(properties) {
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
       <div className="grid grid-cols-1 gap-3">
         {marketSearch && invalidUrlParams ? (
-          <Card className="relative overflow-hidden border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
-            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
-            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
-            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+          <Card className="relative overflow-hidden border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
             <CardHeader className="relative">
               <CardTitle>{t("Smartcoin:invalidSmartcoinIdTitle")}</CardTitle>
               <CardDescription>
@@ -956,7 +956,7 @@ export default function Smartcoin(properties) {
             </CardHeader>
             <CardContent>
               {t("Smartcoin:invalidSmartcoinIdContent1")}{" "}
-              <a className="text-blue-500 dark:text-blue-400" href="/smartcoins/index.html">
+              <a className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]" href="/smartcoins/index.html">
                 {t("Smartcoin:invalidSmartcoinIdContent2")}
               </a>{" "}
               {t("Smartcoin:invalidSmartcoinIdContent3")}
@@ -1053,10 +1053,10 @@ export default function Smartcoin(properties) {
 
         {!invalidUrlParams &&
         (!finalAsset || !parsedAsset || !parsedBitasset) ? (
-          <Card className="mt-2 relative overflow-hidden border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
-            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
-            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
-            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+          <Card className="mt-2 relative overflow-hidden border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
             <CardHeader className="pb-2 relative">
               <CardTitle>
                 <div className="grid grid-cols-8">
@@ -1166,10 +1166,10 @@ export default function Smartcoin(properties) {
 
         {!invalidUrlParams &&
         (!finalCollateralAsset || !parsedCollateralAsset) ? (
-          <Card className="mt-2 relative overflow-hidden border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
-            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
-            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
-            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+          <Card className="mt-2 relative overflow-hidden border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
             <CardHeader className="pb-2 relative">
               <CardTitle>
                 <div className="grid grid-cols-8">

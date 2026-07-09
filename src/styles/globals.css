@@ -36,6 +36,30 @@
   --sidebar-accent-foreground: 240 5.9% 10%;
   --sidebar-border: 220 13% 91%;
   --sidebar-ring: 217.2 91.2% 59.8%;
+
+  /* Accent roles (page components). Fallback values for first paint; overridden
+     per active page at runtime by CustomThemeStyle. Light-mode variant. */
+  --accent-1: 239 84% 67%;
+  --accent-1-fg: 244 55% 41%;
+  --accent-1-foreground: 240 100% 98%;
+  --accent-2: 292 84% 61%;
+  --accent-2-fg: 295 72% 40%;
+  --accent-2-foreground: 300 100% 98%;
+  --accent-3: 258 90% 66%;
+  --accent-3-fg: 262 61% 45%;
+  --accent-3-foreground: 240 100% 98%;
+  --accent-success: 160 84% 39%;
+  --accent-success-fg: 161 94% 24%;
+  --accent-success-foreground: 152 81% 96%;
+  --accent-danger: 0 84% 60%;
+  --accent-danger-fg: 0 74% 42%;
+  --accent-danger-foreground: 0 86% 97%;
+  --accent-warning: 38 92% 50%;
+  --accent-warning-fg: 32 95% 33%;
+  --accent-warning-foreground: 48 96% 96%;
+  --accent-info: 199 89% 48%;
+  --accent-info-fg: 201 90% 36%;
+  --accent-info-foreground: 204 100% 97%;
 }
 
 .dark {
@@ -72,6 +96,29 @@
   --sidebar-accent-foreground: 240 4.8% 95.9%;
   --sidebar-border: 240 3.7% 15.9%;
   --sidebar-ring: 217.2 91.2% 59.8%;
+
+  /* Accent roles (page components) — dark-mode fallback variant. */
+  --accent-1: 239 84% 67%;
+  --accent-1-fg: 234 89% 74%;
+  --accent-1-foreground: 244 47% 20%;
+  --accent-2: 292 84% 61%;
+  --accent-2-fg: 292 91% 73%;
+  --accent-2-foreground: 297 64% 18%;
+  --accent-3: 258 90% 66%;
+  --accent-3-fg: 255 92% 76%;
+  --accent-3-foreground: 259 46% 20%;
+  --accent-success: 160 84% 39%;
+  --accent-success-fg: 156 72% 67%;
+  --accent-success-foreground: 165 91% 12%;
+  --accent-danger: 0 84% 60%;
+  --accent-danger-fg: 0 91% 71%;
+  --accent-danger-foreground: 0 75% 15%;
+  --accent-warning: 38 92% 50%;
+  --accent-warning-fg: 43 96% 56%;
+  --accent-warning-foreground: 28 74% 12%;
+  --accent-info: 199 89% 48%;
+  --accent-info-fg: 199 95% 74%;
+  --accent-info-foreground: 202 80% 14%;
 }
 
 @layer base {

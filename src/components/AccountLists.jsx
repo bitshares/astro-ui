@@ -158,7 +158,7 @@ export default function AccountLists(properties) {
 
     return (
       <div style={style} className="px-2 py-1">
-        <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-3 py-2.5 hover:border-emerald-500/20 hover:bg-emerald-500/[0.03] transition-all group">
+        <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-3 py-2.5 hover:border-[hsl(var(--accent-1)/0.2)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all group">
           <div className="flex-shrink-0">
             {account ? (
               <div className="relative">
@@ -176,8 +176,8 @@ export default function AccountLists(properties) {
                   className={cn(
                     "absolute -bottom-px -right-px h-2.5 w-2.5 rounded-full border-[1.5px] border-card flex-shrink-0",
                     mode === "whitelist"
-                      ? "bg-emerald-500"
-                      : "bg-rose-500"
+                      ? "bg-[hsl(var(--accent-1))]"
+                      : "bg-[hsl(var(--accent-danger))]"
                   )}
                 />
               </div>
@@ -205,7 +205,7 @@ export default function AccountLists(properties) {
                     onClick={() => setShowRowDialog(true)}
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 rounded-lg border border-border/60 text-muted-foreground hover:border-rose-400/40 hover:bg-rose-500/10 hover:text-rose-500 opacity-60 group-hover:opacity-100 transition-all"
+                    className="h-8 w-8 rounded-lg border border-border/60 text-muted-foreground hover:border-[hsl(var(--accent-danger)/0.4)] hover:bg-[hsl(var(--accent-danger)/0.1)] hover:text-[hsl(var(--accent-danger-fg))] opacity-60 group-hover:opacity-100 transition-all"
                   >
                     <UserMinus className="h-3.5 w-3.5" />
                   </Button>
@@ -262,24 +262,24 @@ export default function AccountLists(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:w-1/2">
-        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
           />
 
           <div className="relative p-5 sm:p-6">
             {/* Header */}
             <div className="flex items-center gap-3 mb-5">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <ListChecks className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>
@@ -307,7 +307,7 @@ export default function AccountLists(properties) {
                     className={cn(
                       "px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center gap-1.5",
                       active
-                        ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:text-emerald-100 text-emerald-700 border border-emerald-400/40 shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
+                        ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
                         : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
                     )}
                   >
@@ -319,7 +319,7 @@ export default function AccountLists(properties) {
                         className={cn(
                           "ml-1 h-5 min-w-5 px-1 text-[10px] font-mono rounded-md border-0",
                           active
-                            ? "bg-emerald-500/20 dark:text-emerald-200 text-emerald-700"
+                            ? "bg-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                             : "bg-muted text-muted-foreground"
                         )}
                       >
@@ -355,7 +355,7 @@ export default function AccountLists(properties) {
               ) : null}
               {mode === "whitelist" && !whitelistedAccounts.length ? (
                 <div className="flex flex-col items-center gap-3 py-10 border border-border/60 rounded-xl bg-card/30">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-400/20 bg-emerald-500/10 dark:text-emerald-300 text-emerald-600">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                     <ShieldCheck className="h-5 w-5" />
                   </span>
                   <p className="text-sm text-muted-foreground">
@@ -365,7 +365,7 @@ export default function AccountLists(properties) {
               ) : null}
               {mode === "blacklist" && !blacklistedAccounts.length ? (
                 <div className="flex flex-col items-center gap-3 py-10 border border-border/60 rounded-xl bg-card/30">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-rose-400/20 bg-rose-500/10 dark:text-rose-300 text-rose-600">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[hsl(var(--accent-danger)/0.2)] bg-[hsl(var(--accent-danger)/0.1)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]">
                     <ShieldOff className="h-5 w-5" />
                   </span>
                   <p className="text-sm text-muted-foreground">
@@ -378,7 +378,7 @@ export default function AccountLists(properties) {
             {/* Target Account Section */}
             <div className="rounded-xl border border-border/60 bg-card/40 p-4">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                   <UserPlus className="h-3 w-3" strokeWidth={2.25} />
                 </span>
                 <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
@@ -410,7 +410,7 @@ export default function AccountLists(properties) {
                         ? `${targetUser.name} (${targetUser.id})`
                         : t("AccountLists:accountName")
                     }
-                    className="bg-card/40 border-border/60 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50 font-mono text-sm"
+                    className="bg-card/40 border-border/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)] font-mono text-sm"
                   />
                 </div>
                 <div className="col-span-2">
@@ -421,7 +421,7 @@ export default function AccountLists(properties) {
                     <DialogTrigger asChild>
                       <Button
                         variant="outline"
-                        className="w-full border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300 hover:border-emerald-400/50 transition-all"
+                        className="w-full border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.5)] transition-all"
                       >
                         <Search className="h-3.5 w-3.5 mr-1.5" />
                         {targetUser
@@ -461,7 +461,7 @@ export default function AccountLists(properties) {
             {/* Add Button */}
             <div className="mt-5">
               <Button
-                className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
+                className="w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
                 type="button"
                 onClick={() => setShowDialog(true)}
               >

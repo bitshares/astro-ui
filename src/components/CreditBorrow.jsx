@@ -352,18 +352,18 @@ export default function CreditBorrow(properties) {
   function CommonRow({ index, style, res, foundAsset }) {
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="mx-2 mb-2 rounded-xl border border-emerald-500/15 bg-card/60 hover:border-emerald-500/30 hover:bg-emerald-500/[0.03] hover:shadow-md hover:shadow-emerald-500/5 transition-all">
+        <Card className="mx-2 mb-2 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all">
           <div className="p-4">
             <div className="flex items-start justify-between gap-3 mb-3">
               <div className="flex items-center gap-3 min-w-0">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700 flex-shrink-0">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
                   <HandCoins className="h-4 w-4" strokeWidth={2.25} />
                 </span>
                 <div className="min-w-0">
                   <h3 className="text-sm font-semibold text-foreground truncate">
                     {t("CreditBorrow:common.offer")} #{res.id.replace("1.21.", "")}
                   </h3>
-                  <Badge variant="outline" className="gap-1.5 border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700">
+                  <Badge variant="outline" className="gap-1.5 border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <button
@@ -434,7 +434,7 @@ export default function CreditBorrow(properties) {
                   </Badge>
                 </div>
               </div>
-              <Badge variant="outline" className="gap-1 text-[10px] border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 flex-shrink-0">
+              <Badge variant="outline" className="gap-1 text-[10px] border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
                 <Clock className="h-3 w-3" />
                 {hoursTillExpiration(res.auto_disable_time)}h
               </Badge>
@@ -447,7 +447,7 @@ export default function CreditBorrow(properties) {
                     <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
                       {t("CreditBorrow:common.offering")}
                     </div>
-                    <div className="font-mono text-sm tabular-nums dark:text-emerald-100/90 text-emerald-700 font-semibold">
+                    <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
                       {humanReadableFloat(res.current_balance, foundAsset.precision)} {foundAsset.symbol}
                     </div>
                   </div>
@@ -455,7 +455,7 @@ export default function CreditBorrow(properties) {
                     <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
                       {t("CreditBorrow:common.fee", { fee: "" })}
                     </div>
-                    <div className="font-mono text-xs tabular-nums dark:text-emerald-100/90 text-emerald-700">
+                    <div className="font-mono text-xs tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
                       {(res.fee_rate / 10000).toFixed(2)}%
                     </div>
                   </div>
@@ -525,7 +525,7 @@ export default function CreditBorrow(properties) {
 
             <div className="flex items-center gap-2">
               <a href={`/offer/index.html?id=${res.id}`} className="flex-1">
-                <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
+                <Button className="w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
                   {t("CreditBorrow:common.proceed", {
                     offerID: res.id.replace("1.21.", ""),
                   })}
@@ -533,7 +533,7 @@ export default function CreditBorrow(properties) {
                 </Button>
               </a>
               <a href={`/lend/index.html?id=${res.id}`}>
-                <Button variant="outline" className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300">
+                <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]">
                   {t(
                     `CreditBorrow:common.${
                       usr.id === res.owner_account ? "edit" : "view"
@@ -612,24 +612,24 @@ export default function CreditBorrow(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5 w-full lg:w-3/4">
-      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl"
+          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl"
+          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
         />
 
         <div className="relative p-5 sm:p-6">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-3">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <HandCoins className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>
@@ -653,8 +653,8 @@ export default function CreditBorrow(properties) {
                     className={cn(
                       "h-9 w-9 rounded-xl border transition-all",
                       showExpired
-                        ? "border-emerald-400/40 bg-emerald-500/15 dark:text-emerald-200 text-emerald-700"
-                        : "border-border bg-card/60 text-muted-foreground hover:border-emerald-400/40 hover:bg-emerald-500/10 hover:text-emerald-400"
+                        ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.15)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
+                        : "border-border bg-card/60 text-muted-foreground hover:border-[hsl(var(--accent-1)/0.4)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]"
                     )}
                   >
                     {showExpired ? <EyeOpenIcon className="h-4 w-4" /> : <EyeClosedIcon className="h-4 w-4" />}
@@ -692,7 +692,7 @@ export default function CreditBorrow(properties) {
                       className={cn(
                         "px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center gap-1.5",
                         active
-                          ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:text-emerald-100 text-emerald-700 border border-emerald-400/40 shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
+                          ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
                           : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
                       )}
                     >
@@ -706,8 +706,8 @@ export default function CreditBorrow(properties) {
               {activeTab === "allOffers" && (
                 <div>
                   <div className="flex items-center gap-2 mb-3 px-1">
-                    <Sparkles className="h-3.5 w-3.5 dark:text-emerald-200/70 text-emerald-600/80" />
-                    <span className="text-xs font-medium uppercase tracking-wider dark:text-emerald-200/70 text-emerald-600/80">
+                    <Sparkles className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                    <span className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                       {t("CreditBorrow:card.allOffers")}
                     </span>
                     <span className="text-xs text-muted-foreground/60">·</span>
@@ -731,8 +731,8 @@ export default function CreditBorrow(properties) {
               {activeTab === "availableOffers" && (
                 <div>
                   <div className="flex items-center gap-2 mb-3 px-1">
-                    <ShieldCheck className="h-3.5 w-3.5 dark:text-emerald-200/70 text-emerald-600/80" />
-                    <span className="text-xs font-medium uppercase tracking-wider dark:text-emerald-200/70 text-emerald-600/80">
+                    <ShieldCheck className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                    <span className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                       {t("CreditBorrow:card.availableOffers")}
                     </span>
                     <span className="text-xs text-muted-foreground/60">·</span>
@@ -760,8 +760,8 @@ export default function CreditBorrow(properties) {
               {activeTab === "searchOffers" && (
                 <div>
                   <div className="flex items-center gap-2 mb-3 px-1">
-                    <Search className="h-3.5 w-3.5 dark:text-emerald-200/70 text-emerald-600/80" />
-                    <span className="text-xs font-medium uppercase tracking-wider dark:text-emerald-200/70 text-emerald-600/80">
+                    <Search className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                    <span className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                       {t("CreditBorrow:card.searchPrompt")}
                     </span>
                   </div>
@@ -790,7 +790,7 @@ export default function CreditBorrow(properties) {
                           className={cn(
                             "px-3 py-1.5 text-xs font-medium rounded-lg transition-all",
                             active
-                              ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 dark:text-emerald-100 text-emerald-700 border border-emerald-400/40 shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
+                              ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
                               : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
                           )}
                         >
@@ -805,7 +805,7 @@ export default function CreditBorrow(properties) {
                     <Input
                       name="searchInput"
                       placeholder={thisSearchInput ?? t("Smartcoins:enterSearchText")}
-                      className="pl-9 bg-card/40 border-border focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                      className="pl-9 bg-card/40 border-border focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                       value={thisSearchInput || ""}
                       onChange={(event) => {
                         setThisSearchInput(event.target.value);
@@ -838,7 +838,7 @@ export default function CreditBorrow(properties) {
             </>
           ) : (
             <div className="flex flex-col items-center gap-3 py-12">
-              <Spinner className="size-6 dark:text-emerald-300 text-emerald-700" />
+              <Spinner className="size-6 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
               <p className="text-foreground/70 text-sm">
                 {t("CreditBorrow:card.loading")}
               </p>
@@ -860,7 +860,7 @@ export default function CreditBorrow(properties) {
           <AlertDialogFooter>
             <AlertDialogCancel>{t("Blocklist:blockConfirmCancel")}</AlertDialogCancel>
             <AlertDialogAction
-              className="bg-rose-600 hover:bg-rose-500 text-white"
+              className="bg-[hsl(var(--accent-danger))] hover:bg-[hsl(var(--accent-danger))] text-white"
               onClick={() => {
                 if (blockTarget) {
                   const chain = usr?.chain ?? "bitshares";

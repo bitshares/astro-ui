@@ -378,7 +378,7 @@ export default function Barter(properties) {
               }}
               variant="ghost"
               size="icon"
-              className="text-muted-foreground/60 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+              className="text-muted-foreground/60 hover:text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)] transition-colors"
             >
               <CrossCircledIcon />
             </Button>
@@ -398,8 +398,8 @@ export default function Barter(properties) {
   const CounterpartySection = (
     <div className="space-y-2">
       <Label className="text-foreground/80">
-        <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-emerald-200/90 text-emerald-700">
-          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-400/30 dark:text-emerald-200 text-emerald-700">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
             <UserPlus className="h-3 w-3" strokeWidth={2.5} />
           </span>
           {t("Barter:counterparty")}
@@ -444,7 +444,7 @@ export default function Barter(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 hover:bg-emerald-500/20 hover:border-emerald-400/50"
+                className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)]"
               >
                 {toAccount
                   ? t("Barter:changeRecipient")
@@ -477,10 +477,10 @@ export default function Barter(properties) {
 
   // ─── Your Offer Section ──────────────────────────────────────────
   const YourOfferSection = (
-    <div className="rounded-xl border border-emerald-400/20 bg-gradient-to-br from-emerald-500/[0.06] to-transparent p-4">
+    <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4">
       <div className="grid grid-cols-2 gap-2 mb-3">
         <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-400/30 dark:text-emerald-200 text-emerald-700">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
             <Send className="h-3 w-3" strokeWidth={2.5} />
           </span>
           {t("Barter:yourOffer")} ({usr?.username})
@@ -509,11 +509,11 @@ export default function Barter(properties) {
       </div>
       {fromAssets && Object.keys(fromAssets).length ? (
         <>
-          <div className="grid grid-cols-5 gap-2 p-2 bg-emerald-500/[0.06] border border-emerald-400/20 mb-1 rounded-t-md font-semibold text-sm text-foreground/80 sticky top-0 z-10">
+          <div className="grid grid-cols-5 gap-2 p-2 bg-[hsl(var(--accent-1)/0.06)] border border-[hsl(var(--accent-1)/0.2)] mb-1 rounded-t-md font-semibold text-sm text-foreground/80 sticky top-0 z-10">
             <div className="col-span-2">{t("Barter:amount")}</div>
             <div className="col-span-2">{t("Barter:asset")}</div>
           </div>
-          <div className="w-full max-h-[500px] overflow-auto rounded-lg border border-emerald-400/10 bg-card/30">
+          <div className="w-full max-h-[500px] overflow-auto rounded-lg border border-[hsl(var(--accent-1)/0.1)] bg-card/30">
             <List
               height={500}
               rowComponent={FromRow}
@@ -529,10 +529,10 @@ export default function Barter(properties) {
 
   // ─── Their Offer Section ─────────────────────────────────────────
   const TheirOfferSection = (
-    <div className="rounded-xl border border-teal-400/20 bg-gradient-to-br from-teal-500/[0.06] to-transparent p-4">
+    <div className="rounded-xl border border-[hsl(var(--accent-2)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.06)] to-transparent p-4">
       <div className="grid grid-cols-2 gap-2 mb-3">
         <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-teal-500/15 border border-teal-400/30 dark:text-teal-200 text-teal-700">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
             <Send className="h-3 w-3" strokeWidth={2.5} />
           </span>
           {t("Barter:theirOffer", {
@@ -563,11 +563,11 @@ export default function Barter(properties) {
       </div>
       {toAssets && Object.keys(toAssets).length ? (
         <>
-          <div className="grid grid-cols-5 gap-2 p-2 mb-1 bg-teal-500/[0.06] border border-teal-400/20 rounded-t-md font-semibold text-sm text-foreground/80 sticky top-0 z-10">
+          <div className="grid grid-cols-5 gap-2 p-2 mb-1 bg-[hsl(var(--accent-2)/0.06)] border border-[hsl(var(--accent-2)/0.2)] rounded-t-md font-semibold text-sm text-foreground/80 sticky top-0 z-10">
             <div className="col-span-2">{t("Barter:amount")}</div>
             <div className="col-span-2">{t("Barter:asset")}</div>
           </div>
-          <div className="w-full max-h-[500px] overflow-auto rounded-lg border border-teal-400/10 bg-card/30">
+          <div className="w-full max-h-[500px] overflow-auto rounded-lg border border-[hsl(var(--accent-2)/0.1)] bg-card/30">
             <List
               height={500}
               rowComponent={ToRow}
@@ -591,7 +591,7 @@ export default function Barter(properties) {
             id="escrow-checkbox"
             checked={showEscrow}
             onCheckedChange={setShowEscrow}
-            className="border-emerald-400/50 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
+            className="border-[hsl(var(--accent-1)/0.5)] data-[state=checked]:bg-[hsl(var(--accent-1))] data-[state=checked]:border-[hsl(var(--accent-1))]"
           />
           <HoverInfo
             content={t("Barter:escrowInfo")}
@@ -602,11 +602,11 @@ export default function Barter(properties) {
       </div>
 
       {showEscrow && (
-        <div className="rounded-xl border border-emerald-400/15 bg-gradient-to-br from-emerald-500/[0.04] to-transparent p-4 space-y-4">
+        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.04)] to-transparent p-4 space-y-4">
           <div className="space-y-2">
             <Label className="text-foreground/80">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-emerald-200/90 text-emerald-700">
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-400/30 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                   <Shield className="h-3 w-3" strokeWidth={2.5} />
                 </span>
                 {t("Barter:escrowAgent")}
@@ -652,7 +652,7 @@ export default function Barter(properties) {
                 <DialogTrigger asChild>
                   <Button
                     variant="outline"
-                    className="border-emerald-400/30 bg-emerald-500/10 dark:text-emerald-200 text-emerald-700 hover:bg-emerald-500/20 hover:border-emerald-400/50"
+                    className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)]"
                   >
                     {escrowAccount
                       ? t("Barter:changeAgent")
@@ -693,7 +693,7 @@ export default function Barter(properties) {
                 id="send-to-escrow-first"
                 checked={sendToEscrowFirst}
                 onCheckedChange={setSendToEscrowFirst}
-                className="border-emerald-400/50 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
+                className="border-[hsl(var(--accent-1)/0.5)] data-[state=checked]:bg-[hsl(var(--accent-1))] data-[state=checked]:border-[hsl(var(--accent-1))]"
               />
               <HoverInfo
                 content={t("Barter:sendToEscrowFirstInfo")}
@@ -737,7 +737,7 @@ export default function Barter(properties) {
         disabled={!canSubmit}
         className={`w-full h-14 rounded-2xl font-semibold transition-all flex items-center justify-center gap-2 text-base group ${
           canSubmit
-            ? "text-white bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500 shadow-[0_8px_32px_-12px_rgba(16,185,129,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(16,185,129,0.9)] hover:from-emerald-400 hover:via-teal-400 hover:to-green-400"
+            ? "text-white bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-2))] to-[hsl(var(--accent-1))] shadow-[0_8px_32px_-12px_rgba(16,185,129,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(16,185,129,0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-1))]"
             : "text-muted-foreground bg-card/60 border border-border/40 dark:border-white/5 cursor-not-allowed"
         }`}
       >
@@ -752,29 +752,29 @@ export default function Barter(properties) {
 
   // ─── Gradient Separator ──────────────────────────────────────────
   const GradientSeparator = (
-    <div className="h-px bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent" />
+    <div className="h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.4)] to-transparent" />
   );
 
   // ─── Main Render ─────────────────────────────────────────────────
   return (
     <>
       <div className="container mx-auto mt-5 mb-5">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-4">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                 <Repeat className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>

@@ -444,13 +444,13 @@ export default function PortfolioRecentActivity() {
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 dark:text-blue-400 hover:underline">
+              <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:underline">
                 {activityItem.account_history.operation_id}
               </span>
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 dark:text-blue-400 hover:underline">
+              <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:underline">
                 {activityItem.block_data.block_num}
               </span>
             </div>
@@ -533,13 +533,13 @@ export default function PortfolioRecentActivity() {
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 dark:text-blue-400 hover:underline">
+              <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:underline">
                 {activityItem.account_history.operation_id}
               </span>
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 dark:text-blue-400 hover:underline">
+              <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:underline">
                 {activityItem.block_data.block_num}
               </span>
             </div>

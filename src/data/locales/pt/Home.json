@@ -394,5 +394,13 @@
     "ctaPrimary": "Começar a negociar",
     "ctaSecondary": "Swap simples",
     "scrollForMore": "Role para mais"
+  },
+  "theme_customizer": {
+    "title": "Personalização de tema",
+    "subtitle": "Crie e edite temas que recolorem cada página, navegação e componente"
+  },
+  "home_link": {
+    "title": "Início",
+    "subtitle": "Voltar ao painel principal"
   }
 }

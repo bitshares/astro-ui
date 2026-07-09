@@ -2086,7 +2086,7 @@ function AssetIssuerActions(props) {
             </div>
 
             {overrideError ? (
-              <p className="text-sm text-red-600 dark:text-red-400 mt-2">{overrideError}</p>
+              <p className="text-sm text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] mt-2">{overrideError}</p>
             ) : null}
 
             <div className="mt-3 space-y-2">

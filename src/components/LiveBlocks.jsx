@@ -237,7 +237,7 @@ export default function LiveBlocks(properties) {
         <div className="hidden md:block">{_ts}</div>
         <div className="hidden md:block">
           <span
-            className="hover:text-purple-500 dark:hover:text-purple-400"
+            className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
           >
             {block.witness}
           </span>
@@ -284,7 +284,7 @@ export default function LiveBlocks(properties) {
                         type="header"
                       />
                       {recentBlocks && recentBlocks.length ? (
-                        <span className="hover:text-purple-500 dark:hover:text-purple-400">
+                        <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]">
                           {recentBlocks[0].witness}
                         </span>
                       ) : (

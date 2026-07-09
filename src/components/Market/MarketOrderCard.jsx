@@ -31,28 +31,28 @@ export default function MarketOrderCard(properties) {
   const isBuy = cardType === "buy";
   const accent = isBuy
     ? {
-        text: "dark:text-emerald-400 text-emerald-700",
-        textBright: "dark:text-emerald-300 text-emerald-700",
-        bg: "bg-emerald-500/[0.06]",
-        bgHover: "hover:bg-emerald-500/[0.12]",
-        bgDepth: "bg-emerald-500/[0.08]",
-        border: "border-emerald-500/30",
-        glow: "from-emerald-500/20 via-emerald-500/5 to-transparent",
-        gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-        ring: "ring-emerald-500/30",
-        chip: "bg-emerald-500/10 border-emerald-500/30 dark:text-emerald-300 text-emerald-700",
+        text: "dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
+        textBright: "dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
+        bg: "bg-[hsl(var(--accent-success)/0.06)]",
+        bgHover: "hover:bg-[hsl(var(--accent-success)/0.12)]",
+        bgDepth: "bg-[hsl(var(--accent-success)/0.08)]",
+        border: "border-[hsl(var(--accent-success)/0.3)]",
+        glow: "from-[hsl(var(--accent-success)/0.2)] via-[hsl(var(--accent-success)/0.05)] to-transparent",
+        gradient: "from-[hsl(var(--accent-success))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))]",
+        ring: "ring-[hsl(var(--accent-success)/0.3)]",
+        chip: "bg-[hsl(var(--accent-success)/0.1)] border-[hsl(var(--accent-success)/0.3)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
       }
     : {
-        text: "dark:text-rose-400 text-rose-700",
-        textBright: "dark:text-rose-300 text-rose-700",
-        bg: "bg-rose-500/[0.06]",
-        bgHover: "hover:bg-rose-500/[0.12]",
-        bgDepth: "bg-rose-500/[0.08]",
-        border: "border-rose-500/30",
-        glow: "from-rose-500/20 via-rose-500/5 to-transparent",
-        gradient: "from-rose-500 via-orange-500 to-amber-500",
-        ring: "ring-rose-500/30",
-        chip: "bg-rose-500/10 border-rose-500/30 dark:text-rose-300 text-rose-700",
+        text: "dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
+        textBright: "dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
+        bg: "bg-[hsl(var(--accent-danger)/0.06)]",
+        bgHover: "hover:bg-[hsl(var(--accent-danger)/0.12)]",
+        bgDepth: "bg-[hsl(var(--accent-danger)/0.08)]",
+        border: "border-[hsl(var(--accent-danger)/0.3)]",
+        glow: "from-[hsl(var(--accent-danger)/0.2)] via-[hsl(var(--accent-danger)/0.05)] to-transparent",
+        gradient: "from-[hsl(var(--accent-danger))] via-[hsl(var(--accent-warning))] to-[hsl(var(--accent-warning))]",
+        ring: "ring-[hsl(var(--accent-danger)/0.3)]",
+        chip: "bg-[hsl(var(--accent-danger)/0.1)] border-[hsl(var(--accent-danger)/0.3)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
       };
 
   const totalBase = useMemo(() => {

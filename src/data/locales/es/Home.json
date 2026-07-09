@@ -394,5 +394,13 @@
     "ctaPrimary": "Empezar a operar",
     "ctaSecondary": "Intercambio simple",
     "scrollForMore": "Desplázate para más"
+  },
+  "theme_customizer": {
+    "title": "Personalización de temas",
+    "subtitle": "Crea y edita temas que recolorean cada página, navegación y componente"
+  },
+  "home_link": {
+    "title": "Inicio",
+    "subtitle": "Volver al panel principal"
   }
 }

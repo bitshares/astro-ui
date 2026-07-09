@@ -345,8 +345,8 @@ export default function PoolStake(properties) {
     return (
       <div
         style={style}
-        className={`grid grid-cols-12 hover:bg-purple-500/[0.06] hover:border-purple-400/20 p-1 cursor-pointer transition-colors ${
-          pool === _pool.id ? "bg-purple-500/25 border-purple-400/40" : ""
+        className={`grid grid-cols-12 hover:bg-[hsl(var(--accent-1)/0.06)] hover:border-[hsl(var(--accent-1)/0.2)] p-1 cursor-pointer transition-colors ${
+          pool === _pool.id ? "bg-[hsl(var(--accent-1)/0.25)] border-[hsl(var(--accent-1)/0.4)]" : ""
         }`}
         key={`pool_${_pool.id}`}
         onClick={() => {
@@ -355,7 +355,7 @@ export default function PoolStake(properties) {
       >
         <div className="col-span-1 flex items-center">
           {_pool.id === pool ? (
-            <CheckCircledIcon className="mt-1 text-purple-500 dark:text-purple-400" />
+            <CheckCircledIcon className="mt-1 text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]" />
           ) : (
             <CircleIcon className="mt-1 text-muted-foreground" />
           )}
@@ -363,7 +363,7 @@ export default function PoolStake(properties) {
         <div className="col-span-1 text-sm flex items-center font-mono text-foreground/85">
           {_pool.id.split(".")[2]}
         </div>
-        <div className="col-span-2 text-sm flex items-center font-mono dark:text-purple-200/80 text-purple-700">
+        <div className="col-span-2 text-sm flex items-center font-mono dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))]">
           {feePercent}%
         </div>
         <div className="col-span-2 text-sm flex items-center font-mono text-muted-foreground">
@@ -559,22 +559,22 @@ export default function PoolStake(properties) {
     <>
       <div className="container mx-auto mt-5 mb-5 max-w-4xl">
         <div className="grid grid-cols-1 gap-5">
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-purple-950/20">
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-400/70 to-transparent"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
             />
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-purple-500/10 blur-3xl"
+              className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
             />
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-violet-500/10 blur-3xl"
+              className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
             />
             <div className="relative p-5 sm:p-6">
               <div className="flex items-center gap-3 mb-4">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-purple-400/30 bg-gradient-to-br from-purple-500/20 to-violet-500/20 dark:text-purple-200 text-purple-700">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                   <Layers className="h-4.5 w-4.5" strokeWidth={2.25} />
                 </span>
                 <div>
@@ -645,8 +645,8 @@ export default function PoolStake(properties) {
                             render={({ field, fieldState }) => (
                               <Field data-invalid={fieldState.invalid}>
                                 <FieldLabel className="text-foreground/80">
-                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/90 text-purple-700">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-purple-500/15 border border-purple-400/30 dark:text-purple-200 text-purple-700">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                                       <ArrowDownUp className="h-3 w-3" strokeWidth={2.5} />
                                     </span>
                                     {t("PoolStake:assetA")}
@@ -660,14 +660,14 @@ export default function PoolStake(properties) {
                                     <DropdownMenuTrigger asChild>
                                       <Button
                                         variant="outline"
-                                        className="hover:bg-card/80 hover:border-purple-400/40 hover:shadow-lg w-full justify-start font-normal bg-card/60 border-border text-foreground"
+                                        className="hover:bg-card/80 hover:border-[hsl(var(--accent-1)/0.4)] hover:shadow-lg w-full justify-start font-normal bg-card/60 border-border text-foreground"
                                         aria-label={t(
                                           "SimpleSwap:selectSendAsset",
                                         )}
                                         aria-invalid={fieldState.invalid}
                                       >
                                         <span className="flex items-center gap-2">
-                                          <Layers className="h-4 w-4 dark:text-purple-300 text-purple-700" />
+                                          <Layers className="h-4 w-4 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
                                           {selectedAssetASymbol
                                             ? selectedAssetASymbol
                                             : t("SimpleSwap:sendAsset")}
@@ -680,7 +680,7 @@ export default function PoolStake(properties) {
                                     >
                                       <span
                                         aria-hidden="true"
-                                        className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-purple-400/60 to-transparent"
+                                        className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent"
                                       />
                                       <Command className="rounded-2xl bg-transparent border-0 shadow-none">
                                         <CommandInput
@@ -709,14 +709,14 @@ export default function PoolStake(properties) {
                                                     field.onChange(assetSymbol);
                                                     setSendMenuOpen(false);
                                                   }}
-                                                  className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-purple-500/15 data-[selected=true]:!text-foreground aria-selected:bg-purple-500/15"
+                                                  className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-[hsl(var(--accent-1)/0.15)] data-[selected=true]:!text-foreground aria-selected:bg-[hsl(var(--accent-1)/0.15)]"
                                                 >
                                                   <span className="flex items-center gap-2">
-                                                    <Layers className="h-3.5 w-3.5 dark:text-purple-300/70 text-purple-600/80" />
+                                                    <Layers className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
                                                     {assetSymbol}
                                                   </span>
                                                   {selectedAssetASymbol === assetSymbol && (
-                                                    <CheckCircledIcon className="ml-auto text-purple-400" />
+                                                    <CheckCircledIcon className="ml-auto text-[hsl(var(--accent-1-fg))]" />
                                                   )}
                                                 </CommandItem>
                                               ))
@@ -746,8 +746,8 @@ export default function PoolStake(properties) {
                             render={({ field, fieldState }) => (
                               <Field data-invalid={fieldState.invalid}>
                                 <FieldLabel className="text-foreground/80">
-                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg)/0.9)] text-[hsl(var(--accent-2-fg))]">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
                                       <ArrowDownUp className="h-3 w-3" strokeWidth={2.5} />
                                     </span>
                                     {t("PoolStake:assetB")}
@@ -764,7 +764,7 @@ export default function PoolStake(properties) {
                                     >
                                       <Button
                                         variant="outline"
-                                        className="hover:bg-card/80 hover:border-violet-400/40 hover:shadow-lg w-full justify-start font-normal bg-card/60 border-border text-foreground disabled:opacity-50"
+                                        className="hover:bg-card/80 hover:border-[hsl(var(--accent-2)/0.4)] hover:shadow-lg w-full justify-start font-normal bg-card/60 border-border text-foreground disabled:opacity-50"
                                         disabled={!selectedAssetASymbol}
                                         aria-label={t(
                                           "SimpleSwap:selectReceiveAsset",
@@ -772,7 +772,7 @@ export default function PoolStake(properties) {
                                         aria-invalid={fieldState.invalid}
                                       >
                                         <span className="flex items-center gap-2">
-                                          <Layers className="h-4 w-4 dark:text-violet-300 text-violet-700" />
+                                          <Layers className="h-4 w-4 dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]" />
                                           {selectedAssetBSymbol
                                             ? selectedAssetBSymbol
                                             : t("SimpleSwap:sendAsset")}
@@ -785,7 +785,7 @@ export default function PoolStake(properties) {
                                     >
                                       <span
                                         aria-hidden="true"
-                                        className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/60 to-transparent"
+                                        className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-2)/0.6)] to-transparent"
                                       />
                                       <Command className="rounded-2xl bg-transparent border-0 shadow-none">
                                         <CommandInput
@@ -813,14 +813,14 @@ export default function PoolStake(properties) {
                                                       );
                                                       setReceiveMenuOpen(false);
                                                     }}
-                                                    className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-violet-500/15 data-[selected=true]:!text-foreground aria-selected:bg-violet-500/15"
+                                                    className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-[hsl(var(--accent-2)/0.15)] data-[selected=true]:!text-foreground aria-selected:bg-[hsl(var(--accent-2)/0.15)]"
                                                   >
                                                     <span className="flex items-center gap-2">
-                                                      <Layers className="h-3.5 w-3.5 dark:text-violet-300/70 text-violet-600/80" />
+                                                      <Layers className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-2-fg)/0.7)] text-[hsl(var(--accent-2-fg)/0.8)]" />
                                                       {assetSymbol}
                                                     </span>
                                                     {selectedAssetBSymbol === assetSymbol && (
-                                                      <CheckCircledIcon className="ml-auto text-violet-400" />
+                                                      <CheckCircledIcon className="ml-auto text-[hsl(var(--accent-2-fg))]" />
                                                     )}
                                                   </CommandItem>
                                                 ),
@@ -855,20 +855,20 @@ export default function PoolStake(properties) {
                       finalPools.length > 0 &&
                       selectedAssetASymbol &&
                       selectedAssetBSymbol ? (
-                        <div className="mt-5 rounded-xl border border-purple-400/20 bg-gradient-to-br from-purple-500/[0.06] to-transparent p-3 mb-1">
-                          <div className="grid grid-cols-12 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1 p-1 border-b border-purple-400/20">
+                        <div className="mt-5 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-3 mb-1">
+                          <div className="grid grid-cols-12 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1 p-1 border-b border-[hsl(var(--accent-1)/0.2)]">
                             <div className="col-span-1"></div>
                             <div className="col-span-1">ID</div>
                             <div className="col-span-2">
                               <TooltipProvider>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
-                                    <span className="flex items-center cursor-help dark:text-purple-200/70 text-purple-600/80">
+                                    <span className="flex items-center cursor-help dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                                       {t("SimpleSwap:poolFee")}{" "}
                                       <QuestionMarkCircledIcon className="ml-1" />
                                     </span>
                                   </TooltipTrigger>
-                                  <TooltipContent className="bg-card border-purple-400/30 text-foreground/85">
+                                  <TooltipContent className="bg-card border-[hsl(var(--accent-1)/0.3)] text-foreground/85">
                                     <p>{t("SimpleSwap:poolFeeDescription")}</p>
                                   </TooltipContent>
                                 </Tooltip>
@@ -906,8 +906,8 @@ export default function PoolStake(properties) {
                         finalPools.length === 0 &&
                         pools &&
                         pools.length > 0 && (
-                          <p className="text-sm text-red-400 dark:text-red-300 mt-4 mb-4 flex items-center gap-2">
-                            <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-red-500/15 border border-red-400/30">
+                          <p className="text-sm text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] mt-4 mb-4 flex items-center gap-2">
+                            <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-danger)/0.15)] border border-[hsl(var(--accent-danger)/0.3)]">
                               <ExclamationTriangleIcon className="h-3 w-3" />
                             </span>
                             {t("SimpleSwap:noPoolsForPair")}
@@ -924,15 +924,15 @@ export default function PoolStake(properties) {
                         {isFormReady ? (
                           <>
                             <div className="col-span-5">
-                              <div className="rounded-xl border border-purple-400/15 bg-gradient-to-br from-purple-500/[0.07] to-transparent p-3 sm:p-4">
-                                <div className="text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/80 text-purple-700 mb-1 inline-flex items-center gap-1">
+                              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.07)] to-transparent p-3 sm:p-4">
+                                <div className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))] mb-1 inline-flex items-center gap-1">
                                   <Layers className="h-3 w-3" strokeWidth={2.5} />
                                   {t("PoolStake:assetA")}: {assetA.symbol}
                                 </div>
                                 <div className="text-[10px] text-muted-foreground mb-1">
                                   {t("PoolStake:currentTotalAmountInPool")}
                                 </div>
-                                <div className="font-mono text-lg tabular-nums dark:text-purple-100/90 text-purple-700">
+                                <div className="font-mono text-lg tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
                                   {foundPool && foundPoolDetails
                                     ? foundPool.readable_balance_a.split(" ")[0]
                                     : "0"}
@@ -940,15 +940,15 @@ export default function PoolStake(properties) {
                               </div>
                             </div>
                             <div className="col-span-5">
-                              <div className="rounded-xl border border-violet-400/15 bg-gradient-to-br from-violet-500/[0.07] to-transparent p-3 sm:p-4">
-                                <div className="text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/80 text-violet-700 mb-1 inline-flex items-center gap-1">
+                              <div className="rounded-xl border border-[hsl(var(--accent-2)/0.15)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.07)] to-transparent p-3 sm:p-4">
+                                <div className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg)/0.8)] text-[hsl(var(--accent-2-fg))] mb-1 inline-flex items-center gap-1">
                                   <Layers className="h-3 w-3" strokeWidth={2.5} />
                                   {t("PoolStake:assetB")}: {assetB.symbol}
                                 </div>
                                 <div className="text-[10px] text-muted-foreground mb-1">
                                   {t("PoolStake:currentTotalAmountInPool")}
                                 </div>
-                                <div className="font-mono text-lg tabular-nums dark:text-violet-100/90 text-violet-700">
+                                <div className="font-mono text-lg tabular-nums dark:text-[hsl(var(--accent-2-fg)/0.9)] text-[hsl(var(--accent-2-fg))]">
                                   {foundPool && foundPoolDetails
                                     ? foundPool.readable_balance_b.split(" ")[0]
                                     : "0"}
@@ -967,7 +967,7 @@ export default function PoolStake(properties) {
                         >
                           <TabsList className="grid w-full grid-cols-2 gap-2 bg-card/40 border border-border">
                             {stakeTab === "stake" ? (
-                              <TabsTrigger value="stake" className="bg-gradient-to-r from-purple-500/20 to-violet-500/20 dark:text-purple-100 text-purple-700 border border-purple-400/40 shadow-[0_0_18px_-8px_rgba(168,85,247,0.6)]">
+                              <TabsTrigger value="stake" className="bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(168,85,247,0.6)]">
                                 {t("PoolStake:stakingAssets")}
                               </TabsTrigger>
                             ) : (
@@ -984,7 +984,7 @@ export default function PoolStake(properties) {
                             {stakeTab === "unstake" ? (
                               <TabsTrigger
                                 value="unstake"
-                                className="bg-gradient-to-r from-purple-500/20 to-violet-500/20 dark:text-purple-100 text-purple-700 border border-purple-400/40 shadow-[0_0_18px_-8px_rgba(168,85,247,0.6)]"
+                                className="bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(168,85,247,0.6)]"
                               >
                                 {t("PoolStake:unstakingAssets")}
                               </TabsTrigger>
@@ -1002,12 +1002,12 @@ export default function PoolStake(properties) {
                           </TabsList>
 
                           <TabsContent value="stake">
-                            <div className="rounded-xl border border-purple-400/20 bg-gradient-to-br from-purple-500/[0.07] to-transparent p-3 sm:p-4 mt-3">
+                            <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.07)] to-transparent p-3 sm:p-4 mt-3">
                             <div className="grid grid-cols-1">
                               <Field className="mb-4">
                                 <FieldLabel className="text-foreground/80">
-                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/90 text-purple-700">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-purple-500/15 border border-purple-400/30 dark:text-purple-200 text-purple-700">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                                       <TrendingUp className="h-3 w-3" strokeWidth={2.5} />
                                     </span>
                                     {t("PoolStake:howMuchToStake", {
@@ -1036,7 +1036,7 @@ export default function PoolStake(properties) {
                                             onClick={() => {
                                               event.preventDefault();
                                             }}
-                                            className="inline-flex items-center rounded-md border border-purple-400/30 bg-purple-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-purple-200 text-purple-700 hover:bg-purple-500/20 hover:border-purple-400/50 transition-colors cursor-pointer"
+                                            className="inline-flex items-center rounded-md border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-colors cursor-pointer"
                                           >
                                             {t("PoolStake:changeAmount")}
                                           </span>
@@ -1159,8 +1159,8 @@ export default function PoolStake(properties) {
                               </Field>
                               <Field className="mb-4">
                                 <FieldLabel className="text-foreground/80">
-                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-violet-500/15 border border-violet-400/30 dark:text-violet-200 text-violet-700">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg)/0.9)] text-[hsl(var(--accent-2-fg))]">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
                                       <TrendingUp className="h-3 w-3" strokeWidth={2.5} />
                                     </span>
                                     {t("PoolStake:howMuchToStake", {
@@ -1189,7 +1189,7 @@ export default function PoolStake(properties) {
                                             onClick={() => {
                                               event.preventDefault();
                                             }}
-                                            className="inline-flex items-center rounded-md border border-violet-400/30 bg-violet-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-violet-200 text-violet-700 hover:bg-violet-500/20 hover:border-violet-400/50 transition-colors cursor-pointer"
+                                            className="inline-flex items-center rounded-md border border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.5)] transition-colors cursor-pointer"
                                           >
                                             {t("PoolStake:changeAmount")}
                                           </span>
@@ -1312,8 +1312,8 @@ export default function PoolStake(properties) {
                               </Field>
                               <Field className="mb-4">
                                 <FieldLabel className="text-foreground/80">
-                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/90 text-purple-700">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-purple-500/15 border border-purple-400/30 dark:text-purple-200 text-purple-700">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                                       <TrendingUp className="h-3 w-3" strokeWidth={2.5} />
                                     </span>
                                     {t("PoolStake:totalShareAssetReceive")}
@@ -1338,12 +1338,12 @@ export default function PoolStake(properties) {
                             </div>
                           </TabsContent>
                           <TabsContent value="unstake">
-                            <div className="rounded-xl border border-purple-400/20 bg-gradient-to-br from-purple-500/[0.07] to-transparent p-3 sm:p-4 mt-3">
+                            <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.07)] to-transparent p-3 sm:p-4 mt-3">
                             <div className="grid grid-cols-1">
                               <Field className="mb-4">
                                 <FieldLabel className="text-foreground/80">
-                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/90 text-purple-700">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-purple-500/15 border border-purple-400/30 dark:text-purple-200 text-purple-700">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                                       <TrendingUp className="h-3 w-3" strokeWidth={2.5} />
                                     </span>
                                     {t("PoolStake:withdrawLabel", {
@@ -1375,7 +1375,7 @@ export default function PoolStake(properties) {
                                             onClick={() => {
                                               event.preventDefault();
                                             }}
-                                            className="inline-flex items-center rounded-md border border-purple-400/30 bg-purple-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-purple-200 text-purple-700 hover:bg-purple-500/20 hover:border-purple-400/50 transition-colors cursor-pointer"
+                                            className="inline-flex items-center rounded-md border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-colors cursor-pointer"
                                           >
                                             {t("PoolStake:changeAmount")}
                                           </span>
@@ -1483,7 +1483,7 @@ export default function PoolStake(properties) {
 
                               <Field className="mb-4">
                                 <FieldLabel className="text-foreground/80">
-                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-purple-200/90 text-purple-700">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
                                     {t("PoolStake:withdrawingA", {
                                       symbol: assetA.symbol,
                                     })}
@@ -1502,7 +1502,7 @@ export default function PoolStake(properties) {
                               </Field>
                               <Field>
                                 <FieldLabel className="text-foreground/80">
-                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-violet-200/90 text-violet-700">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg)/0.9)] text-[hsl(var(--accent-2-fg))]">
                                     {t("PoolStake:withdrawingB", {
                                       symbol: assetB.symbol,
                                     })}
@@ -1526,9 +1526,9 @@ export default function PoolStake(properties) {
                       ) : null}
 
                       {isFormReady ? (
-                        <div className="rounded-xl border border-purple-400/20 bg-purple-500/[0.05] p-3 mt-5">
+                        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] p-3 mt-5">
                           <FieldLabel className="text-foreground/80">
-                            <span className="inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider dark:text-purple-200/80 text-purple-700">
+                            <span className="inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))]">
                               <Zap className="h-3 w-3" strokeWidth={2.5} />
                               {t("PoolStake:networkFee")}
                             </span>
@@ -1543,7 +1543,7 @@ export default function PoolStake(properties) {
                           <FieldContent>
                             <div className="grid grid-cols-1 md:grid-cols-2 mb-3 mt-3 gap-3">
                               <div className="col-span-1">
-                                <div className="flex items-center gap-1.5 font-mono text-sm tabular-nums dark:text-purple-400 text-purple-700">
+                                <div className="flex items-center gap-1.5 font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                                   <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
                                   {stakeTab === "stake" ? fee : unstakeFee} BTS
                                 </div>
@@ -1565,7 +1565,7 @@ export default function PoolStake(properties) {
                       {isFormReady ? (
                         <button
                           type="submit"
-                          className="mt-6 w-full h-14 rounded-2xl font-semibold text-white bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-500 shadow-[0_8px_32px_-12px_rgba(168,85,247,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(168,85,247,0.9)] hover:from-purple-400 hover:via-violet-400 hover:to-indigo-400 transition-all flex items-center justify-center gap-2 text-base group"
+                          className="mt-6 w-full h-14 rounded-2xl font-semibold text-white bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] shadow-[0_8px_32px_-12px_rgba(168,85,247,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(168,85,247,0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-3))] transition-all flex items-center justify-center gap-2 text-base group"
                         >
                           <Layers
                             className="h-4 w-4 group-hover:scale-110 transition-transform"
@@ -1646,7 +1646,7 @@ export default function PoolStake(properties) {
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-5 items-stretch">
           {pool && !isFormReady ? (
             <div className="col-span-2 flex items-center justify-center py-10">
-              <Spinner className="size-6 dark:text-purple-300 text-purple-700" />
+              <Spinner className="size-6 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
             </div>
           ) : null}
           {isFormReady ? (
@@ -1687,7 +1687,7 @@ export default function PoolStake(properties) {
             {isFormReady ? (
               <>
                 <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl">
-                  <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-violet-500" />
+                  <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))]" />
                   <div className="p-4">
                     <h3 className="text-base font-semibold text-foreground mb-1">
                       {t("PoolStake:borrowAssets")}
@@ -1700,17 +1700,17 @@ export default function PoolStake(properties) {
                       <a
                         href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetA.symbol}`}
                       >
-                        <Badge className="border-purple-400/30 bg-purple-500/10 dark:text-purple-200 text-purple-700 hover:bg-purple-500/20 cursor-pointer transition-colors">{assetA.symbol}</Badge>
+                        <Badge className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] cursor-pointer transition-colors">{assetA.symbol}</Badge>
                       </a>
                       <a
                         href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetB.symbol}`}
                       >
-                        <Badge className="border-purple-400/30 bg-purple-500/10 dark:text-purple-200 text-purple-700 hover:bg-purple-500/20 cursor-pointer transition-colors">{assetB.symbol}</Badge>
+                        <Badge className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] cursor-pointer transition-colors">{assetB.symbol}</Badge>
                       </a>
                       <a
                         href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${foundPool?.share_asset_symbol}`}
                       >
-                        <Badge className="border-purple-400/30 bg-purple-500/10 dark:text-purple-200 text-purple-700 hover:bg-purple-500/20 cursor-pointer transition-colors">
+                        <Badge className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] cursor-pointer transition-colors">
                           {foundPool?.share_asset_symbol}
                         </Badge>
                       </a>
@@ -1720,17 +1720,17 @@ export default function PoolStake(properties) {
                       <a
                         href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetA.symbol}`}
                       >
-                        <Badge className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 hover:bg-violet-500/20 cursor-pointer transition-colors">{assetA.symbol}</Badge>
+                        <Badge className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] cursor-pointer transition-colors">{assetA.symbol}</Badge>
                       </a>
                       <a
                         href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetB.symbol}`}
                       >
-                        <Badge className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 hover:bg-violet-500/20 cursor-pointer transition-colors">{assetB.symbol}</Badge>
+                        <Badge className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] cursor-pointer transition-colors">{assetB.symbol}</Badge>
                       </a>
                       <a
                         href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${foundPool?.share_asset_symbol}`}
                       >
-                        <Badge className="border-violet-400/30 bg-violet-500/10 dark:text-violet-200 text-violet-700 hover:bg-violet-500/20 cursor-pointer transition-colors">
+                        <Badge className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] cursor-pointer transition-colors">
                           {foundPool?.share_asset_symbol}
                         </Badge>
                       </a>
@@ -1762,10 +1762,10 @@ export default function PoolStake(properties) {
 
         <div className="grid grid-cols-1 mt-5">
           <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
-            <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-violet-500" />
+            <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))]" />
             <div className="p-5 sm:p-6">
               <div className="flex items-center gap-3 mb-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-purple-400/30 bg-gradient-to-br from-purple-500/20 to-violet-500/20 dark:text-purple-200 text-purple-700">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                   <Zap className="h-4 w-4" strokeWidth={2.25} />
                 </span>
                 <div>

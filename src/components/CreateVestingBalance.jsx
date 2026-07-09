@@ -180,13 +180,13 @@ export default function CreateVestingBalance(properties) {
     <div className="container mx-auto mt-5 mb-5 w-full md:w-1/2">
       <div className="grid grid-cols-1 gap-3">
         <Card className="relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500" />
-          <div className="absolute top-8 left-8 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-8 right-8 w-40 h-40 bg-green-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))]" />
+          <div className="absolute top-8 left-8 w-32 h-32 bg-[hsl(var(--accent-1)/0.1)] rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-8 right-8 w-40 h-40 bg-[hsl(var(--accent-1)/0.1)] rounded-full blur-3xl pointer-events-none" />
           
           <CardHeader className="pb-1 relative z-10">
             <CardTitle className="flex items-center gap-3 text-xl">
-              <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-green-600 shadow-lg shadow-emerald-500/30">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
                 <PiggyBank className="w-5 h-5 text-white" />
               </div>
               {t("CreateVestingBalance:card.title")}
@@ -210,8 +210,8 @@ export default function CreateVestingBalance(properties) {
                     variant={policy === "ccd" ? "" : "outline"}
                     size="md"
                     className={policy === "ccd" 
-                      ? "bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white shadow-lg shadow-emerald-500/30" 
-                      : "border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-500 transition-colors"}
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]" 
+                      : "border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors"}
                   >
                     <Coins className="w-4 h-4 mr-2" />
                     {t("CreateVestingBalance:ccd")}
@@ -221,8 +221,8 @@ export default function CreateVestingBalance(properties) {
                     variant={policy === "lvc" ? "" : "outline"}
                     size="md"
                     className={policy === "lvc" 
-                      ? "bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white shadow-lg shadow-green-500/30" 
-                      : "border-green-500/30 hover:bg-green-500/10 hover:text-green-500 transition-colors"}
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]" 
+                      : "border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors"}
                   >
                     <Timer className="w-4 h-4 mr-2" />
                     {t("CreateVestingBalance:lvc")}
@@ -233,7 +233,7 @@ export default function CreateVestingBalance(properties) {
                   <HoverInfo
                     header={
                       <span className="flex items-center gap-2">
-                        <User className="w-4 h-4 text-emerald-500" />
+                        <User className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
                         {t("CreateVestingBalance:target")}
                       </span>
                     }
@@ -250,17 +250,17 @@ export default function CreateVestingBalance(properties) {
                       }}
                     >
                       <DialogTrigger asChild>
-                        <Button variant="outline" className="hover:shadow-lg border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-500 transition-colors">
+                        <Button variant="outline" className="hover:shadow-lg border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors">
                           {t("CreateVestingBalance:selectAccount")}
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[375px] bg-card">
-                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 rounded-t-lg" />
-                        <div className="absolute top-8 left-8 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-                        <div className="absolute bottom-8 right-8 w-40 h-40 bg-green-500/10 rounded-full blur-3xl pointer-events-none" />
+                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] rounded-t-lg" />
+                        <div className="absolute top-8 left-8 w-32 h-32 bg-[hsl(var(--accent-1)/0.1)] rounded-full blur-3xl pointer-events-none" />
+                        <div className="absolute bottom-8 right-8 w-40 h-40 bg-[hsl(var(--accent-1)/0.1)] rounded-full blur-3xl pointer-events-none" />
                         <DialogHeader>
                           <DialogTitle className="flex items-center gap-3">
-                            <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-green-600 shadow-lg shadow-emerald-500/30">
+                            <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
                               <User className="w-4 h-4 text-white" />
                             </div>
                             {!usr || !usr.chain
@@ -294,7 +294,7 @@ export default function CreateVestingBalance(properties) {
                         setTargetUser({ id: usr.id, name: usr.username });
                       }}
                       variant="outline"
-                      className="hover:shadow-lg border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-500 transition-colors"
+                      className="hover:shadow-lg border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors"
                     >
                       {t("CreateVestingBalance:myAccount")}
                     </Button>
@@ -308,7 +308,7 @@ export default function CreateVestingBalance(properties) {
                         ? `${targetUser.name} (${targetUser.id})`
                         : "??? (1.2.x)"
                     }
-                    className="bg-emerald-500/5 border-emerald-500/20"
+                    className="bg-[hsl(var(--accent-1)/0.05)] border-[hsl(var(--accent-1)/0.2)]"
                   />
                 </span>
               </div>
@@ -317,7 +317,7 @@ export default function CreateVestingBalance(properties) {
                   <HoverInfo
                     header={
                       <span className="flex items-center gap-2">
-                        <Coins className="w-4 h-4 text-green-500" />
+                        <Coins className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
                         {t("CreateVestingBalance:asset")}
                       </span>
                     }
@@ -333,7 +333,7 @@ export default function CreateVestingBalance(properties) {
                         assetData ? `${assetData.symbol} (${assetData.id})` : ""
                       }
                       disabled
-                      className="bg-green-500/5 border-green-500/20"
+                      className="bg-[hsl(var(--accent-1)/0.05)] border-[hsl(var(--accent-1)/0.2)]"
                     />
                   </span>
                   <span className="col-span-1">
@@ -356,7 +356,7 @@ export default function CreateVestingBalance(properties) {
                     <HoverInfo
                       header={
                         <span className="flex items-center gap-2">
-                          <ArrowRight className="w-4 h-4 text-teal-500" />
+                          <ArrowRight className="w-4 h-4 text-[hsl(var(--accent-2-fg))]" />
                           {t("CreateVestingBalance:amount")}
                         </span>
                       }
@@ -374,7 +374,7 @@ export default function CreateVestingBalance(properties) {
                   </div>
                   <div className="text-right ml-4">
                     <Button
-                      className="mt-2 ml-1 hover:shadow-md border-teal-500/30 hover:bg-teal-500/10 hover:text-teal-500 transition-colors"
+                      className="mt-2 ml-1 hover:shadow-md border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.1)] hover:text-[hsl(var(--accent-2-fg))] transition-colors"
                       onClick={() => {
                         setAmount(chosenAssetBalance);
                       }}
@@ -403,16 +403,16 @@ export default function CreateVestingBalance(properties) {
                       }
                       setAmount(e.target.value);
                     }}
-                    className="mt-2 bg-teal-500/5 border-teal-500/20"
+                    className="mt-2 bg-[hsl(var(--accent-2)/0.05)] border-[hsl(var(--accent-2)/0.2)]"
                   />
                 </span>
               </div>
               {policy === "ccd" ? (
-                <div className="grid grid-cols-1 mt-1 p-4 bg-gradient-to-r from-emerald-500/10 to-green-500/10 border border-emerald-500/20 rounded-lg">
+                <div className="grid grid-cols-1 mt-1 p-4 bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] border border-[hsl(var(--accent-1)/0.2)] rounded-lg">
                   <HoverInfo
                     header={
                       <span className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-emerald-500" />
+                        <Calendar className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
                         {t("CreateVestingBalance:startClaim")}
                       </span>
                     }
@@ -441,7 +441,7 @@ export default function CreateVestingBalance(properties) {
                   <HoverInfo
                     header={
                       <span className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-green-500" />
+                        <Clock className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
                         {t("CreateVestingBalance:vestingSeconds")}
                       </span>
                     }
@@ -455,16 +455,16 @@ export default function CreateVestingBalance(properties) {
                     value={vestingSeconds}
                     onChange={(e) => setVestingSeconds(e.target.value)}
                     min="0"
-                    className="w-1/2 mt-2 bg-emerald-500/5 border-emerald-500/20"
+                    className="w-1/2 mt-2 bg-[hsl(var(--accent-1)/0.05)] border-[hsl(var(--accent-1)/0.2)]"
                   />
                 </div>
               ) : null}
               {policy === "lvc" ? (
-                <div className="grid grid-cols-1 mt-1 p-4 bg-gradient-to-r from-green-500/10 to-teal-500/10 border border-green-500/20 rounded-lg">
+                <div className="grid grid-cols-1 mt-1 p-4 bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)] border border-[hsl(var(--accent-1)/0.2)] rounded-lg">
                   <HoverInfo
                     header={
                       <span className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-green-500" />
+                        <Calendar className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
                         {t("CreateVestingBalance:beginTime")}
                       </span>
                     }
@@ -493,7 +493,7 @@ export default function CreateVestingBalance(properties) {
                   <HoverInfo
                     header={
                       <span className="flex items-center gap-2">
-                        <Shield className="w-4 h-4 text-teal-500" />
+                        <Shield className="w-4 h-4 text-[hsl(var(--accent-2-fg))]" />
                         {t("CreateVestingBalance:vestingCliffSeconds")}
                       </span>
                     }
@@ -507,12 +507,12 @@ export default function CreateVestingBalance(properties) {
                     value={vestingCliffSeconds}
                     onChange={(e) => setVestingCliffSeconds(e.target.value)}
                     min="0"
-                    className="w-1/2 mt-2 mb-1 bg-green-500/5 border-green-500/20"
+                    className="w-1/2 mt-2 mb-1 bg-[hsl(var(--accent-1)/0.05)] border-[hsl(var(--accent-1)/0.2)]"
                   />
                   <HoverInfo
                     header={
                       <span className="flex items-center gap-2">
-                        <Timer className="w-4 h-4 text-emerald-500" />
+                        <Timer className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
                         {t("CreateVestingBalance:vestingDurationSeconds")}
                       </span>
                     }
@@ -526,12 +526,12 @@ export default function CreateVestingBalance(properties) {
                     value={vestingDurationSeconds}
                     onChange={(e) => setVestingDurationSeconds(e.target.value)}
                     min="0"
-                    className="w-1/2 mt-2 bg-emerald-500/5 border-emerald-500/20"
+                    className="w-1/2 mt-2 bg-[hsl(var(--accent-1)/0.05)] border-[hsl(var(--accent-1)/0.2)]"
                   />
                 </div>
               ) : null}
               <Button
-                className="h-10 mt-4 w-full bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 hover:from-emerald-600 hover:via-green-600 hover:to-teal-600 text-white shadow-lg shadow-emerald-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/40 hover:-translate-y-0.5"
+                className="h-10 mt-4 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-300 hover:shadow-xl hover:shadow-[color:hsl(var(--accent-1)/0.4)] hover:-translate-y-0.5"
                 onClick={() => {
                   if (isSubmitDisabled) return;
                   setShowDialog(true);

@@ -985,7 +985,7 @@ export default function CustomPoolTracker(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 dark:hover:text-purple-400 text-md ml-1 mr-1 mt-1 mb-1"
+                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md ml-1 mr-1 mt-1 mb-1"
               >
                 🏦 {res.id}
               </Button>
@@ -1015,7 +1015,7 @@ export default function CustomPoolTracker(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 dark:hover:text-purple-400 text-md ml-1 mr-1"
+                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md ml-1 mr-1"
               >
                 🪙 {_currentPSA.id}
               </Button>
@@ -1051,7 +1051,7 @@ export default function CustomPoolTracker(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 dark:hover:text-purple-400 text-md m-1"
+                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md m-1"
               >
                 {_poolAssetA.symbol}
               </Button>
@@ -1097,7 +1097,7 @@ export default function CustomPoolTracker(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 dark:hover:text-purple-400 text-md m-1"
+                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md m-1"
               >
                 {_poolAssetB.symbol}
               </Button>

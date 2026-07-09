@@ -150,11 +150,11 @@ export default function ConfigureVisuals() {
     <div className="container mx-auto mt-5 mb-5 text-foreground">
       <div className="grid grid-cols-1 gap-3">
         <Card className="bg-card/60 border-border shadow-lg shadow-black/20 backdrop-blur-sm">
-          <div className="h-1 w-full bg-gradient-to-r from-violet-500 to-fuchsia-500" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))]" />
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2">
-              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-violet-500/15 flex-shrink-0">
-                <Palette className="h-5 w-5 text-violet-400 dark:text-violet-300" />
+              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[hsl(var(--accent-1)/0.15)] flex-shrink-0">
+                <Palette className="h-5 w-5 text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]" />
               </span>
               {t("Visuals:pageTitle")}
             </CardTitle>
@@ -322,7 +322,7 @@ export default function ConfigureVisuals() {
                   onCheckedChange={(v) =>
                     setVisualSetting("particlesEnabled", v)
                   }
-                  className="data-[state=checked]:bg-violet-500"
+                  className="data-[state=checked]:bg-[hsl(var(--accent-1))]"
                 />
                 <span className="ml-3 text-sm text-muted-foreground">
                   {particlesEnabled
@@ -368,7 +368,7 @@ export default function ConfigureVisuals() {
           <Button
             variant="outline"
             onClick={resetVisualSettings}
-            className="border-rose-500/30 text-rose-400 dark:text-rose-300 hover:bg-rose-500/10 gap-1.5"
+            className="border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)] gap-1.5"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             {t("Visuals:resetToDefaults")}

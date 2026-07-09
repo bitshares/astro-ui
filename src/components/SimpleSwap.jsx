@@ -625,23 +625,23 @@ export default function SimpleSwap(properties) {
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.04)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-24 -left-20 h-64 w-64 rounded-full bg-cyan-500/20 blur-3xl"
+            className="pointer-events-none absolute -top-24 -left-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-1)/0.2)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl"
+            className="pointer-events-none absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-2)/0.2)] blur-3xl"
           />
 
           <div className="relative p-5 sm:p-6">
             <div className="flex items-start justify-between gap-3 mb-5">
               <div>
                 <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500/30 to-blue-500/30 border border-cyan-400/40 shadow-[0_0_18px_-2px_rgba(34,211,238,0.4)]">
-                    <Sparkles className="h-4 w-4 dark:text-cyan-100 text-cyan-700" />
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
+                    <Sparkles className="h-4 w-4 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
                   </span>
                   {t("SimpleSwap:title")}
                 </h2>
@@ -679,13 +679,13 @@ export default function SimpleSwap(properties) {
                         t("SimpleSwap:enterPositiveAmount"),
                     }}
                     render={({ field, fieldState }) => (
-                      <div className="rounded-2xl border border-cyan-400/25 bg-gradient-to-br from-cyan-500/[0.07] to-cyan-500/[0.02] p-4">
+                      <div className="rounded-2xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.07)] to-[hsl(var(--accent-1)/0.02)] p-4">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-cyan-500/20 border border-cyan-400/40">
-                              <ArrowUp className="h-3.5 w-3.5 dark:text-cyan-200 text-cyan-700" />
+                            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.2)] border border-[hsl(var(--accent-1)/0.4)]">
+                              <ArrowUp className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
                             </span>
-                            <span className="text-[11px] font-semibold uppercase tracking-wider dark:text-cyan-200/80 text-cyan-700">
+                            <span className="text-[11px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))]">
                               {t("SimpleSwap:amountToSwap")}
                             </span>
                             <TooltipProvider delayDuration={200}>
@@ -693,13 +693,13 @@ export default function SimpleSwap(properties) {
                                 <TooltipTrigger asChild>
                                   <button
                                     type="button"
-                                    className="dark:text-cyan-300/60 dark:hover:text-cyan-200 text-cyan-600/80 hover:text-cyan-800 transition-colors"
+                                    className="dark:text-[hsl(var(--accent-1-fg)/0.6)] dark:hover:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg)/0.8)] hover:text-[hsl(var(--accent-1-fg))] transition-colors"
                                     aria-label="More info"
                                   >
                                     <Info className="h-3.5 w-3.5" />
                                   </button>
                                 </TooltipTrigger>
-                                <TooltipContent className="bg-card border-cyan-400/30 text-foreground/85">
+                                <TooltipContent className="bg-card border-[hsl(var(--accent-1)/0.3)] text-foreground/85">
                                   <p className="max-w-xs">
                                     {t("SimpleSwap:enterAmountToSwap", {
                                       symbolA: selectedAssetASymbol ?? "???",
@@ -726,7 +726,7 @@ export default function SimpleSwap(properties) {
                                   <button
                                     type="button"
                                     onClick={setMaxBalance}
-                                    className="px-1.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider bg-cyan-500/20 border border-cyan-400/40 dark:text-cyan-100 text-cyan-700 hover:bg-cyan-500/30 hover:border-cyan-300/60 transition-colors"
+                                    className="px-1.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider bg-[hsl(var(--accent-1)/0.2)] border border-[hsl(var(--accent-1)/0.4)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.3)] hover:border-[hsl(var(--accent-1)/0.6)] transition-colors"
                                   >
                                     MAX
                                   </button>
@@ -759,13 +759,13 @@ export default function SimpleSwap(properties) {
                                     setSellAmount(input);
                                   }
                                 }}
-                                className="h-16 text-3xl sm:text-4xl font-semibold bg-card/60 border-border text-foreground placeholder:text-muted-foreground/40 focus-visible:ring-cyan-400/40 focus-visible:border-cyan-400/60 px-4"
+                                className="h-16 text-3xl sm:text-4xl font-semibold bg-card/60 border-border text-foreground placeholder:text-muted-foreground/40 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.6)] px-4"
                               />
                             </FieldContent>
                             {fieldState.invalid && (
                               <FieldError
                                 errors={[fieldState.error]}
-                                className="text-red-300 text-xs mt-1"
+                                className="text-[hsl(var(--accent-danger-fg))] text-xs mt-1"
                               />
                             )}
                           </Field>
@@ -785,10 +785,10 @@ export default function SimpleSwap(properties) {
                                       "SimpleSwap:selectSendAsset"
                                     )}
                                     aria-invalid={fieldState.invalid}
-                                    className="h-16 px-4 min-w-[140px] bg-card/60 border-border hover:bg-card/80 hover:border-cyan-400/40 text-foreground text-lg font-semibold justify-between gap-2"
+                                    className="h-16 px-4 min-w-[140px] bg-card/60 border-border hover:bg-card/80 hover:border-[hsl(var(--accent-1)/0.4)] text-foreground text-lg font-semibold justify-between gap-2"
                                   >
                                     <span className="flex items-center gap-2">
-                                      <Coins className="h-4 w-4 dark:text-cyan-300 text-cyan-700" />
+                                      <Coins className="h-4 w-4 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
                                       {selectedAssetASymbol || t(
                                         "SimpleSwap:sendAsset"
                                       )}
@@ -803,7 +803,7 @@ export default function SimpleSwap(properties) {
                                 >
                                   <span
                                     aria-hidden="true"
-                                    className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent"
+                                    className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent"
                                   />
                                   <Command className="rounded-2xl bg-transparent border-0 shadow-none">
                                     <CommandInput
@@ -834,15 +834,15 @@ export default function SimpleSwap(properties) {
                                                 );
                                                 setSendMenuOpen(false);
                                               }}
-                                              className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-cyan-500/15 data-[selected=true]:!text-foreground aria-selected:bg-cyan-500/15"
+                                              className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-[hsl(var(--accent-1)/0.15)] data-[selected=true]:!text-foreground aria-selected:bg-[hsl(var(--accent-1)/0.15)]"
                                             >
                                               <span className="flex items-center gap-2">
-                                                  <Coins className="h-3.5 w-3.5 dark:text-cyan-300/70 text-cyan-600/80" />
+                                                  <Coins className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
                                                 {assetSymbol}
                                               </span>
                                               {selectedAssetASymbol ===
                                                 assetSymbol && (
-                                                <Check className="ml-auto h-4 w-4 dark:text-cyan-300 text-cyan-700" />
+                                                <Check className="ml-auto h-4 w-4 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
                                               )}
                                             </CommandItem>
                                           ))
@@ -878,22 +878,22 @@ export default function SimpleSwap(properties) {
                         "bg-card border-2 border-border",
                         "shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)]",
                         "flex items-center justify-center",
-                        "hover:border-cyan-400/60 hover:shadow-[0_0_24px_-2px_rgba(34,211,238,0.5)]",
+                        "hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-2px_hsl(var(--accent-1)/0.5)]",
                         "active:scale-95 transition-all duration-300",
                         "disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-border"
                       )}
                     >
-                      <ArrowDownUp className="h-4 w-4 text-foreground dark:group-hover:text-cyan-200 group-hover:text-cyan-800 group-hover:rotate-180 transition-all duration-300" />
+                      <ArrowDownUp className="h-4 w-4 text-foreground dark:group-hover:text-[hsl(var(--accent-1-fg))] group-hover:text-[hsl(var(--accent-1-fg))] group-hover:rotate-180 transition-all duration-300" />
                     </button>
                   </div>
 
-                  <div className="rounded-2xl border border-blue-400/25 bg-gradient-to-br from-blue-500/[0.07] to-blue-500/[0.02] p-4">
+                  <div className="rounded-2xl border border-[hsl(var(--accent-2)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.07)] to-[hsl(var(--accent-2)/0.02)] p-4">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/20 border border-blue-400/40">
-                          <ArrowDown className="h-3.5 w-3.5 dark:text-blue-200 text-blue-700" />
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.2)] border border-[hsl(var(--accent-2)/0.4)]">
+                          <ArrowDown className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]" />
                         </span>
-                        <span className="text-[11px] font-semibold uppercase tracking-wider dark:text-blue-200/80 text-blue-700">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg)/0.8)] text-[hsl(var(--accent-2-fg))]">
                           {t("SimpleSwap:totalAmount")}
                         </span>
                         <TooltipProvider delayDuration={200}>
@@ -901,13 +901,13 @@ export default function SimpleSwap(properties) {
                             <TooltipTrigger asChild>
                               <button
                                 type="button"
-                                className="dark:text-blue-300/60 dark:hover:text-blue-200 text-blue-600/80 hover:text-blue-800 transition-colors"
+                                className="dark:text-[hsl(var(--accent-2-fg)/0.6)] dark:hover:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg)/0.8)] hover:text-[hsl(var(--accent-2-fg))] transition-colors"
                                 aria-label="More info"
                               >
                                 <Info className="h-3.5 w-3.5" />
                               </button>
                             </TooltipTrigger>
-                            <TooltipContent className="bg-card border-blue-400/30 text-foreground/85">
+                            <TooltipContent className="bg-card border-[hsl(var(--accent-2)/0.3)] text-foreground/85">
                               <p className="max-w-xs">
                                 {t("SimpleSwap:totalAmountDescription", {
                                   symbolA: selectedAssetASymbol ?? "???",
@@ -922,7 +922,7 @@ export default function SimpleSwap(properties) {
                         selectedAssetASymbol &&
                         selectedAssetBSymbol && (
                           <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                            <TrendingUp className="h-3 w-3 dark:text-blue-300/70 text-blue-600/80" />
+                            <TrendingUp className="h-3 w-3 dark:text-[hsl(var(--accent-2-fg)/0.7)] text-[hsl(var(--accent-2-fg)/0.8)]" />
                             <span className="font-mono">
                               1 {selectedAssetASymbol} ={" "}
                               {exchangeRate.toLocaleString(undefined, {
@@ -951,7 +951,7 @@ export default function SimpleSwap(properties) {
                                   })
                                 : "0.0"
                             }
-                            className="h-16 text-3xl sm:text-4xl font-semibold bg-card/60 border-border dark:text-blue-100 text-foreground placeholder:text-muted-foreground/40 px-4"
+                            className="h-16 text-3xl sm:text-4xl font-semibold bg-card/60 border-border dark:text-[hsl(var(--accent-2-fg))] text-foreground placeholder:text-muted-foreground/40 px-4"
                           />
                         </FieldContent>
                       </Field>
@@ -983,10 +983,10 @@ export default function SimpleSwap(properties) {
                                       "SimpleSwap:selectReceiveAsset"
                                     )}
                                     aria-invalid={fieldState.invalid}
-                                    className="h-16 px-4 min-w-[140px] bg-card/60 border-border hover:bg-card/80 hover:border-blue-400/40 text-foreground text-lg font-semibold justify-between gap-2 disabled:opacity-50"
+                                    className="h-16 px-4 min-w-[140px] bg-card/60 border-border hover:bg-card/80 hover:border-[hsl(var(--accent-2)/0.4)] text-foreground text-lg font-semibold justify-between gap-2 disabled:opacity-50"
                                   >
                                     <span className="flex items-center gap-2">
-                                      <Coins className="h-4 w-4 dark:text-blue-300 text-blue-700" />
+                                      <Coins className="h-4 w-4 dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]" />
                                       {selectedAssetBSymbol || t(
                                         "SimpleSwap:sendAsset"
                                       )}
@@ -1001,7 +1001,7 @@ export default function SimpleSwap(properties) {
                                 >
                                   <span
                                     aria-hidden="true"
-                                    className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent"
+                                    className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-2)/0.6)] to-transparent"
                                   />
                                   <Command className="rounded-2xl bg-transparent border-0 shadow-none">
                                     <CommandInput
@@ -1029,15 +1029,15 @@ export default function SimpleSwap(properties) {
                                                   );
                                                   setReceiveMenuOpen(false);
                                                 }}
-                                                className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-blue-500/15 data-[selected=true]:!text-foreground aria-selected:bg-blue-500/15"
+                                                className="cursor-pointer text-foreground/85 data-[selected=true]:!bg-[hsl(var(--accent-2)/0.15)] data-[selected=true]:!text-foreground aria-selected:bg-[hsl(var(--accent-2)/0.15)]"
                                               >
                                                 <span className="flex items-center gap-2">
-                                                  <Coins className="h-3.5 w-3.5 dark:text-blue-300/70 text-blue-600/80" />
+                                                  <Coins className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-2-fg)/0.7)] text-[hsl(var(--accent-2-fg)/0.8)]" />
                                                   {assetSymbol}
                                                 </span>
                                                 {selectedAssetBSymbol ===
                                                   assetSymbol && (
-                                                  <Check className="ml-auto h-4 w-4 dark:text-blue-300 text-blue-700" />
+                                                  <Check className="ml-auto h-4 w-4 dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]" />
                                                 )}
                                               </CommandItem>
                                             )
@@ -1065,7 +1065,7 @@ export default function SimpleSwap(properties) {
                             {fieldState.invalid && (
                               <FieldError
                                 errors={[fieldState.error]}
-                                className="text-red-300 text-xs mt-1"
+                                className="text-[hsl(var(--accent-danger-fg))] text-xs mt-1"
                               />
                             )}
                           </Field>
@@ -1093,7 +1093,7 @@ export default function SimpleSwap(properties) {
                             <TooltipTrigger asChild>
                               <button
                                 type="button"
-                                className="text-muted-foreground dark:hover:text-cyan-200 hover:text-cyan-800 transition-colors"
+                                className="text-muted-foreground dark:hover:text-[hsl(var(--accent-1-fg))] hover:text-[hsl(var(--accent-1-fg))] transition-colors"
                                 aria-label="More info"
                               >
                                 <Info className="h-3 w-3" />
@@ -1138,20 +1138,20 @@ export default function SimpleSwap(properties) {
                                 "px-4 py-3 rounded-xl border",
                                 "transition-all duration-200 ease-out",
                                 isSelected
-                                  ? "border-cyan-400/60 bg-gradient-to-br from-cyan-500/15 to-blue-500/10 shadow-[0_0_24px_-4px_rgba(34,211,238,0.5)]"
+                                  ? "border-[hsl(var(--accent-1)/0.6)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.15)] to-[hsl(var(--accent-2)/0.1)] shadow-[0_0_24px_-4px_hsl(var(--accent-1)/0.5)]"
                                   : "border-border bg-card/40 hover:border-accent/60 dark:hover:border-white/25 hover:bg-card/60"
                               )}
                             >
                               {isSelected && (
                                 <span
                                   aria-hidden="true"
-                                  className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/80 to-transparent"
+                                  className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.8)] to-transparent"
                                 />
                               )}
                               <div className="flex items-center gap-2">
                                 {isSelected ? (
-                                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-cyan-400/30 border border-cyan-300/60">
-                                      <Check className="h-2.5 w-2.5 dark:text-cyan-100 text-cyan-700" />
+                                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-[hsl(var(--accent-1)/0.3)] border border-[hsl(var(--accent-1)/0.6)]">
+                                      <Check className="h-2.5 w-2.5 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
                                   </span>
                                 ) : (
                                   <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-border dark:border-white/15" />
@@ -1159,7 +1159,7 @@ export default function SimpleSwap(properties) {
                                 <span
                                   className={cn(
                                     "text-xs font-mono font-semibold tracking-wider",
-                                    isSelected ? "dark:text-cyan-100 text-cyan-700" : "text-foreground/70"
+                                    isSelected ? "dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" : "text-foreground/70"
                                   )}
                                 >
                                   #{p.id.split(".")[2]}
@@ -1168,7 +1168,7 @@ export default function SimpleSwap(properties) {
                                   className={cn(
                                     "text-[10px] px-1.5 py-0.5 rounded-md border font-semibold",
                                     isSelected
-                                      ? "bg-cyan-400/15 border-cyan-300/40 dark:text-cyan-100 text-cyan-700"
+                                      ? "bg-[hsl(var(--accent-1)/0.15)] border-[hsl(var(--accent-1)/0.4)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                                       : "bg-accent/40 border-border text-muted-foreground"
                                   )}
                                 >
@@ -1200,7 +1200,7 @@ export default function SimpleSwap(properties) {
                     finalPools.length === 0 &&
                     pools &&
                     pools.length > 0 && (
-                      <div className="rounded-xl border border-red-400/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+                      <div className="rounded-xl border border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] px-3 py-2 text-sm text-[hsl(var(--accent-danger-fg))]">
                         {t("SimpleSwap:noPoolsForPair")}
                       </div>
                     )}
@@ -1209,19 +1209,19 @@ export default function SimpleSwap(properties) {
                     <div className="rounded-xl border border-border/60 bg-card/40 px-4 py-3 space-y-2 text-sm">
                       <div className="flex items-center justify-between">
                         <span className="inline-flex items-center gap-2 text-muted-foreground">
-                           <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-cyan-400/30 bg-cyan-500/10 dark:text-cyan-200 text-cyan-700">
+                           <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                             <Percent className="h-3 w-3" strokeWidth={2.5} />
                           </span>
                           {t("SimpleSwap:poolFee")}
                         </span>
-                        <span className="font-mono tabular-nums dark:text-cyan-100 text-cyan-700">
+                        <span className="font-mono tabular-nums dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                           {((foundPool.taker_fee_percent ?? 0) / 100).toFixed(2)}%
                         </span>
                       </div>
                       <div className="border-t border-border/40" />
                       <div className="flex items-center justify-between">
                         <span className="inline-flex items-center gap-2 text-muted-foreground">
-                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-violet-400/30 bg-violet-500/10 text-violet-200">
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-[hsl(var(--accent-3)/0.3)] bg-[hsl(var(--accent-3)/0.1)] text-[hsl(var(--accent-3-fg))]">
                             <Coins className="h-3 w-3" strokeWidth={2.5} />
                           </span>
                           {t("SimpleSwap:networkFee")}
@@ -1238,11 +1238,11 @@ export default function SimpleSwap(properties) {
                     disabled={!canSubmit}
                     className={cn(
                       "group/exchange relative overflow-hidden mt-1 w-full h-14 text-base font-semibold rounded-2xl",
-                      "bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500",
-                      "hover:from-indigo-400 hover:via-violet-400 hover:to-purple-400",
+                      "bg-gradient-to-r from-[hsl(var(--accent-3))] via-[hsl(var(--accent-3))] to-[hsl(var(--accent-3))]",
+                      "hover:from-[hsl(var(--accent-3))] hover:via-[hsl(var(--accent-3))] hover:to-[hsl(var(--accent-3))]",
                       "text-foreground border-0",
-                      "shadow-[0_8px_30px_-8px_rgba(139,92,246,0.6)]",
-                      "hover:shadow-[0_12px_40px_-8px_rgba(139,92,246,0.9)]",
+                      "shadow-[0_8px_30px_-8px_hsl(var(--accent-3)/0.6)]",
+                      "hover:shadow-[0_12px_40px_-8px_hsl(var(--accent-3)/0.9)]",
                       "transition-all duration-200",
                       "active:scale-[0.99]",
                       "disabled:from-slate-200 disabled:via-slate-200 disabled:to-slate-200 dark:disabled:from-slate-800 dark:disabled:via-slate-800 dark:disabled:to-slate-800",
@@ -1450,25 +1450,25 @@ function AssetCardSkeleton({ title }) {
 
 const ACTION_ACCENTS = {
   emerald: {
-    bar: "from-emerald-400/80 via-teal-400/80 to-cyan-400/80",
-    chip: "bg-emerald-500/20 border-emerald-400/40 text-emerald-100",
-    icon: "text-emerald-200",
-    border: "hover:border-emerald-400/40",
-    glow: "bg-emerald-500/15",
+    bar: "from-[hsl(var(--accent-success)/0.8)] via-[hsl(var(--accent-1)/0.8)] to-[hsl(var(--accent-1)/0.8)]",
+    chip: "bg-[hsl(var(--accent-success)/0.2)] border-[hsl(var(--accent-success)/0.4)] text-[hsl(var(--accent-success-fg))]",
+    icon: "text-[hsl(var(--accent-success-fg))]",
+    border: "hover:border-[hsl(var(--accent-success)/0.4)]",
+    glow: "bg-[hsl(var(--accent-success)/0.15)]",
   },
   indigo: {
-    bar: "from-indigo-400/80 via-violet-400/80 to-fuchsia-400/80",
-    chip: "bg-indigo-500/20 border-indigo-400/40 text-indigo-100",
-    icon: "text-indigo-200",
-    border: "hover:border-indigo-400/40",
-    glow: "bg-indigo-500/15",
+    bar: "from-[hsl(var(--accent-3)/0.8)] via-[hsl(var(--accent-3)/0.8)] to-[hsl(var(--accent-3)/0.8)]",
+    chip: "bg-[hsl(var(--accent-3)/0.2)] border-[hsl(var(--accent-3)/0.4)] text-[hsl(var(--accent-3-fg))]",
+    icon: "text-[hsl(var(--accent-3-fg))]",
+    border: "hover:border-[hsl(var(--accent-3)/0.4)]",
+    glow: "bg-[hsl(var(--accent-3)/0.15)]",
   },
   amber: {
-    bar: "from-amber-400/80 via-orange-400/80 to-rose-400/80",
-    chip: "bg-amber-500/20 border-amber-400/40 dark:text-amber-100 text-amber-700",
-    icon: "dark:text-amber-200 text-amber-700",
-    border: "hover:border-amber-400/40",
-    glow: "bg-amber-500/15",
+    bar: "from-[hsl(var(--accent-warning)/0.8)] via-[hsl(var(--accent-warning)/0.8)] to-[hsl(var(--accent-danger)/0.8)]",
+    chip: "bg-[hsl(var(--accent-warning)/0.2)] border-[hsl(var(--accent-warning)/0.4)] dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))]",
+    icon: "dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))]",
+    border: "hover:border-[hsl(var(--accent-warning)/0.4)]",
+    glow: "bg-[hsl(var(--accent-warning)/0.15)]",
   },
 };
 

@@ -390,5 +390,15 @@
     "subtitle": "Customize wave backgrounds, aurora glow, particles and blur effects",
     "hover1": "Choose from preset color palettes or define your own custom colors.",
     "hover2": "Adjust wave count, speed, thickness and aurora intensity."
+  },
+  "theme_customizer": {
+    "title": "Theme Customization",
+    "subtitle": "Create and edit themes that recolor every page, nav and component",
+    "hover1": "Use Simple mode for one accent color, or Advanced for full control.",
+    "hover2": "Assign per-page themes and recolor navigation accents."
+  },
+  "home_link": {
+    "title": "Home",
+    "subtitle": "Return to the main dashboard"
   }
 }

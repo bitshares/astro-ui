@@ -394,5 +394,13 @@
     "ctaPrimary": "Start handel",
     "ctaSecondary": "Simpel swap",
     "scrollForMore": "Rul for mere"
+  },
+  "theme_customizer": {
+    "title": "Tematilpasning",
+    "subtitle": "Opret og rediger temaer, der farvelægger hver side, navigation og komponent"
+  },
+  "home_link": {
+    "title": "Hjem",
+    "subtitle": "Tilbage til hovedoversigten"
   }
 }

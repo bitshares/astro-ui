@@ -289,8 +289,8 @@ export default function LimitOrderWizard(properties) {
           className={cn(
             "group flex items-center gap-2 rounded-xl border transition-all px-3 py-2.5",
             isSelected
-              ? "border-blue-500/40 bg-gradient-to-r from-blue-500/[0.08] to-transparent hover:border-blue-500/60"
-              : "border-border/40 bg-card/30 hover:border-blue-400/30 hover:bg-blue-500/[0.04]"
+              ? "border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.08)] to-transparent hover:border-[hsl(var(--accent-1)/0.6)]"
+              : "border-border/40 bg-card/30 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.04)]"
           )}
         >
           <div className="grid grid-cols-5 gap-2 flex-1 items-center text-xs">
@@ -305,9 +305,9 @@ export default function LimitOrderWizard(properties) {
             </div>
             <div className="flex items-center gap-1">
               {isSelected ? (
-                <div className="w-full bg-blue-500/20 rounded-full h-1.5">
+                <div className="w-full bg-[hsl(var(--accent-1)/0.2)] rounded-full h-1.5">
                   <div
-                    className="bg-blue-400 h-1.5 rounded-full transition-all"
+                    className="bg-[hsl(var(--accent-1))] h-1.5 rounded-full transition-all"
                     style={{ width: `${Math.min(100, percentageCommitted)}%` }}
                   />
                 </div>
@@ -329,8 +329,8 @@ export default function LimitOrderWizard(properties) {
                       className={cn(
                         "inline-flex h-7 w-7 items-center justify-center rounded-md border transition-all",
                         isSelected
-                          ? "border-blue-400/40 bg-blue-500/20 dark:text-blue-200 text-blue-700"
-                          : "border-border/60 bg-card/40 text-muted-foreground hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-blue-600"
+                          ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
+                          : "border-border/60 bg-card/40 text-muted-foreground hover:border-[hsl(var(--accent-1)/0.4)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]"
                       )}
                     >
                       <ShoppingCart className="h-3.5 w-3.5" />
@@ -339,7 +339,7 @@ export default function LimitOrderWizard(properties) {
                   <DialogContent className="sm:max-w-[520px] !bg-card border border-border rounded-2xl">
                     <span
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent"
+                      className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent"
                     />
                     <DialogHeader>
                       <DialogTitle className="text-foreground">
@@ -357,7 +357,7 @@ export default function LimitOrderWizard(properties) {
                           </span>
                           <Badge
                             variant="outline"
-                            className="border-blue-400/30 bg-blue-500/10 dark:text-blue-200 text-blue-700 font-mono text-[10px]"
+                            className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] font-mono text-[10px]"
                           >
                             {_amountOffered} {_assetLimitOrderOffers.symbol}
                           </Badge>
@@ -400,7 +400,7 @@ export default function LimitOrderWizard(properties) {
                                       );
                                     }
                                   }}
-                                  className="border-blue-400/30 bg-blue-500/10 dark:text-blue-200 text-blue-700 hover:bg-blue-500/20"
+                                  className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)]"
                                 >
                                   <Wallet className="h-3.5 w-3.5 mr-1" />
                                   {t("LimitOrderWizard:max")}
@@ -420,7 +420,7 @@ export default function LimitOrderWizard(properties) {
                               {t("LimitOrderWizard:buying")}
                             </span>
                             <div className="flex items-baseline gap-1">
-                              <span className="font-mono text-sm tabular-nums text-emerald-400 font-semibold">
+                              <span className="font-mono text-sm tabular-nums text-[hsl(var(--accent-success-fg))] font-semibold">
                                 {parseFloat(tempBuyAmount * price).toFixed(
                                   sellingAssetData.precision
                                 )}
@@ -467,8 +467,8 @@ export default function LimitOrderWizard(properties) {
                         variant="outline"
                         className={cn(
                           "w-full h-11 rounded-xl font-semibold transition-all",
-                          "border-blue-400/40 bg-blue-500/10 dark:text-blue-100 text-blue-700",
-                          "hover:bg-blue-500/20 hover:border-blue-400/60 hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)]"
+                          "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]",
+                          "hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)]"
                         )}
                         onClick={() => {
                           setOperations((prevOperations) => {
@@ -614,7 +614,7 @@ export default function LimitOrderWizard(properties) {
                       return _ops;
                     });
                   }}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-red-400/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:border-red-400/50 transition-all"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.2)] hover:border-[hsl(var(--accent-danger)/0.5)] transition-all"
                 >
                   <Minus className="h-3 w-3" />
                 </button>
@@ -633,7 +633,7 @@ export default function LimitOrderWizard(properties) {
         <Button
           variant="outline"
           size="sm"
-          className="h-10 gap-1.5 rounded-xl border-blue-400/40 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 dark:text-blue-200 text-blue-700 hover:bg-blue-500/20 hover:border-blue-400/60 hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)] transition-all text-xs font-semibold"
+          className="h-10 gap-1.5 rounded-xl border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)] transition-all text-xs font-semibold"
         >
           <Plus className="h-4 w-4" />
           {t("LimitOrderWizard:addOperation", "Add operation")}
@@ -642,19 +642,19 @@ export default function LimitOrderWizard(properties) {
       <DialogContent className="sm:max-w-[1080px] !bg-card border border-border rounded-2xl">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/70 to-transparent"
+          className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-blue-500/10 blur-3xl"
+          className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl"
+          className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
         />
         <DialogHeader>
           <DialogTitle className="text-foreground flex items-center gap-2">
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/15 border border-blue-400/30 dark:text-blue-200 text-blue-700">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
               <ShoppingCart className="h-3.5 w-3.5" />
             </span>
             {t("LimitOrderWizard:title")}
@@ -665,10 +665,10 @@ export default function LimitOrderWizard(properties) {
         </DialogHeader>
 
         <div className="flex items-center gap-3 mb-4">
-          <div className="flex-1 rounded-xl border border-emerald-400/20 bg-gradient-to-br from-emerald-500/[0.06] to-transparent p-3">
+          <div className="flex-1 rounded-xl border border-[hsl(var(--accent-success)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-success)/0.06)] to-transparent p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-emerald-500/15 border border-emerald-400/30 dark:text-emerald-200 text-emerald-700">
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-success)/0.15)] border border-[hsl(var(--accent-success)/0.3)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]">
                   <TrendingUp className="h-3 w-3" />
                 </span>
                 <span className="text-xs font-semibold text-foreground">
@@ -708,7 +708,7 @@ export default function LimitOrderWizard(properties) {
                     <TooltipTrigger asChild>
                       {isFavouriteBuy ? (
                         <HeartFilledIcon
-                          className="h-4 w-4 text-red-400 cursor-pointer shrink-0"
+                          className="h-4 w-4 text-[hsl(var(--accent-danger-fg))] cursor-pointer shrink-0"
                           onClick={() => {
                             removeFavouriteAsset(chain, {
                               id: buyingAssetData.id,
@@ -721,7 +721,7 @@ export default function LimitOrderWizard(properties) {
                         />
                       ) : (
                         <HeartIcon
-                          className="h-4 w-4 text-muted-foreground/50 hover:text-red-400 cursor-pointer shrink-0 transition-colors"
+                          className="h-4 w-4 text-muted-foreground/50 hover:text-[hsl(var(--accent-danger-fg))] cursor-pointer shrink-0 transition-colors"
                           onClick={() => {
                             addFavouriteAsset(chain, {
                               id: buyingAssetData.id,
@@ -750,7 +750,7 @@ export default function LimitOrderWizard(properties) {
                   type="button"
                   onClick={handleClick}
                   disabled={!buyingAsset || !sellingAsset}
-                  className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-border bg-card/80 hover:border-blue-400/50 hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)] transition-all disabled:opacity-40 disabled:cursor-not-allowed group"
+                  className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-border bg-card/80 hover:border-[hsl(var(--accent-1)/0.5)] hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)] transition-all disabled:opacity-40 disabled:cursor-not-allowed group"
                 >
                   {clicked ? (
                     <ReloadIcon className="h-4 w-4 animate-spin text-muted-foreground" />
@@ -765,10 +765,10 @@ export default function LimitOrderWizard(properties) {
             </Tooltip>
           </TooltipProvider>
 
-          <div className="flex-1 rounded-xl border border-blue-400/20 bg-gradient-to-br from-blue-500/[0.06] to-transparent p-3">
+          <div className="flex-1 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/15 border border-blue-400/30 dark:text-blue-200 text-blue-700">
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                   <Coins className="h-3 w-3" />
                 </span>
                 <span className="text-xs font-semibold text-foreground">
@@ -808,7 +808,7 @@ export default function LimitOrderWizard(properties) {
                     <TooltipTrigger asChild>
                       {isFavouriteSell ? (
                         <HeartFilledIcon
-                          className="h-4 w-4 text-red-400 cursor-pointer shrink-0"
+                          className="h-4 w-4 text-[hsl(var(--accent-danger-fg))] cursor-pointer shrink-0"
                           onClick={() => {
                             removeFavouriteAsset(chain, {
                               id: sellingAssetData.id,
@@ -821,7 +821,7 @@ export default function LimitOrderWizard(properties) {
                         />
                       ) : (
                         <HeartIcon
-                          className="h-4 w-4 text-muted-foreground/50 hover:text-red-400 cursor-pointer shrink-0 transition-colors"
+                          className="h-4 w-4 text-muted-foreground/50 hover:text-[hsl(var(--accent-danger-fg))] cursor-pointer shrink-0 transition-colors"
                           onClick={() => {
                             addFavouriteAsset(chain, {
                               id: sellingAssetData.id,
@@ -864,7 +864,7 @@ export default function LimitOrderWizard(properties) {
               ))}
             </div>
           ) : sellingAsset === buyingAsset ? (
-            <div className="flex items-center justify-center py-12 text-sm text-red-400/70">
+            <div className="flex items-center justify-center py-12 text-sm text-[hsl(var(--accent-danger-fg)/0.7)]">
               {t("LimitOrderWizard:invalidTradingPair")}
             </div>
           ) : !marketLimitOrders || !marketLimitOrders.length ? (

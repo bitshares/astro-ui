@@ -201,12 +201,12 @@ export default function IssuedAssets(properties) {
       <div style={{ ...style }} key={`acard-${issuedAsset.id}`}>
         <Card
           className={cn(
-            "ml-2 mr-2 cursor-pointer transition-colors border-border hover:border-cyan-400/40",
+            "ml-2 mr-2 cursor-pointer transition-colors border-border hover:border-[hsl(var(--accent-1)/0.4)]",
             selectedAsset && selectedAsset !== issuedAsset.id
               ? "bg-accent"
               : "",
             selectedAsset && selectedAsset === issuedAsset.id
-              ? "bg-cyan-500/10 border-cyan-400/50"
+              ? "bg-[hsl(var(--accent-1)/0.1)] border-[hsl(var(--accent-1)/0.5)]"
               : ""
           )}
           onClick={() => setSelectedAsset(issuedAsset.id)}
@@ -215,7 +215,7 @@ export default function IssuedAssets(properties) {
             <div className="flex items-center justify-between gap-2">
               <CardTitle className="pb-0">
                 {selectedAsset && selectedAsset === issuedAsset.id ? (
-                  <span className="text-cyan-600 dark:text-cyan-300">
+                  <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">
                     ✔️{" "}
                   </span>
                 ) : (
@@ -313,17 +313,17 @@ export default function IssuedAssets(properties) {
         className={cn(
           "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ring-1",
           done
-            ? "bg-cyan-500/20 text-cyan-300 ring-cyan-500/40"
-            : "bg-cyan-500/15 text-cyan-400 ring-cyan-500/30"
+            ? "bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg))] ring-[hsl(var(--accent-1)/0.4)]"
+            : "bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))] ring-[hsl(var(--accent-1)/0.3)]"
         )}
       >
         <Icon className="h-4 w-4" strokeWidth={2.25} />
       </span>
       <div className="flex-1 min-w-0">
-        <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-cyan-500/15 text-cyan-400">
+        <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
           {`Step ${step}`}
           {done ? (
-            <span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full bg-cyan-500/30">
+            <span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[hsl(var(--accent-1)/0.3)]">
               ✓
             </span>
           ) : null}
@@ -344,18 +344,18 @@ export default function IssuedAssets(properties) {
         <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl px-6 py-5 shadow-lg shadow-black/20 ring-1 dark:ring-white/[0.06] ring-border">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-cyan-500/10 blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <div className="relative flex items-center gap-4">
-            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-cyan-400/30 bg-gradient-to-br from-cyan-500/20 to-teal-500/20 dark:text-cyan-200 text-cyan-700">
+            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
               <Droplets className="h-6 w-6" strokeWidth={2.25} />
             </span>
             <div className="flex-1 min-w-0">
@@ -387,7 +387,7 @@ export default function IssuedAssets(properties) {
                   <Empty className="mt-2">
                     <EmptyHeader>
                       <EmptyMedia variant="icon">
-                        <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-400/30 bg-gradient-to-br from-cyan-500/20 to-teal-500/20 dark:text-cyan-200 text-cyan-700">
+                        <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                           <Droplets className="h-6 w-6" strokeWidth={1.75} />
                         </span>
                       </EmptyMedia>
@@ -400,7 +400,7 @@ export default function IssuedAssets(properties) {
                       <Button
                         asChild
                         variant="outline"
-                        className="border-cyan-400/30 bg-cyan-500/10 hover:bg-cyan-500/20 hover:border-cyan-400/50 dark:text-cyan-200 text-cyan-700"
+                        className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                       >
                         <a href="/create_uia/index.html">
                           {t("PageHeader:create_uia")}
@@ -415,7 +415,7 @@ export default function IssuedAssets(properties) {
                         count: eligibleAssets.length,
                       })}
                     </h5>
-                    <div className="w-full max-h-[350px] min-h-[350px] overflow-auto rounded-lg bg-card/30 border border-cyan-400/20">
+                    <div className="w-full max-h-[350px] min-h-[350px] overflow-auto rounded-lg bg-card/30 border border-[hsl(var(--accent-1)/0.2)]">
                       <List
                         rowComponent={AssetRow}
                         rowCount={eligibleAssets.length}
@@ -445,7 +445,7 @@ export default function IssuedAssets(properties) {
                       header={t("CreatePool:assetA")}
                       content={t("CreatePool:assetA_description")}
                     />
-                    <div className="rounded-xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/[0.06] to-transparent p-2 mt-1">
+                    <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-2 mt-1">
                       <AssetDropDown
                         assetSymbol={assetA ?? ""}
                         assetData={assetAData}
@@ -472,7 +472,7 @@ export default function IssuedAssets(properties) {
                     aria-label={t("CreatePool:swap_pair")}
                     title={t("CreatePool:swap_pair")}
                   >
-                    <span className="inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-border bg-card/80 text-cyan-700 dark:text-cyan-200 hover:border-cyan-400/50 hover:shadow-[0_0_24px_-6px_rgba(34,211,238,0.55)] transition-all group">
+                    <span className="inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-border bg-card/80 text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.5)] hover:shadow-[0_0_24px_-6px_rgba(34,211,238,0.55)] transition-all group">
                       <ArrowDownUp className="h-4 w-4 group-hover:rotate-180 transition-transform duration-300" />
                     </span>
                   </button>
@@ -482,7 +482,7 @@ export default function IssuedAssets(properties) {
                       header={t("CreatePool:assetB")}
                       content={t("CreatePool:assetB_description")}
                     />
-                    <div className="rounded-xl border border-teal-400/20 bg-gradient-to-br from-teal-500/[0.06] to-transparent p-2 mt-1">
+                    <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-2 mt-1">
                       <AssetDropDown
                         assetSymbol={assetB ?? ""}
                         assetData={assetBData}
@@ -503,7 +503,7 @@ export default function IssuedAssets(properties) {
                   </div>
                 </div>
                 {assetA && assetB && assetA === assetB ? (
-                  <p className="mt-3 text-xs font-medium text-rose-500 dark:text-rose-400">
+                  <p className="mt-3 text-xs font-medium text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]">
                     ⚠ {t("CreatePool:duplicate_assets")}
                   </p>
                 ) : null}
@@ -519,7 +519,7 @@ export default function IssuedAssets(properties) {
                 done={!!(selectedAsset && assetA && assetB)}
               />
               <CardContent className="p-5 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="rounded-xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/[0.06] to-transparent p-3 sm:p-4">
+                <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-3 sm:p-4">
                   <HoverInfo
                     header={t("CreatePool:taker_fee_header")}
                     content={t("CreatePool:taker_fee_content")}
@@ -539,10 +539,10 @@ export default function IssuedAssets(properties) {
                         setTakerFeePercent
                       );
                     }}
-                    className="mt-1 !bg-card/40 border-border focus-visible:!ring-cyan-400/40 focus-visible:border-cyan-400/50"
+                    className="mt-1 !bg-card/40 border-border focus-visible:!ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                   />
                 </div>
-                <div className="rounded-xl border border-teal-400/20 bg-gradient-to-br from-teal-500/[0.06] to-transparent p-3 sm:p-4">
+                <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-3 sm:p-4">
                   <HoverInfo
                     header={t("CreatePool:withdrawal_fee_header")}
                     content={t("CreatePool:withdrawal_fee_content")}
@@ -562,16 +562,16 @@ export default function IssuedAssets(properties) {
                         setWithdrawalFeePercent
                       );
                     }}
-                    className="mt-1 !bg-card/40 border-border focus-visible:!ring-teal-400/40 focus-visible:border-teal-400/50"
+                    className="mt-1 !bg-card/40 border-border focus-visible:!ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                   />
                 </div>
               </CardContent>
             </Card>
 
             {selectedAsset && assetA && assetB && assetA !== assetB ? (
-              <div className="rounded-xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/[0.06] to-teal-500/[0.04] p-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-[hsl(var(--accent-1)/0.04)] p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-cyan-400/30 bg-cyan-500/15 dark:text-cyan-200 text-cyan-700">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.15)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
                     <Layers className="h-3.5 w-3.5" strokeWidth={2.25} />
                   </span>
                   <h3 className="text-sm font-semibold text-foreground">
@@ -600,7 +600,7 @@ export default function IssuedAssets(properties) {
                     <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
                       {t("CreatePool:summary_pair")}
                     </div>
-                    <div className="font-mono text-sm tabular-nums dark:text-cyan-200/90 text-cyan-700 truncate">
+                    <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] truncate">
                       {`${assetA} / ${assetB}`}
                     </div>
                   </div>
@@ -634,7 +634,7 @@ export default function IssuedAssets(properties) {
                 className={cn(
                   "w-full h-14 rounded-2xl font-semibold text-white flex items-center justify-center gap-2 text-base transition-all group",
                   assetA && assetB && selectedAsset
-                    ? "bg-gradient-to-r from-cyan-500 via-teal-500 to-sky-500 shadow-[0_8px_32px_-12px_rgba(6,182,212,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(20,184,166,0.9)] hover:from-cyan-400 hover:via-teal-400 hover:to-sky-400"
+                    ? "bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] shadow-[0_8px_32px_-12px_rgba(6,182,212,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(20,184,166,0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
                     : "bg-card/60 border border-border/40 dark:border-white/5 text-muted-foreground cursor-not-allowed"
                 )}
               >

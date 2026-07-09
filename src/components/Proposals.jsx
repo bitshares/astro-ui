@@ -255,16 +255,16 @@ export default function Proposals(properties) {
 
     return (
       <div style={{ ...style }} key={`card-${proposal.id}`}>
-        <div className="ml-3 mr-3 mt-3 relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 backdrop-blur-xl shadow-md shadow-indigo-950/10 hover:border-indigo-500/25 hover:shadow-indigo-500/15 transition-all duration-300">
+        <div className="ml-3 mr-3 mt-3 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300">
           <div className="p-4">
             <div className="grid grid-cols-1 gap-3">
               <div className="grid grid-cols-2 gap-3 mt-3">
                 <div className="col-span-2">
                   {t("Proposals:proposalID")}
                   {": "}
-                  <span className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">{proposal.id}</span>
+                  <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">{proposal.id}</span>
                   <Badge
-                    className="ml-3 border-indigo-500/20 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 cursor-pointer hover:bg-indigo-500/20 transition-colors"
+                    className="ml-3 border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] cursor-pointer hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors"
                     onClick={() => {
                       setViewJSON(true);
                       setJSON(proposal);
@@ -278,7 +278,7 @@ export default function Proposals(properties) {
                   {": "}
                   <b>
                     {proposerAccount && proposerAccount.name ? (
-                      <span className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">
+                      <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">
                         {proposerAccount.name}
                       </span>
                     ) : (
@@ -286,7 +286,7 @@ export default function Proposals(properties) {
                     )}
                   </b>{" "}
                   (
-                  <span className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">{proposer}</span>
+                  <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">{proposer}</span>
                   )
                 </div>
                 <div className="col-span-2">
@@ -306,7 +306,7 @@ export default function Proposals(properties) {
                   content={t("Proposals:operationsDescription")}
                   type="header"
                 />
-                <div className="border border-indigo-500/15 rounded-xl pl-2 pb-2 mt-2 bg-card/60">
+                <div className="border border-[hsl(var(--accent-1)/0.15)] rounded-xl pl-2 pb-2 mt-2 bg-card/60">
                   {operations.length && operations.length > 10 ? (
                     <Badge
                       onClick={() => {
@@ -315,14 +315,14 @@ export default function Proposals(properties) {
                           operations,
                         });
                       }}
-                      className="border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400 cursor-pointer hover:bg-amber-500/20 transition-colors"
+                      className="border-[hsl(var(--accent-3)/0.2)] bg-[hsl(var(--accent-3)/0.1)] text-[hsl(var(--accent-3-fg))] dark:text-[hsl(var(--accent-3-fg))] cursor-pointer hover:bg-[hsl(var(--accent-3)/0.2)] transition-colors"
                     >
                       ⚠️ {operations.length} operations
                     </Badge>
                   ) : (
                     operations.map((x) => (
                       <Badge
-                        className="ml-1 border-cyan-500/20 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 cursor-pointer hover:bg-cyan-500/20 transition-colors"
+                        className="ml-1 border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] cursor-pointer hover:bg-[hsl(var(--accent-2)/0.2)] transition-colors"
                         onClick={() => {
                           setViewJSON(true);
                           setJSON({
@@ -341,14 +341,14 @@ export default function Proposals(properties) {
           <div className="px-4 pb-4">
             <div className="grid grid-cols-2 gap-3 w-full">
               <div className="col-span-2">
-                <div className="h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent my-2" />
+                <div className="h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.3)] to-transparent my-2" />
               </div>
               <div className="flex space-x-3">
                 <Button
                   onClick={() => {
                     setApproveOpen(true);
                   }}
-                  className="w-1/2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20 hover:from-emerald-400 hover:to-teal-400 hover:shadow-emerald-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                  className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                   {t("Proposals:beginApprovalProcess")}
                 </Button>
@@ -357,7 +357,7 @@ export default function Proposals(properties) {
                     setRejectOpen(true);
                     setRejectedProposalID(proposal.id);
                   }}
-                  className="w-1/2 bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md shadow-rose-500/20 hover:from-rose-400 hover:to-pink-400 hover:shadow-rose-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                  className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-white shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                   {t("Proposals:reject")}
                 </Button>
@@ -421,7 +421,7 @@ export default function Proposals(properties) {
                                   setChosenProposal(proposal);
                                 }
                               }}
-                              className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20 hover:from-emerald-400 hover:to-teal-400 hover:shadow-emerald-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                              className="bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                             >
                               {t("Proposals:approveProposedOperation")}
                             </Button>
@@ -431,7 +431,7 @@ export default function Proposals(properties) {
                                 setApprovedCount(0);
                                 setChosenProposal();
                               }}
-                              className="bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md shadow-rose-500/20 hover:from-rose-400 hover:to-pink-400 hover:shadow-rose-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                              className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-white shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                             >
                               {t("Proposals:rejectProposedOperation")}
                             </Button>
@@ -452,13 +452,13 @@ export default function Proposals(properties) {
     <>
       <div className="container mx-auto mt-5 mb-5">
         <div className="grid grid-cols-1 gap-3">
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-indigo-950/20">
-            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 blur-3xl" />
-            <div className="h-1 w-full bg-gradient-to-r from-indigo-400/70 via-cyan-400/70 to-indigo-400/70" />
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.2)]">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-1)/0.2)] blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
             <div className="p-4 pb-0">
-              <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent flex items-center gap-2">
-                <FileText className="h-5 w-5 text-indigo-500" />
+              <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+                <FileText className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
                 {t("Proposals:cardTitle")}
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
@@ -479,7 +479,7 @@ export default function Proposals(properties) {
                 ) : (
                   <Empty>
                     <EmptyHeader>
-                      <EmptyMedia variant="icon"><FileText className="h-10 w-10 text-indigo-500" /></EmptyMedia>
+                      <EmptyMedia variant="icon"><FileText className="h-10 w-10 text-[hsl(var(--accent-1-fg))]" /></EmptyMedia>
                       <EmptyTitle>{t("Proposals:noProposals")}</EmptyTitle>
                     </EmptyHeader>
                   </Empty>
@@ -488,13 +488,13 @@ export default function Proposals(properties) {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-amber-950/10">
-            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-orange-500/20 to-amber-500/20 blur-3xl" />
-            <div className="h-1 w-full bg-gradient-to-r from-amber-400/70 via-orange-400/70 to-amber-400/70" />
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-3)/0.1)]">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-3)/0.2)] blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-3)/0.2)] blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-3)/0.7)] via-[hsl(var(--accent-3)/0.7)] to-[hsl(var(--accent-3)/0.7)]" />
             <div className="p-4 pb-0">
-              <h3 className="text-base font-semibold tracking-tight bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent flex items-center gap-2">
-                <ShieldAlert className="h-4 w-4 text-amber-500" />
+              <h3 className="text-base font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-3))] to-[hsl(var(--accent-3))] bg-clip-text text-transparent flex items-center gap-2">
+                <ShieldAlert className="h-4 w-4 text-[hsl(var(--accent-3-fg))]" />
                 {t("Proposals:risksTitle")}
               </h3>
               <p className="text-sm text-muted-foreground mt-1">
@@ -533,7 +533,7 @@ export default function Proposals(properties) {
                   rows={15}
                 />
                 <Button
-                  className="w-1/4 mt-2 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                  className="w-1/4 mt-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                   onClick={() => {
                     navigator.clipboard.writeText(
                       JSON.stringify(json, null, 2)

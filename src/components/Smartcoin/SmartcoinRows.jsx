@@ -56,7 +56,7 @@ export function MarginPositionRow({ index, style, assetCallOrders, parsedCollate
   return (
     <div className="grid grid-cols-6 text-sm" style={style}>
       <div className="col-span-1">
-        <span className="text-blue-500 dark:text-blue-400">{res.borrower}</span>
+        <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">{res.borrower}</span>
       </div>
       <div className="col-span-1">{collateralAmount}</div>
       <div className="col-span-1">{debtAmount}</div>
@@ -145,7 +145,7 @@ export function PriceFeedRow({ index, style, finalBitasset, parsedAsset, parsedC
   return (
     <div className="grid grid-cols-7 md:grid-cols-11 text-sm" style={style}>
       <div className="hidden md:block col-span-2 mr-1">
-        <span className="text-blue-500 dark:text-blue-400">{userID}</span>
+        <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">{userID}</span>
       </div>
       <div className="hidden md:block col-span-2 ml-1">
         {timeAgo(date, t)}

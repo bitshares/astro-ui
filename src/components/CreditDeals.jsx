@@ -296,9 +296,9 @@ export default function CreditDeals(properties) {
 
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <div className="ml-2 mr-2 relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 backdrop-blur-xl shadow-md shadow-indigo-950/10 hover:border-indigo-500/25 hover:shadow-indigo-500/15 transition-all duration-300 pb-3">
+        <div className="ml-2 mr-2 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300 pb-3">
           <div className="p-3 pb-1">
-            <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">
+            <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
               {t("CreditDeals:dealNo")}
               {res.id.replace("1.22.", "")}
               {t("CreditDeals:with")}
@@ -336,13 +336,13 @@ export default function CreditDeals(properties) {
           </div>
           {type === "borrower" ? (
             <div className="px-3 pb-0 mt-2">
-              <Button className="bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md shadow-rose-500/20 hover:from-rose-400 hover:to-pink-400 hover:shadow-rose-500/40 active:scale-95 transition-all duration-200 cursor-pointer" onClick={() => setOpenRepay(true)}>
+              <Button className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-white shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer" onClick={() => setOpenRepay(true)}>
                 {t("CreditDeals:repayLoan")}
               </Button>
               <a
                 href={`/dex/index.html?market=${debtAsset.symbol}_${collateralAsset.symbol}`}
               >
-                <Button className="ml-2 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer">
+                <Button className="ml-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
                   {t("CreditDeals:trade", { symbol: debtAsset.symbol })}
                 </Button>
               </a>
@@ -575,7 +575,7 @@ export default function CreditDeals(properties) {
                           !finalRepayAmount ||
                           debtAssetBalance < finalRepayment ? (
                             <Button
-                              className="mt-5 mb-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                              className="mt-5 mb-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                               variant="outline"
                               disabled
                               type="submit"
@@ -584,7 +584,7 @@ export default function CreditDeals(properties) {
                             </Button>
                           ) : (
                             <Button
-                              className="mt-5 mb-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer"
+                              className="mt-5 mb-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                               variant="outline"
                               type="submit"
                             >
@@ -666,13 +666,13 @@ export default function CreditDeals(properties) {
     <>
       <div className="container mx-auto mt-5 mb-5 w-full lg:w-1/2">
         <div className="grid grid-cols-1 gap-3">
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-indigo-950/20">
-            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 blur-3xl" />
-            <div className="h-1 w-full bg-gradient-to-r from-indigo-400/70 via-cyan-400/70 to-indigo-400/70" />
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.2)]">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-1)/0.2)] blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
             <div className="p-4 pb-0">
-              <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent flex items-center gap-2">
-                <HandCoins className="h-5 w-5 text-indigo-500" />
+              <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+                <HandCoins className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
                 {t("CreditDeals:card.title")}
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
@@ -685,7 +685,7 @@ export default function CreditDeals(properties) {
                   <TabsTrigger
                     value="borrowings"
                     onClick={() => setActiveTab("borrowings")}
-                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-indigo-500/30 transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
+                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--accent-1))] data-[state=active]:to-[hsl(var(--accent-2))] data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {activeTab === "borrowings"
                       ? t("CreditDeals:card.viewingBorrowings")
@@ -694,7 +694,7 @@ export default function CreditDeals(properties) {
                   <TabsTrigger
                     value="lendings"
                     onClick={() => setActiveTab("lendings")}
-                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-indigo-500/30 transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
+                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--accent-1))] data-[state=active]:to-[hsl(var(--accent-2))] data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {activeTab === "lendings"
                       ? t("CreditDeals:card.viewingLendings")
@@ -732,7 +732,7 @@ export default function CreditDeals(properties) {
                       </EmptyHeader>
                       <EmptyContent>
                         <a href="/borrow/index.html">
-                          <Button className="bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-md shadow-indigo-500/20 hover:from-indigo-400 hover:to-cyan-400 hover:shadow-indigo-500/40 active:scale-95 transition-all duration-200 cursor-pointer">{t("Home:borrow.title")}</Button>
+                          <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">{t("Home:borrow.title")}</Button>
                         </a>
                       </EmptyContent>
                     </Empty>
@@ -777,13 +777,13 @@ export default function CreditDeals(properties) {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-3 mt-5">
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-amber-950/10">
-            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-orange-500/20 to-amber-500/20 blur-3xl" />
-            <div className="h-1 w-full bg-gradient-to-r from-amber-400/70 via-orange-400/70 to-amber-400/70" />
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-warning)/0.1)]">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-warning)/0.2)] to-[hsl(var(--accent-warning)/0.2)] blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-warning)/0.2)] to-[hsl(var(--accent-warning)/0.2)] blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-warning)/0.7)] via-[hsl(var(--accent-warning)/0.7)] to-[hsl(var(--accent-warning)/0.7)]" />
             <div className="p-4 pb-0">
-              <h3 className="text-base font-semibold tracking-tight bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent flex items-center gap-2">
-                <ShieldAlert className="h-4 w-4 text-amber-500" />
+              <h3 className="text-base font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-warning))] to-[hsl(var(--accent-warning))] bg-clip-text text-transparent flex items-center gap-2">
+                <ShieldAlert className="h-4 w-4 text-[hsl(var(--accent-warning-fg))]" />
                 {activeTab === "borrowings"
                   ? t("CreditDeals:risks.borrowerTitle")
                   : t("CreditDeals:risks.lenderTitle")}

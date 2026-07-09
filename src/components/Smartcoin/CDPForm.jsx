@@ -79,13 +79,13 @@ export default function CDPForm({
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
   return (
-    <Card className="relative overflow-hidden rounded-xl border border-indigo-500/15 bg-card/60 shadow-lg shadow-indigo-950/10">
-      <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
-      <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-indigo-500/8 blur-3xl" />
-      <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-cyan-500/8 blur-3xl" />
+    <Card className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+      <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+      <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+      <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
       <CardContent className="relative p-5 sm:p-6">
         <div className="flex items-center gap-3 mb-4">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/30 bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 dark:text-indigo-200 text-indigo-700 flex-shrink-0">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
             <Landmark className="h-4 w-4" strokeWidth={2.25} />
           </span>
           <CardHeader className="p-0">
@@ -140,7 +140,7 @@ export default function CDPForm({
                         <Input
                           disabled
                           placeholder="Bitshares account (1.2.x)"
-                          className="mb-3 border-indigo-500/20 bg-card/60"
+                          className="mb-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                           value={`${usr.username} (${usr.id})`}
                           readOnly
                         />
@@ -163,7 +163,7 @@ export default function CDPForm({
                         <Input
                           disabled
                           placeholder="Bitshares smartcoin (1.3.x)"
-                          className="mb-1 border-indigo-500/20 bg-card/60"
+                          className="mb-1 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                           value={`${parsedAsset ? parsedAsset.s : ""} (${
                             parsedAsset ? parsedAsset.id : ""
                           })`}
@@ -173,7 +173,7 @@ export default function CDPForm({
                       <span className="col-span-2">
                         <a href="/smartcoins/index.html">
                           <Button
-                            className="ml-3 border-indigo-400/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 hover:bg-indigo-500/20 transition-colors"
+                            className="ml-3 border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors"
                             variant="outline"
                           >
                             {t("Smartcoin:changeAssetButton")}
@@ -187,13 +187,13 @@ export default function CDPForm({
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-              <div className="rounded-xl border border-indigo-500/15 bg-card/40 p-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40 p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-indigo-400/20 bg-gradient-to-br from-indigo-500/15 to-cyan-500/15 dark:text-indigo-200/80 text-indigo-600/80">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.15)] to-[hsl(var(--accent-2)/0.15)] dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg)/0.8)]">
                     <Info className="h-3 w-3" strokeWidth={2.5} />
                   </span>
                   <div>
-                    <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80">
+                    <div className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                       {t("Smartcoin:currentFeedPriceTitle")}
                     </div>
                     <div className="text-[10px] text-muted-foreground/60">
@@ -207,7 +207,7 @@ export default function CDPForm({
                       <HoverCardTrigger asChild>
                         <Input
                           disabled
-                          className="mr-1 border-indigo-500/20 bg-card/60"
+                          className="mr-1 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                           value={currentFeedSettlementPrice ?? ""}
                           readOnly
                         />
@@ -222,7 +222,7 @@ export default function CDPForm({
                       <HoverCardTrigger asChild>
                         <Input
                           disabled
-                          className="ml-1 border-indigo-500/20 bg-card/60"
+                          className="ml-1 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                           value={
                             currentFeedSettlementPrice
                               ? (
@@ -240,13 +240,13 @@ export default function CDPForm({
                   </span>
                 </span>
               </div>
-              <div className="rounded-xl border border-indigo-500/15 bg-card/40 p-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40 p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-indigo-400/20 bg-gradient-to-br from-indigo-500/15 to-cyan-500/15 dark:text-indigo-200/80 text-indigo-600/80">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.15)] to-[hsl(var(--accent-2)/0.15)] dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg)/0.8)]">
                     <Percent className="h-3 w-3" strokeWidth={2.5} />
                   </span>
                   <div>
-                    <div className="text-xs font-medium uppercase tracking-wider dark:text-indigo-200/70 text-indigo-600/80">
+                    <div className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                       {t("Smartcoin:marginCallPriceTitle")}
                     </div>
                     <div className="text-[10px] text-muted-foreground/60">
@@ -260,7 +260,7 @@ export default function CDPForm({
                       <HoverCardTrigger asChild>
                         <Input
                           disabled
-                          className="mr-1 border-indigo-500/20 bg-card/60"
+                          className="mr-1 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                           value={
                             formCallPrice && parsedCollateralAsset
                               ? formCallPrice.toFixed(
@@ -281,7 +281,7 @@ export default function CDPForm({
                       <HoverCardTrigger asChild>
                         <Input
                           disabled
-                          className="ml-1 border-indigo-500/20 bg-card/60"
+                          className="ml-1 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                           value={
                             formCallPrice && parsedAsset
                               ? (1 / formCallPrice).toFixed(
@@ -320,7 +320,7 @@ export default function CDPForm({
                         className={`col-span-1 md:text-right ${
                           debtAssetHoldings &&
                           debtAssetHoldings.toString().includes("-")
-                            ? "text-red-500 dark:text-red-400"
+                            ? "text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]"
                             : ""
                         }`}
                       >
@@ -349,7 +349,7 @@ export default function CDPForm({
                                 }
                               }}
                               className={debtLock === "locked"
-                                ? "border-indigo-400/40 bg-indigo-500/15 dark:text-indigo-200 text-indigo-700"
+                                ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.15)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                                 : ""
                               }
                             >
@@ -377,7 +377,7 @@ export default function CDPForm({
                           }
                           disabled
                           readOnly
-                          className="mb-3 border-indigo-500/20 bg-card/60"
+                          className="mb-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                         />
                       </span>
                       <span className="col-span-12 sm:mt-3 md:mt-0 md:col-span-4 md:ml-3">
@@ -388,7 +388,7 @@ export default function CDPForm({
                                 onClick={() => {
                                   event.preventDefault();
                                 }}
-                                className="inline-block border border-indigo-400/30 bg-indigo-500/10 rounded-lg pl-4 pb-1 pr-4 hover:bg-indigo-500/20 transition-colors cursor-pointer"
+                                className="inline-block border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] rounded-lg pl-4 pb-1 pr-4 hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors cursor-pointer"
                               >
                                 <Label>
                                   {t("Smartcoin:changeDebtAmount")}
@@ -457,7 +457,7 @@ export default function CDPForm({
                         className={`col-span-1 md:text-right ${
                           collateralAssetHoldings &&
                           collateralAssetHoldings.toString().includes("-")
-                            ? "text-red-500 dark:text-red-400"
+                            ? "text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]"
                             : ""
                         }`}
                       >
@@ -486,7 +486,7 @@ export default function CDPForm({
                                 }
                               }}
                               className={collateralLock === "locked"
-                                ? "border-indigo-400/40 bg-indigo-500/15 dark:text-indigo-200 text-indigo-700"
+                                ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.15)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                                 : ""
                               }
                             >
@@ -516,7 +516,7 @@ export default function CDPForm({
                           }
                           readOnly
                           disabled
-                          className="mb-3 border-indigo-500/20 bg-card/60"
+                          className="mb-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                         />
                       </span>
                       <span className="col-span-12 sm:mt-3 md:mt-0 md:col-span-4 md:ml-3">
@@ -527,7 +527,7 @@ export default function CDPForm({
                                 onClick={() => {
                                   event.preventDefault();
                                 }}
-                                className="inline-block border border-indigo-400/30 bg-indigo-500/10 rounded-lg pl-4 pb-1 pr-4 hover:bg-indigo-500/20 transition-colors cursor-pointer"
+                                className="inline-block border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] rounded-lg pl-4 pb-1 pr-4 hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors cursor-pointer"
                               >
                                 <Label>
                                   {t("Smartcoin:changeCollateralAmount")}
@@ -618,7 +618,7 @@ export default function CDPForm({
                                 }
                               }}
                               className={ratioLock === "locked"
-                                ? "border-indigo-400/40 bg-indigo-500/15 dark:text-indigo-200 text-indigo-700"
+                                ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.15)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                                 : ""
                               }
                             >
@@ -641,14 +641,14 @@ export default function CDPForm({
                           <Input
                             label={t("Smartcoin:ratioOfCollateralToDebt")}
                             placeholder={ratioValue}
-                            className="mb-3 border-indigo-500/20 bg-card/60"
+                            className="mb-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                             disabled
                             readOnly
                           />
                         ) : (
                           <Input
                             label={t("Smartcoin:ratioOfCollateralToDebt")}
-                            className="mb-3 border-indigo-500/20 bg-card/60"
+                            className="mb-3 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                             disabled
                             readOnly
                           />
@@ -685,7 +685,7 @@ export default function CDPForm({
                                 onClick={() => {
                                   event.preventDefault();
                                 }}
-                                className="inline-block border border-indigo-400/30 bg-indigo-500/10 rounded-lg pl-4 pb-1 pr-4 hover:bg-indigo-500/20 transition-colors cursor-pointer"
+                                className="inline-block border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] rounded-lg pl-4 pb-1 pr-4 hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors cursor-pointer"
                               >
                                 <Label>
                                   {t("Smartcoin:changeRatioValue")}
@@ -820,7 +820,7 @@ export default function CDPForm({
                                 onClick={() => {
                                   event.preventDefault();
                                 }}
-                                className="inline-block border border-indigo-400/30 bg-indigo-500/10 rounded-lg pl-4 pb-1 pr-4 hover:bg-indigo-500/20 transition-colors cursor-pointer"
+                                className="inline-block border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] rounded-lg pl-4 pb-1 pr-4 hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors cursor-pointer"
                               >
                                 <Label>
                                   {t("Smartcoin:changeTCRValue")}
@@ -874,7 +874,7 @@ export default function CDPForm({
                     <Input
                       disabled
                       placeholder={fee ? `${fee} BTS` : ""}
-                      className="w-1/6 border-indigo-500/20 bg-card/60"
+                      className="w-1/6 border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                       readOnly
                     />
                   </FormControl>
@@ -893,7 +893,7 @@ export default function CDPForm({
               </>
             ) : (
               <Button
-                className="mt-5 mb-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_4px_14px_-4px_rgba(99,102,241,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(99,102,241,0.6)] hover:from-indigo-600 hover:to-cyan-600 transition-all"
+                className="mt-5 mb-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-[0_4px_14px_-4px_rgba(99,102,241,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(99,102,241,0.6)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] transition-all"
                 type="submit"
               >
                 {t("Smartcoin:submit")}

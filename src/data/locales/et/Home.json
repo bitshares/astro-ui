@@ -394,5 +394,13 @@
     "ctaPrimary": "Alusta kauplemist",
     "ctaSecondary": "Lihtne vahetus",
     "scrollForMore": "Keri edasi"
+  },
+  "theme_customizer": {
+    "title": "Teema kohandamine",
+    "subtitle": "Loo ja muuda teemasid, mis värvivad iga lehe, navigeerimise ja komponendi"
+  },
+  "home_link": {
+    "title": "Avaleht",
+    "subtitle": "Tagasi peamisele töölauale"
   }
 }

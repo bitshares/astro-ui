@@ -389,7 +389,7 @@ export default function PayInvoice(properties) {
                     });
                   }}
                 >
-                  <SelectTrigger className="w-full focus:ring-emerald-400/40 focus:border-emerald-400/50">
+                  <SelectTrigger className="w-full focus:ring-[hsl(var(--accent-1)/0.4)] focus:border-[hsl(var(--accent-1)/0.5)]">
                     <SelectValue
                       placeholder={
                         chosenValue ||
@@ -454,7 +454,7 @@ export default function PayInvoice(properties) {
 
     return (
       <div style={style} className="px-2">
-        <Card className="rounded-xl border border-emerald-500/15 bg-card/60 hover:border-emerald-500/30 transition-all">
+        <Card className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] transition-all">
           <CardContent className="pt-1 pb-1">
             <div className="grid grid-cols-3 text-sm items-center">
               <div
@@ -485,12 +485,12 @@ export default function PayInvoice(properties) {
                 }
               >
                 {sufficientBalance ? (
-                  <span className="inline-flex items-center gap-1 rounded-md bg-emerald-100 dark:bg-emerald-500/20 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                  <span className="inline-flex items-center gap-1 rounded-md bg-[hsl(var(--accent-1))] dark:bg-[hsl(var(--accent-1)/0.2)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">
                     <CheckCircle2 className="h-3 w-3" />
                     OK
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 rounded-md bg-rose-100 dark:bg-rose-500/20 px-2 py-0.5 text-xs font-medium text-rose-700 dark:text-rose-300">
+                  <span className="inline-flex items-center gap-1 rounded-md bg-[hsl(var(--accent-danger))] dark:bg-[hsl(var(--accent-danger)/0.2)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]">
                     <XCircle className="h-3 w-3" />
                     {requiredBalance.toFixed(2)} short
                   </span>
@@ -511,23 +511,23 @@ export default function PayInvoice(properties) {
             <>
               {isValid ? (
                 <>
-                  <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+                  <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
                     <span
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+                      className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
                     />
                     <span
                       aria-hidden="true"
-                      className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl"
+                      className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
                     />
                     <span
                       aria-hidden="true"
-                      className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl"
+                      className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
                     />
                     <div className="relative p-5 sm:p-6">
                       <CardHeader className="p-0 mb-5">
                         <div className="flex items-center gap-3">
-                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700 flex-shrink-0">
+                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
                             <Receipt className="h-4.5 w-4.5" strokeWidth={2.25} />
                           </span>
                           <div>
@@ -555,7 +555,7 @@ export default function PayInvoice(properties) {
                                 id: recipientId,
                               })}
                               readOnly
-                              className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                              className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                             />
                           </div>
                           <div>
@@ -567,7 +567,7 @@ export default function PayInvoice(properties) {
                             <Input
                               value={recipientName}
                               readOnly
-                              className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                              className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                             />
                           </div>
                         </div>
@@ -582,7 +582,7 @@ export default function PayInvoice(properties) {
                               <Input
                                 value={identifier}
                                 readOnly
-                                className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                                className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                               />
                             </div>
                             <div>
@@ -594,7 +594,7 @@ export default function PayInvoice(properties) {
                               <Input
                                 value={getTimeSince(timestamp)}
                                 readOnly
-                                className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50"
+                                className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                               />
                             </div>
                           </div>
@@ -604,21 +604,21 @@ export default function PayInvoice(properties) {
                           header={t("PayInvoice:note.header")}
                           type="header"
                         />
-                        <Textarea value={note} readOnly className="mt-2 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50" />
+                        <Textarea value={note} readOnly className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]" />
 
                         {selectedItems && selectedItems.length ? (
-                          <Card className="mt-5 rounded-xl border border-emerald-500/15 bg-card/60 backdrop-blur-sm">
+                          <Card className="mt-5 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-sm">
                             <CardHeader>
                               <CardTitle className="flex items-center gap-2">
-                                <ShoppingCart className="h-4 w-4 dark:text-emerald-200/70 text-emerald-600/80" />
-                                <span className="text-sm font-medium uppercase tracking-wider dark:text-emerald-200/70 text-emerald-600/80">
+                                <ShoppingCart className="h-4 w-4 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                                <span className="text-sm font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
                                   {t("PayInvoice:invoiceItems.title")}
                                 </span>
                               </CardTitle>
                             </CardHeader>
                             <CardContent>
-                              <div className="rounded-xl border border-emerald-500/15 bg-card/40">
-                                <div className="grid grid-cols-4 text-sm px-2 py-1.5 border-b border-emerald-500/15">
+                              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40">
+                                <div className="grid grid-cols-4 text-sm px-2 py-1.5 border-b border-[hsl(var(--accent-1)/0.15)]">
                                   <div className="text-left ml-5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                                     {t("PayInvoice:invoiceItems.headers.items")}
                                   </div>
@@ -656,7 +656,7 @@ export default function PayInvoice(properties) {
                             !transactionJSON ||
                             !transactionJSON.length
                           }
-                          className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
+                          className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
                         >
                           <CreditCard className="h-4 w-4 mr-1.5" />
                           {t("PayInvoice:payButton")}
@@ -677,7 +677,7 @@ export default function PayInvoice(properties) {
                               : "secondary"
                           }
                           className={cn(
-                            !hasReceivedInvoice(invoiceCode) && "border-emerald-400/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                            !hasReceivedInvoice(invoiceCode) && "border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                           )}
                         >
                           <Save className="h-3.5 w-3.5 mr-1.5" />
@@ -708,15 +708,15 @@ export default function PayInvoice(properties) {
                     </div>
                   </Card>
                   {itemPaymentMethods && itemPaymentMethods.length ? (
-                    <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+                    <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
                       <span
                         aria-hidden="true"
-                        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+                        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
                       />
                       <div className="relative p-5 sm:p-6">
                         <CardHeader className="p-0 mb-5">
                           <div className="flex items-center gap-3">
-                            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700 flex-shrink-0">
+                            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
                               <Receipt className="h-4.5 w-4.5" strokeWidth={2.25} />
                             </span>
                             <div>
@@ -731,8 +731,8 @@ export default function PayInvoice(properties) {
                         </CardHeader>
                         <CardContent className="p-0">
                           {/* total asset amount, asset balance amount, sufficient balance checkmark */}
-                          <div className="rounded-xl border border-emerald-500/15 bg-card/40">
-                            <div className="grid grid-cols-3 text-sm px-2 py-1.5 border-b border-emerald-500/15">
+                          <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40">
+                            <div className="grid grid-cols-3 text-sm px-2 py-1.5 border-b border-[hsl(var(--accent-1)/0.15)]">
                               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">{t("PayInvoice:totals.columns.total")}</div>
                               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">{t("PayInvoice:totals.columns.balance")}</div>
                               <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
@@ -754,17 +754,17 @@ export default function PayInvoice(properties) {
                   ) : null}
                 </>
               ) : (
-                <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+                <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-warning)/0.7)] to-transparent"
                   />
                   <div className="relative p-5 sm:p-6">
                     <CardContent className="p-0">
                       <Empty>
                         <EmptyHeader>
                           <EmptyMedia variant="icon">
-                            <span className="text-amber-600 dark:text-amber-300">
+                            <span className="text-[hsl(var(--accent-warning-fg))] dark:text-[hsl(var(--accent-warning-fg))]">
                               <AlertTriangle />
                             </span>
                           </EmptyMedia>
@@ -780,7 +780,7 @@ export default function PayInvoice(properties) {
                               setProcessedInvoiceCode(null);
                             }}
                             variant="outline"
-                            className="border-emerald-500/30 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-500/10"
+                            className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                           >
                             {t("PayInvoice:invalid.reset")}
                           </Button>
@@ -792,23 +792,23 @@ export default function PayInvoice(properties) {
               )}
             </>
           ) : (
-            <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+            <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent"
+                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
               />
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl"
+                className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
               />
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-teal-500/10 blur-3xl"
+                className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
               />
               <div className="relative p-5 sm:p-6">
                 <CardHeader className="p-0 mb-5">
                   <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 dark:text-emerald-200 text-emerald-700 flex-shrink-0">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
                       <FileSearch className="h-4.5 w-4.5" strokeWidth={2.25} />
                     </span>
                     <div>
@@ -826,10 +826,10 @@ export default function PayInvoice(properties) {
                     placeholder={t("PayInvoice:initial.placeholder")}
                     value={invoiceCode}
                     onInput={(e) => setInvoiceCode(e.currentTarget.value)}
-                    className="focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400/50 min-h-[120px]"
+                    className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)] min-h-[120px]"
                   />
                   <Button
-                    className="mt-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
+                    className="mt-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
                     onClick={(e) => processInvoiceCode()}
                   >
                     <FileCheck className="h-4 w-4 mr-1.5" />

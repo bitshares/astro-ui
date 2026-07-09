@@ -21,18 +21,18 @@ export default function MyCompletedTrades(properties) {
   const isBuy = type === "buy";
   const accent = isBuy
     ? {
-        text: "text-emerald-300",
-        textBright: "dark:text-emerald-300 text-emerald-700",
-        chip: "bg-emerald-500/10 border-emerald-500/30 text-emerald-300",
-        border: "border-emerald-500/30",
-        glow: "from-emerald-500/15 via-emerald-500/3 to-transparent",
+        text: "text-[hsl(var(--accent-success-fg))]",
+        textBright: "dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
+        chip: "bg-[hsl(var(--accent-success)/0.1)] border-[hsl(var(--accent-success)/0.3)] text-[hsl(var(--accent-success-fg))]",
+        border: "border-[hsl(var(--accent-success)/0.3)]",
+        glow: "from-[hsl(var(--accent-success)/0.15)] via-[hsl(var(--accent-success)/0.03)] to-transparent",
       }
     : {
-        text: "text-rose-300",
-        textBright: "dark:text-rose-300 text-rose-700",
-        chip: "bg-rose-500/10 border-rose-500/30 text-rose-300",
-        border: "border-rose-500/30",
-        glow: "from-rose-500/15 via-rose-500/3 to-transparent",
+        text: "text-[hsl(var(--accent-danger-fg))]",
+        textBright: "dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
+        chip: "bg-[hsl(var(--accent-danger)/0.1)] border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))]",
+        border: "border-[hsl(var(--accent-danger)/0.3)]",
+        glow: "from-[hsl(var(--accent-danger)/0.15)] via-[hsl(var(--accent-danger)/0.03)] to-transparent",
       };
 
   return (

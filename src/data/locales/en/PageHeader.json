@@ -50,6 +50,7 @@
   "portuguese": "Portuguese (pt)",
   "thai": "Thai (th)",
   "descText": {
+    "theme_customizer": "Create and edit themes to recolor every page, its nested components and navigation accents.",
     "instant_trade": "Instantly trade on the decentralized exchange between two assets using fill or kill limit orders.",
     "stored_invoices": "Keep track of both your generated and received invoices for easy management and payment.",
     "vote": "Voting is an integral part of Delegated Proof of Stake, so vote on committee members, witnesses and workers to help govern the blockchain!",
