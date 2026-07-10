@@ -82,6 +82,7 @@ const pages = [
   "InstantTrade",
   "Visuals",
   "ThemeCustomizer",
+  "PageThemes",
   "Common"
 ];
 

@@ -53,5 +53,8 @@
   "clear": "Limpar",
   "perPageDefault": "Padrões por página",
   "pageAccents": "Destaques por página",
-  "pageAccentsDesc": "Ajuste as cores de destaque de uma página específica: seus cartões, ícones, realces, gradientes e brilhos."
+  "pageAccentsDesc": "Ajuste as cores de destaque de uma página específica: seus cartões, ícones, realces, gradientes e brilhos.",
+  "customizerTitle": "Editor de cores",
+  "customizerDesc": "Selecione um elemento de cor na lista e ajuste-o usando o seletor de cores, entrada hexadecimal ou valores RGB.",
+  "themeElements": "Elementos do tema"
 }

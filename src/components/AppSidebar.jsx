@@ -36,6 +36,7 @@ import {
   Zap,
   ArrowLeftRight,
   Lock,
+  Layers,
   Handshake,
   Banknote,
   Timer,
@@ -143,6 +144,7 @@ const ITEM_ICONS = {
   blocked_users: UserX,
   configure_visuals: Palette,
   theme_customizer: Palette,
+  page_themes: Layers,
   home: Home,
   create_uia: Gem,
   create_smartcoin: Gem,
@@ -242,6 +244,7 @@ export default function AppSidebar() {
     { slug: "create_account", title: "Home:create_account.title", href: "/create_account/index.html" },
     { slug: "configure_visuals", title: "Home:configure_visuals.title", href: "/visuals/index.html" },
     { slug: "theme_customizer", title: "Home:theme_customizer.title", href: "/theme/index.html" },
+    { slug: "page_themes", title: "Home:page_themes.title", href: "/page_themes/index.html" },
   ];
 
   const invoicingHeading = [

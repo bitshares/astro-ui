@@ -53,5 +53,8 @@
   "clear": "Borrar",
   "perPageDefault": "Predeterminados por página",
   "pageAccents": "Acentos por página",
-  "pageAccentsDesc": "Ajusta los colores de acento de una página específica: sus tarjetas, iconos, resaltados, degradados y brillos."
+  "pageAccentsDesc": "Ajusta los colores de acento de una página específica: sus tarjetas, iconos, resaltados, degradados y brillos.",
+  "customizerTitle": "Editor de colores",
+  "customizerDesc": "Seleccione un elemento de color de la lista y ajústelo usando el selector de color, entrada hexadecimal o valores RGB.",
+  "themeElements": "Elementos del tema"
 }

@@ -53,5 +53,8 @@
   "clear": "Effacer",
   "perPageDefault": "Valeurs par page",
   "pageAccents": "Accents par page",
-  "pageAccentsDesc": "Ajustez les couleurs d’accent d’une page spécifique : ses cartes, icônes, surbrillances, dégradés et lueurs."
+  "pageAccentsDesc": "Ajustez les couleurs d’accent d’une page spécifique : ses cartes, icônes, surbrillances, dégradés et lueurs.",
+  "customizerTitle": "Éditeur de couleurs",
+  "customizerDesc": "Sélectionnez un élément coloré dans la liste et ajustez-le à l'aide du sélecteur de couleurs, de la saisie hexadécimale ou des valeurs RGB.",
+  "themeElements": "Éléments du thème"
 }

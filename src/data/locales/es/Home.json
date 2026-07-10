@@ -404,5 +404,10 @@
   "home_link": {
     "title": "Inicio",
     "subtitle": "Volver al panel principal"
+  },
+  "page_themes": {
+    "title": "Temas por página",
+    "subtitle": "Asignar temas específicos a páginas individuales",
+    "hover1": "Sobrescriba el tema activo para cualquier página de la aplicación."
   }
 }

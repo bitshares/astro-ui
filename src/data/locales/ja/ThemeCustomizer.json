@@ -53,5 +53,8 @@
   "clear": "クリア",
   "perPageDefault": "ページ既定",
   "pageAccents": "ページ別アクセント",
-  "pageAccentsDesc": "特定ページのアクセント色（カード、アイコン、ハイライト、グラデーション、グロー）を微調整します。"
+  "pageAccentsDesc": "特定ページのアクセント色（カード、アイコン、ハイライト、グラデーション、グロー）を微調整します。",
+  "customizerTitle": "カラーエディタ",
+  "customizerDesc": "リストからカラーエレメントを選択し、カラーピッカー、16進数入力、RGB値を使用して調整します。",
+  "themeElements": "テーマ要素"
 }

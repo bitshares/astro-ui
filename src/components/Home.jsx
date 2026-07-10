@@ -45,6 +45,7 @@ import {
   Receipt,
   Gem,
   Lock,
+  Layers,
   Banknote,
   HandCoins,
   FileText,
@@ -129,6 +130,7 @@ const ITEM_ICONS = {
   blocked_users: UserX,
   configure_visuals: Palette,
   theme_customizer: Palette,
+  page_themes: Layers,
   about: Info,
   create_uia: Gem,
   create_smartcoin: Gem,
@@ -271,6 +273,7 @@ export default function Home(properties) {
     { key: "create_account", href: "/create_account/index.html", titleKey: "Home:create_account.title", subtitleKey: "Home:create_account.subtitle", hoverKeys: ["Home:create_account.hover1", "Home:create_account.hover2"] },
     { key: "configure_visuals", href: "/visuals/index.html", titleKey: "Home:configure_visuals.title", subtitleKey: "Home:configure_visuals.subtitle", hoverKeys: ["Home:configure_visuals.hover1", "Home:configure_visuals.hover2"] },
     { key: "theme_customizer", href: "/theme/index.html", titleKey: "Home:theme_customizer.title", subtitleKey: "Home:theme_customizer.subtitle", hoverKeys: ["Home:theme_customizer.hover1", "Home:theme_customizer.hover2"] },
+    { key: "page_themes", href: "/page_themes/index.html", titleKey: "Home:page_themes.title", subtitleKey: "Home:page_themes.subtitle", hoverKeys: ["Home:page_themes.hover1"] },
   ];
 
   const renderHoverCard = (card, sectionKey) => {

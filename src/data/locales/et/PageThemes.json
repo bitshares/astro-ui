@@ -1,0 +1,6 @@
+{
+  "title": "Lehepõhised teemad",
+  "description": "Määrake kindel teema üksikutele lehtedele. Lehte külastades rakendatakse selle teema kogu süsteemis.",
+  "useActive": "Kasuta aktiivset teemat",
+  "overrideActive": "See leht kasutab oma teemat"
+}

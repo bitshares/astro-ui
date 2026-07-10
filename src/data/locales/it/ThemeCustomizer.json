@@ -53,5 +53,8 @@
   "clear": "Cancella",
   "perPageDefault": "Predefiniti per pagina",
   "pageAccents": "Accenti per pagina",
-  "pageAccentsDesc": "Regola i colori di accento di una pagina specifica: schede, icone, evidenziazioni, gradienti e bagliori."
+  "pageAccentsDesc": "Regola i colori di accento di una pagina specifica: schede, icone, evidenziazioni, gradienti e bagliori.",
+  "customizerTitle": "Editor colori",
+  "customizerDesc": "Seleziona un elemento colorato dall'elenco e regolalo usando il selettore colori, l'input esadecimale o i valori RGB.",
+  "themeElements": "Elementi del tema"
 }

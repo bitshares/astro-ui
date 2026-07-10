@@ -404,5 +404,10 @@
   "home_link": {
     "title": "Hjem",
     "subtitle": "Tilbage til hovedoversigten"
+  },
+  "page_themes": {
+    "title": "Sidespecifikke temaer",
+    "subtitle": "Tildel specifikke temaer til individuelle sider",
+    "hover1": "Tilsidesæt det aktuelle tema for enhver side i appen."
   }
 }

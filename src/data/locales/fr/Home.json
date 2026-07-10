@@ -404,5 +404,10 @@
   "home_link": {
     "title": "Accueil",
     "subtitle": "Retour au tableau de bord principal"
+  },
+  "page_themes": {
+    "title": "Thèmes par page",
+    "subtitle": "Attribuer des thèmes spécifiques à des pages individuelles",
+    "hover1": "Remplacez le thème actif pour n'importe quelle page de l'application."
   }
 }

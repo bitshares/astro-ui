@@ -53,5 +53,8 @@
   "clear": "Tühjenda",
   "perPageDefault": "Lehe vaikeväärtused",
   "pageAccents": "Lehepõhised rõhud",
-  "pageAccentsDesc": "Peenhäälesta konkreetse lehe rõhuvärvid: kaardid, ikoonid, esiletõstud, gradiendid ja kuma."
+  "pageAccentsDesc": "Peenhäälesta konkreetse lehe rõhuvärvid: kaardid, ikoonid, esiletõstud, gradiendid ja kuma.",
+  "customizerTitle": "Värviredaktor",
+  "customizerDesc": "Valige loendist värvielement ja kohendage seda värvi valija, kuueteistkümnendkohalise sisestuse või RGB-väärtuste abil.",
+  "themeElements": "Teemaelemendid"
 }

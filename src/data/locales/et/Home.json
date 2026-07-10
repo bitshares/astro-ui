@@ -404,5 +404,10 @@
   "home_link": {
     "title": "Avaleht",
     "subtitle": "Tagasi peamisele töölauale"
+  },
+  "page_themes": {
+    "title": "Lehepõhised teemad",
+    "subtitle": "Määrake kindlad teemad üksikutele lehtedele",
+    "hover1": "Kirjutage aktiivne teema üle mis tahes lehel rakenduses."
   }
 }

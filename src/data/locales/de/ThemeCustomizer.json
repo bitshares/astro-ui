@@ -53,5 +53,8 @@
   "clear": "Löschen",
   "perPageDefault": "Seitenstandards",
   "pageAccents": "Akzente pro Seite",
-  "pageAccentsDesc": "Feineinstellung der Akzentfarben einer bestimmten Seite: Karten, Symbole, Hervorhebungen, Verläufe und Leuchteffekte."
+  "pageAccentsDesc": "Feineinstellung der Akzentfarben einer bestimmten Seite: Karten, Symbole, Hervorhebungen, Verläufe und Leuchteffekte.",
+  "customizerTitle": "Farbeditor",
+  "customizerDesc": "Wählen Sie ein Farbelement aus der Liste aus und passen Sie es mithilfe der Farbauswahl, Hex-Eingabe oder RGB-Werte an.",
+  "themeElements": "Theme-Elemente"
 }

@@ -44,6 +44,13 @@ export type AccentTriple = { primary: string; secondary: string; tertiary: strin
 export const STATUS_ROLES = ["success", "danger", "warning", "info"] as const;
 export type StatusRole = (typeof STATUS_ROLES)[number];
 
+export const THEME_NAME_MAX_LENGTH = 24;
+const THEME_NAME_RE = /^[a-zA-Z0-9 ]*$/;
+
+export function isValidThemeName(name: string): boolean {
+  return name.trim().length > 0 && name.length <= THEME_NAME_MAX_LENGTH && THEME_NAME_RE.test(name);
+}
+
 export type CustomTheme = {
   id: string;
   name: string;
@@ -61,6 +68,8 @@ export type CustomTheme = {
   pageAccents?: Record<string, AccentTriple>;
   // Optional single accent applied to all pages that lack a per-page override.
   globalAccent?: AccentTriple;
+  // True while the theme is a draft — not yet persisted to storage.
+  draft?: boolean;
 };
 
 // Brand pair (hero + header backdrop) — matches the original indigo→fuchsia.
@@ -374,14 +383,12 @@ export function resolvePageAccent(theme: CustomTheme, page: string): AccentTripl
 type ThemeStore = {
   themes: Record<string, CustomTheme>;
   activeThemeId: string;
-  mode: "simple" | "advanced";
   pageThemeMap: Record<string, string>;
 };
 
 const DEFAULTS: ThemeStore = {
   themes: PRESET_THEMES,
   activeThemeId: "default",
-  mode: "simple",
   pageThemeMap: {},
 };
 
@@ -405,6 +412,77 @@ function genId(): string {
   return "theme_" + Math.random().toString(36).slice(2, 9);
 }
 
+// --- Draft theme (not persisted until the user clicks Save) -----------------
+export const $draftTheme = atom<CustomTheme | null>(null);
+// Tracks the name of the source theme when a draft was created via duplicate,
+// so saveDraftTheme can decide whether to overwrite or create new.
+export const $draftOriginalName = atom<string | null>(null);
+
+export function createDraftTheme(name?: string): string {
+  const id = "draft_" + genId();
+  const theme = makeTheme(id, name || "New Theme", "light", {
+    color: "violet",
+    shade: 600,
+  });
+  theme.draft = true;
+  $draftTheme.set(theme);
+  $draftOriginalName.set(null);
+  return id;
+}
+
+export function duplicateDraftTheme(id: string): string | null {
+  const src = $customTheme.get().themes[id];
+  if (!src) return null;
+  const newId = "draft_" + genId();
+  const clone = structuredClone(src);
+  let clonedName = `${src.name} copy`;
+  if (clonedName.length > THEME_NAME_MAX_LENGTH) {
+    clonedName = clonedName.slice(0, THEME_NAME_MAX_LENGTH);
+  }
+  const draft: CustomTheme = { ...clone, id: newId, name: clonedName, draft: true };
+  $draftTheme.set(draft);
+  $draftOriginalName.set(src.name);
+  return newId;
+}
+
+export function saveDraftTheme(
+  draft: CustomTheme,
+  editedName: string
+): { id: string; isNew: boolean } {
+  const themes = { ...$customTheme.get().themes };
+  const trimmedName = editedName.trim();
+  // Find existing non-preset, non-draft theme with matching name
+  const existingId = Object.keys(themes).find(
+    (k) => !PRESET_THEMES[k] && !themes[k].draft && themes[k].name === trimmedName
+  );
+  if (existingId) {
+    // Overwrite existing theme (keep its id)
+    const { draft: _draft, ...saved } = { ...draft, id: existingId, name: trimmedName };
+    themes[existingId] = saved;
+    $customTheme.setKey("themes", themes);
+    $draftTheme.set(null);
+    $draftOriginalName.set(null);
+    return { id: existingId, isNew: false };
+  }
+  // Create new theme
+  const newId = genId();
+  const { draft: _draft, ...saved } = { ...draft, id: newId, name: trimmedName };
+  themes[newId] = saved;
+  $customTheme.setKey("themes", themes);
+  $draftTheme.set(null);
+  $draftOriginalName.set(null);
+  return { id: newId, isNew: true };
+}
+
+export function discardDraftTheme() {
+  $draftTheme.set(null);
+  $draftOriginalName.set(null);
+}
+
+export function isDraftTheme(id: string): boolean {
+  return $draftTheme.get()?.id === id;
+}
+
 export function getThemes(): Record<string, CustomTheme> {
   return $customTheme.get().themes || {};
 }
@@ -426,10 +504,6 @@ export function setActiveTheme(id: string) {
   $customTheme.setKey("activeThemeId", id);
 }
 
-export function setMode(mode: "simple" | "advanced") {
-  $customTheme.setKey("mode", mode);
-}
-
 export function setPageTheme(pageSlug: string, themeId: string | null) {
   const map = { ...$customTheme.get().pageThemeMap };
   if (!themeId) delete map[pageSlug];
@@ -438,6 +512,11 @@ export function setPageTheme(pageSlug: string, themeId: string | null) {
 }
 
 export function updateTheme(id: string, patch: Partial<CustomTheme>) {
+  // If editing a draft, update the draft atom instead of the persistent store
+  if ($draftTheme.get()?.id === id) {
+    $draftTheme.set({ ...$draftTheme.get()!, ...patch });
+    return;
+  }
   const themes = { ...$customTheme.get().themes };
   if (!themes[id]) return;
   themes[id] = { ...themes[id], ...patch };
@@ -449,6 +528,14 @@ export function updateThemeSeed(id: string, seed: PaletteRef) {
 }
 
 export function updateThemeToken(id: string, token: string, ref: PaletteRef | null) {
+  const draft = $draftTheme.get();
+  if (draft?.id === id) {
+    const overrides = { ...draft.tokenOverrides };
+    if (!ref) delete overrides[token];
+    else overrides[token] = ref;
+    $draftTheme.set({ ...draft, tokenOverrides: overrides });
+    return;
+  }
   const themes = { ...$customTheme.get().themes };
   const theme = themes[id];
   if (!theme) return;
@@ -468,6 +555,14 @@ export function updateSectionAccent(
   section: string,
   pair: AccentPair | null
 ) {
+  const draft = $draftTheme.get();
+  if (draft?.id === id) {
+    const sectionAccents = { ...(draft.sectionAccents || {}) };
+    if (!pair) delete sectionAccents[section as NavSection];
+    else sectionAccents[section as NavSection] = pair;
+    $draftTheme.set({ ...draft, sectionAccents });
+    return;
+  }
   const themes = { ...$customTheme.get().themes };
   const theme = themes[id];
   if (!theme) return;
@@ -479,6 +574,14 @@ export function updateSectionAccent(
 }
 
 export function updateStatusAccent(id: string, role: StatusRole, color: string) {
+  const draft = $draftTheme.get();
+  if (draft?.id === id) {
+    $draftTheme.set({
+      ...draft,
+      statusAccents: { ...(draft.statusAccents || {}), [role]: color },
+    });
+    return;
+  }
   const themes = { ...$customTheme.get().themes };
   const theme = themes[id];
   if (!theme) return;
@@ -490,6 +593,14 @@ export function updateStatusAccent(id: string, role: StatusRole, color: string) 
 }
 
 export function updatePageAccent(id: string, page: string, triple: AccentTriple | null) {
+  const draft = $draftTheme.get();
+  if (draft?.id === id) {
+    const pageAccents = { ...(draft.pageAccents || {}) };
+    if (!triple) delete pageAccents[page];
+    else pageAccents[page] = triple;
+    $draftTheme.set({ ...draft, pageAccents });
+    return;
+  }
   const themes = { ...$customTheme.get().themes };
   const theme = themes[id];
   if (!theme) return;
@@ -501,6 +612,11 @@ export function updatePageAccent(id: string, page: string, triple: AccentTriple 
 }
 
 export function updateGlobalAccent(id: string, triple: AccentTriple | null) {
+  const draft = $draftTheme.get();
+  if (draft?.id === id) {
+    $draftTheme.set({ ...draft, globalAccent: triple || undefined });
+    return;
+  }
   const themes = { ...$customTheme.get().themes };
   const theme = themes[id];
   if (!theme) return;
@@ -548,6 +664,11 @@ export function renameTheme(id: string, name: string) {
 }
 
 export function exportTheme(id: string): string {
+  const draft = $draftTheme.get();
+  if (draft?.id === id) {
+    const { draft: _draft, ...exportable } = draft;
+    return JSON.stringify(exportable, null, 2);
+  }
   const theme = $customTheme.get().themes[id];
   return theme ? JSON.stringify(theme, null, 2) : "";
 }
@@ -580,7 +701,6 @@ export function importTheme(json: string): string | null {
 export function resetThemes() {
   $customTheme.setKey("themes", PRESET_THEMES);
   $customTheme.setKey("activeThemeId", "default");
-  $customTheme.setKey("mode", "simple");
   $customTheme.setKey("pageThemeMap", {});
 }
 

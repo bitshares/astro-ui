@@ -404,5 +404,10 @@
   "home_link": {
     "title": "Home",
     "subtitle": "Torna alla dashboard principale"
+  },
+  "page_themes": {
+    "title": "Temi per pagina",
+    "subtitle": "Assegna temi specifici a singole pagine",
+    "hover1": "Sovrascrivi il tema attivo per qualsiasi pagina dell'app."
   }
 }

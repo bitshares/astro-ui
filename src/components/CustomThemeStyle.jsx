@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useStore } from "@nanostores/react";
 import {
   $customTheme,
+  $draftTheme,
   $currentPage,
   getThemeForPage,
   compileThemeCss,
@@ -10,6 +11,7 @@ import {
   resolveStatusAll,
 } from "@/stores/customTheme.ts";
 import { buildAccentCss } from "@/lib/accentVars.js";
+import { THEMABLE_PAGES } from "@/lib/pages.js";
 
 const STYLE_ID = "custom-theme-vars";
 
@@ -30,10 +32,13 @@ function applyCss(css) {
 
 export default function CustomThemeStyle() {
   const state = useStore($customTheme);
+  const draftTheme = useStore($draftTheme);
   const page = useStore($currentPage);
 
   useEffect(() => {
-    const theme = getThemeForPage(page);
+    // On the theme customizer page, use the draft for live preview when active
+    const isCustomizer = page === "theme_customizer";
+    const theme = isCustomizer && draftTheme ? draftTheme : getThemeForPage(page);
     const tokenCss = compileThemeCss(theme);
     let accentCss = "";
     try {
@@ -42,7 +47,7 @@ export default function CustomThemeStyle() {
       console.warn("Failed to build accent css", e);
     }
     applyCss(`${tokenCss}\n${accentCss}`);
-  }, [state, page]);
+  }, [state, draftTheme, page]);
 
   return null;
 }

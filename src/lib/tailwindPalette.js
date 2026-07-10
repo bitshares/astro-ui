@@ -7,6 +7,8 @@
 //     chosen palette colors can be fed into the existing shadcn CSS variables
 //     without editing any shadcn component.
 
+import { tinycolor } from "@ctrl/tinycolor";
+
 // Default Tailwind v3/v4 palette (hex). Subset of shades most useful for theming.
 export const TAILWIND_HEX = {
   slate: { 50: "#f8fafc", 100: "#f1f5f9", 200: "#e2e8f0", 300: "#cbd5e1", 400: "#94a3b8", 500: "#64748b", 600: "#475569", 700: "#334155", 800: "#1e293b", 900: "#0f172a", 950: "#020617" },
@@ -87,6 +89,16 @@ export function hexToHslString(hex) {
   return v ? `${v.h} ${v.s}% ${v.l}%` : null;
 }
 
+// HSV ↔ hex conversions (used by Fluent ColorPicker).
+// Fluent HSV: h 0-360, s/v 0-100. tinycolor toHsv: s/v 0-1.
+export function hsvToHex(h, s, v) {
+  return tinycolor({ h, s, v }).toHexString();
+}
+export function hexToHsv(hex) {
+  const c = tinycolor(hex).toHsv();
+  return { h: c.h, s: Math.round(c.s * 100), v: Math.round(c.v * 100) };
+}
+
 // Relative luminance for WCAG contrast.
 function relLuminance({ r, g, b }) {
   const chan = [r, g, b].map((c) => {
@@ -112,6 +124,40 @@ export function readableForeground(hex) {
   const rgb = hexToRgb(hex);
   if (!rgb) return "#ffffff";
   return relLuminance(rgb) > 0.4 ? "#0a0a0a" : "#fafafa";
+}
+
+// Find the closest palette color+shade for an arbitrary hex value.
+const _paletteCache = [];
+function buildPaletteCache() {
+  if (_paletteCache.length) return _paletteCache;
+  for (const color of ACCENT_COLORS) {
+    for (const shade of ACCENT_SHADES) {
+      const hex = paletteHex(color, shade);
+      if (hex) {
+        const rgb = hexToRgb(hex);
+        if (rgb) _paletteCache.push({ color, shade, hex, r: rgb.r, g: rgb.g, b: rgb.b });
+      }
+    }
+  }
+  return _paletteCache;
+}
+export function hexToClosestPalette(hex) {
+  const target = hexToRgb(hex);
+  if (!target) return { color: "slate", shade: 500 };
+  const cache = buildPaletteCache();
+  let best = cache[0];
+  let bestDist = Infinity;
+  for (const entry of cache) {
+    const dr = target.r - entry.r;
+    const dg = target.g - entry.g;
+    const db = target.b - entry.b;
+    const dist = dr * dr + dg * dg + db * db;
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = entry;
+    }
+  }
+  return { color: best.color, shade: best.shade };
 }
 
 export function paletteHex(color, shade) {

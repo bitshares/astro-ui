@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
+import PageThemes from '../components/PageThemes.jsx';
+---
+
+<Layout title="Bitshares UI - Per-Page Themes">
+	<main>
+		<PageHeader client:only="react" page="page_themes" backURL="../index.html" />
+		<PageThemes client:only="react" />
+		<PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/page_themes.astro" />
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1rem;
+		width: 100%;
+		max-width: calc(100% - 2rem);
+		color: hsl(var(--foreground));
+		font-size: 20px;
+		line-height: 1.6;
+		min-height: 100vh;
+	}
+</style>

@@ -404,5 +404,10 @@
   "home_link": {
     "title": "Startseite",
     "subtitle": "Zurück zum Haupt-Dashboard"
+  },
+  "page_themes": {
+    "title": "Seitenspezifische Themen",
+    "subtitle": "Bestimmte Themes für individuelle Seiten zuweisen",
+    "hover1": "Überschreiben Sie das aktive Theme für jede Seite in der App."
   }
 }

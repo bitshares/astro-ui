@@ -53,5 +53,8 @@
   "clear": "지우기",
   "perPageDefault": "페이지 기본값",
   "pageAccents": "페이지별 강조색",
-  "pageAccentsDesc": "특정 페이지의 강조색(카드, 아이콘, 하이라이트, 그라데이션, 글로우)을 세밀하게 조정합니다."
+  "pageAccentsDesc": "특정 페이지의 강조색(카드, 아이콘, 하이라이트, 그라데이션, 글로우)을 세밀하게 조정합니다.",
+  "customizerTitle": "색상 편집기",
+  "customizerDesc": "목록에서 색상 요소를 선택하고 색상 선택기, 16진수 입력 또는 RGB 값을 사용하여 조정합니다.",
+  "themeElements": "테마 요소"
 }

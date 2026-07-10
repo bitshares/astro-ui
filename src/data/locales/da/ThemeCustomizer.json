@@ -53,5 +53,8 @@
   "clear": "Ryd",
   "perPageDefault": "Sidestandarder",
   "pageAccents": "Accenter pr. side",
-  "pageAccentsDesc": "Finjuster accentfarverne for en bestemt side: dens kort, ikoner, fremhævninger, gradienter og glød."
+  "pageAccentsDesc": "Finjuster accentfarverne for en bestemt side: dens kort, ikoner, fremhævninger, gradienter og glød.",
+  "customizerTitle": "Farveeditor",
+  "customizerDesc": "Vælg et farveelement fra listen og juster det ved hjælp af farvevælgeren, hex-input eller RGB-værdier.",
+  "themeElements": "Temaelementer"
 }

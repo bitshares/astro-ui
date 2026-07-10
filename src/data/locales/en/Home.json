@@ -397,6 +397,11 @@
     "hover1": "Use Simple mode for one accent color, or Advanced for full control.",
     "hover2": "Assign per-page themes and recolor navigation accents."
   },
+  "page_themes": {
+    "title": "Per-Page Themes",
+    "subtitle": "Assign specific themes to individual pages",
+    "hover1": "Override the active theme for any page in the app."
+  },
   "home_link": {
     "title": "Home",
     "subtitle": "Return to the main dashboard"
