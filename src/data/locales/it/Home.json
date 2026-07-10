@@ -397,7 +397,9 @@
   },
   "theme_customizer": {
     "title": "Personalizzazione del tema",
-    "subtitle": "Crea e modifica temi che ricolorano ogni pagina, navigazione e componente"
+    "subtitle": "Crea e modifica temi che ricolorano ogni pagina, navigazione e componente",
+    "hover1": "Usa la modalità Semplice per un colore accento, o Avanzata per il controllo totale.",
+    "hover2": "Assegna temi per pagina e ricolora gli accenti di navigazione."
   },
   "home_link": {
     "title": "Home",

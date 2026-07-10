@@ -397,7 +397,9 @@
   },
   "theme_customizer": {
     "title": "Teema kohandamine",
-    "subtitle": "Loo ja muuda teemasid, mis värvivad iga lehe, navigeerimise ja komponendi"
+    "subtitle": "Loo ja muuda teemasid, mis värvivad iga lehe, navigeerimise ja komponendi",
+    "hover1": "Kasuta lihtsat režiimi ühe aktsendivärvi või täpset režiimi täielikuks kontrolliks.",
+    "hover2": "Määra teemasid lehtede kaupa ja värvita navigeerimise aktsendid."
   },
   "home_link": {
     "title": "Avaleht",

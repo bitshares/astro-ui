@@ -397,7 +397,9 @@
   },
   "theme_customizer": {
     "title": "Personalización de temas",
-    "subtitle": "Crea y edita temas que recolorean cada página, navegación y componente"
+    "subtitle": "Crea y edita temas que recolorean cada página, navegación y componente",
+    "hover1": "Usa el modo Simple para un color de acento, o Avanzado para control total.",
+    "hover2": "Asigna temas por página y recolorea los acentos de navegación."
   },
   "home_link": {
     "title": "Inicio",

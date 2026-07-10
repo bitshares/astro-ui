@@ -397,7 +397,9 @@
   },
   "theme_customizer": {
     "title": "Tematilpasning",
-    "subtitle": "Opret og rediger temaer, der farvelægger hver side, navigation og komponent"
+    "subtitle": "Opret og rediger temaer, der farvelægger hver side, navigation og komponent",
+    "hover1": "Brug enkelttilstand til én accentfarve, eller avanceret til fuld kontrol.",
+    "hover2": "Tildel temaer per side og farvelæg navigationens accenter."
   },
   "home_link": {
     "title": "Hjem",

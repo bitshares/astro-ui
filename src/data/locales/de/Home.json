@@ -397,7 +397,9 @@
   },
   "theme_customizer": {
     "title": "Design-Anpassung",
-    "subtitle": "Erstelle und bearbeite Designs, die jede Seite, Navigation und Komponente neu einfärben"
+    "subtitle": "Erstelle und bearbeite Designs, die jede Seite, Navigation und Komponente neu einfärben",
+    "hover1": "Verwenden Sie den einfachen Modus für eine Akzentfarbe oder den erweiterten für vollständige Kontrolle.",
+    "hover2": "Weisen Sie Seitenthemen zu und färben Sie Navigationsakzente um."
   },
   "home_link": {
     "title": "Startseite",

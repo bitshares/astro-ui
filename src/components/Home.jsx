@@ -128,6 +128,7 @@ const ITEM_ICONS = {
   create_account: UserPlus,
   blocked_users: UserX,
   configure_visuals: Palette,
+  theme_customizer: Palette,
   about: Info,
   create_uia: Gem,
   create_smartcoin: Gem,
@@ -269,6 +270,7 @@ export default function Home(properties) {
     { key: "nodes", href: "/nodes/index.html", titleKey: "Home:nodes.title", subtitleKey: "Home:nodes.subtitle", hoverKeys: ["Home:nodes.hover1", "Home:nodes.hover2"] },
     { key: "create_account", href: "/create_account/index.html", titleKey: "Home:create_account.title", subtitleKey: "Home:create_account.subtitle", hoverKeys: ["Home:create_account.hover1", "Home:create_account.hover2"] },
     { key: "configure_visuals", href: "/visuals/index.html", titleKey: "Home:configure_visuals.title", subtitleKey: "Home:configure_visuals.subtitle", hoverKeys: ["Home:configure_visuals.hover1", "Home:configure_visuals.hover2"] },
+    { key: "theme_customizer", href: "/theme/index.html", titleKey: "Home:theme_customizer.title", subtitleKey: "Home:theme_customizer.subtitle", hoverKeys: ["Home:theme_customizer.hover1", "Home:theme_customizer.hover2"] },
   ];
 
   const renderHoverCard = (card, sectionKey) => {

@@ -397,7 +397,9 @@
   },
   "theme_customizer": {
     "title": "Personnalisation du thème",
-    "subtitle": "Créez et modifiez des thèmes qui recolorent chaque page, navigation et composant"
+    "subtitle": "Créez et modifiez des thèmes qui recolorent chaque page, navigation et composant",
+    "hover1": "Utilisez le mode Simple pour une couleur daccent, ou Avancé pour un contrôle total.",
+    "hover2": "Attribuez des thèmes par page et recolorez les accents de navigation."
   },
   "home_link": {
     "title": "Accueil",

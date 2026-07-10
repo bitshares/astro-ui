@@ -397,7 +397,9 @@
   },
   "theme_customizer": {
     "title": "Personalização de tema",
-    "subtitle": "Crie e edite temas que recolorem cada página, navegação e componente"
+    "subtitle": "Crie e edite temas que recolorem cada página, navegação e componente",
+    "hover1": "Use o modo Simples para uma cor de destaque, ou Avançado para controle total.",
+    "hover2": "Atribua temas por página e recolore os destaques da navegação."
   },
   "home_link": {
     "title": "Início",
