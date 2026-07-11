@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useStore } from "@nanostores/react";
 import { useSyncExternalStore } from "react";
+import { useTheme } from "next-themes";
 
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
@@ -70,7 +71,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { itemAccent, sectionAccent } from "@/lib/accentClasses.js";
+import { itemAccentStyles, sectionAccentStyles } from "@/lib/accentStyles.js";
 import {
   $customTheme,
   getThemeForPage,
@@ -154,6 +155,8 @@ const SECTION_META = {
 export default function Home(properties) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   useStore($customTheme);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const theme = getThemeForPage("index");
   const usr = useSyncExternalStore(
     $currentUser.subscribe,
@@ -279,44 +282,30 @@ export default function Home(properties) {
   const renderHoverCard = (card, sectionKey) => {
     const Icon = ITEM_ICONS[card.key] || Sparkles;
     const pair = resolveItemAccent(theme, card.key, sectionKey);
-    const accent = itemAccent(pair.primary, pair.secondary);
+    const accent = itemAccentStyles(pair.primary, pair.secondary, isDark);
     return (
       <HoverCard key={card.key} openDelay={120} closeDelay={80}>
         <HoverCardTrigger asChild>
           <a
             href={card.href}
-            className={cn(
-              "group relative overflow-hidden block rounded-2xl",
-              "border border-border bg-card/30",
-              "p-4 sm:p-5",
-              "transition-all duration-200 ease-out",
-              "hover:border-border hover:bg-accent/50",
-              "hover:-translate-y-0.5",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            )}
+            className="group relative overflow-hidden block rounded-2xl border border-border bg-card/30 p-4 sm:p-5 transition-all duration-200 ease-out hover:border-border hover:bg-accent/50 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span
               aria-hidden="true"
-              className={cn(
-                "pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r opacity-60 group-hover:opacity-100 transition-opacity",
-                accent.bar
-              )}
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r opacity-60 group-hover:opacity-100 transition-opacity"
+              style={accent.bar}
             />
             <span
               aria-hidden="true"
-              className={cn(
-                "pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full blur-3xl opacity-0 group-hover:opacity-50 transition-opacity duration-300",
-                accent.glow
-              )}
+              className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full blur-3xl opacity-0 group-hover:opacity-50 transition-opacity duration-300"
+              style={accent.glow}
             />
             <div className="relative flex items-start gap-3">
               <span
-                className={cn(
-                  "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border",
-                  accent.chip
-                )}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border"
+                style={accent.chip}
               >
-                <Icon className={cn("h-5 w-5", accent.text)} />
+                <Icon className="h-5 w-5" style={accent.text} />
               </span>
               <div className="min-w-0 flex-1">
                 <h3 className="text-sm font-semibold text-foreground leading-snug">
@@ -327,11 +316,7 @@ export default function Home(properties) {
                 </p>
               </div>
               <ArrowUpRight
-                className={cn(
-                  "h-4 w-4 shrink-0 text-muted-foreground/60 -translate-x-0.5 translate-y-0.5",
-                  "group-hover:text-foreground/80 group-hover:translate-x-0 group-hover:translate-y-0",
-                  "transition-all duration-200 ease-out"
-                )}
+                className="h-4 w-4 shrink-0 text-muted-foreground/60 -translate-x-0.5 translate-y-0.5 group-hover:text-foreground/80 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-200 ease-out"
                 aria-hidden="true"
               />
             </div>
@@ -341,18 +326,12 @@ export default function Home(properties) {
           <HoverCardContent
             sideOffset={10}
             align="center"
-            className={cn(
-              "w-80 overflow-hidden rounded-2xl border border-border p-4 text-sm",
-              "!bg-card text-muted-foreground",
-              "shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.04)]"
-            )}
+            className="w-80 overflow-hidden rounded-2xl border border-border p-4 text-sm !bg-card text-muted-foreground shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.04)]"
           >
             <div
               aria-hidden="true"
-              className={cn(
-                "pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r opacity-80",
-                accent.bar
-              )}
+              className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r opacity-80"
+              style={accent.bar}
             />
             <ul className="ml-4 list-disc [&>li]:mt-2 marker:text-muted-foreground">
               {card.hoverKeys.map((hoverKey, index) => (
@@ -376,41 +355,30 @@ export default function Home(properties) {
   const renderSection = (cards, sectionKey) => {
     const meta = SECTION_META[sectionKey] || SECTION_META.settings;
     const pair = resolveSectionAccent(theme, sectionKey);
-    const style = sectionAccent(pair.primary, pair.secondary);
+    const style = sectionAccentStyles(pair.primary, pair.secondary, isDark);
     const SectionIcon = meta.icon;
     return (
       <section className="mt-10 sm:mt-14">
         <div
-          className={cn(
-            "relative overflow-hidden rounded-2xl border p-4 sm:p-5",
-            "bg-gradient-to-br",
-            style.border,
-            style.bg
-          )}
+          className="relative overflow-hidden rounded-2xl border p-4 sm:p-5 bg-gradient-to-br"
+          style={{ ...style.border, ...style.bg }}
         >
           <div
             aria-hidden="true"
-            className={cn(
-              "pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full blur-3xl",
-              style.blobA
-            )}
+            className="pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full blur-3xl"
+            style={style.blobA}
           />
           <div
             aria-hidden="true"
-            className={cn(
-              "pointer-events-none absolute -right-12 -bottom-12 h-40 w-40 rounded-full blur-3xl",
-              style.blobB
-            )}
+            className="pointer-events-none absolute -right-12 -bottom-12 h-40 w-40 rounded-full blur-3xl"
+            style={style.blobB}
           />
           <div className="relative flex items-center gap-3 sm:gap-4">
             <span
-              className={cn(
-                "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border",
-                style.iconBg,
-                style.iconBorder
-              )}
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border"
+              style={{ ...style.iconBg, ...style.iconBorder }}
             >
-              <SectionIcon className={cn("h-5 w-5", style.iconText)} />
+              <SectionIcon className="h-5 w-5" style={style.iconText} />
             </span>
             <div className="min-w-0 flex-1">
               <h2 className="text-base sm:text-lg font-semibold text-foreground tracking-tight leading-tight">
@@ -424,17 +392,15 @@ export default function Home(properties) {
               aria-hidden="true"
               className="hidden md:flex items-center gap-1 pr-1"
             >
-              <span className={cn("h-1.5 w-1.5 rounded-full", style.dot)} />
-              <span className={cn("h-1.5 w-1.5 rounded-full opacity-60", style.dot)} />
-              <span className={cn("h-1.5 w-1.5 rounded-full opacity-30", style.dot)} />
+              <span className="h-1.5 w-1.5 rounded-full" style={style.dot} />
+              <span className="h-1.5 w-1.5 rounded-full opacity-60" style={style.dot} />
+              <span className="h-1.5 w-1.5 rounded-full opacity-30" style={style.dot} />
             </div>
           </div>
           <div
             aria-hidden="true"
-            className={cn(
-              "pointer-events-none absolute inset-x-6 bottom-0 h-px bg-gradient-to-r",
-              style.underline
-            )}
+            className="pointer-events-none absolute inset-x-6 bottom-0 h-px"
+            style={style.underline}
           />
         </div>
         <div className="mt-3 sm:mt-4">

@@ -327,7 +327,7 @@ export default function TicketLeaderboard() {
               <div className="flex items-center gap-2 mt-3 justify-end">
                 <Button
                   size="sm"
-                  className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] active:scale-95 transition-all duration-200 cursor-pointer"
+                  className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] active:scale-95 transition-all duration-200 cursor-pointer"
                   onClick={async () => {
                     try {
                       await navigator.clipboard.writeText(

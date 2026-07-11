@@ -1298,7 +1298,7 @@ export default function TFundUser(properties) {
     <div className="flex justify-center mt-6">
       <button
         onClick={() => setDeeplinkDialog(true)}
-        className="group relative overflow-hidden inline-flex items-center gap-2 h-12 px-8 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-[0_8px_32px_-12px_rgba(139,92,246,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(139,92,246,0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all active:scale-[0.99]"
+        className="group relative overflow-hidden inline-flex items-center gap-2 h-12 px-8 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_32px_-12px_rgba(139,92,246,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(139,92,246,0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all active:scale-[0.99]"
       >
         <span
           aria-hidden="true"
@@ -1329,7 +1329,7 @@ export default function TFundUser(properties) {
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-2">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
                 <Sparkles className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>

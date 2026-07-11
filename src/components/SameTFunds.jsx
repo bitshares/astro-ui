@@ -428,7 +428,7 @@ export default function SameTFunds(properties) {
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={() => setUpdateDialog(true)}
-                className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-xl text-sm font-medium bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-[0_4px_16px_-4px_rgba(244,63,94,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(244,63,94,0.7)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all"
+                className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-xl text-sm font-medium bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_4px_16px_-4px_rgba(244,63,94,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(244,63,94,0.7)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all"
               >
                 <RefreshCw className="h-4 w-4" />
                 {t("SameTFunds:update")}
@@ -774,7 +774,7 @@ export default function SameTFunds(properties) {
           <div className="flex items-center gap-3 pt-2">
             <button
               onClick={() => setCreateDialog(true)}
-              className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-xl text-sm font-medium bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-[0_4px_16px_-4px_rgba(244,63,94,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(244,63,94,0.7)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all"
+              className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-xl text-sm font-medium bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_4px_16px_-4px_rgba(244,63,94,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(244,63,94,0.7)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all"
             >
               <Plus className="h-4 w-4" />
               {t("SameTFunds:create")}
@@ -947,7 +947,7 @@ export default function SameTFunds(properties) {
               className={cn(
                 "px-3 py-1.5 text-xs font-medium rounded-lg transition-all",
                 active
-                  ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(244,63,94,0.6)]"
+                  ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(244,63,94,0.6)]"
                   : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
               )}
             >
@@ -979,7 +979,7 @@ export default function SameTFunds(properties) {
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-4">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
                 <Landmark className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>

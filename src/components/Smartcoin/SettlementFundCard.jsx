@@ -32,7 +32,7 @@ export function GlobalSettlementCard({
         <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
         <CardContent className="relative p-5">
           <CardHeader className="flex flex-row items-center gap-3 mb-4 p-0">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-danger)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-danger)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))] flex-shrink-0">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-danger)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-danger)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-danger-gradFg))] text-[hsl(var(--accent-danger-gradFg))] flex-shrink-0">
               <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
             </span>
             <div>
@@ -93,7 +93,7 @@ export function GlobalSettlementCard({
           </div>
 
           <a href={`/settlement/index.html?id=${finalAsset.id}`}>
-            <Button className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-1))] text-white shadow-[0_4px_14px_-4px_rgba(239,68,68,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(239,68,68,0.6)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-1))] transition-all">
+            <Button className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-1))] text-[hsl(var(--accent-danger-gradFg))] shadow-[0_4px_14px_-4px_rgba(239,68,68,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(239,68,68,0.6)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-1))] transition-all">
               {t("Smartcoin:bidOnSettlementFund", {
                 symbol: finalAsset.symbol,
               })}
@@ -126,7 +126,7 @@ export function IndividualSettlementCard({
         <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
         <CardContent className="relative p-5">
           <CardHeader className="flex flex-row items-center gap-3 mb-4 p-0">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
               <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
             </span>
             <div>
@@ -187,7 +187,7 @@ export function IndividualSettlementCard({
           </div>
 
           <a href={`/settlement/index.html?id=${finalAsset.id}`}>
-            <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-[0_4px_14px_-4px_rgba(245,158,11,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(245,158,11,0.6)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all">
+            <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_4px_14px_-4px_rgba(245,158,11,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(245,158,11,0.6)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all">
               {t("Smartcoin:bidOnSettlementFund", {
                 symbol: finalAsset.symbol,
               })}

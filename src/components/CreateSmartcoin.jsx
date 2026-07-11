@@ -1731,13 +1731,13 @@ export default function CreateSmartcoin(properties) {
                 {editing &&
                 !hasEditedAssetOptions &&
                 !hasEditedBitassetOptions ? (
-                  <Button className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]" disabled>
+                  <Button className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]" disabled>
                     <Send className="mr-2 h-4 w-4" />
                     {t("CreateUIA:buttons.submit")}
                   </Button>
                 ) : (
                   <Button
-                    className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]"
+                    className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]"
                     onClick={() => {
                       setShowDialog(true);
                     }}

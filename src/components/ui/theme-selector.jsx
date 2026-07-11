@@ -4,7 +4,6 @@ import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { $customTheme, setActiveTheme } from "@/stores/customTheme.ts";
-import { paletteHex } from "@/lib/tailwindPalette.js";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,7 +45,7 @@ export default function ThemeSelector() {
             <span
               className="absolute bottom-1.5 right-1.5 h-2.5 w-2.5 rounded-full border border-background"
               style={{
-                backgroundColor: paletteHex(active.seed.color, active.seed.shade),
+                backgroundColor: active.seed?.hex || "#808080",
               }}
             />
           ) : null}
@@ -67,7 +66,7 @@ export default function ThemeSelector() {
             >
               <span
                 className="h-4 w-4 rounded-md border border-border/60 shrink-0"
-                style={{ backgroundColor: paletteHex(th.seed.color, th.seed.shade) }}
+                style={{ backgroundColor: th.seed?.hex || "#808080" }}
               />
               <span className="truncate">{th.name}</span>
               {th.id === activeId ? <Check className="h-4 w-4 ml-auto" /> : null}

@@ -69,10 +69,10 @@ import {
   Sparkles,
   Home,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useStore } from "@nanostores/react";
+import { useTheme } from "next-themes";
 import { $customTheme, $currentPage, getThemeForPage, resolveSectionAccent } from "@/stores/customTheme.ts";
-import { getNavAccentClasses } from "@/lib/accentClasses.js";
+import { getNavAccentStyles } from "@/lib/accentStyles.js";
 
 // Maps AppSidebar's local section keys to canonical nav section ids.
 const CANONICAL_SECTION = {
@@ -319,11 +319,13 @@ export default function AppSidebar() {
   ];
 
   useStore($customTheme);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const pageSlug = useStore($currentPage);
   const themeForPage = getThemeForPage(pageSlug);
   const accentFor = (key) => {
     const pair = resolveSectionAccent(themeForPage, CANONICAL_SECTION[key]);
-    const a = getNavAccentClasses(pair.primary);
+    const a = getNavAccentStyles(pair.primary, isDark);
     return { fg: a.color, bg: a.chipBg };
   };
 
@@ -357,8 +359,8 @@ export default function AppSidebar() {
               >
                 <AccordionTrigger className="py-2 text-sm hover:no-underline">
                   <SidebarGroupLabel className="px-2 py-0.5 text-[13px]">
-                    <span className={cn("mr-2 inline-flex items-center justify-center w-5 h-5 rounded", sectionAccent.bg)}>
-                      <SectionIcon className={cn("h-3 w-3", sectionAccent.fg)} />
+                    <span className="mr-2 inline-flex items-center justify-center w-5 h-5 rounded" style={sectionAccent.bg}>
+                      <SectionIcon className="h-3 w-3" style={sectionAccent.fg} />
                     </span>
                     <span className="dark:text-white/70 text-sidebar-foreground/70">{section.label}</span>
                   </SidebarGroupLabel>
@@ -384,8 +386,8 @@ export default function AppSidebar() {
                                     else setOpen(false);
                                   }}
                                 >
-                                  <span className={cn("inline-flex items-center justify-center w-5 h-5 rounded", itemAccent.bg)}>
-                                    <ItemIcon className={cn("h-3 w-3", itemAccent.fg)} />
+                                  <span className="inline-flex items-center justify-center w-5 h-5 rounded" style={itemAccent.bg}>
+                                    <ItemIcon className="h-3 w-3" style={itemAccent.fg} />
                                   </span>
                                   <span>{t(it.title)}</span>
                                 </a>

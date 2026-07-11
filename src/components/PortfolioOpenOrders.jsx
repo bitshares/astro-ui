@@ -145,7 +145,7 @@ function ActionLabelLink({
   const palette = {
     outline:
       "border border-border text-muted-foreground hover:bg-accent/60 hover:text-foreground/80",
-    destructive: "bg-[hsl(var(--accent-danger))] text-white hover:bg-[hsl(var(--accent-danger))]",
+    destructive: "bg-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] hover:bg-[hsl(var(--accent-danger))]",
   }[accent];
   const className = `inline-flex h-8 items-center justify-center gap-1.5 px-3 rounded-full text-sm font-medium transition-colors ${palette}`;
   if (onClick && !href) {

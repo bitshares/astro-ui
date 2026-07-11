@@ -737,7 +737,7 @@ export default function Barter(properties) {
         disabled={!canSubmit}
         className={`w-full h-14 rounded-2xl font-semibold transition-all flex items-center justify-center gap-2 text-base group ${
           canSubmit
-            ? "text-white bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-2))] to-[hsl(var(--accent-1))] shadow-[0_8px_32px_-12px_rgba(16,185,129,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(16,185,129,0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-1))]"
+            ? "text-[hsl(var(--accent-1-gradFg))] bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-2))] to-[hsl(var(--accent-1))] shadow-[0_8px_32px_-12px_rgba(16,185,129,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(16,185,129,0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-1))]"
             : "text-muted-foreground bg-card/60 border border-border/40 dark:border-white/5 cursor-not-allowed"
         }`}
       >
@@ -774,7 +774,7 @@ export default function Barter(properties) {
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-4">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
                 <Repeat className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>

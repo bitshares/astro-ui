@@ -22,7 +22,7 @@ export default function RisksCard() {
         <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-warning)/0.08)] blur-3xl" />
         <CardContent className="relative p-5">
           <CardHeader className="flex flex-row items-center gap-3 mb-4 p-0">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-warning)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.2)] to-[hsl(var(--accent-warning)/0.2)] dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))] flex-shrink-0">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-warning)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.2)] to-[hsl(var(--accent-warning)/0.2)] dark:text-[hsl(var(--accent-warning-gradFg))] text-[hsl(var(--accent-warning-gradFg))] flex-shrink-0">
               <ShieldAlert className="h-4 w-4" strokeWidth={2.25} />
             </span>
             <div>

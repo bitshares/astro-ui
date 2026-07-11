@@ -320,7 +320,7 @@ export default function Htlc(properties) {
                   <Button
                     onClick={() => setShowExtendDeeplink(true)}
                     disabled={!secondsToAdd || secondsToAdd < 60}
-                    className="w-full h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(244,63,94,0.4)]"
+                    className="w-full h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(244,63,94,0.4)]"
                   >
                     <Clock className="h-4 w-4 mr-2" />
                     {t("HTLC:extendButton")}
@@ -532,7 +532,7 @@ export default function Htlc(properties) {
                   _calculatedHash === hashValue ? (
                     <Button
                       onClick={() => setShowRedeemDeeplink(true)}
-                      className="w-full h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-2)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.1)] to-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)]"
+                      className="w-full h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-2)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.1)] to-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-gradFg))] text-[hsl(var(--accent-2-gradFg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)]"
                     >
                       <Unlock className="h-4 w-4 mr-2" />
                       {t("HTLC:redeemButton")}
@@ -590,7 +590,7 @@ export default function Htlc(properties) {
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-start gap-3 mb-4">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
                 <Lock className="h-4 w-4" strokeWidth={2.25} />
               </span>
               <div className="flex-1">

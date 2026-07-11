@@ -821,7 +821,7 @@ export default function Market(properties) {
                 className={cn(
                   "flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all",
                   activeLimitCard === "buy"
-                    ? "bg-gradient-to-r from-[hsl(var(--accent-success))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-white shadow-lg shadow-[color:hsl(var(--accent-success)/0.3)]"
+                    ? "bg-gradient-to-r from-[hsl(var(--accent-success))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-[hsl(var(--accent-success-gradFg))] shadow-lg shadow-[color:hsl(var(--accent-success)/0.3)]"
                     : "text-muted-foreground hover:text-foreground/80 hover:bg-accent/40",
                   (!assetAData || !assetBData) && "opacity-50 cursor-not-allowed"
                 )}
@@ -847,7 +847,7 @@ export default function Market(properties) {
                 className={cn(
                   "flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all",
                   activeLimitCard === "sell"
-                    ? "bg-gradient-to-r from-[hsl(var(--accent-danger))] via-[hsl(var(--accent-warning))] to-[hsl(var(--accent-warning))] text-white shadow-lg shadow-[color:hsl(var(--accent-danger)/0.3)]"
+                    ? "bg-gradient-to-r from-[hsl(var(--accent-danger))] via-[hsl(var(--accent-warning))] to-[hsl(var(--accent-warning))] text-[hsl(var(--accent-danger-gradFg))] shadow-lg shadow-[color:hsl(var(--accent-danger)/0.3)]"
                     : "text-muted-foreground hover:text-foreground/80 hover:bg-accent/40",
                   (!assetAData || !assetBData) && "opacity-50 cursor-not-allowed"
                 )}

@@ -187,7 +187,7 @@ export default function CreateVestingBalance(properties) {
           <CardHeader className="pb-1 relative z-10">
             <CardTitle className="flex items-center gap-3 text-xl">
               <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
-                <PiggyBank className="w-5 h-5 text-white" />
+                <PiggyBank className="w-5 h-5 text-[hsl(var(--accent-1-gradFg))]" />
               </div>
               {t("CreateVestingBalance:card.title")}
             </CardTitle>
@@ -210,7 +210,7 @@ export default function CreateVestingBalance(properties) {
                     variant={policy === "ccd" ? "" : "outline"}
                     size="md"
                     className={policy === "ccd" 
-                      ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]" 
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]" 
                       : "border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors"}
                   >
                     <Coins className="w-4 h-4 mr-2" />
@@ -221,7 +221,7 @@ export default function CreateVestingBalance(properties) {
                     variant={policy === "lvc" ? "" : "outline"}
                     size="md"
                     className={policy === "lvc" 
-                      ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]" 
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]" 
                       : "border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors"}
                   >
                     <Timer className="w-4 h-4 mr-2" />
@@ -261,7 +261,7 @@ export default function CreateVestingBalance(properties) {
                         <DialogHeader>
                           <DialogTitle className="flex items-center gap-3">
                             <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
-                              <User className="w-4 h-4 text-white" />
+                              <User className="w-4 h-4 text-[hsl(var(--accent-1-gradFg))]" />
                             </div>
                             {!usr || !usr.chain
                               ? t("Transfer:bitsharesAccountSearch")
@@ -531,7 +531,7 @@ export default function CreateVestingBalance(properties) {
                 </div>
               ) : null}
               <Button
-                className="h-10 mt-4 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-300 hover:shadow-xl hover:shadow-[color:hsl(var(--accent-1)/0.4)] hover:-translate-y-0.5"
+                className="h-10 mt-4 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-300 hover:shadow-xl hover:shadow-[color:hsl(var(--accent-1)/0.4)] hover:-translate-y-0.5"
                 onClick={() => {
                   if (isSubmitDisabled) return;
                   setShowDialog(true);

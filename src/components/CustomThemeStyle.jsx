@@ -11,6 +11,7 @@ import {
   resolveStatusAll,
 } from "@/stores/customTheme.ts";
 import { buildAccentCss } from "@/lib/accentVars.js";
+import { buildThemeVars } from "@/lib/tailwindPalette.js";
 import { THEMABLE_PAGES } from "@/lib/pages.js";
 
 const STYLE_ID = "custom-theme-vars";
@@ -40,9 +41,17 @@ export default function CustomThemeStyle() {
     const isCustomizer = page === "theme_customizer";
     const theme = isCustomizer && draftTheme ? draftTheme : getThemeForPage(page);
     const tokenCss = compileThemeCss(theme);
+    // Get background hex values for accent foreground contrast calculation
+    let bgLightHex = "#f8fafc";
+    let bgDarkHex = "#0f172a";
+    try {
+      const tv = buildThemeVars(theme);
+      if (tv.bgLightHex) bgLightHex = tv.bgLightHex;
+      if (tv.bgDarkHex) bgDarkHex = tv.bgDarkHex;
+    } catch {}
     let accentCss = "";
     try {
-      accentCss = buildAccentCss(resolvePageAccent(theme, page), resolveStatusAll(theme));
+      accentCss = buildAccentCss(resolvePageAccent(theme, page), resolveStatusAll(theme), null, null, bgLightHex, bgDarkHex);
     } catch (e) {
       console.warn("Failed to build accent css", e);
     }

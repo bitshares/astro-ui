@@ -6,7 +6,6 @@ import {
   setPageTheme,
   PRESET_THEMES,
 } from "@/stores/customTheme.ts";
-import { paletteHex } from "@/lib/tailwindPalette.js";
 import { THEMABLE_PAGES } from "@/lib/pages.js";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -51,10 +50,7 @@ export default function PageThemes() {
                       <span
                         className="h-2 w-2 rounded-full shrink-0"
                         style={{
-                          backgroundColor: paletteHex(
-                            themes[assigned].seed.color,
-                            themes[assigned].seed.shade
-                          ),
+                          backgroundColor: themes[assigned].seed?.hex || "#808080",
                         }}
                         title={t("PageThemes:overrideActive")}
                       />

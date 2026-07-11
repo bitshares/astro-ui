@@ -259,7 +259,7 @@ export default function HtlcCreateDialog(properties) {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3 text-xl">
               <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-danger))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
-                <Lock className="w-5 h-5 text-white" />
+                <Lock className="w-5 h-5 text-[hsl(var(--accent-1-gradFg))]" />
               </div>
               {t("HTLCCreate:dialogTitle")}
             </DialogTitle>
@@ -328,7 +328,7 @@ export default function HtlcCreateDialog(properties) {
                         <DialogHeader>
                           <DialogTitle className="flex items-center gap-3">
                             <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-danger))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
-                              <User className="w-4 h-4 text-white" />
+                              <User className="w-4 h-4 text-[hsl(var(--accent-1-gradFg))]" />
                             </div>
                             {t("Transfer:bitsharesAccountSearch")}
                           </DialogTitle>
@@ -588,7 +588,7 @@ export default function HtlcCreateDialog(properties) {
               <Button
                 type="submit"
                 disabled={!isFormValid || showDeeplinkDialog}
-                className="w-full py-3 text-lg font-semibold bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-danger))] to-[hsl(var(--accent-3))] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-3))] text-white shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-300 hover:shadow-xl hover:shadow-[color:hsl(var(--accent-1)/0.4)] hover:-translate-y-0.5"
+                className="w-full py-3 text-lg font-semibold bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-danger))] to-[hsl(var(--accent-3))] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-300 hover:shadow-xl hover:shadow-[color:hsl(var(--accent-1)/0.4)] hover:-translate-y-0.5"
               >
                 {t("HTLCCreate:submitButton")}
               </Button>

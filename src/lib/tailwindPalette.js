@@ -35,15 +35,6 @@ export const TAILWIND_HEX = {
   rose: { 50: "#fff1f2", 100: "#ffe4e6", 200: "#fecdd3", 300: "#fda4af", 400: "#fb7185", 500: "#f43f5e", 600: "#e11d48", 700: "#be123c", 800: "#9f1239", 900: "#881337", 950: "#4c0519" },
 };
 
-// Colors offered as nav accents in the customizer. Order matters for the UI.
-export const ACCENT_COLORS = [
-  "slate", "gray", "zinc", "red", "orange", "amber", "yellow", "lime",
-  "green", "emerald", "teal", "cyan", "sky", "blue", "indigo", "violet",
-  "purple", "fuchsia", "pink", "rose",
-];
-
-export const ACCENT_SHADES = [400, 500, 600, 700];
-
 // --- Color math -------------------------------------------------------------
 
 export function hexToRgb(hex) {
@@ -119,55 +110,30 @@ export function contrastRatio(hexA, hexB) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-// Given a background hex, returns a readable foreground hex (near-white/near-black).
+// Given a background hex, returns a readable foreground hex (near-white/near-black)
+// using WCAG contrast ratio (≥4.5:1 for AA compliance).
 export function readableForeground(hex) {
   const rgb = hexToRgb(hex);
   if (!rgb) return "#ffffff";
-  return relLuminance(rgb) > 0.4 ? "#0a0a0a" : "#fafafa";
+  const darkContrast = contrastRatio(hex, "#0a0a0a");
+  const lightContrast = contrastRatio(hex, "#fafafa");
+  // Pick whichever foreground has higher contrast; fall back to dark for equal.
+  return darkContrast >= lightContrast ? "#0a0a0a" : "#fafafa";
 }
 
-// Find the closest palette color+shade for an arbitrary hex value.
-const _paletteCache = [];
-function buildPaletteCache() {
-  if (_paletteCache.length) return _paletteCache;
-  for (const color of ACCENT_COLORS) {
-    for (const shade of ACCENT_SHADES) {
-      const hex = paletteHex(color, shade);
-      if (hex) {
-        const rgb = hexToRgb(hex);
-        if (rgb) _paletteCache.push({ color, shade, hex, r: rgb.r, g: rgb.g, b: rgb.b });
-      }
-    }
-  }
-  return _paletteCache;
-}
-export function hexToClosestPalette(hex) {
-  const target = hexToRgb(hex);
-  if (!target) return { color: "slate", shade: 500 };
-  const cache = buildPaletteCache();
-  let best = cache[0];
-  let bestDist = Infinity;
-  for (const entry of cache) {
-    const dr = target.r - entry.r;
-    const dg = target.g - entry.g;
-    const db = target.b - entry.b;
-    const dist = dr * dr + dg * dg + db * db;
-    if (dist < bestDist) {
-      bestDist = dist;
-      best = entry;
-    }
-  }
-  return { color: best.color, shade: best.shade };
-}
-
-export function paletteHex(color, shade) {
+// Accepts EITHER a PaletteRef { hex } or legacy (color, shade) lookup.
+export function paletteHex(colorOrRef, shade) {
+  if (colorOrRef && typeof colorOrRef === "object" && colorOrRef.hex) return colorOrRef.hex;
+  const color = typeof colorOrRef === "string" ? colorOrRef : "slate";
+  const s = shade || 500;
   const c = TAILWIND_HEX[color];
-  if (!c) return null;
-  return c[shade] || c[500];
+  if (!c) return "#808080";
+  return c[s] || c[500];
 }
 
-export function paletteHslString(color, shade) {
-  const hex = paletteHex(color, shade);
+// Accepts EITHER a PaletteRef { hex } or legacy (color, shade) lookup.
+export function paletteHslString(colorOrRef, shade) {
+  const hex = paletteHex(colorOrRef, shade);
   return hex ? hexToHslString(hex) : null;
 }
 
@@ -175,7 +141,6 @@ export function paletteHslString(color, shade) {
 
 // shadcn tokens the customizer exposes for advanced editing. Foregrounds are
 // auto-derived from their background for accessibility, so are not listed here.
-// Users edit the LIGHT value; the dark value is auto-derived (see SHADE_FLIP).
 export const EDITABLE_TOKENS = [
   "primary",
   "background",
@@ -189,8 +154,7 @@ export const EDITABLE_TOKENS = [
   "sidebarAccent",
 ];
 
-// Maps a light-mode shade to its dark-mode counterpart, so a user only edits
-// the light palette and the dark mode is auto-derived with sane contrast.
+// Maps a light-mode shade to its dark-mode counterpart (kept for backward compat).
 const SHADE_FLIP = {
   50: 950, 100: 900, 200: 800, 300: 700, 400: 600,
   500: 500, 600: 400, 700: 300, 800: 200, 900: 100, 950: 50,
@@ -206,38 +170,109 @@ function neutralFor(color) {
   return warm.includes(color) ? "stone" : "slate";
 }
 
-// Derives a full set of shadcn CSS-var values (both light and dark) from a
-// theme definition. `overrides` maps token name -> { color, shade }.
-export function buildThemeVars(theme) {
-  const seed = theme.seed || { color: "violet", shade: 600 };
-  const overrides = theme.tokenOverrides || {};
-  const n = neutralFor(seed.color);
+// Neutral hue derived from a hex seed via hue analysis.
+function neutralForHex(hex) {
+  const hsl = hexToHsl(hex);
+  if (!hsl) return "slate";
+  const h = hsl.h;
+  return (h <= 70 || h >= 340) ? "stone" : "slate";
+}
 
-  const build = (mode) => {
+// Darkens a hex color by reducing lightness. Returns a new hex string.
+function darkenHex(hex, amount) {
+  const hsl = hexToHsl(hex);
+  if (!hsl) return hex;
+  const newL = Math.max(0, hsl.l - amount);
+  return tinycolor({ h: hsl.h, s: hsl.s, l: newL }).toHexString();
+}
+
+// Lightens a hex color by increasing lightness. Returns a new hex string.
+function lightenHex(hex, amount) {
+  const hsl = hexToHsl(hex);
+  if (!hsl) return hex;
+  const newL = Math.min(100, hsl.l + amount);
+  return tinycolor({ h: hsl.h, s: hsl.s, l: newL }).toHexString();
+}
+
+// Derives a full set of shadcn CSS-var values (both light and dark) from a
+// theme definition. `overrides` maps token name -> { hex } or legacy { color, shade }.
+export function buildThemeVars(theme) {
+  const seed = theme.seed || { hex: "#7c3aed" };
+  const overrides = theme.tokenOverrides || {};
+  const n = neutralForHex(seed.hex || "#7c3aed");
+
+    // Resolve seed to a hex string for downstream use.
+    const seedHex = seed.hex || "#7c3aed";
+    const seedHsl = hexToHsl(seedHex) || { h: 220, s: 60, l: 50 };
+
+    // Light-mode surfaces get a subtle, theme-specific tint of the seed hue
+    // (instead of pure white) so every theme reads differently in light mode,
+    // mirroring how dark mode shifts per theme.
+    const tintS = Math.min(24, Math.round((seedHsl.s || 0) * 0.35)) || 12;
+    const surface = (l) => tinycolor({ h: seedHsl.h, s: tintS, l }).toHexString();
+
+    // Raw background hexes (mode-independent) for the accent-var builder. Declared
+    // in this outer scope so the returned object can expose them (previously they
+    // lived inside `build` and triggered a ReferenceError on access).
+    const bgLightHex = surface(96);
+    const bgDarkHex = darkenHex(bgLightHex, 45);
+
+    const build = (mode) => {
     const dark = mode === "dark";
-    // Overrides are authored in the light palette; the dark shade is flipped.
-    const pick = (token, color, lightShade, darkShade) => {
+
+    // Read a token value: override (PaletteRef or legacy) or fallback hex.
+    const pick = (token, fallbackHex, darkFallbackHex) => {
       const ov = overrides[token];
-      if (ov) return paletteHex(ov.color, dark ? flipShade(ov.shade) : ov.shade);
-      return paletteHex(color, dark ? darkShade : lightShade);
+      if (ov) {
+        // PaletteRef with .hex takes priority
+        if (ov.hex) return ov.hex;
+        // Legacy { color, shade } — should not be reached; safe fallback
+        return ov.hex || "#808080";
+      }
+      // No override: use the explicit fallback hex (no shade flipping).
+      // Dark mode gets a reasonable variant derived from the light hex.
+      if (dark) return darkFallbackHex;
+      return fallbackHex;
     };
 
-    const bg = pick("background", n, 50, 900);
-    const card = pick("card", n, 50, 800);
-    const secondary = pick("secondary", n, 100, 800);
-    const muted = pick("muted", n, 100, 800);
-    const accent = pick("accent", seed.color, 100, 800);
-    const primary = pick("primary", seed.color, seed.shade, 400);
-    const border = pick("border", n, 200, 700);
-    const ring = pick("ring", seed.color, seed.shade, 400);
-    const sidebar = pick("sidebar", n, 50, 900);
-    const sidebarAccent = pick("sidebarAccent", seed.color, 100, 800);
+    const cardHex = surface(98);
+    const cardDarkHex = darkenHex(cardHex, 38);
+    const secondaryHex = surface(93);
+    const secondaryDarkHex = darkenHex(secondaryHex, 35);
+    const mutedHex = surface(93);
+    const mutedDarkHex = darkenHex(mutedHex, 35);
+    const primaryHex = seedHex;
+    const primaryDarkHex = lightenHex(primaryHex, 8);
+    const accentHex = lightenHex(seedHex, 30);
+    const accentDarkHex = lightenHex(accentHex, 5);
+    const borderHex = surface(85);
+    const borderDarkHex = darkenHex(borderHex, 20);
+    const ringHex = primaryHex;
+    const ringDarkHex = primaryDarkHex;
+    const sidebarHex = surface(96);
+    const sidebarDarkHex = darkenHex(sidebarHex, 45);
+    const sidebarAccentHex = lightenHex(seedHex, 30);
+    const sidebarAccentDarkHex = lightenHex(sidebarAccentHex, 5);
+
+    const bg = pick("background", bgLightHex, bgDarkHex);
+    const card = pick("card", cardHex, cardDarkHex);
+    const secondary = pick("secondary", secondaryHex, secondaryDarkHex);
+    const muted = pick("muted", mutedHex, mutedDarkHex);
+    const accent = pick("accent", accentHex, accentDarkHex);
+    const primary = pick("primary", primaryHex, primaryDarkHex);
+    const border = pick("border", borderHex, borderDarkHex);
+    const ring = pick("ring", ringHex, ringDarkHex);
+    const sidebar = pick("sidebar", sidebarHex, sidebarDarkHex);
+    const sidebarAccent = pick("sidebarAccent", sidebarAccentHex, sidebarAccentDarkHex);
     // Destructive follows the themeable "danger" status role (single source).
-    const dangerColor = theme.statusAccents?.danger || "red";
-    const destructive = paletteHex(dangerColor, dark ? 500 : 600);
+    const destructiveHex = theme.statusAccents?.danger || "#ef4444";
+    const destructiveDarkHex = theme.statusAccents?.danger || "#ef4444";
+    const destructive = dark ? destructiveDarkHex : destructiveHex;
 
     const toHsl = (hex) => hexToHslString(hex);
     const fg = (hex) => hexToHslString(readableForeground(hex));
+
+    const mutedFgHex = paletteHex(n, dark ? 400 : 700);
 
     const vars = {
       "--background": toHsl(bg),
@@ -251,7 +286,7 @@ export function buildThemeVars(theme) {
       "--secondary": toHsl(secondary),
       "--secondary-foreground": fg(secondary),
       "--muted": toHsl(muted),
-      "--muted-foreground": hexToHslString(paletteHex(n, dark ? 400 : 500)),
+      "--muted-foreground": hexToHslString(mutedFgHex),
       "--accent": toHsl(accent),
       "--accent-foreground": fg(accent),
       "--destructive": toHsl(destructive),
@@ -270,7 +305,7 @@ export function buildThemeVars(theme) {
     };
 
     // Chart palette: cohesive hues rotated around the seed color.
-    const seedHsl = hexToHsl(paletteHex(seed.color, seed.shade)) || { h: 220 };
+    const seedHsl = hexToHsl(seedHex) || { h: 220 };
     const offsets = [0, 40, -40, 80, -80];
     const cs = dark ? 70 : 65;
     const cl = dark ? 58 : 48;
@@ -281,7 +316,11 @@ export function buildThemeVars(theme) {
     return vars;
   };
 
-  return { light: build("light"), dark: build("dark") };
+  // Also return the raw background hex values for use by accent var builders
+  // (so -foreground can contrast with the actual page background).
+  const lightVars = build("light");
+  const darkVars = build("dark");
+  return { light: lightVars, dark: darkVars, bgLightHex, bgDarkHex };
 }
 
 function varsToCss(vars) {
@@ -293,8 +332,8 @@ function varsToCss(vars) {
 // prefers-contrast boosts, themed from the neutral hue, so the accessibility
 // behavior of globals.css isn't lost when a custom theme overrides the vars.
 function contrastCss(theme) {
-  const n = neutralFor((theme.seed || { color: "violet" }).color);
-  const light = `--muted-foreground: ${paletteHslString(n, 600)}; --border: ${paletteHslString(n, 400)};`;
+  const n = neutralForHex(theme.seed?.hex || "#7c3aed");
+  const light = `--muted-foreground: ${paletteHslString(n, 700)}; --border: ${paletteHslString(n, 400)};`;
   const dark = `--muted-foreground: ${paletteHslString(n, 300)}; --border: ${paletteHslString(n, 500)};`;
   return `@media (prefers-contrast: more) { :root { ${light} } .dark { ${dark} } }`;
 }

@@ -485,12 +485,12 @@ export default function PayInvoice(properties) {
                 }
               >
                 {sufficientBalance ? (
-                  <span className="inline-flex items-center gap-1 rounded-md bg-[hsl(var(--accent-1))] dark:bg-[hsl(var(--accent-1)/0.2)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">
+                  <span className="inline-flex items-center gap-1 rounded-md bg-[hsl(var(--accent-1))] dark:bg-[hsl(var(--accent-1)/0.2)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--accent-1-gradFg))] dark:text-[hsl(var(--accent-1-gradFg))]">
                     <CheckCircle2 className="h-3 w-3" />
                     OK
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 rounded-md bg-[hsl(var(--accent-danger))] dark:bg-[hsl(var(--accent-danger)/0.2)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]">
+                  <span className="inline-flex items-center gap-1 rounded-md bg-[hsl(var(--accent-danger))] dark:bg-[hsl(var(--accent-danger)/0.2)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--accent-danger-gradFg))] dark:text-[hsl(var(--accent-danger-gradFg))]">
                     <XCircle className="h-3 w-3" />
                     {requiredBalance.toFixed(2)} short
                   </span>
@@ -527,7 +527,7 @@ export default function PayInvoice(properties) {
                     <div className="relative p-5 sm:p-6">
                       <CardHeader className="p-0 mb-5">
                         <div className="flex items-center gap-3">
-                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
+                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
                             <Receipt className="h-4.5 w-4.5" strokeWidth={2.25} />
                           </span>
                           <div>
@@ -656,7 +656,7 @@ export default function PayInvoice(properties) {
                             !transactionJSON ||
                             !transactionJSON.length
                           }
-                          className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
+                          className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
                         >
                           <CreditCard className="h-4 w-4 mr-1.5" />
                           {t("PayInvoice:payButton")}
@@ -716,7 +716,7 @@ export default function PayInvoice(properties) {
                       <div className="relative p-5 sm:p-6">
                         <CardHeader className="p-0 mb-5">
                           <div className="flex items-center gap-3">
-                            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
+                            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
                               <Receipt className="h-4.5 w-4.5" strokeWidth={2.25} />
                             </span>
                             <div>
@@ -808,7 +808,7 @@ export default function PayInvoice(properties) {
               <div className="relative p-5 sm:p-6">
                 <CardHeader className="p-0 mb-5">
                   <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
                       <FileSearch className="h-4.5 w-4.5" strokeWidth={2.25} />
                     </span>
                     <div>
@@ -829,7 +829,7 @@ export default function PayInvoice(properties) {
                     className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)] min-h-[120px]"
                   />
                   <Button
-                    className="mt-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-white border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
+                    className="mt-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
                     onClick={(e) => processInvoiceCode()}
                   >
                     <FileCheck className="h-4 w-4 mr-1.5" />

@@ -449,7 +449,7 @@ export default function IssuedAssets(properties) {
                 className="bg-card/60"
               />
               <Button
-                className="w-1/4 mt-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white border-0"
+                className="w-1/4 mt-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] border-0"
                 onClick={() => {
                   navigator.clipboard.writeText(JSON.stringify(json, null, 2));
                 }}
@@ -471,12 +471,12 @@ export default function IssuedAssets(properties) {
                 <span className={cn(
                   "inline-flex h-9 w-9 items-center justify-center rounded-xl border flex-shrink-0",
                   activeTab === "smartcoins"
-                    ? "border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
+                    ? "border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]"
                     : activeTab === "pools"
-                    ? "border-[hsl(var(--accent-2)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]"
+                    ? "border-[hsl(var(--accent-2)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-2-gradFg))] text-[hsl(var(--accent-2-gradFg))]"
                     : activeTab === "nft"
-                    ? "border-[hsl(var(--accent-3)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-3-fg))] text-[hsl(var(--accent-3-fg))]"
-                    : "border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
+                    ? "border-[hsl(var(--accent-3)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-3-gradFg))] text-[hsl(var(--accent-3-gradFg))]"
+                    : "border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]"
                 )}>
                   {activeTab === "smartcoins" ? (
                     <Droplets className="h-4 w-4" strokeWidth={2.25} />
@@ -546,7 +546,7 @@ export default function IssuedAssets(properties) {
 
         <div className="relative p-5 sm:p-6">
           <div className="flex items-center gap-3 mb-5">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
               <Coins className="h-4.5 w-4.5" strokeWidth={2.25} />
             </span>
             <div>
@@ -574,7 +574,7 @@ export default function IssuedAssets(properties) {
                   className={cn(
                     "px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center gap-1.5",
                     active
-                      ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(244,63,94,0.6)]"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(244,63,94,0.6)]"
                       : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
                   )}
                 >
@@ -613,7 +613,7 @@ export default function IssuedAssets(properties) {
                         <EmptyTitle className="text-foreground/80">{t("IssuedAssets:noUIA")}</EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent>
-                        <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white border-0">
+                        <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] border-0">
                           <a href="/create_uia/index.html">
                             {t("PageHeader:create_uia")}
                           </a>
@@ -673,7 +673,7 @@ export default function IssuedAssets(properties) {
                         <EmptyTitle className="text-foreground/80">{t("IssuedAssets:noPools")}</EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent>
-                        <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-2))] text-white border-0">
+                        <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-2-gradFg))] border-0">
                           <a href="/create_pool/index.html">
                             {t("PageHeader:create_pool")}
                           </a>
@@ -735,7 +735,7 @@ export default function IssuedAssets(properties) {
                         </EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent>
-                        <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-white border-0">
+                        <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] border-0">
                           <a href="/create_smartcoin/index.html">
                             {t("PageHeader:create_smartcoin")}
                           </a>

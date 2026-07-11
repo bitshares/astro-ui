@@ -348,7 +348,7 @@ export default function Proposals(properties) {
                   onClick={() => {
                     setApproveOpen(true);
                   }}
-                  className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
+                  className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-success-gradFg))] shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                   {t("Proposals:beginApprovalProcess")}
                 </Button>
@@ -357,7 +357,7 @@ export default function Proposals(properties) {
                     setRejectOpen(true);
                     setRejectedProposalID(proposal.id);
                   }}
-                  className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-white shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
+                  className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                   {t("Proposals:reject")}
                 </Button>
@@ -421,7 +421,7 @@ export default function Proposals(properties) {
                                   setChosenProposal(proposal);
                                 }
                               }}
-                              className="bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
+                              className="bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-success-gradFg))] shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                             >
                               {t("Proposals:approveProposedOperation")}
                             </Button>
@@ -431,7 +431,7 @@ export default function Proposals(properties) {
                                 setApprovedCount(0);
                                 setChosenProposal();
                               }}
-                              className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-white shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
+                              className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                             >
                               {t("Proposals:rejectProposedOperation")}
                             </Button>
@@ -533,7 +533,7 @@ export default function Proposals(properties) {
                   rows={15}
                 />
                 <Button
-                  className="w-1/4 mt-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
+                  className="w-1/4 mt-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                   onClick={() => {
                     navigator.clipboard.writeText(
                       JSON.stringify(json, null, 2)

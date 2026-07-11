@@ -355,7 +355,7 @@ export default function IssuedAssets(properties) {
             className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
           />
           <div className="relative flex items-center gap-4">
-            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
               <Droplets className="h-6 w-6" strokeWidth={2.25} />
             </span>
             <div className="flex-1 min-w-0">
@@ -387,7 +387,7 @@ export default function IssuedAssets(properties) {
                   <Empty className="mt-2">
                     <EmptyHeader>
                       <EmptyMedia variant="icon">
-                        <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                        <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
                           <Droplets className="h-6 w-6" strokeWidth={1.75} />
                         </span>
                       </EmptyMedia>
@@ -632,7 +632,7 @@ export default function IssuedAssets(properties) {
                   setShowDialog(true);
                 }}
                 className={cn(
-                  "w-full h-14 rounded-2xl font-semibold text-white flex items-center justify-center gap-2 text-base transition-all group",
+                  "w-full h-14 rounded-2xl font-semibold text-[hsl(var(--accent-1-gradFg))] flex items-center justify-center gap-2 text-base transition-all group",
                   assetA && assetB && selectedAsset
                     ? "bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] shadow-[0_8px_32px_-12px_rgba(6,182,212,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(20,184,166,0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
                     : "bg-card/60 border border-border/40 dark:border-white/5 text-muted-foreground cursor-not-allowed"

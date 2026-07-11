@@ -3,37 +3,30 @@ import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { useStore } from "@nanostores/react";
-import { cn } from "@/lib/utils";
-import { brandHero } from "@/lib/accentClasses.js";
+import { brandHeroStyles } from "@/lib/accentStyles.js";
 import { $customTheme, getThemeForPage, resolveBrand } from "@/stores/customTheme.ts";
 
 export default function Hero() {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   useStore($customTheme);
   const brand = resolveBrand(getThemeForPage("index"));
-  const hero = brandHero(brand.primary, brand.secondary);
+  const hero = brandHeroStyles(brand.primary, brand.secondary);
 
   return (
     <section
-      className={cn(
-        "relative overflow-hidden rounded-2xl border dark:border-white/10 border-border bg-gradient-to-br p-6 sm:p-10",
-        hero.panel
-      )}
+      className="relative overflow-hidden rounded-2xl border dark:border-white/10 border-border bg-gradient-to-br p-6 sm:p-10"
+      style={hero.panel}
       aria-label={t("Home:hero.title")}
     >
       <div
         aria-hidden
-        className={cn(
-          "absolute -left-16 -top-16 h-56 w-56 rounded-full blur-3xl",
-          hero.blobA
-        )}
+        className="absolute -left-16 -top-16 h-56 w-56 rounded-full blur-3xl"
+        style={hero.blobA}
       />
       <div
         aria-hidden
-        className={cn(
-          "absolute -right-20 -bottom-20 h-64 w-64 rounded-full blur-3xl",
-          hero.blobB
-        )}
+        className="absolute -right-20 -bottom-20 h-64 w-64 rounded-full blur-3xl"
+        style={hero.blobB}
       />
       <div className="relative max-w-3xl mx-auto text-center">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground dark:text-white leading-[1.1] dark:[text-shadow:_0_1px_2px_rgba(0,0,0,0.6)]">

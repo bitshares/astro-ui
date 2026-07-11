@@ -35,11 +35,9 @@ import {
 import { ColorPicker, ColorArea, ColorSlider } from "@fluentui/react-color-picker";
 import {
   EDITABLE_TOKENS,
-  paletteHex,
   buildThemeVars,
   contrastRatio,
   readableForeground,
-  hexToClosestPalette,
   hexToRgb,
   hsvToHex,
   hexToHsv,
@@ -102,8 +100,7 @@ const TOKEN_LABELS = {
 
 // ColorField: label+swatch sidebar on left, Fluent ColorPicker + palette shortcuts on right
 function ColorField({ label, value, onChange, disabled }) {
-  const { color, shade } = value;
-  const currentHex = paletteHex(color, shade) || "#808080";
+  const currentHex = value?.hex || "#808080";
   const rgb = hexToRgb(currentHex) || { r: 128, g: 128, b: 128 };
   const [hsv, setHsv] = React.useState(() => hexToHsv(currentHex));
   const [hexInput, setHexInput] = React.useState("");
@@ -111,10 +108,9 @@ function ColorField({ label, value, onChange, disabled }) {
   const [editingField, setEditingField] = React.useState(null);
 
   React.useEffect(() => {
-    const hex = paletteHex(color, shade) || "#808080";
-    const hsvFromPalette = hexToHsv(hex);
+    const hsvFromPalette = hexToHsv(currentHex);
     setHsv(hsvFromPalette);
-  }, [color, shade]);
+  }, [currentHex]);
 
   React.useEffect(() => {
     if (editingField !== "hex") setHexInput(hsvToHex(hsv.h, hsv.s, hsv.v).replace("#", "").toUpperCase());
@@ -125,17 +121,16 @@ function ColorField({ label, value, onChange, disabled }) {
     const newHsv = { h: data.color.h, s: data.color.s, v: data.color.v };
     setHsv(newHsv);
     const hex = hsvToHex(newHsv.h, newHsv.s, newHsv.v);
-    const matched = hexToClosestPalette(hex);
-    onChange(matched);
+    onChange({ hex });
   }, [onChange]);
 
   const commitHex = (raw) => {
     const clean = raw.replace(/[^a-fA-F0-9]/g, "").slice(0, 6);
     setHexInput(clean);
     if (clean.length === 6) {
-      const matched = hexToClosestPalette("#" + clean);
-      setHsv(hexToHsv("#" + clean));
-      onChange(matched);
+      const hex = "#" + clean;
+      setHsv(hexToHsv(hex));
+      onChange({ hex });
     }
   };
 
@@ -150,9 +145,8 @@ function ColorField({ label, value, onChange, disabled }) {
       const b = key === "b" ? val : parseInt(rgbInputs.b || "0", 10);
       const toHex = (n) => n.toString(16).padStart(2, "0");
       const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-      const matched = hexToClosestPalette(hex);
       setHsv(hexToHsv(hex));
-      onChange(matched);
+      onChange({ hex });
     }
   };
 
@@ -239,7 +233,7 @@ function PreviewPanel({ theme, accent, status, mode }) {
     <div key={label} className="flex flex-col items-center gap-1">
       <span
         className="h-6 w-6 rounded-md border border-black/10"
-        style={{ backgroundColor: paletteHex(color, 500) }}
+        style={{ backgroundColor: color || "#808080" }}
         title={`${label}: ${color}`}
       />
       <span className="text-[9px] opacity-70">{label}</span>
@@ -338,7 +332,7 @@ function ThemeRow({ index, style, themes, activeId, draftTheme, onSelect }) {
       >
         <span
           className="h-5 w-5 rounded-md border border-border/50 shrink-0"
-          style={{ backgroundColor: paletteHex(th.seed.color, th.seed.shade) }}
+          style={{ backgroundColor: th.seed?.hex || "#808080" }}
         />
         <span className="flex-1 truncate text-sm">{th.name}</span>
         {th.draft ? (
@@ -379,7 +373,7 @@ function ColorItemRow({ index, style, colorItems, selectedColor, onSelect }) {
       >
         <span
           className="h-4 w-4 rounded-full shrink-0 border border-black/10"
-          style={{ backgroundColor: paletteHex(item.value.color, item.value.shade) }}
+          style={{ backgroundColor: item.value?.hex || "#808080" }}
         />
         <span className="text-xs truncate">{item.label}</span>
       </button>
@@ -416,7 +410,7 @@ export default function ThemeCustomizer() {
   const canEdit = !isPreset;
   const isDirty = Boolean(pendingEdits || isDraft);
 
-  const seedHex = paletteHex(theme.seed.color, theme.seed.shade);
+  const seedHex = theme.seed?.hex || "#808080";
 
   // Sorted theme list for the react-window list (draft first, then saved themes)
   const themeList = React.useMemo(() => {
@@ -440,30 +434,30 @@ export default function ThemeCustomizer() {
     }))});
     // Brand
     groups.push({ category: t("ThemeCustomizer:brand"), items: [
-      { id: "brand_primary", label: t("ThemeCustomizer:primary"), value: { color: br.primary, shade: 500 } },
-      { id: "brand_secondary", label: t("ThemeCustomizer:secondary"), value: { color: br.secondary, shade: 500 } },
+      { id: "brand_primary", label: t("ThemeCustomizer:primary"), value: { hex: br.primary } },
+      { id: "brand_secondary", label: t("ThemeCustomizer:secondary"), value: { hex: br.secondary } },
     ]});
     // Section accents
     const sectionItems = [];
     NAV_SECTIONS.forEach((section) => {
       const pair = resolveSectionAccent(theme, section);
-      sectionItems.push({ id: `section_${section}_primary`, label: `${section} ${t("ThemeCustomizer:primary")}`, value: { color: pair.primary, shade: 500 } });
-      sectionItems.push({ id: `section_${section}_secondary`, label: `${section} ${t("ThemeCustomizer:secondary")}`, value: { color: pair.secondary, shade: 500 } });
+      sectionItems.push({ id: `section_${section}_primary`, label: `${section} ${t("ThemeCustomizer:primary")}`, value: { hex: pair.primary } });
+      sectionItems.push({ id: `section_${section}_secondary`, label: `${section} ${t("ThemeCustomizer:secondary")}`, value: { hex: pair.secondary } });
     });
     groups.push({ category: t("ThemeCustomizer:sectionAccents"), items: sectionItems });
     // Status
     groups.push({ category: t("ThemeCustomizer:status"), items: STATUS_ROLES.map((role) => ({
-      id: `status_${role}`, label: t(`ThemeCustomizer:status_${role}`), value: { color: resolveStatus(theme, role), shade: 500 },
+      id: `status_${role}`, label: t(`ThemeCustomizer:status_${role}`), value: { hex: resolveStatus(theme, role) },
     }))});
     // Global accent
     const ga = theme.globalAccent || resolvePageAccent(theme, accentPage);
     groups.push({ category: t("ThemeCustomizer:globalAccent"), items: ["primary", "secondary", "tertiary"].map((role) => ({
-      id: `global_${role}`, label: `${t("ThemeCustomizer:globalAccent")} ${t(`ThemeCustomizer:${role}`)}`, value: { color: ga[role], shade: 500 },
+      id: `global_${role}`, label: `${t("ThemeCustomizer:globalAccent")} ${t(`ThemeCustomizer:${role}`)}`, value: { hex: ga[role] },
     }))});
     // Page accents
     const pa = resolvePageAccent(theme, accentPage);
     groups.push({ category: t("ThemeCustomizer:pageAccents"), items: ["primary", "secondary", "tertiary"].map((role) => ({
-      id: `page_${role}`, label: `${t("ThemeCustomizer:pageAccents")} ${t(`ThemeCustomizer:${role}`)}`, value: { color: pa[role], shade: 500 },
+      id: `page_${role}`, label: `${t("ThemeCustomizer:pageAccents")} ${t(`ThemeCustomizer:${role}`)}`, value: { hex: pa[role] },
     }))});
 
     // Flatten: each category gets a header row then item rows
@@ -499,27 +493,27 @@ export default function ThemeCustomizer() {
       } else if (id === "brand_primary" || id === "brand_secondary") {
         const br = base.brand || resolveBrand(theme);
         const key = id === "brand_primary" ? "primary" : "secondary";
-        return { ...base, brand: { ...br, [key]: ref.color } };
+        return { ...base, brand: { ...br, [key]: ref.hex } };
       } else if (id.startsWith("section_")) {
         const parts = id.split("_");
         const section = parts[1];
         const key = parts[2];
         const sectionAccents = { ...(base.sectionAccents || theme.sectionAccents || {}) };
         const pair = sectionAccents[section] || resolveSectionAccent(theme, section);
-        sectionAccents[section] = { ...pair, [key]: ref.color };
+        sectionAccents[section] = { ...pair, [key]: ref.hex };
         return { ...base, sectionAccents };
       } else if (id.startsWith("status_")) {
-        const statusAccents = { ...(base.statusAccents || theme.statusAccents || {}), [id.slice(7)]: ref.color };
+        const statusAccents = { ...(base.statusAccents || theme.statusAccents || {}), [id.slice(7)]: ref.hex };
         return { ...base, statusAccents };
       } else if (id.startsWith("global_")) {
         const role = id.slice(7);
         const current = base.globalAccent || theme.globalAccent || resolvePageAccent(theme, accentPage);
-        return { ...base, globalAccent: { ...current, [role]: ref.color } };
+        return { ...base, globalAccent: { ...current, [role]: ref.hex } };
       } else if (id.startsWith("page_")) {
         const role = id.slice(5);
         const pageAccents = { ...(base.pageAccents || theme.pageAccents || {}) };
         const current = pageAccents[accentPage] || resolvePageAccent(theme, accentPage);
-        pageAccents[accentPage] = { ...current, [role]: ref.color };
+        pageAccents[accentPage] = { ...current, [role]: ref.hex };
         return { ...base, pageAccents };
       }
       return prev;
@@ -825,7 +819,7 @@ export default function ThemeCustomizer() {
               {selectedItem ? (
                 <>
                   <div className="px-4 py-3 border-b border-border/60 bg-muted/30 flex items-center gap-2 rounded-t-lg">
-                    <span className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: paletteHex(selectedItem.value.color, selectedItem.value.shade) }} />
+                    <span className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: selectedItem.value?.hex || "#808080" }} />
                     <span className="text-sm font-medium">{selectedItem.label}</span>
                     <span className="text-[10px] text-muted-foreground ml-auto">{selectedItem.category}</span>
                   </div>

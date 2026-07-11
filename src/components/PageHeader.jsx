@@ -65,6 +65,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { useStore } from "@nanostores/react";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import CurrentUser from "./common/CurrentUser.jsx";
 import WaveBackground from "./WaveBackground.jsx";
@@ -77,7 +78,7 @@ import {
   resolveBrand,
   resolveSectionAccent,
 } from "@/stores/customTheme.ts";
-import { getNavAccentClasses, brandBackdrop } from "@/lib/accentClasses.js";
+import { getNavAccentStyles, brandBackdropStyles } from "@/lib/accentStyles.js";
 
 const ICONS = {
   dex: LineChart,
@@ -148,17 +149,13 @@ function NavPanel({ section, accent, t }) {
     >
       <span
         aria-hidden="true"
-        className={cn(
-          "pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r",
-          accent.bar
-        )}
+        className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r"
+        style={accent.bar}
       />
       <div className="px-4 pt-4 pb-3 flex items-center gap-2 border-b dark:border-white/5 border-border/50">
         <span
-          className={cn(
-            "inline-flex h-6 w-6 items-center justify-center rounded-md border",
-            accent.chip
-          )}
+          className="inline-flex h-6 w-6 items-center justify-center rounded-md border"
+          style={accent.chip}
         >
           <SectionIcon className="h-3.5 w-3.5" />
         </span>
@@ -180,17 +177,15 @@ function NavPanel({ section, accent, t }) {
                   "dark:bg-white/[0.02] dark:hover:bg-white/[0.06] hover:bg-accent/50",
                   "transition-all duration-150 ease-out",
                   "focus-visible:outline-none focus-visible:ring-2 dark:focus-visible:ring-white/30 focus-visible:ring-ring",
-                  itemAccent.border,
                   isCurrent && "dark:bg-white/[0.08] dark:border-white/15 bg-accent border-border"
                 )}
+                style={itemAccent.border}
               >
                 <span
-                  className={cn(
-                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border dark:border-white/10 border-border",
-                    itemAccent.bg
-                  )}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border dark:border-white/10 border-border"
+                  style={itemAccent.bg}
                 >
-                  <Icon className={cn("h-4 w-4", itemAccent.color)} />
+                  <Icon className={cn("h-4 w-4")} style={itemAccent.color} />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center gap-1.5">
@@ -255,6 +250,8 @@ export default function PageHeader(properties) {
   );
 
   useStore($customTheme);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const activeTheme = getThemeForPage(page || "index");
   const brand = resolveBrand(activeTheme);
 
@@ -399,10 +396,8 @@ export default function PageHeader(properties) {
     <div key={`header`}>
       <div className="mb-3 relative min-h-[195px]">
         <div
-          className={cn(
-            "absolute inset-0 overflow-hidden rounded-lg border border-border dark:border-white/[0.06] bg-gradient-to-br",
-            brandBackdrop(brand.primary, brand.secondary)
-          )}
+          className="absolute inset-0 overflow-hidden rounded-lg border border-border dark:border-white/[0.06] bg-gradient-to-br"
+          style={brandBackdropStyles(brand.primary, brand.secondary)}
         >
           <WaveBackground />
         </div>
@@ -480,7 +475,7 @@ export default function PageHeader(properties) {
         >
           {NAV_SECTIONS.map((section) => {
             const SectionIcon = section.icon;
-            const accent = getNavAccentClasses(resolveSectionAccent(activeTheme, section.id).primary);
+            const accent = getNavAccentStyles(resolveSectionAccent(activeTheme, section.id).primary, isDark);
             const active = isActiveSection(section);
             return (
               <HoverPopover key={section.id} section={section} accent={accent} t={t}>
@@ -511,11 +506,8 @@ export default function PageHeader(properties) {
                   {active && (
                     <span
                       aria-hidden="true"
-                      className={cn(
-                        "pointer-events-none absolute left-1/2 -bottom-[6px] -translate-x-1/2 h-1.5 w-1.5 rounded-full",
-                        "shadow-[0_0_10px_2px_currentColor]",
-                        accent.dot
-                      )}
+                      className="pointer-events-none absolute left-1/2 -bottom-[6px] -translate-x-1/2 h-1.5 w-1.5 rounded-full shadow-[0_0_10px_2px_currentColor]"
+                      style={accent.dot}
                     />
                   )}
                 </button>

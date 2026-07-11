@@ -58,7 +58,7 @@ function StepIndicator({ currentStep, totalSteps, accentColor, step1Label, step2
                 currentStep === step.key
                   ? "text-white shadow-lg"
                   : currentStep > step.key
-                  ? "text-white"
+                  ? "text-foreground"
                   : "bg-accent/60 text-muted-foreground border border-border/80"
               )}
               style={

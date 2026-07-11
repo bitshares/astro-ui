@@ -633,7 +633,7 @@ export default function LimitOrderWizard(properties) {
         <Button
           variant="outline"
           size="sm"
-          className="h-10 gap-1.5 rounded-xl border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)] transition-all text-xs font-semibold"
+          className="h-10 gap-1.5 rounded-xl border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)] transition-all text-xs font-semibold"
         >
           <Plus className="h-4 w-4" />
           {t("LimitOrderWizard:addOperation", "Add operation")}

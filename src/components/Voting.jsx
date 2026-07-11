@@ -866,19 +866,19 @@ export default function Witnesses(properties) {
           />
           <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
             <Button
-              className={selectedVoteType === "witnesses" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
+              className={selectedVoteType === "witnesses" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
               onClick={() => setSelectedVoteType("witnesses")}
             >
               {t("Voting:tabs.witnesses")}
             </Button>
             <Button
-              className={selectedVoteType === "committee" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
+              className={selectedVoteType === "committee" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
               onClick={() => setSelectedVoteType("committee")}
             >
               {t("Voting:tabs.committee")}
             </Button>
             <Button
-              className={selectedVoteType === "workers" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
+              className={selectedVoteType === "workers" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
               onClick={() => setSelectedVoteType("workers")}
             >
               {t("Voting:tabs.workers")}
@@ -1025,7 +1025,7 @@ export default function Witnesses(properties) {
           ) : null}
         </CardContent>
         <CardFooter>
-          <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer" onClick={() => setShowDialog(true)} disabled={!checkedVotes}>
+          <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer" onClick={() => setShowDialog(true)} disabled={!checkedVotes}>
             {t("Voting:submit")}
           </Button>
         </CardFooter>
@@ -1045,7 +1045,7 @@ export default function Witnesses(properties) {
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.2)] hover:from-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-3))] hover:shadow-[color:hsl(var(--accent-2)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
+            <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.2)] hover:from-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-3))] hover:shadow-[color:hsl(var(--accent-2)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
               <a href="/create_ticket/index.html">
                 {t("Voting:ticket.createButton")}
               </a>

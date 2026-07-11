@@ -295,7 +295,7 @@ export default function CreateTicket() {
                   size="md"
                   className={
                     lockType === "lock_180_days"
-                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
                       : "text-muted-foreground border-border hover:bg-accent/50"
                   }
                 >
@@ -307,7 +307,7 @@ export default function CreateTicket() {
                   size="md"
                   className={
                     lockType === "lock_360_days"
-                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
                       : "text-muted-foreground border-border hover:bg-accent/50"
                   }
                 >
@@ -319,7 +319,7 @@ export default function CreateTicket() {
                   size="md"
                   className={
                     lockType === "lock_720_days"
-                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
                       : "text-muted-foreground border-border hover:bg-accent/50"
                   }
                 >
@@ -389,7 +389,7 @@ export default function CreateTicket() {
               </Alert>
 
               <Button
-                className="h-8 mt-4 bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-white shadow-md shadow-[color:hsl(var(--accent-2)/0.3)] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-8 mt-4 bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.3)] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={!amount || parseFloat(amount) <= 0}
                 onClick={() => setShowDialog(true)}
               >
