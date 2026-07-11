@@ -211,11 +211,16 @@ export function buildThemeVars(theme) {
     const tintS = Math.min(24, Math.round((seedHsl.s || 0) * 0.35)) || 12;
     const surface = (l) => tinycolor({ h: seedHsl.h, s: tintS, l }).toHexString();
 
+    // Dark-mode surfaces: low lightness with a subtle seed-hue tint.
+    // Unlike light-mode surfaces (which start near-white and subtract),
+    // dark surfaces need to be natively dark for proper contrast.
+    const darkSurface = (l) => tinycolor({ h: seedHsl.h, s: tintS, l }).toHexString();
+
     // Raw background hexes (mode-independent) for the accent-var builder. Declared
     // in this outer scope so the returned object can expose them (previously they
     // lived inside `build` and triggered a ReferenceError on access).
     const bgLightHex = surface(96);
-    const bgDarkHex = darkenHex(bgLightHex, 45);
+    const bgDarkHex = darkSurface(14);
 
     const build = (mode) => {
     const dark = mode === "dark";
@@ -236,21 +241,21 @@ export function buildThemeVars(theme) {
     };
 
     const cardHex = surface(98);
-    const cardDarkHex = darkenHex(cardHex, 38);
+    const cardDarkHex = darkSurface(10);
     const secondaryHex = surface(93);
-    const secondaryDarkHex = darkenHex(secondaryHex, 35);
+    const secondaryDarkHex = darkSurface(8);
     const mutedHex = surface(93);
-    const mutedDarkHex = darkenHex(mutedHex, 35);
+    const mutedDarkHex = darkSurface(8);
     const primaryHex = seedHex;
     const primaryDarkHex = lightenHex(primaryHex, 8);
     const accentHex = lightenHex(seedHex, 30);
     const accentDarkHex = lightenHex(accentHex, 5);
     const borderHex = surface(85);
-    const borderDarkHex = darkenHex(borderHex, 20);
+    const borderDarkHex = darkSurface(20);
     const ringHex = primaryHex;
     const ringDarkHex = primaryDarkHex;
     const sidebarHex = surface(96);
-    const sidebarDarkHex = darkenHex(sidebarHex, 45);
+    const sidebarDarkHex = darkSurface(14);
     const sidebarAccentHex = lightenHex(seedHex, 30);
     const sidebarAccentDarkHex = lightenHex(sidebarAccentHex, 5);
 
