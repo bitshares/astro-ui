@@ -423,8 +423,10 @@
         "subtitle": "Return to the main dashboard"
     },
     "airdrop_calculate": {
-        "title": "Calculate airdrop",
-        "subtitle": "Algorithmically generate recipients from a candidate pool.",
-        "hover1": "Pick winners by LTM status, asset holdings or a deterministic block-signature lottery."
+        "title": "Airdrop",
+        "subtitle": "Distribute an asset to many accounts via algorithmic selection or a manual list.",
+        "hover1": "Build a candidate pool from manual input, ticket locks, call-order collateral, top asset holders, limit-order activity, or lifetime member upgrades.",
+        "hover2": "Run one or more deterministic algorithms — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — seeded from a block witness signature.",
+        "hover3": "Review the winning accounts, configure distribution (equal split, fixed amount, or custom), then broadcast each batch through your Beet wallet."
     }
 }

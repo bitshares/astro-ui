@@ -425,9 +425,11 @@
     "subtitle": "Trasmetti i batch di trasferimento preparati alla chain.",
     "hover1": "Ogni batch viene firmato e trasmesso come transazione singola tramite il tuo wallet collegato."
   },
-  "airdrop_calculate": {
-    "title": "Calcola airdrop",
-    "subtitle": "Genera destinatari algoritmicamente a partire da un pool di candidati.",
-    "hover1": "Scegli i vincitori in base allo stato LTM, alle partecipazioni in asset o a una lotteria deterministica basata sulla firma di blocco."
-  }
+"airdrop_calculate": {
+  "title": "Airdrop",
+  "subtitle": "Distribuisci un asset a molti account tramite selezione algoritmica o elenco manuale.",
+  "hover1": "Crea un pool di candidati da input manuale, blocchi ticket, garanzia ordini chiamata, detentori principali di asset, attività ordini limitati o aggiornamenti membri a vita.",
+  "hover2": "Esegui uno o più algoritmi deterministici — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — seedati dalla firma di un testimone di blocco.",
+  "hover3": "Rivedi gli account vincenti, configura la distribuzione (divisione equa, importo fisso o personalizzato), poi trasmetti ogni lotto tramite il tuo wallet Beet."
+}
 }

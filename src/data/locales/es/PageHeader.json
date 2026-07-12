@@ -109,7 +109,7 @@
     "airdrop": "Gestione y reanude sus planes de airdrop guardados.",
     "airdrop_create": "Configure destinatarios, activo y distribución para una nueva airdrop.",
     "airdrop_perform": "Transmita cada lote de su airdrop a través de su billetera Beet.",
-    "airdrop_calculate": "Genere una lista de destinatarios algorítmicamente a partir de criterios on-chain y firmas de bloque."
+    "airdrop_calculate": "Distribuya un activo a muchas cuentas mediante selección algorítmica o una lista manual, y luego transmita lotes a través de su billetera Beet."
   },
   "back": "Regresa",
   "usage": "Diseñado para usar con ",

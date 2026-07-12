@@ -109,7 +109,7 @@
     "airdrop": "Administrer og genoptag dine gemte airdrop-planer.",
     "airdrop_create": "Konfigurer modtagere, aktiv og fordeling for en ny airdrop.",
     "airdrop_perform": "Broadcast hver batch af din airdrop via din Beet-tegnebog.",
-    "airdrop_calculate": "Generer en modtagerliste algoritmisk ud fra on-chain-kriterier og bloksignaturer."
+    "airdrop_calculate": "Distribuer en aktiv til mange konti via algoritmisk udvælgelse eller en manuel liste, og send derefter batcher gennem din Beet-tegnebog."
   },
   "back": "Gå tilbage",
   "usage": "Designet til brug med ",

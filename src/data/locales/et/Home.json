@@ -425,9 +425,11 @@
     "subtitle": "Kanna valmis pandud ülekande-partiid ahelasse.",
     "hover1": "Iga partii allkirjastatakse ja kantakse üle ühe tehinguna sinu ühendatud rahakotiga."
   },
-  "airdrop_calculate": {
-    "title": "Arvuta airdrop",
-    "subtitle": "Genereeri saajad algoritmiliselt kandidaatide baasist.",
-    "hover1": "Vali võitjad LTM-staatuse, vara-eritisi või deterministliku ploki-allkirja loterii järgi."
-  }
+"airdrop_calculate": {
+  "title": "Airdrop",
+  "subtitle": "Jaota vara paljude kontode vahel algoritmilise valiku või käsitsi sisestatud nimekirja abil.",
+  "hover1": "Loo kandidaatide baas käsitsi sisestamisest, piletite lukustamisest, kõnekorralduse tagatisest, suurimate varade omanikest, limiitkorralduste aktiivsusest või eluaegse liikme uuendustest.",
+  "hover2": "Käivita üks või mitu deterministlikku algoritmi — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel_of_fish — mida seeditakse ploki tunnistaja allkirjast.",
+  "hover3": "Vaata üle võitnud kontod, seadista jaotust (võrdne jaotus, fikseeritud summa või kohandatud) ja edasta iga partii oma Beet rahakoti kaudu."
+}
 }

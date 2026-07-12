@@ -425,9 +425,11 @@
     "subtitle": "Difunda los lotes de transferencia preparados a la cadena.",
     "hover1": "Cada lote se firma y difunde como una única transacción a través de su wallet conectada."
   },
-  "airdrop_calculate": {
-    "title": "Calcular airdrop",
-    "subtitle": "Genere destinatarios algorítmicamente a partir de un grupo de candidatos.",
-    "hover1": "Elija ganadores según el estado LTM, las tenencias de activos o una lotería determinista de firma de bloque."
-  }
+"airdrop_calculate": {
+  "title": "Airdrop",
+  "subtitle": "Distribuya un activo a muchas cuentas mediante selección algorítmica o una lista manual.",
+  "hover1": "Construya un grupo de candidatos a partir de entrada manual, bloqueos de tickets, garantía de órdenes de llamada, poseedores principales de activos, actividad de órdenes limitadas o actualizaciones de miembros de por vida.",
+  "hover2": "Ejecute uno o más algoritmos deterministas — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — sembrados a partir de la firma de un testigo de bloque.",
+  "hover3": "Revise las cuentas ganadoras, configure la distribución (división igualitaria, monto fijo o personalizado) y luego transmita cada lote a través de su billetera Beet."
+}
 }

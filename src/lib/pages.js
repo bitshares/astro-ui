@@ -57,8 +57,5 @@ export const THEMABLE_PAGES = [
   { slug: "featured", label: "Featured" },
   { slug: "configure_visuals", label: "Configure Visuals" },
   { slug: "theme_customizer", label: "Theme Customization" },
-  { slug: "airdrop", label: "Airdrop" },
-  { slug: "airdrop_create", label: "Airdrop — Create" },
-  { slug: "airdrop_perform", label: "Airdrop — Perform" },
-  { slug: "airdrop_calculate", label: "Airdrop — Calculate" },
+  { slug: "airdrop_calculate", label: "Airdrop" },
 ];

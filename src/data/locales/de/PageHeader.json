@@ -109,7 +109,7 @@
     "airdrop": "Verwalten und setzen Sie Ihre gespeicherten Airdrop-Pläne fort.",
     "airdrop_create": "Konfigurieren Sie Empfänger, Asset und Verteilung für eine neue Airdrop.",
     "airdrop_perform": "Senden Sie jeden Batch Ihrer Airdrop über Ihre Beet-Wallet.",
-    "airdrop_calculate": "Erzeugen Sie eine Empfängerliste algorithmisch aus On-Chain-Kriterien und Block-Signaturen."
+    "airdrop_calculate": "Verteilen Sie ein Asset auf viele Konten durch algorithmische Auswahl oder eine manuelle Liste und senden Sie dann Batches über Ihr Beet-Wallet."
   },
   "back": "Geh zurück",
   "usage": "Konzipiert für den Einsatz mit ",

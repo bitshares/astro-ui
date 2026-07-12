@@ -109,7 +109,7 @@
     "airdrop": "Halda ja jätka oma salvestatud airdropi plaane.",
     "airdrop_create": "Seadista uue airdropi saajad, vara ja jaotus.",
     "airdrop_perform": "Saada oma airdropi iga partii oma Beet-lõa kaudu.",
-    "airdrop_calculate": "Genereeri saajate nimekiri algoritmiliselt on-chain kriteeriumide ja ploki-allkirjade põhjal."
+    "airdrop_calculate": "Jaota vara paljude kontode vahel algoritmilise valiku või käsitsi sisestatud nimekirja abil ja edasta seejärel partiid oma Beet rahakoti kaudu."
   },
   "back": "Mine tagasi",
   "usage": "Mõeldud kasutamiseks koos ",

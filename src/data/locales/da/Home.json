@@ -425,9 +425,11 @@
     "subtitle": "Send de forberedte overførsels-batches ud til kæden.",
     "hover1": "Hver batch signeres og sendes som en enkelt transaktion via din forbundne wallet."
   },
-  "airdrop_calculate": {
-    "title": "Beregn airdrop",
-    "subtitle": "Generer modtagere algoritmisk ud fra en kandidat-pool.",
-    "hover1": "Vælg vinderne ud fra LTM-status, aktivbeholdninger eller et deterministisk block-signatur-lotteri."
-  }
+"airdrop_calculate": {
+  "title": "Airdrop",
+  "subtitle": "Distribuer en aktiv til mange konti via algoritmisk udvælgelse eller en manuel liste.",
+  "hover1": "Byg en kandidatpool fra manuel input, ticket-låse, call-order-kollateral, top-aktivindehavere, limit-order-aktivitet eller lifetime-member-opgraderinger.",
+  "hover2": "Kør en eller flere deterministiske algoritmer — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — seedet fra en blokvidne-signatur.",
+  "hover3": "Gennemgå vindende konti, konfigurer distribution (lige deling, fast beløb eller brugerdefineret), og send derefter hver batch gennem din Beet-tegnebog."
+}
 }

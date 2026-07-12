@@ -149,6 +149,10 @@ export default function DeepLinkDialog(properties) {
     proposal = false,
     // When true, hides/disables the ability to create a proposal from this dialog
     disablePropose = false,
+    // When true, hides the QR code tab (useful for large transactions that exceed QR capacity)
+    disableQR = false,
+    // When true, hides the deeplink tab (useful when the deeplink URL exceeds the webview's character limit)
+    disableDeeplink = false,
   } = properties;
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
@@ -379,6 +383,7 @@ export default function DeepLinkDialog(properties) {
                 >
                   {t("DeepLinkDialog:tabs.viewTRXObject")}
                 </Button>
+                {!disableDeeplink ? (
                 <Button
                   className="col-span-1"
                   onClick={() => setActiveTab("deeplink")}
@@ -386,6 +391,7 @@ export default function DeepLinkDialog(properties) {
                 >
                   {t("DeepLinkDialog:tabs.rawDeeplink")}
                 </Button>
+                ) : null}
                 <Button
                   className="col-span-1"
                   onClick={() => setActiveTab("localJSON")}
@@ -393,6 +399,7 @@ export default function DeepLinkDialog(properties) {
                 >
                   {t("DeepLinkDialog:tabs.localJSONFile")}
                 </Button>
+                {!disableQR ? (
                 <Button
                   className="col-span-1"
                   onClick={() => setActiveTab("qr")}
@@ -400,6 +407,7 @@ export default function DeepLinkDialog(properties) {
                 >
                   {t("DeepLinkDialog:tabs.qrCode")}
                 </Button>
+                ) : null}
                 {!proposal && !disablePropose ? (
                   <Button
                     className="col-span-1"
@@ -441,7 +449,7 @@ export default function DeepLinkDialog(properties) {
                   </Button>
                 </>
               ) : null}
-              {activeTab === "deeplink" ? (
+              {activeTab === "deeplink" && !disableDeeplink ? (
                 <>
                   <Label className="text-left text-md font-bold">
                     {t("DeepLinkDialog:tabsContent.usingDeeplink")}
@@ -523,7 +531,7 @@ export default function DeepLinkDialog(properties) {
                   ) : null}
                 </>
               ) : null}
-              {activeTab === "qr" ? (
+              {activeTab === "qr" && !disableQR ? (
                 <>
                   <Label className="text-left text-md font-bold">
                     {t("DeepLinkDialog:tabs.qrCode")}

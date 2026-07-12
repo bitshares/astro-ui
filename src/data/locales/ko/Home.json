@@ -425,9 +425,11 @@
     "subtitle": "준비된 전송 배치를 체인에 브로드캐스트합니다.",
     "hover1": "각 배치는 연결된 지갑을 통해 단일 트랜잭션으로 서명 및 전송됩니다."
   },
-  "airdrop_calculate": {
-    "title": "Airdrop 계산",
-    "subtitle": "후보 풀에서 알고리즘으로 수신자를 생성합니다.",
-    "hover1": "LTM 상태, 자산 보유량 또는 결정적 블록 서명 추첨을 기준으로 당첨자를 선택합니다."
-  }
+"airdrop_calculate": {
+  "title": "Airdrop",
+  "subtitle": "알고리즘 선택 또는 수동 목록을 통해 여러 계정에 자산을 분배합니다.",
+  "hover1": "수동 입력, 티켓 잠금, 콜 오더 담보, 상위 자산 보유자, 리밋 오더 활동 또는 평생 회원 업그레이드에서 후보 풀을 구축합니다.",
+  "hover2": "블록 witnesses 서명을 시드로 하는 결정적 알고리즘 — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — 을 하나 이상 실행합니다.",
+  "hover3": "당첨 계정을 검토하고, 분배를 구성(균등 분할, 고정 금액 또는 사용자 정의)한 다음 Beet 지갑을 통해 각 배치를 브로드캐스트합니다."
+}
 }

@@ -425,9 +425,11 @@
     "subtitle": "Senden Sie die vorbereiteten Transfer-Batches an die Chain.",
     "hover1": "Jeder Batch wird über Ihr verbundenes Wallet als einzelne Transaktion signiert und gesendet."
   },
-  "airdrop_calculate": {
-    "title": "Airdrop berechnen",
-    "subtitle": "Erzeugen Sie Empfänger algorithmisch aus einem Kandidaten-Pool.",
-    "hover1": "Wählen Sie Gewinner nach LTM-Status, Asset-Beständen oder einem deterministischen Block-Signatur-Lotterieverfahren aus."
-  }
+"airdrop_calculate": {
+  "title": "Airdrop",
+  "subtitle": "Verteilen Sie ein Asset auf viele Konten durch algorithmische Auswahl oder eine manuelle Liste.",
+  "hover1": "Erstellen Sie einen Kandidatenpool aus manueller Eingabe, Ticket-Sperren, Call-Order-Kollateral, Top-Asset-Inhabern, Limit-Order-Aktivität oder Lifetime-Member-Upgrades.",
+  "hover2": "Führen Sie einen oder mehrere deterministische Algorithmen aus — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — gesät von einer Block-Witness-Signatur.",
+  "hover3": "Überprüfen Sie die Gewinnerkonten, konfigurieren Sie die Verteilung (gleiche Aufteilung, fester Betrag oder benutzerdefiniert) und senden Sie dann jeden Batch über Ihr Beet-Wallet."
+}
 }

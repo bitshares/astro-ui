@@ -425,9 +425,11 @@
     "subtitle": "Diffusez les lots de transfert préparés vers la chaîne.",
     "hover1": "Chaque lot est signé et diffusé en tant que transaction unique via votre portefeuille connecté."
   },
-  "airdrop_calculate": {
-    "title": "Calculer l'airdrop",
-    "subtitle": "Générez des destinataires algorithmiquement à partir d'un pool de candidats.",
-    "hover1": "Choisissez les gagnants selon le statut LTM, les avoirs en actifs ou une loterie déterministe basée sur la signature de bloc."
-  }
+"airdrop_calculate": {
+  "title": "Airdrop",
+  "subtitle": "Distribuez un actif à de nombreux comptes par sélection algorithmique ou liste manuelle.",
+  "hover1": "Constituez un pool de candidats à partir d'une saisie manuelle, de verrous de tickets, de garanties d'ordres d'appel, de détenteurs majeurs d'actifs, d'activité d'ordres limités ou de mises à niveau de membres à vie.",
+  "hover2": "Exécutez un ou plusieurs algorithmes déterministes — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — initialisés à partir d'un signature de témoin de bloc.",
+  "hover3": "Examinez les comptes gagnants, configurez la distribution (partage égal, montant fixe ou personnalisé), puis diffusez chaque lot via votre portefeuille Beet."
+}
 }

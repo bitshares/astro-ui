@@ -109,7 +109,7 @@
     "airdrop": "Gerencie e retome seus planos de airdrop salvos.",
     "airdrop_create": "Configure destinatários, ativo e distribuição para uma nova airdrop.",
     "airdrop_perform": "Transmita cada lote da sua airdrop através da sua carteira Beet.",
-    "airdrop_calculate": "Gere uma lista de destinatários algoritmicamente a partir de critérios on-chain e assinaturas de bloco."
+    "airdrop_calculate": "Distribua um ativo para muitas contas via seleção algorítmica ou lista manual, depois transmita lotes através da sua carteira Beet."
   },
   "back": "Volte",
   "usage": "Projetado para uso com ",

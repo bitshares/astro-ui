@@ -109,7 +109,7 @@
         "create_invoice": "Create an invoice by selecting inventory items, setting quantities and generating an identifier memo for payment.",
         "pay_invoice": "Process and handle payment for invoice codes sent to you by sellers on the Bitshares blockchain.",
         "blocked-users": "View and manage your committee and personal blocklists.",
-        "airdrop_calculate": "Generate a recipient list algorithmically from on-chain criteria and block signatures."
+        "airdrop_calculate": "Distribute an asset to many accounts via algorithmic selection or a manual list, then broadcast batches through your Beet wallet."
     },
     "back": "Go back",
     "usage": "Designed for use with ",
