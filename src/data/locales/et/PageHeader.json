@@ -105,7 +105,11 @@
     "governance": "Kasutage allolevat vormi kas tunnistaja või komitee liikme rolli loomiseks/uuendamiseks.",
     "favourites": "Halda ja vaadake oma lemmikvarasid ja kontosid.",
     "blocked-users": "Vaadake ja halduge oma komitee ja isiklikke blokeerimisnimekirju.",
-    "theme_customizer": "Loo ja muuda teemasid, et värvida iga leht, selle pesastatud komponendid ja navigeerimisrõhud."
+    "theme_customizer": "Loo ja muuda teemasid, et värvida iga leht, selle pesastatud komponendid ja navigeerimisrõhud.",
+    "airdrop": "Halda ja jätka oma salvestatud airdropi plaane.",
+    "airdrop_create": "Seadista uue airdropi saajad, vara ja jaotus.",
+    "airdrop_perform": "Saada oma airdropi iga partii oma Beet-lõa kaudu.",
+    "airdrop_calculate": "Genereeri saajate nimekiri algoritmiliselt on-chain kriteeriumide ja ploki-allkirjade põhjal."
   },
   "back": "Mine tagasi",
   "usage": "Mõeldud kasutamiseks koos ",
@@ -113,5 +117,6 @@
   "tfund_user": "Same-T Fund Trade",
   "createAccount": "Loo konto",
   "transferFundsHeading": "Raha ülekandmine",
-  "exchangeFundsHeading": "Vaheta vahendeid"
+  "exchangeFundsHeading": "Vaheta vahendeid",
+  "airdropHeading": "Airdrop"
 }

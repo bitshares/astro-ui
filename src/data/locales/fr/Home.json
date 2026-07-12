@@ -409,5 +409,25 @@
     "title": "Thèmes par page",
     "subtitle": "Attribuer des thèmes spécifiques à des pages individuelles",
     "hover1": "Remplacez le thème actif pour n'importe quelle page de l'application."
+  },
+  "airdrop": {
+    "title": "Airdrop",
+    "subtitle": "Distribuez en masse un actif à de nombreux comptes en une seule fois.",
+    "hover1": "Divisez une grande liste de destinataires en transactions dimensionnées pour respecter la taille de transaction maximale de la chaîne."
+  },
+  "airdrop_create": {
+    "title": "Créer un airdrop",
+    "subtitle": "Créez une liste de destinataires et configurez la distribution de l'actif.",
+    "hover1": "Importez un CSV/JSON d'identifiants de compte 1.2.x, choisissez un actif et la façon dont les montants sont alloués."
+  },
+  "airdrop_perform": {
+    "title": "Exécuter l'airdrop",
+    "subtitle": "Diffusez les lots de transfert préparés vers la chaîne.",
+    "hover1": "Chaque lot est signé et diffusé en tant que transaction unique via votre portefeuille connecté."
+  },
+  "airdrop_calculate": {
+    "title": "Calculer l'airdrop",
+    "subtitle": "Générez des destinataires algorithmiquement à partir d'un pool de candidats.",
+    "hover1": "Choisissez les gagnants selon le statut LTM, les avoirs en actifs ou une loterie déterministe basée sur la signature de bloc."
   }
 }

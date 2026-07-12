@@ -409,5 +409,25 @@
     "title": "Temas por página",
     "subtitle": "Atribuir temas específicos a páginas individuais",
     "hover1": "Substitua o tema ativo para qualquer página do aplicativo."
+  },
+  "airdrop": {
+    "title": "Airdrop",
+    "subtitle": "Distribua um ativo em massa para muitas contas de uma só vez.",
+    "hover1": "Divida uma grande lista de destinatários em transações dimensionadas para caber no tamanho máximo de transação da chain."
+  },
+  "airdrop_create": {
+    "title": "Criar airdrop",
+    "subtitle": "Crie uma lista de destinatários e configure a distribuição do ativo.",
+    "hover1": "Envie um CSV/JSON de IDs de conta 1.2.x, escolha um ativo e como os valores são alocados."
+  },
+  "airdrop_perform": {
+    "title": "Executar airdrop",
+    "subtitle": "Transmita os lotes de transferência preparados para a chain.",
+    "hover1": "Cada lote é assinado e transmitido como uma única transação através da sua carteira conectada."
+  },
+  "airdrop_calculate": {
+    "title": "Calcular airdrop",
+    "subtitle": "Gere destinatários algoritmicamente a partir de um pool de candidatos.",
+    "hover1": "Escolha os vencedores por status LTM, saldos de ativos ou uma loteria determinística de assinatura de bloco."
   }
 }

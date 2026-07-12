@@ -105,7 +105,11 @@
     "governance": "Nutzen Sie das folgende Formular, um entweder eine Zeugen- oder eine Komiteemitgliedsrolle zu erstellen/aktualisieren.",
     "favourites": "Verwalten und zeigen Sie Ihre Lieblingsassets und Konten an.",
     "blocked-users": "Sehen und verwalten Sie Ihre Komitee- und persönlichen Blocklisten.",
-    "theme_customizer": "Erstelle und bearbeite Designs, um jede Seite, ihre verschachtelten Komponenten und Navigationsakzente neu einzufärben."
+    "theme_customizer": "Erstelle und bearbeite Designs, um jede Seite, ihre verschachtelten Komponenten und Navigationsakzente neu einzufärben.",
+    "airdrop": "Verwalten und setzen Sie Ihre gespeicherten Airdrop-Pläne fort.",
+    "airdrop_create": "Konfigurieren Sie Empfänger, Asset und Verteilung für eine neue Airdrop.",
+    "airdrop_perform": "Senden Sie jeden Batch Ihrer Airdrop über Ihre Beet-Wallet.",
+    "airdrop_calculate": "Erzeugen Sie eine Empfängerliste algorithmisch aus On-Chain-Kriterien und Block-Signaturen."
   },
   "back": "Geh zurück",
   "usage": "Konzipiert für den Einsatz mit ",
@@ -113,5 +117,6 @@
   "tfund_user": "Same-T Fund Trade",
   "createAccount": "Konto erstellen",
   "transferFundsHeading": "Geld überweisen",
-  "exchangeFundsHeading": "Geld tauschen"
+  "exchangeFundsHeading": "Geld tauschen",
+  "airdropHeading": "Airdrop"
 }

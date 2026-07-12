@@ -409,5 +409,25 @@
     "title": "Lehepõhised teemad",
     "subtitle": "Määrake kindlad teemad üksikutele lehtedele",
     "hover1": "Kirjutage aktiivne teema üle mis tahes lehel rakenduses."
+  },
+  "airdrop": {
+    "title": "Airdrop",
+    "subtitle": "Jaota vara hulgiväliselt paljudele kontodele korraga.",
+    "hover1": "Jaga suur saajate nimekiri tehinguteks, mis on mõõtmetega, et mahtuda ahela maksimaalse tehingu suurusesse."
+  },
+  "airdrop_create": {
+    "title": "Loo airdrop",
+    "subtitle": "Koosta saajate nimekiri ja seadista vara jaotus.",
+    "hover1": "Lae üles 1.2.x konto-ID-de CSV/JSON, vali vara ja see, kuidas summasid jaotatakse."
+  },
+  "airdrop_perform": {
+    "title": "Käivita airdrop",
+    "subtitle": "Kanna valmis pandud ülekande-partiid ahelasse.",
+    "hover1": "Iga partii allkirjastatakse ja kantakse üle ühe tehinguna sinu ühendatud rahakotiga."
+  },
+  "airdrop_calculate": {
+    "title": "Arvuta airdrop",
+    "subtitle": "Genereeri saajad algoritmiliselt kandidaatide baasist.",
+    "hover1": "Vali võitjad LTM-staatuse, vara-eritisi või deterministliku ploki-allkirja loterii järgi."
   }
 }

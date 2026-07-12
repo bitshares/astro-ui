@@ -279,6 +279,10 @@ export default function PageHeader(properties) {
         { slug: "withdraw_permissions", title: "Home:withdraw_permission.title", description: "Home:withdraw_permission.subtitle", href: "/withdraw_permissions/index.html" },
         { slug: "htlc", title: "Home:htlc.title", description: "Home:htlc.subtitle", href: "/htlc/index.html" },
         { slug: "create_vesting", title: "Home:create_vesting.title", description: "Home:create_vesting.subtitle", href: "/create_vesting/index.html" },
+        { slug: "airdrop", title: "Home:airdrop.title", description: "Home:airdrop.subtitle", href: "/airdrop/index.html" },
+        { slug: "airdrop_create", title: "Home:airdrop_create.title", description: "Home:airdrop_create.subtitle", href: "/airdrop_create/index.html" },
+        { slug: "airdrop_calculate", title: "Home:airdrop_calculate.title", description: "Home:airdrop_calculate.subtitle", href: "/airdrop_calculate/index.html" },
+        { slug: "airdrop_perform", title: "Home:airdrop_perform.title", description: "Home:airdrop_perform.subtitle", href: "/airdrop_perform/index.html" },
       ],
     },
     {

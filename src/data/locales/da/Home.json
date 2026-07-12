@@ -409,5 +409,25 @@
     "title": "Sidespecifikke temaer",
     "subtitle": "Tildel specifikke temaer til individuelle sider",
     "hover1": "Tilsidesæt det aktuelle tema for enhver side i appen."
+  },
+  "airdrop": {
+    "title": "Airdrop",
+    "subtitle": "Fordel et aktiv massevis til mange konti på én gang.",
+    "hover1": "Opdel en stor modtagerliste i transaktioner, der er tilpasset kædens maksimale transaktionsstørrelse."
+  },
+  "airdrop_create": {
+    "title": "Opret airdrop",
+    "subtitle": "Opbyg en modtagerliste og konfigurer aktivfordelingen.",
+    "hover1": "Upload et CSV/JSON med 1.2.x-konto-id'er, vælg et aktiv og hvordan beløbene allokeres."
+  },
+  "airdrop_perform": {
+    "title": "Udfør airdrop",
+    "subtitle": "Send de forberedte overførsels-batches ud til kæden.",
+    "hover1": "Hver batch signeres og sendes som en enkelt transaktion via din forbundne wallet."
+  },
+  "airdrop_calculate": {
+    "title": "Beregn airdrop",
+    "subtitle": "Generer modtagere algoritmisk ud fra en kandidat-pool.",
+    "hover1": "Vælg vinderne ud fra LTM-status, aktivbeholdninger eller et deterministisk block-signatur-lotteri."
   }
 }

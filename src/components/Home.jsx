@@ -136,6 +136,9 @@ const ITEM_ICONS = {
   create_uia: Gem,
   create_smartcoin: Gem,
   create_liquidity_pool: Droplets,
+  airdrop: Send,
+  airdrop_create: Package,
+  airdrop_calculate: BarChart3,
 };
 
 // Section metadata (icon + i18n keys). All colors now come from the theme via
@@ -150,6 +153,7 @@ const SECTION_META = {
   governance: { icon: Vote, titleKey: "PageHeader:governanceHeading", subtitleKey: "Home:sections.governanceSubtitle" },
   invoicing: { icon: Receipt, titleKey: "PageHeader:invoicingHeading", subtitleKey: "Home:sections.invoicingSubtitle" },
   settings: { icon: Wrench, titleKey: "PageHeader:settingsHeading", subtitleKey: "Home:sections.settingsSubtitle" },
+  airdrop: { icon: Send, titleKey: "PageHeader:airdropHeading", subtitleKey: "Home:sections.airdropSubtitle" },
 };
 
 export default function Home(properties) {
@@ -219,6 +223,12 @@ export default function Home(properties) {
     { key: "withdraw_permissions", href: "/withdraw_permissions/index.html", titleKey: "Home:withdraw_permission.title", subtitleKey: "Home:withdraw_permission.subtitle", hoverKeys: ["Home:withdraw_permission.hover1", "Home:withdraw_permission.hover2"] },
     { key: "htlc", href: "/htlc/index.html", titleKey: "Home:htlc.title", subtitleKey: "Home:htlc.subtitle", hoverKeys: ["Home:htlc.hover1", "Home:htlc.hover2", "Home:htlc.hover3"] },
     { key: "create_vesting", href: "/create_vesting/index.html", titleKey: "Home:create_vesting.title", subtitleKey: "Home:create_vesting.subtitle", hoverKeys: ["Home:create_vesting.hover1", "Home:create_vesting.hover2", "Home:create_vesting.hover3", "Home:create_vesting.hover4"] },
+  ];
+
+  const airdropFunds = [
+    { key: "airdrop", href: "/airdrop/index.html", titleKey: "Home:airdrop.title", subtitleKey: "Home:airdrop.subtitle", hoverKeys: ["Home:airdrop.hover1"] },
+    { key: "airdrop_create", href: "/airdrop_create/index.html", titleKey: "Home:airdrop_create.title", subtitleKey: "Home:airdrop_create.subtitle", hoverKeys: ["Home:airdrop_create.hover1"] },
+    { key: "airdrop_calculate", href: "/airdrop_calculate/index.html", titleKey: "Home:airdrop_calculate.title", subtitleKey: "Home:airdrop_calculate.subtitle", hoverKeys: ["Home:airdrop_calculate.hover1"] },
   ];
 
   const formsOfDebt = [
@@ -414,6 +424,7 @@ export default function Home(properties) {
     <div className="container mx-auto mt-3 mb-5 px-3 sm:px-4">
       {renderSection(exchangingFunds, "exchanging")}
       {renderSection(transferFunds, "transfer")}
+      {renderSection(airdropFunds, "airdrop")}
       {renderSection(formsOfDebt, "debt")}
       {renderSection(assetCreation, "assetCreation")}
       {renderSection(accountOverviews, "account")}

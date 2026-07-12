@@ -105,7 +105,11 @@
     "governance": "以下のフォームを使用して証人または委員会メンバーの役割を作成/更新します。",
     "favourites": "お気に入りのアセットとアカウントを管理および表示します。",
     "blocked-users": "委員会および個人のブロックリストを表示および管理します。",
-    "theme_customizer": "すべてのページ、ネストされたコンポーネント、ナビゲーションのアクセントを再配色するテーマを作成・編集します。"
+    "theme_customizer": "すべてのページ、ネストされたコンポーネント、ナビゲーションのアクセントを再配色するテーマを作成・編集します。",
+    "airdrop": "保存したエアドロッププランを管理・再開します。",
+    "airdrop_create": "新しいエアドロップの受信者・アセット・配布を設定します。",
+    "airdrop_perform": "Beetウォレットを通じてエアドロップの各バッチを送信します。",
+    "airdrop_calculate": "オンチェーンの条件とブロック署名に基づき、アルゴリズムで受信者リストを生成します。"
   },
   "back": "戻る",
   "usage": "で使用するように設計されています ",
@@ -113,5 +117,6 @@
   "tfund_user": "Same-T ファンド取引",
   "createAccount": "アカウントの作成",
   "transferFundsHeading": "資金の移動",
-  "exchangeFundsHeading": "資金を交換"
+  "exchangeFundsHeading": "資金を交換",
+  "airdropHeading": "Airdrop"
 }

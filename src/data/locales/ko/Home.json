@@ -409,5 +409,25 @@
     "title": "페이지별 테마",
     "subtitle": "개별 페이지에 특정 테마를 할당",
     "hover1": "앱의 모든 페이지에서 활성 테마를 재정의합니다."
+  },
+  "airdrop": {
+    "title": "Airdrop",
+    "subtitle": "한 번에 여러 계정에 자산을 대량 배포합니다.",
+    "hover1": "큰 수신자 목록을 체인의 최대 트랜잭션 크기에 맞게 트랜잭션으로 분할합니다."
+  },
+  "airdrop_create": {
+    "title": "Airdrop 만들기",
+    "subtitle": "수신자 목록을 만들고 자산 분배를 구성합니다.",
+    "hover1": "1.2.x 계정 ID의 CSV/JSON을 업로드하고, 자산과 수량 할당 방식을 선택합니다."
+  },
+  "airdrop_perform": {
+    "title": "Airdrop 실행",
+    "subtitle": "준비된 전송 배치를 체인에 브로드캐스트합니다.",
+    "hover1": "각 배치는 연결된 지갑을 통해 단일 트랜잭션으로 서명 및 전송됩니다."
+  },
+  "airdrop_calculate": {
+    "title": "Airdrop 계산",
+    "subtitle": "후보 풀에서 알고리즘으로 수신자를 생성합니다.",
+    "hover1": "LTM 상태, 자산 보유량 또는 결정적 블록 서명 추첨을 기준으로 당첨자를 선택합니다."
   }
 }

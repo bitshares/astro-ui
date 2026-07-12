@@ -105,7 +105,11 @@
     "governance": "Brug formularen nedenfor til at oprette/opdatere enten en vidne- eller komitémedlemsrolle.",
     "favourites": "Administrer og se dine favorit-aktiver og konti.",
     "blocked-users": "Se og administrer dine komité- og personlige blokeringslister.",
-    "theme_customizer": "Opret og rediger temaer for at farvelægge hver side, dens indlejrede komponenter og navigationsaccenter."
+    "theme_customizer": "Opret og rediger temaer for at farvelægge hver side, dens indlejrede komponenter og navigationsaccenter.",
+    "airdrop": "Administrer og genoptag dine gemte airdrop-planer.",
+    "airdrop_create": "Konfigurer modtagere, aktiv og fordeling for en ny airdrop.",
+    "airdrop_perform": "Broadcast hver batch af din airdrop via din Beet-tegnebog.",
+    "airdrop_calculate": "Generer en modtagerliste algoritmisk ud fra on-chain-kriterier og bloksignaturer."
   },
   "back": "Gå tilbage",
   "usage": "Designet til brug med ",
@@ -113,5 +117,6 @@
   "tfund_user": "Same-T Fund Trade",
   "createAccount": "Opret konto",
   "transferFundsHeading": "Overfør midler",
-  "exchangeFundsHeading": "Veksl penge"
+  "exchangeFundsHeading": "Veksl penge",
+  "airdropHeading": "Airdrop"
 }

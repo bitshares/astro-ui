@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+
+import Layout from '../../layouts/Layout.astro';
+import AirdropCreate from '../../components/airdrop/AirdropCreate.jsx';
+import PageHeader from '../../components/PageHeader';
+import PageFooter from '../../components/PageFooter';
+
+const btsAllAssets = await getCollection('btsAllAssets');
+const testAllAssets = await getCollection('testAllAssets');
+
+const btsMarketData = await getCollection('btsMarketData');
+const testMarketData = await getCollection('testMarketData');
+
+const btsFeeSchedule = await getCollection('btsFeeSchedule');
+const testFeeSchedule = await getCollection('testFeeSchedule');
+
+const btsAssets = btsAllAssets.map((collection) => collection.data);
+const testAssets = testAllAssets.map((collection) => collection.data);
+const btsMarkets = btsMarketData.map((collection) => collection.data);
+const testMarkets = testMarketData.map((collection) => collection.data);
+const btsFeeScheduleList = btsFeeSchedule.map((collection) => collection.data);
+const testFeeScheduleList = testFeeSchedule.map((collection) => collection.data);
+---
+
+<Layout title="Create airdrop">
+	<main>
+		<PageHeader client:only="react" page="airdrop_create" backURL="../index.html" />
+		<AirdropCreate
+			client:only="react"
+			_assetsBTS={btsAssets}
+			_assetsTEST={testAssets}
+			_marketSearchBTS={btsMarkets}
+			_marketSearchTEST={testMarkets}
+			_globalParamsBTS={btsFeeScheduleList}
+			_globalParamsTEST={testFeeScheduleList}
+		/>
+		<PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/airdrop_create/index.astro" />
+	</main>
+</Layout>

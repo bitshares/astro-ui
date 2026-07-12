@@ -105,7 +105,11 @@
     "governance": "Utilisez le formulaire ci-dessous pour créer/mettre à jour un rôle de témoin ou de membre du comité.",
     "favourites": "Gérez et consultez vos actifs et comptes favoris.",
     "blocked-users": "Consultez et gérez vos listes de blocage du comité et personnelles.",
-    "theme_customizer": "Créez et modifiez des thèmes pour recolorer chaque page, ses composants imbriqués et les accents de navigation."
+    "theme_customizer": "Créez et modifiez des thèmes pour recolorer chaque page, ses composants imbriqués et les accents de navigation.",
+    "airdrop": "Gérez et reprenez vos plans d'airdrop enregistrés.",
+    "airdrop_create": "Configurez les destinataires, l'actif et la distribution pour une nouvelle airdrop.",
+    "airdrop_perform": "Diffusez chaque lot de votre airdrop via votre portefeuille Beet.",
+    "airdrop_calculate": "Générez une liste de destinataires algorithmiquement à partir de critères on-chain et de signatures de bloc."
   },
   "back": "Retourner",
   "usage": "Conçu pour être utilisé avec ",
@@ -113,5 +117,6 @@
   "tfund_user": "Échange de fonds Same-T",
   "createAccount": "Créer un compte",
   "transferFundsHeading": "Transférer des fonds",
-  "exchangeFundsHeading": "Échanger des fonds"
+  "exchangeFundsHeading": "Échanger des fonds",
+  "airdropHeading": "Airdrop"
 }

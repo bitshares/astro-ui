@@ -409,5 +409,25 @@
     "title": "Seitenspezifische Themen",
     "subtitle": "Bestimmte Themes für individuelle Seiten zuweisen",
     "hover1": "Überschreiben Sie das aktive Theme für jede Seite in der App."
+  },
+  "airdrop": {
+    "title": "Airdrop",
+    "subtitle": "Verteilen Sie einen Asset massenhaft an viele Konten auf einmal.",
+    "hover1": "Teilen Sie eine große Empfängerliste in Transaktionen auf, die in die maximal zulässige Transaktionsgröße der Chain passen."
+  },
+  "airdrop_create": {
+    "title": "Airdrop erstellen",
+    "subtitle": "Erstellen Sie eine Empfängerliste und konfigurieren Sie die Asset-Verteilung.",
+    "hover1": "Laden Sie eine CSV/JSON-Datei mit 1.2.x-Konto-IDs hoch, wählen Sie einen Asset und legen Sie fest, wie die Beträge zugewiesen werden."
+  },
+  "airdrop_perform": {
+    "title": "Airdrop ausführen",
+    "subtitle": "Senden Sie die vorbereiteten Transfer-Batches an die Chain.",
+    "hover1": "Jeder Batch wird über Ihr verbundenes Wallet als einzelne Transaktion signiert und gesendet."
+  },
+  "airdrop_calculate": {
+    "title": "Airdrop berechnen",
+    "subtitle": "Erzeugen Sie Empfänger algorithmisch aus einem Kandidaten-Pool.",
+    "hover1": "Wählen Sie Gewinner nach LTM-Status, Asset-Beständen oder einem deterministischen Block-Signatur-Lotterieverfahren aus."
   }
 }

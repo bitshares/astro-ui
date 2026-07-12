@@ -30,6 +30,7 @@ const allowedDomains = [
   "https://react.dev/",
   "https://github.com/",
   "https://astro.build/",
+  "https://blocksights.info/",
   "https://www.pinata.cloud/",
   "https://nft.storage/",
   "https://web3.storage/",

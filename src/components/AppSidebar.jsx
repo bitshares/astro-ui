@@ -149,6 +149,9 @@ const ITEM_ICONS = {
   create_uia: Gem,
   create_smartcoin: Gem,
   create_liquidity_pool: Droplets,
+  airdrop: Send,
+  airdrop_create: Package,
+  airdrop_calculate: BarChart3,
 };
 
 export default function AppSidebar() {
@@ -173,6 +176,9 @@ export default function AppSidebar() {
       href: "/withdraw_permissions/index.html",
     },
     { slug: "create_vesting", title: "Home:create_vesting.title", href: "/create_vesting/index.html" },
+    { slug: "airdrop", title: "Home:airdrop.title", href: "/airdrop/index.html" },
+    { slug: "airdrop_create", title: "Home:airdrop_create.title", href: "/airdrop_create/index.html" },
+    { slug: "airdrop_calculate", title: "Home:airdrop_calculate.title", href: "/airdrop_calculate/index.html" },
   ];
 
   const formsOfDebtHeading = [

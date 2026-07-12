@@ -55,6 +55,8 @@ const pages = [
   "LiveBlocks",
   "AccountLists",
   "Proposals",
+  "Airdrop",
+  "AirdropCalculate",
   "Operations",
   "PoolTracker",
   "CreateAccount",

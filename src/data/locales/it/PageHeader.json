@@ -105,7 +105,11 @@
     "governance": "Usa il modulo sottostante per creare/aggiornare un ruolo di testimone o di membro del comitato.",
     "favourites": "Gestisci e visualizza i tuoi asset e account preferiti.",
     "blocked-users": "Visualizza e gestisci le tue liste di blocco del comitato e personali.",
-    "theme_customizer": "Crea e modifica temi per ricolorare ogni pagina, i suoi componenti annidati e gli accenti di navigazione."
+    "theme_customizer": "Crea e modifica temi per ricolorare ogni pagina, i suoi componenti annidati e gli accenti di navigazione.",
+    "airdrop": "Gestisci e riprendi i tuoi piani airdrop salvati.",
+    "airdrop_create": "Configura destinatari, asset e distribuzione per una nuova airdrop.",
+    "airdrop_perform": "Trasmetti ogni lotto della tua airdrop tramite il tuo wallet Beet.",
+    "airdrop_calculate": "Genera un elenco di destinatari algorithmicamente a partire da criteri on-chain e firme di blocco."
   },
   "back": "Torna indietro",
   "usage": "Progettato per l'uso con ",
@@ -113,5 +117,6 @@
   "tfund_user": "Commercio di fondi Same-T",
   "createAccount": "Crea account",
   "transferFundsHeading": "Trasferire fondi",
-  "exchangeFundsHeading": "Scambia fondi"
+  "exchangeFundsHeading": "Scambia fondi",
+  "airdropHeading": "Airdrop"
 }

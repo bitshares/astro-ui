@@ -175,6 +175,10 @@ export const PAGE_ACCENTS: Record<string, AccentTriple> = {
   blocks: { primary: "#a855f7", secondary: "#6366f1", tertiary: "#d946ef" },
   pools: { primary: "#a855f7", secondary: "#6366f1", tertiary: "#d946ef" },
   configure_visuals: { primary: "#8b5cf6", secondary: "#6366f1", tertiary: "#d946ef" },
+  airdrop: { primary: "#f43f5e", secondary: "#f59e0b", tertiary: "#ef4444" },
+  airdrop_create: { primary: "#06b6d4", secondary: "#3b82f6", tertiary: "#6366f1" },
+  airdrop_perform: { primary: "#10b981", secondary: "#14b8a6", tertiary: "#0ea5e9" },
+  airdrop_calculate: { primary: "#8b5cf6", secondary: "#d946ef", tertiary: "#6366f1" },
 };
 
 // Fallback triple derived from the brand pair for pages not yet catalogued.
