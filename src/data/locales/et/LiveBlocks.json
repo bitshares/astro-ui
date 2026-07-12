@@ -38,10 +38,20 @@
   "recentBlocks": {
     "content": "Viimaste plokkide loend.",
     "header": "Viimased plokid",
-    "blockId": "Blokeeri ID",
-    "timestamp": "Ajatempel",
-    "witnessId": "Tunnistaja ID",
-    "transaction": "Tehing"
+    "blockId": "Plokk",
+    "timestamp": "Millal",
+    "witnessId": "Tunnistaja",
+    "transaction": "Tehingud"
+  },
+  "operationsLabel": "ops",
+  "txLabel": "tx",
+  "connecting": "Connecting to node…",
+  "waiting": "Waiting for blocks…",
+  "time": {
+    "now": "just now",
+    "secondsAgo": "{{count}}s ago",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago"
   },
   "dialogContent": {
     "json": "JSON-andmed",

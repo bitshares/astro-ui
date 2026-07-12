@@ -38,10 +38,20 @@
   "recentBlocks": {
     "content": "Liste der letzten Blöcke.",
     "header": "Aktuelle Blöcke",
-    "blockId": "Block-ID",
-    "timestamp": "Zeitstempel",
-    "witnessId": "Zeugenausweis",
-    "transaction": "Transaktion"
+    "blockId": "Block",
+    "timestamp": "Wann",
+    "witnessId": "Zeuge",
+    "transaction": "Transaktionen"
+  },
+  "operationsLabel": "ops",
+  "txLabel": "tx",
+  "connecting": "Connecting to node…",
+  "waiting": "Waiting for blocks…",
+  "time": {
+    "now": "just now",
+    "secondsAgo": "{{count}}s ago",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago"
   },
   "dialogContent": {
     "json": "JSON-Daten",

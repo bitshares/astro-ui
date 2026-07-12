@@ -1,10 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 
-import Layout from '../../layouts/Layout.astro';
-import AirdropCalculate from '../../components/airdrop/AirdropCalculate.jsx';
-import PageHeader from '../../components/PageHeader';
-import PageFooter from '../../components/PageFooter';
+import Layout from '../layouts/Layout.astro';
+import AirdropCreate from '../components/airdrop/AirdropCreate.jsx';
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
 
 const btsAllAssets = await getCollection('btsAllAssets');
 const testAllAssets = await getCollection('testAllAssets');
@@ -23,10 +23,10 @@ const btsFeeScheduleList = btsFeeSchedule.map((collection) => collection.data);
 const testFeeScheduleList = testFeeSchedule.map((collection) => collection.data);
 ---
 
-<Layout title="Calculate airdrop">
+<Layout title="Create airdrop">
 	<main>
-		<PageHeader client:only="react" page="airdrop_calculate" backURL="../index.html" />
-		<AirdropCalculate
+		<PageHeader client:only="react" page="airdrop_create" backURL="../index.html" />
+		<AirdropCreate
 			client:only="react"
 			_assetsBTS={btsAssets}
 			_assetsTEST={testAssets}
@@ -35,6 +35,6 @@ const testFeeScheduleList = testFeeSchedule.map((collection) => collection.data)
 			_globalParamsBTS={btsFeeScheduleList}
 			_globalParamsTEST={testFeeScheduleList}
 		/>
-		<PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/airdrop_calculate/index.astro" />
+		<PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/airdrop_create/index.astro" />
 	</main>
 </Layout>

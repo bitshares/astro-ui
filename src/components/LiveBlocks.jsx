@@ -3,22 +3,25 @@ import React, {
   useEffect,
   useMemo,
   useSyncExternalStore,
-  act,
 } from "react";
 import { useStore } from "@nanostores/react";
 import { List } from "react-window";
 import { Bar, BarChart, XAxis, CartesianGrid } from "recharts";
 import { useTranslation } from "react-i18next";
-import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
-
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Boxes,
+  Hash,
+  Crown,
+  Gauge,
+  Users,
+  ListOrdered,
+  Coins,
+} from "lucide-react";
+import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import { cn } from "@/lib/utils";
+import { opTypes } from "@/lib/opTypes.js";
+
+import { Card, CardContent } from "@/components/ui/card";
 
 import {
   Dialog,
@@ -48,46 +51,152 @@ import { humanReadableFloat } from "@/lib/common";
 const chartConfig = {
   trxQuantity: {
     label: "Transactions",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--accent-1))",
   },
 };
 
+// Maps an operation type id to one of the page's accent roles so each op badge
+// gets a stable, themeable colour (mirrors the status/accent var system).
+const ROLE_KEYS = ["1", "2", "3", "success", "info", "warning", "danger"];
+function opRole(opType) {
+  const n = typeof opType === "number" ? opType : parseInt(opType, 10);
+  if (isNaN(n)) return "1";
+  return ROLE_KEYS[n % ROLE_KEYS.length];
+}
+function opBadgeClass(role) {
+  return cn(
+    "cursor-pointer border transition-colors",
+    `bg-[hsl(var(--accent-${role})/0.15)]`,
+    `border-[hsl(var(--accent-${role})/0.4)]`,
+    `text-[hsl(var(--accent-${role}-fg))]`,
+    `hover:bg-[hsl(var(--accent-${role})/0.28)]`
+  );
+}
+
+// BTS block timestamps arrive as `time_point_sec` strings WITHOUT a timezone
+// designator (e.g. "2026-07-12T11:00:05"), which are UTC semantically.
+// `new Date(...)` would otherwise parse them as LOCAL time, shifting every
+// instant by the machine's UTC offset (a block "seconds ago" would read
+// "1h ago" in UTC+1). Normalize to UTC, and accept unix-seconds numbers.
+function parseBtsTime(ts) {
+  if (ts instanceof Date) return ts;
+  if (typeof ts === "number") return new Date(ts * 1000);
+  if (
+    typeof ts === "string" &&
+    !/[zZ]$|[+-]\d{2}:?\d{2}$/.test(ts.trim())
+  ) {
+    return new Date(ts + "Z");
+  }
+  return new Date(ts);
+}
+
 const RecentBlocksBarChart = ({ data }) => {
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] mt-5 w-full">
-      <BarChart
-        data={data}
-        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-        width={600}
-        height={300}
+    <ChartContainer config={chartConfig} className="aspect-auto h-full w-full mt-auto">
+        <BarChart
+          data={[...data].reverse()}
+          margin={{ top: 4, right: 4, bottom: 0, left: 4 }}
       >
-        <CartesianGrid vertical={false} />
+        <defs>
+          <linearGradient id="blockBarGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop
+              offset="0%"
+              stopColor="hsl(var(--accent-1))"
+              stopOpacity={0.95}
+            />
+            <stop
+              offset="100%"
+              stopColor="hsl(var(--accent-2))"
+              stopOpacity={0.5}
+            />
+          </linearGradient>
+        </defs>
+        <CartesianGrid
+          vertical={false}
+          stroke="hsl(var(--border))"
+          strokeDasharray="3 3"
+        />
         <XAxis
           dataKey="block"
           tickLine={false}
-          tickMargin={5}
+          tickMargin={6}
           axisLine={false}
           tick={false}
         />
-        <ChartTooltip className="bg-card" content={<ChartTooltipContent />} />
+        <ChartTooltip
+          className="bg-card border border-border"
+          content={<ChartTooltipContent />}
+        />
         <Bar
           dataKey="trxQuantity"
-          fill="var(--chart-1)"
-          radius={2}
-          animationDuration={500}
-          animationEasing="ease-in-out"
+          fill="url(#blockBarGradient)"
+          radius={[4, 4, 0, 0]}
+          isAnimationActive={false}
         />
       </BarChart>
     </ChartContainer>
   );
 };
 
+// A single metric tile rendered in the accent palette.
+const BlockStatTile = ({
+  icon: Icon,
+  accent,
+  label,
+  value,
+  infoHeader,
+  infoContent,
+}) => (
+  <Card
+    className={cn(
+      "relative overflow-hidden",
+      `border-[hsl(var(--accent-${accent})/0.25)]`,
+      `bg-gradient-to-br from-[hsl(var(--accent-${accent})/0.07)] to-[hsl(var(--accent-${accent})/0.02)]`
+    )}
+  >
+    <span
+      aria-hidden="true"
+      className={cn(
+        "pointer-events-none absolute inset-x-0 top-0 h-px",
+        `bg-gradient-to-r from-transparent via-[hsl(var(--accent-${accent})/0.6)] to-transparent`
+      )}
+    />
+    <CardContent className="pt-4">
+      <div className="flex items-center gap-2 mb-2">
+        <span
+          className={cn(
+            "inline-flex h-7 w-7 items-center justify-center rounded-lg border",
+            `bg-[hsl(var(--accent-${accent})/0.2)]`,
+            `border-[hsl(var(--accent-${accent})/0.4)]`
+          )}
+        >
+          <Icon
+            className={cn(
+              "h-4 w-4",
+              `text-[hsl(var(--accent-${accent}-fg))]`
+            )}
+          />
+        </span>
+        <HoverInfo header={infoHeader} content={infoContent} type={null} />
+      </div>
+      <div
+        className={cn(
+          "text-2xl font-extrabold tracking-tight tabular-nums",
+          `text-[hsl(var(--accent-${accent}-fg))]`
+        )}
+      >
+        {value}
+      </div>
+    </CardContent>
+  </Card>
+);
+
 /*
   NOTE: This doesn't work in dev mode - must be run via `npm run build:astro | npm run start`
   This is because we need electron built.
 */
 export default function LiveBlocks(properties) {
-  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
+  const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
     $currentUser.subscribe,
     $currentUser.get,
@@ -99,8 +208,6 @@ export default function LiveBlocks(properties) {
 
   const [viewJSON, setViewJSON] = useState(false);
   const [json, setJSON] = useState();
-  const [openHyperlink, setOpenHyperlink] = useState(false);
-  const [hyperlink, setHyperlink] = useState("");
 
   let [recentBlocks, setRecentBlocks] = useState([]);
   useEffect(() => {
@@ -134,7 +241,8 @@ export default function LiveBlocks(properties) {
     return recentBlocks
       .sort(
         (a, b) =>
-          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          parseBtsTime(b.timestamp).getTime() -
+          parseBtsTime(a.timestamp).getTime()
       )
       .flatMap((block) => {
         if (!block.transactions) return []; // Check if transactions is defined
@@ -158,27 +266,80 @@ export default function LiveBlocks(properties) {
     }, 0);
   }, [activities]);
 
-  const currentBlock = useMemo(() => {
-    if (!recentBlocks || !recentBlocks.length) return 0;
-    return recentBlocks[0];
-  }, [recentBlocks]);
+  // Derived statistics over the buffered window of recent blocks.
+  const stats = useMemo(() => {
+    if (!recentBlocks || !recentBlocks.length) return null;
+    const sorted = [...recentBlocks].sort((a, b) => a.block - b.block);
+    const first = sorted[0];
+    const last = sorted[sorted.length - 1];
+    const spanMs =
+      parseBtsTime(last.timestamp).getTime() -
+      parseBtsTime(first.timestamp).getTime();
+    let spanSeconds = spanMs / 1000;
+    if (!(spanSeconds > 0)) spanSeconds = (sorted.length - 1) * 3; // 3s block time fallback
+    if (!(spanSeconds > 0)) spanSeconds = 3;
+
+    const totalOps = activities.length;
+    const tps = totalOps / spanSeconds;
+    const txPerBlock = totalOps / sorted.length;
+    const uniqueWitnesses = new Set(sorted.map((x) => x.witness)).size;
+    const currentBlock = last.block;
+    const currentWitness = last.witness;
+
+    return {
+      count: sorted.length,
+      currentBlock,
+      currentWitness,
+      tps,
+      txPerBlock,
+      uniqueWitnesses,
+      fees: totalRecentFees,
+    };
+  }, [recentBlocks, activities, totalRecentFees]);
+
+  // Relative "x seconds ago" label for block timestamps.
+  const relativeTime = useMemo(
+    () => (iso) => {
+      const diff = (Date.now() - parseBtsTime(iso).getTime()) / 1000;
+      if (diff < 1) return t("LiveBlocks:time.now");
+      if (diff < 60) {
+        return t("LiveBlocks:time.secondsAgo", {
+          count: Math.floor(diff),
+        });
+      }
+      const minutes = Math.floor(diff / 60);
+      if (minutes < 60) {
+        return t("LiveBlocks:time.minutesAgo", { count: minutes });
+      }
+      const hours = Math.floor(minutes / 60);
+      return t("LiveBlocks:time.hoursAgo", { count: hours });
+    },
+    [t]
+  );
+
+  const openJSON = (payload) => {
+    setViewJSON(true);
+    setJSON(payload);
+  };
 
   const ActivityRow = ({ index, style }) => {
     const activity = activities[index];
     if (!activity) return null;
     return (
-      <div style={style} className="border grid grid-cols-2 gap-2 mb-1 mt-1">
-        <div className="col-span-1 ml-2">
-          <span>
-            {activity.block}
-          </span>
-        </div>
-        <div className="col-span-1">
-          {activity.operations.length && activity.operations.length > 10 ? (
+      <div
+        style={style}
+        className="grid grid-cols-[1fr_3fr] items-center gap-2 rounded-lg border border-border/60 px-2.5 py-1.5 mb-1 mt-1 transition-colors hover:border-[hsl(var(--accent-1)/0.5)] hover:bg-[hsl(var(--accent-1)/0.04)]"
+      >
+        <span className="font-mono text-sm font-semibold tabular-nums text-[hsl(var(--accent-1-fg))]">
+          #{activity.block}
+        </span>
+        <div className="flex flex-wrap justify-start gap-1">
+          {activity.operations.length > 10 ? (
             <Badge
+              variant="outline"
+              className={opBadgeClass("1")}
               onClick={() => {
-                setViewJSON(true);
-                setJSON({
+                openJSON({
                   transactionData: activity,
                   blockData: recentBlocks.find(
                     (x) => x.block === activity.block
@@ -186,28 +347,35 @@ export default function LiveBlocks(properties) {
                 });
               }}
             >
-              {activity.operations.length} operations
+              {activity.operations.length}{" "}
+              {t("LiveBlocks:operationsLabel")}
             </Badge>
           ) : (
-            activity.operations.map((x) => (
-              <Badge
-                className="ml-1"
-                onClick={() => {
-                  setViewJSON(true);
-                  let foundBlock = {
-                    ...recentBlocks.find((x) => x.block === activity.block),
-                  };
-                  delete foundBlock.transactions; // duplicate data
-                  setJSON({
-                    operationData: x,
-                    transactionData: activity,
-                    blockData: foundBlock,
-                  });
-                }}
-              >
-                {x[0]}
-              </Badge>
-            ))
+            activity.operations.map((x, i) => {
+              const opType = x[0];
+              const opName = opTypes[opType] ?? `#${opType}`;
+              const role = opRole(opType);
+              return (
+                <Badge
+                  key={`${opType}-${i}`}
+                  variant="outline"
+                  className={opBadgeClass(role)}
+                  onClick={() => {
+                    const foundBlock = {
+                      ...recentBlocks.find((x) => x.block === activity.block),
+                    };
+                    delete foundBlock.transactions; // duplicate data
+                    openJSON({
+                      operationData: x,
+                      transactionData: activity,
+                      blockData: foundBlock,
+                    });
+                  }}
+                >
+                  {opName}
+                </Badge>
+              );
+            })
           )}
         </div>
       </div>
@@ -217,7 +385,7 @@ export default function LiveBlocks(properties) {
   const BlockRow = ({ index, style }) => {
     const block = recentBlocks[index];
     if (!block) return null;
-    const _ts = new Date(block.timestamp).toLocaleTimeString("en-US", {
+    const _ts = parseBtsTime(block.timestamp).toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
@@ -226,290 +394,292 @@ export default function LiveBlocks(properties) {
     return (
       <div
         style={style}
-        className="border p-2 grid grid-cols-2 md:grid-cols-4 gap-2"
+        className="grid grid-cols-2 gap-2 rounded-lg border border-border/60 p-2 md:grid-cols-4 items-center mb-1 mt-1 transition-colors hover:border-[hsl(var(--accent-2)/0.5)] hover:bg-[hsl(var(--accent-2)/0.04)]"
         title={`${_ts} : ${block.witness}`}
       >
-        <div>
-          <span>
-            {block.block}
-          </span>
+        <div className="font-mono text-sm font-semibold tabular-nums text-[hsl(var(--accent-2-fg))]">
+          #{block.block}
         </div>
-        <div className="hidden md:block">{_ts}</div>
-        <div className="hidden md:block">
-          <span
-            className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
-          >
+        <div className="hidden md:block text-xs text-muted-foreground">
+          {relativeTime(block.timestamp)}
+        </div>
+        <div className="hidden md:block truncate text-xs">
+          <span className="hover:text-[hsl(var(--accent-2-fg))] transition-colors">
             {block.witness}
           </span>
         </div>
-        <div className="hidden md:block">
-          {block.transactions ? block.transactions.length : 0}
+        <div className="text-right md:text-left">
+          <Badge
+            variant="outline"
+            className={opBadgeClass("2")}
+          >
+            {block.transactions ? block.transactions.length : 0}{" "}
+            {t("LiveBlocks:txLabel")}
+          </Badge>
         </div>
       </div>
     );
   };
 
+  const isLoading = !recentBlocks || recentBlocks.length === 0;
+
   return (
     <>
-      <div className="container mx-auto mt-5 mb-5">
-        <div className="grid grid-cols-1">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("LiveBlocks:cardTitle")}</CardTitle>
-              <CardDescription>
-                {t("LiveBlocks:cardDescription")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2">
-                <div className="grid grid-cols-2 gap-2">
-                  <Card>
-                    <CardContent className="pt-5">
-                      <HoverInfo
-                        content={t("LiveBlocks:currentBlock.content")}
-                        header={t("LiveBlocks:currentBlock.header")}
-                        type="header"
-                      />
-                      #
-                      {currentBlock
-                        ? parseFloat(currentBlock.block).toLocaleString("en-US")
-                        : 0}
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="pt-5">
-                      <HoverInfo
-                        content={t("LiveBlocks:currentWitness.content")}
-                        header={t("LiveBlocks:currentWitness.header")}
-                        type="header"
-                      />
-                      {recentBlocks && recentBlocks.length ? (
-                        <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]">
-                          {recentBlocks[0].witness}
+      <div className="container mx-auto mt-5 mb-5 max-w-6xl">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.04)]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-24 -left-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-1)/0.2)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-2)/0.2)] blur-3xl"
+          />
+
+          <div className="relative p-5 sm:p-6">
+            {/* Page header */}
+            <div className="flex items-start justify-between gap-3 mb-5">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
+                    <Boxes className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
+                  </span>
+                  {t("LiveBlocks:cardTitle")}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {t("LiveBlocks:cardDescription")}
+                </p>
+              </div>
+            </div>
+
+            {!currentNode ? (
+              <Card>
+                <CardContent className="py-10 text-center text-muted-foreground">
+                  {t("LiveBlocks:connecting")}
+                </CardContent>
+              </Card>
+            ) : (
+              <>
+                {/* Stat tiles */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  <BlockStatTile
+                    icon={Hash}
+                    accent="1"
+                    label={t("LiveBlocks:currentBlock.header")}
+                    infoHeader={t("LiveBlocks:currentBlock.header")}
+                    infoContent={t("LiveBlocks:currentBlock.content")}
+                    value={
+                      stats
+                        ? parseFloat(stats.currentBlock).toLocaleString("en-US")
+                        : 0
+                    }
+                  />
+                  <BlockStatTile
+                    icon={Crown}
+                    accent="2"
+                    label={t("LiveBlocks:currentWitness.header")}
+                    infoHeader={t("LiveBlocks:currentWitness.header")}
+                    infoContent={t("LiveBlocks:currentWitness.content")}
+                    value={
+                      stats && stats.currentWitness ? (
+                        <span className="text-lg sm:text-2xl truncate block">
+                          {stats.currentWitness}
                         </span>
                       ) : (
                         "-"
+                      )
+                    }
+                  />
+                  <BlockStatTile
+                    icon={Gauge}
+                    accent="3"
+                    label={t("LiveBlocks:tps.header")}
+                    infoHeader={t("LiveBlocks:tps.header")}
+                    infoContent={t("LiveBlocks:tps.content", {
+                      blockQty: stats ? stats.count : 0,
+                    })}
+                    value={stats ? stats.tps.toFixed(4) : 0}
+                  />
+                  <BlockStatTile
+                    icon={Users}
+                    accent="1"
+                    label={t("LiveBlocks:uniqueWitnesses.header")}
+                    infoHeader={t("LiveBlocks:uniqueWitnesses.header")}
+                    infoContent={t("LiveBlocks:uniqueWitnesses.content")}
+                    value={stats ? stats.uniqueWitnesses : 0}
+                  />
+                  <BlockStatTile
+                    icon={ListOrdered}
+                    accent="2"
+                    label={t("LiveBlocks:txPerBlock.header")}
+                    infoHeader={t("LiveBlocks:txPerBlock.header")}
+                    infoContent={t("LiveBlocks:txPerBlock.content", {
+                      blockQty: stats ? stats.count : 0,
+                    })}
+                    value={stats ? stats.txPerBlock.toFixed(4) : 0}
+                  />
+                  <BlockStatTile
+                    icon={Coins}
+                    accent="3"
+                    label={t("LiveBlocks:recentFees.header")}
+                    infoHeader={t("LiveBlocks:recentFees.header")}
+                    infoContent={t("LiveBlocks:recentFees.content", {
+                      blockQty: stats ? stats.count : 0,
+                    })}
+                    value={
+                      stats && stats.fees
+                        ? `${humanReadableFloat(stats.fees, 5)} ${usr && usr.chain === "bitshares" ? "BTS" : "TEST"}`
+                        : 0
+                    }
+                  />
+                </div>
+
+                {/* Chart + Recent Blocks, side by side */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2">
+                  <Card className="min-h-[280px]">
+                    <CardContent className="pt-5 flex flex-col h-full">
+                      <HoverInfo
+                        content={t("LiveBlocks:chart.content", {
+                          blockQty: stats ? stats.count : 0,
+                        })}
+                        header={t("LiveBlocks:chart.header")}
+                        type="header"
+                      />
+                      {isLoading ? (
+                        <div className="mt-3 text-sm text-muted-foreground">
+                          {t("LiveBlocks:waiting")}
+                        </div>
+                      ) : (
+                        <RecentBlocksBarChart
+                          data={recentBlocks.slice(-100).map((x) => {
+                            if (
+                              !x ||
+                              !x.hasOwnProperty("transactions") ||
+                              !x.transactions
+                            ) {
+                              return { block: x.block, trxQuantity: 0 };
+                            }
+                            return {
+                              block: x.block,
+                              trxQuantity: x.transactions.length,
+                            };
+                          })}
+                        />
                       )}
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-5">
                       <HoverInfo
-                        content={t("LiveBlocks:tps.content", {
-                          blockQty: recentBlocks ? recentBlocks.length : 0,
-                        })}
-                        header={t("LiveBlocks:tps.header")}
+                        content={t("LiveBlocks:recentBlocks.content")}
+                        header={t("LiveBlocks:recentBlocks.header")}
                         type="header"
                       />
-                      {(activities.length / recentBlocks.length / 3).toFixed(4)}
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="pt-5">
-                      <HoverInfo
-                        content={t("LiveBlocks:uniqueWitnesses.content")}
-                        header={t("LiveBlocks:uniqueWitnesses.header")}
-                        type="header"
-                      />
-                      {recentBlocks && recentBlocks.length
-                        ? new Set(recentBlocks.map((x) => x.witness)).size
-                        : 0}
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="pt-5">
-                      <HoverInfo
-                        content={t("LiveBlocks:txPerBlock.content", {
-                          blockQty: recentBlocks ? recentBlocks.length : 0,
-                        })}
-                        header={t("LiveBlocks:txPerBlock.header")}
-                        type="header"
-                      />
-                      {(activities.length / recentBlocks.length).toFixed(4)}
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="pt-5">
-                      <HoverInfo
-                        content={t("LiveBlocks:recentFees.content", {
-                          blockQty: recentBlocks ? recentBlocks.length : 0,
-                        })}
-                        header={t("LiveBlocks:recentFees.header")}
-                        type="header"
-                      />
-                      {totalRecentFees
-                        ? humanReadableFloat(totalRecentFees, 5)
-                        : 0}{" "}
-                      ({usr.chain === "bitshares" ? "BTS" : "TEST"})
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        <span>{t("LiveBlocks:recentBlocks.blockId")}</span>
+                        <span className="hidden md:block">
+                          {t("LiveBlocks:recentBlocks.timestamp")}
+                        </span>
+                        <span className="hidden md:block">
+                          {t("LiveBlocks:recentBlocks.witnessId")}
+                        </span>
+                        <span>{t("LiveBlocks:recentBlocks.transaction")}</span>
+                      </div>
+                      {isLoading ? (
+                        <div className="mt-3 text-sm text-muted-foreground">
+                          {t("LiveBlocks:waiting")}
+                        </div>
+                      ) : (
+                        <div className="w-full h-[360px] mt-1">
+                          <List
+                            rowComponent={BlockRow}
+                            rowCount={recentBlocks.length}
+                            rowHeight={42}
+                            height={360}
+                            width="100%"
+                            rowProps={{}}
+                          />
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 </div>
-                <div>
-                  <Card>
-                    <CardContent className="pt-5">
-                      <HoverInfo
-                        content={t("LiveBlocks:chart.content", {
-                          blockQty: recentBlocks ? recentBlocks.length : 0,
-                        })}
-                        header={t("LiveBlocks:chart.header")}
-                        type="header"
-                      />
-                      <RecentBlocksBarChart
-                        data={recentBlocks.map((x) => {
-                          if (
-                            !x ||
-                            !x.hasOwnProperty("transactions") ||
-                            !x.transactions
-                          ) {
-                            return { block: x.block, trxQuantity: 0 };
-                          }
-                          return {
-                            block: x.block,
-                            trxQuantity: x.transactions.length,
-                          };
-                        })}
-                      />
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2">
-                <Card>
+
+                {/* Recent Activity, full width */}
+                <Card className="mt-2">
                   <CardContent className="pt-5">
                     <HoverInfo
                       content={t("LiveBlocks:recentActivity.content")}
                       header={t("LiveBlocks:recentActivity.header")}
                       type="header"
                     />
-                    <div className="grid grid-cols-2 gap-2">
-                      <span className="col-span-1">
+                    <div className="grid grid-cols-[1fr_3fr] gap-2">
+                      <span>
                         {t("LiveBlocks:recentActivity.blocks")}
                       </span>
-                      <span className="col-span-1">
+                      <span>
                         {t("LiveBlocks:recentActivity.operations")}
                       </span>
                     </div>
-                    <div className="w-full max-h-[350px] overflow-auto">
-                      <List
-                        rowComponent={ActivityRow}
-                        rowCount={activities.length}
-                        rowHeight={42}
-                        rowProps={{}}
-                      />
-                    </div>
+                    {isLoading ? (
+                      <div className="mt-3 text-sm text-muted-foreground">
+                        {t("LiveBlocks:waiting")}
+                      </div>
+                    ) : (
+                      <div className="w-full h-[360px] mt-1">
+                        <List
+                          rowComponent={ActivityRow}
+                          rowCount={activities.length}
+                          rowHeight={42}
+                          height={360}
+                          width="100%"
+                          rowProps={{}}
+                        />
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
-                <Card>
-                  <CardContent className="pt-5">
-                    <HoverInfo
-                      content={t("LiveBlocks:recentBlocks.content")}
-                      header={t("LiveBlocks:recentBlocks.header")}
-                      type="header"
-                    />
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                      <span>{t("LiveBlocks:recentBlocks.blockId")}</span>
-                      <span className="hidden md:block">
-                        {t("LiveBlocks:recentBlocks.timestamp")}
-                      </span>
-                      <span className="hidden md:block">
-                        {t("LiveBlocks:recentBlocks.witnessId")}
-                      </span>
-                      <span>{t("LiveBlocks:recentBlocks.transaction")}</span>
-                    </div>
-                    <div className="w-full max-h-[350px] overflow-auto">
-                      <List
-                        rowComponent={BlockRow}
-                        rowCount={recentBlocks.length}
-                        rowHeight={42}
-                        rowProps={{}}
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </CardContent>
-          </Card>
-          {openHyperlink && hyperlink && hyperlink.length ? (
-            <Dialog
-              open={open}
-              onOpenChange={(open) => {
-                setOpenHyperlink(open);
-              }}
-            >
-              <DialogContent className="sm:max-w-[500px] bg-card">
-                <DialogHeader>
-                  <DialogTitle>
-                    {t("ExternalLink:dialogContent.leaveApp")}
-                  </DialogTitle>
-                  <DialogDescription>
-                    {t("ExternalLink:dialogContent.navigateToExternal")}
-                  </DialogDescription>
-                </DialogHeader>
-                <h3 className="scroll-m-20 text-1xl font-semibold tracking-tight mb-3 mt-1">
-                  {t("ExternalLink:dialogContent.proceedToURL")}
-                </h3>
-                <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-                  {hyperlink}
-                </code>
-                <h3 className="scroll-m-20 text-1xl font-semibold tracking-tight mb-3 mt-1">
-                  {t("ExternalLink:dialogContent.checkingLeave")}
-                </h3>
-
-                <div className="grid grid-cols-1 gap-3">
-                  {window.electron ? (
-                    <Button
-                      color="gray"
-                      variant="outline"
-                      onClick={() => window.electron.openURL(hyperlink)}
-                    >
-                      {t("ExternalLink:dialogContent.openLink")}
-                    </Button>
-                  ) : (
-                    <a href={hyperlink} target="_blank">
-                      <Button color="gray" variant="outline">
-                        {t("ExternalLink:dialogContent.openLink")}
-                      </Button>
-                    </a>
-                  )}
-                </div>
-              </DialogContent>
-            </Dialog>
-          ) : null}
-          {viewJSON && json ? (
-            <Dialog
-              open={viewJSON}
-              onOpenChange={(open) => {
-                setViewJSON(open);
-              }}
-            >
-              <DialogContent className="sm:max-w-[500px] bg-card">
-                <DialogHeader>
-                  <DialogTitle>
-                    {t("LiveBlocks:dialogContent.json")}
-                  </DialogTitle>
-                  <DialogDescription>
-                    {t("LiveBlocks:dialogContent.jsonDescription")}
-                  </DialogDescription>
-                </DialogHeader>
-                <Textarea
-                  placeholder={JSON.stringify(json, null, 2)}
-                  readOnly={true}
-                  rows={10}
-                />
-                <Button
-                  className="w-1/4 mt-2"
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      JSON.stringify(json, null, 2)
-                    );
-                  }}
-                >
-                  {t("LiveBlocks:dialogContent.copy")}
-                </Button>
-              </DialogContent>
-            </Dialog>
-          ) : null}
+              </>
+            )}
+          </div>
         </div>
+
+        {viewJSON && json ? (
+          <Dialog
+            open={viewJSON}
+            onOpenChange={(open) => {
+              setViewJSON(open);
+            }}
+          >
+            <DialogContent className="sm:max-w-[500px] bg-card">
+              <DialogHeader>
+                <DialogTitle>
+                  {t("LiveBlocks:dialogContent.json")}
+                </DialogTitle>
+                <DialogDescription>
+                  {t("LiveBlocks:dialogContent.jsonDescription")}
+                </DialogDescription>
+              </DialogHeader>
+              <Textarea
+                placeholder={JSON.stringify(json, null, 2)}
+                readOnly={true}
+                rows={10}
+              />
+              <Button
+                className="w-1/4 mt-2"
+                onClick={() => {
+                  navigator.clipboard.writeText(JSON.stringify(json, null, 2));
+                }}
+              >
+                {t("LiveBlocks:dialogContent.copy")}
+              </Button>
+            </DialogContent>
+          </Dialog>
+        ) : null}
       </div>
     </>
   );

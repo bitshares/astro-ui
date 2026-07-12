@@ -38,10 +38,20 @@
   "recentBlocks": {
     "content": "Lista de bloqueios recentes.",
     "header": "Bloqueios recentes",
-    "blockId": "ID do bloco",
-    "timestamp": "Carimbo de data e hora",
-    "witnessId": "ID da testemunha",
-    "transaction": "Transação"
+    "blockId": "Bloco",
+    "timestamp": "Quando",
+    "witnessId": "Testemunha",
+    "transaction": "Transações"
+  },
+  "operationsLabel": "ops",
+  "txLabel": "tx",
+  "connecting": "Connecting to node…",
+  "waiting": "Waiting for blocks…",
+  "time": {
+    "now": "just now",
+    "secondsAgo": "{{count}}s ago",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago"
   },
   "dialogContent": {
     "json": "Dados JSON",

@@ -10,7 +10,7 @@
     "header": "Current Witness"
   },
   "tps": {
-    "content": "Transactions per second over the last {{blockQty}} blocks.",
+    "content": "Transactions per second across the last {{blockQty}} buffered blocks, measured as total operations divided by the elapsed block time (3 second block interval).",
     "header": "Transactions Per Second"
   },
   "uniqueWitnesses": {
@@ -38,10 +38,20 @@
   "recentBlocks": {
     "content": "List of recent blocks.",
     "header": "Recent Blocks",
-    "blockId": "Block ID",
-    "timestamp": "Timestamp",
-    "witnessId": "Witness ID",
-    "transaction": "Transaction"
+    "blockId": "Block",
+    "timestamp": "When",
+    "witnessId": "Witness",
+    "transaction": "Transactions"
+  },
+  "operationsLabel": "ops",
+  "txLabel": "tx",
+  "connecting": "Connecting to node…",
+  "waiting": "Waiting for blocks…",
+  "time": {
+    "now": "just now",
+    "secondsAgo": "{{count}}s ago",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago"
   },
   "dialogContent": {
     "json": "JSON Data",

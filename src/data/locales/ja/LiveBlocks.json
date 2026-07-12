@@ -38,10 +38,20 @@
   "recentBlocks": {
     "content": "最近のブロックのリスト。",
     "header": "最近のブロック",
-    "blockId": "ブロックID",
-    "timestamp": "タイムスタンプ",
-    "witnessId": "証人ID",
-    "transaction": "取引"
+    "blockId": "ブロック",
+    "timestamp": "時刻",
+    "witnessId": "ブロック生産者",
+    "transaction": "トランザクション"
+  },
+  "operationsLabel": "ops",
+  "txLabel": "tx",
+  "connecting": "Connecting to node…",
+  "waiting": "Waiting for blocks…",
+  "time": {
+    "now": "just now",
+    "secondsAgo": "{{count}}s ago",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago"
   },
   "dialogContent": {
     "json": "JSONデータ",
