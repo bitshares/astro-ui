@@ -42,6 +42,7 @@ import { Input } from "@/components/ui/input";
 
 import HoverInfo from "@/components/common/HoverInfo.tsx";
 import BasicAssetDropDownCard from "@/components/Market/BasicAssetDropDownCard.jsx";
+import { BarChart3 } from "lucide-react";
 
 export default function CustomPoolOverview(properties) {
   const {
@@ -454,14 +455,35 @@ export default function CustomPoolOverview(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5">
-      <Card className="p-2">
-        <CardHeader>
-          <CardTitle>{t("CustomPoolOverview:title")}</CardTitle>
-          <CardDescription>
-            {t("CustomPoolOverview:description")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.04)]">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-24 -left-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-1)/0.2)] blur-3xl"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-2)/0.2)] blur-3xl"
+        />
+
+        <div className="relative p-5 sm:p-6">
+          <div className="flex items-start justify-between gap-3 mb-5">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
+                  <BarChart3 className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
+                </span>
+                {t("CustomPoolOverview:title")}
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {t("CustomPoolOverview:description")}
+              </p>
+            </div>
+          </div>
+          <Card className="p-2">
           <div className="grid grid-cols-6 gap-3">
             <div className="col-span-5 border rounded border-border p-3">
               <div className="w-full max-h-[200px] overflow-auto">
@@ -479,8 +501,9 @@ export default function CustomPoolOverview(properties) {
               {t("CustomPoolOverview:createTracker")}
             </Button>
           </div>
-        </CardContent>
-      </Card>
+          </Card>
+        </div>
+      </div>
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
         <DialogContent className="sm:max-w-[720px] bg-card">
           <DialogHeader>

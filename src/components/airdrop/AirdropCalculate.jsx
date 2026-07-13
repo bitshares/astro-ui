@@ -38,7 +38,7 @@ import {
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import SectionHeader from "@/components/asset-form/SectionHeader.jsx";
-import { Users, Cog, Gift, Send, Radio } from "lucide-react";
+import { Users, Cog, Gift, Send, Radio, Calculator } from "lucide-react";
 import { List } from "react-window";
 
 import {
@@ -129,6 +129,9 @@ export default function AirdropCalculate(props) {
   const [callOrderAssetId, setCallOrderAssetId] = useState(undefined);
   const [callOrderAssetChecking, setCallOrderAssetChecking] = useState(false);
   const [callOrderAssetIsSmartcoin, setCallOrderAssetIsSmartcoin] = useState(false);
+  const [callOrderFeedPrice, setCallOrderFeedPrice] = useState(null);
+  const [callOrderCollateralPrecision, setCallOrderCollateralPrecision] = useState(5);
+  const [callOrderDebtPrecision, setCallOrderDebtPrecision] = useState(5);
 
   // manual
   const [rawText, setRawText] = useState("");
@@ -145,6 +148,8 @@ export default function AirdropCalculate(props) {
   const [maxAccountId, setMaxAccountId] = useState(null);
   const [syntheticAll, setSyntheticAll] = useState(false);
   const [poolError, setPoolError] = useState(null);
+  const [rawCallOrders, setRawCallOrders] = useState([]);
+  const [callOrderWeightBy, setCallOrderWeightBy] = useState("collateral");
 
   const [weightAssetSymbol, setWeightAssetSymbol] = useState();
   const weightAsset = useMemo(
@@ -158,16 +163,20 @@ export default function AirdropCalculate(props) {
     setMaxAccountId(null);
     setSyntheticAll(false);
     setPoolError(null);
+    setRawCallOrders([]);
+    setCallOrderWeightBy("collateral");
     setCallOrderAssetSymbol(undefined);
     setCallOrderAssetId(undefined);
     setCallOrderAssetIsSmartcoin(false);
     setCallOrderAssetChecking(false);
+    setCallOrderFeedPrice(null);
   };
 
   const handleCallOrderAssetChange = async (symbol) => {
     setCallOrderAssetSymbol(symbol);
     setCallOrderAssetId(undefined);
     setCallOrderAssetIsSmartcoin(false);
+    setCallOrderFeedPrice(null);
     if (!symbol) return;
     const asset = assets.find((a) => a.symbol === symbol);
     if (!asset || !asset.id) return;
@@ -178,6 +187,34 @@ export default function AirdropCalculate(props) {
       if (obj && obj.bitasset_data_id) {
         setCallOrderAssetId(obj.id);
         setCallOrderAssetIsSmartcoin(true);
+        setCallOrderDebtPrecision(asset.precision || 5);
+        const bitassetObjs = await getObjects(
+          chain,
+          [obj.bitasset_data_id],
+          currentNode ? currentNode.url : null,
+        );
+        const bitasset = bitassetObjs && bitassetObjs[0];
+        if (bitasset && bitasset.current_feed && bitasset.current_feed.settlement_price) {
+          const collateralObjs = await getObjects(
+            chain,
+            [bitasset.options?.collateral_asset || "1.3.0"],
+            currentNode ? currentNode.url : null,
+          );
+          const collateralAsset = collateralObjs && collateralObjs[0];
+          const collateralPrecision = collateralAsset ? (collateralAsset.precision || 5) : 5;
+          setCallOrderCollateralPrecision(collateralPrecision);
+          const quoteAmount = parseInt(bitasset.current_feed.settlement_price.quote.amount, 10);
+          const baseAmount = parseInt(bitasset.current_feed.settlement_price.base.amount, 10);
+          if (quoteAmount && baseAmount) {
+            const feedPrice = parseFloat(
+              (
+                humanReadableFloat(quoteAmount, collateralPrecision) /
+                humanReadableFloat(baseAmount, asset.precision || 5)
+              ).toFixed(collateralPrecision),
+            );
+            setCallOrderFeedPrice(feedPrice);
+          }
+        }
       } else {
         setCallOrderAssetIsSmartcoin(false);
       }
@@ -263,10 +300,12 @@ export default function AirdropCalculate(props) {
           currentNode ? currentNode.url : null,
           callOrderAssetId,
         );
+        setRawCallOrders(callOrders);
         const entries = Object.entries(
           callOrders.reduce((acc, co) => {
             if (!co || !co.id) return acc;
-            acc[co.id] = (acc[co.id] || 0) + (co.collateral || 0);
+            const weightField = callOrderWeightBy === "debt" ? "debt" : "collateral";
+            acc[co.id] = (acc[co.id] || 0) + (co[weightField] || 0);
             return acc;
           }, {}),
         ).map(([id, weight]) => ({ id, weight }));
@@ -637,6 +676,49 @@ export default function AirdropCalculate(props) {
     );
   };
 
+  const CallOrderRow = ({ index, style, items }) => {
+    const row = items[index];
+    if (!row) return null;
+    const collateralHRT = humanReadableFloat(row.collateral || 0, callOrderCollateralPrecision);
+    const debtAsset = assets.find((a) => a.id === callOrderAssetId);
+    const debtPrecision = debtAsset ? debtAsset.precision : callOrderDebtPrecision;
+    const debtHRT = humanReadableFloat(row.debt || 0, debtPrecision);
+    const tcr = row.target_collateral_ratio
+      ? `${(row.target_collateral_ratio / 10).toFixed(1)}%`
+      : "0%";
+    const ratio = debtHRT > 0 && callOrderFeedPrice
+      ? (collateralHRT / (callOrderFeedPrice * debtHRT)).toFixed(3)
+      : debtHRT > 0
+        ? (collateralHRT / debtHRT).toFixed(3)
+        : "0";
+    return (
+      <div style={style} className="px-2">
+        <div className="grid grid-cols-6 items-center gap-2 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5 text-xs">
+          <div className="col-span-2 truncate">
+            <ExternalLink
+              hyperlink={`https://blocksights.info/#/accounts/${row.id}`}
+              type="text"
+              text={row.id}
+              classnamecontents="font-mono text-[11px] text-foreground/80 hover:text-foreground truncate"
+            />
+          </div>
+          <div className="col-span-1 text-right font-bold font-mono">
+            {collateralHRT.toLocaleString(undefined, { minimumFractionDigits: 5, maximumFractionDigits: 5 })}
+          </div>
+          <div className="col-span-1 text-right font-mono text-muted-foreground">
+            {debtHRT.toLocaleString(undefined, { minimumFractionDigits: debtPrecision, maximumFractionDigits: debtPrecision })}
+          </div>
+          <div className="col-span-1 text-right font-mono text-muted-foreground">
+            {tcr}
+          </div>
+          <div className="col-span-1 text-right font-mono text-muted-foreground">
+            {ratio}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const WinnerRow = ({ index, style, items, leaderboardById }) => {
     const row = items[index];
     if (!row) return null;
@@ -666,6 +748,22 @@ export default function AirdropCalculate(props) {
 
   return (
     <div className="container mx-auto mt-3 mb-8 px-3 sm:px-4 space-y-6">
+        <div className="rounded-xl border border-border bg-card/60 backdrop-blur-xl px-6 py-5 shadow-lg shadow-black/20 ring-1 dark:ring-white/[0.06] ring-border">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] ring-1 ring-[hsl(var(--accent-1)/0.3)]">
+              <Calculator className="h-6 w-6" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl font-bold tracking-tight text-foreground">
+                {t("AirdropCalculate:page.title")}
+              </h1>
+              <p className="mt-0.5 text-sm text-muted-foreground">
+                {t("AirdropCalculate:page.description")}
+              </p>
+            </div>
+          </div>
+        </div>
+
         <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.15)]">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent" />
           <div className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl" />
@@ -737,7 +835,7 @@ export default function AirdropCalculate(props) {
                   <Label className="text-foreground/70 text-xs uppercase tracking-wider">
                     {t("AirdropCalculate:pool.callOrderAsset")}
                   </Label>
-                  <div className="mt-2">
+                  <div className="mt-2 max-w-sm">
                     <AssetDropDown
                       assetSymbol={callOrderAssetSymbol ?? ""}
                       assetData={null}
@@ -775,7 +873,7 @@ export default function AirdropCalculate(props) {
                     <Label className="text-foreground/70 text-xs uppercase tracking-wider">
                       {t("AirdropCalculate:pool.asset")}
                     </Label>
-                    <div className="mt-2">
+                    <div className="mt-2 max-w-sm">
                       <AssetDropDown
                         assetSymbol={airdropAssetSymbol ?? ""}
                         assetData={null}
@@ -799,7 +897,7 @@ export default function AirdropCalculate(props) {
                     <Label className="text-foreground/70 text-xs uppercase tracking-wider">
                       {t("AirdropCalculate:pool.pairAsset")}
                     </Label>
-                    <div className="mt-2">
+                    <div className="mt-2 max-w-sm">
                       <AssetDropDown
                         assetSymbol={pairAssetSymbol ?? ""}
                         assetData={null}
@@ -937,7 +1035,7 @@ export default function AirdropCalculate(props) {
                     <Label className="text-foreground/70 text-xs uppercase tracking-wider">
                       {t("AirdropCalculate:pool.weightAsset")}
                     </Label>
-                    <div className="mt-2">
+                    <div className="mt-2 max-w-sm">
                       <AssetDropDown
                         assetSymbol={weightAssetSymbol ?? ""}
                         assetData={null}
@@ -1035,6 +1133,38 @@ export default function AirdropCalculate(props) {
                 </Badge>
               )}
               {poolError && <Badge variant="destructive">{poolError}</Badge>}
+              {poolSource === "callorders" && poolCount > 0 && (
+                <div className="flex items-center gap-2 ml-auto">
+                  <Label className="text-foreground/70 text-xs uppercase tracking-wider whitespace-nowrap">
+                    {t("AirdropCalculate:pool.weightBy")}
+                  </Label>
+                  <Select value={callOrderWeightBy} onValueChange={(v) => {
+                    setCallOrderWeightBy(v);
+                    // Rebuild leaderboard with new weight field
+                    const entries = Object.entries(
+                      rawCallOrders.reduce((acc, co) => {
+                        if (!co || !co.id) return acc;
+                        const weightField = v === "debt" ? "debt" : "collateral";
+                        acc[co.id] = (acc[co.id] || 0) + (co[weightField] || 0);
+                        return acc;
+                      }, {}),
+                    ).map(([id, weight]) => ({ id, weight }));
+                    setLeaderboard(buildLeaderboardFromEntries(entries));
+                  }}>
+                    <SelectTrigger className="w-32 h-8 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card">
+                      <SelectItem value="collateral">
+                        {t("AirdropCalculate:pool.weightByCollateral")}
+                      </SelectItem>
+                      <SelectItem value="debt">
+                        {t("AirdropCalculate:pool.weightByDebt")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
             </div>
 
             {!syntheticAll && leaderboard && leaderboard.length > 0 && (
@@ -1048,16 +1178,35 @@ export default function AirdropCalculate(props) {
                   </Badge>
                 </div>
                 <div className="w-full border border-border/60 rounded-xl overflow-hidden bg-card/30">
-                  <List
-                    rowComponent={PoolRow}
-                    rowCount={leaderboard.length}
-                    rowHeight={52}
-                    rowProps={{
-                      items: leaderboard,
-                      label: t("AirdropCalculate:preview." + (POOL_METRIC_KEY[poolSource] || "weight")),
-                    }}
-                    style={{ height: 360 }}
-                  />
+                  {poolSource === "callorders" && rawCallOrders.length > 0 ? (
+                    <>
+                      <div className="grid grid-cols-6 gap-2 px-3 py-1.5 text-[10px] uppercase tracking-wider text-muted-foreground font-medium border-b border-border/40">
+                        <div className="col-span-2">Borrower</div>
+                        <div className={"col-span-1 text-right" + (callOrderWeightBy === "collateral" ? " font-bold text-foreground" : "")}>Collateral</div>
+                        <div className={"col-span-1 text-right" + (callOrderWeightBy === "debt" ? " font-bold text-foreground" : "")}>Debt</div>
+                        <div className="col-span-1 text-right">TCR</div>
+                        <div className="col-span-1 text-right">Ratio</div>
+                      </div>
+                      <List
+                        rowComponent={CallOrderRow}
+                        rowCount={rawCallOrders.length}
+                        rowHeight={52}
+                        rowProps={{ items: rawCallOrders }}
+                        style={{ height: Math.min(360, rawCallOrders.length * 52) }}
+                      />
+                    </>
+                  ) : (
+                    <List
+                      rowComponent={PoolRow}
+                      rowCount={leaderboard.length}
+                      rowHeight={52}
+                      rowProps={{
+                        items: leaderboard,
+                        label: t("AirdropCalculate:preview." + (POOL_METRIC_KEY[poolSource] || "weight")),
+                      }}
+                      style={{ height: 360 }}
+                    />
+                  )}
                 </div>
               </div>
             )}
@@ -1073,6 +1222,7 @@ export default function AirdropCalculate(props) {
             title={t("AirdropCalculate:algos.title")}
             description={t("AirdropCalculate:algos.description")}
           />
+          <div className={poolCount === 0 && !syntheticAll ? "pointer-events-none opacity-50" : ""}>
           <CardContent className="grid grid-cols-1 gap-2">
             {ALGOS.map((algo) => (
               <label
@@ -1207,6 +1357,7 @@ export default function AirdropCalculate(props) {
               {runError && <Badge variant="destructive">{runError}</Badge>}
             </div>
           </CardContent>
+          </div>
         </Card>
 
         <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.15)]">
@@ -1218,12 +1369,13 @@ export default function AirdropCalculate(props) {
             title={t("AirdropCalculate:result.title")}
             description={t("AirdropCalculate:result.description")}
           />
+          <div className={!result ? "pointer-events-none opacity-50" : ""}>
           <CardContent className="grid grid-cols-1 gap-4">
             <div>
               <Label className="text-foreground/70 text-xs uppercase tracking-wider">
                 {t("AirdropCalculate:result.asset")}
               </Label>
-              <div className="mt-2">
+              <div className="mt-2 max-w-sm">
                 <AssetDropDown
                   assetSymbol={airdropAssetSymbol ?? ""}
                   assetData={null}
@@ -1281,10 +1433,10 @@ export default function AirdropCalculate(props) {
               </p>
             )}
           </CardContent>
+          </div>
         </Card>
 
-        {showExecute && executeBatches.length > 0 && (
-          <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.15)]">
+        <Card className={`relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.15)]${!showExecute || executeBatches.length === 0 ? " pointer-events-none opacity-50" : ""}`}>
             <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent" />
             <div className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl" />
             <SectionHeader
@@ -1424,7 +1576,6 @@ export default function AirdropCalculate(props) {
               </div>
             </CardContent>
           </Card>
-        )}
 
         {showExecute && executeDialogBatch !== null && executeBatches[executeDialogBatch] && (() => {
           const trxJSON = buildTransferOps(usr ? usr.id : "", airdropAsset?.id || "", executeBatches[executeDialogBatch]);

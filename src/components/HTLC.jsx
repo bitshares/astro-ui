@@ -46,7 +46,7 @@ import { humanReadableFloat, blockchainFloat } from "@/lib/common";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 import HtlcCreateDialog from "./HtlcCreateDialog.jsx";
 
-import { Lock, Unlock, Key, Shield, Clock, Hash, Send, CheckCircle2, XCircle } from "lucide-react";
+import { Lock, Unlock, Key, Shield, Clock, Hash, Send, CheckCircle2, XCircle, LockKeyhole } from "lucide-react";
 
 const claimPeriods = {
   "1hour": 3600,
@@ -591,7 +591,7 @@ export default function Htlc(properties) {
           <div className="relative p-5 sm:p-6">
             <div className="flex items-start gap-3 mb-4">
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
-                <Lock className="h-4 w-4" strokeWidth={2.25} />
+                <LockKeyhole className="h-4 w-4" strokeWidth={2.25} />
               </span>
               <div className="flex-1">
                 <div className="flex items-center gap-2">

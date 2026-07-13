@@ -157,6 +157,36 @@ export default function BlockedUsers() {
   return (
     <div className="container mx-auto mt-5 mb-10 max-w-4xl text-foreground">
       <div className="grid grid-cols-1 gap-3">
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <UserX className="h-4.5 w-4.5" strokeWidth={2.25} />
+              </span>
+              <div>
+                <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                  {t("Blocklist:pageTitle")}
+                </h2>
+                <p className="text-xs text-muted-foreground/70 mt-0.5">
+                  {t("Blocklist:pageDescription")}
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
+
         <Card className="bg-card/60 border-border shadow-lg shadow-black/20 backdrop-blur-sm">
           <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-danger))]" />
           <CardHeader className="pb-3">

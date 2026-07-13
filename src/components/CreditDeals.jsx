@@ -9,7 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
-import { HandCoins, Coins, ShieldAlert, AlertTriangle, Repeat } from "lucide-react";
+import { Coins, ShieldAlert, AlertTriangle, Repeat, FileSignature } from "lucide-react";
 
 import {
   Empty,
@@ -672,7 +672,7 @@ export default function CreditDeals(properties) {
             <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
             <div className="p-4 pb-0">
               <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
-                <HandCoins className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                <FileSignature className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
                 {t("CreditDeals:card.title")}
               </h2>
               <p className="text-sm text-muted-foreground mt-1">

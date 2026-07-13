@@ -7,7 +7,7 @@ import React, {
 import { List } from "react-window";
 import { useTranslation } from "react-i18next";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
-import { HandCoins, Coins, FileText, ShieldAlert, Eye } from "lucide-react";
+import { Coins, FileText, ShieldAlert, Eye } from "lucide-react";
 import { useStore } from "@nanostores/react";
 
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
@@ -222,7 +222,7 @@ export default function CreditOffers(properties) {
             <div className="flex flex-row justify-between items-center p-4 pb-0">
               <div>
                 <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
-                  <HandCoins className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                  <FileText className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
                   {t("CreditOffers:card.title")}
                 </h2>
                 <p className="text-sm text-muted-foreground mt-1">

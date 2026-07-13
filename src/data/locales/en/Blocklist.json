@@ -1,4 +1,6 @@
 {
+  "pageTitle": "Blocked Accounts",
+  "pageDescription": "Manage committee and personal account blocklists",
   "committeeHeader": "Committee Blacklist",
   "committeeCount": "{{count}} accounts blacklisted by the committee",
   "committeeDescription": "These accounts have been blacklisted by the Bitshares committee. This list is maintained on-chain and updated periodically.",

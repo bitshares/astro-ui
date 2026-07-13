@@ -9,7 +9,7 @@ import { List } from "react-window";
 import { Bar, BarChart, XAxis, CartesianGrid } from "recharts";
 import { useTranslation } from "react-i18next";
 import {
-  Boxes,
+  Database,
   Hash,
   Crown,
   Gauge,
@@ -446,7 +446,7 @@ export default function LiveBlocks(properties) {
               <div>
                 <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
                   <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
-                    <Boxes className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
+                    <Database className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
                   </span>
                   {t("LiveBlocks:cardTitle")}
                 </h2>

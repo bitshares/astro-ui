@@ -48,6 +48,7 @@ import {
   ArrowUpDown,
   ClipboardList,
   Copy,
+  ListOrdered,
   Loader2Icon,
   Pencil,
   RefreshCw,
@@ -497,7 +498,7 @@ export default function PortfolioOpenOrders({
           <CardTitle className="flex items-center justify-between gap-3 px-5 py-4">
             <div className="flex items-center gap-3 min-w-0">
               <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[hsl(var(--accent-1)/0.15)] flex-shrink-0">
-                <ClipboardList className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
+                <ListOrdered className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
               </span>
               <div className="min-w-0">
                 <span className="text-xl font-bold tracking-tight">

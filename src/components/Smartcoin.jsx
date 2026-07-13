@@ -26,7 +26,6 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -1037,198 +1036,156 @@ export default function Smartcoin(properties) {
           />
         ) : null}
 
-        {!invalidUrlParams && finalAsset && parsedAsset && parsedBitasset ? (
-          <AboutAssetCard
-            assetInfo={parsedAsset}
-            bitassetInfo={parsedBitasset}
-            fullAssetInfo={finalAsset}
-            fullBitassetInfo={finalBitasset}
-            type="debt"
-            assetInfoFlags={parsedAssetFlags}
-            assetPermissions={debtPermissions}
-            parsedCollateralAsset={parsedCollateralAsset}
-            usr={usr}
-          />
-        ) : null}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {!invalidUrlParams && finalAsset && parsedAsset && parsedBitasset ? (
+            <AboutAssetCard
+              assetInfo={parsedAsset}
+              bitassetInfo={parsedBitasset}
+              fullAssetInfo={finalAsset}
+              fullBitassetInfo={finalBitasset}
+              type="debt"
+              assetInfoFlags={parsedAssetFlags}
+              assetPermissions={debtPermissions}
+              parsedCollateralAsset={parsedCollateralAsset}
+              usr={usr}
+            />
+          ) : null}
 
-        {!invalidUrlParams &&
-        (!finalAsset || !parsedAsset || !parsedBitasset) ? (
-          <Card className="mt-2 relative overflow-hidden border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
-            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
-            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
-            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
-            <CardHeader className="pb-2 relative">
-              <CardTitle>
-                <div className="grid grid-cols-8">
-                  <div className="col-span-6">
-                    {t("Smartcoin:aboutSmartcoinAsset")}
+          {!invalidUrlParams &&
+          (!finalAsset || !parsedAsset || !parsedBitasset) ? (
+            <Card className="mt-2 relative overflow-hidden border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+              <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+              <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+              <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
+              <CardHeader className="pb-2 relative">
+                <CardTitle>
+                  <div className="grid grid-cols-8">
+                    <div className="col-span-6">
+                      {t("Smartcoin:aboutSmartcoinAsset")}
+                    </div>
+                    <div className="col-span-2 text-right">
+                      <Button variant="outline" className="h-5">
+                        {t("Smartcoin:viewJson")}
+                      </Button>
+                    </div>
                   </div>
-                  <div className="col-span-2 text-right">
-                    <Button variant="outline" className="h-5">
-                      {t("Smartcoin:viewJson")}
-                    </Button>
+                </CardTitle>
+                <CardDescription>
+                  {t("Smartcoin:aboutSmartcoinAssetDescription")}
+                  <br />
+                  {t("Smartcoin:doYourOwnResearch")}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2">
+                  <div className="col-span-1">
+                    <Label>{t("Smartcoin:generalAssetInfo")}</Label>
                   </div>
                 </div>
-              </CardTitle>
-              <CardDescription>
-                {t("Smartcoin:aboutSmartcoinAssetDescription")}
+                <div className="grid grid-cols-1 gap-1 w-full text-sm">
+                  <EmptyRow title={t("Smartcoin:issuer")} button="" />
+                  <EmptyRow title={t("Smartcoin:maximumSupply")} button="" />
+                  <EmptyRow title={t("Smartcoin:minQuantity")} button="" />
+                  <EmptyRow title={t("Smartcoin:precision")} button="" />
+                  <EmptyRow title={t("Smartcoin:marketFee")} button="" />
+                  <EmptyRow title={t("Smartcoin:takerFeePercent")} button="" />
+                  <EmptyRow title={t("Smartcoin:rewardPercent")} button="" />
+                </div>
+
+                <div className="grid grid-cols-2">
+                  <div className="col-span-1">
+                    <Label>{t("Smartcoin:smartcoinInfo")}</Label>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-1 w-full text-sm">
+                  <EmptyRow title={t("Smartcoin:collateralAsset")} button="" />
+                  <EmptyRow title={t("Smartcoin:mcr")} button="" />
+                  <EmptyRow title={t("Smartcoin:mssr")} button="" />
+                  <EmptyRow title={t("Smartcoin:icr")} button="" />
+                  <EmptyRow title={t("Smartcoin:feedQty")} button="" />
+                  <EmptyRow title={t("Smartcoin:settlementOffset")} button="" />
+                  <EmptyRow title={t("Smartcoin:settlementFee")} button="" />
+                  <EmptyRow title={t("Smartcoin:marginCallFee")} button="" />
+                  <EmptyRow title={t("Smartcoin:bsrm")} button="" />
+                </div>
+
+                <Label className="pb-0">{t("Smartcoin:assetFlags")}</Label>
                 <br />
-                {t("Smartcoin:doYourOwnResearch")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2">
-                <div className="col-span-1">
-                  <Label>{t("Smartcoin:generalAssetInfo")}</Label>
-                </div>
-              </div>
-              <div className="grid grid-cols-11 gap-1 w-full text-sm">
-                <div className="col-span-5">
-                  <div className="grid grid-cols-1 gap-1 w-full text-sm">
-                    <EmptyRow title={t("Smartcoin:issuer")} button="" />
-                    <EmptyRow title={t("Smartcoin:maximumSupply")} button="" />
-                    <EmptyRow title={t("Smartcoin:minQuantity")} button="" />
-                    <EmptyRow title={t("Smartcoin:precision")} button="" />
-                  </div>
-                </div>
-                <div className="col-span-1 flex justify-center items-center">
-                  <Separator orientation="vertical" />
-                </div>
-                <div className="col-span-5">
-                  <div className="grid grid-cols-1 gap-1 w-full text-sm">
-                    <EmptyRow title={t("Smartcoin:marketFee")} button="" />
-                    <EmptyRow
-                      title={t("Smartcoin:takerFeePercent")}
-                      button=""
-                    />
-                    <EmptyRow title={t("Smartcoin:rewardPercent")} button="" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2">
-                <div className="col-span-1">
-                  <Label>{t("Smartcoin:smartcoinInfo")}</Label>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-11 gap-1 w-full text-sm">
-                <div className="col-span-5">
-                  <div className="grid grid-cols-1 gap-1 w-full text-sm">
-                    <EmptyRow
-                      title={t("Smartcoin:collateralAsset")}
-                      button=""
-                    />
-                    <EmptyRow title={t("Smartcoin:mcr")} button="" />
-                    <EmptyRow title={t("Smartcoin:mssr")} button="" />
-                    <EmptyRow title={t("Smartcoin:icr")} button="" />
-                    <EmptyRow title={t("Smartcoin:feedQty")} button="" />
-                    <EmptyRow
-                      title={t("Smartcoin:settlementOffset")}
-                      button=""
-                    />
-                  </div>
-                </div>
-                <div className="col-span-1 flex justify-center items-center">
-                  <Separator orientation="vertical" />
-                </div>
-                <div className="col-span-5">
-                  <div className="grid grid-cols-1 gap-1 w-full text-sm">
-                    <EmptyRow title={t("Smartcoin:marketFee")} button="" />{" "}
-                  </div>
-                </div>
-              </div>
-
-              <Label className="pb-0">{t("Smartcoin:assetFlags")}</Label>
-              <br />
-              <span className="text-sm"> </span>
-              <br />
-              <Label>{t("Smartcoin:assetPermissions")}</Label>
-              <br />
-              <span className="text-sm"> </span>
-            </CardContent>
-          </Card>
-        ) : null}
-
-        {!invalidUrlParams && finalCollateralAsset && parsedCollateralAsset ? (
-          <AboutAssetCard
-            assetInfo={parsedCollateralAsset}
-            bitassetInfo={parsedCollateralBitasset ?? {}}
-            fullAssetInfo={finalCollateralAsset}
-            fullBitassetInfo={finalCollateralBitasset ?? {}}
-            type="collateral"
-            assetInfoFlags={collateralFlags}
-            assetPermissions={collateralPermissions}
-            parsedCollateralAsset={parsedCollateralAsset}
-            usr={usr}
-          />
-        ) : null}
-
-        {!invalidUrlParams &&
-        (!finalCollateralAsset || !parsedCollateralAsset) ? (
-          <Card className="mt-2 relative overflow-hidden border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
-            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
-            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
-            <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
-            <CardHeader className="pb-2 relative">
-              <CardTitle>
-                <div className="grid grid-cols-8">
-                  <div className="col-span-6">{t("Smartcoin:about")}</div>
-                  <div className="col-span-2 text-right">
-                    <Button variant="outline" className="h-5">
-                      {t("Smartcoin:viewJson")}
-                    </Button>
-                  </div>
-                </div>
-              </CardTitle>
-              <CardDescription>
-                {t("Smartcoin:aboutSmartcoinAssetDescription")}
+                <span className="text-sm"> </span>
                 <br />
-                {t("Smartcoin:doYourOwnResearch")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2">
-                <div className="col-span-1">
-                  <Label>{t("Smartcoin:generalAssetInfo")}</Label>
-                </div>
-              </div>
-              <div className="grid grid-cols-11 gap-1 w-full text-sm">
-                <div className="col-span-5">
-                  <div className="grid grid-cols-1 gap-1 w-full text-sm">
-                    <EmptyRow title={t("Smartcoin:issuer")} button="" />
-                    <EmptyRow title={t("Smartcoin:maximumSupply")} button="" />
-                    <EmptyRow title={t("Smartcoin:minQuantity")} button="" />
-                    <EmptyRow title={t("Smartcoin:precision")} button="" />
+                <Label>{t("Smartcoin:assetPermissions")}</Label>
+                <br />
+                <span className="text-sm"> </span>
+              </CardContent>
+            </Card>
+          ) : null}
+
+          {!invalidUrlParams && finalCollateralAsset && parsedCollateralAsset ? (
+            <AboutAssetCard
+              assetInfo={parsedCollateralAsset}
+              bitassetInfo={parsedCollateralBitasset ?? {}}
+              fullAssetInfo={finalCollateralAsset}
+              fullBitassetInfo={finalCollateralBitasset ?? {}}
+              type="collateral"
+              assetInfoFlags={collateralFlags}
+              assetPermissions={collateralPermissions}
+              parsedCollateralAsset={parsedCollateralAsset}
+              usr={usr}
+            />
+          ) : null}
+
+          {!invalidUrlParams &&
+          (!finalCollateralAsset || !parsedCollateralAsset) ? (
+            <Card className="mt-2 relative overflow-hidden border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+              <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+              <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+              <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
+              <CardHeader className="pb-2 relative">
+                <CardTitle>
+                  <div className="grid grid-cols-8">
+                    <div className="col-span-6">{t("Smartcoin:about")}</div>
+                    <div className="col-span-2 text-right">
+                      <Button variant="outline" className="h-5">
+                        {t("Smartcoin:viewJson")}
+                      </Button>
+                    </div>
+                  </div>
+                </CardTitle>
+                <CardDescription>
+                  {t("Smartcoin:aboutSmartcoinAssetDescription")}
+                  <br />
+                  {t("Smartcoin:doYourOwnResearch")}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2">
+                  <div className="col-span-1">
+                    <Label>{t("Smartcoin:generalAssetInfo")}</Label>
                   </div>
                 </div>
-                <div className="col-span-1 flex justify-center items-center">
-                  <Separator orientation="vertical" />
+                <div className="grid grid-cols-1 gap-1 w-full text-sm">
+                  <EmptyRow title={t("Smartcoin:issuer")} button="" />
+                  <EmptyRow title={t("Smartcoin:maximumSupply")} button="" />
+                  <EmptyRow title={t("Smartcoin:minQuantity")} button="" />
+                  <EmptyRow title={t("Smartcoin:precision")} button="" />
+                  <EmptyRow title={t("Smartcoin:marketFee")} button="" />
+                  <EmptyRow title={t("Smartcoin:takerFeePercent")} button="" />
+                  <EmptyRow title={t("Smartcoin:rewardPercent")} button="" />
                 </div>
-                <div className="col-span-5">
-                  <div className="grid grid-cols-1 gap-1 w-full text-sm">
-                    <EmptyRow title={t("Smartcoin:marketFee")} button="" />
-                    <EmptyRow
-                      title={t("Smartcoin:takerFeePercent")}
-                      button=""
-                    />
-                    <EmptyRow title={t("Smartcoin:rewardPercent")} button="" />
-                  </div>
-                </div>
-              </div>
 
-              <br />
+                <br />
 
-              <Label className="pb-0">{t("Smartcoin:assetFlags")}</Label>
-              <br />
-              <span className="text-sm"> </span>
-              <br />
-              <Label>{t("Smartcoin:assetPermissions")}</Label>
-              <br />
-              <span className="text-sm"> </span>
-            </CardContent>
-          </Card>
-        ) : null}
+                <Label className="pb-0">{t("Smartcoin:assetFlags")}</Label>
+                <br />
+                <span className="text-sm"> </span>
+                <br />
+                <Label>{t("Smartcoin:assetPermissions")}</Label>
+                <br />
+                <span className="text-sm"> </span>
+              </CardContent>
+            </Card>
+          ) : null}
+        </div>
 
         {showDialog && trxJSON ? (
           <DeepLinkDialog

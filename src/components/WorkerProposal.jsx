@@ -9,7 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
-import { HardHat, Send } from "lucide-react";
+import { Pickaxe, Send } from "lucide-react";
 
 import {
   Card,
@@ -222,7 +222,7 @@ export default function WorkerCreate(properties) {
           <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
           <CardHeader className="pb-0">
             <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
-              <HardHat className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+              <Pickaxe className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
               {t("WorkerCreate:title")}
             </CardTitle>
             <CardDescription>{t("WorkerCreate:description")}</CardDescription>

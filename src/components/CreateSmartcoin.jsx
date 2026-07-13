@@ -36,7 +36,7 @@ import {
   Image,
   Settings,
   Send,
-  Coins,
+  Gem,
   Percent,
   Tag,
   Info,
@@ -1147,7 +1147,7 @@ export default function CreateSmartcoin(properties) {
           <div className="rounded-xl border border-border bg-card/60 backdrop-blur-xl px-6 py-5 shadow-lg shadow-black/20 ring-1 dark:ring-white/[0.06] ring-border">
             <div className="flex items-center gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] ring-1 ring-[hsl(var(--accent-1)/0.3)]">
-                <Coins className="h-6 w-6" />
+                <Gem className="h-6 w-6" />
               </div>
               <div className="flex-1 min-w-0">
                 <h1 className="text-xl font-bold tracking-tight text-foreground">

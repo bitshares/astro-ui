@@ -14,7 +14,7 @@ import {
   UserPlus,
   UserMinus,
   Search,
-  ListChecks,
+  ClipboardList,
   Users,
 } from "lucide-react";
 
@@ -280,7 +280,7 @@ export default function AccountLists(properties) {
             {/* Header */}
             <div className="flex items-center gap-3 mb-5">
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
-                <ListChecks className="h-4.5 w-4.5" strokeWidth={2.25} />
+                <ClipboardList className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>
                 <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">

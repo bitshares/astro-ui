@@ -40,7 +40,7 @@ import { createVestingBalanceStore } from "@/nanoeffects/VestingBalances.ts";
 import { humanReadableFloat } from "@/lib/common.js";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 
-import { Coins, PiggyBank, TrendingUp, Clock, Calendar as Cal, ArrowUpCircle, Info } from "lucide-react";
+import { Coins, PiggyBank, TrendingUp, Clock, Calendar as Cal, ArrowUpCircle, Info, Hourglass } from "lucide-react";
 
 function hoursTillExpiration(expirationTime) {
   var expirationDate = new Date(expirationTime);
@@ -213,7 +213,7 @@ export default function Vesting(properties) {
         <div className="relative p-5 sm:p-6">
           <div className="flex items-start gap-3 mb-4">
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
-              <PiggyBank className="h-4 w-4" strokeWidth={2.25} />
+              <Hourglass className="h-4 w-4" strokeWidth={2.25} />
             </span>
             <div className="flex-1">
               <div className="flex items-center gap-2">

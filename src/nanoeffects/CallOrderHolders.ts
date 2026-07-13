@@ -1,36 +1,71 @@
 import { nanoquery } from "@nanostores/query";
 import Apis from "@/bts/ws/ApiInstances";
 import { chains } from "@/config/chains";
-import { getObjects } from "@/nanoeffects/src/common.ts";
-import { getMaxObjectIDs } from "@/nanoeffects/MaxObjectID.ts";
 
 /**
- * Fetch call orders (1.8.x) on the chain. Call orders represent debt
- * positions (smartcoins shortened into existence); the `borrower` account is
- * the debt/collateral holder. Used as a weighted airdrop candidate pool
- * (weight = collateral amount).
+ * Fetch call orders for a specific smartcoin using the chain's
+ * `get_call_orders` database API.
  *
- * When `debtAssetId` is supplied the results are scoped to that single
- * smartcoin (its `debt.asset_id` must match), so the pool reflects only the
- * borrowers of the chosen market-pegged asset.
+ * @param chain       - "bitshares" or "bitshares_testnet"
+ * @param specificNode - optional WebSocket node URL
+ * @param debtAssetId  - the asset ID of the smartcoin (e.g. "1.3.x")
  */
-async function getCallOrderHolders(chain, specificNode, debtAssetId) {
-  const maxN = await getMaxObjectIDs(chain, 1, 8, specificNode);
-  if (!maxN || maxN < 1) return [];
-  const ids = [];
-  for (let i = 1; i <= maxN; i++) {
-    ids.push(`1.8.${i}`);
+async function getCallOrderHolders(
+  chain: string,
+  specificNode: string | null,
+  debtAssetId: string,
+) {
+  if (!debtAssetId) return [];
+
+  let currentAPI;
+  const node = specificNode
+    ? specificNode
+    : (chains as any)[chain].nodeList[0].url;
+
+  try {
+    currentAPI = await Apis.instance(
+      node,
+      true,
+      4000,
+      { enableDatabase: true },
+      (error: Error) => console.log({ error }),
+    );
+  } catch (error) {
+    console.log({ error });
+    return [];
   }
-  const objects = await getObjects(chain, ids, specificNode);
-  return objects
-    .filter((o) => o && o.borrower)
-    .filter((o) => !debtAssetId || (o.debt && o.debt.asset_id === debtAssetId))
-    .map((o) => ({
-      id: o.borrower,
-      collateral:
-        o.collateral && o.collateral.amount ? Number(o.collateral.amount) : 0,
-      debt: o.debt && o.debt.amount ? Number(o.debt.amount) : 0,
-    }));
+
+  try {
+    const callOrders = await currentAPI
+      .db_api()
+      .exec("get_call_orders", [debtAssetId, 300]);
+
+    currentAPI.close();
+
+    if (!callOrders || !Array.isArray(callOrders)) return [];
+
+    function toNum(val: any): number {
+      if (typeof val === "number") return val;
+      if (typeof val === "string" && val !== "") return Number(val);
+      if (val && typeof val === "object" && val.amount != null) return Number(val.amount);
+      return 0;
+    }
+
+    return callOrders
+      .filter((o: any) => o && o.borrower)
+      .map((o: any) => ({
+        id: o.borrower,
+        collateral: toNum(o.collateral),
+        debt: toNum(o.debt),
+        target_collateral_ratio: o.target_collateral_ratio
+          ? Number(o.target_collateral_ratio)
+          : 0,
+      }));
+  } catch (error) {
+    console.log({ error });
+    currentAPI.close();
+    return [];
+  }
 }
 
 const [createCallOrderHoldersStore] = nanoquery({

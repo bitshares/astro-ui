@@ -11,7 +11,7 @@ import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
 
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
-import { FileText, ShieldAlert, CheckCircle, XCircle, AlertTriangle, Clock } from "lucide-react";
+import { FileText, ShieldAlert, CheckCircle, XCircle, AlertTriangle, Clock, Gavel } from "lucide-react";
 
 import {
   Dialog,
@@ -458,7 +458,7 @@ export default function Proposals(properties) {
             <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
             <div className="p-4 pb-0">
               <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
-                <FileText className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                <Gavel className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
                 {t("Proposals:cardTitle")}
               </h2>
               <p className="text-sm text-muted-foreground mt-1">

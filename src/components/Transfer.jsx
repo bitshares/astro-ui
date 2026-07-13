@@ -57,7 +57,7 @@ import ExternalLink from "./common/ExternalLink.jsx";
 
 import AssetDropDown from "./Market/AssetDropDownCard.jsx";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Send } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -309,12 +309,19 @@ export default function Transfer(properties) {
             className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.06)] blur-3xl"
           />
           <div className="relative px-5 sm:px-6 pt-5 sm:pt-6 pb-3">
-            <h2 className="text-lg font-semibold text-foreground tracking-tight">
-              {t("Transfer:transferAssets")}
-            </h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("Transfer:sendFundsDescription")}
-            </p>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <Send className="h-4.5 w-4.5" strokeWidth={2.25} />
+              </span>
+              <div>
+                <h2 className="text-lg font-semibold text-foreground tracking-tight">
+                  {t("Transfer:transferAssets")}
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {t("Transfer:sendFundsDescription")}
+                </p>
+              </div>
+            </div>
           </div>
           <div className="relative px-5 sm:px-6 pb-6">
             <form

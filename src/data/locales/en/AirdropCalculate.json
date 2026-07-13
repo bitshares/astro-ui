@@ -1,4 +1,8 @@
 {
+  "page": {
+    "title": "Airdrop calculator",
+    "description": "Build a recipient pool, run selection algorithms, and broadcast an airdrop of any asset."
+  },
   "pool": {
     "title": "Candidate pool",
     "description": "Choose where the airdrop candidates come from, then load them. Algorithms run against this pool.",
@@ -48,7 +52,10 @@
     "load": "Load pool",
     "loading": "Loading…",
     "loaded": "Loaded {{count}} accounts",
-    "accountsLoaded": "{{count}} accounts in range"
+    "accountsLoaded": "{{count}} accounts in range",
+    "weightBy": "Weight by",
+    "weightByCollateral": "Collateral",
+    "weightByDebt": "Debt"
   },
   "preview": {
     "title": "Pool preview",
