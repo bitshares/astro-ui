@@ -17,5 +17,7 @@
   "blockConfirmTitle": "{{name}} sperren?",
   "blockConfirmDescription": "Sind Sie sicher, dass Sie dieses Konto sperren möchten? Es wird in der gesamten Ansicht ausgeblendet.",
   "blockConfirmAction": "Sperren",
-  "blockConfirmCancel": "Abbrechen"
+  "blockConfirmCancel": "Abbrechen",
+  "pageTitle": "Blockierte Konten",
+  "pageDescription": "Verwalte Ausschuss- und persönliche Kontosperrlisten"
 }

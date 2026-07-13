@@ -17,5 +17,7 @@
   "blockConfirmTitle": "Bloker {{name}}?",
   "blockConfirmDescription": "Er du sikker på, at du vil blokere denne konto? De vil blive skjult fra din visning i hele applikationen.",
   "blockConfirmAction": "Bloker",
-  "blockConfirmCancel": "Annuller"
+  "blockConfirmCancel": "Annuller",
+  "pageTitle": "Blokerede konti",
+  "pageDescription": "Administrer udvalgs- og personlige kontoblokeringer"
 }

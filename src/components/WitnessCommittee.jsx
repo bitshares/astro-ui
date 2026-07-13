@@ -7,7 +7,7 @@ import React, {
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
-import { Shield, Users, Eye, Settings } from "lucide-react";
+import { Vote, Users, Eye, Settings } from "lucide-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -161,7 +161,7 @@ export default function GovernanceActions(properties) {
           <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
           <CardHeader className="pb-0">
             <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
-              <Shield className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+              <Vote className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
               {t("GovernanceActions:title")}
             </CardTitle>
             <CardDescription>{t("GovernanceActions:description")}</CardDescription>

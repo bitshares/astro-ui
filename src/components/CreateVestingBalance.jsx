@@ -187,7 +187,7 @@ export default function CreateVestingBalance(properties) {
           <CardHeader className="pb-1 relative z-10">
             <CardTitle className="flex items-center gap-3 text-xl">
               <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
-                <PiggyBank className="w-5 h-5 text-[hsl(var(--accent-1-gradFg))]" />
+                <Clock className="w-5 h-5 text-[hsl(var(--accent-1-gradFg))]" />
               </div>
               {t("CreateVestingBalance:card.title")}
             </CardTitle>

@@ -17,5 +17,7 @@
   "blockConfirmTitle": "Bloccare {{name}}?",
   "blockConfirmDescription": "Sei sicuro di voler bloccare questo account? Sarà nascosto dalla tua visualizzazione in tutta l'applicazione.",
   "blockConfirmAction": "Blocca",
-  "blockConfirmCancel": "Annulla"
+  "blockConfirmCancel": "Annulla",
+  "pageTitle": "Account bloccati",
+  "pageDescription": "Gestisci le liste di blocco degli account del comitato e personali"
 }

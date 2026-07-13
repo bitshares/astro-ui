@@ -132,6 +132,7 @@ const ICONS = {
   create_account: UserPlus,
   configure_visuals: Palette,
   theme_customizer: Palette,
+  page_themes: Layers,
   home: Home,
   create_uia: Gem,
   create_smartcoin: Gem,

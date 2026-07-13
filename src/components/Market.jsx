@@ -11,7 +11,7 @@ import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   ArrowLeftRight,
-  Repeat,
+  LineChart,
   TrendingUp,
   TrendingDown,
   BarChart3,
@@ -752,7 +752,7 @@ export default function Market(properties) {
               <div className="relative flex items-center justify-between gap-2 px-4 py-3">
                 <div className="flex items-center gap-2.5">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))]">
-                    <Repeat className="h-4 w-4" />
+                    <LineChart className="h-4 w-4" />
                   </div>
                   <div>
                     <h3 className="text-sm font-semibold text-[hsl(var(--accent-1-fg))]">

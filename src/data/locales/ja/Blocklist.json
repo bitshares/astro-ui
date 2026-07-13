@@ -17,5 +17,7 @@
   "blockConfirmTitle": "{{name}}をブロックしますか？",
   "blockConfirmDescription": "このアカウントをブロックしてもよろしいですか？ブロックするとアプリケーション全体で非表示になります。",
   "blockConfirmAction": "ブロック",
-  "blockConfirmCancel": "キャンセル"
+  "blockConfirmCancel": "キャンセル",
+  "pageTitle": "ブロックされたアカウント",
+  "pageDescription": "委員会および個人のアカウントブロックリストを管理する"
 }

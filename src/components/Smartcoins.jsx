@@ -9,7 +9,7 @@ import { List } from "react-window";
 import Fuse from "fuse.js";
 import { useStore } from "@nanostores/react";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
-import { HandCoins, User, Coins, Tag, Activity } from "lucide-react";
+import { User, Coins, Tag, Activity, CircleDollarSign } from "lucide-react";
 
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
@@ -518,7 +518,7 @@ export default function Smartcoins(properties) {
             <div className="p-6">
               <div className="flex items-center gap-3 mb-6">
                 <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] text-[hsl(var(--accent-1-gradFg))] dark:text-[hsl(var(--accent-1-gradFg))]">
-                  <HandCoins className="h-4.5 w-4.5" strokeWidth={2.25} />
+                  <CircleDollarSign className="h-4.5 w-4.5" strokeWidth={2.25} />
                 </span>
                 <div>
                   <h2 className="text-xl font-bold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">

@@ -1,8 +1,10 @@
 {
-    "cardTitle": "Configure sua conexão blockchain",
-    "cardDescription": "Conecte-se a um nó Bitshares de sua escolha.",
-    "add": "Adicionar URL",
-    "reset": "Redefinir configuração do nó",
-    "none": "Nenhum nó configurado. Forneça um URL de nó para continuar.",
-    "addDescription": "Adicionar um novo URL de nó à lista de nós deste blockchain?"
-  }
+  "cardTitle": "Configure sua conexão blockchain",
+  "cardDescription": "Conecte-se a um nó Bitshares de sua escolha.",
+  "add": "Adicionar URL",
+  "reset": "Redefinir configuração do nó",
+  "none": "Nenhum nó configurado. Forneça um URL de nó para continuar.",
+  "addDescription": "Adicionar um novo URL de nó à lista de nós deste blockchain?",
+  "pageTitle": "Nós blockchain",
+  "pageDescription": "Gerencie e conecte-se aos nós da rede Bitshares"
+}

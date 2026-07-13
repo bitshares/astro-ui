@@ -17,5 +17,7 @@
   "blockConfirmTitle": "Blokeeri {{name}}?",
   "blockConfirmDescription": "Kas olete kindel, et soovite selle konto blokeerida? See peidetakse kogu rakenduse vaates.",
   "blockConfirmAction": "Blokeeri",
-  "blockConfirmCancel": "Tühista"
+  "blockConfirmCancel": "Tühista",
+  "pageTitle": "Blokeeritud kontod",
+  "pageDescription": "Halda komitee ja isiklike kontode blokeerimisloendit"
 }

@@ -17,5 +17,7 @@
   "blockConfirmTitle": "¿Bloquear a {{name}}?",
   "blockConfirmDescription": "¿Está seguro de que desea bloquear esta cuenta? Se ocultará de su vista en toda la aplicación.",
   "blockConfirmAction": "Bloquear",
-  "blockConfirmCancel": "Cancelar"
+  "blockConfirmCancel": "Cancelar",
+  "pageTitle": "Cuentas bloqueadas",
+  "pageDescription": "Gestiona las listas de bloqueo de cuentas del comité y personales"
 }

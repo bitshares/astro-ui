@@ -17,5 +17,7 @@
   "blockConfirmTitle": "บล็อก {{name}}?",
   "blockConfirmDescription": "คุณแน่ใจหรือไม่ว่าต้องการบล็อกบัญชีนี้ บัญชีนี้จะถูกซ่อนจากการแสดงผลทั่วทั้งแอปพลิเคชัน",
   "blockConfirmAction": "บล็อก",
-  "blockConfirmCancel": "ยกเลิก"
+  "blockConfirmCancel": "ยกเลิก",
+  "pageTitle": "บัญชีที่ถูกบล็อก",
+  "pageDescription": "จัดการรายชื่อบล็อกบัญชีของคณะกรรมการและส่วนตัว"
 }
