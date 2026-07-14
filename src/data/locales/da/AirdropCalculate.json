@@ -2,5 +2,100 @@
   "page": {
     "title": "Airdrop-beregner",
     "description": "Opret en modtagerpulje, kør udvælgelsesalgoritmer og udsend en airdrop af enhver aktiv."
+  },
+  "result": {
+    "save": "Generate airdrop transaction details",
+    "quantityHeading": "Antal vindere",
+    "quantityHint": "Antallet af konti, der er valgt som vindere af de valgte algoritmer."
+  },
+  "amount": {
+    "title": "Amount to airdrop",
+    "hint": "Det samlede beløb af det valgte aktiv, der skal fordeles mellem de vindende konti.",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Your balance: {{amount}} {{symbol}}",
+    "invalid": "Enter an amount greater than zero and no more than your balance."
+  },
+  "block": {
+    "useLatest": "Use latest block",
+    "random": "Random block",
+    "current": "Latest known block: {{num}}",
+    "currentUnknown": "Latest block not yet fetched."
+  },
+  "algos": {
+    "title": "Algoritmer",
+    "description": "Vælg én eller flere algoritmer. Hver valgt algoritme føjer sine vindende konti til den endelige modtagerliste.",
+    "freebie": {
+      "name": "Gratis (alle)",
+      "desc": "Hver konto i puljen modtager airdroppen."
+    },
+    "forward": {
+      "name": "Fremad",
+      "desc": "Deterministisk tilfældig udvælgelse forankret i en blocks vidnesignatur (fremadgående bidder)."
+    },
+    "reverse": {
+      "name": "Omvendt",
+      "desc": "Deterministisk tilfældig udvælgelse forankret i en blocks vidnesignatur (omvendte bidder)."
+    },
+    "pi": {
+      "name": "Pi",
+      "desc": "Deterministisk tilfældig udvælgelse via en pi-agtig beregning over signaturbidderne."
+    },
+    "reverse_pi": {
+      "name": "Omvendt pi",
+      "desc": "Deterministisk tilfældig udvælgelse via en pi-agtig beregning over de omvendte signaturbidder."
+    },
+    "cubed": {
+      "name": "Kubisk",
+      "desc": "Deterministisk tilfældig udvælgelse der opløfter signaturens 3-cifrede bidder i tredje potens."
+    },
+    "avg_point_lines": {
+      "name": "Gennemsnitlige punktlinjer",
+      "desc": "Geometrisk udvælgelse: trækker linjer til den gennemsnitlige vektor fra signaturen."
+    },
+    "alien_blood": {
+      "name": "Rumvæsenblod",
+      "desc": "Geometrisk udvælgelse: sprøjtpunkter udledt fra signaturen."
+    },
+    "bouncing_ball": {
+      "name": "Sprellende bold",
+      "desc": "Geometrisk udvælgelse: følger en bane mellem signaturvektorer."
+    },
+    "barrel_of_fish": {
+      "name": "Fiskefat",
+      "desc": "Geometrisk udvælgelse: fragmenter flyver fra et nedslagspunkt gennem signaturvektorer.",
+      "projectile": "Projektildybde",
+      "beam": "Stråle",
+      "slow": "Langsom",
+      "splinter": "Splint",
+      "yes": "Ja",
+      "no": "Nej"
+    },
+    "golden": {
+      "name": "Gyldent gitter",
+      "desc": "Geometrisk udvælgelse: et lav-afvigende Fibonacci-gitter (gyldent snit) fylder terningen jævnt for næsten ens dækning."
+    },
+    "hash": {
+      "name": "Hash",
+      "desc": "Numerisk udvælgelse: en signatur-forsynet FNV-1a + xorshift32 PRNG spreder billetter jævnt over hele området."
+    },
+    "walk": {
+      "name": "Vandring",
+      "desc": "Geometrisk udvælgelse: en slyngende sti går gennem terningen og sampler billetter langs hvert segment."
+    },
+    "helix": {
+      "name": "Helix",
+      "desc": "Geometrisk udvælgelse: billetter samlet langs en 3-D spiral der stiger gennem terningen."
+    },
+    "fireworks": {
+      "name": "Fyrværkeri",
+      "desc": "Geometrisk udvælgelse: hver signaturbid sprænger ud i stråler mod andre bidder og sprøjter billetter udad.",
+      "projectile": "Projektildybde",
+      "beam": "Stråle",
+      "slow": "Langsom",
+      "splinter": "Splint",
+      "yes": "Ja",
+      "no": "Nej"
+    }
   }
 }

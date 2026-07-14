@@ -275,23 +275,26 @@ export default function DeepLinkDialog(properties) {
 
       let feeProcessedOperations = [...trxJSON];
 
-      for (let i = 0; i < trxJSON.length; i++) {
+      // All transfer ops share the same base fee, so fetch it ONCE and reuse
+      // it for every operation. Looping over each op previously opened a fresh
+      // websocket connection per operation (N+1 RPCs), which stormed the node
+      // and failed with "websocket state error:0" for large batches.
+      if (window.electron && trxJSON.length) {
+        let singleFee = null;
         try {
-          let currentFee = await window.electron.calculateOperationFees({
+          singleFee = await window.electron.calculateOperationFees({
             nodeURL: currentNode,
-            trxJSON: trxJSON[i],
+            trxJSON: trxJSON[0],
           });
-
-          if (currentFee) {
-            feeProcessedOperations[i].fee = {
-              amount: parseInt(currentFee),
-              asset_id: "1.3.0",
-            };
-          } else {
-            console.log("Failed to fetch fee for operation", trxJSON[i]);
-          }
         } catch (error) {
-          console.error("Error calculating fees:", error);
+          console.error("Error calculating fee:", error);
+        }
+        if (singleFee != null) {
+          const feeObj = { amount: parseInt(singleFee), asset_id: "1.3.0" };
+          feeProcessedOperations = feeProcessedOperations.map((op) => ({
+            ...op,
+            fee: feeObj,
+          }));
         }
       }
 

@@ -2,6 +2,23 @@ import { nanoquery } from "@nanostores/query";
 import Apis from "@/bts/ws/ApiInstances";
 import { chains } from "@/config/chains";
 
+/**
+ * Fetch the `witness_signature` string for a given block from the chain.
+ *
+ * Connects to a BitShares WebSocket node, retrieves the full block via the
+ * `get_block` database API, and extracts the `witness_signature` field.
+ * This signature is the seed input for the airdrop lottery algorithms
+ * (see `filterSignature` in `airdropAlgos.js`).
+ *
+ * @param {string}         chain         Chain identifier (`"bitshares"` or
+ *   `"bitshares_testnet"`).
+ * @param {number|string}  blockNumber   Block height to fetch.
+ * @param {string|null}    [specificNode=null]  Optional WebSocket node URL.
+ *   Falls back to the first node in the chain's configured node list.
+ * @returns {Promise<string>}  The witness signature hex string.
+ * @throws {Error} If the block has no `witness_signature` field or the
+ *   fetch fails.
+ */
 async function getBlockSignature(
   chain: string,
   blockNumber: number | string,
@@ -38,6 +55,18 @@ async function getBlockSignature(
   });
 }
 
+/**
+ * Nanoquery store that fetches a block's witness signature.
+ *
+ * Wraps {@link getBlockSignature} for use with `@nanostores/query`.
+ * The store keys are `[chain, blockNumber, specificNode?]`.
+ *
+ * @example
+ * ```ts
+ * const store = createBlockSignatureStore("bitshares", 12345, null);
+ * // store.value contains the witness_signature string
+ * ```
+ */
 const [createBlockSignatureStore] = nanoquery({
   fetcher: async (...args: unknown[]) => {
     const chain = args[0] as string;

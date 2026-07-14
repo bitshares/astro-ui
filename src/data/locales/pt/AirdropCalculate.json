@@ -2,5 +2,100 @@
   "page": {
     "title": "Calculadora de airdrop",
     "description": "Crie um grupo de destinatários, execute algoritmos de seleção e transmita um airdrop de qualquer ativo."
+  },
+  "result": {
+    "save": "Generate airdrop transaction details",
+    "quantityHeading": "Quantidade de ganhadores",
+    "quantityHint": "O número de contas selecionadas como ganhadores pelos algoritmos escolhidos."
+  },
+  "amount": {
+    "title": "Amount to airdrop",
+    "hint": "O valor total do ativo selecionado para dividir entre as contas vencedoras.",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Your balance: {{amount}} {{symbol}}",
+    "invalid": "Enter an amount greater than zero and no more than your balance."
+  },
+  "block": {
+    "useLatest": "Use latest block",
+    "random": "Random block",
+    "current": "Latest known block: {{num}}",
+    "currentUnknown": "Latest block not yet fetched."
+  },
+  "algos": {
+    "title": "Algoritmos",
+    "description": "Selecione um ou mais algoritmos. Cada algoritmo escolhido adiciona suas contas vencedoras à lista final de destinatários.",
+    "freebie": {
+      "name": "Grátis (todos)",
+      "desc": "Cada conta no pool recebe o airdrop."
+    },
+    "forward": {
+      "name": "À frente",
+      "desc": "Seleção aleatória determinística semeada a partir da assinatura de testemunha de um bloco (pedaços em ordem)."
+    },
+    "reverse": {
+      "name": "Inverso",
+      "desc": "Seleção aleatória determinística semeada a partir da assinatura de testemunha de um bloco (pedaços invertidos)."
+    },
+    "pi": {
+      "name": "Pi",
+      "desc": "Seleção aleatória determinística usando um cálculo tipo PI sobre os pedaços da assinatura."
+    },
+    "reverse_pi": {
+      "name": "Pi inverso",
+      "desc": "Seleção aleatória determinística usando um cálculo tipo PI sobre os pedaços da assinatura invertidos."
+    },
+    "cubed": {
+      "name": "Cúbico",
+      "desc": "Seleção aleatória determinística que eleva ao cubo os pedaços de 3 dígitos da assinatura."
+    },
+    "avg_point_lines": {
+      "name": "Linhas de ponto média",
+      "desc": "Seleção geométrica: traça linhas até o vetor médio derivado da assinatura."
+    },
+    "alien_blood": {
+      "name": "Sangue alienígena",
+      "desc": "Seleção geométrica: pontos respingados derivados da assinatura."
+    },
+    "bouncing_ball": {
+      "name": "Bola quicando",
+      "desc": "Seleção geométrica: segue um caminho entre os vetores da assinatura."
+    },
+    "barrel_of_fish": {
+      "name": "Barril de peixes",
+      "desc": "Seleção geométrica: fragmentos voam de um ponto de impacto através dos vetores da assinatura.",
+      "projectile": "Profundidade do projétil",
+      "beam": "Feixe",
+      "slow": "Lento",
+      "splinter": "Estilhaço",
+      "yes": "Sim",
+      "no": "Não"
+    },
+    "golden": {
+      "name": "Retícula dourada",
+      "desc": "Seleção geométrica: uma retícula de Fibonacci (proporção áurea) de baixa discrepância preenche o cubo uniformemente para uma cobertura quase uniforme."
+    },
+    "hash": {
+      "name": "Hash",
+      "desc": "Seleção numérica: um PRNG FNV-1a + xorshift32 semeado pela assinatura distribui os tickets uniformemente por toda a faixa."
+    },
+    "walk": {
+      "name": "Caminhada",
+      "desc": "Seleção geométrica: um caminho sinuoso avança pelo cubo e amostra tickets ao longo de cada segmento."
+    },
+    "helix": {
+      "name": "Hélice",
+      "desc": "Seleção geométrica: tickets amostrados ao longo de uma espiral 3D que sobe pelo cubo."
+    },
+    "fireworks": {
+      "name": "Fogos de artifício",
+      "desc": "Seleção geométrica: cada pedaço da assinatura explode em raios em direção a outros pedaços, pulverizando tickets para fora.",
+      "projectile": "Profundidade do projétil",
+      "beam": "Feixe",
+      "slow": "Lento",
+      "splinter": "Estilhaço",
+      "yes": "Sim",
+      "no": "Não"
+    }
   }
 }

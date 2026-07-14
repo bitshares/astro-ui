@@ -2,5 +2,100 @@
   "page": {
     "title": "Calcolatrice di airdrop",
     "description": "Crea un pool di destinatari, esegui algoritmi di selezione e trasmetti un airdrop di qualsiasi asset."
+  },
+  "result": {
+    "save": "Generate airdrop transaction details",
+    "quantityHeading": "Numero di vincitori",
+    "quantityHint": "Il numero di account selezionati come vincitori dagli algoritmi scelti."
+  },
+  "amount": {
+    "title": "Amount to airdrop",
+    "hint": "L'importo totale dell'asset selezionato da dividere tra gli account vincenti.",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Your balance: {{amount}} {{symbol}}",
+    "invalid": "Enter an amount greater than zero and no more than your balance."
+  },
+  "block": {
+    "useLatest": "Use latest block",
+    "random": "Random block",
+    "current": "Latest known block: {{num}}",
+    "currentUnknown": "Latest block not yet fetched."
+  },
+  "algos": {
+    "title": "Algoritmi",
+    "description": "Seleziona uno o più algoritmi. Ogni algoritmo scelto aggiunge i suoi account vincenti all'elenco finale dei destinatari.",
+    "freebie": {
+      "name": "Gratis (tutti)",
+      "desc": "Ogni account nel pool riceve l'airdrop."
+    },
+    "forward": {
+      "name": "Avanti",
+      "desc": "Selezione casuale deterministica basata sulla firma del testimone di un blocco (blocchi in avanti)."
+    },
+    "reverse": {
+      "name": "Inverso",
+      "desc": "Selezione casuale deterministica basata sulla firma del testimone di un blocco (blocchi invertiti)."
+    },
+    "pi": {
+      "name": "Pi",
+      "desc": "Selezione casuale deterministica che usa un calcolo di tipo PI sui blocchi della firma."
+    },
+    "reverse_pi": {
+      "name": "Pi inverso",
+      "desc": "Selezione casuale deterministica che usa un calcolo di tipo PI sui blocchi della firma invertiti."
+    },
+    "cubed": {
+      "name": "Cubico",
+      "desc": "Selezione casuale deterministica che eleva al cubo i blocchi di 3 cifre della firma."
+    },
+    "avg_point_lines": {
+      "name": "Linee dei punti medi",
+      "desc": "Selezione geometrica: traccia linee verso il vettore medio derivato dalla firma."
+    },
+    "alien_blood": {
+      "name": "Sangue alieno",
+      "desc": "Selezione geometrica: punti schizzati derivati dalla firma."
+    },
+    "bouncing_ball": {
+      "name": "Palla rimbalzante",
+      "desc": "Selezione geometrica: traccia un percorso tra i vettori della firma."
+    },
+    "barrel_of_fish": {
+      "name": "Barile di pesci",
+      "desc": "Selezione geometrica: frammenti volano da un punto d'impatto attraverso i vettori della firma.",
+      "projectile": "Profondità del proiettile",
+      "beam": "Fascio",
+      "slow": "Lento",
+      "splinter": "Scheggia",
+      "yes": "Sì",
+      "no": "No"
+    },
+    "golden": {
+      "name": "Griglia dorata",
+      "desc": "Selezione geometrica: una griglia di Fibonacci (sezione aurea) a bassa discrepanza riempie il cubo uniformemente per una copertura quasi uniforme."
+    },
+    "hash": {
+      "name": "Hash",
+      "desc": "Selezione numerica: un PRNG FNV-1a + xorshift32 inizializzato dalla firma distribuisce i ticket uniformemente su tutto l'intervallo."
+    },
+    "walk": {
+      "name": "Passeggiata",
+      "desc": "Selezione geometrica: un percorso sinuoso attraversa il cubo e campiona i ticket lungo ogni segmento."
+    },
+    "helix": {
+      "name": "Elica",
+      "desc": "Selezione geometrica: ticket campionati lungo una spirale 3D che sale nel cubo."
+    },
+    "fireworks": {
+      "name": "Fuochi d'artificio",
+      "desc": "Selezione geometrica: ogni blocco della firma esplode in raggi verso altri blocchi, spruzzando ticket verso l'esterno.",
+      "projectile": "Profondità del proiettile",
+      "beam": "Fascio",
+      "slow": "Lento",
+      "splinter": "Scheggia",
+      "yes": "Sì",
+      "no": "No"
+    }
   }
 }

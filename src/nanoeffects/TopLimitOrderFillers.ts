@@ -1,14 +1,32 @@
 import { nanoquery } from "@nanostores/query";
 import { esSearch } from "@/nanoeffects/src/esquery.ts";
 
-// Top accounts by number of fill_order operations paying a given asset,
-// over a rolling lookback window. Based on the DEXBot `buildTopFilledAccountsQuery`
-// + `buildFillOrderQuery` (pays-asset filter), run directly against the
-// bitshares-* Elasticsearch index instead of the Kibana proxy.
+/**
+ * Top accounts by number of `fill_order` operations paying a given asset,
+ * over a rolling lookback window.
+ *
+ * Based on the DEXBot `buildTopFilledAccountsQuery` +
+ * `buildFillOrderQuery` (pays-asset filter), run directly against the
+ * `bitshares-*` Elasticsearch index instead of the Kibana proxy.
+ *
+ * Also provides a "pair" variant scoped to a specific trading pair,
+ * useful for rewarding takers on a particular BitShares market.
+ *
+ * @module TopLimitOrderFillers
+ */
 
 const ES_OPS_INDEX = "bitshares-*";
 const OP_FILL_ORDER = 4;
 
+/**
+ * Build an Elasticsearch range filter for `block_data.block_time`.
+ *
+ * @param {number}           lookbackDays    Number of days to look back.
+ * @param {number|undefined} fromTimestamp   Optional fixed start in epoch
+ *   milliseconds (takes precedence over `lookbackDays`).
+ * @returns {{ gte: number|string, lte: string|number, format?: string }}
+ *   Elasticsearch range object.
+ */
 function timeRange(lookbackDays: number, fromTimestamp?: number) {
   if (fromTimestamp) {
     return { gte: fromTimestamp, lte: Date.now(), format: "epoch_millis" };
@@ -17,6 +35,21 @@ function timeRange(lookbackDays: number, fromTimestamp?: number) {
   return { gte: `now-${lookbackHours}h`, lte: "now" };
 }
 
+/**
+ * Fetch accounts that filled the most limit orders paying a given asset.
+ *
+ * A "fill" means the account is the taker — the `pays` side of the
+ * `fill_order` operation uses `assetId`.
+ *
+ * @param {string}  assetId          The asset id to filter on
+ *   (e.g. `"1.3.0"`).
+ * @param {number}  [limit=100]      Maximum number of accounts to return.
+ * @param {number}  [lookbackDays=30]  Lookback window in days.
+ * @param {number|undefined} [fromTimestamp]  Optional fixed start in epoch
+ *   milliseconds.
+ * @returns {Promise<Array<{id: string, count: number}>>}
+ *   Array of `{ id, count }` sorted by fill count descending.
+ */
 async function getTopLimitOrderFillers(
   assetId: string,
   limit: number = 100,
@@ -53,6 +86,11 @@ async function getTopLimitOrderFillers(
     .filter((x: any) => x.id);
 }
 
+/**
+ * Nanoquery store wrapping {@link getTopLimitOrderFillers}.
+ *
+ * Store keys: `[assetId, limit?, lookbackDays?, fromTimestamp?]`.
+ */
 const [createTopLimitOrderFillersStore] = nanoquery({
   fetcher: async (...args: unknown[]) => {
     const assetId = args[0] as string;
@@ -68,8 +106,21 @@ const [createTopLimitOrderFillersStore] = nanoquery({
   },
 });
 
-// Same as above but scoped to a full trading pair: the filler pays `sellAssetId`
-// and receives `buyAssetId`. Useful for rewarding takers on a specific market.
+/**
+ * Fetch accounts that filled the most limit orders on a specific trading
+ * pair: the filler pays `sellAssetId` and receives `buyAssetId`.
+ *
+ * Useful for rewarding takers on a particular BitShares market.
+ *
+ * @param {string}  sellAssetId  The asset the taker pays.
+ * @param {string}  buyAssetId   The asset the taker receives.
+ * @param {number}  [limit=100]      Maximum number of accounts to return.
+ * @param {number}  [lookbackDays=30]  Lookback window in days.
+ * @param {number|undefined} [fromTimestamp]  Optional fixed start in epoch
+ *   milliseconds.
+ * @returns {Promise<Array<{id: string, count: number}>>}
+ *   Array of `{ id, count }` sorted by fill count descending.
+ */
 async function getTopLimitOrderFillersPair(
   sellAssetId: string,
   buyAssetId: string,
@@ -108,6 +159,11 @@ async function getTopLimitOrderFillersPair(
     .filter((x: any) => x.id);
 }
 
+/**
+ * Nanoquery store wrapping {@link getTopLimitOrderFillersPair}.
+ *
+ * Store keys: `[sellAssetId, buyAssetId, limit?, lookbackDays?, fromTimestamp?]`.
+ */
 const [createTopLimitOrderFillersPairStore] = nanoquery({
   fetcher: async (...args: unknown[]) => {
     const sellAssetId = args[0] as string;

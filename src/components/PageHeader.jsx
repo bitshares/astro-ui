@@ -69,6 +69,7 @@ import {
   ListOrdered,
   Clock,
   Home,
+  Layers,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";

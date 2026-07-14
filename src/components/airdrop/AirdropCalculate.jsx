@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useSyncExternalStore } from "react";
+import React, { useState, useEffect, useRef, useMemo, useSyncExternalStore } from "react";
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
@@ -6,14 +6,13 @@ import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
   CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
 import { Progress } from "@/components/ui/progress";
 import {
   Select,
@@ -28,6 +27,7 @@ import AirdropRecipientInput from "./AirdropRecipientInput.jsx";
 import AssetDropDown from "@/components/Market/AssetDropDownCard.jsx";
 import ExternalLink from "@/components/common/ExternalLink.jsx";
 import CurrentUser from "@/components/common/CurrentUser.jsx";
+import HoverInfo from "@/components/common/HoverInfo.tsx";
 import DeepLinkDialog from "@/components/common/DeepLinkDialog.jsx";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -38,7 +38,7 @@ import {
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import SectionHeader from "@/components/asset-form/SectionHeader.jsx";
-import { Users, Cog, Gift, Send, Radio, Calculator } from "lucide-react";
+import { Users, Cog, Gift, Send, Radio, Calculator, Check, Layers, Coins, Loader2 } from "lucide-react";
 import { List } from "react-window";
 
 import {
@@ -60,6 +60,8 @@ import {
   runAllAccountsLottery,
 } from "@/lib/airdropAlgos.js";
 import { getBlockSignature } from "@/nanoeffects/BlockSignature.ts";
+import { getCurrentBlock } from "@/nanoeffects/CurrentBlock.ts";
+import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 import { getTickets as fetchTickets } from "@/nanoeffects/Tickets.ts";
 import { getMaxObjectIDs } from "@/nanoeffects/MaxObjectID.ts";
 import { getCallOrderHolders } from "@/nanoeffects/CallOrderHolders.ts";
@@ -83,6 +85,11 @@ const LOTTERY_ALGOS = [
   "alien_blood",
   "bouncing_ball",
   "barrel_of_fish",
+  "golden",
+  "hash",
+  "walk",
+  "helix",
+  "fireworks",
 ];
 
   const ALGOS = [
@@ -96,7 +103,119 @@ const LOTTERY_ALGOS = [
     { key: "alien_blood", lottery: true },
     { key: "bouncing_ball", lottery: true },
     { key: "barrel_of_fish", lottery: true },
+    { key: "golden", lottery: true },
+    { key: "hash", lottery: true },
+    { key: "walk", lottery: true },
+    { key: "helix", lottery: true },
+    { key: "fireworks", lottery: true },
   ];
+
+const SummaryStat = ({ icon: Icon, label, value }) => (
+  <div className="rounded-xl border border-border/60 bg-card/30 px-4 py-3">
+    <div className="flex items-center gap-2 text-muted-foreground">
+      <Icon className="h-3.5 w-3.5" />
+      <span className="text-xs uppercase tracking-wider">{label}</span>
+    </div>
+    <div className="mt-1 text-lg font-bold truncate">{value}</div>
+  </div>
+);
+
+// Virtualized list that supports an effectively unlimited number of rows.
+// A single tall scroll element exceeds the browser's max element height
+// (~33.5M px in Chromium, ~17.9M px in Firefox), which clamped scrolling at
+// ~645k rows of 52px. Instead we keep a bounded spacer and recycle the scroll
+// position: when the DOM scrollTop leaves a safe middle band we shift both the
+// scroll offset and the rendered window by the same delta, keeping the visible
+// content seamless while the virtual offset advances without bound.
+const SAFE_SCROLL_HEIGHT = 10_000_000;
+
+const HugeVirtualList = ({
+  items,
+  rowHeight,
+  rowComponent: Row,
+  rowProps,
+  height,
+  overscan = 8,
+}) => {
+  const scrollRef = useRef(null);
+  const shiftRef = useRef(0);
+  const lockedRef = useRef(false);
+  const [scrollTop, setScrollTop] = useState(0);
+  const total = items.length;
+
+  const margin = height;
+  const bandHigh = SAFE_SCROLL_HEIGHT - height - margin;
+
+  useEffect(() => {
+    shiftRef.current = 0;
+    setScrollTop(0);
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, [total, height]);
+
+  const onScroll = (e) => {
+    if (lockedRef.current) return;
+    const el = e.currentTarget;
+    const D = SAFE_SCROLL_HEIGHT - 2 * margin;
+    let top = el.scrollTop;
+    const trueOffset = top + shiftRef.current;
+
+    if (top < margin && trueOffset - height > 0) {
+      lockedRef.current = true;
+      el.scrollTop = top + D;
+      shiftRef.current -= D;
+      top = el.scrollTop;
+      requestAnimationFrame(() => {
+        lockedRef.current = false;
+      });
+    } else if (top > bandHigh && trueOffset + height < total * rowHeight) {
+      lockedRef.current = true;
+      el.scrollTop = top - D;
+      shiftRef.current += D;
+      top = el.scrollTop;
+      requestAnimationFrame(() => {
+        lockedRef.current = false;
+      });
+    }
+    setScrollTop(top);
+  };
+
+  const trueOffset = scrollTop + shiftRef.current;
+  const firstIndex = Math.floor(trueOffset / rowHeight);
+  const startIndex = Math.max(0, firstIndex - overscan);
+  const visibleCount = Math.ceil(height / rowHeight) + overscan + 1;
+  const endIndex = Math.min(total, firstIndex + visibleCount);
+
+  const rows = [];
+  for (let index = startIndex; index < endIndex; index++) {
+    rows.push(
+      <Row
+        key={index}
+        index={index}
+        style={{
+          position: "absolute",
+          top: index * rowHeight - shiftRef.current,
+          left: 0,
+          right: 0,
+          height: rowHeight,
+        }}
+        items={items}
+        {...rowProps}
+      />,
+    );
+  }
+
+  return (
+    <div
+      ref={scrollRef}
+      onScroll={onScroll}
+      style={{ height, overflow: "auto", position: "relative" }}
+    >
+      <div style={{ height: SAFE_SCROLL_HEIGHT, position: "relative" }}>
+        {rows}
+      </div>
+    </div>
+  );
+};
 
 export default function AirdropCalculate(props) {
   const { _assetsBTS, _assetsTEST, _marketSearchBTS, _marketSearchTEST, _globalParamsBTS, _globalParamsTEST } = props;
@@ -116,7 +235,9 @@ export default function AirdropCalculate(props) {
   const globalParams = chain === "bitshares" ? _globalParamsBTS : _globalParamsTEST;
 
   // ----- candidate pool source -----
-  const [poolSource, setPoolSource] = useState("manual");
+  const [poolSource, setPoolSource] = useState(
+    chain === "bitshares" ? "assetholders" : "manual",
+  );
   const [qtyLimit, setQtyLimit] = useState(100);
   const [pairAssetSymbol, setPairAssetSymbol] = useState();
 
@@ -240,9 +361,15 @@ export default function AirdropCalculate(props) {
   const fromTimestampFromTimeframe = () =>
     timeframe === "specific" && timeframeDate ? timeframeDate.getTime() : undefined;
 
+  // The connected user can never receive an airdrop (self-transfer is invalid),
+  // so always drop them from the candidate pool regardless of pool source.
+  const excludeCurrentUser = (entries) =>
+    usr && usr.id ? entries.filter((e) => e.id !== usr.id) : entries;
+
   const applyWeightedEntries = (entries) => {
-    setLeaderboard(buildLeaderboardFromEntries(entries));
-    setPoolCount(entries.length);
+    const filtered = excludeCurrentUser(entries);
+    setLeaderboard(buildLeaderboardFromEntries(filtered));
+    setPoolCount(filtered.length);
   };
 
   const handleLoad = async () => {
@@ -251,12 +378,11 @@ export default function AirdropCalculate(props) {
     try {
       if (poolSource === "manual") {
         if (!manualAccounts.length) return;
-        setLeaderboard(
-          buildLeaderboardFromEntries(
-            manualAccounts.map((id) => ({ id, weight: 1 })),
-          ),
+        const manualEntries = excludeCurrentUser(
+          manualAccounts.map((id) => ({ id, weight: 1 })),
         );
-        setPoolCount(manualAccounts.length);
+        setLeaderboard(buildLeaderboardFromEntries(manualEntries));
+        setPoolCount(manualEntries.length);
       } else if (poolSource === "tickets") {
         const tickets = await fetchTickets(chain, 0, currentNode ? currentNode.url : null);
         const filtered = (tickets || []).filter(
@@ -287,7 +413,9 @@ export default function AirdropCalculate(props) {
           const hr = parseFloat(humanReadableFloat(amt, 5).toFixed(5)) * boost;
           tallies[acct] = (tallies[acct] || 0) + hr;
         }
-        const entries = Object.entries(tallies).map(([id, weight]) => ({ id, weight }));
+        const entries = excludeCurrentUser(
+          Object.entries(tallies).map(([id, weight]) => ({ id, weight })),
+        );
         setLeaderboard(buildLeaderboardFromEntries(entries));
         setPoolCount(entries.length);
       } else if (poolSource === "callorders") {
@@ -309,8 +437,9 @@ export default function AirdropCalculate(props) {
             return acc;
           }, {}),
         ).map(([id, weight]) => ({ id, weight }));
-        setLeaderboard(buildLeaderboardFromEntries(entries));
-        setPoolCount(entries.length);
+        const callOrderEntries = excludeCurrentUser(entries);
+        setLeaderboard(buildLeaderboardFromEntries(callOrderEntries));
+        setPoolCount(callOrderEntries.length);
       } else if (poolSource === "allaccounts") {
         const max = await getMaxObjectIDs(chain, 1, 2, currentNode ? currentNode.url : null);
         setMaxAccountId(max);
@@ -324,8 +453,12 @@ export default function AirdropCalculate(props) {
           return;
         }
         const holders = await getTopAssetHolders(airdropAsset.id, qtyLimit);
+        const holderPrecision = airdropAsset.precision || 0;
         await applyWeightedEntries(
-          holders.map((h) => ({ id: h.id, weight: h.balance })),
+          holders.map((h) => ({
+            id: h.id,
+            weight: Number(h.balance) / 10 ** holderPrecision,
+          })),
         );
       } else if (poolSource === "creators") {
         if (chain !== "bitshares") return;
@@ -419,6 +552,83 @@ export default function AirdropCalculate(props) {
     [pairAssetSymbol, assets],
   );
 
+  // ----- airdrop amount to distribute -----
+  const [airdropAmount, setAirdropAmount] = useState("");
+
+  // current user's balance of the selected airdrop asset (raw satoshis)
+  const [userBalanceRaw, setUserBalanceRaw] = useState(null);
+  useEffect(() => {
+    if (!usr || !usr.id || !airdropAsset || !currentNode) {
+      setUserBalanceRaw(null);
+      return;
+    }
+    const store = createUserBalancesStore([usr.chain, usr.id, currentNode.url]);
+    const sub = store.subscribe(({ data, error, loading }) => {
+      if (data && !error && !loading) {
+        const found = (data || []).find((b) => b.asset_id === airdropAsset.id);
+        setUserBalanceRaw(found ? Number(found.amount) : 0);
+      }
+    });
+    return () => sub();
+  }, [usr, airdropAsset, currentNode]);
+
+  // reset the amount whenever the chosen asset changes
+  useEffect(() => {
+    setAirdropAmount("");
+  }, [airdropAssetSymbol]);
+
+  const amountPrecision = airdropAsset ? airdropAsset.precision || 0 : 0;
+  const userBalance =
+    userBalanceRaw != null ? humanReadableFloat(userBalanceRaw, amountPrecision) : null;
+
+  const sanitizeAmount = (val) => {
+    let s = val.replace(/[^0-9.]/g, "");
+    const firstDot = s.indexOf(".");
+    if (firstDot !== -1) {
+      s =
+        s.slice(0, firstDot + 1) +
+        s.slice(firstDot + 1).replace(/\./g, "");
+      const parts = s.split(".");
+      if (parts[1] && parts[1].length > amountPrecision) {
+        s = parts[0] + "." + parts[1].slice(0, amountPrecision);
+      }
+    }
+    return s;
+  };
+
+  const handleAmountChange = (e) => {
+    let s = sanitizeAmount(e.target.value);
+    if (userBalance != null && s !== "") {
+      const num = parseFloat(s);
+      if (!Number.isNaN(num) && num > userBalance) {
+        s = userBalance.toFixed(amountPrecision);
+      }
+    }
+    setAirdropAmount(s);
+  };
+
+  const handleMaxAmount = () => {
+    if (userBalance != null) setAirdropAmount(userBalance.toFixed(amountPrecision));
+  };
+
+  const amountNum = parseFloat(airdropAmount);
+  const amountValid =
+    !!airdropAsset &&
+    userBalance != null &&
+    airdropAmount !== "" &&
+    !Number.isNaN(amountNum) &&
+    amountNum > 0 &&
+    amountNum <= userBalance;
+
+  // Debounced copy of the amount used for the (expensive) recipient-split
+  // calculations so typing doesn't recompute over the whole winner list.
+  const [debouncedAmount, setDebouncedAmount] = useState(airdropAmount);
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedAmount(airdropAmount), 350);
+    return () => clearTimeout(t);
+  }, [airdropAmount]);
+  const debouncedAmountNum = parseFloat(debouncedAmount);
+
   // ----- algorithm selection -----
   const [selected, setSelected] = useState({});
   const toggleAlgo = (key) =>
@@ -434,16 +644,61 @@ export default function AirdropCalculate(props) {
 
   const [bofProjectile, setBofProjectile] = useState("beam");
   const [bofSplinter, setBofSplinter] = useState("yes");
+  const [fwProjectile, setFwProjectile] = useState("beam");
+  const [fwSplinter, setFwSplinter] = useState("yes");
 
   const [blockNumber, setBlockNumber] = useState("1");
   const [deduplicate, setDeduplicate] = useState("Yes");
   const [alwaysWinning, setAlwaysWinning] = useState("Yes");
+
+  const [currentBlockNum, setCurrentBlockNum] = useState(null);
+  const [fetchingBlock, setFetchingBlock] = useState(false);
+
+  const fetchLatestBlockNum = async () => {
+    const res = await getCurrentBlock(chain, currentNode ? currentNode.url : null);
+    const num =
+      res && (res.blockNumber ?? res.block?.block_num ?? res.block_num);
+    if (num != null) {
+      const n = Number(num);
+      setCurrentBlockNum(n);
+      return n;
+    }
+    return null;
+  };
+
+  const handleUseLatestBlock = async () => {
+    setFetchingBlock(true);
+    try {
+      const n = await fetchLatestBlockNum();
+      if (n != null) setBlockNumber(String(n));
+    } catch (error) {
+      console.log({ useLatestBlockError: error });
+    } finally {
+      setFetchingBlock(false);
+    }
+  };
+
+  const handleRandomBlock = async () => {
+    setFetchingBlock(true);
+    try {
+      let max = currentBlockNum;
+      if (!max) max = await fetchLatestBlockNum();
+      if (!max) return;
+      const r = Math.floor(Math.random() * max) + 1;
+      setBlockNumber(String(r));
+    } catch (error) {
+      console.log({ randomBlockError: error });
+    } finally {
+      setFetchingBlock(false);
+    }
+  };
 
   // ----- execute step (merged from AirdropPerform) -----
   const [showExecute, setShowExecute] = useState(false);
   const [executeBatchSize, setExecuteBatchSize] = useState(0);
   const [broadcastBatches, setBroadcastBatches] = useState([]);
   const [executeDialogBatch, setExecuteDialogBatch] = useState(null);
+  const [broadcastingBatch, setBroadcastingBatch] = useState(null);
 
   // ----- chain params for batch sizing -----
   const [chainParams, setChainParams] = useState({
@@ -506,7 +761,9 @@ export default function AirdropCalculate(props) {
         if (freebieSelected) {
           const all = [];
           for (let i = 1; i <= maxAccountId; i++) {
-            all.push({ id: `1.2.${i}`, name: undefined, qty: 1, ticketsValue: 1, percent: "0" });
+            const id = `1.2.${i}`;
+            if (usr && usr.id === id) continue;
+            all.push({ id, name: undefined, qty: 1, ticketsValue: 1, percent: "0" });
           }
           setResult(all);
           return;
@@ -557,6 +814,8 @@ export default function AirdropCalculate(props) {
       const opts = {
         bof_projectile: bofProjectile,
         bof_splinter: bofSplinter,
+        fw_projectile: fwProjectile,
+        fw_splinter: fwSplinter,
         relevantAssets: assets,
       };
       const { summary } = executeCalculation(
@@ -578,20 +837,42 @@ export default function AirdropCalculate(props) {
 
   // ----- save as plan → show execute step -----
   const [saving, setSaving] = useState(false);
-  const handleSave = () => {
-    if (!result || !result.length || !airdropAsset || !usr || !usr.id) return;
-    setSaving(true);
-    const precision = airdropAsset.precision || 0;
-    const recipients = result.map((row) => {
-      const humanAmount = Number(row.ticketsValue) || 0;
+
+  // Split a total amount equally across all winning accounts, keeping the
+  // satoshi remainder on the first recipient.
+  const buildAirdropRecipients = (rows, totalHuman, precision) => {
+    const n = rows.length;
+    const totalSat = Math.round((Number(totalHuman) || 0) * 10 ** precision);
+    if (n === 0 || totalSat <= 0) return [];
+    const each = Math.floor(totalSat / n);
+    const remainder = totalSat - each * n;
+    return rows.map((row, i) => {
+      const sat = i === 0 ? each + remainder : each;
       return {
         account: row.id,
-        humanAmount,
-        satoshis: Math.round(humanAmount * 10 ** precision),
+        humanAmount: sat / 10 ** precision,
+        satoshis: sat,
       };
     });
-    const batchSize = maxPerTx || 50;
+  };
+
+  const handleSave = () => {
+    if (
+      !result ||
+      !result.length ||
+      !airdropAsset ||
+      !usr ||
+      !usr.id ||
+      airdropAmount === "" ||
+      !amountValid
+    )
+      return;
+    setSaving(true);
+    const precision = airdropAsset.precision || 0;
+    const recipients = buildAirdropRecipients(result, airdropAmount, precision);
+    const batchSize = executeBatchSize > 0 ? executeBatchSize : maxPerTx || 50;
     setExecuteBatchSize(batchSize);
+    setExecuteBatches(sliceIntoChunks(recipients, batchSize));
     setBroadcastBatches([]);
     setShowExecute(true);
     setSaving(false);
@@ -599,22 +880,22 @@ export default function AirdropCalculate(props) {
 
   // ----- compute batches for execute step -----
   const executeRecipients = useMemo(() => {
-    if (!result || !airdropAsset) return [];
-    const precision = airdropAsset.precision || 0;
-    return result.map((row) => {
-      const humanAmount = Number(row.ticketsValue) || 0;
-      return {
-        account: row.id,
-        humanAmount,
-        satoshis: Math.round(humanAmount * 10 ** precision),
-      };
-    });
-  }, [result, airdropAsset]);
+    if (!result || !result.length || !airdropAsset || debouncedAmount === "")
+      return [];
+    return buildAirdropRecipients(result, debouncedAmount, airdropAsset.precision || 0);
+  }, [result, airdropAsset, debouncedAmount]);
 
-  const executeBatches = useMemo(
-    () => (executeBatchSize > 0 ? sliceIntoChunks(executeRecipients, executeBatchSize) : []),
-    [executeRecipients, executeBatchSize],
-  );
+  // Batches are only computed when "Generate airdrop transaction details" is
+  // clicked (handleSave), so changing the batch size does not trigger an
+  // expensive re-slice of the whole recipient list.
+  const [executeBatches, setExecuteBatches] = useState([]);
+
+  // Reset the broadcast batches whenever the winner list changes.
+  useEffect(() => {
+    setExecuteBatches([]);
+    setShowExecute(false);
+    setBroadcastBatches([]);
+  }, [result]);
 
   const executeBatchMetrics = useMemo(() => {
     return executeBatches.map((batch) => {
@@ -643,6 +924,19 @@ export default function AirdropCalculate(props) {
       return next;
     });
   };
+
+  const coreSymbol = chain === "bitshares" ? "BTS" : "TEST";
+  const summaryTotals = useMemo(() => {
+    const recipients = executeRecipients.length;
+    const amount = executeRecipients.reduce(
+      (acc, r) => acc + humanReadableFloat(r.satoshis || 0, airdropAsset?.precision || 0),
+      0,
+    );
+    const fee = executeBatchMetrics.reduce((acc, m) => acc + (m?.fee || 0), 0);
+    return { recipients, amount, fee };
+  }, [executeRecipients, executeBatchMetrics, airdropAsset]);
+  const totalAmount = summaryTotals.amount;
+  const totalFee = summaryTotals.fee;
 
   const POOL_METRIC_KEY = {
     manual: "weight",
@@ -702,10 +996,10 @@ export default function AirdropCalculate(props) {
               classnamecontents="font-mono text-[11px] text-foreground/80 hover:text-foreground truncate"
             />
           </div>
-          <div className="col-span-1 text-right font-bold font-mono">
+          <div className={"col-span-1 text-right font-mono " + (callOrderWeightBy === "collateral" ? "font-bold text-foreground" : "text-muted-foreground")}>
             {collateralHRT.toLocaleString(undefined, { minimumFractionDigits: 5, maximumFractionDigits: 5 })}
           </div>
-          <div className="col-span-1 text-right font-mono text-muted-foreground">
+          <div className={"col-span-1 text-right font-mono " + (callOrderWeightBy === "debt" ? "font-bold text-foreground" : "text-muted-foreground")}>
             {debtHRT.toLocaleString(undefined, { minimumFractionDigits: debtPrecision, maximumFractionDigits: debtPrecision })}
           </div>
           <div className="col-span-1 text-right font-mono text-muted-foreground">
@@ -719,32 +1013,161 @@ export default function AirdropCalculate(props) {
     );
   };
 
-  const WinnerRow = ({ index, style, items, leaderboardById }) => {
+  const WinnerRow = ({ index, style, items, leaderboardById, amountPerWinner, amountPrecision }) => {
     const row = items[index];
     if (!row) return null;
     const weight = leaderboardById[row.id] ?? 0;
+    const shownAmount =
+      amountPerWinner != null
+        ? amountPerWinner.toLocaleString(undefined, { maximumFractionDigits: amountPrecision })
+        : Number(row.ticketsValue || 0).toLocaleString();
     return (
       <div style={style} className="px-2">
-        <div className="flex items-center gap-3 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5">
-          <ExternalLink
-            hyperlink={`https://blocksights.info/#/accounts/${row.id}`}
-            type="text"
-            text={row.name || row.id}
-            classnamecontents="font-mono text-[11px] text-foreground/80 hover:text-foreground truncate"
-          />
-          <span className="shrink-0 font-mono text-xs text-muted-foreground w-20 text-right">
+        <div className="grid grid-cols-4 items-center gap-2 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5">
+          <div className="min-w-0 truncate">
+            <ExternalLink
+              hyperlink={`https://blocksights.info/#/accounts/${row.id}`}
+              type="text"
+              text={row.name || row.id}
+              classnamecontents="font-mono text-[11px] text-foreground/80 hover:text-foreground truncate"
+            />
+          </div>
+          <span className="font-mono text-xs text-muted-foreground">
             {Number(row.qty || 0).toLocaleString()}
           </span>
-          <span className="shrink-0 font-mono text-xs text-muted-foreground w-28 text-right">
-            {Number(row.ticketsValue || 0).toLocaleString()}
+          <span className="font-mono text-xs text-muted-foreground">
+            {shownAmount}
           </span>
-          <span className="shrink-0 font-mono text-xs text-muted-foreground w-28 text-right">
+          <span className="font-mono text-xs text-muted-foreground">
             {Number(weight || 0).toLocaleString()}
           </span>
         </div>
       </div>
     );
   };
+
+  const AlgoRow = ({ index, style, items }) => {
+    const algo = items[index];
+    if (!algo) return null;
+    const checked = !!selected[algo.key];
+    return (
+      <div style={style} className="px-1 pb-2">
+        <label className="flex h-full items-start gap-3 rounded-lg border border-border/60 bg-accent/10 px-3 py-2.5 cursor-pointer hover:border-[hsl(var(--accent-1)/0.3)]">
+          <Checkbox
+            className="mt-0.5"
+            checked={checked}
+            onCheckedChange={() => toggleAlgo(algo.key)}
+          />
+          <div className="grid gap-0.5">
+            <span className="text-sm font-medium text-foreground/90">
+              {t(`AirdropCalculate:algos.${algo.key}.name`)}
+            </span>
+            <span className="text-xs text-muted-foreground">
+              {t(`AirdropCalculate:algos.${algo.key}.desc`)}
+            </span>
+          </div>
+        </label>
+      </div>
+    );
+  };
+
+  const BATCH_ROW_HEIGHT = 120;
+  const BatchRow = ({ index, style, items }) => {
+    const batch = items[index];
+    if (!batch) return null;
+    const i = index;
+    const bytes = executeBatchMetrics[i]?.bytes || 0;
+    const fee = executeBatchMetrics[i]?.fee || 0;
+    const batchAmount = batch.reduce(
+      (acc, r) => acc + humanReadableFloat(r.satoshis || 0, airdropAsset?.precision || 0),
+      0,
+    );
+    const pct = bytes && chainParams.maxBytes
+      ? Math.min(100, (bytes / chainParams.maxBytes) * 100)
+      : 0;
+    const isBroadcasted = broadcastBatches.includes(i);
+    const isProcessing = broadcastingBatch === i;
+
+    return (
+      <div style={style} className="px-2 pb-2">
+        <div className={`rounded-xl border bg-card/40 transition-all ${
+          isBroadcasted
+            ? "border-[hsl(var(--accent-2)/0.5)] bg-[hsl(var(--accent-2)/0.05)] opacity-60"
+            : "border-border"
+        }`}>
+          <div className="flex items-center justify-between gap-3 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[hsl(var(--accent-1)/0.12)] text-xs font-bold text-[hsl(var(--accent-1))]">
+                {i + 1}
+              </span>
+              <span className="text-sm font-semibold">
+                {t("Airdrop:batch.title", { index: i + 1, total: executeBatches.length })}
+              </span>
+              {isBroadcasted ? (
+                <Badge variant="secondary" className="gap-1">
+                  <Check className="h-3 w-3" />
+                  {t("Airdrop:batch.done")}
+                </Badge>
+              ) : (
+                <Badge variant="outline">{t("Airdrop:batch.pending")}</Badge>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <Switch
+                checked={!!isBroadcasted}
+                onCheckedChange={() => toggleBroadcast(i)}
+                disabled={isProcessing}
+                className="data-[state=checked]:bg-[hsl(var(--accent-2))]"
+              />
+              <Button
+                size="sm"
+                className="min-w-[110px] bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-md hover:shadow-lg transition-all"
+                disabled={!usr || !usr.id || !batch.length || isBroadcasted || isProcessing}
+                onClick={() => {
+                  setBroadcastingBatch(i);
+                  setTimeout(() => setExecuteDialogBatch(i), 0);
+                }}
+              >
+                {isProcessing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  t("Airdrop:batch.broadcast")
+                )}
+              </Button>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 px-4 pb-3 text-xs">
+            <div>
+              <div className="text-muted-foreground">
+                {t("Airdrop:batch.recipients")}
+              </div>
+              <div className="font-semibold">{batch.length}</div>
+            </div>
+            <div>
+              <div className="text-muted-foreground">{t("Airdrop:batch.amount")}</div>
+              <div className="font-semibold">
+                {batchAmount.toFixed(airdropAsset?.precision || 0)} {airdropAsset?.symbol}
+              </div>
+            </div>
+            <div>
+              <div className="text-muted-foreground">{t("Airdrop:batch.bytes")}</div>
+              <div className="font-semibold">
+                {bytes} / {chainParams.maxBytes}
+              </div>
+              <Progress value={pct} className="mt-1 h-1" />
+            </div>
+            <div>
+              <div className="text-muted-foreground">{t("Airdrop:batch.fee")}</div>
+              <div className="font-semibold">
+                {humanReadableFloat(fee || 0, 5).toFixed(5)} {coreSymbol}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
 
   return (
     <div className="container mx-auto mt-3 mb-8 px-3 sm:px-4 space-y-6">
@@ -783,6 +1206,11 @@ export default function AirdropCalculate(props) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-card">
+                  {chain === "bitshares" && (
+                    <SelectItem value="assetholders">
+                      {t("AirdropCalculate:pool.source.assetholders")}
+                    </SelectItem>
+                  )}
                   <SelectItem value="manual">
                     {t("AirdropCalculate:pool.source.manual")}
                   </SelectItem>
@@ -795,11 +1223,6 @@ export default function AirdropCalculate(props) {
                   <SelectItem value="callorders">
                     {t("AirdropCalculate:pool.source.callorders")}
                   </SelectItem>
-                  {chain === "bitshares" && (
-                    <SelectItem value="assetholders">
-                      {t("AirdropCalculate:pool.source.assetholders")}
-                    </SelectItem>
-                  )}
                   {chain === "bitshares" && (
                     <SelectItem value="creators">
                       {t("AirdropCalculate:pool.source.creators")}
@@ -1069,12 +1492,6 @@ export default function AirdropCalculate(props) {
               </p>
             )}
 
-            {poolSource === "callorders" && (
-              <p className="text-xs text-muted-foreground">
-                {t("AirdropCalculate:pool.callOrdersHint")}
-              </p>
-            )}
-
             {poolSource === "assetholders" && (
               <p className="text-xs text-muted-foreground">
                 {t("AirdropCalculate:pool.assetHoldersHint")}
@@ -1121,17 +1538,10 @@ export default function AirdropCalculate(props) {
                     (!callOrderAssetId || !callOrderAssetIsSmartcoin))
                 }
               >
-                {enriching
-                  ? t("AirdropCalculate:pool.loading")
-                  : t("AirdropCalculate:pool.load")}
+              {enriching
+                ? t("AirdropCalculate:pool.loading")
+                : t("AirdropCalculate:pool.load")}
               </Button>
-              {poolCount > 0 && (
-                <Badge variant="secondary">
-                  {syntheticAll
-                    ? t("AirdropCalculate:pool.accountsLoaded", { count: poolCount })
-                    : t("AirdropCalculate:pool.loaded", { count: poolCount })}
-                </Badge>
-              )}
               {poolError && <Badge variant="destructive">{poolError}</Badge>}
               {poolSource === "callorders" && poolCount > 0 && (
                 <div className="flex items-center gap-2 ml-auto">
@@ -1149,7 +1559,8 @@ export default function AirdropCalculate(props) {
                         return acc;
                       }, {}),
                     ).map(([id, weight]) => ({ id, weight }));
-                    setLeaderboard(buildLeaderboardFromEntries(entries));
+                    const rebuilt = excludeCurrentUser(entries);
+                    setLeaderboard(buildLeaderboardFromEntries(rebuilt));
                   }}>
                     <SelectTrigger className="w-32 h-8 text-xs">
                       <SelectValue />
@@ -1224,26 +1635,15 @@ export default function AirdropCalculate(props) {
           />
           <div className={poolCount === 0 && !syntheticAll ? "pointer-events-none opacity-50" : ""}>
           <CardContent className="grid grid-cols-1 gap-2">
-            {ALGOS.map((algo) => (
-              <label
-                key={algo.key}
-                className="flex items-start gap-3 rounded-lg border border-border/60 bg-accent/10 px-3 py-2 cursor-pointer hover:border-[hsl(var(--accent-1)/0.3)]"
-              >
-                <Checkbox
-                  className="mt-0.5"
-                  checked={!!selected[algo.key]}
-                  onCheckedChange={() => toggleAlgo(algo.key)}
-                />
-                <div className="grid gap-0.5">
-                  <span className="text-sm font-medium text-foreground/90">
-                    {t(`AirdropCalculate:algos.${algo.key}.name`)}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    {t(`AirdropCalculate:algos.${algo.key}.desc`)}
-                  </span>
-                </div>
-              </label>
-            ))}
+            <div className="w-full border border-border/60 rounded-xl overflow-hidden bg-card/30 mt-3">
+              <List
+                rowComponent={AlgoRow}
+                rowCount={ALGOS.length}
+                rowHeight={70}
+                rowProps={{ items: ALGOS }}
+                style={{ height: Math.min(360, ALGOS.length * 70) }}
+              />
+            </div>
 
             {selected.barrel_of_fish && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 p-3 rounded-lg border border-border/60 bg-card/30">
@@ -1286,6 +1686,47 @@ export default function AirdropCalculate(props) {
               </div>
             )}
 
+            {selected.fireworks && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 p-3 rounded-lg border border-border/60 bg-card/30">
+                <div>
+                  <Label className="text-foreground/70 text-xs uppercase tracking-wider">
+                    {t("AirdropCalculate:algos.fireworks.projectile")}
+                  </Label>
+                  <Select value={fwProjectile} onValueChange={setFwProjectile}>
+                    <SelectTrigger className="mt-2">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card">
+                      <SelectItem value="beam">
+                        {t("AirdropCalculate:algos.fireworks.beam")}
+                      </SelectItem>
+                      <SelectItem value="slow">
+                        {t("AirdropCalculate:algos.fireworks.slow")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="text-foreground/70 text-xs uppercase tracking-wider">
+                    {t("AirdropCalculate:algos.fireworks.splinter")}
+                  </Label>
+                  <Select value={fwSplinter} onValueChange={setFwSplinter}>
+                    <SelectTrigger className="mt-2">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card">
+                      <SelectItem value="yes">
+                        {t("AirdropCalculate:algos.fireworks.yes")}
+                      </SelectItem>
+                      <SelectItem value="no">
+                        {t("AirdropCalculate:algos.fireworks.no")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
+
             {needsSignature && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 p-3 rounded-lg border border-border/60 bg-card/30">
                 <div>
@@ -1300,6 +1741,35 @@ export default function AirdropCalculate(props) {
                   />
                   <p className="text-xs text-muted-foreground mt-2">
                     {t("AirdropCalculate:block.description")}
+                  </p>
+                </div>
+                <div className="flex flex-col justify-end gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="border-border bg-accent/40 text-foreground/85 hover:bg-accent/60 hover:text-accent-foreground"
+                      onClick={handleUseLatestBlock}
+                      disabled={fetchingBlock}
+                    >
+                      {t("AirdropCalculate:block.useLatest")}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="border-border bg-accent/40 text-foreground/85 hover:bg-accent/60 hover:text-accent-foreground"
+                      onClick={handleRandomBlock}
+                      disabled={fetchingBlock}
+                    >
+                      {t("AirdropCalculate:block.random")}
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {currentBlockNum != null
+                      ? t("AirdropCalculate:block.current", { num: currentBlockNum })
+                      : t("AirdropCalculate:block.currentUnknown")}
                   </p>
                 </div>
               </div>
@@ -1348,8 +1818,11 @@ export default function AirdropCalculate(props) {
               <Button
                 className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-md hover:shadow-lg transition-all"
                 onClick={handleRun}
-                disabled={running || (!syntheticAll && !poolCount)}
+                disabled={running || !selectedKeys.length || (!syntheticAll && !poolCount)}
               >
+                {running ? (
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                ) : null}
                 {running
                   ? t("AirdropCalculate:run.running")
                   : t("AirdropCalculate:run.run")}
@@ -1369,71 +1842,147 @@ export default function AirdropCalculate(props) {
             title={t("AirdropCalculate:result.title")}
             description={t("AirdropCalculate:result.description")}
           />
-          <div className={!result ? "pointer-events-none opacity-50" : ""}>
           <CardContent className="grid grid-cols-1 gap-4">
-            <div>
-              <Label className="text-foreground/70 text-xs uppercase tracking-wider">
-                {t("AirdropCalculate:result.asset")}
-              </Label>
-              <div className="mt-2 max-w-sm">
-                <AssetDropDown
-                  assetSymbol={airdropAssetSymbol ?? ""}
-                  assetData={null}
-                  storeCallback={setAirdropAssetSymbol}
-                  otherAsset={null}
-                  marketSearch={marketSearch}
+            <div className="mt-4 flex flex-col sm:flex-row sm:items-stretch gap-4">
+              <div className="flex-1 min-w-0 rounded-xl border border-border/60 bg-card/30 px-4 py-3">
+                <HoverInfo
+                  header={t("AirdropCalculate:result.asset")}
+                  content={t("AirdropCalculate:pool.airdropAssetHint")}
                   type={null}
-                  chain={chain}
-                  balances={null}
-                  size="small"
-                  triggerVariant="outline"
                 />
+                <div className="mt-2">
+                  <AssetDropDown
+                    assetSymbol={airdropAssetSymbol ?? ""}
+                    assetData={null}
+                    storeCallback={setAirdropAssetSymbol}
+                    otherAsset={null}
+                    marketSearch={marketSearch}
+                    type={null}
+                    chain={chain}
+                    balances={null}
+                    size="small"
+                    triggerVariant="outline"
+                  />
+                </div>
+              </div>
+              <div className="flex-1 min-w-0 rounded-xl border border-border/60 bg-card/30 px-4 py-3">
+                <HoverInfo
+                  header={t("AirdropCalculate:amount.title")}
+                  content={t("AirdropCalculate:amount.hint")}
+                  type={null}
+                />
+                <div className="mt-2 flex items-center gap-2">
+                  <Input
+                    className="bg-card/40"
+                    type="text"
+                    inputMode="decimal"
+                    value={airdropAmount}
+                    placeholder={t("AirdropCalculate:amount.placeholder")}
+                    onChange={handleAmountChange}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="border-border bg-accent/40 text-foreground/85 hover:bg-accent/60 hover:text-accent-foreground shrink-0"
+                    onClick={handleMaxAmount}
+                    disabled={userBalance == null}
+                  >
+                    {t("AirdropCalculate:amount.max")}
+                  </Button>
+                </div>
+                {userBalance != null && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {t("AirdropCalculate:amount.balance", {
+                      amount: humanReadableFloat(userBalanceRaw, amountPrecision).toLocaleString(undefined, {
+                        maximumFractionDigits: amountPrecision,
+                      }),
+                      symbol: airdropAsset?.symbol || "",
+                    })}
+                  </p>
+                )}
+                {airdropAsset && airdropAmount !== "" && !amountValid && (
+                  <p className="text-xs text-destructive mt-1">
+                    {t("AirdropCalculate:amount.invalid")}
+                  </p>
+                )}
+              </div>
+              <div className="flex-1 min-w-0 rounded-xl border border-border/60 bg-card/30 px-4 py-3">
+                <HoverInfo
+                  header={t("AirdropCalculate:result.quantityHeading")}
+                  content={t("AirdropCalculate:result.quantityHint")}
+                  type={null}
+                />
+                <div className="text-2xl font-bold mt-1">
+                  {result ? result.length : 0}
+                </div>
+              </div>
+              <div className="flex-1 min-w-0 rounded-xl border border-border/60 bg-card/30 px-4 py-3">
+                <HoverInfo
+                  header={t("Airdrop:perform.batchSize")}
+                  content={t("Airdrop:perform.maxPerTx", { max: maxPerTx || 50 })}
+                  type={null}
+                />
+                <div className="mt-2">
+                  <Input
+                    className="bg-card/40"
+                    type="number"
+                    value={executeBatchSize > 0 ? executeBatchSize : (maxPerTx || 50)}
+                    max={maxPerTx || undefined}
+                    onChange={(e) => {
+                      const raw = parseInt(e.target.value, 10);
+                      const base = Number.isNaN(raw) ? 1 : raw;
+                      const capped =
+                        maxPerTx != null
+                          ? Math.min(maxPerTx, Math.max(1, base))
+                          : Math.max(1, base);
+                      setExecuteBatchSize(capped);
+                    }}
+                  />
+                </div>
               </div>
             </div>
 
-            {result && result.length > 0 && (
-              <>
-                <Badge variant="secondary">
-                  {t("AirdropCalculate:result.winners", { count: result.length })}
-                </Badge>
-                <div className="mt-3">
-                  <div className="flex items-center px-3 py-1.5 text-xs text-muted-foreground font-medium">
-                    <span className="flex-1 min-w-0">{t("AirdropCalculate:result.account")}</span>
-                    <span className="w-20 text-right">{t("AirdropCalculate:result.qty")}</span>
-                    <span className="w-28 text-right">{t("AirdropCalculate:result.amount")}</span>
-                    <span className="w-28 text-right">{t("AirdropCalculate:result.weight")}</span>
-                  </div>
-                  <div className="w-full border border-border/60 rounded-xl overflow-hidden bg-card/30">
-                    <List
-                      rowComponent={WinnerRow}
-                      rowCount={result.length}
-                      rowHeight={52}
-                      rowProps={{
-                        items: result,
-                        leaderboardById: leaderboard
-                          ? Object.fromEntries(leaderboard.map((l) => [l.id, l.amount]))
-                          : {},
-                      }}
-                      style={{ height: 420 }}
-                    />
-                  </div>
-                </div>
-                <Button
-                  className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-md hover:shadow-lg transition-all"
-                  onClick={handleSave}
-                  disabled={saving || !airdropAsset}
-                >
-                  {t("AirdropCalculate:result.save")}
-                </Button>
-              </>
-            )}
-            {result && result.length === 0 && (
-              <p className="text-xs text-muted-foreground">
-                {t("AirdropCalculate:result.none")}
-              </p>
-            )}
+            <div>
+              <div className="grid grid-cols-4 px-3 py-1.5 text-xs text-muted-foreground font-medium">
+                <span className="min-w-0">{t("AirdropCalculate:result.account")}</span>
+                <span>{t("AirdropCalculate:result.qty")}</span>
+                <span>{t("AirdropCalculate:result.amount")}</span>
+                <span>{t("AirdropCalculate:result.weight")}</span>
+              </div>
+              <div className="w-full border border-border/60 rounded-xl overflow-hidden bg-card/30">
+                <HugeVirtualList
+                  items={result || []}
+                  rowHeight={52}
+                  rowComponent={WinnerRow}
+                  rowProps={{
+                    leaderboardById: leaderboard
+                      ? Object.fromEntries(leaderboard.map((l) => [l.id, l.amount]))
+                      : {},
+                    amountPerWinner:
+                      debouncedAmount !== "" && result && result.length
+                        ? debouncedAmountNum / result.length
+                        : null,
+                    amountPrecision,
+                  }}
+                  height={result && result.length ? 420 : 120}
+                />
+              </div>
+              {result && result.length === 0 && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  {t("AirdropCalculate:result.none")}
+                </p>
+              )}
+            </div>
+
+            <Button
+              className="w-fit justify-self-start bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-md hover:shadow-lg transition-all"
+              onClick={handleSave}
+              disabled={saving || !airdropAsset || !result || result.length === 0 || !amountValid}
+            >
+              {t("AirdropCalculate:result.save")}
+            </Button>
           </CardContent>
-          </div>
         </Card>
 
         <Card className={`relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.15)]${!showExecute || executeBatches.length === 0 ? " pointer-events-none opacity-50" : ""}`}>
@@ -1445,155 +1994,89 @@ export default function AirdropCalculate(props) {
               title={t("Airdrop:perform.senderTitle")}
               description={t("Airdrop:perform.senderDescription")}
             />
-            <CardContent className="grid grid-cols-1 gap-4">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
-                <div>
-                  <CurrentUser />
-                </div>
-                <div>
-                  <Label className="text-foreground/70 text-xs uppercase tracking-wider">
-                    {t("Airdrop:perform.batchSize")}
-                  </Label>
-                  <Input
-                    className="mt-1 bg-card/40"
-                    type="number"
-                    value={executeBatchSize}
-                    max={maxPerTx || undefined}
-                    onChange={(e) =>
-                      setExecuteBatchSize(Math.max(1, parseInt(e.target.value) || 1))
-                    }
-                  />
-                  {maxPerTx !== null && (
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {t("Airdrop:perform.maxPerTx", { max: maxPerTx })}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <Label className="text-foreground/70 text-xs uppercase tracking-wider">
-                    {t("Airdrop:perform.progress")}
-                  </Label>
-                  <div className="mt-2 flex items-center gap-2">
-                    <Progress value={executeProgressPct} className="h-2" />
-                    <span className="text-xs font-semibold whitespace-nowrap">
-                      {executeProgressPct}% ({broadcastBatches.length}/{executeBatches.length})
-                    </span>
-                  </div>
+            <CardContent className="grid grid-cols-1 gap-5">
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-2">
+                <SummaryStat
+                  icon={Users}
+                  label={t("Airdrop:perform.summaryRecipients")}
+                  value={executeRecipients.length}
+                />
+                <SummaryStat
+                  icon={Coins}
+                  label={t("Airdrop:perform.summaryAmount")}
+                  value={`${totalAmount.toFixed(airdropAsset?.precision || 0)} ${airdropAsset?.symbol || ""}`}
+                />
+                <SummaryStat
+                  icon={Send}
+                  label={t("Airdrop:perform.summaryFee")}
+                  value={`${humanReadableFloat(totalFee, 5).toFixed(5)} ${coreSymbol}`}
+                />
+                <SummaryStat
+                  icon={Layers}
+                  label={t("Airdrop:perform.summaryBatches")}
+                  value={`${executeBatches.length}`}
+                />
+              </div>
+
+              <div className="rounded-xl border border-border/60 bg-card/30 px-4 py-4">
+                <Label className="text-foreground/70 text-xs uppercase tracking-wider">
+                  {t("Airdrop:perform.progress")}
+                </Label>
+                <div className="mt-3 flex items-center gap-3">
+                  <Progress value={executeProgressPct} className="h-2 flex-1" />
+                  <span className="shrink-0 whitespace-nowrap text-xs font-semibold">
+                    {executeProgressPct}% ({broadcastBatches.length}/{executeBatches.length})
+                  </span>
                 </div>
               </div>
 
-              {!usr || !usr.id ? (
-                <Card className="relative overflow-hidden rounded-2xl border border-[hsl(var(--accent-danger)/0.4)] bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-danger)/0.15)]">
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-danger)/0.7)] to-transparent" />
-                  <CardContent className="py-4 text-sm text-[hsl(var(--accent-danger-fg))]">
-                    {t("Airdrop:perform.connectRequired")}
-                  </CardContent>
-                </Card>
-              ) : null}
+              {broadcastBatches.length === executeBatches.length && executeBatches.length > 0 && (
+                <div className="flex items-center gap-2 rounded-xl border border-[hsl(var(--accent-2)/0.4)] bg-[hsl(var(--accent-2)/0.08)] px-4 py-3 text-sm text-[hsl(var(--accent-2-fg))]">
+                  <Check className="h-4 w-4" />
+                  {t("Airdrop:perform.allComplete")}
+                </div>
+              )}
 
-              <div className="grid grid-cols-1 gap-3">
-                {executeBatches.map((batch, i) => {
-                  const bytes = executeBatchMetrics[i]?.bytes || 0;
-                  const fee = executeBatchMetrics[i]?.fee || 0;
-                  const totalAmount = batch.reduce(
-                    (acc, r) => acc + humanReadableFloat(r.satoshis || 0, airdropAsset?.precision || 0),
-                    0,
-                  );
-                  const pct = bytes && chainParams.maxBytes
-                    ? Math.min(100, (bytes / chainParams.maxBytes) * 100)
-                    : 0;
-                  const isBroadcasted = broadcastBatches.includes(i);
-                  const coreSymbol = chain === "bitshares" ? "BTS" : "TEST";
-
-                  return (
-                    <Card key={i} className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.15)]">
-                      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent" />
-                      <div className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl" />
-                      <CardHeader className="flex flex-row items-center justify-between gap-3 space-y-0 pb-2">
-                        <CardTitle className="text-sm font-semibold">
-                          {t("Airdrop:batch.title", { index: i + 1, total: executeBatches.length })}
-                        </CardTitle>
-                        <div className="flex items-center gap-2">
-                          {isBroadcasted ? (
-                            <Badge variant="secondary">{t("Airdrop:batch.done")}</Badge>
-                          ) : (
-                            <Badge variant="outline">{t("Airdrop:batch.pending")}</Badge>
-                          )}
-                          <Button
-                            size="sm"
-                            className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-md hover:shadow-lg transition-all"
-                            disabled={!usr || !usr.id || !batch.length}
-                            onClick={() => setExecuteDialogBatch(i)}
-                          >
-                            {t("Airdrop:batch.broadcast")}
-                          </Button>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                        <div>
-                          <div className="text-muted-foreground">
-                            {t("Airdrop:batch.recipients")}
-                          </div>
-                          <div className="font-semibold">{batch.length}</div>
-                        </div>
-                        <div>
-                          <div className="text-muted-foreground">{t("Airdrop:batch.amount")}</div>
-                          <div className="font-semibold">
-                            {totalAmount.toFixed(airdropAsset?.precision || 0)} {airdropAsset?.symbol}
-                          </div>
-                        </div>
-                        <div>
-                          <div className="text-muted-foreground">{t("Airdrop:batch.bytes")}</div>
-                          <div className="font-semibold">
-                            {bytes} / {chainParams.maxBytes}
-                          </div>
-                          <Progress value={pct} className="mt-1 h-1" />
-                        </div>
-                        <div>
-                          <div className="text-muted-foreground">{t("Airdrop:batch.fee")}</div>
-                          <div className="font-semibold">
-                            {humanReadableFloat(fee || 0, 5).toFixed(5)} {coreSymbol}
-                          </div>
-                        </div>
-                        <div className="col-span-2 sm:col-span-4 flex items-center gap-2 pt-1">
-                          <Checkbox
-                            checked={!!isBroadcasted}
-                            onCheckedChange={() => toggleBroadcast(i)}
-                            id={`exec-batch-${i}`}
-                            className="border-[hsl(var(--accent-1)/0.5)] data-[state=checked]:bg-[hsl(var(--accent-1))] data-[state=checked]:border-[hsl(var(--accent-1))]"
-                          />
-                          <label
-                            htmlFor={`exec-batch-${i}`}
-                            className="text-muted-foreground cursor-pointer"
-                          >
-                            {t("Airdrop:batch.markDone")}
-                          </label>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
+              {executeBatches.length > 0 && (
+                <List
+                  rowComponent={BatchRow}
+                  rowCount={executeBatches.length}
+                  rowHeight={BATCH_ROW_HEIGHT}
+                  rowProps={{ items: executeBatches }}
+                  style={{ height: Math.min(600, executeBatches.length * BATCH_ROW_HEIGHT) }}
+                />
+              )}
             </CardContent>
           </Card>
 
         {showExecute && executeDialogBatch !== null && executeBatches[executeDialogBatch] && (() => {
-          const trxJSON = buildTransferOps(usr ? usr.id : "", airdropAsset?.id || "", executeBatches[executeDialogBatch]);
+          const batch = executeBatches[executeDialogBatch];
+          const trxJSON = buildTransferOps(usr ? usr.id : "", airdropAsset?.id || "", batch);
           const trxSize = new TextEncoder().encode(JSON.stringify(trxJSON)).length;
+          // Real serialized transaction size (from the live byte model), so the
+          // deeplink is disabled only when the actual on-chain transaction would
+          // exceed the chain's maximum_transaction_size — not on JSON string length.
+          const estBytes = byteModel ? byteModel.header + byteModel.perOp * batch.length : 0;
           return (
             <DeepLinkDialog
               trxJSON={trxJSON}
-              operationNames={executeBatches[executeDialogBatch].map(() => "transfer")}
+              operationNames={batch.map(() => "transfer")}
               username={usr ? usr.username : ""}
               usrChain={usr ? usr.chain : "bitshares"}
               userID={usr ? usr.id : ""}
-              dismissCallback={(open) => { if (!open) setExecuteDialogBatch(null); }}
+              dismissCallback={(open) => {
+                if (!open) {
+                  setBroadcastingBatch(null);
+                  setExecuteDialogBatch(null);
+                }
+              }}
               headerText={t("Airdrop:batch.broadcastHeader", {
                 index: executeDialogBatch + 1,
                 total: executeBatches.length,
               })}
-              disableQR={trxSize > 2000}
-              disableDeeplink={trxSize > 1999}
+              disableQR={trxSize >= 2000 || estBytes > chainParams.maxBytes * 0.95}
+              disableDeeplink={trxSize >= 2000 || estBytes > chainParams.maxBytes * 0.95}
             />
           );
         })()}

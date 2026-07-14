@@ -2,5 +2,100 @@
   "page": {
     "title": "에어드롭 계산기",
     "description": "수령자 풀을 만들고, 선택 알고리즘을 실행하고, 모든 자산의 에어드롭을 방송하세요."
+  },
+  "result": {
+    "save": "Generate airdrop transaction details",
+    "quantityHeading": "당첨자 수",
+    "quantityHint": "선택한 알고리즘에 의해 당첨자로 선택된 계정의 수입니다."
+  },
+  "amount": {
+    "title": "Amount to airdrop",
+    "hint": "당첨 계정에 분배할 선택한 자산의 총량입니다.",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Your balance: {{amount}} {{symbol}}",
+    "invalid": "Enter an amount greater than zero and no more than your balance."
+  },
+  "block": {
+    "useLatest": "Use latest block",
+    "random": "Random block",
+    "current": "Latest known block: {{num}}",
+    "currentUnknown": "Latest block not yet fetched."
+  },
+  "algos": {
+    "title": "알고리즘",
+    "description": "하나 이상의 알고리즘을 선택하세요. 선택한 각 알고리즘은 당첨 계정을 최종 수령자 목록에 추가합니다.",
+    "freebie": {
+      "name": "무료 (전체)",
+      "desc": "풀 내의 모든 계정이 에어드롭을 받습니다."
+    },
+    "forward": {
+      "name": "정방향",
+      "desc": "블록의 증인 서명(정방향 청크)을 시드로 하는 결정론적 무작위 선택."
+    },
+    "reverse": {
+      "name": "역방향",
+      "desc": "블록의 증인 서명(역순 청크)을 시드로 하는 결정론적 무작위 선택."
+    },
+    "pi": {
+      "name": "파이",
+      "desc": "서명 청크에 파이(π) 방식 계산을 적용하는 결정론적 무작위 선택."
+    },
+    "reverse_pi": {
+      "name": "역방향 파이",
+      "desc": "역순 서명 청크에 파이(π) 방식 계산을 적용하는 결정론적 무작위 선택."
+    },
+    "cubed": {
+      "name": "입방",
+      "desc": "서명의 3자리 청크를 세제곱하는 결정론적 무작위 선택."
+    },
+    "avg_point_lines": {
+      "name": "평균 점 선",
+      "desc": "기하 선택: 서명에서 유도한 평균 벡터로 선을 그립니다."
+    },
+    "alien_blood": {
+      "name": "외계인 피",
+      "desc": "기하 선택: 서명에서 파생된 튀는 점들."
+    },
+    "bouncing_ball": {
+      "name": "튀는 공",
+      "desc": "기하 선택: 서명 벡터들 사이의 경로를 따라갑니다."
+    },
+    "barrel_of_fish": {
+      "name": "물고기 통",
+      "desc": "기하 선택: 충돌 지점에서 서명 벡터들을 통과해 파편이 날아갑니다.",
+      "projectile": "발사체 깊이",
+      "beam": "빔",
+      "slow": "느림",
+      "splinter": "조각",
+      "yes": "예",
+      "no": "아니오"
+    },
+    "golden": {
+      "name": "황금 격자",
+      "desc": "기하 선택: 낮은 불일치도의 피보나치(황금비) 격자가 큐브를 고르게 채워 거의 균일한 커버리지를 제공합니다."
+    },
+    "hash": {
+      "name": "해시",
+      "desc": "수치 선택: 서명을 시드로 한 FNV-1a + xorshift32 PRNG가 티켓을 전체 범위에 걸쳐 균일하게 분산시킵니다."
+    },
+    "walk": {
+      "name": "워크",
+      "desc": "기하 선택: 큐브를 지그재그로 지나는 경로가 각 세그먼트를 따라 티켓을 샘플링합니다."
+    },
+    "helix": {
+      "name": "나선",
+      "desc": "기하 선택: 큐브를 따라 올라가는 3차원 나선을 따라 티켓을 샘플링합니다."
+    },
+    "fireworks": {
+      "name": "불꽃놀이",
+      "desc": "기하 선택: 각 서명 청크가 다른 청크들을 향해 광선으로 폭발하며 바깥쪽으로 티켓을 뿌립니다.",
+      "projectile": "발사체 깊이",
+      "beam": "빔",
+      "slow": "느림",
+      "splinter": "조각",
+      "yes": "예",
+      "no": "아니오"
+    }
   }
 }

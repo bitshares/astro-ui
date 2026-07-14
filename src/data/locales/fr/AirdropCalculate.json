@@ -2,5 +2,100 @@
   "page": {
     "title": "Calculatrice d'airdrop",
     "description": "Créez un pool de destinataires, exécutez des algorithmes de sélection et diffusez un airdrop de n'importe quel actif."
+  },
+  "result": {
+    "save": "Generate airdrop transaction details",
+    "quantityHeading": "Nombre de gagnants",
+    "quantityHint": "Le nombre de comptes sélectionnés comme gagnants par les algorithmes choisis."
+  },
+  "amount": {
+    "title": "Amount to airdrop",
+    "hint": "Le montant total de l'actif sélectionné à répartir entre les comptes gagnants.",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Your balance: {{amount}} {{symbol}}",
+    "invalid": "Enter an amount greater than zero and no more than your balance."
+  },
+  "block": {
+    "useLatest": "Use latest block",
+    "random": "Random block",
+    "current": "Latest known block: {{num}}",
+    "currentUnknown": "Latest block not yet fetched."
+  },
+  "algos": {
+    "title": "Algorithmes",
+    "description": "Sélectionnez un ou plusieurs algorithmes. Chaque algorithme choisi ajoute ses comptes gagnants à la liste finale de destinataires.",
+    "freebie": {
+      "name": "Gratuit (tous)",
+      "desc": "Chaque compte du pool reçoit l'airdrop."
+    },
+    "forward": {
+      "name": "Avant",
+      "desc": "Sélection aléatoire déterministe amorcée à partir de la signature de témoin d'un bloc (morceaux dans l'ordre)."
+    },
+    "reverse": {
+      "name": "Inverse",
+      "desc": "Sélection aléatoire déterministe amorcée à partir de la signature de témoin d'un bloc (morceaux inversés)."
+    },
+    "pi": {
+      "name": "Pi",
+      "desc": "Sélection aléatoire déterministe utilisant un calcul de type PI sur les morceaux de la signature."
+    },
+    "reverse_pi": {
+      "name": "Pi inverse",
+      "desc": "Sélection aléatoire déterministe utilisant un calcul de type PI sur les morceaux de la signature inversés."
+    },
+    "cubed": {
+      "name": "Cubique",
+      "desc": "Sélection aléatoire déterministe élevant au cube les morceaux de 3 chiffres de la signature."
+    },
+    "avg_point_lines": {
+      "name": "Lignes de points moyennes",
+      "desc": "Sélection géométrique : trace des lignes vers le vecteur moyen dérivé de la signature."
+    },
+    "alien_blood": {
+      "name": "Sang alien",
+      "desc": "Sélection géométrique : points éclaboussés dérivés de la signature."
+    },
+    "bouncing_ball": {
+      "name": "Balle rebondissante",
+      "desc": "Sélection géométrique : suit un chemin entre les vecteurs de la signature."
+    },
+    "barrel_of_fish": {
+      "name": "Baril de poissons",
+      "desc": "Sélection géométrique : des fragments volent d'un point d'impact à travers les vecteurs de la signature.",
+      "projectile": "Profondeur du projectile",
+      "beam": "Faisceau",
+      "slow": "Lent",
+      "splinter": "Éclat",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "golden": {
+      "name": "Réseau doré",
+      "desc": "Sélection géométrique : un réseau de Fibonacci (nombre d'or) à faible discrépance remplit le cube uniformément pour une couverture quasi uniforme."
+    },
+    "hash": {
+      "name": "Hash",
+      "desc": "Sélection numérique : un PRNG FNV-1a + xorshift32 amorcé par la signature répartit les tickets uniformément sur toute la plage."
+    },
+    "walk": {
+      "name": "Marche",
+      "desc": "Sélection géométrique : un chemin sinueux avance dans le cube et échantillonne des tickets le long de chaque segment."
+    },
+    "helix": {
+      "name": "Hélice",
+      "desc": "Sélection géométrique : des tickets échantillonnés le long d'une spirale 3D qui monte dans le cube."
+    },
+    "fireworks": {
+      "name": "Feux d'artifice",
+      "desc": "Sélection géométrique : chaque morceau de signature explose en rayons vers d'autres morceaux, pulvérisant des tickets vers l'extérieur.",
+      "projectile": "Profondeur du projectile",
+      "beam": "Faisceau",
+      "slow": "Lent",
+      "splinter": "Éclat",
+      "yes": "Oui",
+      "no": "Non"
+    }
   }
 }

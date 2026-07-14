@@ -2,5 +2,100 @@
   "page": {
     "title": "Airdropi kalkulaator",
     "description": "Koosta saajate nimekogum, käivita valikalgoritmid ja saada välja mis tahes vara airdrop."
+  },
+  "result": {
+    "save": "Generate airdrop transaction details",
+    "quantityHeading": "Võitjate arv",
+    "quantityHint": "Valitud algoritmide poolt võitjatena valitud kontode arv."
+  },
+  "amount": {
+    "title": "Amount to airdrop",
+    "hint": "Valitud vara kogusumma, mis jaotatakse võidukontode vahel.",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Your balance: {{amount}} {{symbol}}",
+    "invalid": "Enter an amount greater than zero and no more than your balance."
+  },
+  "block": {
+    "useLatest": "Use latest block",
+    "random": "Random block",
+    "current": "Latest known block: {{num}}",
+    "currentUnknown": "Latest block not yet fetched."
+  },
+  "algos": {
+    "title": "Algoritmid",
+    "description": "Vali üks või mitu algoritmi. Iga valitud algoritm lisab oma võidukontod lõplikule saajate nimekirjele.",
+    "freebie": {
+      "name": "Tasuta (kõik)",
+      "desc": "Iga pooli konto saab airdropi."
+    },
+    "forward": {
+      "name": "Edasi",
+      "desc": "Deterministlik juhuslik valik, mis on külvatud ploki tunnistaja-allkirjast (edaspidised tükid)."
+    },
+    "reverse": {
+      "name": "Pööratud",
+      "desc": "Deterministlik juhuslik valik, mis on külvatud ploki tunnistaja-allkirjast (pööratud tükid)."
+    },
+    "pi": {
+      "name": "Pi",
+      "desc": "Deterministlik juhuslik valik, kasutades PI-laadset arvutust allkirja tükkide üle."
+    },
+    "reverse_pi": {
+      "name": "Pööratud pi",
+      "desc": "Deterministlik juhuslik valik, kasutades PI-laadset arvutust pööratud allkirja tükkide üle."
+    },
+    "cubed": {
+      "name": "Kuubiline",
+      "desc": "Deterministlik juhuslik valik, mis cubib allkirja 3-kohalised tükid."
+    },
+    "avg_point_lines": {
+      "name": "Keskmise punkti jooned",
+      "desc": "Geomeetriline valik: tõmbab jooned allkirjast tuletatud keskmise vektorini."
+    },
+    "alien_blood": {
+      "name": "Võõraste veri",
+      "desc": "Geomeetriline valik: allkirjast tuletatud pritspunktid."
+    },
+    "bouncing_ball": {
+      "name": "Põrkav pall",
+      "desc": "Geomeetriline valik: jälgib teed allkirja vektorite vahel."
+    },
+    "barrel_of_fish": {
+      "name": "Kalapütt",
+      "desc": "Geomeetriline valik: fragmendid lendavad löögipunktist läbi allkirja vektorite.",
+      "projectile": "Projektiili sügavus",
+      "beam": "Kiir",
+      "slow": "Aeglane",
+      "splinter": "Pilu",
+      "yes": "Jah",
+      "no": "Ei"
+    },
+    "golden": {
+      "name": "Kuldne võre",
+      "desc": "Geomeetriline valik: madala kõrvalekaldega Fibonacci (kuldlõige) võre täidab kuubi ühtlaselt peaaegu ühtlaseks kattuvuseks."
+    },
+    "hash": {
+      "name": "Räsi",
+      "desc": "Arvuline valik: allkirjaga külvatud FNV-1a + xorshift32 PRNG jaotab piletid ühtlaselt kogu vahemikus."
+    },
+    "walk": {
+      "name": "Jalutuskäik",
+      "desc": "Geomeetriline valik: väänlev tee astub kuubi läbi ja proovib pileteid iga segmendi kohalt."
+    },
+    "helix": {
+      "name": "Spiraal",
+      "desc": "Geomeetriline valik: piletid proovitakse 3D-spiraali mööda, mis tõuseb kuubi läbi."
+    },
+    "fireworks": {
+      "name": "Ilutulestik",
+      "desc": "Geomeetriline valik: iga allkirja tükk plahvatab kiirteks teiste tükkide poole, pihustades pileteid väljapoole.",
+      "projectile": "Projektiili sügavus",
+      "beam": "Kiir",
+      "slow": "Aeglane",
+      "splinter": "Pilu",
+      "yes": "Jah",
+      "no": "Ei"
+    }
   }
 }

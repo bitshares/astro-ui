@@ -23,6 +23,7 @@
     "pairAssetHint": "The asset on the other side of the trading pair (what is received when selling, or bought when filling).",
     "needAsset": "Select the airdrop asset first.",
     "needAssetHint": "These pool sources are scoped to the airdrop asset you select above.",
+    "airdropAssetHint": "The asset that will be distributed in the airdrop. Choose it here so the pool can be scoped and your balance checked.",
     "needSmartcoin": "Select a valid smartcoin (market-pegged asset) first.",
     "asset": "Asset",
     "assetHint": "The asset this pool is built from (holders, or the sell/pay side of the limit orders).",
@@ -116,11 +117,41 @@
       "splinter": "Splinter",
       "yes": "Yes",
       "no": "No"
+    },
+    "golden": {
+      "name": "Golden lattice",
+      "desc": "Geometric selection: a low-discrepancy Fibonacci (golden-ratio) lattice fills the cube evenly for near-uniform coverage."
+    },
+    "hash": {
+      "name": "Hash",
+      "desc": "Numeric selection: a signature-seeded FNV-1a + xorshift32 PRNG spreads tickets uniformly across the whole range."
+    },
+    "walk": {
+      "name": "Walk",
+      "desc": "Geometric selection: a meandering path steps through the cube, sampling tickets along each segment."
+    },
+    "helix": {
+      "name": "Helix",
+      "desc": "Geometric selection: tickets sampled along a 3-D spiral that climbs through the cube."
+    },
+    "fireworks": {
+      "name": "Fireworks",
+      "desc": "Geometric selection: every signature chunk bursts into rays toward other chunks, spraying tickets outward.",
+      "projectile": "Projectile depth",
+      "beam": "Beam",
+      "slow": "Slow",
+      "splinter": "Splinter",
+      "yes": "Yes",
+      "no": "No"
     }
   },
   "block": {
     "title": "Block number",
-    "description": "The witness signature of this block seeds the random (signature) algorithms. Use any historical block."
+    "description": "The witness signature of this block seeds the random (signature) algorithms. Use any historical block.",
+    "useLatest": "Use latest block",
+    "random": "Random block",
+    "current": "Latest known block: {{num}}",
+    "currentUnknown": "Latest block not yet fetched."
   },
   "options": {
     "deduplicate": "Deduplicate winners",
@@ -137,12 +168,22 @@
     "description": "Set the airdrop asset, then run the selected algorithms. Preview and save the winner list.",
     "asset": "Airdrop asset",
     "winners": "{{count}} winning accounts",
+    "quantityHeading": "Quantity of winners",
+    "quantityHint": "The number of accounts selected as winners by the chosen algorithms.",
     "account": "Account",
     "qty": "Hits",
     "amount": "Amount",
     "weight": "Weight",
-    "save": "Save as airdrop plan",
+    "save": "Generate airdrop transaction details",
     "none": "No winners were produced by the selected algorithms."
+  },
+  "amount": {
+    "title": "Amount to airdrop",
+    "hint": "The total amount of the selected asset to split across the winning accounts.",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Your balance: {{amount}} {{symbol}}",
+    "invalid": "Enter an amount greater than zero and no more than your balance."
   },
   "errors": {
     "noPool": "Load the pool first.",

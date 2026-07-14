@@ -2,5 +2,100 @@
   "page": {
     "title": "Airdrop-Rechner",
     "description": "Erstelle einen Empfängerpool, führe Auswahlalgorithmen aus und sende einen Airdrop eines beliebigen Assets."
+  },
+  "result": {
+    "save": "Generate airdrop transaction details",
+    "quantityHeading": "Anzahl der Gewinner",
+    "quantityHint": "Die Anzahl der Konten, die von den gewählten Algorithmen als Gewinner ausgewählt wurden."
+  },
+  "amount": {
+    "title": "Amount to airdrop",
+    "hint": "Der Gesamtbetrag des ausgewählten Assets, der auf die Gewinnerkonten aufgeteilt wird.",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Your balance: {{amount}} {{symbol}}",
+    "invalid": "Enter an amount greater than zero and no more than your balance."
+  },
+  "block": {
+    "useLatest": "Use latest block",
+    "random": "Random block",
+    "current": "Latest known block: {{num}}",
+    "currentUnknown": "Latest block not yet fetched."
+  },
+  "algos": {
+    "title": "Algorithmen",
+    "description": "Wähle einen oder mehrere Algorithmen. Jeder gewählte Algorithmus fügt seine Gewinnerkonten der endgültigen Empfängerliste hinzu.",
+    "freebie": {
+      "name": "Gratis (alle)",
+      "desc": "Jedes Konto im Pool erhält den Airdrop."
+    },
+    "forward": {
+      "name": "Vorwärts",
+      "desc": "Deterministische Zufallsauswahl, die aus der Witness-Signatur eines Blocks gesät wird (vorwärts gerichtete Blöcke)."
+    },
+    "reverse": {
+      "name": "Rückwärts",
+      "desc": "Deterministische Zufallsauswahl, die aus der Witness-Signatur eines Blocks gesät wird (umgekehrte Blöcke)."
+    },
+    "pi": {
+      "name": "Pi",
+      "desc": "Deterministische Zufallsauswahl mittels einer pi-artigen Berechnung über die Signaturblöcke."
+    },
+    "reverse_pi": {
+      "name": "Umgekehrtes Pi",
+      "desc": "Deterministische Zufallsauswahl mittels einer pi-artigen Berechnung über die umgekehrten Signaturblöcke."
+    },
+    "cubed": {
+      "name": "Kubisch",
+      "desc": "Deterministische Zufallsauswahl, die 3-stellige Blöcke der Signatur hoch drei rechnet."
+    },
+    "avg_point_lines": {
+      "name": "Mittelwert-Punktlinien",
+      "desc": "Geometrische Auswahl: zieht Linien zum aus der Signatur abgeleiteten Durchschnittsvektor."
+    },
+    "alien_blood": {
+      "name": "Alienblut",
+      "desc": "Geometrische Auswahl: aus der Signatur abgeleitete Spritzpunkte."
+    },
+    "bouncing_ball": {
+      "name": "Hüpfender Ball",
+      "desc": "Geometrische Auswahl: verfolgt einen Pfad zwischen Signaturvektoren."
+    },
+    "barrel_of_fish": {
+      "name": "Fischfass",
+      "desc": "Geometrische Auswahl: Fragmente fliegen von einem Einschlagspunkt durch Signaturvektoren.",
+      "projectile": "Projektiltiefe",
+      "beam": "Strahl",
+      "slow": "Langsam",
+      "splinter": "Splitter",
+      "yes": "Ja",
+      "no": "Nein"
+    },
+    "golden": {
+      "name": "Goldenes Gitter",
+      "desc": "Geometrische Auswahl: ein Gitter mit geringer Diskrepanz (goldener Schnitt / Fibonacci) füllt den Würfel gleichmäßig für nahezu gleichmäßige Abdeckung."
+    },
+    "hash": {
+      "name": "Hash",
+      "desc": "Numerische Auswahl: ein signaturgesäter FNV-1a + xorshift32 PRNG verteilt Tickets gleichmäßig über den gesamten Bereich."
+    },
+    "walk": {
+      "name": "Spaziergang",
+      "desc": "Geometrische Auswahl: ein schlängelnder Pfad schreitet durch den Würfel und sampelt Tickets entlang jedes Segments."
+    },
+    "helix": {
+      "name": "Helix",
+      "desc": "Geometrische Auswahl: Tickets entlang einer 3-D-Spirale, die durch den Würfel aufsteigt, abgetastet."
+    },
+    "fireworks": {
+      "name": "Feuerwerk",
+      "desc": "Geometrische Auswahl: jeder Signaturblock bricht in Strahlen zu anderen Blöcken auf und sprüht Tickets nach außen.",
+      "projectile": "Projektiltiefe",
+      "beam": "Strahl",
+      "slow": "Langsam",
+      "splinter": "Splitter",
+      "yes": "Ja",
+      "no": "Nein"
+    }
   }
 }

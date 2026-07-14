@@ -74,6 +74,16 @@
     "batchSize": "Batch size",
     "maxPerTx": "Max per transaction: {{max}}",
     "progress": "Progress",
-    "connectRequired": "Connect a sending account before broadcasting batches."
+    "connectRequired": "Connect a sending account before broadcasting batches.",
+    "summaryRecipients": "Recipients",
+    "summaryAmount": "Total amount",
+    "summaryFee": "Est. fee",
+    "summaryBatches": "Batches",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all",
+    "markAllDone": "Mark all done",
+    "allComplete": "All batches broadcast",
+    "summaryTitle": "Airdrop summary",
+    "toolbarTitle": "Batches"
   }
 }

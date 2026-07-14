@@ -1,7 +1,26 @@
 import Apis from "@/bts/ws/ApiInstances";
 import { chains } from "@/config/chains";
 
-// Split the input object ids into acceptably sized chunks
+/**
+ * Shared low-level helpers for fetching objects from the BitShares chain.
+ *
+ * Used by the majority of nanoeffects that need to read on-chain objects
+ * via the `get_objects` database API.
+ *
+ * @module common
+ */
+
+/**
+ * Split an array into chunks of the given size.
+ *
+ * Used internally to batch `get_objects` calls so that no single request
+ * exceeds the node's per-call object limit.
+ *
+ * @param {any[]}   arr   Input array to split.
+ * @param {number}  size  Maximum chunk size (> 0).
+ * @returns {any[][]}  Array of chunks.
+ * @private
+ */
 function _sliceIntoChunks(arr: any[], size: number) {
   const chunks: any[] = [];
   for (let i = 0; i < arr.length; i += size) {
@@ -11,7 +30,27 @@ function _sliceIntoChunks(arr: any[], size: number) {
   return chunks;
 }
 
-// Iterate over the chunks of object ids we want to fetch
+/**
+ * Fetch an array of on-chain objects by their ids.
+ *
+ * Connects to a BitShares WebSocket node and retrieves objects via the
+ * `get_objects` database API.  Objects are fetched in batches of 50
+ * (mainnet) or 10 (testnet) to avoid exceeding per-call limits.
+ *
+ * Null objects (deleted or non-existent) are silently filtered out.
+ *
+ * @param {string}       chain         Chain identifier (`"bitshares"` or
+ *   `"bitshares_testnet"`).
+ * @param {string[]}     object_ids    Array of object ids to fetch
+ *   (e.g. `["2.0.0", "1.3.0"]`).
+ * @param {string|null}  [specificNode]  Optional WebSocket node URL.
+ *   Falls back to the first node in the chain's configured node list.
+ * @param {any}          [existingAPI]  Optional pre-opened API connection.
+ *   When provided the connection is reused and **not** closed afterwards.
+ *   When omitted a fresh connection is opened and closed after the fetch.
+ * @returns {Promise<Object[]>}  Array of retrieved (non-null) objects.
+ * @rejects {Error} If the WebSocket connection fails.
+ */
 async function getObjects(
   chain: string,
   object_ids: string[],

@@ -2,5 +2,100 @@
   "page": {
     "title": "エアドロップ計算機",
     "description": "受信者プールを作成し、選択アルゴリズムを実行し、任意のアセットのエアドロップを配信します。"
+  },
+  "result": {
+    "save": "Generate airdrop transaction details",
+    "quantityHeading": "当選者数",
+    "quantityHint": "選択したアルゴリズムによって当選者として選ばれたアカウントの数。"
+  },
+  "amount": {
+    "title": "Amount to airdrop",
+    "hint": "当選アカウント間で分割する、選択したアセットの合計量。",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Your balance: {{amount}} {{symbol}}",
+    "invalid": "Enter an amount greater than zero and no more than your balance."
+  },
+  "block": {
+    "useLatest": "Use latest block",
+    "random": "Random block",
+    "current": "Latest known block: {{num}}",
+    "currentUnknown": "Latest block not yet fetched."
+  },
+  "algos": {
+    "title": "アルゴリズム",
+    "description": "1つまたは複数のアルゴリズムを選択します。選択した各アルゴリズムは、当選アカウントを最終的な受信者リストに追加します。",
+    "freebie": {
+      "name": "無料（全員）",
+      "desc": "プール内のすべてのアカウントがエアドロップを受け取ります。"
+    },
+    "forward": {
+      "name": "順方向",
+      "desc": "ブロックの証人署名（順方向のチャンク）をシードとした決定論的なランダム選択。"
+    },
+    "reverse": {
+      "name": "逆方向",
+      "desc": "ブロックの証人署名（逆順のチャンク）をシードとした決定論的なランダム選択。"
+    },
+    "pi": {
+      "name": "円周率",
+      "desc": "署名のチャンクに対して円周率風の計算を行う決定論的なランダム選択。"
+    },
+    "reverse_pi": {
+      "name": "逆円周率",
+      "desc": "逆順の署名チャンクに対して円周率風の計算を行う決定論的なランダム選択。"
+    },
+    "cubed": {
+      "name": "立方",
+      "desc": "署名の3桁のチャンクを3乗する決定論的なランダム選択。"
+    },
+    "avg_point_lines": {
+      "name": "平均点ライン",
+      "desc": "幾何選択：署名から導いた平均ベクトルへ線を引きます。"
+    },
+    "alien_blood": {
+      "name": "エイリアン血液",
+      "desc": "幾何選択：署名から派生した飛散する点。"
+    },
+    "bouncing_ball": {
+      "name": "跳ねるボール",
+      "desc": "幾何選択：署名ベクトル間の経路をたどります。"
+    },
+    "barrel_of_fish": {
+      "name": "魚の樽",
+      "desc": "幾何選択：衝突点から署名ベクトルへ向かって破片が飛び散ります。",
+      "projectile": "弾の深さ",
+      "beam": "ビーム",
+      "slow": "低速",
+      "splinter": "裂片",
+      "yes": "はい",
+      "no": "いいえ"
+    },
+    "golden": {
+      "name": "黄金格子",
+      "desc": "幾何選択：低偏差のフィボナッチ（黄金比）格子が立方体を均一に満たし、ほぼ一様なカバレッジを得ます。"
+    },
+    "hash": {
+      "name": "ハッシュ",
+      "desc": "数値選択：署名をシードとしたFNV-1a + xorshift32 PRNGがチケットを全域にわたり一様に分散します。"
+    },
+    "walk": {
+      "name": "ウォーク",
+      "desc": "幾何選択：立方体をうねる経路が進み、各セグメントに沿ってチケットをサンプリングします。"
+    },
+    "helix": {
+      "name": "ヘリックス",
+      "desc": "幾何選択：立方体を昇る3次元スパイラルに沿ってチケットをサンプリングします。"
+    },
+    "fireworks": {
+      "name": "花火",
+      "desc": "幾何選択：各署名チャンクが他のチャンクへ向かう光線に炸裂し、外側へチケットを撒き散らします。",
+      "projectile": "弾の深さ",
+      "beam": "ビーム",
+      "slow": "低速",
+      "splinter": "裂片",
+      "yes": "はい",
+      "no": "いいえ"
+    }
   }
 }

@@ -2,5 +2,100 @@
   "page": {
     "title": "Calculadora de airdrop",
     "description": "Crea un grupo de destinatarios, ejecuta algoritmos de selección y difunde un airdrop de cualquier activo."
+  },
+  "result": {
+    "save": "Generate airdrop transaction details",
+    "quantityHeading": "Cantidad de ganadores",
+    "quantityHint": "La cantidad de cuentas seleccionadas como ganadoras por los algoritmos elegidos."
+  },
+  "amount": {
+    "title": "Amount to airdrop",
+    "hint": "La cantidad total del activo seleccionado para repartir entre las cuentas ganadoras.",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Your balance: {{amount}} {{symbol}}",
+    "invalid": "Enter an amount greater than zero and no more than your balance."
+  },
+  "block": {
+    "useLatest": "Use latest block",
+    "random": "Random block",
+    "current": "Latest known block: {{num}}",
+    "currentUnknown": "Latest block not yet fetched."
+  },
+  "algos": {
+    "title": "Algoritmos",
+    "description": "Selecciona uno o más algoritmos. Cada algoritmo elegido añade sus cuentas ganadoras a la lista final de destinatarios.",
+    "freebie": {
+      "name": "Gratis (todos)",
+      "desc": "Cada cuenta de la pool recibe el airdrop."
+    },
+    "forward": {
+      "name": "Hacia adelante",
+      "desc": "Selección aleatoria determinista sembrada a partir de la firma de testigo de un bloque (fragmentos en orden)."
+    },
+    "reverse": {
+      "name": "Inverso",
+      "desc": "Selección aleatoria determinista sembrada a partir de la firma de testigo de un bloque (fragmentos invertidos)."
+    },
+    "pi": {
+      "name": "Pi",
+      "desc": "Selección aleatoria determinista usando un cálculo tipo PI sobre los fragmentos de la firma."
+    },
+    "reverse_pi": {
+      "name": "Pi inverso",
+      "desc": "Selección aleatoria determinista usando un cálculo tipo PI sobre los fragmentos de la firma invertidos."
+    },
+    "cubed": {
+      "name": "Cúbico",
+      "desc": "Selección aleatoria determinista que eleva al cubo los fragmentos de 3 dígitos de la firma."
+    },
+    "avg_point_lines": {
+      "name": "Líneas de punto promedio",
+      "desc": "Selección geométrica: traza líneas hacia el vector promedio derivado de la firma."
+    },
+    "alien_blood": {
+      "name": "Sangre alienígena",
+      "desc": "Selección geométrica: puntos salpicados derivados de la firma."
+    },
+    "bouncing_ball": {
+      "name": "Pelota rebotando",
+      "desc": "Selección geométrica: traza una trayectoria entre los vectores de la firma."
+    },
+    "barrel_of_fish": {
+      "name": "Barril de peces",
+      "desc": "Selección geométrica: fragmentos vuelan desde un punto de impacto a través de los vectores de la firma.",
+      "projectile": "Profundidad del proyectil",
+      "beam": "Haz",
+      "slow": "Lento",
+      "splinter": "Astilla",
+      "yes": "Sí",
+      "no": "No"
+    },
+    "golden": {
+      "name": "Retícula dorada",
+      "desc": "Selección geométrica: una retícula de Fibonacci (proporción áurea) de baja discrepancia llena el cubo uniformemente para una cobertura casi uniforme."
+    },
+    "hash": {
+      "name": "Hash",
+      "desc": "Selección numérica: un PRNG FNV-1a + xorshift32 sembrado por la firma reparte los tickets uniformemente en todo el rango."
+    },
+    "walk": {
+      "name": "Caminata",
+      "desc": "Selección geométrica: una ruta serpenteante avanza por el cubo y muestrea tickets a lo largo de cada segmento."
+    },
+    "helix": {
+      "name": "Hélice",
+      "desc": "Selección geométrica: tickets muestreados a lo largo de una espiral 3D que asciende por el cubo."
+    },
+    "fireworks": {
+      "name": "Fuegos artificiales",
+      "desc": "Selección geométrica: cada fragmento de la firma estalla en rayos hacia otros fragmentos, rociando tickets hacia afuera.",
+      "projectile": "Profundidad del proyectil",
+      "beam": "Haz",
+      "slow": "Lento",
+      "splinter": "Astilla",
+      "yes": "Sí",
+      "no": "No"
+    }
   }
 }
