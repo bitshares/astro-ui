@@ -544,7 +544,7 @@ export default function CustomPoolOverview(properties) {
         </div>
       </div>
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-[720px] bg-card max-h-[85vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-[720px] bg-card">
           <span
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
