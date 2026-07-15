@@ -6,7 +6,23 @@
   "result": {
     "save": "Generate airdrop transaction details",
     "quantityHeading": "当選者数",
-    "quantityHint": "選択したアルゴリズムによって当選者として選ばれたアカウントの数。"
+    "quantityHint": "選択したアルゴリズムによって当選者として選ばれたアカウントの数。",
+    "yourHit": "あなたの当選チケット",
+    "detailSubtitle": "下のアルゴリズムを選ぶと、このアカウントがどのように選ばれたかが表示されます。",
+    "noTicketDetail": "このモードでは、このアカウントのチケット詳細は利用できません。",
+    "filterLabel": "表示",
+    "filterAll": "すべて",
+    "filterNone": "このフィルターに一致する候補はありません。",
+    "prev": "前へ",
+    "next": "次へ",
+    "goTo": "ページへ移動",
+    "pageOf": "{{page}} / {{total}} ページ",
+    "pageRange": "{{from}}–{{to}}",
+    "basis": "配布基準",
+    "basisHint": "総量の配分方法：ヒット数（1ヒット＝1シェア）、保持ウェイト、または均等。",
+    "basisHits": "ヒット",
+    "basisWeight": "ウェイト",
+    "basisEqual": "均等"
   },
   "amount": {
     "title": "Amount to airdrop",
@@ -87,15 +103,6 @@
       "name": "ヘリックス",
       "desc": "幾何選択：立方体を昇る3次元スパイラルに沿ってチケットをサンプリングします。"
     },
-    "fireworks": {
-      "name": "花火",
-      "desc": "幾何選択：各署名チャンクが他のチャンクへ向かう光線に炸裂し、外側へチケットを撒き散らします。",
-      "projectile": "弾の深さ",
-      "beam": "ビーム",
-      "slow": "低速",
-      "splinter": "裂片",
-      "yes": "はい",
-      "no": "いいえ"
-    }
+    "configuration": "設定"
   }
 }

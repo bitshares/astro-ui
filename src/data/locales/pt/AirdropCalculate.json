@@ -6,7 +6,23 @@
   "result": {
     "save": "Generate airdrop transaction details",
     "quantityHeading": "Quantidade de ganhadores",
-    "quantityHint": "O número de contas selecionadas como ganhadores pelos algoritmos escolhidos."
+    "quantityHint": "O número de contas selecionadas como ganhadores pelos algoritmos escolhidos.",
+    "yourHit": "Seu(s) ticket(s) vencedor(es)",
+    "detailSubtitle": "Toque em um algoritmo abaixo para ver como esta conta foi sorteada.",
+    "noTicketDetail": "Nenhum detalhe por ticket está disponível para esta conta neste modo.",
+    "filterLabel": "Mostrar",
+    "filterAll": "Todos",
+    "filterNone": "Nenhum candidato corresponde a este filtro.",
+    "prev": "Anterior",
+    "next": "Próximo",
+    "goTo": "Ir para a página",
+    "pageOf": "Página {{page}} de {{total}}",
+    "pageRange": "{{from}}–{{to}}",
+    "basis": "Base do repasse",
+    "basisHint": "Como o total é dividido: por acertos (cada acerto = 1 cota), pelo peso detido, ou igualmente.",
+    "basisHits": "Acertos",
+    "basisWeight": "Peso",
+    "basisEqual": "Igual"
   },
   "amount": {
     "title": "Amount to airdrop",
@@ -87,15 +103,6 @@
       "name": "Hélice",
       "desc": "Seleção geométrica: tickets amostrados ao longo de uma espiral 3D que sobe pelo cubo."
     },
-    "fireworks": {
-      "name": "Fogos de artifício",
-      "desc": "Seleção geométrica: cada pedaço da assinatura explode em raios em direção a outros pedaços, pulverizando tickets para fora.",
-      "projectile": "Profundidade do projétil",
-      "beam": "Feixe",
-      "slow": "Lento",
-      "splinter": "Estilhaço",
-      "yes": "Sim",
-      "no": "Não"
-    }
+    "configuration": "configuração"
   }
 }

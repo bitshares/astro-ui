@@ -6,7 +6,23 @@
   "result": {
     "save": "Generate airdrop transaction details",
     "quantityHeading": "Võitjate arv",
-    "quantityHint": "Valitud algoritmide poolt võitjatena valitud kontode arv."
+    "quantityHint": "Valitud algoritmide poolt võitjatena valitud kontode arv.",
+    "yourHit": "Sinu võidupiletid",
+    "detailSubtitle": "Vali allpool algoritm, et näha, kuidas see konto valiti.",
+    "noTicketDetail": "Selles režiimis pole selle konto kohta pileti üksikasju saadaval.",
+    "filterLabel": "Näita",
+    "filterAll": "Kõik",
+    "filterNone": "Ükski kandidaat ei vasta sellele filtrile.",
+    "prev": "Eelmine",
+    "next": "Järgmine",
+    "goTo": "Mine lehele",
+    "pageOf": "Leht {{page}} / {{total}}",
+    "pageRange": "{{from}}–{{to}}",
+    "basis": "Jaotusalus",
+    "basisHint": "Kuidas kogusummat jaotatakse: pihkude (iga pihk = 1 osa), peetud kaalu järgi või võrdselt.",
+    "basisHits": "Pihud",
+    "basisWeight": "Kaal",
+    "basisEqual": "Võrdne"
   },
   "amount": {
     "title": "Amount to airdrop",
@@ -87,15 +103,6 @@
       "name": "Spiraal",
       "desc": "Geomeetriline valik: piletid proovitakse 3D-spiraali mööda, mis tõuseb kuubi läbi."
     },
-    "fireworks": {
-      "name": "Ilutulestik",
-      "desc": "Geomeetriline valik: iga allkirja tükk plahvatab kiirteks teiste tükkide poole, pihustades pileteid väljapoole.",
-      "projectile": "Projektiili sügavus",
-      "beam": "Kiir",
-      "slow": "Aeglane",
-      "splinter": "Pilu",
-      "yes": "Jah",
-      "no": "Ei"
-    }
+    "configuration": "konfiguratsioon"
   }
 }

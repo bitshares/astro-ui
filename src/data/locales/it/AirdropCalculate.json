@@ -6,7 +6,23 @@
   "result": {
     "save": "Generate airdrop transaction details",
     "quantityHeading": "Numero di vincitori",
-    "quantityHint": "Il numero di account selezionati come vincitori dagli algoritmi scelti."
+    "quantityHint": "Il numero di account selezionati come vincitori dagli algoritmi scelti.",
+    "yourHit": "Il tuo/i ticket vincente/i",
+    "detailSubtitle": "Seleziona un algoritmo qui sotto per vedere come questo account è stato estratto.",
+    "noTicketDetail": "Nessun dettaglio per ticket è disponibile per questo account in questa modalità.",
+    "filterLabel": "Mostra",
+    "filterAll": "Tutti",
+    "filterNone": "Nessun candidato corrisponde a questo filtro.",
+    "prev": "Precedente",
+    "next": "Successivo",
+    "goTo": "Vai alla pagina",
+    "pageOf": "Pagina {{page}} di {{total}}",
+    "pageRange": "{{from}}–{{to}}",
+    "basis": "Criterio di distribuzione",
+    "basisHint": "Come viene diviso il totale: per hit (ogni hit = 1 quota), per il peso posseduto, o in parti uguali.",
+    "basisHits": "Hit",
+    "basisWeight": "Peso",
+    "basisEqual": "Uguale"
   },
   "amount": {
     "title": "Amount to airdrop",
@@ -87,15 +103,6 @@
       "name": "Elica",
       "desc": "Selezione geometrica: ticket campionati lungo una spirale 3D che sale nel cubo."
     },
-    "fireworks": {
-      "name": "Fuochi d'artificio",
-      "desc": "Selezione geometrica: ogni blocco della firma esplode in raggi verso altri blocchi, spruzzando ticket verso l'esterno.",
-      "projectile": "Profondità del proiettile",
-      "beam": "Fascio",
-      "slow": "Lento",
-      "splinter": "Scheggia",
-      "yes": "Sì",
-      "no": "No"
-    }
+    "configuration": "configurazione"
   }
 }

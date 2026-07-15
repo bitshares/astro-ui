@@ -38,6 +38,7 @@ import {
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import SectionHeader from "@/components/asset-form/SectionHeader.jsx";
+import WinnerDetailDialog from "@/components/airdrop/WinnerDetailDialog.jsx";
 import { Users, Cog, Gift, Send, Radio, Calculator, Check, Layers, Coins, Loader2 } from "lucide-react";
 import { List } from "react-window";
 
@@ -53,6 +54,7 @@ import {
   estimateBatchFeeSat,
   computeAmounts,
   buildTransferOps,
+  apportion,
 } from "@/lib/airdrop.js";
 import {
   executeCalculation,
@@ -89,7 +91,6 @@ const LOTTERY_ALGOS = [
   "hash",
   "walk",
   "helix",
-  "fireworks",
 ];
 
   const ALGOS = [
@@ -107,8 +108,23 @@ const LOTTERY_ALGOS = [
     { key: "hash", lottery: true },
     { key: "walk", lottery: true },
     { key: "helix", lottery: true },
-    { key: "fireworks", lottery: true },
   ];
+
+// Reward "shares" for a single winner under the chosen airdrop basis.
+//  - hits:  each hit is one share (2 hits → 2 shares)
+//  - weight: the winner's held weight in the candidate pool
+//  - equal: one share per winner
+const winnerShare = (winner, basis, leaderboardById) => {
+  switch (basis) {
+    case "hits":
+      return Number(winner.qty || 0);
+    case "weight":
+      return leaderboardById[winner.id] ?? 0;
+    case "equal":
+    default:
+      return 1;
+  }
+};
 
 const SummaryStat = ({ icon: Icon, label, value }) => (
   <div className="rounded-xl border border-border/60 bg-card/30 px-4 py-3">
@@ -119,103 +135,6 @@ const SummaryStat = ({ icon: Icon, label, value }) => (
     <div className="mt-1 text-lg font-bold truncate">{value}</div>
   </div>
 );
-
-// Virtualized list that supports an effectively unlimited number of rows.
-// A single tall scroll element exceeds the browser's max element height
-// (~33.5M px in Chromium, ~17.9M px in Firefox), which clamped scrolling at
-// ~645k rows of 52px. Instead we keep a bounded spacer and recycle the scroll
-// position: when the DOM scrollTop leaves a safe middle band we shift both the
-// scroll offset and the rendered window by the same delta, keeping the visible
-// content seamless while the virtual offset advances without bound.
-const SAFE_SCROLL_HEIGHT = 10_000_000;
-
-const HugeVirtualList = ({
-  items,
-  rowHeight,
-  rowComponent: Row,
-  rowProps,
-  height,
-  overscan = 8,
-}) => {
-  const scrollRef = useRef(null);
-  const shiftRef = useRef(0);
-  const lockedRef = useRef(false);
-  const [scrollTop, setScrollTop] = useState(0);
-  const total = items.length;
-
-  const margin = height;
-  const bandHigh = SAFE_SCROLL_HEIGHT - height - margin;
-
-  useEffect(() => {
-    shiftRef.current = 0;
-    setScrollTop(0);
-    if (scrollRef.current) scrollRef.current.scrollTop = 0;
-  }, [total, height]);
-
-  const onScroll = (e) => {
-    if (lockedRef.current) return;
-    const el = e.currentTarget;
-    const D = SAFE_SCROLL_HEIGHT - 2 * margin;
-    let top = el.scrollTop;
-    const trueOffset = top + shiftRef.current;
-
-    if (top < margin && trueOffset - height > 0) {
-      lockedRef.current = true;
-      el.scrollTop = top + D;
-      shiftRef.current -= D;
-      top = el.scrollTop;
-      requestAnimationFrame(() => {
-        lockedRef.current = false;
-      });
-    } else if (top > bandHigh && trueOffset + height < total * rowHeight) {
-      lockedRef.current = true;
-      el.scrollTop = top - D;
-      shiftRef.current += D;
-      top = el.scrollTop;
-      requestAnimationFrame(() => {
-        lockedRef.current = false;
-      });
-    }
-    setScrollTop(top);
-  };
-
-  const trueOffset = scrollTop + shiftRef.current;
-  const firstIndex = Math.floor(trueOffset / rowHeight);
-  const startIndex = Math.max(0, firstIndex - overscan);
-  const visibleCount = Math.ceil(height / rowHeight) + overscan + 1;
-  const endIndex = Math.min(total, firstIndex + visibleCount);
-
-  const rows = [];
-  for (let index = startIndex; index < endIndex; index++) {
-    rows.push(
-      <Row
-        key={index}
-        index={index}
-        style={{
-          position: "absolute",
-          top: index * rowHeight - shiftRef.current,
-          left: 0,
-          right: 0,
-          height: rowHeight,
-        }}
-        items={items}
-        {...rowProps}
-      />,
-    );
-  }
-
-  return (
-    <div
-      ref={scrollRef}
-      onScroll={onScroll}
-      style={{ height, overflow: "auto", position: "relative" }}
-    >
-      <div style={{ height: SAFE_SCROLL_HEIGHT, position: "relative" }}>
-        {rows}
-      </div>
-    </div>
-  );
-};
 
 export default function AirdropCalculate(props) {
   const { _assetsBTS, _assetsTEST, _marketSearchBTS, _marketSearchTEST, _globalParamsBTS, _globalParamsTEST } = props;
@@ -578,6 +497,10 @@ export default function AirdropCalculate(props) {
   }, [airdropAssetSymbol]);
 
   const amountPrecision = airdropAsset ? airdropAsset.precision || 0 : 0;
+
+  // How the total airdrop amount is divided among winners (step 3).
+  const [airdropBasis, setAirdropBasis] = useState("equal");
+
   const userBalance =
     userBalanceRaw != null ? humanReadableFloat(userBalanceRaw, amountPrecision) : null;
 
@@ -644,12 +567,9 @@ export default function AirdropCalculate(props) {
 
   const [bofProjectile, setBofProjectile] = useState("beam");
   const [bofSplinter, setBofSplinter] = useState("yes");
-  const [fwProjectile, setFwProjectile] = useState("beam");
-  const [fwSplinter, setFwSplinter] = useState("yes");
 
   const [blockNumber, setBlockNumber] = useState("1");
   const [deduplicate, setDeduplicate] = useState("Yes");
-  const [alwaysWinning, setAlwaysWinning] = useState("Yes");
 
   const [currentBlockNum, setCurrentBlockNum] = useState(null);
   const [fetchingBlock, setFetchingBlock] = useState(false);
@@ -740,9 +660,135 @@ export default function AirdropCalculate(props) {
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState(null);
   const [runError, setRunError] = useState(null);
+  // Capture the inputs of the last run so the winner-detail dialog can
+  // reconstruct geometry / maths for a clicked row.
+  const [lastRun, setLastRun] = useState({ filteredSignature: "", opts: {} });
+  const [selectedWinner, setSelectedWinner] = useState(null);
+  // Visual-only filter for the candidate list (step 3).  Does NOT affect who
+  // proceeds to the built transactions — "all" always proceeds.
+  const [resultFilter, setResultFilter] = useState("all");
+
+  // Algorithms that actually contributed candidates, in selection order.
+  const resultFilterAlgos = useMemo(() => {
+    if (!result || !result.length) return [];
+    const present = new Set();
+    for (const w of result) {
+      if (w.tickets) for (const tk of w.tickets) present.add(tk.algo);
+    }
+    return selectedKeys.filter(
+      (k) => LOTTERY_ALGOS.includes(k) && present.has(k),
+    );
+  }, [result, selectedKeys]);
+
+  // List shown in the UI — filtered copy of `result` when an algo is picked.
+  const displayResult = useMemo(() => {
+    if (!result) return result;
+    if (resultFilter === "all") return result;
+    return result.filter(
+      (w) => w.tickets && w.tickets.some((tk) => tk.algo === resultFilter),
+    );
+  }, [result, resultFilter]);
+
+  // The winner results can run into the millions of rows (e.g. the "all
+  // accounts" mode), which exceeds the browser's max element height
+  // (~33.5M px in Chromium, ~17.9M px in Firefox). To keep scrolling correct
+  // in every browser we page the (already react-window-virtualized) list so a
+  // single page's inner height stays under those limits. 250k rows × 52px ≈
+  // 13M px, safely below Firefox's ~17.9M px cap.
+  const RESULTS_PAGE_SIZE = 250_000;
+  const [resultsPage, setResultsPage] = useState(0);
+
+  // id → weight lookup, built once and reused by sorting and the row renderer.
+  const leaderboardById = useMemo(
+    () =>
+      leaderboard
+        ? Object.fromEntries(leaderboard.map((l) => [l.id, l.amount]))
+        : {},
+    [leaderboard],
+  );
+
+  // Sortable results table. Sorting is applied to the full (filtered) result
+  // *before* paging, so every page reflects the chosen order. sortKey === null
+  // keeps the algorithms' native order.
+  const [sortKey, setSortKey] = useState(null); // "account" | "qty" | "amount" | "weight"
+  const [sortDir, setSortDir] = useState("asc");
+
+  const toggleSort = (key) => {
+    if (sortKey === key) {
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDir(key === "account" ? "asc" : "desc");
+    }
+  };
+
+  const sortedResult = useMemo(() => {
+    if (!displayResult || !sortKey) return displayResult;
+    const dir = sortDir === "asc" ? 1 : -1;
+    const getVal = (w) => {
+      switch (sortKey) {
+        case "account":
+          return (w.name || w.id || "").toString().toLowerCase();
+        case "qty":
+          return Number(w.qty || 0);
+        case "amount":
+          return Number(w.ticketsValue || 0);
+        case "weight":
+          return leaderboardById[w.id] ?? 0;
+        default:
+          return 0;
+      }
+    };
+    return [...displayResult].sort((a, b) => {
+      const va = getVal(a);
+      const vb = getVal(b);
+      if (va < vb) return -1 * dir;
+      if (va > vb) return 1 * dir;
+      return 0;
+    });
+  }, [displayResult, sortKey, sortDir, leaderboardById]);
+
+  // Per-winner reward shares under the chosen airdrop basis, and their sum
+  // across the full (filtered) winner set. These drive the per-row amount.
+  const basisShares = useMemo(
+    () =>
+      displayResult
+        ? displayResult.map((w) => winnerShare(w, airdropBasis, leaderboardById))
+        : [],
+    [displayResult, airdropBasis, leaderboardById],
+  );
+  const totalShares = useMemo(
+    () => basisShares.reduce((s, x) => s + Math.max(0, x), 0),
+    [basisShares],
+  );
+
+  // Amounts are only meaningful once an asset and a (non-empty) amount exist.
+  const amountReady = !!airdropAsset && debouncedAmount !== "";
+
+  // Reset to the first page whenever the rendered (sorted/filtered) list
+  // changes (new run, filter switch, sort change, etc.).
+  useEffect(() => {
+    setResultsPage(0);
+  }, [sortedResult]);
+
+  const resultsTotal = sortedResult ? sortedResult.length : 0;
+  const resultsPageCount = Math.max(1, Math.ceil(resultsTotal / RESULTS_PAGE_SIZE));
+  const resultsPageClamped = Math.min(resultsPage, resultsPageCount - 1);
+  const resultsPageStart = resultsPageClamped * RESULTS_PAGE_SIZE;
+  const resultsPageItems = sortedResult
+    ? sortedResult.slice(resultsPageStart, resultsPageStart + RESULTS_PAGE_SIZE)
+    : [];
+
+  // Any change to the step-2 inputs (selected algorithms, block, dedupe, or
+  // barrel-of-fish options) invalidates the previous run, so wipe the step-3
+  // results and force the user to click "Run calculation" again.
+  useEffect(() => {
+    setResult(null);
+  }, [selected, bofProjectile, bofSplinter, blockNumber, deduplicate]);
 
   const handleRun = async () => {
     setRunError(null);
+    setResultFilter("all");
 
     if (syntheticAll) {
       const lotteryKeys = selectedKeys.filter((k) => LOTTERY_ALGOS.includes(k));
@@ -773,11 +819,18 @@ export default function AirdropCalculate(props) {
           blockNumber,
           currentNode ? currentNode.url : null,
         );
+        const allOpts = {
+          bofProjectile,
+          bofSplinter,
+        };
+        const filteredSignature = filterSignature(sig);
         const summary = runAllAccountsLottery(
           lotteryKeys,
-          filterSignature(sig),
+          filteredSignature,
           maxAccountId,
+          allOpts,
         );
+        setLastRun({ filteredSignature, opts: allOpts });
         setResult(summary);
       } catch (error) {
         console.log({ runError: error });
@@ -814,18 +867,16 @@ export default function AirdropCalculate(props) {
       const opts = {
         bof_projectile: bofProjectile,
         bof_splinter: bofSplinter,
-        fw_projectile: fwProjectile,
-        fw_splinter: fwSplinter,
         relevantAssets: assets,
       };
       const { summary } = executeCalculation(
         filteredSignature,
         selectedKeys,
         deduplicate,
-        alwaysWinning,
         leaderboard,
         opts,
       );
+      setLastRun({ filteredSignature, opts });
       setResult(summary);
     } catch (error) {
       console.log({ runError: error });
@@ -840,20 +891,19 @@ export default function AirdropCalculate(props) {
 
   // Split a total amount equally across all winning accounts, keeping the
   // satoshi remainder on the first recipient.
-  const buildAirdropRecipients = (rows, totalHuman, precision) => {
+  const buildAirdropRecipients = (rows, totalHuman, precision, basis, leaderboardById) => {
     const n = rows.length;
     const totalSat = Math.round((Number(totalHuman) || 0) * 10 ** precision);
     if (n === 0 || totalSat <= 0) return [];
-    const each = Math.floor(totalSat / n);
-    const remainder = totalSat - each * n;
-    return rows.map((row, i) => {
-      const sat = i === 0 ? each + remainder : each;
-      return {
-        account: row.id,
-        humanAmount: sat / 10 ** precision,
-        satoshis: sat,
-      };
-    });
+    // Distribute the exact total (satoshis) across winners proportional to their
+    // basis shares; apportion() keeps the parts summing exactly to totalSat.
+    const shares = rows.map((row) => winnerShare(row, basis, leaderboardById));
+    const sats = apportion(totalSat, shares);
+    return rows.map((row, i) => ({
+      account: row.id,
+      humanAmount: sats[i] / 10 ** precision,
+      satoshis: sats[i],
+    }));
   };
 
   const handleSave = () => {
@@ -869,7 +919,7 @@ export default function AirdropCalculate(props) {
       return;
     setSaving(true);
     const precision = airdropAsset.precision || 0;
-    const recipients = buildAirdropRecipients(result, airdropAmount, precision);
+    const recipients = buildAirdropRecipients(result, airdropAmount, precision, airdropBasis, leaderboardById);
     const batchSize = executeBatchSize > 0 ? executeBatchSize : maxPerTx || 50;
     setExecuteBatchSize(batchSize);
     setExecuteBatches(sliceIntoChunks(recipients, batchSize));
@@ -882,8 +932,8 @@ export default function AirdropCalculate(props) {
   const executeRecipients = useMemo(() => {
     if (!result || !result.length || !airdropAsset || debouncedAmount === "")
       return [];
-    return buildAirdropRecipients(result, debouncedAmount, airdropAsset.precision || 0);
-  }, [result, airdropAsset, debouncedAmount]);
+    return buildAirdropRecipients(result, debouncedAmount, airdropAsset.precision || 0, airdropBasis, leaderboardById);
+  }, [result, airdropAsset, debouncedAmount, airdropBasis, leaderboardById]);
 
   // Batches are only computed when "Generate airdrop transaction details" is
   // clicked (handleSave), so changing the batch size does not trigger an
@@ -1013,18 +1063,35 @@ export default function AirdropCalculate(props) {
     );
   };
 
-  const WinnerRow = ({ index, style, items, leaderboardById, amountPerWinner, amountPrecision }) => {
+  const WinnerRow = ({ index, style, items, leaderboardById, basis, amountReady, amountPrecision, totalShares, debouncedAmountNum, onSelect }) => {
     const row = items[index];
     if (!row) return null;
     const weight = leaderboardById[row.id] ?? 0;
+    const share = winnerShare(row, basis, leaderboardById);
+    // Blank unless an asset + amount are present; otherwise each winner's slice
+    // of the total is its share ÷ the sum of all shares.
     const shownAmount =
-      amountPerWinner != null
-        ? amountPerWinner.toLocaleString(undefined, { maximumFractionDigits: amountPrecision })
-        : Number(row.ticketsValue || 0).toLocaleString();
+      amountReady && totalShares > 0
+        ? ((debouncedAmountNum * share) / totalShares).toLocaleString(undefined, {
+            maximumFractionDigits: amountPrecision,
+          })
+        : "";
+    const select = () => onSelect && onSelect(row);
     return (
       <div style={style} className="px-2">
-        <div className="grid grid-cols-4 items-center gap-2 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5">
-          <div className="min-w-0 truncate">
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={select}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              select();
+            }
+          }}
+          className="grid cursor-pointer grid-cols-4 items-center gap-2 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5 transition-colors hover:border-[hsl(var(--accent-1)/0.4)] hover:bg-card/70"
+        >
+          <div className="min-w-0 truncate" onClick={(e) => e.stopPropagation()}>
             <ExternalLink
               hyperlink={`https://blocksights.info/#/accounts/${row.id}`}
               type="text"
@@ -1647,6 +1714,14 @@ export default function AirdropCalculate(props) {
 
             {selected.barrel_of_fish && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 p-3 rounded-lg border border-border/60 bg-card/30">
+                <div className="col-span-full flex items-baseline gap-2 border-b border-border/40 pb-2 mb-1">
+                  <span className="text-sm font-semibold">
+                    {t("AirdropCalculate:algos.barrel_of_fish.name")}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {t("AirdropCalculate:algos.configuration")}
+                  </span>
+                </div>
                 <div>
                   <Label className="text-foreground/70 text-xs uppercase tracking-wider">
                     {t("AirdropCalculate:algos.barrel_of_fish.projectile")}
@@ -1679,47 +1754,6 @@ export default function AirdropCalculate(props) {
                       </SelectItem>
                       <SelectItem value="no">
                         {t("AirdropCalculate:algos.barrel_of_fish.no")}
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            )}
-
-            {selected.fireworks && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 p-3 rounded-lg border border-border/60 bg-card/30">
-                <div>
-                  <Label className="text-foreground/70 text-xs uppercase tracking-wider">
-                    {t("AirdropCalculate:algos.fireworks.projectile")}
-                  </Label>
-                  <Select value={fwProjectile} onValueChange={setFwProjectile}>
-                    <SelectTrigger className="mt-2">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-card">
-                      <SelectItem value="beam">
-                        {t("AirdropCalculate:algos.fireworks.beam")}
-                      </SelectItem>
-                      <SelectItem value="slow">
-                        {t("AirdropCalculate:algos.fireworks.slow")}
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label className="text-foreground/70 text-xs uppercase tracking-wider">
-                    {t("AirdropCalculate:algos.fireworks.splinter")}
-                  </Label>
-                  <Select value={fwSplinter} onValueChange={setFwSplinter}>
-                    <SelectTrigger className="mt-2">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-card">
-                      <SelectItem value="yes">
-                        {t("AirdropCalculate:algos.fireworks.yes")}
-                      </SelectItem>
-                      <SelectItem value="no">
-                        {t("AirdropCalculate:algos.fireworks.no")}
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -1794,24 +1828,6 @@ export default function AirdropCalculate(props) {
                   </SelectContent>
                 </Select>
               </div>
-              <div>
-                <Label className="text-foreground/70 text-xs uppercase tracking-wider">
-                  {t("AirdropCalculate:options.alwaysWinning")}
-                </Label>
-                <Select value={alwaysWinning} onValueChange={setAlwaysWinning}>
-                  <SelectTrigger className="mt-2">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-card">
-                    <SelectItem value="Yes">
-                      {t("AirdropCalculate:options.yes")}
-                    </SelectItem>
-                    <SelectItem value="No">
-                      {t("AirdropCalculate:options.no")}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
 
             <div className="flex items-center gap-3 mt-2">
@@ -1841,6 +1857,16 @@ export default function AirdropCalculate(props) {
             step={3}
             title={t("AirdropCalculate:result.title")}
             description={t("AirdropCalculate:result.description")}
+            right={
+              <div className="text-right">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  {t("AirdropCalculate:result.quantityHeading")}
+                </div>
+                <div className="text-2xl font-bold leading-tight">
+                  {displayResult ? displayResult.length : 0}
+                </div>
+              </div>
+            }
           />
           <CardContent className="grid grid-cols-1 gap-4">
             <div className="mt-4 flex flex-col sm:flex-row sm:items-stretch gap-4">
@@ -1909,13 +1935,26 @@ export default function AirdropCalculate(props) {
               </div>
               <div className="flex-1 min-w-0 rounded-xl border border-border/60 bg-card/30 px-4 py-3">
                 <HoverInfo
-                  header={t("AirdropCalculate:result.quantityHeading")}
-                  content={t("AirdropCalculate:result.quantityHint")}
+                  header={t("AirdropCalculate:result.basis")}
+                  content={t("AirdropCalculate:result.basisHint")}
                   type={null}
                 />
-                <div className="text-2xl font-bold mt-1">
-                  {result ? result.length : 0}
-                </div>
+                <Select value={airdropBasis} onValueChange={setAirdropBasis}>
+                  <SelectTrigger className="mt-2">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-card">
+                    <SelectItem value="hits">
+                      {t("AirdropCalculate:result.basisHits")}
+                    </SelectItem>
+                    <SelectItem value="weight">
+                      {t("AirdropCalculate:result.basisWeight")}
+                    </SelectItem>
+                    <SelectItem value="equal">
+                      {t("AirdropCalculate:result.basisEqual")}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex-1 min-w-0 rounded-xl border border-border/60 bg-card/30 px-4 py-3">
                 <HoverInfo
@@ -1944,33 +1983,165 @@ export default function AirdropCalculate(props) {
             </div>
 
             <div>
+              {resultFilterAlgos.length > 1 && (
+                <div className="flex flex-wrap items-center gap-2 mb-3">
+                  <span className="text-xs text-muted-foreground mr-1">
+                    {t("AirdropCalculate:result.filterLabel")}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setResultFilter("all")}
+                    className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                      resultFilter === "all"
+                        ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1))]"
+                        : "border-border/60 text-muted-foreground hover:border-[hsl(var(--accent-1)/0.3)]"
+                    }`}
+                  >
+                    {t("AirdropCalculate:result.filterAll")}
+                  </button>
+                  {resultFilterAlgos.map((algo) => (
+                    <button
+                      key={algo}
+                      type="button"
+                      onClick={() => setResultFilter(algo)}
+                      className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                        resultFilter === algo
+                          ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1))]"
+                          : "border-border/60 text-muted-foreground hover:border-[hsl(var(--accent-1)/0.3)]"
+                      }`}
+                    >
+                      {t(`AirdropCalculate:algos.${algo}.name`)}
+                    </button>
+                  ))}
+                </div>
+              )}
               <div className="grid grid-cols-4 px-3 py-1.5 text-xs text-muted-foreground font-medium">
-                <span className="min-w-0">{t("AirdropCalculate:result.account")}</span>
-                <span>{t("AirdropCalculate:result.qty")}</span>
-                <span>{t("AirdropCalculate:result.amount")}</span>
-                <span>{t("AirdropCalculate:result.weight")}</span>
+                <button
+                  type="button"
+                  onClick={() => toggleSort("account")}
+                  className="min-w-0 text-left hover:text-foreground truncate"
+                >
+                  {t("AirdropCalculate:result.account")}
+                  {sortKey === "account" ? (sortDir === "asc" ? " ▲" : " ▼") : ""}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => toggleSort("qty")}
+                  className="text-left hover:text-foreground"
+                >
+                  {t("AirdropCalculate:result.qty")}
+                  {sortKey === "qty" ? (sortDir === "asc" ? " ▲" : " ▼") : ""}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => toggleSort("amount")}
+                  className="text-left hover:text-foreground"
+                >
+                  {t("AirdropCalculate:result.amount")}
+                  {sortKey === "amount" ? (sortDir === "asc" ? " ▲" : " ▼") : ""}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => toggleSort("weight")}
+                  className="text-left hover:text-foreground"
+                >
+                  {t("AirdropCalculate:result.weight")}
+                  {sortKey === "weight" ? (sortDir === "asc" ? " ▲" : " ▼") : ""}
+                </button>
               </div>
               <div className="w-full border border-border/60 rounded-xl overflow-hidden bg-card/30">
-                <HugeVirtualList
-                  items={result || []}
-                  rowHeight={52}
+                <List
                   rowComponent={WinnerRow}
+                  rowCount={resultsPageItems.length}
+                  rowHeight={52}
                   rowProps={{
-                    leaderboardById: leaderboard
-                      ? Object.fromEntries(leaderboard.map((l) => [l.id, l.amount]))
-                      : {},
-                    amountPerWinner:
-                      debouncedAmount !== "" && result && result.length
-                        ? debouncedAmountNum / result.length
-                        : null,
+                    items: resultsPageItems,
+                    leaderboardById,
+                    basis: airdropBasis,
+                    amountReady,
                     amountPrecision,
+                    totalShares,
+                    debouncedAmountNum,
+                    onSelect: setSelectedWinner,
                   }}
-                  height={result && result.length ? 420 : 120}
+                  style={{ height: resultsPageItems.length ? 420 : 120 }}
+                />
+                <WinnerDetailDialog
+                  winner={selectedWinner}
+                  filteredSignature={lastRun.filteredSignature}
+                  opts={lastRun.opts}
+                  initialAlgo={resultFilter !== "all" ? resultFilter : null}
+                  onClose={() => setSelectedWinner(null)}
                 />
               </div>
-              {result && result.length === 0 && (
+              {resultsPageCount > 1 && resultsPageItems.length > 0 && (
+                <div className="flex flex-wrap items-center justify-between gap-3 mt-3">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setResultsPage((p) => Math.max(0, p - 1))}
+                      disabled={resultsPageClamped === 0}
+                    >
+                      {t("AirdropCalculate:result.prev")}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        setResultsPage((p) =>
+                          Math.min(resultsPageCount - 1, p + 1),
+                        )
+                      }
+                      disabled={resultsPageClamped >= resultsPageCount - 1}
+                    >
+                      {t("AirdropCalculate:result.next")}
+                    </Button>
+                  </div>
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                    <span>
+                      {t("AirdropCalculate:result.pageOf", {
+                        page: resultsPageClamped + 1,
+                        total: resultsPageCount,
+                      })}
+                    </span>
+                    <span className="text-muted-foreground/70">
+                      {t("AirdropCalculate:result.pageRange", {
+                        from: resultsPageStart + 1,
+                        to: Math.min(resultsTotal, resultsPageStart + RESULTS_PAGE_SIZE),
+                      })}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Label className="text-xs text-muted-foreground">
+                      {t("AirdropCalculate:result.goTo")}
+                    </Label>
+                    <Input
+                      type="number"
+                      min={1}
+                      max={resultsPageCount}
+                      value={resultsPageClamped + 1}
+                      onChange={(e) => {
+                        const raw = parseInt(e.target.value, 10);
+                        if (Number.isNaN(raw)) return;
+                        const clamped = Math.min(
+                          resultsPageCount,
+                          Math.max(1, raw),
+                        );
+                        setResultsPage(clamped - 1);
+                      }}
+                      className="bg-card/40 w-20"
+                    />
+                  </div>
+                </div>
+              )}
+              {displayResult && displayResult.length === 0 && (
                 <p className="text-xs text-muted-foreground mt-2">
-                  {t("AirdropCalculate:result.none")}
+                  {t(
+                    result && result.length
+                      ? "AirdropCalculate:result.filterNone"
+                      : "AirdropCalculate:result.none",
+                  )}
                 </p>
               )}
             </div>

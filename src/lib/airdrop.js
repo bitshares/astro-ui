@@ -3,6 +3,92 @@ import { getFullAccountDetails } from "@/nanoeffects/FullAccountDetails.ts";
 
 const ACCOUNT_ID_REGEX = /^1\.2\.\d+$/;
 
+// Maximum ticket number in the [0,1023]³ cube.  Coordinates are packed with a
+// 3-D Morton (Z-order) curve: 30 bits total, 10 bits per axis (x→bits 0,3,6…,
+// y→1,4,7…, z→2,5,8…).  Morton is an exact bijection onto `[0, 2³⁰−1]` for a
+// power-of-two cube, so the holder ranges tile the space with no gaps, no
+// overlaps, and — crucially — no "dead" ranges, and a drawn point's ticket maps
+// back to a spatially-local cube coordinate.  x,y,z ∈ [0,1023] ⇒ max = 2³⁰−1.
+const CUBE_TICKETS = 1073741823;
+
+/**
+ * Largest-remainder apportionment of `total` integer units across `weights`.
+ * Each part is `floor(weight / wsum · total)`; any leftover units (always
+ * fewer than `weights.length`) are handed to the largest fractional
+ * remainders, so the parts always sum exactly to `total`.
+ *
+ * @param {number} total
+ * @param {number[]} weights
+ * @returns {number[]}
+ */
+function apportion(total, weights) {
+  const N = weights.length;
+  if (N === 0) return [];
+  const wsum = weights.reduce((s, w) => s + Math.max(0, w), 0);
+  if (wsum <= 0) {
+    // No meaningful weights: spread as evenly as possible.
+    const base = Math.floor(total / N);
+    const parts = new Array(N).fill(base);
+    let rem = total - base * N;
+    for (let i = 0; i < rem; i++) parts[i] += 1;
+    return parts;
+  }
+  const quota = weights.map((w) => (Math.max(0, w) / wsum) * total);
+  const floorQ = quota.map((q) => Math.floor(q));
+  const allocated = floorQ.reduce((s, q) => s + q, 0);
+  const leftover = total - allocated;
+  const order = quota
+    .map((q, i) => ({ i, frac: q - Math.floor(q) }))
+    .sort((a, b) => b.frac - a.frac);
+  for (let k = 0; k < leftover; k++) floorQ[order[k].i] += 1;
+  return floorQ;
+}
+
+/**
+ * Like {@link apportion} but guarantees every entry receives at least `min`
+ * units, so even the tiniest holder owns a winnable cube position.  When the
+ * total is too small to give everyone `min`, falls back to plain proportional
+ * apportionment.
+ *
+ * @param {number} total
+ * @param {number[]} weights
+ * @param {number} min
+ * @returns {number[]}
+ */
+function apportionWithMin(total, weights, min) {
+  const N = weights.length;
+  if (N === 0) return [];
+  if (N * min > total) return apportion(total, weights);
+  const parts = new Array(N).fill(min);
+  const extra = apportion(total - N * min, weights);
+  for (let i = 0; i < N; i++) parts[i] += extra[i];
+  return parts;
+}
+
+/**
+ * Rewrite each leaderboard entry's `range` so the union of all ranges tiles
+ * the entire cube ticket space `[0, CUBE_TICKETS]` with no gaps or overlaps,
+ * proportional to each entry's `amount`, and with a minimum width of one so
+ * every participant is winnable.  This makes any drawn cube coordinate (the
+ * Morton `x/y/z` packing of a ticket) fall inside exactly one account's range
+ * — i.e. every ticket maps to a holder and the cube becomes a faithful map of
+ * ownership.
+ *
+ * @param {Array<{amount:number, range:{from:number,to:number}}>} leaderboard
+ */
+function normalizeRangesToCube(leaderboard) {
+  const N = leaderboard.length;
+  if (N === 0) return;
+  const weights = leaderboard.map((a) => Math.max(0, Number(a.amount) || 0));
+  const parts = apportionWithMin(CUBE_TICKETS, weights, 1);
+  let from = 0;
+  for (let i = 0; i < N; i++) {
+    const to = from + parts[i];
+    leaderboard[i].range = { from, to };
+    from = to;
+  }
+}
+
 /**
  * Fetch on-chain details for a list of account ids (the "candidate pool")
  * used by the algorithm-based airdrop calculator. Mirrors the reference app's
@@ -78,7 +164,6 @@ async function enrichPool(accountIDs, chain, specificNode) {
  */
 function buildLeaderboard(accounts, weightAssetId = null) {
   const leaderboard = [];
-  let from = 0;
   for (const acc of accounts) {
     let weight = 1;
     if (weightAssetId) {
@@ -91,13 +176,13 @@ function buildLeaderboard(accounts, weightAssetId = null) {
       id: acc.id,
       name: acc.name,
       amount: w,
-      range: { from: parseInt(from, 10), to: parseInt(from + w, 10) },
+      range: { from: 0, to: 0 },
       votes: acc.votes,
       balances: acc.balances,
       ltm: acc.ltm,
     });
-    from += w;
   }
+  normalizeRangesToCube(leaderboard);
   return leaderboard;
 }
 
@@ -111,20 +196,19 @@ function buildLeaderboard(accounts, weightAssetId = null) {
  */
 function buildLeaderboardFromEntries(entries) {
   const leaderboard = [];
-  let from = 0;
   for (const e of entries) {
     const w = Math.max(Number(e.weight) || 0, 0);
     leaderboard.push({
       id: e.id,
       name: e.name || e.id,
       amount: w,
-      range: { from: parseInt(from, 10), to: parseInt(from + w, 10) },
+      range: { from: 0, to: 0 },
       votes: e.votes || [],
       balances: e.balances || [],
       ltm: !!e.ltm,
     });
-    from += w;
   }
+  normalizeRangesToCube(leaderboard);
   return leaderboard;
 }
 
@@ -439,6 +523,7 @@ function buildTransferOps(senderId, assetId, batch) {
 
 export {
   ACCOUNT_ID_REGEX,
+  apportion,
   parseRecipients,
   sliceIntoChunks,
   enrichPool,

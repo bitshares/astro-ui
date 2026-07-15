@@ -6,7 +6,23 @@
   "result": {
     "save": "Generate airdrop transaction details",
     "quantityHeading": "Antal vindere",
-    "quantityHint": "Antallet af konti, der er valgt som vindere af de valgte algoritmer."
+    "quantityHint": "Antallet af konti, der er valgt som vindere af de valgte algoritmer.",
+    "yourHit": "Dine vindende billet(ter)",
+    "detailSubtitle": "Vælg en algoritme nedenfor for at se, hvordan denne konto blev trukket.",
+    "noTicketDetail": "Der er ingen billetdetaljer tilgængelige for denne konto i denne tilstand.",
+    "filterLabel": "Vis",
+    "filterAll": "Alle",
+    "filterNone": "Ingen kandidater matcher dette filter.",
+    "prev": "Forrige",
+    "next": "Næste",
+    "goTo": "Gå til side",
+    "pageOf": "Side {{page}} af {{total}}",
+    "pageRange": "{{from}}–{{to}}",
+    "basis": "Fordelingsgrundlag",
+    "basisHint": "Hvordan det samlede beløb fordeles: efter hits (ét hit = én andel), efter beholdt vægt, eller ligeligt.",
+    "basisHits": "Hits",
+    "basisWeight": "Vægt",
+    "basisEqual": "Lige"
   },
   "amount": {
     "title": "Amount to airdrop",
@@ -87,15 +103,6 @@
       "name": "Helix",
       "desc": "Geometrisk udvælgelse: billetter samlet langs en 3-D spiral der stiger gennem terningen."
     },
-    "fireworks": {
-      "name": "Fyrværkeri",
-      "desc": "Geometrisk udvælgelse: hver signaturbid sprænger ud i stråler mod andre bidder og sprøjter billetter udad.",
-      "projectile": "Projektildybde",
-      "beam": "Stråle",
-      "slow": "Langsom",
-      "splinter": "Splint",
-      "yes": "Ja",
-      "no": "Nej"
-    }
+    "configuration": "konfiguration"
   }
 }

@@ -6,7 +6,23 @@
   "result": {
     "save": "Generate airdrop transaction details",
     "quantityHeading": "당첨자 수",
-    "quantityHint": "선택한 알고리즘에 의해 당첨자로 선택된 계정의 수입니다."
+    "quantityHint": "선택한 알고리즘에 의해 당첨자로 선택된 계정의 수입니다.",
+    "yourHit": "당첨 티켓",
+    "detailSubtitle": "아래 알고리즘을 탭하여 이 계정이 어떻게 뽑혔는지 확인하세요.",
+    "noTicketDetail": "이 모드에서는 이 계정에 대한 티켓 세부 정보를 사용할 수 없습니다.",
+    "filterLabel": "표시",
+    "filterAll": "모두",
+    "filterNone": "이 필터와 일치하는 후보가 없습니다.",
+    "prev": "이전",
+    "next": "다음",
+    "goTo": "페이지로 이동",
+    "pageOf": "{{page}} / {{total}} 페이지",
+    "pageRange": "{{from}}–{{to}}",
+    "basis": "에어드랍 기준",
+    "basisHint": "총량을 나누는 기준: 히트 수(히트 1회 = 1 지분), 보유 가중치, 또는 균등.",
+    "basisHits": "히트",
+    "basisWeight": "가중치",
+    "basisEqual": "균등"
   },
   "amount": {
     "title": "Amount to airdrop",
@@ -87,15 +103,6 @@
       "name": "나선",
       "desc": "기하 선택: 큐브를 따라 올라가는 3차원 나선을 따라 티켓을 샘플링합니다."
     },
-    "fireworks": {
-      "name": "불꽃놀이",
-      "desc": "기하 선택: 각 서명 청크가 다른 청크들을 향해 광선으로 폭발하며 바깥쪽으로 티켓을 뿌립니다.",
-      "projectile": "발사체 깊이",
-      "beam": "빔",
-      "slow": "느림",
-      "splinter": "조각",
-      "yes": "예",
-      "no": "아니오"
-    }
+    "configuration": "구성"
   }
 }

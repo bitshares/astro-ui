@@ -6,7 +6,23 @@
   "result": {
     "save": "Generate airdrop transaction details",
     "quantityHeading": "Anzahl der Gewinner",
-    "quantityHint": "Die Anzahl der Konten, die von den gewählten Algorithmen als Gewinner ausgewählt wurden."
+    "quantityHint": "Die Anzahl der Konten, die von den gewählten Algorithmen als Gewinner ausgewählt wurden.",
+    "yourHit": "Deine gewinnenden Ticket(s)",
+    "detailSubtitle": "Wähle unten einen Algorithmus, um zu sehen, wie dieses Konto gezogen wurde.",
+    "noTicketDetail": "Für dieses Konto ist in diesem Modus keine Ticket-Detailansicht verfügbar.",
+    "filterLabel": "Anzeigen",
+    "filterAll": "Alle",
+    "filterNone": "Keine Kandidaten entsprechen diesem Filter.",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "goTo": "Zu Seite",
+    "pageOf": "Seite {{page}} von {{total}}",
+    "pageRange": "{{from}}–{{to}}",
+    "basis": "Verteilungsgrundlage",
+    "basisHint": "Wie der Gesamtbetrag aufgeteilt wird: nach Treffern (ein Treffer = ein Anteil), nach gehaltenem Gewicht oder gleichmäßig.",
+    "basisHits": "Treffer",
+    "basisWeight": "Gewicht",
+    "basisEqual": "Gleich"
   },
   "amount": {
     "title": "Amount to airdrop",
@@ -87,15 +103,6 @@
       "name": "Helix",
       "desc": "Geometrische Auswahl: Tickets entlang einer 3-D-Spirale, die durch den Würfel aufsteigt, abgetastet."
     },
-    "fireworks": {
-      "name": "Feuerwerk",
-      "desc": "Geometrische Auswahl: jeder Signaturblock bricht in Strahlen zu anderen Blöcken auf und sprüht Tickets nach außen.",
-      "projectile": "Projektiltiefe",
-      "beam": "Strahl",
-      "slow": "Langsam",
-      "splinter": "Splitter",
-      "yes": "Ja",
-      "no": "Nein"
-    }
+    "configuration": "Konfiguration"
   }
 }

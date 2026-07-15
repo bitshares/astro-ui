@@ -134,16 +134,7 @@
       "name": "Helix",
       "desc": "Geometric selection: tickets sampled along a 3-D spiral that climbs through the cube."
     },
-    "fireworks": {
-      "name": "Fireworks",
-      "desc": "Geometric selection: every signature chunk bursts into rays toward other chunks, spraying tickets outward.",
-      "projectile": "Projectile depth",
-      "beam": "Beam",
-      "slow": "Slow",
-      "splinter": "Splinter",
-      "yes": "Yes",
-      "no": "No"
-    }
+    "configuration": "configuration"
   },
   "block": {
     "title": "Block number",
@@ -155,7 +146,6 @@
   },
   "options": {
     "deduplicate": "Deduplicate winners",
-    "alwaysWinning": "Always find a winner",
     "yes": "Yes",
     "no": "No"
   },
@@ -174,8 +164,24 @@
     "qty": "Hits",
     "amount": "Amount",
     "weight": "Weight",
+    "basis": "Basis for airdrop",
+    "basisHint": "How the total amount is divided: by hits (each hit = 1 share), by the held weight, or equally.",
+    "basisHits": "Hits",
+    "basisWeight": "Weight",
+    "basisEqual": "Equal",
+    "prev": "Previous",
+    "next": "Next",
+    "goTo": "Go to page",
+    "pageOf": "Page {{page}} of {{total}}",
+    "pageRange": "{{from}}–{{to}}",
     "save": "Generate airdrop transaction details",
-    "none": "No winners were produced by the selected algorithms."
+    "none": "No winners were produced by the selected algorithms.",
+    "yourHit": "Your winning ticket(s)",
+    "detailSubtitle": "Tap an algorithm below to see how this account was drawn.",
+    "noTicketDetail": "No per-ticket detail is available for this account in this mode.",
+    "filterLabel": "Show",
+    "filterAll": "All",
+    "filterNone": "No candidates match this filter."
   },
   "amount": {
     "title": "Amount to airdrop",
