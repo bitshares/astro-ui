@@ -34,7 +34,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
-import { Server } from "lucide-react";
+import { Server, ArrowUp, Wifi, Trash2 } from "lucide-react";
 
 export default function Nodes(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -97,18 +97,16 @@ export default function Nodes(properties) {
     // retry is disabled only while a ping is in progress (handled by `pinging`)
     return (
       <div style={{ ...style }} key={`acard-${index}`}>
-        <Card className="ml-2 mr-2">
-          <CardHeader
-            className={`pb-0 pt-0 ${index === 0 ? "bg-[hsl(var(--accent-success))] dark:bg-[hsl(var(--accent-success)/0.15)]" : ""}`}
-          >
+        <Card className={`ml-2 mr-2 border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.25)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all ${index === 0 ? "!border-[hsl(var(--accent-success)/0.3)] !bg-[hsl(var(--accent-success)/0.05)]" : ""}`}>
+          <CardHeader className="pb-0 pt-0">
             <CardTitle>
               <div className={`grid grid-cols-4 gap-2 items-center mt-0 pt-0`}>
-                <div className="col-span-4 md:col-span-3">
+                <div className="col-span-4 md:col-span-3 font-mono text-sm">
                   {nodes[usr.chain][index].url}
                 </div>
                 <div className="col-span-4 md:col-span-1 text-right flex items-center justify-end">
                   <Button
-                    className="mr-2"
+                    className="mr-2 border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                     variant="none"
                     onClick={() => {
                       const updatedNodes = [...nodes[usr.chain]];
@@ -116,12 +114,12 @@ export default function Nodes(properties) {
                       updateNodes(usr.chain, [selectedNode, ...updatedNodes]);
                     }}
                   >
-                    ⬆️
+                    <ArrowUp className="h-4 w-4" />
                   </Button>
                   <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
-                      <Button variant="none" className="mr-2">
-                        📶
+                      <Button variant="none" className="mr-2 border border-[hsl(var(--accent-2)/0.3)] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.1)]">
+                        <Wifi className="h-4 w-4" />
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[420px] bg-card">
@@ -162,25 +160,31 @@ export default function Nodes(properties) {
                       </div>
                       <div className="flex justify-end">
                         <Button
-                          className="mr-2"
+                          className="mr-2 border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                           onClick={() => setAttempt((a) => a + 1)}
                           disabled={pinging}
                         >
                           Retry
                         </Button>
-                        <Button onClick={() => setOpen(false)}>Close</Button>
+                        <Button 
+                          className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
+                          onClick={() => setOpen(false)}
+                        >
+                          Close
+                        </Button>
                       </div>
                     </DialogContent>
                   </Dialog>
                   <Button
                     variant="none"
+                    className="border border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)]"
                     onClick={() => {
                       const updatedNodes = [...nodes[usr.chain]];
                       updatedNodes.splice(index, 1);
                       updateNodes(usr.chain, updatedNodes);
                     }}
                   >
-                    ❌
+                    <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -225,9 +229,15 @@ export default function Nodes(properties) {
             </div>
           </Card>
 
-          <Card>
+          <Card className="relative overflow-hidden rounded-2xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.15)] to-[hsl(var(--accent-2)/0.15)] blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.15)] to-[hsl(var(--accent-1)/0.15)] blur-3xl" />
+            <div className="h-0.5 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.5)] via-[hsl(var(--accent-2)/0.5)] to-[hsl(var(--accent-1)/0.5)]" />
             <CardHeader>
-              <CardTitle>{t("Nodes:cardTitle")}</CardTitle>
+              <CardTitle className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+                <Server className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                {t("Nodes:cardTitle")}
+              </CardTitle>
               <CardDescription>{t("Nodes:cardDescription")}</CardDescription>
             </CardHeader>
             <CardContent>
@@ -257,12 +267,12 @@ export default function Nodes(properties) {
                 <p>{t("Nodes:none")}</p>
               )}
               <br />
-              <div>
-                <p>{t("Nodes:addDescription")}</p>
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40 p-4">
+                <p className="text-sm text-muted-foreground mb-3">{t("Nodes:addDescription")}</p>
                 <Input
                   name="searchInput"
                   placeholder="wss://url/ws"
-                  className="mb-3 mt-3 w-full"
+                  className="mb-3 mt-3 w-full border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                   onChange={(event) => {
                     setInputURL(event.target.value);
                   }}
@@ -284,34 +294,38 @@ export default function Nodes(properties) {
                     ]);
                   }}
                 />
-                <Button
-                  className="mr-2"
-                  onClick={() => {
-                    if (
-                      !inputURL ||
-                      nodes[usr.chain].findIndex(
-                        (node) => node.url === inputURL
-                      ) !== -1 ||
-                      !/^wss?:\/\/[a-zA-Z0-9.:\/\-]+$/.test(inputURL) ||
-                      inputURL.includes("..")
-                    ) {
-                      return;
+                <div className="flex gap-2">
+                  <Button
+                    className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:shadow-[color:hsl(var(--accent-1)/0.4)] transition-all"
+                    onClick={() => {
+                      if (
+                        !inputURL ||
+                        nodes[usr.chain].findIndex(
+                          (node) => node.url === inputURL
+                        ) !== -1 ||
+                        !/^wss?:\/\/[a-zA-Z0-9.:\/\-]+$/.test(inputURL) ||
+                        inputURL.includes("..")
+                      ) {
+                        return;
+                      }
+                      updateNodes(usr.chain, [
+                        ...nodes[usr.chain],
+                        { url: inputURL },
+                      ]);
+                    }}
+                  >
+                    {t("Nodes:add")}
+                  </Button>
+                  <Button
+                    className="border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
+                    variant="outline"
+                    onClick={() =>
+                      updateNodes(usr.chain, chains[usr.chain].nodeList)
                     }
-                    updateNodes(usr.chain, [
-                      ...nodes[usr.chain],
-                      { url: inputURL },
-                    ]);
-                  }}
-                >
-                  {t("Nodes:add")}
-                </Button>
-                <Button
-                  onClick={() =>
-                    updateNodes(usr.chain, chains[usr.chain].nodeList)
-                  }
-                >
-                  {t("Nodes:reset")}
-                </Button>
+                  >
+                    {t("Nodes:reset")}
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>

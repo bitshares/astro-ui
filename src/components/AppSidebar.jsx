@@ -314,9 +314,9 @@ export default function AppSidebar() {
       items: accountOverviewsHeading,
     },
     {
-      key: "chain",
-      label: t("PageHeader:blockchainOverviewsHeading"),
-      items: blockchainOverviewsHeading,
+      key: "invoicing",
+      label: t("PageHeader:invoicingHeading"),
+      items: invoicingHeading,
     },
     {
       key: "gov",
@@ -324,9 +324,9 @@ export default function AppSidebar() {
       items: governanceHeading,
     },
     {
-      key: "invoicing",
-      label: t("PageHeader:invoicingHeading"),
-      items: invoicingHeading,
+      key: "chain",
+      label: t("PageHeader:blockchainOverviewsHeading"),
+      items: blockchainOverviewsHeading,
     },
     {
       key: "settings",

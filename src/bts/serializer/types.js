@@ -12,7 +12,7 @@ import Address from "../ecc/address.js";
 
 import ChainConfig from "../ws/ChainConfig";
 
-import { Buffer } from "safe-buffer";
+
 
 var Types = {};
 

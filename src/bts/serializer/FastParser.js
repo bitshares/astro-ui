@@ -1,5 +1,5 @@
 import PublicKey from "../ecc/PublicKey.js";
-import { Buffer } from "safe-buffer";
+
 
 class FastParser {
   static fixed_data(b, len, buffer) {

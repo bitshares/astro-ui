@@ -5,7 +5,7 @@ import { sha256, HmacSHA256 } from "./hash";
 import enforceType from "./enforce_types.js";
 
 import ECSignature from "./ecsignature.js";
-import { Buffer } from "safe-buffer";
+
 
 // https://tools.ietf.org/html/rfc6979#section-3.2
 function deterministicGenerateK(curve, hash, d, checkSig, nonce) {

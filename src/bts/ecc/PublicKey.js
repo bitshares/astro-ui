@@ -10,7 +10,7 @@ import deepEqual from "deep-equal";
 import { sha256, sha512, ripemd160 } from "./hash.js";
 import ChainConfig from "../ws/ChainConfig";
 
-import { Buffer } from "safe-buffer";
+
 const secp256k1 = getCurveByName("secp256k1");
 
 const { G, n } = secp256k1;

@@ -6,7 +6,7 @@ import { sign, recoverPubKey, verify, calcPubKeyRecoveryParam } from "./ecdsa.js
 import { sha256 } from "./hash.js";
 import PublicKey from "./PublicKey.js";
 
-import { Buffer } from "safe-buffer";
+
 
 var secp256k1 = getCurveByName("secp256k1");
 

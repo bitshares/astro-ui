@@ -2,7 +2,7 @@ import assert from "assert"; // from https://github.com/bitcoinjs/bitcoinjs-lib
 import BigInteger from "bigi";
 
 import enforceType from "./enforce_types.js";
-import { Buffer } from "safe-buffer";
+
 
 function ECSignature(r, s) {
   enforceType(BigInteger, r);

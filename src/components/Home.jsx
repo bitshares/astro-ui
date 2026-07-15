@@ -440,9 +440,9 @@ export default function Home(properties) {
       {renderSection(formsOfDebt, "debt")}
       {renderSection(assetCreation, "assetCreation")}
       {renderSection(accountOverviews, "account")}
-      {renderSection(blockchainOverviews, "blockchain")}
-      {renderSection(governance, "governance")}
       {renderSection(invoicing, "invoicing")}
+      {renderSection(governance, "governance")}
+      {renderSection(blockchainOverviews, "blockchain")}
       {renderSection(settings, "settings")}
     </div>
   );

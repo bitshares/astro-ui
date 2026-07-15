@@ -2,7 +2,7 @@ import assert from "assert";
 import pkg from "bs58";
 const { encode, decode } = pkg;
 import deepEqual from "deep-equal";
-import { Buffer } from "safe-buffer";
+
 
 import ChainConfig from "../ws/ChainConfig";
 import { sha256, sha512, ripemd160 } from "./hash.js";

@@ -9,7 +9,7 @@ import PublicKey from "../ecc/PublicKey.js";
 import * as ops from "../serializer/operations.js";
 import ChainTypes from "./ChainTypes.js";
 
-import { Buffer } from "safe-buffer";
+
 
 var head_block_time_string, committee_min_review;
 
