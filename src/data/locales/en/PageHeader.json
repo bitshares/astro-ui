@@ -109,7 +109,9 @@
         "create_invoice": "Create an invoice by selecting inventory items, setting quantities and generating an identifier memo for payment.",
         "pay_invoice": "Process and handle payment for invoice codes sent to you by sellers on the Bitshares blockchain.",
         "blocked-users": "View and manage your committee and personal blocklists.",
-        "airdrop_calculate": "Distribute an asset to many accounts via algorithmic selection or a manual list, then broadcast batches through your Beet wallet."
+        "airdrop_calculate": "Distribute an asset to many accounts via algorithmic selection or a manual list, then broadcast batches through your Beet wallet.",
+        "top-markets": "Use this page to view the most actively traded BitShares DEX markets, ranked by fill-order volume.",
+        "top-pools": "Use this page to view the most actively swapped BitShares liquidity pools, ranked by swap volume."
     },
     "back": "Go back",
     "usage": "Designed for use with ",

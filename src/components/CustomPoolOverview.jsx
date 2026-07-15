@@ -42,7 +42,16 @@ import { Input } from "@/components/ui/input";
 
 import HoverInfo from "@/components/common/HoverInfo.tsx";
 import BasicAssetDropDownCard from "@/components/Market/BasicAssetDropDownCard.jsx";
-import { BarChart3 } from "lucide-react";
+import { BarChart3, Plus, SearchX, TriangleAlert } from "lucide-react";
+
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+} from "@/components/ui/empty";
 
 export default function CustomPoolOverview(properties) {
   const {
@@ -143,6 +152,7 @@ export default function CustomPoolOverview(properties) {
 
   const [newTrackerTitle, setNewTrackerTitle] = useState("");
   const [selectedPools, setSelectedPools] = useState([]);
+  const [nameError, setNameError] = useState(false);
 
   const chosenPools = useMemo(() => {
     if (!pools || !selectedPools || !selectedPools.length) {
@@ -484,70 +494,136 @@ export default function CustomPoolOverview(properties) {
             </div>
           </div>
           <Card className="p-2">
-          <div className="grid grid-cols-6 gap-3">
-            <div className="col-span-5 border rounded border-border p-3">
-              <div className="w-full max-h-[200px] overflow-auto">
-                <List
-                  rowComponent={TrackerRow}
-                  rowCount={
-                    trackers && trackers[_chain] ? trackers[_chain].length : 0
-                  }
-                  rowHeight={100}
-                  rowProps={{}}
-                />
+            {trackers && trackers[_chain] && trackers[_chain].length ? (
+              <div className="grid grid-cols-6 gap-3">
+                <div className="col-span-5 border rounded border-border p-3">
+                  <div className="w-full max-h-[200px] overflow-auto">
+                    <List
+                      rowComponent={TrackerRow}
+                      rowCount={trackers[_chain].length}
+                      rowHeight={100}
+                      rowProps={{}}
+                    />
+                  </div>
+                </div>
+                <Button
+                  onClick={() => setModalOpen(true)}
+                  className="bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_32px_-12px_rgba(6,182,212,0.7)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
+                >
+                  {t("CustomPoolOverview:createTracker")}
+                </Button>
               </div>
-            </div>
-            <Button onClick={() => setModalOpen(true)}>
-              {t("CustomPoolOverview:createTracker")}
-            </Button>
-          </div>
+            ) : (
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia
+                    variant="icon"
+                    className="border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)]"
+                  >
+                    <BarChart3 className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                  </EmptyMedia>
+                  <EmptyTitle>
+                    {t("CustomPoolOverview:noTrackersTitle")}
+                  </EmptyTitle>
+                  <EmptyDescription>
+                    {t("CustomPoolOverview:noTrackersDescription")}
+                  </EmptyDescription>
+                </EmptyHeader>
+                <EmptyContent>
+                  <Button
+                    onClick={() => setModalOpen(true)}
+                    className="bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_32px_-12px_rgba(6,182,212,0.7)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
+                  >
+                    <Plus className="h-4 w-4" />
+                    {t("CustomPoolOverview:createTracker")}
+                  </Button>
+                </EmptyContent>
+              </Empty>
+            )}
           </Card>
         </div>
       </div>
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-[720px] bg-card">
+        <DialogContent className="sm:max-w-[720px] bg-card max-h-[85vh] overflow-y-auto">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-24 -left-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-1)/0.15)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-2)/0.15)] blur-3xl"
+          />
           <DialogHeader>
-            <DialogTitle>{t("CustomPoolOverview:creatingTracker")}</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
+                <BarChart3 className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
+              </span>
+              {t("CustomPoolOverview:creatingTracker")}
+            </DialogTitle>
             <DialogDescription>
               {t("CustomPoolOverview:selectAssets")}
             </DialogDescription>
           </DialogHeader>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="relative grid grid-cols-1 gap-3">
             <HoverInfo
               content={t("CustomPoolOverview:hoverCreatingContent")}
               header={t("CustomPoolOverview:hoverCreatingHeader")}
             />
-            <Input
-              type="text"
-              placeholder={t("CustomPoolOverview:trackerName")}
-              onChange={(e) => {
-                const sanitizedValue = e.target.value.replace(
-                  /[^a-zA-Z0-9 .,!?-]/g,
-                  ""
-                );
-                setNewTrackerTitle(sanitizedValue);
-              }}
-              onKeyUp={(e) => {
-                const sanitizedValue = e.target.value.replace(
-                  /[^a-zA-Z0-9 .,!?-]/g,
-                  ""
-                );
-                if (sanitizedValue !== e.target.value) {
-                  e.target.value = sanitizedValue;
-                }
-              }}
-              className="w-full"
-            />
+            <div>
+              <Input
+                type="text"
+                placeholder={t("CustomPoolOverview:trackerName")}
+                onChange={(e) => {
+                  const sanitizedValue = e.target.value.replace(
+                    /[^a-zA-Z0-9 .,!?-]/g,
+                    ""
+                  );
+                  setNewTrackerTitle(sanitizedValue);
+                  if (sanitizedValue) {
+                    setNameError(false);
+                  }
+                }}
+                onKeyUp={(e) => {
+                  const sanitizedValue = e.target.value.replace(
+                    /[^a-zA-Z0-9 .,!?-]/g,
+                    ""
+                  );
+                  if (sanitizedValue !== e.target.value) {
+                    e.target.value = sanitizedValue;
+                  }
+                }}
+                className={`w-full ${
+                  nameError
+                    ? "border-[hsl(var(--accent-danger)/0.7)] focus-visible:ring-[hsl(var(--accent-danger)/0.4)]"
+                    : ""
+                }`}
+              />
+              {nameError ? (
+                <p className="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-[hsl(var(--accent-danger-fg))]">
+                  <TriangleAlert className="h-3.5 w-3.5" />
+                  {t("CustomPoolOverview:nameRequired")}
+                </p>
+              ) : null}
+            </div>
             <div className="grid grid-cols-3 gap-3">
-              <div>
-                <HoverInfo
-                  content={t("CustomPoolOverview:hoverBuyingContent")}
-                  header={t("CustomPoolOverview:hoverBuyingHeader")}
-                />
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-3">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="inline-flex h-2.5 w-2.5 shrink-0 rounded-full bg-[hsl(var(--accent-1))]" />
+                  <HoverInfo
+                    content={t("CustomPoolOverview:hoverBuyingContent")}
+                    header={t("CustomPoolOverview:hoverBuyingHeader")}
+                  />
+                </div>
                 <BasicAssetDropDownCard
                   assetSymbol={buyingAsset ?? ""}
                   assetData={buyingAssetData}
-                  storeCallback={setBuyingAsset}
+                  storeCallback={(symbol) => {
+                    setBuyingAsset(symbol);
+                  }}
                   otherAsset={sellingAsset}
                   marketSearch={marketSearch}
                   type={"base"}
@@ -557,15 +633,20 @@ export default function CustomPoolOverview(properties) {
                   usrBalances={usrBalances}
                 />
               </div>
-              <div>
-                <HoverInfo
-                  content={t("CustomPoolOverview:hoverSellingContent")}
-                  header={t("CustomPoolOverview:hoverSellingHeader")}
-                />
+              <div className="rounded-xl border border-[hsl(var(--accent-2)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.06)] to-transparent p-3">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="inline-flex h-2.5 w-2.5 shrink-0 rounded-full bg-[hsl(var(--accent-2))]" />
+                  <HoverInfo
+                    content={t("CustomPoolOverview:hoverSellingContent")}
+                    header={t("CustomPoolOverview:hoverSellingHeader")}
+                  />
+                </div>
                 <BasicAssetDropDownCard
                   assetSymbol={sellingAsset ?? ""}
                   assetData={sellingAssetData}
-                  storeCallback={setSellingAsset}
+                  storeCallback={(symbol) => {
+                    setSellingAsset(symbol);
+                  }}
                   otherAsset={buyingAsset}
                   marketSearch={marketSearch}
                   type={"base"}
@@ -575,10 +656,10 @@ export default function CustomPoolOverview(properties) {
                   usrBalances={usrBalances}
                 />
               </div>
-              <div className="flex justify-end">
+              <div className="flex items-end justify-end">
                 <Button
                   variant="outline"
-                  className="w-1/2 mt-5"
+                  className="w-1/2 border-[hsl(var(--accent-1)/0.3)] hover:border-[hsl(var(--accent-1)/0.5)] hover:bg-[hsl(var(--accent-1)/0.1)]"
                   onClick={() => {
                     setBuyingAsset(null);
                     setSellingAsset(null);
@@ -598,16 +679,37 @@ export default function CustomPoolOverview(properties) {
               <div>{t("CustomPoolOverview:assetA")}</div>
               <div>{t("CustomPoolOverview:assetB")}</div>
             </div>
-            <div className="border rounded border-border p-2">
-              <div className="w-full max-h-[200px] overflow-auto">
-                <List
-                  rowComponent={PoolRow}
-                  rowCount={remainingPools.length}
-                  rowHeight={30}
-                  rowProps={{}}
-                />
+            {remainingPools && remainingPools.length ? (
+              <div className="border rounded border-border p-2">
+                <div className="w-full max-h-[200px] overflow-auto">
+                  <List
+                    rowComponent={PoolRow}
+                    rowCount={remainingPools.length}
+                    rowHeight={30}
+                    rowProps={{}}
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="border rounded border-dashed border-border bg-[hsl(var(--accent-1)/0.04)] p-6">
+                <Empty>
+                  <EmptyHeader>
+                    <EmptyMedia
+                      variant="icon"
+                      className="border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)]"
+                    >
+                      <SearchX className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                    </EmptyMedia>
+                    <EmptyTitle>
+                      {t("CustomPoolOverview:noPoolsToTrackTitle")}
+                    </EmptyTitle>
+                    <EmptyDescription>
+                      {t("CustomPoolOverview:noPoolsToTrackDescription")}
+                    </EmptyDescription>
+                  </EmptyHeader>
+                </Empty>
+              </div>
+            )}
             <HoverInfo
               content={t("CustomPoolOverview:hoverSelectedPoolDetailsContent")}
               header={t("CustomPoolOverview:hoverSelectedPoolDetailsHeader")}
@@ -628,38 +730,43 @@ export default function CustomPoolOverview(properties) {
                 className="w-full"
               />
             </div>
-            {trackers && newTrackerTitle && selectedPools.length ? (
-              <Button
-                onClick={() => {
-                  const existingTracker = trackers[_chain].find(
-                    (tracker) => tracker.name === newTrackerTitle
-                  );
-                  if (existingTracker) {
-                    console.log(t("CustomPoolOverview:trackerExists"));
-                    return;
-                  }
+            <Button
+              onClick={() => {
+                if (!newTrackerTitle) {
+                  setNameError(true);
+                  return;
+                }
+                setNameError(false);
 
-                  const newTracker = {
-                    name: newTrackerTitle,
-                    pools: selectedPools,
-                    chain: _chain,
-                    id: toHex(sha256(utf8ToBytes(newTrackerTitle))),
-                  };
+                const existingTracker = trackers[_chain].find(
+                  (tracker) => tracker.name === newTrackerTitle
+                );
+                if (existingTracker) {
+                  console.log(t("CustomPoolOverview:trackerExists"));
+                  return;
+                }
 
-                  const updatedTrackers = [...trackers[_chain], newTracker];
-                  updateTrackers(_chain, updatedTrackers);
+                if (!selectedPools.length) {
+                  console.log(t("CustomPoolOverview:noPoolsSelected"));
+                  return;
+                }
 
-                  setModalOpen(false);
-                }}
-                variant="outline"
-              >
-                {t("CustomPoolOverview:create")}
-              </Button>
-            ) : (
-              <Button disabled variant="outline">
-                {t("CustomPoolOverview:create")}
-              </Button>
-            )}
+                const newTracker = {
+                  name: newTrackerTitle,
+                  pools: selectedPools,
+                  chain: _chain,
+                  id: toHex(sha256(utf8ToBytes(newTrackerTitle))),
+                };
+
+                const updatedTrackers = [...trackers[_chain], newTracker];
+                updateTrackers(_chain, updatedTrackers);
+
+                setModalOpen(false);
+              }}
+              className="bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_32px_-12px_rgba(6,182,212,0.7)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
+            >
+              {t("CustomPoolOverview:create")}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

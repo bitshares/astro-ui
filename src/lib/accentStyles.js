@@ -26,11 +26,12 @@ function readableAccent(hex, isDark) {
 // --- Navigation (single color) ---------------------------------------------
 export function getNavAccentStyles(hex, isDark = false) {
   const fg = `hsl(${readableAccent(hex, isDark)})`;
+  const textColor = isDark ? "#ffffff" : fg;
   return {
-    color: { color: fg },
+    color: { color: textColor },
     bg: { background: hexToRGBA(hex, 0.15) },
     border: { borderColor: hexToRGBA(hex, 0.3) },
-    chip: { background: hexToRGBA(hex, 0.3), color: fg, border: `1px solid ${hexToRGBA(hex, 0.5)}` },
+    chip: { background: hexToRGBA(hex, 0.3), color: textColor, border: `1px solid ${hexToRGBA(hex, 0.5)}` },
     chipBg: { background: hexToRGBA(hex, 0.15) },
     dot: { background: hex },
     bar: { background: `linear-gradient(to right, ${hex}, ${hex})` },
@@ -38,25 +39,27 @@ export function getNavAccentStyles(hex, isDark = false) {
 }
 
 // --- Home item cards (primary + secondary) ---------------------------------
-export function itemAccentStyles(primary, secondary, isDark = false) {
+ export function itemAccentStyles(primary, secondary, isDark = false) {
   const fg = `hsl(${readableAccent(primary, isDark)})`;
+  const iconColor = isDark ? "#ffffff" : fg;
   return {
     bar: { background: `linear-gradient(to right, ${primary}, ${secondary || primary})` },
-    chip: { background: hexToRGBA(primary, 0.3), color: fg, border: `1px solid ${hexToRGBA(primary, 0.5)}` },
+    chip: { background: hexToRGBA(primary, 0.3), color: iconColor, border: `1px solid ${hexToRGBA(primary, 0.5)}` },
     glow: { background: hexToRGBA(primary, 0.3) },
-    text: { color: fg },
+    text: { color: iconColor },
   };
 }
 
 // --- Home sections (primary + secondary) -----------------------------------
-export function sectionAccentStyles(primary, secondary, isDark = false) {
+ export function sectionAccentStyles(primary, secondary, isDark = false) {
   const fg = `hsl(${readableAccent(primary, isDark)})`;
+  const iconColor = isDark ? "#ffffff" : fg;
   return {
     border: { borderColor: hexToRGBA(primary, 0.2) },
     bg: { background: `linear-gradient(135deg, ${hexToRGBA(primary, 0.15)}, ${hexToRGBA(secondary || primary, 0.1)})` },
     iconBg: { background: hexToRGBA(primary, 0.15) },
     iconBorder: { border: `1px solid ${hexToRGBA(primary, 0.25)}` },
-    iconText: { color: fg },
+    iconText: { color: iconColor },
     blobA: { background: hexToRGBA(primary, 0.3) },
     blobB: { background: hexToRGBA(secondary || primary, 0.2) },
     dot: { background: primary },

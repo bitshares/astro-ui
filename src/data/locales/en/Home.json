@@ -428,5 +428,35 @@
         "hover1": "Build a candidate pool from manual input, ticket locks, call-order collateral, top asset holders, limit-order activity, or lifetime member upgrades.",
         "hover2": "Run one or more deterministic algorithms — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — seeded from a block witness signature.",
         "hover3": "Review the winning accounts, configure distribution (equal split, fixed amount, or custom), then broadcast each batch through your Beet wallet."
+    },
+    "recent_activity": {
+        "title": "Recent activity",
+        "subtitle": "Browse your latest on-chain operations.",
+        "hover1": "Review the most recent operations performed by your account.",
+        "hover2": "Inspect the underlying operation JSON for each entry."
+    },
+    "top_markets": {
+        "title": "Top markets",
+        "subtitle": "The most actively traded markets on the DEX.",
+        "hover1": "Ranked by the number of fill orders over the past 30 days.",
+        "hover2": "Great for spotting the busiest trading pairs.",
+        "dialogDescription": "Choose where to trade this market pair.",
+        "openDex": "Open in DEX limit order",
+        "openInstant": "Open in Instant Swap"
+    },
+    "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+    "top_pools": {
+        "title": "Top pools",
+        "subtitle": "The most actively swapped liquidity pools on the network.",
+        "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
+        "hover2": "Great for spotting the busiest pools to trade or stake in.",
+        "dialogDescription": "Choose where to use this liquidity pool.",
+        "openSwap": "Open in Simple Swap",
+        "openInstant": "Open in Instant Trade",
+        "openDex": "Open in DEX limit order",
+        "openStake": "Stake assets",
+        "pool": "Pool",
+        "assets": "Assets",
+        "swaps": "Swaps"
     }
 }

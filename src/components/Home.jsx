@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useStore } from "@nanostores/react";
 import { useSyncExternalStore } from "react";
-import { useTheme } from "next-themes";
+
 
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
@@ -143,6 +143,9 @@ const ITEM_ICONS = {
   create_smartcoin: Gem,
   create_liquidity_pool: Droplets,
   airdrop_calculate: Calculator,
+  recent_activity: Activity,
+  top_markets: TrendingUp,
+  top_pools: Droplets,
 };
 
 // Section metadata (icon + i18n keys). All colors now come from the theme via
@@ -162,8 +165,17 @@ const SECTION_META = {
 export default function Home(properties) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   useStore($customTheme);
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  const [isDark, setIsDark] = React.useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("dark")
+  );
+  React.useEffect(() => {
+    const el = document.documentElement;
+    const check = () => setIsDark(el.classList.contains("dark"));
+    check();
+    const obs = new MutationObserver(check);
+    obs.observe(el, { attributes: true, attributeFilter: ["class"] });
+    return () => obs.disconnect();
+  }, []);
   const theme = getThemeForPage("index");
   const usr = useSyncExternalStore(
     $currentUser.subscribe,
@@ -251,12 +263,15 @@ export default function Home(properties) {
     { key: "deals", href: "/deals/index.html", titleKey: "Home:deals.title", subtitleKey: "Home:deals.subtitle", hoverKeys: ["Home:deals.hover1", "Home:deals.hover2"] },
     { key: "vesting", href: "/vesting/index.html", titleKey: "Home:vesting.title", subtitleKey: "Home:vesting.subtitle", hoverKeys: ["Home:vesting.hover1", "Home:vesting.hover2"] },
     { key: "proposals", href: "/proposals/index.html", titleKey: "Home:proposals.title", subtitleKey: "Home:proposals.subtitle", hoverKeys: ["Home:proposals.hover1", "Home:proposals.hover2"] },
+    { key: "recent_activity", href: "/recent-activity/index.html", titleKey: "Home:recent_activity.title", subtitleKey: "Home:recent_activity.subtitle", hoverKeys: ["Home:recent_activity.hover1", "Home:recent_activity.hover2"] },
   ];
 
   const blockchainOverviews = [
     { key: "blocks", href: "/blocks/index.html", titleKey: "Home:blocks.title", subtitleKey: "Home:blocks.subtitle", hoverKeys: ["Home:blocks.hover1", "Home:blocks.hover2", "Home:blocks.hover3"] },
     { key: "custom_pool_tracker", href: "/custom_pool_overview/index.html", titleKey: "Home:custom_pool_tracker.title", subtitleKey: "Home:custom_pool_tracker.subtitle", hoverKeys: ["Home:custom_pool_tracker.hover1", "Home:custom_pool_tracker.hover2"] },
     { key: "pools", href: "/pools/index.html", titleKey: "Home:pools.title", subtitleKey: "Home:pools.subtitle", hoverKeys: ["Home:pools.hover1", "Home:pools.hover2", "Home:pools.hover3"] },
+    { key: "top_markets", href: "/top-markets/index.html", titleKey: "Home:top_markets.title", subtitleKey: "Home:top_markets.subtitle", hoverKeys: ["Home:top_markets.hover1", "Home:top_markets.hover2"] },
+    { key: "top_pools", href: "/top-pools/index.html", titleKey: "Home:top_pools.title", subtitleKey: "Home:top_pools.subtitle", hoverKeys: ["Home:top_pools.hover1", "Home:top_pools.hover2"] },
   ];
 
   const governance = [
@@ -313,7 +328,7 @@ export default function Home(properties) {
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border"
                 style={accent.chip}
               >
-                <Icon className="h-5 w-5" style={accent.text} />
+                <Icon className={cn("h-5 w-5", isDark && "text-white")} style={isDark ? undefined : accent.text} />
               </span>
               <div className="min-w-0 flex-1">
                 <h3 className="text-sm font-semibold text-foreground leading-snug">
@@ -386,7 +401,7 @@ export default function Home(properties) {
               className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border"
               style={{ ...style.iconBg, ...style.iconBorder }}
             >
-              <SectionIcon className="h-5 w-5" style={style.iconText} />
+              <SectionIcon className={cn("h-5 w-5", isDark && "text-white")} style={isDark ? undefined : style.iconText} />
             </span>
             <div className="min-w-0 flex-1">
               <h2 className="text-base sm:text-lg font-semibold text-foreground tracking-tight leading-tight">

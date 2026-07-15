@@ -75,6 +75,8 @@ import {
   LineChart,
   Sparkles,
   Home,
+  Activity,
+  TrendingUp,
 } from "lucide-react";
 import { useStore } from "@nanostores/react";
 import { useTheme } from "next-themes";
@@ -157,6 +159,9 @@ const ITEM_ICONS = {
   create_smartcoin: Gem,
   create_liquidity_pool: Droplets,
   airdrop_calculate: Calculator,
+  recent_activity: Activity,
+  top_markets: TrendingUp,
+  top_pools: Droplets,
 };
 
 export default function AppSidebar() {
@@ -218,6 +223,7 @@ export default function AppSidebar() {
     { slug: "deals", title: "Home:deals.title", href: "/deals/index.html" },
     { slug: "vesting", title: "Home:vesting.title", href: "/vesting/index.html" },
     { slug: "proposals", title: "Home:proposals.title", href: "/proposals/index.html" },
+    { slug: "recent_activity", title: "Home:recent_activity.title", href: "/recent-activity/index.html" },
   ];
 
   const blockchainOverviewsHeading = [
@@ -228,6 +234,8 @@ export default function AppSidebar() {
       href: "/custom_pool_overview/index.html",
     },
     { slug: "pools", title: "Home:pools.title", href: "/pools/index.html" },
+    { slug: "top_markets", title: "Home:top_markets.title", href: "/top-markets/index.html" },
+    { slug: "top_pools", title: "Home:top_pools.title", href: "/top-pools/index.html" },
   ];
 
   const governanceHeading = [

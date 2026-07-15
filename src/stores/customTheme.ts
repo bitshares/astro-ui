@@ -307,7 +307,7 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       blockchain: { primary: "#3b82f6", secondary: "#6366f1" },
       governance: { primary: "#6366f1", secondary: "#8b5cf6" },
       invoicing: { primary: "#0ea5e9", secondary: "#06b6d4" },
-      settings: { primary: "#64748b", secondary: "#71717a" },
+      settings: { primary: "#14b8a6", secondary: "#3b82f6" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#06b6d4" },
     globalAccent: { primary: "#06b6d4", secondary: "#3b82f6", tertiary: "#6366f1" },
@@ -342,10 +342,10 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       debt: { primary: "#f43f5e", secondary: "#ef4444" },
       assetCreation: { primary: "#ec4899", secondary: "#f43f5e" },
       account: { primary: "#f97316", secondary: "#f59e0b" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#fb923c", secondary: "#f97316" },
       governance: { primary: "#f43f5e", secondary: "#ef4444" },
       invoicing: { primary: "#f97316", secondary: "#f59e0b" },
-      settings: { primary: "#64748b", secondary: "#71717a" } ,
+      settings: { primary: "#f59e0b", secondary: "#fbbf24" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#0ea5e9" },
     globalAccent: { primary: "#f97316", secondary: "#f43f5e", tertiary: "#f59e0b" },
@@ -380,10 +380,10 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       debt: { primary: "#10b981", secondary: "#22c55e" },
       assetCreation: { primary: "#14b8a6", secondary: "#06b6d4" },
       account: { primary: "#14b8a6", secondary: "#06b6d4" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#059669", secondary: "#10b981" },
       governance: { primary: "#10b981", secondary: "#14b8a6" },
-      invoicing: { primary: "#f59e0b", secondary: "#f97316" },
-      settings: { primary: "#64748b", secondary: "#71717a" } ,
+      invoicing: { primary: "#34d399", secondary: "#10b981" },
+      settings: { primary: "#22c55e", secondary: "#34d399" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#14b8a6" },
     globalAccent: { primary: "#10b981", secondary: "#14b8a6", tertiary: "#06b6d4" },
@@ -418,7 +418,7 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       debt: { primary: "#f59e0b", secondary: "#f97316" },
       assetCreation: { primary: "#eab308", secondary: "#84cc16" },
       account: { primary: "#f59e0b", secondary: "#eab308" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#84cc16", secondary: "#22c55e" },
       governance: { primary: "#eab308", secondary: "#f59e0b" },
       invoicing: { primary: "#f59e0b", secondary: "#f97316" },
       settings: { primary: "#eab308", secondary: "#f59e0b" },
@@ -453,14 +453,14 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
     },
     sectionAccents: {
       exchanging: { primary: "#14b8a6", secondary: "#06b6d4" },
-      transfer: { primary: "#14b8a6", secondary: "#3b82f6" },
+      transfer: { primary: "#14b8a6", secondary: "#0ea5e9" },
       debt: { primary: "#10b981", secondary: "#14b8a6" },
       assetCreation: { primary: "#f97316", secondary: "#f59e0b" },
       account: { primary: "#14b8a6", secondary: "#06b6d4" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#06b6d4", secondary: "#0ea5e9" },
       governance: { primary: "#f97316", secondary: "#f59e0b" },
       invoicing: { primary: "#f59e0b", secondary: "#f97316" },
-      settings: { primary: "#64748b", secondary: "#14b8a6" } ,
+      settings: { primary: "#f97316", secondary: "#fb923c" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#06b6d4" },
     globalAccent: { primary: "#14b8a6", secondary: "#f97316", tertiary: "#f59e0b" },
@@ -496,10 +496,10 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       debt: { primary: "#10b981", secondary: "#14b8a6" },
       assetCreation: { primary: "#f59e0b", secondary: "#f97316" },
       account: { primary: "#10b981", secondary: "#14b8a6" },
-      blockchain: { primary: "#78716c", secondary: "#6b7280" },
+      blockchain: { primary: "#fb923c", secondary: "#f97316" },
       governance: { primary: "#f97316", secondary: "#ef4444" },
       invoicing: { primary: "#f59e0b", secondary: "#f97316" },
-      settings: { primary: "#78716c", secondary: "#64748b" } ,
+      settings: { primary: "#10b981", secondary: "#34d399" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#14b8a6" },
     globalAccent: { primary: "#f97316", secondary: "#10b981", tertiary: "#f59e0b" },
@@ -535,10 +535,10 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       debt: { primary: "#06b6d4", secondary: "#3b82f6" },
       assetCreation: { primary: "#ef4444", secondary: "#f43f5e" },
       account: { primary: "#3b82f6", secondary: "#06b6d4" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#0ea5e9", secondary: "#3b82f6" },
       governance: { primary: "#3b82f6", secondary: "#06b6d4" },
       invoicing: { primary: "#ef4444", secondary: "#f97316" },
-      settings: { primary: "#64748b", secondary: "#3b82f6" } ,
+      settings: { primary: "#6366f1", secondary: "#8b5cf6" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#06b6d4" },
     globalAccent: { primary: "#ef4444", secondary: "#3b82f6", tertiary: "#06b6d4" },
@@ -571,13 +571,13 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
     sectionAccents: {
       exchanging: { primary: "#ef4444", secondary: "#f43f5e" },
       transfer: { primary: "#ef4444", secondary: "#f97316" },
-      debt: { primary: "#64748b", secondary: "#6b7280" },
+      debt: { primary: "#3b82f6", secondary: "#06b6d4" },
       assetCreation: { primary: "#f43f5e", secondary: "#ec4899" },
-      account: { primary: "#64748b", secondary: "#71717a" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
-      governance: { primary: "#ef4444", secondary: "#64748b" },
+      account: { primary: "#6366f1", secondary: "#3b82f6" },
+      blockchain: { primary: "#ef4444", secondary: "#f97316" },
+      governance: { primary: "#ef4444", secondary: "#f97316" },
       invoicing: { primary: "#ef4444", secondary: "#f59e0b" },
-      settings: { primary: "#64748b", secondary: "#71717a" } ,
+      settings: { primary: "#f43f5e", secondary: "#ef4444" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#64748b" },
     globalAccent: { primary: "#ef4444", secondary: "#9ca3af", tertiary: "#f43f5e" },
@@ -613,10 +613,10 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       debt: { primary: "#ef4444", secondary: "#f43f5e" },
       assetCreation: { primary: "#f97316", secondary: "#eab308" },
       account: { primary: "#f59e0b", secondary: "#f97316" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#fbbf24", secondary: "#f97316" },
       governance: { primary: "#ef4444", secondary: "#f97316" },
       invoicing: { primary: "#f97316", secondary: "#f59e0b" },
-      settings: { primary: "#64748b", secondary: "#3b82f6" } ,
+      settings: { primary: "#fbbf24", secondary: "#f97316" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#3b82f6" },
     globalAccent: { primary: "#f97316", secondary: "#ef4444", tertiary: "#f59e0b" },
@@ -647,15 +647,15 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       sidebarAccent: { hex: "#57534e" },
     },
     sectionAccents: {
-      exchanging: { primary: "#78716c", secondary: "#f59e0b" },
-      transfer: { primary: "#78716c", secondary: "#64748b" },
-      debt: { primary: "#78716c", secondary: "#f59e0b" },
+      exchanging: { primary: "#fcd34d", secondary: "#f59e0b" },
+      transfer: { primary: "#f59e0b", secondary: "#f97316" },
+      debt: { primary: "#10b981", secondary: "#14b8a6" },
       assetCreation: { primary: "#f59e0b", secondary: "#f97316" },
       account: { primary: "#10b981", secondary: "#14b8a6" },
-      blockchain: { primary: "#78716c", secondary: "#6b7280" },
-      governance: { primary: "#78716c", secondary: "#64748b" },
+      blockchain: { primary: "#34d399", secondary: "#10b981" },
+      governance: { primary: "#f97316", secondary: "#fb923c" },
       invoicing: { primary: "#f59e0b", secondary: "#f97316" },
-      settings: { primary: "#78716c", secondary: "#64748b" } ,
+      settings: { primary: "#fb923c", secondary: "#f59e0b" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#14b8a6" },
     globalAccent: { primary: "#a8a29e", secondary: "#f59e0b", tertiary: "#10b981" },
@@ -689,12 +689,12 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       exchanging: { primary: "#06b6d4", secondary: "#0ea5e9" },
       transfer: { primary: "#3b82f6", secondary: "#6366f1" },
       debt: { primary: "#06b6d4", secondary: "#3b82f6" },
-      assetCreation: { primary: "#6366f1", secondary: "#8b5cf6" },
+      assetCreation: { primary: "#0ea5e9", secondary: "#3b82f6" },
       account: { primary: "#06b6d4", secondary: "#14b8a6" },
-      blockchain: { primary: "#6366f1", secondary: "#8b5cf6" },
+      blockchain: { primary: "#3b82f6", secondary: "#0ea5e9" },
       governance: { primary: "#3b82f6", secondary: "#06b6d4" },
       invoicing: { primary: "#0ea5e9", secondary: "#06b6d4" },
-      settings: { primary: "#64748b", secondary: "#3b82f6" } ,
+      settings: { primary: "#0ea5e9", secondary: "#6366f1" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#06b6d4" },
     globalAccent: { primary: "#3b82f6", secondary: "#06b6d4", tertiary: "#0ea5e9" },
@@ -733,7 +733,7 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       blockchain: { primary: "#a855f7", secondary: "#6366f1" },
       governance: { primary: "#ec4899", secondary: "#a855f7" },
       invoicing: { primary: "#0ea5e9", secondary: "#ec4899" },
-      settings: { primary: "#a855f7", secondary: "#64748b" } ,
+      settings: { primary: "#a855f7", secondary: "#ec4899" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#0ea5e9" },
     globalAccent: { primary: "#ec4899", secondary: "#0ea5e9", tertiary: "#a855f7" },
@@ -765,14 +765,14 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
     },
     sectionAccents: {
       exchanging: { primary: "#f43f5e", secondary: "#ec4899" },
-      transfer: { primary: "#f43f5e", secondary: "#f97316" },
+      transfer: { primary: "#f43f5e", secondary: "#ec4899" },
       debt: { primary: "#a855f7", secondary: "#f43f5e" },
       assetCreation: { primary: "#ec4899", secondary: "#f43f5e" },
       account: { primary: "#f43f5e", secondary: "#ec4899" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#8b5cf6", secondary: "#a855f7" },
       governance: { primary: "#f43f5e", secondary: "#a855f7" },
-      invoicing: { primary: "#f97316", secondary: "#f43f5e" },
-      settings: { primary: "#a855f7", secondary: "#64748b" } ,
+      invoicing: { primary: "#ec4899", secondary: "#f43f5e" },
+      settings: { primary: "#d946ef", secondary: "#a855f7" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#a855f7" },
     globalAccent: { primary: "#f43f5e", secondary: "#a855f7", tertiary: "#ec4899" },
@@ -805,13 +805,13 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
     sectionAccents: {
       exchanging: { primary: "#6366f1", secondary: "#8b5cf6" },
       transfer: { primary: "#6366f1", secondary: "#3b82f6" },
-      debt: { primary: "#f43f5e", secondary: "#ec4899" },
+      debt: { primary: "#8b5cf6", secondary: "#6366f1" },
       assetCreation: { primary: "#a855f7", secondary: "#8b5cf6" },
       account: { primary: "#6366f1", secondary: "#8b5cf6" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#8b5cf6", secondary: "#a855f7" },
       governance: { primary: "#a855f7", secondary: "#6366f1" },
-      invoicing: { primary: "#f43f5e", secondary: "#f97316" },
-      settings: { primary: "#64748b", secondary: "#6366f1" } ,
+      invoicing: { primary: "#a855f7", secondary: "#8b5cf6" },
+      settings: { primary: "#8b5cf6", secondary: "#f43f5e" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#6366f1" },
     globalAccent: { primary: "#6366f1", secondary: "#f43f5e", tertiary: "#a855f7" },
@@ -847,10 +847,10 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       debt: { primary: "#f43f5e", secondary: "#f97316" },
       assetCreation: { primary: "#ec4899", secondary: "#f43f5e" },
       account: { primary: "#a855f7", secondary: "#f43f5e" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#8b5cf6", secondary: "#a855f7" },
       governance: { primary: "#f43f5e", secondary: "#ef4444" },
       invoicing: { primary: "#f97316", secondary: "#f43f5e" },
-      settings: { primary: "#64748b", secondary: "#a855f7" } ,
+      settings: { primary: "#d946ef", secondary: "#f43f5e" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#a855f7" },
     globalAccent: { primary: "#f43f5e", secondary: "#a855f7", tertiary: "#ec4899" },
@@ -886,10 +886,10 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       debt: { primary: "#10b981", secondary: "#14b8a6" },
       assetCreation: { primary: "#f59e0b", secondary: "#f97316" },
       account: { primary: "#10b981", secondary: "#06b6d4" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#14b8a6", secondary: "#0ea5e9" },
       governance: { primary: "#14b8a6", secondary: "#10b981" },
       invoicing: { primary: "#f59e0b", secondary: "#f97316" },
-      settings: { primary: "#64748b", secondary: "#14b8a6" } ,
+      settings: { primary: "#f59e0b", secondary: "#14b8a6" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#06b6d4" },
     globalAccent: { primary: "#14b8a6", secondary: "#f59e0b", tertiary: "#10b981" },
@@ -925,10 +925,10 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       debt: { primary: "#3b82f6", secondary: "#6366f1" },
       assetCreation: { primary: "#eab308", secondary: "#f59e0b" },
       account: { primary: "#3b82f6", secondary: "#06b6d4" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
+      blockchain: { primary: "#06b6d4", secondary: "#3b82f6" },
       governance: { primary: "#f59e0b", secondary: "#3b82f6" },
       invoicing: { primary: "#eab308", secondary: "#f59e0b" },
-      settings: { primary: "#64748b", secondary: "#3b82f6" } ,
+      settings: { primary: "#6366f1", secondary: "#06b6d4" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#3b82f6" },
     globalAccent: { primary: "#f59e0b", secondary: "#3b82f6", tertiary: "#eab308" },
@@ -961,13 +961,13 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
     sectionAccents: {
       exchanging: { primary: "#f59e0b", secondary: "#f97316" },
       transfer: { primary: "#f59e0b", secondary: "#eab308" },
-      debt: { primary: "#64748b", secondary: "#6b7280" },
+      debt: { primary: "#3b82f6", secondary: "#2563eb" },
       assetCreation: { primary: "#f59e0b", secondary: "#f97316" },
-      account: { primary: "#64748b", secondary: "#71717a" },
-      blockchain: { primary: "#64748b", secondary: "#6b7280" },
-      governance: { primary: "#64748b", secondary: "#f59e0b" },
+      account: { primary: "#2563eb", secondary: "#3b82f6" },
+      blockchain: { primary: "#f97316", secondary: "#fb923c" },
+      governance: { primary: "#f59e0b", secondary: "#fbbf24" },
       invoicing: { primary: "#f59e0b", secondary: "#f97316" },
-      settings: { primary: "#64748b", secondary: "#71717a" } ,
+      settings: { primary: "#fb923c", secondary: "#f59e0b" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#64748b" },
     globalAccent: { primary: "#f59e0b", secondary: "#9ca3af", tertiary: "#9ca3af" },
@@ -1006,7 +1006,7 @@ export const PRESET_THEMES: Record<string, CustomTheme> = {
       blockchain: { primary: "#a855f7", secondary: "#6366f1" },
       governance: { primary: "#ec4899", secondary: "#0ea5e9" },
       invoicing: { primary: "#f59e0b", secondary: "#f97316" },
-      settings: { primary: "#0ea5e9", secondary: "#64748b" } ,
+      settings: { primary: "#a855f7", secondary: "#0ea5e9" },
     },
     statusAccents: { success: "#10b981", danger: "#ef4444", warning: "#f59e0b", info: "#0ea5e9" },
     globalAccent: { primary: "#ec4899", secondary: "#0ea5e9", tertiary: "#f59e0b" },
@@ -1035,26 +1035,58 @@ export function resolveBrand(theme: CustomTheme): AccentPair {
   return DEFAULT_BRAND;
 }
 
+// Neutral greys that are NOT part of any theme's chromatic identity. A section
+// or item accent resolving to one of these (e.g. stale data persisted before a
+// theme was fully coloured) is treated as "unthemed" so it never silently
+// renders grey on an otherwise colourful theme.
+const NEUTRAL_GRAYS = new Set([
+  "#334155",
+  "#475569",
+  "#57534e",
+  "#64748b",
+  "#6b7280",
+  "#71717a",
+  "#78716c",
+  "#94a3b8",
+  "#9ca3af",
+  "#a8a29e",
+]);
+
+function isNeutralGray(pair: AccentPair | undefined): boolean {
+  if (!pair) return false;
+  const p = (pair.primary || "").toLowerCase();
+  const s = (pair.secondary || "").toLowerCase();
+  return NEUTRAL_GRAYS.has(p) || NEUTRAL_GRAYS.has(s);
+}
+
 // A section uses its explicit override if set. Otherwise the pristine "default"
 // theme keeps the original multi-color design, while every other theme falls
 // back to its brand pair so selecting a theme visibly recolors the whole app.
+// For non-default themes a grey (unthemed) override is ignored so a section can
+// never suddenly appear grey.
 export function resolveSectionAccent(theme: CustomTheme, section: string): AccentPair {
   const override = theme?.sectionAccents?.[section as NavSection];
-  if (override) return override;
+  if (override && !(theme && theme.id !== "default" && isNeutralGray(override)))
+    return override;
   if (theme && theme.id !== "default") return resolveBrand(theme);
   return DEFAULT_SECTION_ACCENTS[section as NavSection] || DEFAULT_BRAND;
 }
 
 // Item cards keep their bespoke default only on the pristine "default" theme (or
 // when their section is untouched); any other theme applies its section/brand
-// color so the card grid follows the selected theme.
+// color so the card grid follows the selected theme. As above, a grey override
+// on a non-default theme is ignored so cards stay on-theme.
 export function resolveItemAccent(
   theme: CustomTheme,
   itemSlug: string,
   section: string
 ): AccentPair {
   const sectionOverride = theme?.sectionAccents?.[section as NavSection];
-  if (sectionOverride) return sectionOverride;
+  if (
+    sectionOverride &&
+    !(theme && theme.id !== "default" && isNeutralGray(sectionOverride))
+  )
+    return sectionOverride;
   if (theme && theme.id !== "default") return resolveBrand(theme);
   return (
     DEFAULT_ITEM_ACCENTS[itemSlug] ||

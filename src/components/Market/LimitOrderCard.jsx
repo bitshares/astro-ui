@@ -464,7 +464,9 @@ export default function LimitOrderCard(properties) {
         border: "border-[hsl(var(--accent-success)/0.3)]",
         glow: "from-[hsl(var(--accent-success)/0.15)] via-[hsl(var(--accent-success)/0.03)] to-transparent",
         chip: "bg-[hsl(var(--accent-success)/0.1)] border-[hsl(var(--accent-success)/0.3)] text-[hsl(var(--accent-success-fg))]",
-        gradient: "from-[hsl(var(--accent-success))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))]",
+        solid: "bg-[hsl(var(--accent-success))]",
+        textOn: "text-[hsl(var(--accent-success-gradFg))]",
+        gradient: "from-[hsl(var(--accent-success)/0.95)] via-[hsl(var(--accent-1)/0.95)] to-[hsl(var(--accent-1)/0.95)]",
         ring: "ring-[hsl(var(--accent-success)/0.3)]",
         focusBorder: "focus-within:border-[hsl(var(--accent-success)/0.6)]",
         focusShadow: "focus-within:shadow-[0_0_0_3px_rgba(16,185,129,0.18)]",
@@ -476,7 +478,9 @@ export default function LimitOrderCard(properties) {
         border: "border-[hsl(var(--accent-danger)/0.3)]",
         glow: "from-[hsl(var(--accent-danger)/0.15)] via-[hsl(var(--accent-danger)/0.03)] to-transparent",
         chip: "bg-[hsl(var(--accent-danger)/0.1)] border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))]",
-        gradient: "from-[hsl(var(--accent-danger))] via-[hsl(var(--accent-warning))] to-[hsl(var(--accent-warning))]",
+        solid: "bg-[hsl(var(--accent-danger))]",
+        textOn: "text-[hsl(var(--accent-danger-gradFg))]",
+        gradient: "from-[hsl(var(--accent-danger)/0.95)] via-[hsl(var(--accent-warning)/0.95)] to-[hsl(var(--accent-warning)/0.95)]",
         ring: "ring-[hsl(var(--accent-danger)/0.3)]",
         focusBorder: "focus-within:border-[hsl(var(--accent-danger)/0.6)]",
         focusShadow: "focus-within:shadow-[0_0_0_3px_rgba(244,63,94,0.18)]",
@@ -1510,7 +1514,7 @@ export default function LimitOrderCard(properties) {
                     </span>
                   </div>
                   <Button
-                    className="h-12 dark:text-white text-muted-foreground font-semibold bg-gradient-to-r dark:from-white/10 dark:to-white/5 from-slate-200 to-slate-100 cursor-not-allowed opacity-60"
+                    className="h-12 text-muted-foreground dark:text-slate-100 font-semibold bg-gradient-to-r dark:from-slate-700 dark:to-slate-800 from-slate-200 to-slate-100 cursor-not-allowed disabled:opacity-80"
                     disabled
                     type="submit"
                   >
@@ -1528,7 +1532,9 @@ export default function LimitOrderCard(properties) {
                   </div>
                   <Button
                     className={cn(
-                      "h-12 gap-2 text-foreground font-semibold",
+                      "h-12 gap-2 font-semibold",
+                      accent.solid,
+                      accent.textOn,
                       "bg-gradient-to-r shadow-lg shadow-black/30",
                       accent.gradient,
                       "hover:brightness-110 active:scale-[0.99] transition-all"

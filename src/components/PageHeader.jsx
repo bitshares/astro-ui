@@ -447,26 +447,16 @@ export default function PageHeader(properties) {
 
             <div className="col-span-12 md:col-span-6 text-center">
               <div className="relative">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-foreground dark:text-white dark:[text-shadow:_0_1px_2px_rgba(0,0,0,0.9),_0_2px_12px_rgba(0,0,0,0.7),_0_0_24px_rgba(0,0,0,0.5)]">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-foreground dark:text-white dark:[text-shadow:_0_1px_2px_rgba(0,0,0,0.9),_0_2px_12px_rgba(0,0,0,0.7),_0_0_24px_rgba(0,0,0,0.5)]">
                   <a href="/index.html">
                     {page && page === "index"
-                      ? t("PageHeader:welcomeMessage")
+                      ? <span className="font-medium">{t("PageHeader:welcomeMessage")}</span>
                       : ""}
                     <span>
                       {t("PageHeader:uiName")}
                     </span>
                   </a>
                 </h2>
-                <span
-                  aria-hidden="true"
-                  className="mx-auto mt-2 block h-[3px] w-2/5 max-w-[220px] rounded-full"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, hsl(var(--primary) / 0) 0%, hsl(var(--primary)) 25%, hsl(var(--ring)) 50%, hsl(var(--primary)) 75%, hsl(var(--primary) / 0) 100%)",
-                    boxShadow:
-                      "0 0 10px hsl(var(--primary) / 0.7), 0 0 20px hsl(var(--ring) / 0.5), 0 0 30px hsl(var(--primary) / 0.35)",
-                  }}
-                />
                 <h4 className="mt-1 text-sm sm:text-base font-medium text-foreground dark:text-white dark:[text-shadow:_0_1px_2px_rgba(0,0,0,0.9),_0_2px_12px_rgba(0,0,0,0.7),_0_0_24px_rgba(0,0,0,0.5)]">
                   {t(`PageHeader:descText.${page}`)}
                 </h4>
