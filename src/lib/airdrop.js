@@ -155,7 +155,8 @@ async function enrichPool(accountIDs, chain, specificNode) {
 
 /**
  * Turn enriched accounts into a weighted "leaderboard" where each account owns
- * a contiguous [from, to] range proportional to its weight. The signature-derived
+ * a contiguous half-open [from, to) range proportional to its weight. The
+ * signature-derived
  * lottery algorithms draw a number in this range to select a winner.
  *
  * @param {Array} accounts result of enrichPool

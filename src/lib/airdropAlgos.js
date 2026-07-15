@@ -1404,10 +1404,13 @@ function buildRangeIndex(leaderboardJSON) {
     .sort((a, b) => a.from - b.from);
 }
 
-// The unique holder whose contiguous, inclusive range `[from, to]` contains
-// `ticket`.  Ranges tile `[0, CUBE_TICKETS]` with no gaps, so the owner is the
-// one with the greatest `from <= ticket`.  O(log N) via binary search — replaces
-// the previous O(N) linear scan that ran for every winning ticket.
+// The unique holder whose contiguous, half-open range `[from, to)` contains
+// `ticket` (each `to` is exclusive and equals the next holder's `from`, so a
+// boundary ticket belongs to the later holder).  Ranges partition
+// `[0, CUBE_TICKETS]` with no gaps, so the owner is the one with the greatest
+// `from <= ticket` — which the binary search already selects directly (no
+// tie-break is needed).  O(log N) via binary search — replaces the previous
+// O(N) linear scan that ran for every winning ticket.
 function findHolderIndex(rangeIndex, ticket) {
   let lo = 0;
   let hi = rangeIndex.length - 1;
