@@ -57,7 +57,11 @@
     "networkFee": "Võrgutasu",
     "networkFeeDescription": "Teie krediiditehingu toimingu võrku edastamise kulud.",
     "ltmRebate": "LTM-i allahindlus: {{rebate}} BTS (üleandmine)",
-    "submit": "Esita"
+    "submit": "Esita",
+    "lendingAccountShort": "Offered by {{owner_name}}",
+    "available": "Available",
+    "minimum": "Minimum",
+    "expiry": "Expiry"
   },
   "dialogContent": {
     "borrowing": "Laenamine {{finalBorrowAmount}} {{symbol}} alates {{owner_name}} ({{owner_account}})"

@@ -1,6 +1,7 @@
 import assert from "assert";
 
 import ChainConfig from "../ws/ChainConfig";
+import Apis from "../ws/ApiInstances";
 
 import * as hash from "../ecc/hash.js";
 import Signature from "../ecc/signature.js";
@@ -261,6 +262,7 @@ class TransactionBuilder {
   /* optional: fetch the current head block */
 
   update_head_block(apiInstance) {
+    if (!apiInstance) apiInstance = Apis.instance();
     return Promise.all([
       apiInstance.db_api().exec("get_objects", [["2.0.0"]]),
       apiInstance.db_api().exec("get_objects", [["2.1.0"]]),
@@ -320,6 +322,7 @@ class TransactionBuilder {
 
   /** optional: the fees can be obtained from the witness node */
   set_required_fees(asset_id, removeDuplicates, apiInstance) {
+    if (!apiInstance) apiInstance = Apis.instance();
     if (this.tr_buffer) {
       throw new Error("already finalized");
     }

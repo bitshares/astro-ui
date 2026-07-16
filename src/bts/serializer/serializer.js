@@ -2,6 +2,14 @@ import ByteBuffer from "./ByteBuffer.js";
 
 import EC from "./error_with_cause.js";
 
+// Debug-only flag (mirrors bitsharesjs: an npm config switch, normally
+// unset/falsy). Defined here so the `if (HEX_DUMP)` checks in this file and
+// types.js don't throw ReferenceError when serialization runs.
+const HEX_DUMP =
+  typeof process !== "undefined" &&
+  process.env &&
+  process.env.npm_config__graphene_serializer_hex_dump;
+
 
 class Serializer {
   constructor(operation_name, types) {

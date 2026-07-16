@@ -57,7 +57,11 @@
     "networkFee": "네트워크 수수료",
     "networkFeeDescription": "신용 거래 운영을 네트워크에 알리는 데 드는 비용입니다.",
     "ltmRebate": "LTM 리베이트: {{rebate}} 방탄소년단 (베스팅)",
-    "submit": "제출하다"
+    "submit": "제출하다",
+    "lendingAccountShort": "Offered by {{owner_name}}",
+    "available": "Available",
+    "minimum": "Minimum",
+    "expiry": "Expiry"
   },
   "dialogContent": {
     "borrowing": "차용 {{finalBorrowAmount}} {{symbol}} ~에서 {{owner_name}} ({{owner_account}})"

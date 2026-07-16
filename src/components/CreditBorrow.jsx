@@ -376,7 +376,7 @@ export default function CreditBorrow(properties) {
                             extra="offer-owner"
                             expression={{ eye: "normal", mouth: "smile" }}
                           />
-                          <span className="truncate max-w-[120px]">{res.owner_name}</span>
+                          <span className="whitespace-nowrap">{res.owner_name}</span>
                           <span className="text-muted-foreground/50 text-[10px] flex-shrink-0">
                             ({res.owner_account})
                           </span>

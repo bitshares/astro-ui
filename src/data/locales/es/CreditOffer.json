@@ -57,7 +57,11 @@
     "networkFee": "Tarifa de red",
     "networkFeeDescription": "El costo de transmitir su operación de crédito a la red.",
     "ltmRebate": "Reembolso LTM: {{rebate}} BTS (adquisición)",
-    "submit": "Entregar"
+    "submit": "Entregar",
+    "lendingAccountShort": "Offered by {{owner_name}}",
+    "available": "Available",
+    "minimum": "Minimum",
+    "expiry": "Expiry"
   },
   "dialogContent": {
     "borrowing": "Préstamo {{finalBorrowAmount}} {{symbol}} de {{owner_name}} ({{owner_account}})"

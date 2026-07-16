@@ -57,7 +57,11 @@
     "networkFee": "Tariffa di rete",
     "networkFeeDescription": "Il costo per trasmettere in rete la tua operazione di credito.",
     "ltmRebate": "Sconto LTM: {{rebate}} BTS (acquisizione)",
-    "submit": "Invia"
+    "submit": "Invia",
+    "lendingAccountShort": "Offered by {{owner_name}}",
+    "available": "Available",
+    "minimum": "Minimum",
+    "expiry": "Expiry"
   },
   "dialogContent": {
     "borrowing": "Prendere in prestito {{finalBorrowAmount}} {{symbol}} da {{owner_name}} ({{owner_account}})"

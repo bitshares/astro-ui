@@ -6,7 +6,7 @@
     "buttonLabel": "Return to credit offer overview"
   },
   "offerCardHeader": {
-    "viewingOffer": "🏦 Viewing offer #{{id}} created by {{owner_name}} ({{owner_account}})",
+    "viewingOffer": "Viewing offer #{{id}} created by {{owner_name}} ({{owner_account}})",
     "loadingOfferTerms": "loading terms of offer...",
     "offerDescription1": "This is an user created credit offer on the Bitshares DEX.",
     "offerDescription2": "Thoroughly read the terms of the offer before proceeding to Beet."
@@ -15,10 +15,14 @@
     "borrowingAccount": "Borrowing account",
     "broadcastDescription": "The account which will broadcast the credit offer accept operation.",
     "lendingAccount": "Lending account",
+    "lendingAccountShort": "Offered by {{owner_name}}",
     "viewAccount": "View {{owner_name}}'s account",
     "borrowingDescription": "This is the user from whom you'll be borrowing {{symbol}} from.",
     "availableAmount": "Amount of {{symbol}} ({{asset_type}}) available to borrow from this lender",
     "loading": "loading...",
+    "available": "Available",
+    "minimum": "Minimum",
+    "expiry": "Expiry",
     "offerDescription": "{{owner_name}} is generously offering to lend you this much {{symbol}}, assuming you agree to their terms.",
     "backingCollateral": "Backing collateral for credit deal",
     "selectCollateral": "Select your backing collateral..",

@@ -13,6 +13,14 @@ import Address from "../ecc/address.js";
 import ChainConfig from "../ws/ChainConfig";
 
 
+// Debug-only flag (mirrors bitsharesjs: an npm config switch, normally
+// unset/falsy). Defined here so the `if (HEX_DUMP)` checks don't throw
+// ReferenceError during serialization.
+const HEX_DUMP =
+  typeof process !== "undefined" &&
+  process.env &&
+  process.env.npm_config__graphene_serializer_hex_dump;
+
 
 var Types = {};
 
