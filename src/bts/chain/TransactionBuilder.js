@@ -1,4 +1,5 @@
 import assert from "assert";
+import { Buffer } from "buffer";
 
 import ChainConfig from "../ws/ChainConfig";
 import Apis from "../ws/ApiInstances";

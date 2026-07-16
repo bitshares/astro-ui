@@ -1,6 +1,9 @@
 import PrivateKey from "./PrivateKey.js";
+import PublicKey from "./PublicKey.js";
+import Address from "./address.js";
 import Aes from "./Aes.js";
 import { sha256, sha512 } from "./hash.js";
+import ChainConfig from "../ws/ChainConfig";
 import { randomBytes } from "node:crypto";
 import { Buffer } from "buffer";
 
@@ -116,6 +119,57 @@ var key = {
   // Browser entropy (unused in Electron main process; kept for API parity).
   browserEntropy() {
     return new Date().toString() + " " + Math.random().toString();
+  },
+
+  /**
+   * Generate a 16-word brain key from a word dictionary.
+   *
+   * @param {string} dictionary - comma-separated word list. The reference
+   *   library requires exactly 49,744 words; the dictionary asset is NOT
+   *   bundled here, so callers must supply it (e.g. a localized word list).
+   * @param {string} [entropy] - optional entropy seed.
+   * @return {string} normalized brain key (space-joined words).
+   */
+  suggest_brain_key(dictionary = ",", entropy = this.browserEntropy()) {
+    const randomBuffer = this.random32ByteBuffer(entropy);
+
+    const word_count = 16;
+    const dictionary_lines = dictionary.split(",");
+
+    if (!(dictionary_lines.length === 49744)) {
+      throw new Error(
+        `expecting 49744 but got ${dictionary_lines.length} dictionary words`
+      );
+    }
+
+    const brainkey = [];
+    const end = word_count * 2;
+
+    for (let i = 0; i < end; i += 2) {
+      // randomBuffer has 256 bits / 16 bits per word == 16 words
+      const num = (randomBuffer[i] << 8) + randomBuffer[i + 1];
+
+      // convert into a number between 0 and 1 (inclusive)
+      const rndMultiplier = num / Math.pow(2, 16);
+      const wordIndex = Math.round(dictionary_lines.length * rndMultiplier);
+
+      brainkey.push(dictionary_lines[wordIndex]);
+    }
+    return this.normalize_brainKey(brainkey.join(" "));
+  },
+
+  // @return array of 5 legacy addresses for a pubkey string parameter.
+  addresses(pubkey, address_prefix = ChainConfig.address_prefix) {
+    const public_key = PublicKey.fromPublicKeyString(pubkey, address_prefix);
+    // S L O W
+    const address_string = [
+      Address.fromPublic(public_key, false, 0).toString(address_prefix), // btc_uncompressed
+      Address.fromPublic(public_key, true, 0).toString(address_prefix), // btc_compressed
+      Address.fromPublic(public_key, false, 56).toString(address_prefix), // pts_uncompressed
+      Address.fromPublic(public_key, true, 56).toString(address_prefix), // pts_compressed
+      public_key.toAddressString(address_prefix), // bts_short, most recent format
+    ];
+    return address_string;
   },
 };
 

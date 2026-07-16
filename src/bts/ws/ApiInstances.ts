@@ -154,6 +154,10 @@ const newApis = (
   ) => {
     state._optionalApis = opts;
 
+    // A no-arg `.connect()` (or any call without a URL) should reuse the
+    // already-configured `state.url` rather than open a `ChainWebSocket(undefined)`.
+    if (connectUrl == null) connectUrl = state.url;
+
     // Idempotent: reuse the existing socket/init when connecting to the
     // same URL with the same optional apis. This is the core fix for the
     // "websocket state error:0" / "-32601 Method not found" races.
