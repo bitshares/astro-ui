@@ -213,8 +213,12 @@ export default function LiveBlocks(properties) {
   useEffect(() => {
     if (!currentNode || !currentNode.url) return;
 
-    // Request blocks from the current node
-    window.electron.requestBlocks({ url: currentNode.url });
+    // Request blocks from the current node (pass chain so background.js
+    // can fall back to other nodes if this one rejects the connection).
+    window.electron.requestBlocks({
+      url: currentNode.url,
+      chain: usr && usr.chain ? usr.chain : "bitshares",
+    });
 
     // Event listener for block responses
     const handleBlockResponse = (data) => {

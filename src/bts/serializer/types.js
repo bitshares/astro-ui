@@ -1,5 +1,5 @@
 // Low-level types that make up operations
-import ByteBuffer from "@exodus/bytebuffer";
+import ByteBuffer from "./ByteBuffer.js";
 
 import v from "./SerializerValidation.js";
 import fp from "./FastParser.js";

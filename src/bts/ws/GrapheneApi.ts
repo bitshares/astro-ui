@@ -11,12 +11,12 @@ class GrapheneApi {
 
   async init(): Promise<GrapheneApi> {
     const self = this;
-    let response;
-    try {
-      response = await this.ws_rpc.call([1, this.api_name, []]);
-    } catch (error) {
-      console.log({ error });
-    }
+    // Propagate failures. The node responds with an `is_allowed: Access
+    // denied` assert when it refuses to hand out the named API (e.g. a
+    // public node that restricts `database`). Swallowing the error here
+    // would leave `api_id` undefined and mask the real failure as a
+    // confusing `chain_id: undefined` downstream, so we re-throw.
+    const response = await this.ws_rpc.call([1, this.api_name, []]);
     self.api_id = response;
     return self;
   }

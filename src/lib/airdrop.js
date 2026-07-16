@@ -375,7 +375,7 @@ function sliceIntoChunks(arr, size) {
 let _byteModelCache = null;
 async function estimateTransferByteModel() {
   if (_byteModelCache) return _byteModelCache;
-  const { TransactionBuilder } = await import("bitsharesjs");
+  const { default: TransactionBuilder } = await import("../bts/chain/TransactionBuilder");
   const mk = () => ({
     fee: { amount: 0, asset_id: "1.3.0" },
     from: "1.2.100",

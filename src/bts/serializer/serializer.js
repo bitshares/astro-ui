@@ -1,4 +1,4 @@
-import ByteBuffer from "@exodus/bytebuffer";
+import ByteBuffer from "./ByteBuffer.js";
 
 import EC from "./error_with_cause.js";
 

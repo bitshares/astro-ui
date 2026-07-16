@@ -6,8 +6,10 @@ import { performance } from "node:perf_hooks";
 import { readFile } from "fs/promises";
 import mime from "mime-types";
 
-import { key, PrivateKey } from "bitsharesjs";
-import { Apis } from "bitsharesjs-ws";
+import { key } from "./bts/ecc/key";
+import PrivateKey from "./bts/ecc/PrivateKey";
+import Apis from "./bts/ws/ApiInstances";
+import { chains } from "./config/chains";
 
 import {
   app,
@@ -154,27 +156,58 @@ const createWindow = async () => {
     continueFetching = true;
     isFetching = false;
 
-    // Create a new Apis instance
-    try {
-      apisInstance = Apis.instance(url, true);
-    } catch (error) {
-      console.log({ error, location: "Apis.instance", url });
-      continueFetching = false;
-      isFetching = false;
-      return;
+    // Build the ordered list of nodes to try: start with the requested
+    // `url`, then fall back to the rest of the chain's configured nodeList
+    // (skipping duplicates). This lets a node that rejects the connection
+    // (e.g. "Access denied" / `is_allowed`) be transparently bypassed.
+    const chain = arg && arg.chain ? arg.chain : "bitshares";
+    const nodeUrls = [];
+    if (url) nodeUrls.push(url);
+    const configured = (chains[chain] && chains[chain].nodeList) || [];
+    for (const n of configured) {
+      if (n && n.url && !nodeUrls.includes(n.url)) {
+        nodeUrls.push(n.url);
+      }
     }
 
-    try {
-      await apisInstance.init_promise;
-      console.log("connected to:", apisInstance.chain_id);
-    } catch (err) {
-      console.log({ err });
+    let lastConnectError = null;
+    for (const nodeUrl of nodeUrls) {
+      try {
+        apisInstance = Apis.instance(nodeUrl, true);
+      } catch (error) {
+        lastConnectError = error;
+        console.log({ error, location: "Apis.instance", nodeUrl });
+        continue;
+      }
+
+      try {
+        await apisInstance.init_promise;
+        console.log("connected to:", nodeUrl, apisInstance.chain_id);
+        lastConnectError = null;
+        break; // success
+      } catch (err) {
+        lastConnectError = err;
+        console.log({ err, location: "init_promise", nodeUrl });
+        if (apisInstance) {
+          try {
+            apisInstance.close();
+          } catch (e) {
+            /* ignore */
+          }
+          apisInstance = null;
+        }
+        // try next node
+      }
+    }
+
+    if (!apisInstance) {
+      console.log({
+        error: lastConnectError,
+        location: "requestBlocks: all nodes failed",
+        tried: nodeUrls,
+      });
       continueFetching = false;
       isFetching = false;
-      if (apisInstance) {
-        apisInstance.close();
-        apisInstance = null;
-      }
       return;
     }
 
