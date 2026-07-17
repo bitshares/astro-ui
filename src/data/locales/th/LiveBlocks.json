@@ -45,13 +45,13 @@
   },
   "operationsLabel": "ops",
   "txLabel": "tx",
-  "connecting": "Connecting to node…",
-  "waiting": "Waiting for blocks…",
+  "connecting": "กำลังเชื่อมต่อกับโหนด…",
+  "waiting": "กำลังรอบล็อก…",
   "time": {
-    "now": "just now",
-    "secondsAgo": "{{count}}s ago",
-    "minutesAgo": "{{count}}m ago",
-    "hoursAgo": "{{count}}h ago"
+    "now": "เมื่อสักครู่",
+    "secondsAgo": "{{count}} วินาทีที่แล้ว",
+    "minutesAgo": "{{count}} นาทีที่แล้ว",
+    "hoursAgo": "{{count}} ชั่วโมงที่แล้ว"
   },
   "dialogContent": {
     "json": "ข้อมูล JSON",

@@ -7,7 +7,7 @@
   "witnessDescription": "Administrer din vidnesdregistrering. ",
   "registerWitness": "Tilmeld dig som vidne",
   "alreadyRegisteredWitness": "Du er allerede registreret som vidne: {{witnessId}}",
-  "urlLabel": "Information URL",
+  "urlLabel": "Informations-URL",
   "urlInfo": "En URL, der linker til mere information om dig eller dit vidneforslag.",
   "urlInfoHeader": "Vidne/udvalgs URL",
   "signingKeyLabel": "Bloker underskrivningstast",

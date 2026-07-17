@@ -1,11 +1,11 @@
 {
-  "title": "Ticket leaderboard",
-  "description": "Combined effective ticket amounts by account.",
-  "total": "Total effective tickets: {{amount}} {{asset}}",
+  "title": "กระดานผู้นำตั๋ว",
+  "description": "จำนวนตั๋วที่มีผลรวมตามบัญชี",
+  "total": "ตั๋วที่มีผลรวมทั้งหมด: {{amount}} {{asset}}",
   "th": {
-    "account": "Account",
-    "amount": "Effective amount",
-    "percent": "% of total",
-    "tickets": "Tickets"
+    "account": "บัญชี",
+    "amount": "จำนวนที่มีผล",
+    "percent": "% ของทั้งหมด",
+    "tickets": "ตั๋ว"
   }
 }

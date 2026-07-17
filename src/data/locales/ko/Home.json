@@ -6,6 +6,27 @@
     "hover2": "Fill-or-Kill 주문 기술을 활용하여 원하는 가격을 얻거나 주문을 취소합니다.",
     "hover3": "DEX에서 누구와 거래할 것인지, 그리고 그들이 주문에 대해 채우기 조건을 활성화했는지 여부를 확인하세요."
   },
+  "call_orders": {
+    "title": "콜 오더",
+    "subtitle": "모든 스마트코인의 마진 포지션 보기",
+    "hover1": "스마트코인별 담보와 부채 확인.",
+    "hover2": "페어의 DEX 또는 즉시 거래 열기.",
+    "hover3": "스마트코인 페이지에서 포지션 관리."
+  },
+  "custom_authorities": {
+    "title": "사용자 정의 권한",
+    "subtitle": "계정에 대한 세부 작업 권한을 관리하세요",
+    "hover1": "계정의 사용자 정의 권한을 확인하세요.",
+    "hover2": "권한을 생성, 수정 또는 삭제하세요.",
+    "hover3": "계정이나 키에 범위 지정 권한을 부여하세요."
+  },
+  "blind_transfers": {
+    "title": "블라인드 전송",
+    "subtitle": "기밀 블라인드 전송 작업 구성",
+    "hover1": "자금을 블라인드 커밋먼트로 이동하거나 그곳에서 이동합니다.",
+    "hover2": "블라인드 커밋먼트 간에 가치를 전송합니다.",
+    "hover3": "외부 지갑에서 서명할 수 있도록 작업을 내보냅니다."
+  },
   "vote": {
     "title": "투표",
     "subtitle": "증인, 위원회 구성원 및 근로자 제안에 투표하세요.",
@@ -377,7 +398,7 @@
     "governanceSubtitle": "투표, 역할 등록 및 워커 제안 생성",
     "invoicingSubtitle": "온체인에서 청구서 생성, 전송 및 결제",
     "settingsSubtitle": "계정 목록, 노드 및 설정",
-    "airdropSubtitle": "Bulk send one asset to many accounts"
+    "airdropSubtitle": "하나의 자산을 여러 계정에 대량 전송"
   },
   "configure_visuals": {
     "title": "비주얼 구성",
@@ -434,33 +455,33 @@
     "hover3": "당첨 계정을 검토하고, 분배를 구성(균등 분할, 고정 금액 또는 사용자 정의)한 다음 Beet 지갑을 통해 각 배치를 브로드캐스트합니다."
   },
   "recent_activity": {
-    "title": "Recent activity",
-    "subtitle": "Browse your latest on-chain operations.",
-    "hover1": "Review the most recent operations performed by your account.",
-    "hover2": "Inspect the underlying operation JSON for each entry."
+    "title": "최근 활동",
+    "subtitle": "최신 온체인 작업을 살펴보세요.",
+    "hover1": "계정이 수행한 가장 최근 작업을 검토하세요.",
+    "hover2": "각 항목의 기본 작업 JSON을 검사하세요."
   },
   "top_markets": {
-    "title": "Top markets",
-    "subtitle": "The most actively traded markets on the DEX.",
-    "hover1": "Ranked by the number of fill orders over the past 30 days.",
-    "hover2": "Great for spotting the busiest trading pairs.",
-    "dialogDescription": "Choose where to trade this market pair.",
-    "openDex": "Open in DEX limit order",
-    "openInstant": "Open in Instant Swap"
+    "title": "인기 시장",
+    "subtitle": "DEX에서 가장 활발하게 거래되는 시장.",
+    "hover1": "지난 30일간 체결 주문 수로 순위가 매겨집니다.",
+    "hover2": "가장 활발한 거래 페어를 찾기에 좋습니다.",
+    "dialogDescription": "이 시장 페어를 거래할 곳을 선택하세요.",
+    "openDex": "DEX 지정가 주문에서 열기",
+    "openInstant": "Instant Swap에서 열기"
   },
-  "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+  "testnetUnsupported": "이 기능은 메인넷에서만 사용할 수 있는 공개 BitShares Elasticsearch 인덱스를 조회합니다. 테스트넷은 지원되지 않습니다.",
   "top_pools": {
-    "title": "Top pools",
-    "subtitle": "The most actively swapped liquidity pools on the network.",
-    "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
-    "hover2": "Great for spotting the busiest pools to trade or stake in.",
-    "dialogDescription": "Choose where to use this liquidity pool.",
-    "openSwap": "Open in Simple Swap",
-    "openInstant": "Open in Instant Trade",
-    "openDex": "Open in DEX limit order",
-    "openStake": "Stake assets",
+    "title": "인기 풀",
+    "subtitle": "네트워크에서 가장 활발하게 스왑되는 유동성 풀.",
+    "hover1": "지난 30일간 유동성 풀 스왑 수로 순위가 매겨집니다.",
+    "hover2": "거래하거나 스테이킹하기에 가장 활발한 풀을 찾기에 좋습니다.",
+    "dialogDescription": "이 유동성 풀을 사용할 곳을 선택하세요.",
+    "openSwap": "Simple Swap에서 열기",
+    "openInstant": "Instant Trade에서 열기",
+    "openDex": "DEX 지정가 주문에서 열기",
+    "openStake": "자산 스테이킹",
     "pool": "Pool",
-    "assets": "Assets",
-    "swaps": "Swaps"
+    "assets": "자산",
+    "swaps": "스왑"
   }
 }

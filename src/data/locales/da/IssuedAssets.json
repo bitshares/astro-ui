@@ -93,7 +93,7 @@
   "overrideTransfer": "Tilsidesæt overførsel",
   "overrideTransferInfo": "Genkald tokens fra en indehaver tilbage til udstederkontoen. ",
   "overrideTargetInfo": "Vælg målkontoen (1.2.x). ",
-  "holderBalance": "Holder balance",
+  "holderBalance": "Ejer-saldo",
   "holderBalanceInfo": "Detekteret saldo på den valgte konto i dette aktiv.",
   "overrideAmountInfo": "Beløb at tilbagekalde. ",
   "amount": "Beløb",

@@ -6,6 +6,27 @@
         "hover2": "Utilizes fill-or-kill order technology to either get the prices you want or cancels the order.",
         "hover3": "See who you'll be trading with on the DEX and whether they've enabled on-fill conditions on their orders."
     },
+    "call_orders": {
+        "title": "Call Orders",
+        "subtitle": "View your margin-borrowed positions across all smartcoins",
+        "hover1": "See collateral and debt per smartcoin.",
+        "hover2": "Open the DEX or instant trade for the pair.",
+        "hover3": "Manage the position from the smartcoin page."
+    },
+    "custom_authorities": {
+        "title": "Custom Authorities",
+        "subtitle": "Manage granular operation permissions for your account",
+        "hover1": "View your account's custom authorities.",
+        "hover2": "Create, update or delete authorities.",
+        "hover3": "Grant scoped permissions to accounts or keys."
+    },
+    "blind_transfers": {
+        "title": "Blind Transfers",
+        "subtitle": "Build confidential blind transfer operations",
+        "hover1": "Move funds to or from blind commitments.",
+        "hover2": "Transfer value between blind commitments.",
+        "hover3": "Export the operation for an external wallet to sign."
+    },
     "vote": {
         "title": "Voting",
         "subtitle": "Vote for witnesses, committee members and worker proposals",

@@ -2,7 +2,7 @@
   "title": "Bitshares Zeugen",
   "description": "Sehen Sie sich die aktuellen aktiven und Standby -Zeugen an.",
   "filterPlaceholder": "Filter mit Zeugennamen ...",
-  "active": "Active ({{count}})",
+  "active": "Aktiv ({{count}})",
   "standby": "Standby ({{count}})",
   "rank": "Rang",
   "name": "Name",

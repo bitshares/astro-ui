@@ -19,7 +19,7 @@
   "price_assetB_assetA": "Precio {{assetB}}/{{assetA}}",
   "total_assetB": "Total {{assetB}}",
   "description": "Ingrese cuanto {{assetB}} quieres vendiendo {{assetA}}, se le asignarán órdenes de oferta existentes.",
-  "balance": "Balance: {{balance}} {{asset}}",
+  "balance": "Saldo: {{balance}} {{asset}}",
   "instant_trading_method": "Método de negociación instantánea",
   "single_limit_order": "Orden de límite único",
   "multiple_limit_orders": "Órdenes límite múltiples",

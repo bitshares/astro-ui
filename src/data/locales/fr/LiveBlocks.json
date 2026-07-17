@@ -45,13 +45,13 @@
   },
   "operationsLabel": "ops",
   "txLabel": "tx",
-  "connecting": "Connecting to node…",
-  "waiting": "Waiting for blocks…",
+  "connecting": "Connexion au nœud…",
+  "waiting": "En attente de blocs…",
   "time": {
-    "now": "just now",
-    "secondsAgo": "{{count}}s ago",
-    "minutesAgo": "{{count}}m ago",
-    "hoursAgo": "{{count}}h ago"
+    "now": "à l'instant",
+    "secondsAgo": "il y a {{count}} s",
+    "minutesAgo": "il y a {{count}} min",
+    "hoursAgo": "il y a {{count}} h"
   },
   "dialogContent": {
     "json": "Données JSON",

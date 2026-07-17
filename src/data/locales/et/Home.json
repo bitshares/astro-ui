@@ -6,6 +6,27 @@
     "hover2": "Kasutab tellimuste täitmise või tapmise tehnoloogiat soovitud hindade saamiseks või tellimuse tühistamiseks.",
     "hover3": "Vaadake, kellega te DEX-is kauplete ja kas nad on lubanud oma tellimustele täitmise tingimused."
   },
+  "call_orders": {
+    "title": "Call-orderid",
+    "subtitle": "Vaadake oma marginaalpositsioone kõigis smartcoinides",
+    "hover1": "Vaadake tagatist ja võlgu iga smartcoini kohta.",
+    "hover2": "Avage DEX või kiirlinge paari jaoks.",
+    "hover3": "Halduge positsiooni smartcoini lehelt."
+  },
+  "custom_authorities": {
+    "title": "Kohandatud volitused",
+    "subtitle": "Hallake oma konto granulaarseid toiminguõigusi",
+    "hover1": "Vaadake oma konto kohandatud volitusi.",
+    "hover2": "Looge, värskendage või kustutage volitusi.",
+    "hover3": "Andke sihitud õigusi kontodele või võtmetele."
+  },
+  "blind_transfers": {
+    "title": "Blind Transfers",
+    "subtitle": "Koostage konfidentsiaalsed blind transferi operatsioonid",
+    "hover1": "Teisaldage vahendid pimede commitmentide juurde või neilt.",
+    "hover2": "Ülekandke väärtust pimede commitmentide vahel.",
+    "hover3": "Eksportige operatsioon allkirjastamiseks välisrakukotis."
+  },
   "vote": {
     "title": "Hääletamine",
     "subtitle": "Hääletage tunnistajate, komisjoni liikmete ja töötajate ettepanekute poolt",
@@ -377,7 +398,7 @@
     "governanceSubtitle": "Hääleta, registreeri rolle ja loo töötajapakkumisi",
     "invoicingSubtitle": "Loo, saada ja maksa arveid plokiahelas",
     "settingsSubtitle": "Kontonimekirjad, sõlmed ja seadistus",
-    "airdropSubtitle": "Bulk send one asset to many accounts"
+    "airdropSubtitle": "Saada üks vara korraga mitmele kontole"
   },
   "configure_visuals": {
     "title": "Konfigureeri visuaale",
@@ -434,33 +455,34 @@
     "hover3": "Vaata üle võitnud kontod, seadista jaotust (võrdne jaotus, fikseeritud summa või kohandatud) ja edasta iga partii oma Beet rahakoti kaudu."
   },
   "recent_activity": {
-    "title": "Recent activity",
-    "subtitle": "Browse your latest on-chain operations.",
-    "hover1": "Review the most recent operations performed by your account.",
-    "hover2": "Inspect the underlying operation JSON for each entry."
+    "title": "Hiljutine tegevus",
+    "subtitle": "Sirvi oma viimaseid plokiahela toiminguid.",
+    "hover1": "Vaata üle oma konto hiljutisemad toimingud.",
+    "hover2": "Uuri iga kirje aluseks olevat toimingu JSONi."
   },
   "top_markets": {
-    "title": "Top markets",
-    "subtitle": "The most actively traded markets on the DEX.",
-    "hover1": "Ranked by the number of fill orders over the past 30 days.",
-    "hover2": "Great for spotting the busiest trading pairs.",
-    "dialogDescription": "Choose where to trade this market pair.",
-    "openDex": "Open in DEX limit order",
-    "openInstant": "Open in Instant Swap"
+    "title": "Populaarsemad turud",
+    "subtitle": "DEXi aktiivsemad turud.",
+    "hover1": "Järjestatud fill-orderite arvu järgi viimase 30 päeva jooksul.",
+    "hover2": "Suurepärane kõige aktiivsemate kaubanduspaaride tuvastamiseks.",
+    "dialogDescription": "Vali, kus seda turupaari kaubelda.",
+    "openDex": "Ava DEX limiit-orderina",
+    "openInstant": "Ava Instant Swapis"
   },
-  "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+  "testnetUnsupported": "See funktsioon pärib avalikku BitShares Elasticsearchi indeksit, mis on saadaval ainult põhivõrgus. Testneti ei toetata.",
   "top_pools": {
-    "title": "Top pools",
-    "subtitle": "The most actively swapped liquidity pools on the network.",
-    "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
-    "hover2": "Great for spotting the busiest pools to trade or stake in.",
-    "dialogDescription": "Choose where to use this liquidity pool.",
-    "openSwap": "Open in Simple Swap",
-    "openInstant": "Open in Instant Trade",
-    "openDex": "Open in DEX limit order",
-    "openStake": "Stake assets",
+    "title": "Populaarsemad poolid",
+    "subtitle": "Võrgu aktiivsemad likviidsuspoolsi vahetused.",
+    "hover1": "Järjestatud likviidsuspoolsi vahetuste arvu järgi viimase 30 päeva jooksul.",
+    "hover2": "Suurepärane kõige aktiivsemate poolide tuvastamiseks kauplemiseks või stake-imiseks.",
+    "dialogDescription": "Vali, kus seda likviidsuspooli kasutada.",
+    "openSwap": "Ava Simple Swapis",
+    "openInstant": "Ava Instant Trades",
+    "openDex": "Ava DEX limiit-orderina",
+    "openStake": "Stake-i varad",
     "pool": "Pool",
-    "assets": "Assets",
-    "swaps": "Swaps"
-  }
+    "assets": "Varad",
+    "swaps": "Vahetused"
+  },
+  "callOrders": "Call-orderid"
 }

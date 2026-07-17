@@ -52,6 +52,8 @@ import {
   Receipt,
   Gem,
   Lock,
+  KeyRound,
+  EyeOff,
   Layers,
   Banknote,
   HandCoins,
@@ -110,6 +112,8 @@ const ITEM_ICONS = {
   tfunds: Landmark,
   portfolio_balances: Wallet,
   portfolio_open_orders: ListOrdered,
+  custom_authorities: KeyRound,
+  blind_transfers: EyeOff,
   favourites: Star,
   issued_assets: Boxes,
   offers: FileText,
@@ -238,6 +242,7 @@ export default function Home(properties) {
     { key: "withdraw_permissions", href: "/withdraw_permissions/index.html", titleKey: "Home:withdraw_permission.title", subtitleKey: "Home:withdraw_permission.subtitle", hoverKeys: ["Home:withdraw_permission.hover1", "Home:withdraw_permission.hover2"] },
     { key: "htlc", href: "/htlc/index.html", titleKey: "Home:htlc.title", subtitleKey: "Home:htlc.subtitle", hoverKeys: ["Home:htlc.hover1", "Home:htlc.hover2", "Home:htlc.hover3"] },
     { key: "create_vesting", href: "/create_vesting/index.html", titleKey: "Home:create_vesting.title", subtitleKey: "Home:create_vesting.subtitle", hoverKeys: ["Home:create_vesting.hover1", "Home:create_vesting.hover2", "Home:create_vesting.hover3", "Home:create_vesting.hover4"] },
+    { key: "blind_transfers", href: "/blind_transfers/index.html", titleKey: "Home:blind_transfers.title", subtitleKey: "Home:blind_transfers.subtitle", hoverKeys: ["Home:blind_transfers.hover1", "Home:blind_transfers.hover2", "Home:blind_transfers.hover3"] },
     { key: "airdrop_calculate", href: "/airdrop_calculate/index.html", titleKey: "Home:airdrop_calculate.title", subtitleKey: "Home:airdrop_calculate.subtitle", hoverKeys: ["Home:airdrop_calculate.hover1", "Home:airdrop_calculate.hover2", "Home:airdrop_calculate.hover3"] },
   ];
 
@@ -258,6 +263,7 @@ export default function Home(properties) {
     { key: "portfolio_balances", href: "/balances/index.html", titleKey: "Home:portfolio_balances.title", subtitleKey: "Home:portfolio_balances.subtitle", hoverKeys: ["Home:portfolio_balances.hover1", "Home:portfolio_balances.hover2", "Home:portfolio_balances.hover3"] },
     { key: "portfolio_open_orders", href: "/open-orders/index.html", titleKey: "Home:portfolio_open_orders.title", subtitleKey: "Home:portfolio_open_orders.subtitle", hoverKeys: ["Home:portfolio_open_orders.hover1", "Home:portfolio_open_orders.hover2", "Home:portfolio_open_orders.hover3"] },
     { key: "call_orders", href: "/call-orders/index.html", titleKey: "Home:call_orders.title", subtitleKey: "Home:call_orders.subtitle", hoverKeys: ["Home:call_orders.hover1", "Home:call_orders.hover2", "Home:call_orders.hover3"] },
+    { key: "custom_authorities", href: "/custom_authorities/index.html", titleKey: "Home:custom_authorities.title", subtitleKey: "Home:custom_authorities.subtitle", hoverKeys: ["Home:custom_authorities.hover1", "Home:custom_authorities.hover2", "Home:custom_authorities.hover3"] },
     { key: "favourites", href: "/favourites/index.html", titleKey: "Home:favourites.title", subtitleKey: "Home:favourites.subtitle", hoverKeys: ["Home:favourites.hover1", "Home:favourites.hover2"] },
     { key: "issued_assets", href: "/issued_assets/index.html", titleKey: "Home:issued_assets.title", subtitleKey: "Home:issued_assets.subtitle", hoverKeys: ["Home:issued_assets.hover1", "Home:issued_assets.hover2", "Home:issued_assets.hover3"] },
     { key: "offers", href: "/offers/index.html", titleKey: "Home:offers.title", subtitleKey: "Home:offers.subtitle", hoverKeys: ["Home:offers.hover1", "Home:offers.hover2"] },

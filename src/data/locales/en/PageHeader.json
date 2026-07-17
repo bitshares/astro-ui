@@ -52,6 +52,9 @@
     "descText": {
         "theme_customizer": "Create and edit themes to recolor every page, its nested components and navigation accents.",
         "instant_trade": "Instantly trade on the decentralized exchange between two assets using fill or kill limit orders.",
+        "call-orders": "View and manage your margin-borrowed call order positions across all smartcoins.",
+        "custom_authorities": "View, create, update and delete the custom authorities attached to your account.",
+        "blind_transfers": "Build confidential transfer to blind, blind transfer and transfer from blind operations for signing with an external wallet.",
         "airdrop": "Manage and resume your saved airdrop plans.",
         "airdrop_create": "Configure recipients, asset and distribution for a new airdrop.",
         "airdrop_perform": "Broadcast each batch of your airdrop via your Beet wallet.",

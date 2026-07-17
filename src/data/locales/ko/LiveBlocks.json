@@ -45,13 +45,13 @@
   },
   "operationsLabel": "ops",
   "txLabel": "tx",
-  "connecting": "Connecting to node…",
-  "waiting": "Waiting for blocks…",
+  "connecting": "노드에 연결하는 중…",
+  "waiting": "블록을 기다리는 중…",
   "time": {
-    "now": "just now",
-    "secondsAgo": "{{count}}s ago",
-    "minutesAgo": "{{count}}m ago",
-    "hoursAgo": "{{count}}h ago"
+    "now": "방금",
+    "secondsAgo": "{{count}}초 전",
+    "minutesAgo": "{{count}}분 전",
+    "hoursAgo": "{{count}}시간 전"
   },
   "dialogContent": {
     "json": "JSON 데이터",

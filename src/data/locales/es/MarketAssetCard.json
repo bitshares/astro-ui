@@ -17,7 +17,7 @@
   "jsonSummaryData": "{{asset}} Datos resumidos JSON",
   "jsonSummaryDataDescription": "Los datos utilizados para generar {{asset}} limitar las órdenes.",
   "yourBalance": "Tu saldo",
-  "assetBalance": "{{asset}} ({{id}}) balance",
+  "assetBalance": "{{asset}} ({{id}}) saldo",
   "balanceDescription1": "esto es cuanto {{asset}} tienes disponible en tu cuenta.",
   "balanceDescription2": "Puede utilizar este saldo para realizar órdenes limitadas en este mercado.",
   "balanceDescription3": "para obtener más {{asset}}, puede crear una orden limitada, intercambiar activos a través de un fondo común de liquidez o recibir una transferencia desde otra cuenta.",

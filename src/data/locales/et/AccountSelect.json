@@ -30,7 +30,7 @@
   "step1": "Võrk",
   "step2": "Konto",
   "step3": "Kinnita",
-  "mainnet": "Mainnet (BTS)",
+  "mainnet": "Põhivõrk (BTS)",
   "testnetLabel": "Testvõrk (TEST)",
   "newAccountSubtitle": "Otsi mis tahes kontot võrgust",
   "existingAccountSubtitle": "{{count}} konto salvestatud",

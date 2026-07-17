@@ -211,7 +211,7 @@
       "flag_override_authority": "Tilsidesæt autoritet: {{override_authority}}",
       "flag_transfer_restricted": "Overførsel begrænset: {{transfer_restricted}}",
       "flag_disable_confidential": "Deaktiver fortroligt: ​​{{disable_confidential}}",
-      "bitasset": "Bitasset info:",
+      "bitasset": "Bitasset-info:",
       "feed_lifetime_sec": "Feeds levetid (sekunder): {{feed_lifetime_sec}}",
       "force_settlement_delay_sec": "Tving afviklingsforsinkelse (sekunder): {{force_settlement_delay_sec}}",
       "force_settlement_offset_percent": "Gennemtvings udligningsforskydning i procent: {{force_settlement_offset_percent}}",
@@ -269,7 +269,7 @@
       "flag_override_authority": "Tilsidesæt autoritet: {{override_authority}}",
       "flag_transfer_restricted": "Overførsel begrænset: {{transfer_restricted}}",
       "flag_disable_confidential": "Deaktiver fortroligt: ​​{{disable_confidential}}",
-      "bitasset": "Bitasset info:",
+      "bitasset": "Bitasset-info:",
       "feed_lifetime_sec": "Feeds levetid (sekunder): {{feed_lifetime_sec}}",
       "force_settlement_delay_sec": "Tving afviklingsforsinkelse (sekunder): {{force_settlement_delay_sec}}",
       "force_settlement_offset_percent": "Gennemtvings udligningsforskydning i procent: {{force_settlement_offset_percent}}",
@@ -290,7 +290,7 @@
     "tooltip": "Opdaterer et aktivs indstillinger"
   },
   "asset_update_bitasset": {
-    "method": "Asset update bitasset",
+    "method": "Opdatering af bitasset-aktiv",
     "title": "Bitasset-anmodning om opdatering af aktiv",
     "result": "Asset update bitasset resultat",
     "headers": {
@@ -692,7 +692,7 @@
       "daily_pay": "Dagsløn: {{daily_pay}}",
       "name": "Navn: {{name}}",
       "url": "URL: {{url}}",
-      "initializer": "Initializer: {{initializer}}"
+      "initializer": "Initialiserer: {{initializer}}"
     },
     "tooltip": "Opret et medarbejderforslag"
   },
@@ -924,7 +924,7 @@
       "from": "Fra: {{from}} ({{fromOP}})",
       "to": "Til: {{to}} ({{toOP}})",
       "amount": "Beløb: {{amount}}",
-      "preimage_hash": "Preimage hash: {{preimage_hash}}",
+      "preimage_hash": "Preimage-hash: {{preimage_hash}}",
       "preimage_size": "Preimage størrelse: {{preimage_size}}",
       "claim_period_seconds": "Kravperiode (sekunder): {{claim_period_seconds}}"
     },
@@ -940,7 +940,7 @@
     },
     "rows": {
       "htlc_id": "HTC ID: {{htlc_id}}",
-      "redeemer": "Redeemer: {{redeemer}} ({{redeemerOP}})",
+      "redeemer": "Indløser: {{redeemer}} ({{redeemerOP}})",
       "preimage": "Preimage: {{preimage}}",
       "extensions": "Udvidelser: {{extensions}}"
     },
@@ -976,7 +976,7 @@
       "to": "Til: {{to}} ({{toOP}})",
       "redeemer": "Forløser: {{redeemer}} ({{redeemerOP}})",
       "amount": "Beløb: {{amount}} ({{asset_id}})",
-      "htlc_preimage_hash": "Preimage hash: {{htlc_preimage_hash}}",
+      "htlc_preimage_hash": "Preimage-hash: {{htlc_preimage_hash}}",
       "htlc_preimage_size": "Forbillede størrelse: {{htlc_preimage_size}}",
       "preimage": "Forbillede: {{preimage}}"
     },
@@ -995,7 +995,7 @@
       "to": "Til: {{to}} ({{toOP}})",
       "original_htlc_recipient": "Oprindelig modtager: {{original_htlc_recipient}} ({{original_htlc_recipientOP}})",
       "amount": "Beløb: {{amount}} ({{asset_id}})",
-      "htlc_preimage_hash": "Preimage hash: {{htlc_preimage_hash}}",
+      "htlc_preimage_hash": "Preimage-hash: {{htlc_preimage_hash}}",
       "htlc_preimage_size": "Forbillede størrelse: {{htlc_preimage_size}}"
     },
     "tooltip": "Registrering af en HTLC-refusion på grund af udløb"
@@ -1133,7 +1133,7 @@
     },
     "rows": {
       "account": "Konto: {{account}} ({{accountOP}})",
-      "pool": "Pool: {{pool}}",
+      "pool": "Pulje: {{pool}}",
       "asset_a": "Aktiv A: {{asset_a}} ({{asset_aOP}})",
       "asset_b": "Aktiv B: {{asset_b}} ({{asset_bOP}})",
       "extensions": "Udvidelser: {{extensions}}"
@@ -1150,7 +1150,7 @@
     },
     "rows": {
       "account": "Konto: {{account}} ({{accountOP}})",
-      "pool": "Pool: {{pool}}",
+      "pool": "Pulje: {{pool}}",
       "share_asset": "Del aktiv: {{share_asset}} ({{share_assetOP}})",
       "extensions": "Udvidelser: {{extensions}}"
     },
@@ -1166,7 +1166,7 @@
     },
     "rows": {
       "account": "Konto: {{account}} ({{accountOP}})",
-      "pool": "Pool: {{pool}}",
+      "pool": "Pulje: {{pool}}",
       "amount_to_sell": "Salgsbeløb: {{amount_to_sell}}",
       "min_to_receive": "Min. at modtage: {{min_to_receive}}",
       "extensions": "Udvidelser: {{extensions}}"

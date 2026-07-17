@@ -6,6 +6,27 @@
     "hover2": "ใช้เทคโนโลยีการสั่งซื้อแบบเติมหรือฆ่าเพื่อให้ได้ราคาที่คุณต้องการหรือยกเลิกคำสั่งซื้อ",
     "hover3": "ดูว่าคุณจะซื้อขายกับใครบน DEX และพวกเขาได้เปิดใช้งานเงื่อนไขการเติมในคำสั่งซื้อของพวกเขาหรือไม่"
   },
+  "call_orders": {
+    "title": "คำสั่งเรียก",
+    "subtitle": "ดูตำแหน่งมาร์จิ้นของคุณในทุกสมาท์คอยน์",
+    "hover1": "ดูหลักประกันและหนี้สินต่อสมาท์คอยน์",
+    "hover2": "เปิด DEX หรือการซื้อขายทันทีสำหรับคู่",
+    "hover3": "จัดการตำแหน่งจากหน้าสมาท์คอยน์"
+  },
+  "custom_authorities": {
+    "title": "อำนาจการอนุญาตแบบกำหนดเอง",
+    "subtitle": "จัดการสิทธิ์การดำเนินการแบบละเอียดสำหรับบัญชีของคุณ",
+    "hover1": "ดูอำนาจการอนุญาตแบบกำหนดเองของบัญชีของคุณ",
+    "hover2": "สร้าง อัปเดต หรือลบอำนาจการอนุญาต",
+    "hover3": "มอบสิทธิ์แบบจำกัดให้กับบัญชีหรือคีย์"
+  },
+  "blind_transfers": {
+    "title": "การโอนแบบปกปิด",
+    "subtitle": "สร้างการทำงานการโอนแบบปกปิดที่เป็นความลับ",
+    "hover1": "ย้ายเงินไปยังคอมมิทเมนต์แบบปกปิดหรือจากคอมมิทเมนต์แบบปกปิด",
+    "hover2": "โอนมูลค่าระหว่างคอมมิทเมนต์แบบปกปิด",
+    "hover3": "ส่งออกการทำงานเพื่อให้กระเป๋าเงินภายนอกลงนาม"
+  },
   "vote": {
     "title": "โหวต",
     "subtitle": "ลงคะแนนเสียงให้พยาน สมาชิกคณะกรรมการ และข้อเสนอของคนงาน",
@@ -377,7 +398,7 @@
     "governanceSubtitle": "โหวต ลงทะเบียนบทบาท และสร้างข้อเสนอผู้รับจ้าง",
     "invoicingSubtitle": "สร้าง ส่ง และชำระใบแจ้งหนี้บนเชน",
     "settingsSubtitle": "รายการบัญชี โหนด และการกำหนดค่า",
-    "airdropSubtitle": "Bulk send one asset to many accounts"
+    "airdropSubtitle": "ส่งสินทรัพย์หนึ่งรายการจำนวนมากไปยังหลายบัญชี"
   },
   "configure_visuals": {
     "title": "กำหนดค่ากราฟิก",
@@ -434,33 +455,33 @@
     "hover3": "ตรวจสอบบัญชีที่ชนะ กำหนดค่าการแจกจ่าย (หารเท่ากัน จำนวนคงที่ หรือกำหนดเอง) แล้วส่งแต่ละชุดผ่านกระเป๋า Beet ของคุณ"
   },
   "recent_activity": {
-    "title": "Recent activity",
-    "subtitle": "Browse your latest on-chain operations.",
-    "hover1": "Review the most recent operations performed by your account.",
-    "hover2": "Inspect the underlying operation JSON for each entry."
+    "title": "กิจกรรมล่าสุด",
+    "subtitle": "เรียกดูการดำเนินการบนเชนล่าสุดของคุณ",
+    "hover1": "ตรวจสอบการดำเนินการล่าสุดที่บัญชีของคุณดำเนินการ",
+    "hover2": "ตรวจสอบ JSON ของการดำเนินการที่เป็นพื้นฐานของแต่ละรายการ"
   },
   "top_markets": {
-    "title": "Top markets",
-    "subtitle": "The most actively traded markets on the DEX.",
-    "hover1": "Ranked by the number of fill orders over the past 30 days.",
-    "hover2": "Great for spotting the busiest trading pairs.",
-    "dialogDescription": "Choose where to trade this market pair.",
-    "openDex": "Open in DEX limit order",
-    "openInstant": "Open in Instant Swap"
+    "title": "ตลาดยอดนิยม",
+    "subtitle": "ตลาดที่มีการซื้อขายมากที่สุดบน DEX",
+    "hover1": "จัดอันดับตามจำนวนคำสั่งที่เติมในช่วง 30 วันที่ผ่านมา",
+    "hover2": "เหมาะสำหรับการค้นหาคู่การซื้อขายที่คึกคักที่สุด",
+    "dialogDescription": "เลือกที่ที่จะซื้อขายคู่ตลาดนี้",
+    "openDex": "เปิดในคำสั่งจำกัดบน DEX",
+    "openInstant": "เปิดใน Instant Swap"
   },
-  "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+  "testnetUnsupported": "คุณสมบัตินี้ค้นหาดัชนี BitShares Elasticsearch สาธารณะ ซึ่งมีให้ใช้งานเฉพาะบนเมนเน็ตเท่านั้น ไม่รองรับเทสต์เน็ต",
   "top_pools": {
-    "title": "Top pools",
-    "subtitle": "The most actively swapped liquidity pools on the network.",
-    "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
-    "hover2": "Great for spotting the busiest pools to trade or stake in.",
-    "dialogDescription": "Choose where to use this liquidity pool.",
-    "openSwap": "Open in Simple Swap",
-    "openInstant": "Open in Instant Trade",
-    "openDex": "Open in DEX limit order",
-    "openStake": "Stake assets",
+    "title": "พูลยอดนิยม",
+    "subtitle": "พูลสภาพคล่องที่มีการสลับมากที่สุดบนเครือข่าย",
+    "hover1": "จัดอันดับตามจำนวนการสลับพูลสภาพคล่องในช่วง 30 วันที่ผ่านมา",
+    "hover2": "เหมาะสำหรับการค้นหาพูลที่คึกคักที่สุดเพื่อซื้อขายหรือสเตก",
+    "dialogDescription": "เลือกที่ที่จะใช้พูลสภาพคล่องนี้",
+    "openSwap": "เปิดใน Simple Swap",
+    "openInstant": "เปิดใน Instant Trade",
+    "openDex": "เปิดในคำสั่งจำกัดบน DEX",
+    "openStake": "สเตกสินทรัพย์",
     "pool": "Pool",
-    "assets": "Assets",
-    "swaps": "Swaps"
+    "assets": "สินทรัพย์",
+    "swaps": "การสลับ"
   }
 }

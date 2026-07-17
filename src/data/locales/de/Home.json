@@ -20,6 +20,20 @@
     "hover2": "Tauschhandel ist ein Peer-to-Peer-Handelsprozess.",
     "hover3": "Tauschhandel kann die Treuhanddienste von Drittanbietern umfassen."
   },
+  "custom_authorities": {
+    "title": "Benutzerdefinierte Berechtigungen",
+    "subtitle": "Verwalten Sie granulare Vorgangsberechtigungen für Ihr Konto",
+    "hover1": "Zeigen Sie die benutzerdefinierten Berechtigungen Ihres Kontos an.",
+    "hover2": "Erstellen, aktualisieren oder löschen Sie Berechtigungen.",
+    "hover3": "Gewähren Sie bereichsbezogene Berechtigungen an Konten oder Schlüssel."
+  },
+  "blind_transfers": {
+    "title": "Blind Transfers",
+    "subtitle": "Erstellen Sie vertrauliche Blind-Transfer-Vorgänge",
+    "hover1": "Verschieben Sie Guthaben in oder aus Blind-Commitments.",
+    "hover2": "Übertragen Sie Wert zwischen Blind-Commitments.",
+    "hover3": "Exportieren Sie den Vorgang zum Signieren durch eine externe Wallet."
+  },
   "witnesses": {
     "title": "Zeugen",
     "subtitle": "Sehen Sie sich die aktuellen aktiven und inaktiven Zeugen an.",
@@ -56,7 +70,7 @@
     "hover4": "Komplexer, aber günstiger als Pool-Swaps."
   },
   "pool": {
-    "title": "Liquiditätspool-Austausch",
+    "title": "Liquiditätspool erstellen",
     "subtitle": "Tauschen Sie Vermögenswerte über einen Liquiditätspool",
     "hover1": "Tauschen Sie Vermögenswerte über vom Benutzer erstellte Liquiditätspools aus.",
     "hover2": "Pools haben unterschiedliche Handelspaare und Gebühren.",
@@ -245,11 +259,11 @@
     "hover4": "Smartcoins können durch jeden Vermögenswert gedeckt sein und auf jeden externen Feed verweisen."
   },
   "create_liquidity_pool": {
-    "title": "Create Liquidity Pool",
-    "subtitle": "Create a new liquidity pool for swapping 2 of any assets",
-    "hover1": "Converts an user issued asset to a liquidity pool share asset.",
-    "hover2": "Configure the liquidity pool to swap any 2 assets on the blockchain.",
-    "hover3": "Apply your own fees to earn from others using your liquidity pool."
+    "title": "Liquiditätspool erstellen",
+    "subtitle": "Erstellen Sie einen neuen Liquiditätspool zum Tauschen von 2 beliebigen Assets",
+    "hover1": "Wandelt ein vom Benutzer ausgegebenes Asset in ein Liquiditätspool-Anteil-Asset um.",
+    "hover2": "Konfigurieren Sie den Liquiditätspool zum Tauschen von beliebigen 2 Assets auf der Blockchain.",
+    "hover3": "Wenden Sie Ihre eigenen Gebühren an, um von anderen durch die Nutzung Ihres Liquiditätspools zu verdienen."
   },
   "accountLists": {
     "title": "Kontolisten",
@@ -377,17 +391,13 @@
     "governanceSubtitle": "Abstimmen, Rollen registrieren und Worker-Vorschläge erstellen",
     "invoicingSubtitle": "Rechnungen on-chain erstellen, senden und bezahlen",
     "settingsSubtitle": "Kontolisten, Nodes und Konfiguration",
-    "airdropSubtitle": "Bulk send one asset to many accounts"
+    "airdropSubtitle": "Senden Sie ein Asset massenhaft an viele Konten"
   },
   "configure_visuals": {
     "title": "Visuals konfigurieren",
     "subtitle": "Wellen-Hintergründe, Aurora-Glühen, Partikel und Unschärfe-Effekte anpassen",
     "hover1": "Wählen Sie aus vordefinierten Farbpaletten oder definieren Sie eigene Farben.",
     "hover2": "Passen Sie Wellenanzahl, Geschwindigkeit, Stärke und Aurora-Intensität an."
-  },
-  "waveHero": {
-    "title": "Ein Bitshares-Client der nächsten Generation!",
-    "subtitle": "Gebaut mit der neuesten Technologie und auf Benutzerfreundlichkeit ausgelegt!"
   },
   "hero": {
     "title": "Die Börse für jeden.",
@@ -434,31 +444,31 @@
     "hover3": "Überprüfen Sie die Gewinnerkonten, konfigurieren Sie die Verteilung (gleiche Aufteilung, fester Betrag oder benutzerdefiniert) und senden Sie dann jeden Batch über Ihr Beet-Wallet."
   },
   "recent_activity": {
-    "title": "Recent activity",
-    "subtitle": "Browse your latest on-chain operations.",
-    "hover1": "Review the most recent operations performed by your account.",
-    "hover2": "Inspect the underlying operation JSON for each entry."
+    "title": "Letzte Aktivität",
+    "subtitle": "Durchsuchen Sie Ihre neuesten On-Chain-Operationen.",
+    "hover1": "Sehen Sie sich die neuesten von Ihrem Konto ausgeführten Operationen an.",
+    "hover2": "Untersuchen Sie das zugrunde liegende Operations-JSON für jeden Eintrag."
   },
   "top_markets": {
-    "title": "Top markets",
-    "subtitle": "The most actively traded markets on the DEX.",
-    "hover1": "Ranked by the number of fill orders over the past 30 days.",
-    "hover2": "Great for spotting the busiest trading pairs.",
-    "dialogDescription": "Choose where to trade this market pair.",
-    "openDex": "Open in DEX limit order",
-    "openInstant": "Open in Instant Swap"
+    "title": "Top-Märkte",
+    "subtitle": "Die aktivsten Märkte an der DEX.",
+    "hover1": "Sortiert nach Anzahl der Fill-Orders in den letzten 30 Tagen.",
+    "hover2": "Hervorragend geeignet, um die belebtesten Handelspaare zu finden.",
+    "dialogDescription": "Wählen Sie, wo dieses Marktpaar gehandelt werden soll.",
+    "openDex": "In DEX-Limit-Order öffnen",
+    "openInstant": "In Instant Swap öffnen"
   },
-  "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+  "testnetUnsupported": "Diese Funktion fragt den öffentlichen BitShares-Elasticsearch-Index ab, der nur im Hauptnetz verfügbar ist. Testnet wird nicht unterstützt.",
   "top_pools": {
-    "title": "Top pools",
-    "subtitle": "The most actively swapped liquidity pools on the network.",
-    "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
-    "hover2": "Great for spotting the busiest pools to trade or stake in.",
-    "dialogDescription": "Choose where to use this liquidity pool.",
-    "openSwap": "Open in Simple Swap",
-    "openInstant": "Open in Instant Trade",
-    "openDex": "Open in DEX limit order",
-    "openStake": "Stake assets",
+    "title": "Top-Pools",
+    "subtitle": "Die aktivsten Liquiditätspool-Swaps im Netzwerk.",
+    "hover1": "Sortiert nach Anzahl der Liquiditätspool-Swaps in den letzten 30 Tagen.",
+    "hover2": "Hervorragend geeignet, um die belebtesten Pools zum Handeln oder Staken zu finden.",
+    "dialogDescription": "Wählen Sie, wo dieser Liquiditätspool genutzt werden soll.",
+    "openSwap": "In Simple Swap öffnen",
+    "openInstant": "In Instant Trade öffnen",
+    "openDex": "In DEX-Limit-Order öffnen",
+    "openStake": "Assets staken",
     "pool": "Pool",
     "assets": "Assets",
     "swaps": "Swaps"

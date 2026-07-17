@@ -6,6 +6,27 @@
     "hover2": "約定注文テクノロジーを利用して、希望の価格を取得するか、注文をキャンセルします。",
     "hover3": "DEX で取引する相手と、その相手が注文で約定条件を有効にしているかどうかを確認します。"
   },
+  "call_orders": {
+    "title": "コールオーダー",
+    "subtitle": "すべてのスマートコインの証拠金ポジションを表示",
+    "hover1": "スマートコインごとの担保と債務を確認。",
+    "hover2": "ペアのDEXまたは即時取引を開く。",
+    "hover3": "スマートコインのページからポジションを管理。"
+  },
+  "custom_authorities": {
+    "title": "カスタム権限",
+    "subtitle": "アカウントの詳細な操作権限を管理します",
+    "hover1": "アカウントのカスタム権限を表示します。",
+    "hover2": "権限を作成、更新、または削除します。",
+    "hover3": "アカウントまたはキーに限定された権限を付与します。"
+  },
+  "blind_transfers": {
+    "title": "ブラインド転送",
+    "subtitle": "機密のブラインド転送操作を構築します",
+    "hover1": "資金をブラインドコミットメントに移動したり、そこから移動したりします。",
+    "hover2": "ブラインドコミットメント間で価値を転送します。",
+    "hover3": "外部ウォレットで署名するために操作を書き出します。"
+  },
   "vote": {
     "title": "️投票",
     "subtitle": "証人、委員会メンバー、労働者の提案に投票する",
@@ -377,7 +398,7 @@
     "governanceSubtitle": "投票、ロール登録、ワーカー提案の作成",
     "invoicingSubtitle": "オンチェーンで請求書を作成、送信、支払い",
     "settingsSubtitle": "アカウント一覧、ノード、設定",
-    "airdropSubtitle": "Bulk send one asset to many accounts"
+    "airdropSubtitle": "1つのアセットを多くのアカウントに一括送信"
   },
   "configure_visuals": {
     "title": "ビジュアルを設定",
@@ -434,33 +455,33 @@
     "hover3": "勝者のアカウントを確認し、配布方法（均等分割、固定金額、カスタム）を設定して、Beetウォレットを通じて各バッチをブロードキャストします。"
   },
   "recent_activity": {
-    "title": "Recent activity",
-    "subtitle": "Browse your latest on-chain operations.",
-    "hover1": "Review the most recent operations performed by your account.",
-    "hover2": "Inspect the underlying operation JSON for each entry."
+    "title": "最近のアクティビティ",
+    "subtitle": "最新のオンチェーン操作を閲覧します。",
+    "hover1": "アカウントが実行した最新の操作を確認します。",
+    "hover2": "各エントリーの基となる操作 JSON を検査します。"
   },
   "top_markets": {
-    "title": "Top markets",
-    "subtitle": "The most actively traded markets on the DEX.",
-    "hover1": "Ranked by the number of fill orders over the past 30 days.",
-    "hover2": "Great for spotting the busiest trading pairs.",
-    "dialogDescription": "Choose where to trade this market pair.",
-    "openDex": "Open in DEX limit order",
-    "openInstant": "Open in Instant Swap"
+    "title": "トップ市場",
+    "subtitle": "DEX で最も活発に取引されている市場。",
+    "hover1": "過去30日間の約定注文数で順位付けされています。",
+    "hover2": "最も活発な取引ペアを見つけるのに最適です。",
+    "dialogDescription": "この市場ペアをどこで取引するか選択してください。",
+    "openDex": "DEX 指値注文で開く",
+    "openInstant": "Instant Swap で開く"
   },
-  "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+  "testnetUnsupported": "この機能は BitShares の公開 Elasticsearch インデックスを照会します。これはメインネットでのみ利用可能です。テストネットはサポートされていません。",
   "top_pools": {
-    "title": "Top pools",
-    "subtitle": "The most actively swapped liquidity pools on the network.",
-    "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
-    "hover2": "Great for spotting the busiest pools to trade or stake in.",
-    "dialogDescription": "Choose where to use this liquidity pool.",
-    "openSwap": "Open in Simple Swap",
-    "openInstant": "Open in Instant Trade",
-    "openDex": "Open in DEX limit order",
-    "openStake": "Stake assets",
+    "title": "トッププール",
+    "subtitle": "ネットワーク上で最も活発にスワップされている流動性プール。",
+    "hover1": "過去30日間の流動性プールスワップ数で順位付けされています。",
+    "hover2": "取引やステーキングに最も活発なプールを見つけるのに最適です。",
+    "dialogDescription": "この流動性プールをどこで使用するか選択してください。",
+    "openSwap": "Simple Swap で開く",
+    "openInstant": "Instant Trade で開く",
+    "openDex": "DEX 指値注文で開く",
+    "openStake": "アセットをステーキング",
     "pool": "Pool",
-    "assets": "Assets",
-    "swaps": "Swaps"
+    "assets": "アセット",
+    "swaps": "スワップ"
   }
 }

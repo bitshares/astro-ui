@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+
+import Layout from '../layouts/Layout.astro';
+import BlindTransfers from '../components/BlindTransfers.jsx';
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
+
+const btsAllAssets = await getCollection('btsAllAssets');
+const testAllAssets = await getCollection('testAllAssets');
+
+const btsAssets = btsAllAssets.map(collection => collection.data);
+const testAssets = testAllAssets.map(collection => collection.data);
+---
+
+<Layout title="Blind Transfers">
+	<main>
+		<PageHeader client:only="react" page="blind_transfers" backURL="../index.html" />
+		<BlindTransfers
+			client:only="react"
+			_assetsBTS={btsAssets}
+			_assetsTEST={testAssets}
+		/>
+		<PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/blind_transfers.astro" />
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1rem;
+		width: 100%;
+		max-width: calc(100% - 2rem);
+		color: hsl(var(--foreground));
+		font-size: 20px;
+		line-height: 1.6;
+		min-height: 100vh;
+	}
+</style>

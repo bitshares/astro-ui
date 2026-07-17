@@ -81,7 +81,7 @@
   "currentFeedPrice": "Aktueller Futterpreis",
   "specificPriceFeed": "Spezifischer Preis-Feed",
   "quote": "Zitat",
-  "base": "Base",
+  "base": "Basis",
   "selectPriceFeed": "Wählen Sie Preis-Feed aus",
   "selectPriceFeedInfo": "Dies ist der Preis-Feed, der zur Bestimmung des Abrechnungspreises dieses Vermögenswerts verwendet wird.",
   "chooseSpecificFeedInfo": "Dies ist der spezifische Preis-Feed, der zur Bestimmung des globalen Abrechnungspreises für diesen Vermögenswert verwendet wird.",

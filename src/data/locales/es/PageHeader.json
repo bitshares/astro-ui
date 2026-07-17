@@ -51,6 +51,9 @@
     "thai": "tailandés (th)",
     "descText": {
         "instant_trade": "Opere instantáneamente en el intercambio descentralizado entre dos activos utilizando órdenes de límite de llenado o eliminación.",
+        "call-orders": "Vea y gestione sus posiciones de órdenes de margen (call orders) en todos los smartcoins.",
+        "custom_authorities": "Vea, cree, actualice y elimine las autoridades personalizadas asociadas a su cuenta.",
+        "blind_transfers": "Cree transfer to blind, blind transfer y transfer from blind confidenciales para firmar con una cartera externa.",
         "stored_invoices": "Realice un seguimiento de las facturas generadas y recibidas para facilitar la gestión y el pago.",
         "vote": "La votación es una parte integral de la Prueba de participación delegada, así que vote por los miembros del comité, los testigos y los trabajadores para ayudar a gobernar la cadena de bloques.",
         "htlc": "Utilice el formulario a continuación para crear, ampliar y canjear contratos bloqueados por tiempo en hash.",
@@ -110,8 +113,8 @@
         "airdrop_create": "Configure destinatarios, activo y distribución para una nueva airdrop.",
         "airdrop_perform": "Transmita cada lote de su airdrop a través de su billetera Beet.",
         "airdrop_calculate": "Distribuya un activo a muchas cuentas mediante selección algorítmica o una lista manual, y luego transmita lotes a través de su billetera Beet.",
-        "top-markets": "Use this page to view the most actively traded BitShares DEX markets, ranked by fill-order volume.",
-        "top-pools": "Use this page to view the most actively swapped BitShares liquidity pools, ranked by swap volume."
+        "top-markets": "Usa esta página para ver los mercados DEX de BitShares más activos, ordenados por volumen de fill-orders.",
+        "top-pools": "Usa esta página para ver los pools de liquidez de BitShares más intercambiados, ordenados por volumen de swaps."
     },
     "back": "Regresa",
     "usage": "Diseñado para usar con ",

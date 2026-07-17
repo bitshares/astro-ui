@@ -1,466 +1,487 @@
 {
-  "instant_trade": {
-    "title": "Øjeblikkelig handel",
-    "subtitle": "Skift hurtigt aktiver til de bedste tilgængelige priser",
-    "hover1": "Handl øjeblikkeligt aktiver på DEX uden distraktioner.",
-    "hover2": "Bruger udfyld-eller-dræb ordreteknologi til enten at få de priser, du ønsker, eller annullere ordren.",
-    "hover3": "Se, hvem du vil handle med på DEX, og om de har aktiveret on-fill-betingelser på deres ordrer."
-  },
-  "vote": {
-    "title": "Afstemning",
-    "subtitle": "Stem på vidner, udvalgsmedlemmer og arbejderforslag",
-    "hover1": "Stem på vidner, der producerer blokke på blockchain.",
-    "hover2": "Stem på udvalgsmedlemmer, der styrer blockchain.",
-    "hover3": "Stem på arbejderforslag til finansiering af ideer på blockchain."
-  },
-  "barter": {
-    "title": "Barter",
-    "subtitle": "Handelsaktiver med andre brugere",
-    "hover1": "Handelsaktiver med andre brugere.",
-    "hover2": "Bartering er en peer-to-peer handelsproces.",
-    "hover3": "Bartering kan involvere 3rd -parts escrow -tjenester."
-  },
-  "witnesses": {
-    "title": "Vidner",
-    "subtitle": "Se de nuværende aktive og inaktive vidner.",
-    "hover1": "Se hvem der har modtaget flest stemmer.",
-    "hover2": "Se, hvem vidner har stemt for.",
-    "hover3": "Se vidnecerne -tokenbalancer."
-  },
-  "committee": {
-    "title": "Udvalgsmedlemmer",
-    "subtitle": "Se de nuværende aktive og inaktive udvalgsmedlemmer.",
-    "hover1": "Se hvem der har modtaget flest stemmer.",
-    "hover2": "Se, hvem udvalgsmedlemmer har stemt for.",
-    "hover3": "Se udvalgs kernetokenbalancer."
-  },
-  "governance": {
-    "title": "Rolleregistrering",
-    "subtitle": "Opret/opdater både vidne- og udvalgsroller.",
-    "hover1": "Opret, opdatering eller ugyldige din vidnesdregistrering.",
-    "hover2": "Opret eller opdater dit udvalgsmedlemregistrering."
-  },
-  "create_worker": {
-    "title": "Opret arbejdstagerforslag",
-    "subtitle": "Opret et arbejdstagerforslag til finansiering af ideer!",
-    "hover1": "Sikre midler via et arbejdstagerforslag til finansiering af dit projekt.",
-    "hover2": "Arbejdstagerforslag finansieres af Bitshares Reserve Fund.",
-    "hover3": "Arbejdstagerforslag vælges af samfundet."
-  },
-  "dex": {
-    "title": "DEX-begrænsningsordrer",
-    "subtitle": "Handl aktiver på Bitshares DEX",
-    "hover1": "Lav manuelt begrænsede ordrer.",
-    "hover2": "Brug ethvert aktivhandelspar.",
-    "hover3": "Angiv ordrens udløbsdatoer.",
-    "hover4": "Mere kompleks, men billigere end poolbytte."
-  },
-  "pool": {
-    "title": "Liquidity Pool Exchange",
-    "subtitle": "Swap aktiver via en likviditetspulje",
-    "hover1": "Byt aktiver via brugerskabte likviditetspuljer.",
-    "hover2": "Puljer har forskellige handelspar og gebyrer.",
-    "hover3": "Enklere men dyrere end en limiteret ordre."
-  },
-  "swap": {
-    "title": "Simpel aktivbytte",
-    "subtitle": "Det er nemmere at bytte aktiver via puljer",
-    "hover1": "Byt aktiver via brugerskabte likviditetspuljer.",
-    "hover2": "Puljer har forskellige handelspar og gebyrer.",
-    "hover3": "Enklere men dyrere end en limiteret ordre."
-  },
-  "stake": {
-    "title": "Indsatsaktiver",
-    "subtitle": "Sats aktiver i likviditetspuljer",
-    "hover1": "Sats aktiver i likviditetspuljer for at tjene gebyrer.",
-    "hover2": "Indsatte aktiver er låst i puljen.",
-    "hover3": "Indsatte aktiver kan til enhver tid trækkes tilbage."
-  },
-  "transfer": {
-    "title": "Overfør aktiver",
-    "subtitle": "Send aktiver til andre brugere",
-    "hover1": "Overfør aktiver til enhver på Bitshares blockchain på få sekunder."
-  },
-  "timed_transfer": {
-    "title": "Tidsbestemt overførsel",
-    "subtitle": "Send aktiver til andre brugere på et senere tidspunkt.",
-    "hover1": "Planlæg overførsel af aktiver til en anden bruger efter gennemgangsperioden for forslag."
-  },
-  "withdraw_permission": {
-    "title": "Træk tilladelse",
-    "subtitle": "Administrer dine tilbagetrækningstilladelser",
-    "hover1": "Opret/rediger/slet din betaling tilbagetrækning tilladelser.",
-    "hover2": "Se dine modtagende tilbagetrækningstilladelser."
-  },
-  "htlc": {
-    "title": "Hash-tidslåste kontrakter (HTLC)",
-    "subtitle": "Opret påstande, der er låst fast bag hemmelige kryptotaster.",
-    "hover1": "En HTLC låser midler til den givne modtager, der kan indløse disse midler ved at give et hemmeligt pre-billy (adgangskode), der blev brugt af afsenderen til at oprette kontrakten.",
-    "hover2": "At afsløre adgangskoden sker off-chain."
-  },
-  "create_vesting": {
-    "title": "Vestaktiver",
-    "subtitle": "Opret optjeningssaldi",
-    "hover1": "Oprettelse af en optjeningsbalance giver dig mulighed for at låse en mængde aktiver op i en bestemt periode.",
-    "hover2": "Du kan bruge en af ​​to typer optjening: Coin Days Destroyed og Linear Vesting with Cliff.",
-    "hover3": "Coin Days Destroyed-politikkens effekt er at kræve, at en vis mængde \"renter\" påløber, før den fulde saldo kan trækkes tilbage, renter påløber som møntdage (saldo * længde holdt), Hvis noget af saldoen trækkes tilbage, skal den resterende saldo tilbageholdes ",
-    "hover4": "Lineær Vesting med Cliff-politik bruges til at efterligne traditionelle aktieoptjeningkontrakter, hvor et vist beløb hver dag optjenes, indtil det er fuldt modnet."
-  },
-  "borrow": {
-    "title": "Lån midler",
-    "subtitle": "Lån fra andre brugere kredittilbud",
-    "hover1": "Gennemse de aktive brugeroprettede kredittilbud.",
-    "hover2": "Lån aktiver fra dem til den ønskede kurs.",
-    "hover3": "Brug den ønskede sikkerhed for at sikre dit lån."
-  },
-  "lend": {
-    "title": "Lån midler",
-    "subtitle": "Opret et kredittilbud for at låne ud til andre",
-    "hover1": "Opret dine egne decentrale kredittilbud.",
-    "hover2": "Lån aktiver til dine definerede satser.",
-    "hover3": "Angiv acceptable lånesikkerheder og priser."
-  },
-  "smartcoins": {
-    "title": "Udstedelse af sikkerhedsstillet gæld",
-    "subtitle": "Lån Fiat bitassets, private smartcoins og mere.",
-    "hover1": "Bitassets som USD, CNY og EUR er komitéskabte stablecoins (smartcoins) understøttet af BTS.",
-    "hover2": "Brugerskabte smartcoins kan bakkes op med ethvert aktiv og referere til ethvert eksternt feed.",
-    "hover3": "Eksterne afregningspriser er afledt fra konfigurerede foderproducenter.",
-    "hover4": "Eksponering for eksterne prisfeeds kan udgøre en risiko for sikkerhedsstillede gældspositioner."
-  },
-  "tfunds": {
-    "title": "Same-T Funds",
-    "subtitle": "Se, opret, opdater, slet Same-T Funds!",
-    "hover1": "Se alle de Same-T-fonde, der i øjeblikket tilbydes af andre brugere.",
-    "hover2": "Opret nemt en ny Same-T-fond.",
-    "hover3": "Opdater eller slet dine eksisterende Same-T-midler.",
-    "hover4": "Same-T-midler er en måde at tjene passivt på dine besiddelser."
-  },
-  "portfolio": {
-    "title": "Din portefølje",
-    "subtitle": "Tjek dine saldi, åbne ordrer og seneste blockchain-aktivitet",
-    "hover1": "Tjek dine saldi.",
-    "hover2": "Overvåg dine åbne ordrer.",
-    "hover3": "Analyser din seneste kontoaktivitet."
-  },
-  "portfolio_balances": {
-    "title": "Kontosaldi",
-    "subtitle": "Se dine likvide saldi og relaterede handlinger",
-    "hover1": "Sorter saldi som standard, alfabetisk eller beløb.",
-    "hover2": "Hurtige links til handel og aktivinfo.",
-    "hover3": "Se relaterede likviditetspuljer."
-  },
-  "portfolio_open_orders": {
-    "title": "Åbne ordrer",
-    "subtitle": "Gennemgå og administrer dine åbne DEX-ordrer",
-    "hover1": "Hop direkte til markedsparret.",
-    "hover2": "Opdater eller annuller en ordre.",
-    "hover3": "Tjek udløbs- og ordre-id'er."
-  },
-  "portfolio_recent_activity": {
-    "title": "Seneste aktivitet",
-    "subtitle": "Undersøg dine seneste on-chain operationer",
-    "hover1": "Gennemse operations-id'er og blokke.",
-    "hover2": "Se operation JSON.",
-    "hover3": "Åbn alle aktivitetsoplysninger."
-  },
-  "favourites": {
-    "title": "Dine favoritter",
-    "subtitle": "Få hurtigt adgang til foretrukne aktiver og konti",
-    "hover1": "Tilføj aktiver, du holder af, for at se dem ét sted.",
-    "hover2": "Spor dine yndlingskonti for hurtig reference."
-  },
-  "featured": {
-    "title": "Topmarkeder",
-    "subtitle": "Oplev de mest aktivt handlede aktiver i dag",
-    "hover1": "Naviger til de mest aktive handelspar.",
-    "hover2": "Sammenlign markedsomsætning og værdi.",
-    "hover3": "Sammenlign mængden af ​​markedshandler."
-  },
-  "deals": {
-    "title": "Kredittilbud",
-    "subtitle": "Tjek dine kreditaftaler",
-    "hover1": "Overvåg dine aktive kreditaftaler.",
-    "hover2": "Administrer status for dine kreditaftaler."
-  },
-  "offers": {
-    "title": "Kredittilbud",
-    "subtitle": "Tjek dine kredittilbud",
-    "hover1": "Overvåg dine aktive kredittilbud.",
-    "hover2": "Administrer status for dine kredittilbud."
-  },
-  "vesting": {
-    "title": "Optjening af saldi",
-    "subtitle": "Se og kræve belønninger, henvisningsgebyrer og andre optjeningssaldi",
-    "hover1": "Tjek dine optjeningssaldi.",
-    "hover2": "Gør krav på dine optjente saldi."
-  },
-  "proposals": {
-    "title": "Foreslåede operationer",
-    "subtitle": "Se og godkend/afvis foreslåede kontooperationer",
-    "hover1": "Se de foreslåede kontooperationer foretaget af andre blockchain-konti for din konto.",
-    "hover2": "Godkend eller afvis de foreslåede kontooperationer."
-  },
-  "issued_assets": {
-    "title": "Dine udstedte aktiver",
-    "subtitle": "Se alle de aktiver, du har oprettet",
-    "hover1": "Se brugerudstedte aktiver, smartcoins og ikke-fungible tokens!",
-    "hover2": "Rediger de aktiver, du har oprettet på blockchain.",
-    "hover3": "Udsted eventuelt en mængde af dine oprettede aktiver."
-  },
-  "blocks": {
-    "title": "Blockchain-data",
-    "subtitle": "Se de seneste opsummerede blockchain-data",
-    "hover1": "Seneste aktivitet og seneste blokerede livedatatabeller.",
-    "hover2": "Livediagram for tælling af seneste bloktransaktioner.",
-    "hover3": "Opsummerede blockchain-datagennemsnit og totaler."
-  },
-  "create_uia": {
-    "title": "Brugerudstedt aktiv",
-    "subtitle": "Opret dit eget token til hvad som helst",
-    "hover1": "Opret dit eget brugerudstedte aktiv.",
-    "hover2": "De kan bruges til en række forskellige formål.",
-    "hover3": "De kan bruges som et token til din virksomhed, et belønningstoken, et token til et spil og mere.",
-    "hover4": "Gateways kan oprette børsstøttede aktiver til handel på Bitshares DEX."
-  },
-  "create_ticket": {
-    "title": "Opret billet",
-    "subtitle": "Opret stemmelåse billetter for at få stemmevægt.",
-    "hover1": "Stemmelåsebilletter giver dig stemmevægt til vidner, udvalg og arbejderafstemningsformål.",
-    "hover2": "Billetter, hvis de likvideres, tager en bestemt periode, før de låser op for dine penge."
-  },
-  "ticket_leaderboard": {
-    "title": "Billet Leaderboard",
-    "subtitle": "Se kombineret effektiv billetkraft efter konto",
-    "hover1": "Se, hvem der har flest stemmeret på blockchain.",
-    "hover2": "Sammenlign hvordan din stemmestyrke forholder sig til andres.",
-    "hover3": "Beregn størrelsen på dine fremtidige stemmelåsebilletter for at få mere stemmestyrke."
-  },
-  "create_smartcoin": {
-    "title": "Smartcoin-aktiv",
-    "subtitle": "Opret et Fiat stablecoin-aktiv",
-    "hover1": "Skab din egen Smartcoin.",
-    "hover2": "De kan bruges til en række forskellige formål.",
-    "hover3": "De kan bruges som en stablecoin, et token til din virksomhed, et belønningstoken, et token til et spil og mere.",
-    "hover4": "Smartcoins kan bakkes op af ethvert aktiv og referere til ethvert eksternt feed."
-  },
-  "create_liquidity_pool": {
-    "title": "Opret likviditetspulje",
-    "subtitle": "Opret en ny likviditetspulje til at bytte 2 af alle aktiver",
-    "hover1": "Konverterer et brugerudstedt aktiv til et likviditetspuljeaktieaktiv.",
-    "hover2": "Konfigurer likviditetspuljen til at bytte 2 aktiver på blockchain.",
-    "hover3": "Anvend dine egne gebyrer for at tjene fra andre ved at bruge din likviditetspulje."
-  },
-  "accountLists": {
-    "title": "Kontolister",
-    "subtitle": "Se og administrer dine kontolister",
-    "hover1": "Føj konti til din hvidliste.",
-    "hover2": "Føj konti til din sortliste.",
-    "hover3": "Fjern konti fra nævnte lister."
-  },
-  "blocked_users": {
-    "title": "Blokerede brugere",
-    "subtitle": "Se og administrer dine blokerede konti",
-    "hover1": "Se konti du har blokeret.",
-    "hover2": "Bloker eller ophæv blokering af konti fra din visning."
-  },
-  "ltm": {
-    "title": "Opgrader konto",
-    "subtitle": "Køb et livstidsmedlemskab",
-    "hover1": "Der er flere fordele ved at blive livstidsmedlem.",
-    "hover2": "Livsvarige medlemmer får en 80% rabat på saldo på kontingent.",
-    "hover3": "Livsvarige medlemmer kan oprette premium Bitshares-kontonavne.",
-    "hover4": "Livsvarige medlemmer kan tjene gennem henvisningssystemet."
-  },
-  "nodes": {
-    "title": "Noder",
-    "subtitle": "Blockchain node konfiguration",
-    "hover1": "Opret forbindelse til en Bitshares-node efter eget valg.",
-    "hover2": "Tilføj/fjern noder til din forbindelsesliste."
-  },
-  "create_account": {
-    "title": "Opret konto",
-    "subtitle": "Opret en ny Cloud -tegnebogskonto på Bitshares blockchain.",
-    "hover1": "Opret en gratis konto ved hjælp af en offentlig vandhane.",
-    "hover2": "Generer en premium -konto ved hjælp af en eksisterende LTM -konto."
-  },
-  "invoice_inventory": {
-    "title": "Fakturabeholdning",
-    "subtitle": "Administrer varer og priser brugt til fakturering",
-    "hover1": "Opret og administrer lagervarer og deres priser for fakturaer."
-  },
-  "create_invoice": {
-    "title": "Opret faktura",
-    "subtitle": "Generer fakturakoder til kunder",
-    "hover1": "Opret en faktura ved at vælge varer fra beholdningen, angive mængder og fakturaoplysninger."
-  },
-  "pay_invoice": {
-    "title": "Betal faktura",
-    "subtitle": "Betal fakturaer ved hjælp af fakturakoder",
-    "hover1": "Betal en faktura ved at indtaste fakturakoden oplyst af fakturaopretteren.",
-    "hover2": "Betal eventuelt med forskellige aktiver for hver vare, der købes."
-  },
-  "stored_invoices": {
-    "title": "Gemte fakturaer",
-    "subtitle": "Se og administrer dine gemte fakturaer",
-    "hover1": "Gennemse dine gemte fakturaer, både genererede og modtagne.",
-    "hover2": "Se fakturadetaljer og slet uønskede fakturaer.",
-    "hover3": "Gem data om status for fakturaer, der opfyldes."
-  },
-  "tfund_user": {
-    "title": "Samme-T-fondshandel",
-    "subtitle": "Lån, handel, tilbagebetaling, enkel!",
-    "hover1": "Låne aktiver fra en samme T-fond.",
-    "hover2": "Handel disse samme-T-midler på DEX.",
-    "hover3": "Tilbagebetale de lånte aktiver."
-  },
-  "custom_pool_tracker": {
-    "title": "Likviditetspool tracker",
-    "subtitle": "Spor dine foretrukne likviditetsbassiner let!",
-    "hover1": "Konfigurer din egen brugerdefinerede likviditetspuls tracker.",
-    "hover2": "Spor op til 5 byttelige aktiver."
-  },
-  "pools": {
-    "title": "Likviditetsbassiner",
-    "subtitle": "Se en liste over alle likviditetspooler",
-    "hover1": "Filtrer alle likviditetsbassiner efter byttede aktiver",
-    "hover2": "Find likviditetsbassiner til bytte af aktiver.",
-    "hover3": "Identificer likviditetsbassiner til stav aktiver i."
-  },
-  "features": {
-    "heading": "Funktioner",
-    "functionalityHeading": "Funktionalitet",
-    "zeroAuth": {
-      "title": "Nul godkendelse påkrævet!",
-      "description": "Konstruer dine blockchain-transaktioner uden at låse op for nogen konti!"
+    "instant_trade": {
+        "title": "Øjeblikkelig handel",
+        "subtitle": "Skift hurtigt aktiver til de bedste tilgængelige priser",
+        "hover1": "Handl øjeblikkeligt aktiver på DEX uden distraktioner.",
+        "hover2": "Bruger udfyld-eller-dræb ordreteknologi til enten at få de priser, du ønsker, eller annullere ordren.",
+        "hover3": "Se, hvem du vil handle med på DEX, og om de har aktiveret on-fill-betingelser på deres ordrer."
     },
-    "multiBroadcast": {
-      "title": "Flere transaktionsudsendelsesmetoder!",
-      "description": "Udsend dine blockchain-operationer via QR-koder, dybe links eller lokale JSON-filer."
+    "call_orders": {
+        "title": "Indløsningsordrer",
+        "subtitle": "Se dine margin-lånte positioner på tværs af alle smartcoins",
+        "hover1": "Se sikkerhed og gæld per smartcoin.",
+        "hover2": "Åbn DEX eller øjeblikkelig handel for parret.",
+        "hover3": "Administrer positionen fra smartcoin-siden."
     },
-    "supportsLatest": {
-      "title": "Understøtter de nyeste Bitshares-funktioner!",
-      "description": "Interesseret i de seneste Bitshares DEX-forbedringer? "
+    "custom_authorities": {
+        "title": "Brugerdefinerede autoriteter",
+        "subtitle": "Administrer detaljerede operationsrettigheder for din konto",
+        "hover1": "Se din kontos brugerdefinerede autoriteter.",
+        "hover2": "Opret, opdater eller slet autoriteter.",
+        "hover3": "Tildel omfangede rettigheder til konti eller nøgler."
     },
-    "switchChains": {
-      "title": "Skift nemt mellem understøttede blockchains!",
-      "description": "Det tager sekunder at skifte mellem Bitshares mainnet og testnet netværk!"
+    "blind_transfers": {
+        "title": "Blind Transfers",
+        "subtitle": "Opbyg fortrolige blind transfer-operationer",
+        "hover1": "Flyt midler til eller fra blind commitments.",
+        "hover2": "Overfør værdi mellem blind commitments.",
+        "hover3": "Eksportér operationen til underskrift i en ekstern wallet."
     },
-    "nearInstant": {
-      "title": "Næsten øjeblikkelige blockchain-operationer!",
-      "description": "Med tre sekunders blokeringstider bliver dine udsendelsesoperationer verificeret næsten øjeblikkeligt!"
+    "vote": {
+        "title": "Afstemning",
+        "subtitle": "Stem på vidner, udvalgsmedlemmer og arbejderforslag",
+        "hover1": "Stem på vidner, der producerer blokke på blockchain.",
+        "hover2": "Stem på udvalgsmedlemmer, der styrer blockchain.",
+        "hover3": "Stem på arbejderforslag til finansiering af ideer på blockchain."
     },
-    "evergreen": {
-      "title": "Bygget med stedsegrønne teknologier!",
-      "description": "Brug af de nyeste webteknologier for en hurtig, sikker og pålidelig Bitshares fremtid!"
+    "barter": {
+        "title": "Bytte",
+        "subtitle": "Handelsaktiver med andre brugere",
+        "hover1": "Handelsaktiver med andre brugere.",
+        "hover2": "Bartering er en peer-to-peer handelsproces.",
+        "hover3": "Bartering kan involvere 3rd -parts escrow -tjenester."
     },
-    "multiWallets": {
-      "title": "Understøtter flere tegnebøger!",
-      "description": "Udsend transaktioner via Beet eller BeetEOS tegnebøger!"
+    "witnesses": {
+        "title": "Vidner",
+        "subtitle": "Se de nuværende aktive og inaktive vidner.",
+        "hover1": "Se hvem der har modtaget flest stemmer.",
+        "hover2": "Se, hvem vidner har stemt for.",
+        "hover3": "Se vidnecerne -tokenbalancer."
     },
-    "localized": {
-      "title": "Fuldt lokaliseret til flere sprog!",
-      "description": "Tilgængelig på 11 sprog og tæller!"
+    "committee": {
+        "title": "Udvalgsmedlemmer",
+        "subtitle": "Se de nuværende aktive og inaktive udvalgsmedlemmer.",
+        "hover1": "Se hvem der har modtaget flest stemmer.",
+        "hover2": "Se, hvem udvalgsmedlemmer har stemt for.",
+        "hover3": "Se udvalgs kernetokenbalancer."
     },
-    "blockActors": {
-      "title": "Blokerer dårlige skuespillere!",
-      "description": "Hjælper dig med at undgå ondsindede konti og deres blockchain-objekter!"
+    "governance": {
+        "title": "Rolleregistrering",
+        "subtitle": "Opret/opdater både vidne- og udvalgsroller.",
+        "hover1": "Opret, opdatering eller ugyldige din vidnesdregistrering.",
+        "hover2": "Opret eller opdater dit udvalgsmedlemregistrering."
+    },
+    "create_worker": {
+        "title": "Opret arbejdstagerforslag",
+        "subtitle": "Opret et arbejdstagerforslag til finansiering af ideer!",
+        "hover1": "Sikre midler via et arbejdstagerforslag til finansiering af dit projekt.",
+        "hover2": "Arbejdstagerforslag finansieres af Bitshares Reserve Fund.",
+        "hover3": "Arbejdstagerforslag vælges af samfundet."
+    },
+    "dex": {
+        "title": "DEX-begrænsningsordrer",
+        "subtitle": "Handl aktiver på Bitshares DEX",
+        "hover1": "Lav manuelt begrænsede ordrer.",
+        "hover2": "Brug ethvert aktivhandelspar.",
+        "hover3": "Angiv ordrens udløbsdatoer.",
+        "hover4": "Mere kompleks, men billigere end poolbytte."
+    },
+    "pool": {
+        "title": "Likviditetspulje-børs",
+        "subtitle": "Swap aktiver via en likviditetspulje",
+        "hover1": "Byt aktiver via brugerskabte likviditetspuljer.",
+        "hover2": "Puljer har forskellige handelspar og gebyrer.",
+        "hover3": "Enklere men dyrere end en limiteret ordre."
+    },
+    "swap": {
+        "title": "Simpel aktivbytte",
+        "subtitle": "Det er nemmere at bytte aktiver via puljer",
+        "hover1": "Byt aktiver via brugerskabte likviditetspuljer.",
+        "hover2": "Puljer har forskellige handelspar og gebyrer.",
+        "hover3": "Enklere men dyrere end en limiteret ordre."
+    },
+    "stake": {
+        "title": "Indsatsaktiver",
+        "subtitle": "Sats aktiver i likviditetspuljer",
+        "hover1": "Sats aktiver i likviditetspuljer for at tjene gebyrer.",
+        "hover2": "Indsatte aktiver er låst i puljen.",
+        "hover3": "Indsatte aktiver kan til enhver tid trækkes tilbage."
+    },
+    "transfer": {
+        "title": "Overfør aktiver",
+        "subtitle": "Send aktiver til andre brugere",
+        "hover1": "Overfør aktiver til enhver på Bitshares blockchain på få sekunder."
+    },
+    "timed_transfer": {
+        "title": "Tidsbestemt overførsel",
+        "subtitle": "Send aktiver til andre brugere på et senere tidspunkt.",
+        "hover1": "Planlæg overførsel af aktiver til en anden bruger efter gennemgangsperioden for forslag."
+    },
+    "withdraw_permission": {
+        "title": "Træk tilladelse",
+        "subtitle": "Administrer dine tilbagetrækningstilladelser",
+        "hover1": "Opret/rediger/slet din betaling tilbagetrækning tilladelser.",
+        "hover2": "Se dine modtagende tilbagetrækningstilladelser."
+    },
+    "htlc": {
+        "title": "Hash-tidslåste kontrakter (HTLC)",
+        "subtitle": "Opret påstande, der er låst fast bag hemmelige kryptotaster.",
+        "hover1": "En HTLC låser midler til den givne modtager, der kan indløse disse midler ved at give et hemmeligt pre-billy (adgangskode), der blev brugt af afsenderen til at oprette kontrakten.",
+        "hover2": "At afsløre adgangskoden sker off-chain."
+    },
+    "create_vesting": {
+        "title": "Vestaktiver",
+        "subtitle": "Opret optjeningssaldi",
+        "hover1": "Oprettelse af en optjeningsbalance giver dig mulighed for at låse en mængde aktiver op i en bestemt periode.",
+        "hover2": "Du kan bruge en af ​​to typer optjening: Coin Days Destroyed og Linear Vesting with Cliff.",
+        "hover3": "Coin Days Destroyed-politikkens effekt er at kræve, at en vis mængde \"renter\" påløber, før den fulde saldo kan trækkes tilbage, renter påløber som møntdage (saldo * længde holdt), Hvis noget af saldoen trækkes tilbage, skal den resterende saldo tilbageholdes ",
+        "hover4": "Lineær Vesting med Cliff-politik bruges til at efterligne traditionelle aktieoptjeningkontrakter, hvor et vist beløb hver dag optjenes, indtil det er fuldt modnet."
+    },
+    "borrow": {
+        "title": "Lån midler",
+        "subtitle": "Lån fra andre brugere kredittilbud",
+        "hover1": "Gennemse de aktive brugeroprettede kredittilbud.",
+        "hover2": "Lån aktiver fra dem til den ønskede kurs.",
+        "hover3": "Brug den ønskede sikkerhed for at sikre dit lån."
+    },
+    "lend": {
+        "title": "Lån midler",
+        "subtitle": "Opret et kredittilbud for at låne ud til andre",
+        "hover1": "Opret dine egne decentrale kredittilbud.",
+        "hover2": "Lån aktiver til dine definerede satser.",
+        "hover3": "Angiv acceptable lånesikkerheder og priser."
+    },
+    "smartcoins": {
+        "title": "Udstedelse af sikkerhedsstillet gæld",
+        "subtitle": "Lån Fiat bitassets, private smartcoins og mere.",
+        "hover1": "Bitassets som USD, CNY og EUR er komitéskabte stablecoins (smartcoins) understøttet af BTS.",
+        "hover2": "Brugerskabte smartcoins kan bakkes op med ethvert aktiv og referere til ethvert eksternt feed.",
+        "hover3": "Eksterne afregningspriser er afledt fra konfigurerede foderproducenter.",
+        "hover4": "Eksponering for eksterne prisfeeds kan udgøre en risiko for sikkerhedsstillede gældspositioner."
+    },
+    "tfunds": {
+        "title": "Same-T Fonde",
+        "subtitle": "Se, opret, opdater, slet Same-T Funds!",
+        "hover1": "Se alle de Same-T-fonde, der i øjeblikket tilbydes af andre brugere.",
+        "hover2": "Opret nemt en ny Same-T-fond.",
+        "hover3": "Opdater eller slet dine eksisterende Same-T-midler.",
+        "hover4": "Same-T-midler er en måde at tjene passivt på dine besiddelser."
+    },
+    "portfolio": {
+        "title": "Din portefølje",
+        "subtitle": "Tjek dine saldi, åbne ordrer og seneste blockchain-aktivitet",
+        "hover1": "Tjek dine saldi.",
+        "hover2": "Overvåg dine åbne ordrer.",
+        "hover3": "Analyser din seneste kontoaktivitet."
+    },
+    "portfolio_balances": {
+        "title": "Kontosaldi",
+        "subtitle": "Se dine likvide saldi og relaterede handlinger",
+        "hover1": "Sorter saldi som standard, alfabetisk eller beløb.",
+        "hover2": "Hurtige links til handel og aktivinfo.",
+        "hover3": "Se relaterede likviditetspuljer."
+    },
+    "portfolio_open_orders": {
+        "title": "Åbne ordrer",
+        "subtitle": "Gennemgå og administrer dine åbne DEX-ordrer",
+        "hover1": "Hop direkte til markedsparret.",
+        "hover2": "Opdater eller annuller en ordre.",
+        "hover3": "Tjek udløbs- og ordre-id'er."
+    },
+    "portfolio_recent_activity": {
+        "title": "Seneste aktivitet",
+        "subtitle": "Undersøg dine seneste on-chain operationer",
+        "hover1": "Gennemse operations-id'er og blokke.",
+        "hover2": "Se operation JSON.",
+        "hover3": "Åbn alle aktivitetsoplysninger."
+    },
+    "favourites": {
+        "title": "Dine favoritter",
+        "subtitle": "Få hurtigt adgang til foretrukne aktiver og konti",
+        "hover1": "Tilføj aktiver, du holder af, for at se dem ét sted.",
+        "hover2": "Spor dine yndlingskonti for hurtig reference."
+    },
+    "featured": {
+        "title": "Topmarkeder",
+        "subtitle": "Oplev de mest aktivt handlede aktiver i dag",
+        "hover1": "Naviger til de mest aktive handelspar.",
+        "hover2": "Sammenlign markedsomsætning og værdi.",
+        "hover3": "Sammenlign mængden af ​​markedshandler."
+    },
+    "deals": {
+        "title": "Kredittilbud",
+        "subtitle": "Tjek dine kreditaftaler",
+        "hover1": "Overvåg dine aktive kreditaftaler.",
+        "hover2": "Administrer status for dine kreditaftaler."
+    },
+    "offers": {
+        "title": "Kredittilbud",
+        "subtitle": "Tjek dine kredittilbud",
+        "hover1": "Overvåg dine aktive kredittilbud.",
+        "hover2": "Administrer status for dine kredittilbud."
+    },
+    "vesting": {
+        "title": "Optjening af saldi",
+        "subtitle": "Se og kræve belønninger, henvisningsgebyrer og andre optjeningssaldi",
+        "hover1": "Tjek dine optjeningssaldi.",
+        "hover2": "Gør krav på dine optjente saldi."
+    },
+    "proposals": {
+        "title": "Foreslåede operationer",
+        "subtitle": "Se og godkend/afvis foreslåede kontooperationer",
+        "hover1": "Se de foreslåede kontooperationer foretaget af andre blockchain-konti for din konto.",
+        "hover2": "Godkend eller afvis de foreslåede kontooperationer."
+    },
+    "issued_assets": {
+        "title": "Dine udstedte aktiver",
+        "subtitle": "Se alle de aktiver, du har oprettet",
+        "hover1": "Se brugerudstedte aktiver, smartcoins og ikke-fungible tokens!",
+        "hover2": "Rediger de aktiver, du har oprettet på blockchain.",
+        "hover3": "Udsted eventuelt en mængde af dine oprettede aktiver."
+    },
+    "blocks": {
+        "title": "Blockchain-data",
+        "subtitle": "Se de seneste opsummerede blockchain-data",
+        "hover1": "Seneste aktivitet og seneste blokerede livedatatabeller.",
+        "hover2": "Livediagram for tælling af seneste bloktransaktioner.",
+        "hover3": "Opsummerede blockchain-datagennemsnit og totaler."
+    },
+    "create_uia": {
+        "title": "Brugerudstedt aktiv",
+        "subtitle": "Opret dit eget token til hvad som helst",
+        "hover1": "Opret dit eget brugerudstedte aktiv.",
+        "hover2": "De kan bruges til en række forskellige formål.",
+        "hover3": "De kan bruges som et token til din virksomhed, et belønningstoken, et token til et spil og mere.",
+        "hover4": "Gateways kan oprette børsstøttede aktiver til handel på Bitshares DEX."
+    },
+    "create_ticket": {
+        "title": "Opret billet",
+        "subtitle": "Opret stemmelåse billetter for at få stemmevægt.",
+        "hover1": "Stemmelåsebilletter giver dig stemmevægt til vidner, udvalg og arbejderafstemningsformål.",
+        "hover2": "Billetter, hvis de likvideres, tager en bestemt periode, før de låser op for dine penge."
+    },
+    "ticket_leaderboard": {
+        "title": "Billet Leaderboard",
+        "subtitle": "Se kombineret effektiv billetkraft efter konto",
+        "hover1": "Se, hvem der har flest stemmeret på blockchain.",
+        "hover2": "Sammenlign hvordan din stemmestyrke forholder sig til andres.",
+        "hover3": "Beregn størrelsen på dine fremtidige stemmelåsebilletter for at få mere stemmestyrke."
+    },
+    "create_smartcoin": {
+        "title": "Smartcoin-aktiv",
+        "subtitle": "Opret et Fiat stablecoin-aktiv",
+        "hover1": "Skab din egen Smartcoin.",
+        "hover2": "De kan bruges til en række forskellige formål.",
+        "hover3": "De kan bruges som en stablecoin, et token til din virksomhed, et belønningstoken, et token til et spil og mere.",
+        "hover4": "Smartcoins kan bakkes op af ethvert aktiv og referere til ethvert eksternt feed."
+    },
+    "create_liquidity_pool": {
+        "title": "Opret likviditetspulje",
+        "subtitle": "Opret en ny likviditetspulje til at bytte 2 af alle aktiver",
+        "hover1": "Konverterer et brugerudstedt aktiv til et likviditetspuljeaktieaktiv.",
+        "hover2": "Konfigurer likviditetspuljen til at bytte 2 aktiver på blockchain.",
+        "hover3": "Anvend dine egne gebyrer for at tjene fra andre ved at bruge din likviditetspulje."
+    },
+    "accountLists": {
+        "title": "Kontolister",
+        "subtitle": "Se og administrer dine kontolister",
+        "hover1": "Føj konti til din hvidliste.",
+        "hover2": "Føj konti til din sortliste.",
+        "hover3": "Fjern konti fra nævnte lister."
+    },
+    "blocked_users": {
+        "title": "Blokerede brugere",
+        "subtitle": "Se og administrer dine blokerede konti",
+        "hover1": "Se konti du har blokeret.",
+        "hover2": "Bloker eller ophæv blokering af konti fra din visning."
+    },
+    "ltm": {
+        "title": "Opgrader konto",
+        "subtitle": "Køb et livstidsmedlemskab",
+        "hover1": "Der er flere fordele ved at blive livstidsmedlem.",
+        "hover2": "Livsvarige medlemmer får en 80% rabat på saldo på kontingent.",
+        "hover3": "Livsvarige medlemmer kan oprette premium Bitshares-kontonavne.",
+        "hover4": "Livsvarige medlemmer kan tjene gennem henvisningssystemet."
+    },
+    "nodes": {
+        "title": "Noder",
+        "subtitle": "Blockchain node konfiguration",
+        "hover1": "Opret forbindelse til en Bitshares-node efter eget valg.",
+        "hover2": "Tilføj/fjern noder til din forbindelsesliste."
+    },
+    "create_account": {
+        "title": "Opret konto",
+        "subtitle": "Opret en ny Cloud -tegnebogskonto på Bitshares blockchain.",
+        "hover1": "Opret en gratis konto ved hjælp af en offentlig vandhane.",
+        "hover2": "Generer en premium -konto ved hjælp af en eksisterende LTM -konto."
+    },
+    "invoice_inventory": {
+        "title": "Fakturabeholdning",
+        "subtitle": "Administrer varer og priser brugt til fakturering",
+        "hover1": "Opret og administrer lagervarer og deres priser for fakturaer."
+    },
+    "create_invoice": {
+        "title": "Opret faktura",
+        "subtitle": "Generer fakturakoder til kunder",
+        "hover1": "Opret en faktura ved at vælge varer fra beholdningen, angive mængder og fakturaoplysninger."
+    },
+    "pay_invoice": {
+        "title": "Betal faktura",
+        "subtitle": "Betal fakturaer ved hjælp af fakturakoder",
+        "hover1": "Betal en faktura ved at indtaste fakturakoden oplyst af fakturaopretteren.",
+        "hover2": "Betal eventuelt med forskellige aktiver for hver vare, der købes."
+    },
+    "stored_invoices": {
+        "title": "Gemte fakturaer",
+        "subtitle": "Se og administrer dine gemte fakturaer",
+        "hover1": "Gennemse dine gemte fakturaer, både genererede og modtagne.",
+        "hover2": "Se fakturadetaljer og slet uønskede fakturaer.",
+        "hover3": "Gem data om status for fakturaer, der opfyldes."
+    },
+    "tfund_user": {
+        "title": "Samme-T-fondshandel",
+        "subtitle": "Lån, handel, tilbagebetaling, enkel!",
+        "hover1": "Låne aktiver fra en samme T-fond.",
+        "hover2": "Handel disse samme-T-midler på DEX.",
+        "hover3": "Tilbagebetale de lånte aktiver."
+    },
+    "custom_pool_tracker": {
+        "title": "Likviditetspool tracker",
+        "subtitle": "Spor dine foretrukne likviditetsbassiner let!",
+        "hover1": "Konfigurer din egen brugerdefinerede likviditetspuls tracker.",
+        "hover2": "Spor op til 5 byttelige aktiver."
+    },
+    "pools": {
+        "title": "Likviditetsbassiner",
+        "subtitle": "Se en liste over alle likviditetspooler",
+        "hover1": "Filtrer alle likviditetsbassiner efter byttede aktiver",
+        "hover2": "Find likviditetsbassiner til bytte af aktiver.",
+        "hover3": "Identificer likviditetsbassiner til stav aktiver i."
+    },
+    "features": {
+        "heading": "Funktioner",
+        "functionalityHeading": "Funktionalitet",
+        "zeroAuth": {
+            "title": "Nul godkendelse påkrævet!",
+            "description": "Konstruer dine blockchain-transaktioner uden at låse op for nogen konti!"
+        },
+        "multiBroadcast": {
+            "title": "Flere transaktionsudsendelsesmetoder!",
+            "description": "Udsend dine blockchain-operationer via QR-koder, dybe links eller lokale JSON-filer."
+        },
+        "supportsLatest": {
+            "title": "Understøtter de nyeste Bitshares-funktioner!",
+            "description": "Interesseret i de seneste Bitshares DEX-forbedringer? "
+        },
+        "switchChains": {
+            "title": "Skift nemt mellem understøttede blockchains!",
+            "description": "Det tager sekunder at skifte mellem Bitshares mainnet og testnet netværk!"
+        },
+        "nearInstant": {
+            "title": "Næsten øjeblikkelige blockchain-operationer!",
+            "description": "Med tre sekunders blokeringstider bliver dine udsendelsesoperationer verificeret næsten øjeblikkeligt!"
+        },
+        "evergreen": {
+            "title": "Bygget med stedsegrønne teknologier!",
+            "description": "Brug af de nyeste webteknologier for en hurtig, sikker og pålidelig Bitshares fremtid!"
+        },
+        "multiWallets": {
+            "title": "Understøtter flere tegnebøger!",
+            "description": "Udsend transaktioner via Beet eller BeetEOS tegnebøger!"
+        },
+        "localized": {
+            "title": "Fuldt lokaliseret til flere sprog!",
+            "description": "Tilgængelig på 11 sprog og tæller!"
+        },
+        "blockActors": {
+            "title": "Blokerer dårlige skuespillere!",
+            "description": "Hjælper dig med at undgå ondsindede konti og deres blockchain-objekter!"
+        }
+    },
+    "sections": {
+        "exchangingSubtitle": "Handel, swap, stake og byt på DEX'en",
+        "transferSubtitle": "Send aktiver og administrer tilladelser",
+        "debtSubtitle": "Lån, udlån og udsted sikret gæld",
+        "assetCreationSubtitle": "Opret tokens, smartcoins og likviditetspools",
+        "accountSubtitle": "Administrer din portefølje, ordrer og favoritter",
+        "blockchainSubtitle": "Udforsk blockchain-data, pools og trackere",
+        "governanceSubtitle": "Stem, registrer roller og opret worker-forslag",
+        "invoicingSubtitle": "Opret, send og betal fakturaer on-chain",
+        "settingsSubtitle": "Kontolister, noder og konfiguration",
+        "airdropSubtitle": "Send ét aktiv til mange konti på én gang"
+    },
+    "configure_visuals": {
+        "title": "Konfigurer visuals",
+        "subtitle": "Tilpas bølgebaggrunde, aurora-glød, partikler og slørings effekter",
+        "hover1": "Vælg mellem foruddefinerede farvepaletter eller definer dine egne farver.",
+        "hover2": "Juster bølgeantal, hastighed, tykkelse og aurora-intensitet."
+    },
+    "waveHero": {
+        "title": "En næste generation af Bitshares-klient!",
+        "subtitle": "Bygget med den nyeste teknologi, designet til brugervenlighed!"
+    },
+    "hero": {
+        "title": "Børsen for alle.",
+        "subtitle": "Handel, swap, stake, lån, udlån og mere på den decentrale Bitshares-børs. Non-custodial, tillidsfri og drevet af blockchain-teknologi.",
+        "ctaPrimary": "Start handel",
+        "ctaSecondary": "Simpel swap",
+        "scrollForMore": "Rul for mere"
+    },
+    "theme_customizer": {
+        "title": "Tematilpasning",
+        "subtitle": "Opret og rediger temaer, der farvelægger hver side, navigation og komponent",
+        "hover1": "Brug enkelttilstand til én accentfarve, eller avanceret til fuld kontrol.",
+        "hover2": "Tildel temaer per side og farvelæg navigationens accenter."
+    },
+    "home_link": {
+        "title": "Hjem",
+        "subtitle": "Tilbage til hovedoversigten"
+    },
+    "page_themes": {
+        "title": "Sidespecifikke temaer",
+        "subtitle": "Tildel specifikke temaer til individuelle sider",
+        "hover1": "Tilsidesæt det aktuelle tema for enhver side i appen."
+    },
+    "airdrop": {
+        "title": "Airdrop",
+        "subtitle": "Fordel et aktiv massevis til mange konti på én gang.",
+        "hover1": "Opdel en stor modtagerliste i transaktioner, der er tilpasset kædens maksimale transaktionsstørrelse."
+    },
+    "airdrop_create": {
+        "title": "Opret airdrop",
+        "subtitle": "Opbyg en modtagerliste og konfigurer aktivfordelingen.",
+        "hover1": "Upload et CSV/JSON med 1.2.x-konto-id'er, vælg et aktiv og hvordan beløbene allokeres."
+    },
+    "airdrop_perform": {
+        "title": "Udfør airdrop",
+        "subtitle": "Send de forberedte overførsels-batches ud til kæden.",
+        "hover1": "Hver batch signeres og sendes som en enkelt transaktion via din forbundne wallet."
+    },
+    "airdrop_calculate": {
+        "title": "Airdrop",
+        "subtitle": "Distribuer en aktiv til mange konti via algoritmisk udvælgelse eller en manuel liste.",
+        "hover1": "Byg en kandidatpool fra manuel input, ticket-låse, call-order-kollateral, top-aktivindehavere, limit-order-aktivitet eller lifetime-member-opgraderinger.",
+        "hover2": "Kør en eller flere deterministiske algoritmer — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — seedet fra en blokvidne-signatur.",
+        "hover3": "Gennemgå vindende konti, konfigurer distribution (lige deling, fast beløb eller brugerdefineret), og send derefter hver batch gennem din Beet-tegnebog."
+    },
+    "recent_activity": {
+        "title": "Seneste aktivitet",
+        "subtitle": "Gennemse dine seneste on-chain-operationer.",
+        "hover1": "Gennemgå de seneste operationer udført af din konto.",
+        "hover2": "Undersøg den underliggende operations-JSON for hvert punkt."
+    },
+    "top_markets": {
+        "title": "Mest handlede markeder",
+        "subtitle": "De mest aktive markeder på DEX'en.",
+        "hover1": "Rangeret efter antallet af fill-ordrer i de seneste 30 dage.",
+        "hover2": "God til at spotte de mest travle handelspar.",
+        "dialogDescription": "Vælg hvor dette markedspar skal handles.",
+        "openDex": "Åbn i DEX limit-ordre",
+        "openInstant": "Åbn i Instant Swap"
+    },
+    "testnetUnsupported": "Denne funktion forespørger det offentlige BitShares Elasticsearch-indeks, som kun er tilgængeligt på hovednetværket. Testnet understøttes ikke.",
+    "top_pools": {
+        "title": "Mest aktive puljer",
+        "subtitle": "De mest aktive likviditetspulje-swaps på netværket.",
+        "hover1": "Rangeret efter antallet af likviditetspulje-swaps i de seneste 30 dage.",
+        "hover2": "God til at spotte de mest travle puljer at handle eller stake i.",
+        "dialogDescription": "Vælg hvor denne likviditetspulje skal bruges.",
+        "openSwap": "Åbn i Simple Swap",
+        "openInstant": "Åbn i Instant Trade",
+        "openDex": "Åbn i DEX limit-ordre",
+        "openStake": "Stake aktiver",
+        "pool": "Pulje",
+        "assets": "Aktiver",
+        "swaps": "Swaps"
     }
-  },
-  "sections": {
-    "exchangingSubtitle": "Handel, swap, stake og byt på DEX'en",
-    "transferSubtitle": "Send aktiver og administrer tilladelser",
-    "debtSubtitle": "Lån, udlån og udsted sikret gæld",
-    "assetCreationSubtitle": "Opret tokens, smartcoins og likviditetspools",
-    "accountSubtitle": "Administrer din portefølje, ordrer og favoritter",
-    "blockchainSubtitle": "Udforsk blockchain-data, pools og trackere",
-    "governanceSubtitle": "Stem, registrer roller og opret worker-forslag",
-    "invoicingSubtitle": "Opret, send og betal fakturaer on-chain",
-    "settingsSubtitle": "Kontolister, noder og konfiguration",
-    "airdropSubtitle": "Bulk send one asset to many accounts"
-  },
-  "configure_visuals": {
-    "title": "Konfigurer visuals",
-    "subtitle": "Tilpas bølgebaggrunde, aurora-glød, partikler og slørings effekter",
-    "hover1": "Vælg mellem foruddefinerede farvepaletter eller definer dine egne farver.",
-    "hover2": "Juster bølgeantal, hastighed, tykkelse og aurora-intensitet."
-  },
-  "waveHero": {
-    "title": "En næste generation af Bitshares-klient!",
-    "subtitle": "Bygget med den nyeste teknologi, designet til brugervenlighed!"
-  },
-  "hero": {
-    "title": "Børsen for alle.",
-    "subtitle": "Handel, swap, stake, lån, udlån og mere på den decentrale Bitshares-børs. Non-custodial, tillidsfri og drevet af blockchain-teknologi.",
-    "ctaPrimary": "Start handel",
-    "ctaSecondary": "Simpel swap",
-    "scrollForMore": "Rul for mere"
-  },
-  "theme_customizer": {
-    "title": "Tematilpasning",
-    "subtitle": "Opret og rediger temaer, der farvelægger hver side, navigation og komponent",
-    "hover1": "Brug enkelttilstand til én accentfarve, eller avanceret til fuld kontrol.",
-    "hover2": "Tildel temaer per side og farvelæg navigationens accenter."
-  },
-  "home_link": {
-    "title": "Hjem",
-    "subtitle": "Tilbage til hovedoversigten"
-  },
-  "page_themes": {
-    "title": "Sidespecifikke temaer",
-    "subtitle": "Tildel specifikke temaer til individuelle sider",
-    "hover1": "Tilsidesæt det aktuelle tema for enhver side i appen."
-  },
-  "airdrop": {
-    "title": "Airdrop",
-    "subtitle": "Fordel et aktiv massevis til mange konti på én gang.",
-    "hover1": "Opdel en stor modtagerliste i transaktioner, der er tilpasset kædens maksimale transaktionsstørrelse."
-  },
-  "airdrop_create": {
-    "title": "Opret airdrop",
-    "subtitle": "Opbyg en modtagerliste og konfigurer aktivfordelingen.",
-    "hover1": "Upload et CSV/JSON med 1.2.x-konto-id'er, vælg et aktiv og hvordan beløbene allokeres."
-  },
-  "airdrop_perform": {
-    "title": "Udfør airdrop",
-    "subtitle": "Send de forberedte overførsels-batches ud til kæden.",
-    "hover1": "Hver batch signeres og sendes som en enkelt transaktion via din forbundne wallet."
-  },
-  "airdrop_calculate": {
-    "title": "Airdrop",
-    "subtitle": "Distribuer en aktiv til mange konti via algoritmisk udvælgelse eller en manuel liste.",
-    "hover1": "Byg en kandidatpool fra manuel input, ticket-låse, call-order-kollateral, top-aktivindehavere, limit-order-aktivitet eller lifetime-member-opgraderinger.",
-    "hover2": "Kør en eller flere deterministiske algoritmer — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — seedet fra en blokvidne-signatur.",
-    "hover3": "Gennemgå vindende konti, konfigurer distribution (lige deling, fast beløb eller brugerdefineret), og send derefter hver batch gennem din Beet-tegnebog."
-  },
-  "recent_activity": {
-    "title": "Recent activity",
-    "subtitle": "Browse your latest on-chain operations.",
-    "hover1": "Review the most recent operations performed by your account.",
-    "hover2": "Inspect the underlying operation JSON for each entry."
-  },
-  "top_markets": {
-    "title": "Top markets",
-    "subtitle": "The most actively traded markets on the DEX.",
-    "hover1": "Ranked by the number of fill orders over the past 30 days.",
-    "hover2": "Great for spotting the busiest trading pairs.",
-    "dialogDescription": "Choose where to trade this market pair.",
-    "openDex": "Open in DEX limit order",
-    "openInstant": "Open in Instant Swap"
-  },
-  "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
-  "top_pools": {
-    "title": "Top pools",
-    "subtitle": "The most actively swapped liquidity pools on the network.",
-    "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
-    "hover2": "Great for spotting the busiest pools to trade or stake in.",
-    "dialogDescription": "Choose where to use this liquidity pool.",
-    "openSwap": "Open in Simple Swap",
-    "openInstant": "Open in Instant Trade",
-    "openDex": "Open in DEX limit order",
-    "openStake": "Stake assets",
-    "pool": "Pool",
-    "assets": "Assets",
-    "swaps": "Swaps"
-  }
 }

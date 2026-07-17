@@ -72,7 +72,7 @@
   "rebateMessage": "Rabat: {{rebate}} BTS (vesting)",
   "submitLimitOrderChangesButton": "Send grænseordreændringer",
   "updatingLimitOrderHeader": "Opdatering af grænserækkefølgen {{limitOrderID}}",
-  "balance": " balance",
+  "balance": " saldo",
   "limitOrderQuoteAsset": "Begræns ordre tilbud aktiv",
   "limitOrderBaseAsset": "Begræns ordrebaseaktiv",
   "cancelLimitOrderTitle": "Vil du annullere denne limiterede ordre?",

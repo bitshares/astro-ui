@@ -51,6 +51,9 @@
     "thai": "Tai (th)",
     "descText": {
         "instant_trade": "Kaubelge koheselt kahe vara vahelisel detsentraliseeritud börsil, kasutades täitmis- või tapmispiiranguid.",
+        "call-orders": "Vaadake ja halduge oma marginaal-laenatud call order'i positsioone kõigis smartcoinides.",
+        "custom_authorities": "Vaadake, looge, värskendage ja kustutage oma kontoga seotud kohandatud volitusi.",
+        "blind_transfers": "Koostage konfidentsiaalsed pimesse ülekanne, pime ülekanne ja pimest välja ülekande operatsioonid välisrakukotis allkirjastamiseks.",
         "stored_invoices": "Lihtsaks haldamiseks ja maksmiseks jälgige nii genereeritud kui ka saadud arveid.",
         "vote": "Hääletamine on osaluse delegeeritud tõendi lahutamatu osa, seega hääletage komisjoni liikmete, tunnistajate ja töötajate poolt, et aidata plokiahelat juhtida!",
         "htlc": "Kasutage allolevat vormi ajaliselt lukustatud räsilepingute loomiseks, pikendamiseks ja lunastamiseks.",
@@ -110,13 +113,13 @@
         "airdrop_create": "Seadista uue airdropi saajad, vara ja jaotus.",
         "airdrop_perform": "Saada oma airdropi iga partii oma Beet-lõa kaudu.",
         "airdrop_calculate": "Jaota vara paljude kontode vahel algoritmilise valiku või käsitsi sisestatud nimekirja abil ja edasta seejärel partiid oma Beet rahakoti kaudu.",
-        "top-markets": "Use this page to view the most actively traded BitShares DEX markets, ranked by fill-order volume.",
-        "top-pools": "Use this page to view the most actively swapped BitShares liquidity pools, ranked by swap volume."
+        "top-markets": "Kasuta seda lehte, et vaadata aktiivsemaid BitShares DEXi turge, järjestatuna fill-orderi mahuga.",
+        "top-pools": "Kasuta seda lehte, et vaadata aktiivsemaid BitSharesi likviidsuspoolsi, järjestatuna vahetuse mahuga."
     },
     "back": "Mine tagasi",
     "usage": "Mõeldud kasutamiseks koos ",
     "multiwallet": "multirahakott",
-    "tfund_user": "Same-T Fund Trade",
+    "tfund_user": "Same-T Fondi kauplemine",
     "createAccount": "Loo konto",
     "transferFundsHeading": "Raha ülekandmine",
     "exchangeFundsHeading": "Vaheta vahendeid",

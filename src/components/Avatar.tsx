@@ -336,6 +336,7 @@ export const Avatar = ({
       fill="none"
       role="img"
       xmlns="http://www.w3.org/2000/svg"
+      className="w-full h-full block"
       width={size}
       height={size}
       {...props}

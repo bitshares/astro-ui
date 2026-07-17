@@ -45,13 +45,13 @@
   },
   "operationsLabel": "ops",
   "txLabel": "tx",
-  "connecting": "Connecting to node…",
-  "waiting": "Waiting for blocks…",
+  "connecting": "Ühendan sõlmaga…",
+  "waiting": "Ootan plokke…",
   "time": {
-    "now": "just now",
-    "secondsAgo": "{{count}}s ago",
-    "minutesAgo": "{{count}}m ago",
-    "hoursAgo": "{{count}}h ago"
+    "now": "just nüüd",
+    "secondsAgo": "{{count}}s tagasi",
+    "minutesAgo": "{{count}}m tagasi",
+    "hoursAgo": "{{count}}t tagasi"
   },
   "dialogContent": {
     "json": "JSON-andmed",

@@ -58,10 +58,10 @@
     "networkFeeDescription": "O custo para transmitir sua operação de crédito na rede.",
     "ltmRebate": "Desconto LTM: {{rebate}} BTS (aquisição)",
     "submit": "Enviar",
-    "lendingAccountShort": "Offered by {{owner_name}}",
-    "available": "Available",
-    "minimum": "Minimum",
-    "expiry": "Expiry"
+    "lendingAccountShort": "Oferecido por {{owner_name}}",
+    "available": "Disponível",
+    "minimum": "Mínimo",
+    "expiry": "Vencimento"
   },
   "dialogContent": {
     "borrowing": "Empréstimo {{finalBorrowAmount}} {{symbol}} de {{owner_name}} ({{owner_account}})"

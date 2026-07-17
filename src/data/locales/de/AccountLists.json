@@ -2,7 +2,7 @@
   "cardTitle": "Kontolisten",
   "cardDescription": "Verwalten Sie Ihre Konten auf der Whitelist und der Blacklist.",
   "whitelist": "Whitelist",
-  "blacklist": "Schwarze Liste",
+  "blacklist": "Blacklist",
   "noWhitelistedAccounts": "Keine Konten auf der Whitelist.",
   "noBlacklistedAccounts": "Keine Konten auf der schwarzen Liste.",
   "remove": "Entfernen",

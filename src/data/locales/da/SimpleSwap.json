@@ -1,5 +1,5 @@
 {
-  "title": "Bitshares Simple Asset Swap",
+  "title": "Bitshares Simpel Aktivebytte",
   "description": "Find hurtigt en likviditetspulje til at bytte aktiver.",
   "loadingPoolData": "Indlæser pooldata...",
   "loadingAssetData": "Indlæser aktivdata...",
@@ -33,8 +33,8 @@
   "submit": "Indsend",
   "exchangeHeader": "Udveksling {{sellAmount}} {{symbolA}} for {{buyAmount}} {{symbolB}}",
   "swapBuySell": "Byt køb/sælg",
-  "bitsharesPoolExplorer": "bitshares pool explorer",
-  "poolJsonButton": "Pool JSON",
+  "bitsharesPoolExplorer": "bitshares pulje-udforsker",
+  "poolJsonButton": "Pulje-JSON",
   "liquidityPoolJsonTitle": "Likviditetspool JSON",
   "liquidityPoolJsonDescription": "Tjek oplysningerne, der returneres af netværket for denne pulje",
   "swappableAssetJsonButton": "JSON-aktiv, der kan byttes",

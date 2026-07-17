@@ -942,7 +942,8 @@
       "htlc_id": "HTLC ID: {{htlc_id}}",
       "redeemer": "Lunastaja: {{redeemer}} ({{redeemerOP}})",
       "preimage": "Eelpilt: {{preimage}}",
-      "extensions": "Laiendused: {{extensions}}"
+      "extensions": "Laiendused: {{extensions}}",
+      "memo": "Memo: {{memo}}"
     },
     "tooltip": "Lunastage HTLC-toimingu sisu"
   },

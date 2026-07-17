@@ -36,6 +36,8 @@ import {
   Zap,
   ArrowLeftRight,
   Lock,
+  KeyRound,
+  EyeOff,
   Layers,
   Handshake,
   Hourglass,
@@ -162,6 +164,8 @@ const ITEM_ICONS = {
   recent_activity: Activity,
   top_markets: TrendingUp,
   top_pools: Droplets,
+  custom_authorities: KeyRound,
+  blind_transfers: EyeOff,
 };
 
 export default function AppSidebar() {
@@ -186,6 +190,7 @@ export default function AppSidebar() {
       href: "/withdraw_permissions/index.html",
     },
     { slug: "create_vesting", title: "Home:create_vesting.title", href: "/create_vesting/index.html" },
+    { slug: "blind_transfers", title: "BlindTransfers:title", href: "/blind_transfers/index.html" },
     { slug: "airdrop_calculate", title: "Home:airdrop_calculate.title", href: "/airdrop_calculate/index.html" },
   ];
 
@@ -221,6 +226,11 @@ export default function AppSidebar() {
       slug: "call_orders",
       title: "CallOrders:title",
       href: "/call-orders/index.html",
+    },
+    {
+      slug: "custom_authorities",
+      title: "CustomAuthorities:title",
+      href: "/custom_authorities/index.html",
     },
     { slug: "favourites", title: "Home:favourites.title", href: "/favourites/index.html" },
     { slug: "issued_assets", title: "Home:issued_assets.title", href: "/issued_assets/index.html" },

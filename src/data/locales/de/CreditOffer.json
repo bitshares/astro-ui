@@ -58,10 +58,10 @@
     "networkFeeDescription": "Die Kosten für die Übertragung Ihres Kreditgeschäfts im Netzwerk.",
     "ltmRebate": "LTM-Rabatt: {{rebate}} BTS (Vesting)",
     "submit": "Einreichen",
-    "lendingAccountShort": "Offered by {{owner_name}}",
-    "available": "Available",
+    "lendingAccountShort": "Angeboten von {{owner_name}}",
+    "available": "Verfügbar",
     "minimum": "Minimum",
-    "expiry": "Expiry"
+    "expiry": "Ablauf"
   },
   "dialogContent": {
     "borrowing": "Ausleihen {{finalBorrowAmount}} {{symbol}} aus {{owner_name}} ({{owner_account}})"

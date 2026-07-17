@@ -1,8 +1,8 @@
 {
-  "minimum": "Minimaalne",
+  "minimum": "Min: {{min}}",
   "maximum": "Maksimaalne",
-  "lockDebtAmount": "Lock debt amount",
-  "debtAmountLocked": "Unlock debt amount",
+  "lockDebtAmount": "Lukusta võla summa",
+  "debtAmountLocked": "Võla summa lukustatud",
   "chargeMarketFee": "Varade väljaandja saab lubada turutasusid.",
   "whiteList": "Varade väljaandja saab koostada heakskiidetud turgude nimekirja",
   "overrideAuthority": "Varade väljaandja saab selle NFT endale tagasi anda.",
@@ -276,5 +276,10 @@
   "riskExhaustedBalance": "Hinnavoo avaldamisel on seotud tasu, mille tõttu võib hinnavoo avaldaja BTS-i saldo ammendumise korral avaldamise lõpetada, mille tulemuseks on hinnavoogude puudumine kuni konto saldo täiendamiseni.",
   "riskPriceFeedDisagreement": "Hinnavoo avaldajad võivad olla eriarvamusel hinnavoo arvutamise osas, mille tulemuseks on ootamatu hinnavoo volatiilsus. On mitmeid erastatud nutimünte, mis püüavad sel põhjusel kasutada erinevaid nutikamüntide tagatise strateegiaid.",
   "exposureToEBABackAssetBlockchainDowntime": "Kokkupuude EBA tugivarade plokiahela seisakutega",
-  "riskGatewayDepositServiceDown": "Kui olete kasutanud tagatistagatisena EBA-d ja soovite oma tagatispositsiooni hiljem sulgeda/korrigeerida, ei pruugi tagatishoiustamise teenuse katkemise korral olla võimalik tagatisraha nõudmise vältimiseks piisavat tagatist hoiustada."
+  "riskGatewayDepositServiceDown": "Kui olete kasutanud tagatistagatisena EBA-d ja soovite oma tagatispositsiooni hiljem sulgeda/korrigeerida, ei pruugi tagatishoiustamise teenuse katkemise korral olla võimalik tagatisraha nõudmise vältimiseks piisavat tagatist hoiustada.",
+  "bsrm": "BSRM",
+  "minimum2": "Min: {{min}}",
+  "icr2": "ICR",
+  "mcr2": "MCR",
+  "mssr2": "MSSR"
 }

@@ -30,7 +30,7 @@
   "step1": "Netværk",
   "step2": "Konto",
   "step3": "Bekræft",
-  "mainnet": "Mainnet (BTS)",
+  "mainnet": "Hovednetværk (BTS)",
   "testnetLabel": "Testnetværk (TEST)",
   "newAccountSubtitle": "Søg efter enhver konto på netværket",
   "existingAccountSubtitle": "{{count}} konto gemt",

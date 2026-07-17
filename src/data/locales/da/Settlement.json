@@ -8,7 +8,7 @@
   "currentFeedPrice": "Aktuel foderpris",
   "finalSettlementPrice": "Endelig afregningspris",
   "settlementFundsAvailable": "Afregningsmidler til rådighed",
-  "fundingRatio": "Funding ratio",
+  "fundingRatio": "Finansieringsforhold",
   "additionalCollateral": "Yderligere sikkerhed",
   "additionalCollateralDescription": "Mængden af ​​yderligere sikkerhed, du er villig til at stille til gengæld for global afvikling {{asset}}",
   "changeAmount": "Skift beløb",

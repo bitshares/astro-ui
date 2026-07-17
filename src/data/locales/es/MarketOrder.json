@@ -72,7 +72,7 @@
   "rebateMessage": "Reembolso: {{rebate}} BTS (adquisición)",
   "submitLimitOrderChangesButton": "Enviar cambios de orden límite",
   "updatingLimitOrderHeader": "Actualización de la orden límite {{limitOrderID}}",
-  "balance": " balance",
+  "balance": " saldo",
   "limitOrderQuoteAsset": "Activo de cotización de orden limitada",
   "limitOrderBaseAsset": "Activo base de orden limitada",
   "cancelLimitOrderTitle": "¿Quiere cancelar esta orden límite?",

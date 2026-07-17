@@ -43,15 +43,15 @@
     "witnessId": "ブロック生産者",
     "transaction": "トランザクション"
   },
-  "operationsLabel": "ops",
+  "operationsLabel": "op",
   "txLabel": "tx",
-  "connecting": "Connecting to node…",
-  "waiting": "Waiting for blocks…",
+  "connecting": "ノードに接続中…",
+  "waiting": "ブロックを待機中…",
   "time": {
-    "now": "just now",
-    "secondsAgo": "{{count}}s ago",
-    "minutesAgo": "{{count}}m ago",
-    "hoursAgo": "{{count}}h ago"
+    "now": "たった今",
+    "secondsAgo": "{{count}} 秒前",
+    "minutesAgo": "{{count}} 分前",
+    "hoursAgo": "{{count}} 時間前"
   },
   "dialogContent": {
     "json": "JSONデータ",

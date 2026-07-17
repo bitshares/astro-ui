@@ -58,10 +58,10 @@
     "networkFeeDescription": "ค่าใช้จ่ายในการเผยแพร่การดำเนินการจัดการสินเชื่อของคุณบนเครือข่าย",
     "ltmRebate": "ส่วนลด LTM: {{rebate}} รถไฟฟ้า BTS (มอบสิทธิ)",
     "submit": "ส่ง",
-    "lendingAccountShort": "Offered by {{owner_name}}",
-    "available": "Available",
-    "minimum": "Minimum",
-    "expiry": "Expiry"
+    "lendingAccountShort": "เสนอโดย {{owner_name}}",
+    "available": "พร้อมใช้งาน",
+    "minimum": "ขั้นต่ำ",
+    "expiry": "วันหมดอายุ"
   },
   "dialogContent": {
     "borrowing": "การยืม {{finalBorrowAmount}} {{symbol}} จาก {{owner_name}} -{{owner_account}}-"

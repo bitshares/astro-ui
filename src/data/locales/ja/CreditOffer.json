@@ -58,10 +58,10 @@
     "networkFeeDescription": "信用取引のオペレーションをネットワーク上にブロードキャストするためのコスト。",
     "ltmRebate": "LTM リベート: {{rebate}} BTS (権利確定)",
     "submit": "提出する",
-    "lendingAccountShort": "Offered by {{owner_name}}",
-    "available": "Available",
-    "minimum": "Minimum",
-    "expiry": "Expiry"
+    "lendingAccountShort": "{{owner_name}} が提供",
+    "available": "利用可能",
+    "minimum": "最小",
+    "expiry": "有効期限"
   },
   "dialogContent": {
     "borrowing": "借りる {{finalBorrowAmount}} {{symbol}} から {{owner_name}} ({{owner_account}})"

@@ -70,6 +70,8 @@ const pages = [
   "HTLCCreate",
   "Barter",
   "CallOrders",
+  "CustomAuthorities",
+  "BlindTransfers",
   "GovernanceActions",
   "WorkerCreate",
   "CommitteeMembers",

@@ -30,7 +30,7 @@
   "step1": "Red",
   "step2": "Cuenta",
   "step3": "Confirmar",
-  "mainnet": "Mainnet (BTS)",
+  "mainnet": "Red principal (BTS)",
   "testnetLabel": "Red de prueba (TEST)",
   "newAccountSubtitle": "Busque cualquier cuenta en la red",
   "existingAccountSubtitle": "{{count}} cuenta guardada",

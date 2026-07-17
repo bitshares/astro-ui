@@ -82,7 +82,9 @@ function toRaw(amount) {
 function settlementPriceInDebtPerCollateral(
   settlementPrice,
   collateralAssetId,
-  debtAssetId
+  debtAssetId,
+  collateralPrecision,
+  debtPrecision
 ) {
   if (!settlementPrice || !settlementPrice.base || !settlementPrice.quote) {
     return 0;
@@ -92,16 +94,28 @@ function settlementPriceInDebtPerCollateral(
   const quoteAmt = Number(quote.amount);
   if (!baseAmt || !quoteAmt) return 0;
 
-  if (base.asset_id === collateralAssetId && quote.asset_id === debtAssetId) {
-    // 1 collateral = quote.amount / base.amount debt
-    return quoteAmt / baseAmt;
-  }
+  // The smartcoin page scales each leg by its own precision before dividing
+  // (see `currentFeedSettlementPrice` in Smartcoin.jsx). Omitting this scaling
+  // is what previously produced ratios in the billions.
   if (base.asset_id === debtAssetId && quote.asset_id === collateralAssetId) {
-    // inverted: 1 collateral = base.amount / quote.amount debt
-    return baseAmt / quoteAmt;
+    // base = debt leg, quote = collateral leg
+    return (
+      humanReadableFloat(quoteAmt, collateralPrecision) /
+      humanReadableFloat(baseAmt, debtPrecision)
+    );
   }
-  // Fallback: assume base = collateral, quote = debt
-  return quoteAmt / baseAmt;
+  if (base.asset_id === collateralAssetId && quote.asset_id === debtAssetId) {
+    // inverted: base = collateral leg, quote = debt leg
+    return (
+      humanReadableFloat(baseAmt, debtPrecision) /
+      humanReadableFloat(quoteAmt, collateralPrecision)
+    );
+  }
+  // Fallback: assume base = debt leg, quote = collateral leg
+  return (
+    humanReadableFloat(quoteAmt, collateralPrecision) /
+    humanReadableFloat(baseAmt, debtPrecision)
+  );
 }
 
 /**
@@ -187,9 +201,6 @@ const CallOrderRow = memo(function CallOrderRow({
             {/* Remaining 50% split between extra columns, left-aligned */}
             <div className="flex items-center gap-2 text-left" style={{ flex: "1 1 50%" }}>
               <div className="min-w-0 text-left" style={{ flex: "1 1 0" }}>
-                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                  {t("CallOrders:collateralHeader")}
-                </div>
                 <div className="text-sm font-semibold text-foreground">
                   {collateralAmount}{" "}
                   <span className="text-[10px] text-muted-foreground font-normal">
@@ -198,9 +209,6 @@ const CallOrderRow = memo(function CallOrderRow({
                 </div>
               </div>
               <div className="min-w-0 text-left" style={{ flex: "1 1 0" }}>
-                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                  {t("CallOrders:debtHeader")}
-                </div>
                 <div className="text-sm font-semibold text-[hsl(var(--accent-danger-fg))]">
                   {debtAmount}{" "}
                   <span className="text-[10px] text-muted-foreground font-normal">
@@ -209,9 +217,6 @@ const CallOrderRow = memo(function CallOrderRow({
                 </div>
               </div>
               <div className="min-w-0 text-left" style={{ flex: "1 1 0" }}>
-                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                  {t("CallOrders:ratioHeader")}
-                </div>
                 <div className={cn("text-sm font-semibold tabular-nums", healthColor)}>
                   {ratio.toFixed(3)}
                   <span className="text-[10px] text-muted-foreground font-normal ml-1">
@@ -410,7 +415,9 @@ export default function CallOrders({
       const settlementPrice = settlementPriceInDebtPerCollateral(
         bitasset?.current_feed?.settlement_price,
         o.collateral_asset,
-        o.debt_asset
+        o.debt_asset,
+        collateralPrecision,
+        debtPrecision
       );
       const mcrRaw = bitasset?.current_feed?.maintenance_collateral_ratio;
       const mcr = mcrRaw ? Number(mcrRaw) / 10 : 0;
@@ -514,6 +521,36 @@ export default function CallOrders({
         {hasOrders ? (
           <Card className="bg-card/60 border-border shadow-lg shadow-black/20 backdrop-blur-sm">
             <CardContent>
+              {/* Column headers above the list to save row vertical space */}
+              <div className="flex items-center gap-3 px-3 pb-2 mb-1 border-b border-border/60">
+                <div
+                  className="text-[10px] uppercase tracking-wide text-muted-foreground"
+                  style={{ flex: "0 0 50%" }}
+                >
+                  {t("CallOrders:assetHeader")}
+                </div>
+                <div className="flex items-center gap-2 text-left" style={{ flex: "1 1 50%" }}>
+                  <div
+                    className="text-[10px] uppercase tracking-wide text-muted-foreground"
+                    style={{ flex: "1 1 0" }}
+                  >
+                    {t("CallOrders:collateralHeader")}
+                  </div>
+                  <div
+                    className="text-[10px] uppercase tracking-wide text-muted-foreground"
+                    style={{ flex: "1 1 0" }}
+                  >
+                    {t("CallOrders:debtHeader")}
+                  </div>
+                  <div
+                    className="text-[10px] uppercase tracking-wide text-muted-foreground"
+                    style={{ flex: "1 1 0" }}
+                  >
+                    {t("CallOrders:ratioHeader")}
+                  </div>
+                  <div className="w-4 flex-shrink-0" />
+                </div>
+              </div>
               <div className="max-h-[600px] overflow-auto -mx-2 pt-2">
                 <List
                   rowComponent={CallOrderRow}

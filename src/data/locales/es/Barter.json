@@ -12,7 +12,7 @@
   "amount": "Cantidad",
   "memoOptional": "Memo (opcional)",
   "memoPlaceholder": "Memo público para esta transferencia de activos",
-  "balance": "Balance: {{balance}} {{symbol}}",
+  "balance": "Saldo: {{balance}} {{symbol}}",
   "insufficientBalance": "¡Balance insuficiente!",
   "balanceWarningTitle": "Advertencia de equilibrio",
   "yourBalanceWarning": "No tienes suficientes fondos para tu lado de la oferta:",

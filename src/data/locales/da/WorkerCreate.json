@@ -18,7 +18,7 @@
   "endDateInfo": "Datoen, hvor arbejdet (og betalingsberettigelse) slutter. ",
   "endDateInfoHeader": "Slutdato",
   "dateError": "Slutdato skal være efter startdatoen.",
-  "dailyPayLabel": "Daily Pay ({{coresymbol}})",
+  "dailyPayLabel": "Daglig betaling ({{coresymbol}})",
   "dailyPayInfo": "Mængden af ​​{{coresymbol}} anmodet om dagen. ",
   "dailyPayInfoHeader": "Daglig betalingsanmodning",
   "payError": "Daglig løn skal være et positivt beløb.",

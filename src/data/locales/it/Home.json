@@ -6,6 +6,27 @@
     "hover2": "Utilizza la tecnologia degli ordini \"fill-or-kill\" per ottenere i prezzi desiderati o per annullare l'ordine.",
     "hover3": "Scopri con chi farai trading sul DEX e se hanno abilitato le condizioni di on-fill sui loro ordini."
   },
+  "call_orders": {
+    "title": "Ordini call",
+    "subtitle": "Visualizza le tue posizioni di margine su tutti gli smartcoin",
+    "hover1": "Vedi garanzia e debito per smartcoin.",
+    "hover2": "Apri DEX o scambio immediato per la coppia.",
+    "hover3": "Gestisci la posizione dalla pagina dello smartcoin."
+  },
+  "custom_authorities": {
+    "title": "Autorità personalizzate",
+    "subtitle": "Gestisci permessi di operazione granulari per il tuo account",
+    "hover1": "Visualizza le autorità personalizzate del tuo account.",
+    "hover2": "Crea, aggiorna o elimina autorità.",
+    "hover3": "Concedi permessi circoscritti ad account o chiavi."
+  },
+  "blind_transfers": {
+    "title": "Trasferimenti ciechi",
+    "subtitle": "Crea operazioni di trasferimento cieco riservate",
+    "hover1": "Sposta fondi verso o da impegni ciechi.",
+    "hover2": "Trasferisci valore tra impegni ciechi.",
+    "hover3": "Esporta l'operazione affinché un portafoglio esterno la firmi."
+  },
   "vote": {
     "title": "Votazioni",
     "subtitle": "Vota per testimoni, membri del comitato e proposte dei lavoratori",
@@ -377,7 +398,7 @@
     "governanceSubtitle": "Vota, registra ruoli e crea proposte di worker",
     "invoicingSubtitle": "Crea, invia e paga fatture on-chain",
     "settingsSubtitle": "Elenchi account, nodi e configurazione",
-    "airdropSubtitle": "Bulk send one asset to many accounts"
+    "airdropSubtitle": "Invia in massa un asset a più account"
   },
   "configure_visuals": {
     "title": "Configura visual",
@@ -434,31 +455,31 @@
     "hover3": "Rivedi gli account vincenti, configura la distribuzione (divisione equa, importo fisso o personalizzato), poi trasmetti ogni lotto tramite il tuo wallet Beet."
   },
   "recent_activity": {
-    "title": "Recent activity",
-    "subtitle": "Browse your latest on-chain operations.",
-    "hover1": "Review the most recent operations performed by your account.",
-    "hover2": "Inspect the underlying operation JSON for each entry."
+    "title": "Attività recente",
+    "subtitle": "Sfoglia le tue ultime operazioni on-chain.",
+    "hover1": "Rivedi le operazioni più recenti eseguite dal tuo account.",
+    "hover2": "Ispeziona il JSON dell'operazione sottostante per ogni voce."
   },
   "top_markets": {
-    "title": "Top markets",
-    "subtitle": "The most actively traded markets on the DEX.",
-    "hover1": "Ranked by the number of fill orders over the past 30 days.",
-    "hover2": "Great for spotting the busiest trading pairs.",
-    "dialogDescription": "Choose where to trade this market pair.",
-    "openDex": "Open in DEX limit order",
-    "openInstant": "Open in Instant Swap"
+    "title": "Mercati principali",
+    "subtitle": "I mercati più attivamente scambiati sul DEX.",
+    "hover1": "Classificati in base al numero di ordini eseguiti negli ultimi 30 giorni.",
+    "hover2": "Ottimo per individuare le coppie di trading più attive.",
+    "dialogDescription": "Scegli dove fare trading su questa coppia di mercato.",
+    "openDex": "Apri in ordine limite DEX",
+    "openInstant": "Apri in Instant Swap"
   },
-  "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+  "testnetUnsupported": "Questa funzionalità interroga l'indice Elasticsearch pubblico di BitShares, disponibile solo sulla mainnet. La testnet non è supportata.",
   "top_pools": {
-    "title": "Top pools",
-    "subtitle": "The most actively swapped liquidity pools on the network.",
-    "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
-    "hover2": "Great for spotting the busiest pools to trade or stake in.",
-    "dialogDescription": "Choose where to use this liquidity pool.",
-    "openSwap": "Open in Simple Swap",
-    "openInstant": "Open in Instant Trade",
-    "openDex": "Open in DEX limit order",
-    "openStake": "Stake assets",
+    "title": "Pool principali",
+    "subtitle": "I pool di liquidità più attivamente scambiati sulla rete.",
+    "hover1": "Classificati in base al numero di scambi di pool di liquidità negli ultimi 30 giorni.",
+    "hover2": "Ottimo per individuare i pool più attivi su cui fare trading o staking.",
+    "dialogDescription": "Scegli dove usare questo pool di liquidità.",
+    "openSwap": "Apri in Simple Swap",
+    "openInstant": "Apri in Instant Trade",
+    "openDex": "Apri in ordine limite DEX",
+    "openStake": "Metti in staking gli asset",
     "pool": "Pool",
     "assets": "Assets",
     "swaps": "Swaps"

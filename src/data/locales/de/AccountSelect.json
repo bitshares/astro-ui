@@ -30,7 +30,7 @@
   "step1": "Netzwerk",
   "step2": "Konto",
   "step3": "Bestätigen",
-  "mainnet": "Mainnet (BTS)",
+  "mainnet": "Hauptnetz (BTS)",
   "testnetLabel": "Testnetz (TEST)",
   "newAccountSubtitle": "Suchen Sie nach einem beliebigen Konto im Netzwerk",
   "existingAccountSubtitle": "{{count}} Konto gespeichert",
