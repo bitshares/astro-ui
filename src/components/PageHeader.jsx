@@ -107,6 +107,7 @@ const ICONS = {
   tfunds: Landmark,
   portfolio_balances: Wallet,
   portfolio_open_orders: ListOrdered,
+  call_orders: ListOrdered,
   favourites: Star,
   issued_assets: Boxes,
   offers: FileText,
@@ -322,6 +323,7 @@ export default function PageHeader(properties) {
       items: [
         { slug: "portfolio_balances", title: "Home:portfolio_balances.title", description: "Home:portfolio_balances.subtitle", href: "/balances/index.html" },
         { slug: "portfolio_open_orders", title: "Home:portfolio_open_orders.title", description: "Home:portfolio_open_orders.subtitle", href: "/open-orders/index.html" },
+        { slug: "call_orders", title: "CallOrders:title", description: "CallOrders:description", href: "/call-orders/index.html" },
         { slug: "favourites", title: "Home:favourites.title", description: "Home:favourites.subtitle", href: "/favourites/index.html" },
         { slug: "issued_assets", title: "Home:issued_assets.title", description: "Home:issued_assets.subtitle", href: "/issued_assets/index.html" },
         { slug: "offers", title: "Home:offers.title", description: "Home:offers.subtitle", href: "/offers/index.html" },

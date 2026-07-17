@@ -56,5 +56,16 @@
   "pageAccentsDesc": "特定ページのアクセント色（カード、アイコン、ハイライト、グラデーション、グロー）を微調整します。",
   "customizerTitle": "カラーエディタ",
   "customizerDesc": "リストからカラーエレメントを選択し、カラーピッカー、16進数入力、RGB値を使用して調整します。",
-  "themeElements": "テーマ要素"
+  "themeElements": "テーマ要素",
+  "deleteDialogTitle": "Delete theme?",
+  "deleteDialogDesc": "This action cannot be undone. The theme will be permanently removed.",
+  "deleteDialogCancel": "Cancel",
+  "deleteDialogConfirm": "Delete",
+  "draft": "Draft",
+  "save": "Save",
+  "discard": "Discard",
+  "themeName": "Theme name",
+  "nameRequired": "Name is required",
+  "nameTooLong": "Max 24 characters",
+  "nameInvalidChars": "Only letters, numbers and spaces"
 }

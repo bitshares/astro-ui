@@ -39,7 +39,6 @@
     "customHint": "Amounts are taken from the uploaded/pasted list. Recipients without an amount are skipped.",
     "reviewTitle": "Review",
     "recipients": "Recipients",
-    "totalAmount": "Total amount",
     "maxPerTx": "Max per transaction",
     "batchSize": "Batch size",
     "batches": "Batches",

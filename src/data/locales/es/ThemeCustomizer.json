@@ -56,5 +56,16 @@
   "pageAccentsDesc": "Ajusta los colores de acento de una página específica: sus tarjetas, iconos, resaltados, degradados y brillos.",
   "customizerTitle": "Editor de colores",
   "customizerDesc": "Seleccione un elemento de color de la lista y ajústelo usando el selector de color, entrada hexadecimal o valores RGB.",
-  "themeElements": "Elementos del tema"
+  "themeElements": "Elementos del tema",
+  "deleteDialogTitle": "Delete theme?",
+  "deleteDialogDesc": "This action cannot be undone. The theme will be permanently removed.",
+  "deleteDialogCancel": "Cancel",
+  "deleteDialogConfirm": "Delete",
+  "draft": "Draft",
+  "save": "Save",
+  "discard": "Discard",
+  "themeName": "Theme name",
+  "nameRequired": "Name is required",
+  "nameTooLong": "Max 24 characters",
+  "nameInvalidChars": "Only letters, numbers and spaces"
 }

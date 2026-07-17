@@ -257,6 +257,7 @@ export default function Home(properties) {
   const accountOverviews = [
     { key: "portfolio_balances", href: "/balances/index.html", titleKey: "Home:portfolio_balances.title", subtitleKey: "Home:portfolio_balances.subtitle", hoverKeys: ["Home:portfolio_balances.hover1", "Home:portfolio_balances.hover2", "Home:portfolio_balances.hover3"] },
     { key: "portfolio_open_orders", href: "/open-orders/index.html", titleKey: "Home:portfolio_open_orders.title", subtitleKey: "Home:portfolio_open_orders.subtitle", hoverKeys: ["Home:portfolio_open_orders.hover1", "Home:portfolio_open_orders.hover2", "Home:portfolio_open_orders.hover3"] },
+    { key: "call_orders", href: "/call-orders/index.html", titleKey: "Home:call_orders.title", subtitleKey: "Home:call_orders.subtitle", hoverKeys: ["Home:call_orders.hover1", "Home:call_orders.hover2", "Home:call_orders.hover3"] },
     { key: "favourites", href: "/favourites/index.html", titleKey: "Home:favourites.title", subtitleKey: "Home:favourites.subtitle", hoverKeys: ["Home:favourites.hover1", "Home:favourites.hover2"] },
     { key: "issued_assets", href: "/issued_assets/index.html", titleKey: "Home:issued_assets.title", subtitleKey: "Home:issued_assets.subtitle", hoverKeys: ["Home:issued_assets.hover1", "Home:issued_assets.hover2", "Home:issued_assets.hover3"] },
     { key: "offers", href: "/offers/index.html", titleKey: "Home:offers.title", subtitleKey: "Home:offers.subtitle", hoverKeys: ["Home:offers.hover1", "Home:offers.hover2"] },

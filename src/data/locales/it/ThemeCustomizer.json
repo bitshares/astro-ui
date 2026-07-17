@@ -56,5 +56,16 @@
   "pageAccentsDesc": "Regola i colori di accento di una pagina specifica: schede, icone, evidenziazioni, gradienti e bagliori.",
   "customizerTitle": "Editor colori",
   "customizerDesc": "Seleziona un elemento colorato dall'elenco e regolalo usando il selettore colori, l'input esadecimale o i valori RGB.",
-  "themeElements": "Elementi del tema"
+  "themeElements": "Elementi del tema",
+  "deleteDialogTitle": "Delete theme?",
+  "deleteDialogDesc": "This action cannot be undone. The theme will be permanently removed.",
+  "deleteDialogCancel": "Cancel",
+  "deleteDialogConfirm": "Delete",
+  "draft": "Draft",
+  "save": "Save",
+  "discard": "Discard",
+  "themeName": "Theme name",
+  "nameRequired": "Name is required",
+  "nameTooLong": "Max 24 characters",
+  "nameInvalidChars": "Only letters, numbers and spaces"
 }

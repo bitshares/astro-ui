@@ -106,6 +106,7 @@ class TransactionBuilder {
 
   /** Typically this is called automatically just prior to signing.  Once finalized this transaction can not be changed. */
   finalize(apiInstance) {
+    if (!apiInstance) apiInstance = Apis.instance();
     return new Promise((resolve, reject) => {
       if (this.tr_buffer) {
         throw new Error("already finalized");

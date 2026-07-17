@@ -56,5 +56,16 @@
   "pageAccentsDesc": "Peenhäälesta konkreetse lehe rõhuvärvid: kaardid, ikoonid, esiletõstud, gradiendid ja kuma.",
   "customizerTitle": "Värviredaktor",
   "customizerDesc": "Valige loendist värvielement ja kohendage seda värvi valija, kuueteistkümnendkohalise sisestuse või RGB-väärtuste abil.",
-  "themeElements": "Teemaelemendid"
+  "themeElements": "Teemaelemendid",
+  "deleteDialogTitle": "Delete theme?",
+  "deleteDialogDesc": "This action cannot be undone. The theme will be permanently removed.",
+  "deleteDialogCancel": "Cancel",
+  "deleteDialogConfirm": "Delete",
+  "draft": "Draft",
+  "save": "Save",
+  "discard": "Discard",
+  "themeName": "Theme name",
+  "nameRequired": "Name is required",
+  "nameTooLong": "Max 24 characters",
+  "nameInvalidChars": "Only letters, numbers and spaces"
 }

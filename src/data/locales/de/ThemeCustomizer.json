@@ -56,5 +56,16 @@
   "pageAccentsDesc": "Feineinstellung der Akzentfarben einer bestimmten Seite: Karten, Symbole, Hervorhebungen, Verläufe und Leuchteffekte.",
   "customizerTitle": "Farbeditor",
   "customizerDesc": "Wählen Sie ein Farbelement aus der Liste aus und passen Sie es mithilfe der Farbauswahl, Hex-Eingabe oder RGB-Werte an.",
-  "themeElements": "Theme-Elemente"
+  "themeElements": "Theme-Elemente",
+  "deleteDialogTitle": "Delete theme?",
+  "deleteDialogDesc": "This action cannot be undone. The theme will be permanently removed.",
+  "deleteDialogCancel": "Cancel",
+  "deleteDialogConfirm": "Delete",
+  "draft": "Draft",
+  "save": "Save",
+  "discard": "Discard",
+  "themeName": "Theme name",
+  "nameRequired": "Name is required",
+  "nameTooLong": "Max 24 characters",
+  "nameInvalidChars": "Only letters, numbers and spaces"
 }

@@ -1,465 +1,466 @@
 {
-    "instant_trade": {
-        "title": "Sofortiger Handel",
-        "subtitle": "Tauschen Sie schnell Vermögenswerte zu den besten verfügbaren Preisen",
-        "hover1": "Handeln Sie sofort und ohne Ablenkung mit Vermögenswerten am DEX.",
-        "hover2": "Nutzt die Fill-or-Kill-Auftragstechnologie, um entweder die gewünschten Preise zu erhalten oder die Bestellung zu stornieren.",
-        "hover3": "Sehen Sie, mit wem Sie am DEX handeln und ob diese On-Fill-Bedingungen für ihre Aufträge aktiviert haben."
+  "instant_trade": {
+    "title": "Sofortiger Handel",
+    "subtitle": "Tauschen Sie schnell Vermögenswerte zu den besten verfügbaren Preisen",
+    "hover1": "Handeln Sie sofort und ohne Ablenkung mit Vermögenswerten am DEX.",
+    "hover2": "Nutzt die Fill-or-Kill-Auftragstechnologie, um entweder die gewünschten Preise zu erhalten oder die Bestellung zu stornieren.",
+    "hover3": "Sehen Sie, mit wem Sie am DEX handeln und ob diese On-Fill-Bedingungen für ihre Aufträge aktiviert haben."
+  },
+  "vote": {
+    "title": "Abstimmung",
+    "subtitle": "Stimmen Sie für Zeugen, Ausschussmitglieder und Arbeitnehmervorschläge",
+    "hover1": "Stimmen Sie für Zeugen, die Blöcke auf der Blockchain produzieren.",
+    "hover2": "Stimmen Sie für Ausschussmitglieder, die die Blockchain regieren.",
+    "hover3": "Stimmen Sie für Vorschläge der Arbeitnehmer zur Finanzierung von Ideen zur Blockchain."
+  },
+  "barter": {
+    "title": "Tauschhandel",
+    "subtitle": "Handeln Sie Vermögenswerte mit anderen Benutzern",
+    "hover1": "Handeln Sie Vermögenswerte mit anderen Benutzern.",
+    "hover2": "Tauschhandel ist ein Peer-to-Peer-Handelsprozess.",
+    "hover3": "Tauschhandel kann die Treuhanddienste von Drittanbietern umfassen."
+  },
+  "witnesses": {
+    "title": "Zeugen",
+    "subtitle": "Sehen Sie sich die aktuellen aktiven und inaktiven Zeugen an.",
+    "hover1": "Zeigen Sie, wer die meisten Stimmen erhalten hat.",
+    "hover2": "View, für wen Zeugen gestimmt haben.",
+    "hover3": "Zeugenkerntoken -Balancen anzeigen."
+  },
+  "committee": {
+    "title": "Ausschussmitglieder",
+    "subtitle": "Sehen Sie sich die aktuellen aktiven und inaktiven Komiteemitglieder an.",
+    "hover1": "Zeigen Sie, wer die meisten Stimmen erhalten hat.",
+    "hover2": "Stellen Sie sich an, für wen die Mitglieder des Ausschusses gestimmt haben.",
+    "hover3": "View Committee Core Token Balances."
+  },
+  "governance": {
+    "title": "Rollenregistrierung",
+    "subtitle": "Erstellen/Aktualisieren sowohl Zeugen- als auch Ausschussrollen.",
+    "hover1": "Erstellen, aktualisieren Sie oder ungültig für Ihre Zeugenregistrierung.",
+    "hover2": "Erstellen oder aktualisieren Sie Ihre Registrierung Ihrer Ausschussmitglieder."
+  },
+  "create_worker": {
+    "title": "Erstellen Sie Arbeitnehmervorschlag",
+    "subtitle": "Erstellen Sie einen Arbeitnehmervorschlag für die Finanzierungsideen!",
+    "hover1": "Sichern Sie Mittel über einen Arbeitnehmervorschlag, um Ihr Projekt zu finanzieren.",
+    "hover2": "Arbeitnehmervorschläge werden vom Bitshares Reserve Fund finanziert.",
+    "hover3": "Arbeitervorschläge werden von der Gemeinde abgestimmt."
+  },
+  "dex": {
+    "title": "DEX-Limit-Orders",
+    "subtitle": "Handeln Sie Vermögenswerte auf dem Bitshares DEX",
+    "hover1": "Erstellen Sie manuell Limit-Orders.",
+    "hover2": "Verwenden Sie ein beliebiges Asset-Trading-Paar.",
+    "hover3": "Geben Sie das Ablaufdatum der Bestellung an.",
+    "hover4": "Komplexer, aber günstiger als Pool-Swaps."
+  },
+  "pool": {
+    "title": "Liquiditätspool-Austausch",
+    "subtitle": "Tauschen Sie Vermögenswerte über einen Liquiditätspool",
+    "hover1": "Tauschen Sie Vermögenswerte über vom Benutzer erstellte Liquiditätspools aus.",
+    "hover2": "Pools haben unterschiedliche Handelspaare und Gebühren.",
+    "hover3": "Einfacher, aber teurer als eine Limit-Order."
+  },
+  "swap": {
+    "title": "Einfacher Asset-Swap",
+    "subtitle": "Einfacherer Austausch von Vermögenswerten über Pools",
+    "hover1": "Tauschen Sie Vermögenswerte über vom Benutzer erstellte Liquiditätspools aus.",
+    "hover2": "Pools haben unterschiedliche Handelspaare und Gebühren.",
+    "hover3": "Einfacher, aber teurer als eine Limit-Order."
+  },
+  "stake": {
+    "title": "Vermögenswerte einsetzen",
+    "subtitle": "Setzen Sie Vermögenswerte in Liquiditätspools ein",
+    "hover1": "Setzen Sie Vermögenswerte in Liquiditätspools ein, um Gebühren zu verdienen.",
+    "hover2": "Abgesteckte Vermögenswerte sind im Pool gesperrt.",
+    "hover3": "Eingesetzte Vermögenswerte können jederzeit abgehoben werden."
+  },
+  "transfer": {
+    "title": "Vermögenswerte übertragen",
+    "subtitle": "Senden Sie Assets an andere Benutzer",
+    "hover1": "Übertragen Sie Vermögenswerte in Sekundenschnelle an jeden in der Bitshares-Blockchain."
+  },
+  "timed_transfer": {
+    "title": "zeitgesteuerte Übertragung",
+    "subtitle": "Senden Sie Vermögenswerte zu einem späteren Zeitpunkt an andere Benutzer.",
+    "hover1": "Planen Sie die Übertragung von Vermögenswerten an einen anderen Benutzer nach Überprüfungszeitraum von Vorschlägen."
+  },
+  "withdraw_permission": {
+    "title": "Erlaubnis zurückziehen",
+    "subtitle": "Verwalten Sie Ihre Rückzugsberechtigungen",
+    "hover1": "Erstellen/Bearbeiten/Löschen/Löschen Ihrer Zahlung Abheben Berechtigungen.",
+    "hover2": "Sehen Sie sich Ihre Empfehlungsberechtigungen an."
+  },
+  "htlc": {
+    "title": "Hash-Zeitverriegelungsverträge (HTLC)",
+    "subtitle": "Erstellen Sie Anspruchsfähige Mittel, die hinter geheimen Kryptoschlüsseln gesperrt sind.",
+    "hover1": "Ein HTLC sperrt Mittel für einen bestimmten Empfänger ab, der diese Mittel einlösen kann, indem er ein geheimes Vorbereitungsbetrag (Passwort) bereitstellt, das vom Absender verwendet wurde, um den Vertrag zu erstellen.",
+    "hover2": "Die Offenlegung des Passworts erfolgt außerhalb der Kette."
+  },
+  "create_vesting": {
+    "title": "Vermögenswerte übertragen",
+    "subtitle": "Erstellen Sie Restguthaben",
+    "hover1": "Durch die Erstellung eines Sperrguthabens können Sie eine bestimmte Menge an Vermögenswerten für einen bestimmten Zeitraum sperren.",
+    "hover2": "Sie können einen von zwei Vesting-Typen verwenden: Coin Days Destroyed und Linear Vesting with Cliff.",
+    "hover3": "Der Effekt der Coin Days Destroyed-Richtlinie besteht darin, dass ein bestimmter Betrag an „Zinsen“ anfallen muss, bevor der gesamte Restbetrag abgehoben werden kann. Die Zinsen fallen in Form von Münztagen an (Saldo * Haltedauer). Wenn ein Teil des Restbetrags abgehoben wird, muss der verbleibende Restbetrag einbehalten werden ",
+    "hover4": "Die Richtlinie „Linear Vesting with Cliff“ wird verwendet, um traditionelle Aktien-Vesting-Verträge nachzuahmen, bei denen jeden Tag ein bestimmter Betrag bis zur vollständigen Fälligkeit unverfallbar wird."
+  },
+  "borrow": {
+    "title": "Geld leihen",
+    "subtitle": "Leihen Sie sich Kreditangebote von anderen Nutzern aus",
+    "hover1": "Durchsuchen Sie die vom aktiven Benutzer erstellten Kreditangebote.",
+    "hover2": "Leihen Sie sich von ihnen Vermögenswerte zum gewünschten Zinssatz.",
+    "hover3": "Nutzen Sie die geforderten Sicherheiten zur Absicherung Ihres Kredits."
+  },
+  "lend": {
+    "title": "Geld verleihen",
+    "subtitle": "Erstellen Sie ein Kreditangebot, um es anderen zu leihen",
+    "hover1": "Erstellen Sie Ihre eigenen dezentralen Kreditangebote.",
+    "hover2": "Verleihen Sie Vermögenswerte zu Ihren festgelegten Zinssätzen.",
+    "hover3": "Geben Sie akzeptable Kreditsicherheiten und Preise an."
+  },
+  "smartcoins": {
+    "title": "Besicherte Schulden ausgeben",
+    "subtitle": "Leihen Sie sich Fiat-Bitassets, private Smartcoins und mehr.",
+    "hover1": "Bitassets wie USD, CNY und EUR sind vom Ausschuss erstellte Stablecoins (Smartcoins), die mit BTS gedeckt sind.",
+    "hover2": "Vom Benutzer erstellte Smartcoins können mit jedem beliebigen Vermögenswert unterlegt werden und auf jeden externen Feed verweisen.",
+    "hover3": "Externe Abrechnungspreise werden von konfigurierten Futtermittelherstellern abgeleitet.",
+    "hover4": "Das Risiko externer Preisströme kann ein Risiko für besicherte Schuldenpositionen darstellen."
+  },
+  "tfunds": {
+    "title": "Same-T-Fonds",
+    "subtitle": "Same-T Funds ansehen, erstellen, aktualisieren, löschen!",
+    "hover1": "Sehen Sie sich alle derzeit von anderen Benutzern angebotenen Same-T-Fonds an.",
+    "hover2": "Erstellen Sie ganz einfach einen neuen Same-T-Fonds.",
+    "hover3": "Aktualisieren oder löschen Sie Ihre vorhandenen Same-T-Gelder.",
+    "hover4": "Same-T-Fonds sind eine Möglichkeit, passiv an Ihren Beständen zu verdienen."
+  },
+  "portfolio": {
+    "title": "Dein Portfolio",
+    "subtitle": "Überprüfen Sie Ihre Guthaben, offenen Bestellungen und aktuelle Blockchain-Aktivitäten",
+    "hover1": "Überprüfen Sie Ihre Guthaben.",
+    "hover2": "Überwachen Sie Ihre offenen Bestellungen.",
+    "hover3": "Analysieren Sie Ihre letzten Kontoaktivitäten."
+  },
+  "portfolio_balances": {
+    "title": "Kontostände",
+    "subtitle": "Sehen Sie sich Ihre Liquiditätsbestände und damit verbundene Aktionen an",
+    "hover1": "Sortieren Sie die Salden nach Standard, Alphabet oder Betrag.",
+    "hover2": "Schnelle Links zu Handels- und Vermögensinformationen.",
+    "hover3": "Siehe entsprechende Liquiditätspools."
+  },
+  "portfolio_open_orders": {
+    "title": "Offene Bestellungen",
+    "subtitle": "Überprüfen und verwalten Sie Ihre offenen DEX-Bestellungen",
+    "hover1": "Springen Sie direkt zum Marktpaar.",
+    "hover2": "Eine Bestellung aktualisieren oder stornieren.",
+    "hover3": "Überprüfen Sie das Ablaufdatum und die Bestell-IDs."
+  },
+  "portfolio_recent_activity": {
+    "title": "Letzte Aktivität",
+    "subtitle": "Überprüfen Sie Ihre neuesten On-Chain-Vorgänge",
+    "hover1": "Durchsuchen Sie Vorgangs-IDs und Blöcke.",
+    "hover2": "Vorgang JSON anzeigen.",
+    "hover3": "Vollständige Aktivitätsdetails öffnen."
+  },
+  "favourites": {
+    "title": "Deine Favoriten",
+    "subtitle": "Greifen Sie schnell auf Ihre bevorzugten Assets und Konten zu",
+    "hover1": "Fügen Sie Assets hinzu, die Ihnen wichtig sind, um sie an einem Ort anzusehen.",
+    "hover2": "Verfolgen Sie Ihre Lieblingskonten zum schnellen Nachschlagen."
+  },
+  "featured": {
+    "title": "Top-Märkte",
+    "subtitle": "Entdecken Sie heute die am aktivsten gehandelten Vermögenswerte",
+    "hover1": "Navigieren Sie zu den aktivsten Handelspaaren.",
+    "hover2": "Vergleichen Sie Markthandelsvolumen und -wert.",
+    "hover3": "Vergleichen Sie die Anzahl der Marktgeschäfte."
+  },
+  "deals": {
+    "title": "Kreditangebote",
+    "subtitle": "Überprüfen Sie Ihre Kreditverträge",
+    "hover1": "Überwachen Sie Ihre aktiven Kreditgeschäfte.",
+    "hover2": "Verwalten Sie den Status Ihrer Kreditverträge."
+  },
+  "offers": {
+    "title": "Kreditangebote",
+    "subtitle": "Prüfen Sie Ihre Kreditangebote",
+    "hover1": "Überwachen Sie Ihre aktiven Kreditangebote.",
+    "hover2": "Verwalten Sie den Status Ihrer Kreditangebote."
+  },
+  "vesting": {
+    "title": "Freizügigkeitsguthaben",
+    "subtitle": "Sehen Sie sich Prämien, Empfehlungsgebühren und andere Sperrguthaben an und fordern Sie diese an",
+    "hover1": "Überprüfen Sie Ihre Sperrguthaben.",
+    "hover2": "Fordern Sie Ihr Freizügigkeitsguthaben an."
+  },
+  "proposals": {
+    "title": "Vorgeschlagene Operationen",
+    "subtitle": "Vorgeschlagene Kontovorgänge anzeigen und genehmigen/ablehnen",
+    "hover1": "Sehen Sie sich die vorgeschlagenen Kontovorgänge an, die von anderen Blockchain-Konten für Ihr Konto durchgeführt wurden.",
+    "hover2": "Genehmigen Sie die vorgeschlagenen Kontovorgänge oder lehnen Sie sie ab."
+  },
+  "issued_assets": {
+    "title": "Ihre ausgegebenen Vermögenswerte",
+    "subtitle": "Sehen Sie sich alle von Ihnen erstellten Assets an",
+    "hover1": "Sehen Sie sich von Benutzern bereitgestellte Vermögenswerte, Smartcoins und nicht fungible Token an!",
+    "hover2": "Bearbeiten Sie die Assets, die Sie in der Blockchain erstellt haben.",
+    "hover3": "Geben Sie optional eine Menge Ihrer erstellten Vermögenswerte aus."
+  },
+  "blocks": {
+    "title": "Blockchain-Daten",
+    "subtitle": "Sehen Sie sich die neuesten zusammengefassten Blockchain-Daten an",
+    "hover1": "Aktuelle Aktivitäten und aktuelle Block-Live-Datentabellen.",
+    "hover2": "Aktuelles Live-Diagramm zur Anzahl der Blocktransaktionen.",
+    "hover3": "Zusammengefasste Durchschnitts- und Gesamtwerte der Blockchain-Daten."
+  },
+  "create_uia": {
+    "title": "Vom Benutzer ausgegebenes Asset",
+    "subtitle": "Erstellen Sie Ihren eigenen Token für alles",
+    "hover1": "Erstellen Sie Ihr eigenes vom Benutzer ausgegebenes Asset.",
+    "hover2": "Sie können für verschiedene Zwecke verwendet werden.",
+    "hover3": "Sie können als Wertmarke für Ihr Unternehmen, als Belohnungsmarke, als Spielmarke und mehr verwendet werden.",
+    "hover4": "Gateways können börsengesicherte Vermögenswerte für den Handel am Bitshares DEX erstellen."
+  },
+  "create_ticket": {
+    "title": "Ticket erstellen",
+    "subtitle": "Erstellen Sie Vote-Lock-Tickets, um an Stimmengewicht zu gewinnen.",
+    "hover1": "Vote-Lock-Tickets verleihen Ihnen Stimmgewicht für Zeugen-, Ausschuss- und Arbeiterabstimmungszwecke.",
+    "hover2": "Wenn Tickets liquidiert werden, dauert es eine bestimmte Zeit, bis Ihr Guthaben freigeschaltet wird."
+  },
+  "ticket_leaderboard": {
+    "title": "Ticket-Bestenliste",
+    "subtitle": "Sehen Sie sich die kombinierte effektive Ticketleistung nach Konto an",
+    "hover1": "Sehen Sie, wer die größte Stimmmacht in der Blockchain hat.",
+    "hover2": "Vergleichen Sie, wie Ihre Stimmmacht im Vergleich zu anderen abschneidet.",
+    "hover3": "Berechnen Sie die Größe Ihrer zukünftigen Vote-Lock-Tickets, um mehr Stimmkraft zu erlangen."
+  },
+  "create_smartcoin": {
+    "title": "Smartcoin-Asset",
+    "subtitle": "Erstellen Sie ein Fiat-Stablecoin-Asset",
+    "hover1": "Erstellen Sie Ihren eigenen Smartcoin.",
+    "hover2": "Sie können für verschiedene Zwecke verwendet werden.",
+    "hover3": "Sie können als Stablecoin, als Token für Ihr Unternehmen, als Belohnungstoken, als Token für ein Spiel und mehr verwendet werden.",
+    "hover4": "Smartcoins können durch jeden Vermögenswert gedeckt sein und auf jeden externen Feed verweisen."
+  },
+  "create_liquidity_pool": {
+    "title": "Create Liquidity Pool",
+    "subtitle": "Create a new liquidity pool for swapping 2 of any assets",
+    "hover1": "Converts an user issued asset to a liquidity pool share asset.",
+    "hover2": "Configure the liquidity pool to swap any 2 assets on the blockchain.",
+    "hover3": "Apply your own fees to earn from others using your liquidity pool."
+  },
+  "accountLists": {
+    "title": "Kontolisten",
+    "subtitle": "Zeigen Sie Ihre Kontolisten an und verwalten Sie sie",
+    "hover1": "Fügen Sie Konten zu Ihrer Whitelist hinzu.",
+    "hover2": "Fügen Sie Konten zu Ihrer Blacklist hinzu.",
+    "hover3": "Entfernen Sie Konten aus diesen Listen."
+  },
+  "blocked_users": {
+    "title": "Gesperrte Benutzer",
+    "subtitle": "Ihre gesperrten Konten anzeigen und verwalten",
+    "hover1": "Konten anzeigen, die Sie gesperrt haben.",
+    "hover2": "Konten aus Ihrer Ansicht blockieren oder entsperren."
+  },
+  "ltm": {
+    "title": "Konto aktualisieren",
+    "subtitle": "Kaufen Sie eine lebenslange Mitgliedschaft",
+    "hover1": "Eine lebenslange Mitgliedschaft bietet zahlreiche Vorteile.",
+    "hover2": "Mitglieder auf Lebenszeit erhalten eine 80-prozentige Ermäßigung des Unverfallbarkeitsguthabens auf ihre Gebühren.",
+    "hover3": "Lebenslange Mitglieder können Premium-Bitshares-Kontonamen erstellen.",
+    "hover4": "Lebenslange Mitglieder können über das Empfehlungssystem Geld verdienen."
+  },
+  "nodes": {
+    "title": "Knoten",
+    "subtitle": "Konfiguration des Blockchain-Knotens",
+    "hover1": "Stellen Sie eine Verbindung zu einem Bitshares-Knoten Ihrer Wahl her.",
+    "hover2": "Fügen Sie Ihrer Verbindungsliste Knoten hinzu bzw. entfernen Sie sie."
+  },
+  "create_account": {
+    "title": "Konto erstellen",
+    "subtitle": "Erstellen Sie ein neues Cloud Wallet -Konto auf der Bitshares -Blockchain.",
+    "hover1": "Erstellen Sie ein kostenloses Konto mit einem öffentlichen Wasserhahn.",
+    "hover2": "Generieren Sie ein Premium -Konto mit einem vorhandenen LTM -Konto."
+  },
+  "invoice_inventory": {
+    "title": "Rechnungsbestand",
+    "subtitle": "Verwalten Sie Artikel und Preise, die für die Rechnungsstellung verwendet werden",
+    "hover1": "Erstellen und verwalten Sie Lagerartikel und deren Preise für Rechnungen."
+  },
+  "create_invoice": {
+    "title": "Rechnung erstellen",
+    "subtitle": "Generieren Sie Rechnungscodes für Kunden",
+    "hover1": "Erstellen Sie eine Rechnung, indem Sie Artikel aus dem Lagerbestand auswählen und Mengen und Rechnungsdetails angeben."
+  },
+  "pay_invoice": {
+    "title": "Rechnung bezahlen",
+    "subtitle": "Bezahlen Sie Rechnungen mit Rechnungscodes",
+    "hover1": "Bezahlen Sie eine Rechnung, indem Sie den vom Rechnungsersteller bereitgestellten Rechnungscode eingeben.",
+    "hover2": "Bezahlen Sie optional für jeden gekauften Artikel mit unterschiedlichen Vermögenswerten."
+  },
+  "stored_invoices": {
+    "title": "Gespeicherte Rechnungen",
+    "subtitle": "Sehen und verwalten Sie Ihre gespeicherten Rechnungen",
+    "hover1": "Durchsuchen Sie Ihre gespeicherten Rechnungen, sowohl generierte als auch empfangene.",
+    "hover2": "Rechnungsdetails anzeigen und unerwünschte Rechnungen löschen.",
+    "hover3": "Speichern Sie Daten über den Fortschritt der Rechnungserfüllung."
+  },
+  "tfund_user": {
+    "title": "Handel mit gleichem T-Fonds",
+    "subtitle": "Leihen, handeln, zurückzahlen, einfach!",
+    "hover1": "Leihen Sie Vermögenswerte aus einem gleich-T-Fonds aus.",
+    "hover2": "Tauschen Sie diese Same-T-Mittel gegen den Dex ein.",
+    "hover3": "Zahlen Sie das geliehene Vermögen zurück."
+  },
+  "custom_pool_tracker": {
+    "title": "Liquiditätspool Tracker",
+    "subtitle": "Verfolgen Sie Ihre bevorzugten Liquiditätspools mit Leichtigkeit!",
+    "hover1": "Konfigurieren Sie Ihren eigenen benutzerdefinierten Liquiditätspool -Tracker.",
+    "hover2": "Space bis zu 5 austauschbare Vermögenswerte."
+  },
+  "pools": {
+    "title": "Liquiditätspools",
+    "subtitle": "Sehen Sie sich eine Liste aller Liquiditätspools an",
+    "hover1": "Filtern Sie alle Liquiditätspools durch austauschbare Vermögenswerte",
+    "hover2": "Suchen Sie Liquiditätspools zum Austausch von Vermögenswerten.",
+    "hover3": "Identifizieren Sie Liquiditätspools, um Vermögenswerte einzugeben."
+  },
+  "features": {
+    "heading": "Merkmale",
+    "functionalityHeading": "Funktionalität",
+    "zeroAuth": {
+      "title": "Keine Authentifizierung erforderlich!",
+      "description": "Erstellen Sie Ihre Blockchain-Transaktionen, ohne Konten freizuschalten!"
     },
-    "vote": {
-        "title": "Abstimmung",
-        "subtitle": "Stimmen Sie für Zeugen, Ausschussmitglieder und Arbeitnehmervorschläge",
-        "hover1": "Stimmen Sie für Zeugen, die Blöcke auf der Blockchain produzieren.",
-        "hover2": "Stimmen Sie für Ausschussmitglieder, die die Blockchain regieren.",
-        "hover3": "Stimmen Sie für Vorschläge der Arbeitnehmer zur Finanzierung von Ideen zur Blockchain."
+    "multiBroadcast": {
+      "title": "Mehrere Übertragungsmethoden für Transaktionen!",
+      "description": "Übertragen Sie Ihre Blockchain-Vorgänge über QR-Codes, Deeplinks oder lokale JSON-Dateien."
     },
-    "barter": {
-        "title": "Tauschhandel",
-        "subtitle": "Handeln Sie Vermögenswerte mit anderen Benutzern",
-        "hover1": "Handeln Sie Vermögenswerte mit anderen Benutzern.",
-        "hover2": "Tauschhandel ist ein Peer-to-Peer-Handelsprozess.",
-        "hover3": "Tauschhandel kann die Treuhanddienste von Drittanbietern umfassen."
+    "supportsLatest": {
+      "title": "Unterstützt die neuesten Bitshares-Funktionen!",
+      "description": "Interessiert an den neuesten Bitshares DEX-Verbesserungen? "
     },
-    "witnesses": {
-        "title": "Zeugen",
-        "subtitle": "Sehen Sie sich die aktuellen aktiven und inaktiven Zeugen an.",
-        "hover1": "Zeigen Sie, wer die meisten Stimmen erhalten hat.",
-        "hover2": "View, für wen Zeugen gestimmt haben.",
-        "hover3": "Zeugenkerntoken -Balancen anzeigen."
+    "switchChains": {
+      "title": "Wechseln Sie ganz einfach zwischen unterstützten Blockchains!",
+      "description": "Der Wechsel zwischen Bitshares Mainnet- und Testnet-Netzwerken dauert Sekunden!"
     },
-    "committee": {
-        "title": "Ausschussmitglieder",
-        "subtitle": "Sehen Sie sich die aktuellen aktiven und inaktiven Komiteemitglieder an.",
-        "hover1": "Zeigen Sie, wer die meisten Stimmen erhalten hat.",
-        "hover2": "Stellen Sie sich an, für wen die Mitglieder des Ausschusses gestimmt haben.",
-        "hover3": "View Committee Core Token Balances."
+    "nearInstant": {
+      "title": "Nahezu sofortige Blockchain-Operationen!",
+      "description": "Mit drei Sekunden Block-Timings werden Ihre Sendevorgänge fast sofort überprüft!"
     },
-    "governance": {
-        "title": "Rollenregistrierung",
-        "subtitle": "Erstellen/Aktualisieren sowohl Zeugen- als auch Ausschussrollen.",
-        "hover1": "Erstellen, aktualisieren Sie oder ungültig für Ihre Zeugenregistrierung.",
-        "hover2": "Erstellen oder aktualisieren Sie Ihre Registrierung Ihrer Ausschussmitglieder."
+    "evergreen": {
+      "title": "Gebaut mit immergrünen Technologien!",
+      "description": "Nutzung der neuesten Web-Technologien für eine schnelle, sichere und zuverlässige Bitshares-Zukunft!"
     },
-    "create_worker": {
-        "title": "Erstellen Sie Arbeitnehmervorschlag",
-        "subtitle": "Erstellen Sie einen Arbeitnehmervorschlag für die Finanzierungsideen!",
-        "hover1": "Sichern Sie Mittel über einen Arbeitnehmervorschlag, um Ihr Projekt zu finanzieren.",
-        "hover2": "Arbeitnehmervorschläge werden vom Bitshares Reserve Fund finanziert.",
-        "hover3": "Arbeitervorschläge werden von der Gemeinde abgestimmt."
+    "multiWallets": {
+      "title": "Unterstützt mehrere Wallets!",
+      "description": "Übertragen Sie Transaktionen über Beet- oder BeetEOS-Wallets!"
     },
-    "dex": {
-        "title": "DEX-Limit-Orders",
-        "subtitle": "Handeln Sie Vermögenswerte auf dem Bitshares DEX",
-        "hover1": "Erstellen Sie manuell Limit-Orders.",
-        "hover2": "Verwenden Sie ein beliebiges Asset-Trading-Paar.",
-        "hover3": "Geben Sie das Ablaufdatum der Bestellung an.",
-        "hover4": "Komplexer, aber günstiger als Pool-Swaps."
+    "localized": {
+      "title": "Vollständig in mehrere Sprachen lokalisiert!",
+      "description": "Verfügbar in 11 Sprachen, Tendenz steigend!"
     },
-    "pool": {
-        "title": "Liquiditätspool-Austausch",
-        "subtitle": "Tauschen Sie Vermögenswerte über einen Liquiditätspool",
-        "hover1": "Tauschen Sie Vermögenswerte über vom Benutzer erstellte Liquiditätspools aus.",
-        "hover2": "Pools haben unterschiedliche Handelspaare und Gebühren.",
-        "hover3": "Einfacher, aber teurer als eine Limit-Order."
-    },
-    "swap": {
-        "title": "Einfacher Asset-Swap",
-        "subtitle": "Einfacherer Austausch von Vermögenswerten über Pools",
-        "hover1": "Tauschen Sie Vermögenswerte über vom Benutzer erstellte Liquiditätspools aus.",
-        "hover2": "Pools haben unterschiedliche Handelspaare und Gebühren.",
-        "hover3": "Einfacher, aber teurer als eine Limit-Order."
-    },
-    "stake": {
-        "title": "Vermögenswerte einsetzen",
-        "subtitle": "Setzen Sie Vermögenswerte in Liquiditätspools ein",
-        "hover1": "Setzen Sie Vermögenswerte in Liquiditätspools ein, um Gebühren zu verdienen.",
-        "hover2": "Abgesteckte Vermögenswerte sind im Pool gesperrt.",
-        "hover3": "Eingesetzte Vermögenswerte können jederzeit abgehoben werden."
-    },
-    "transfer": {
-        "title": "Vermögenswerte übertragen",
-        "subtitle": "Senden Sie Assets an andere Benutzer",
-        "hover1": "Übertragen Sie Vermögenswerte in Sekundenschnelle an jeden in der Bitshares-Blockchain."
-    },
-    "timed_transfer": {
-        "title": "zeitgesteuerte Übertragung",
-        "subtitle": "Senden Sie Vermögenswerte zu einem späteren Zeitpunkt an andere Benutzer.",
-        "hover1": "Planen Sie die Übertragung von Vermögenswerten an einen anderen Benutzer nach Überprüfungszeitraum von Vorschlägen."
-    },
-    "withdraw_permission": {
-        "title": "Erlaubnis zurückziehen",
-        "subtitle": "Verwalten Sie Ihre Rückzugsberechtigungen",
-        "hover1": "Erstellen/Bearbeiten/Löschen/Löschen Ihrer Zahlung Abheben Berechtigungen.",
-        "hover2": "Sehen Sie sich Ihre Empfehlungsberechtigungen an."
-    },
-    "htlc": {
-        "title": "Hash-Zeitverriegelungsverträge (HTLC)",
-        "subtitle": "Erstellen Sie Anspruchsfähige Mittel, die hinter geheimen Kryptoschlüsseln gesperrt sind.",
-        "hover1": "Ein HTLC sperrt Mittel für einen bestimmten Empfänger ab, der diese Mittel einlösen kann, indem er ein geheimes Vorbereitungsbetrag (Passwort) bereitstellt, das vom Absender verwendet wurde, um den Vertrag zu erstellen.",
-        "hover2": "Die Offenlegung des Passworts erfolgt außerhalb der Kette."
-    },
-    "create_vesting": {
-        "title": "Vermögenswerte übertragen",
-        "subtitle": "Erstellen Sie Restguthaben",
-        "hover1": "Durch die Erstellung eines Sperrguthabens können Sie eine bestimmte Menge an Vermögenswerten für einen bestimmten Zeitraum sperren.",
-        "hover2": "Sie können einen von zwei Vesting-Typen verwenden: Coin Days Destroyed und Linear Vesting with Cliff.",
-        "hover3": "Der Effekt der Coin Days Destroyed-Richtlinie besteht darin, dass ein bestimmter Betrag an „Zinsen“ anfallen muss, bevor der gesamte Restbetrag abgehoben werden kann. Die Zinsen fallen in Form von Münztagen an (Saldo * Haltedauer). Wenn ein Teil des Restbetrags abgehoben wird, muss der verbleibende Restbetrag einbehalten werden ",
-        "hover4": "Die Richtlinie „Linear Vesting with Cliff“ wird verwendet, um traditionelle Aktien-Vesting-Verträge nachzuahmen, bei denen jeden Tag ein bestimmter Betrag bis zur vollständigen Fälligkeit unverfallbar wird."
-    },
-    "borrow": {
-        "title": "Geld leihen",
-        "subtitle": "Leihen Sie sich Kreditangebote von anderen Nutzern aus",
-        "hover1": "Durchsuchen Sie die vom aktiven Benutzer erstellten Kreditangebote.",
-        "hover2": "Leihen Sie sich von ihnen Vermögenswerte zum gewünschten Zinssatz.",
-        "hover3": "Nutzen Sie die geforderten Sicherheiten zur Absicherung Ihres Kredits."
-    },
-    "lend": {
-        "title": "Geld verleihen",
-        "subtitle": "Erstellen Sie ein Kreditangebot, um es anderen zu leihen",
-        "hover1": "Erstellen Sie Ihre eigenen dezentralen Kreditangebote.",
-        "hover2": "Verleihen Sie Vermögenswerte zu Ihren festgelegten Zinssätzen.",
-        "hover3": "Geben Sie akzeptable Kreditsicherheiten und Preise an."
-    },
-    "smartcoins": {
-        "title": "Besicherte Schulden ausgeben",
-        "subtitle": "Leihen Sie sich Fiat-Bitassets, private Smartcoins und mehr.",
-        "hover1": "Bitassets wie USD, CNY und EUR sind vom Ausschuss erstellte Stablecoins (Smartcoins), die mit BTS gedeckt sind.",
-        "hover2": "Vom Benutzer erstellte Smartcoins können mit jedem beliebigen Vermögenswert unterlegt werden und auf jeden externen Feed verweisen.",
-        "hover3": "Externe Abrechnungspreise werden von konfigurierten Futtermittelherstellern abgeleitet.",
-        "hover4": "Das Risiko externer Preisströme kann ein Risiko für besicherte Schuldenpositionen darstellen."
-    },
-    "tfunds": {
-        "title": "Same-T-Fonds",
-        "subtitle": "Same-T Funds ansehen, erstellen, aktualisieren, löschen!",
-        "hover1": "Sehen Sie sich alle derzeit von anderen Benutzern angebotenen Same-T-Fonds an.",
-        "hover2": "Erstellen Sie ganz einfach einen neuen Same-T-Fonds.",
-        "hover3": "Aktualisieren oder löschen Sie Ihre vorhandenen Same-T-Gelder.",
-        "hover4": "Same-T-Fonds sind eine Möglichkeit, passiv an Ihren Beständen zu verdienen."
-    },
-    "portfolio": {
-        "title": "Dein Portfolio",
-        "subtitle": "Überprüfen Sie Ihre Guthaben, offenen Bestellungen und aktuelle Blockchain-Aktivitäten",
-        "hover1": "Überprüfen Sie Ihre Guthaben.",
-        "hover2": "Überwachen Sie Ihre offenen Bestellungen.",
-        "hover3": "Analysieren Sie Ihre letzten Kontoaktivitäten."
-    },
-    "portfolio_balances": {
-        "title": "Kontostände",
-        "subtitle": "Sehen Sie sich Ihre Liquiditätsbestände und damit verbundene Aktionen an",
-        "hover1": "Sortieren Sie die Salden nach Standard, Alphabet oder Betrag.",
-        "hover2": "Schnelle Links zu Handels- und Vermögensinformationen.",
-        "hover3": "Siehe entsprechende Liquiditätspools."
-    },
-    "portfolio_open_orders": {
-        "title": "Offene Bestellungen",
-        "subtitle": "Überprüfen und verwalten Sie Ihre offenen DEX-Bestellungen",
-        "hover1": "Springen Sie direkt zum Marktpaar.",
-        "hover2": "Eine Bestellung aktualisieren oder stornieren.",
-        "hover3": "Überprüfen Sie das Ablaufdatum und die Bestell-IDs."
-    },
-    "portfolio_recent_activity": {
-        "title": "Letzte Aktivität",
-        "subtitle": "Überprüfen Sie Ihre neuesten On-Chain-Vorgänge",
-        "hover1": "Durchsuchen Sie Vorgangs-IDs und Blöcke.",
-        "hover2": "Vorgang JSON anzeigen.",
-        "hover3": "Vollständige Aktivitätsdetails öffnen."
-    },
-    "favourites": {
-        "title": "Deine Favoriten",
-        "subtitle": "Greifen Sie schnell auf Ihre bevorzugten Assets und Konten zu",
-        "hover1": "Fügen Sie Assets hinzu, die Ihnen wichtig sind, um sie an einem Ort anzusehen.",
-        "hover2": "Verfolgen Sie Ihre Lieblingskonten zum schnellen Nachschlagen."
-    },
-    "featured": {
-        "title": "Top-Märkte",
-        "subtitle": "Entdecken Sie heute die am aktivsten gehandelten Vermögenswerte",
-        "hover1": "Navigieren Sie zu den aktivsten Handelspaaren.",
-        "hover2": "Vergleichen Sie Markthandelsvolumen und -wert.",
-        "hover3": "Vergleichen Sie die Anzahl der Marktgeschäfte."
-    },
-    "deals": {
-        "title": "Kreditangebote",
-        "subtitle": "Überprüfen Sie Ihre Kreditverträge",
-        "hover1": "Überwachen Sie Ihre aktiven Kreditgeschäfte.",
-        "hover2": "Verwalten Sie den Status Ihrer Kreditverträge."
-    },
-    "offers": {
-        "title": "Kreditangebote",
-        "subtitle": "Prüfen Sie Ihre Kreditangebote",
-        "hover1": "Überwachen Sie Ihre aktiven Kreditangebote.",
-        "hover2": "Verwalten Sie den Status Ihrer Kreditangebote."
-    },
-    "vesting": {
-        "title": "Freizügigkeitsguthaben",
-        "subtitle": "Sehen Sie sich Prämien, Empfehlungsgebühren und andere Sperrguthaben an und fordern Sie diese an",
-        "hover1": "Überprüfen Sie Ihre Sperrguthaben.",
-        "hover2": "Fordern Sie Ihr Freizügigkeitsguthaben an."
-    },
-    "proposals": {
-        "title": "Vorgeschlagene Operationen",
-        "subtitle": "Vorgeschlagene Kontovorgänge anzeigen und genehmigen/ablehnen",
-        "hover1": "Sehen Sie sich die vorgeschlagenen Kontovorgänge an, die von anderen Blockchain-Konten für Ihr Konto durchgeführt wurden.",
-        "hover2": "Genehmigen Sie die vorgeschlagenen Kontovorgänge oder lehnen Sie sie ab."
-    },
-    "issued_assets": {
-        "title": "Ihre ausgegebenen Vermögenswerte",
-        "subtitle": "Sehen Sie sich alle von Ihnen erstellten Assets an",
-        "hover1": "Sehen Sie sich von Benutzern bereitgestellte Vermögenswerte, Smartcoins und nicht fungible Token an!",
-        "hover2": "Bearbeiten Sie die Assets, die Sie in der Blockchain erstellt haben.",
-        "hover3": "Geben Sie optional eine Menge Ihrer erstellten Vermögenswerte aus."
-    },
-    "blocks": {
-        "title": "Blockchain-Daten",
-        "subtitle": "Sehen Sie sich die neuesten zusammengefassten Blockchain-Daten an",
-        "hover1": "Aktuelle Aktivitäten und aktuelle Block-Live-Datentabellen.",
-        "hover2": "Aktuelles Live-Diagramm zur Anzahl der Blocktransaktionen.",
-        "hover3": "Zusammengefasste Durchschnitts- und Gesamtwerte der Blockchain-Daten."
-    },
-    "create_uia": {
-        "title": "Vom Benutzer ausgegebenes Asset",
-        "subtitle": "Erstellen Sie Ihren eigenen Token für alles",
-        "hover1": "Erstellen Sie Ihr eigenes vom Benutzer ausgegebenes Asset.",
-        "hover2": "Sie können für verschiedene Zwecke verwendet werden.",
-        "hover3": "Sie können als Wertmarke für Ihr Unternehmen, als Belohnungsmarke, als Spielmarke und mehr verwendet werden.",
-        "hover4": "Gateways können börsengesicherte Vermögenswerte für den Handel am Bitshares DEX erstellen."
-    },
-    "create_ticket": {
-        "title": "Ticket erstellen",
-        "subtitle": "Erstellen Sie Vote-Lock-Tickets, um an Stimmengewicht zu gewinnen.",
-        "hover1": "Vote-Lock-Tickets verleihen Ihnen Stimmgewicht für Zeugen-, Ausschuss- und Arbeiterabstimmungszwecke.",
-        "hover2": "Wenn Tickets liquidiert werden, dauert es eine bestimmte Zeit, bis Ihr Guthaben freigeschaltet wird."
-    },
-    "ticket_leaderboard": {
-        "title": "Ticket-Bestenliste",
-        "subtitle": "Sehen Sie sich die kombinierte effektive Ticketleistung nach Konto an",
-        "hover1": "Sehen Sie, wer die größte Stimmmacht in der Blockchain hat.",
-        "hover2": "Vergleichen Sie, wie Ihre Stimmmacht im Vergleich zu anderen abschneidet.",
-        "hover3": "Berechnen Sie die Größe Ihrer zukünftigen Vote-Lock-Tickets, um mehr Stimmkraft zu erlangen."
-    },
-    "create_smartcoin": {
-        "title": "Smartcoin-Asset",
-        "subtitle": "Erstellen Sie ein Fiat-Stablecoin-Asset",
-        "hover1": "Erstellen Sie Ihren eigenen Smartcoin.",
-        "hover2": "Sie können für verschiedene Zwecke verwendet werden.",
-        "hover3": "Sie können als Stablecoin, als Token für Ihr Unternehmen, als Belohnungstoken, als Token für ein Spiel und mehr verwendet werden.",
-        "hover4": "Smartcoins können durch jeden Vermögenswert gedeckt sein und auf jeden externen Feed verweisen."
-    },
-    "create_liquidity_pool": {
-        "title": "Create Liquidity Pool",
-        "subtitle": "Create a new liquidity pool for swapping 2 of any assets",
-        "hover1": "Converts an user issued asset to a liquidity pool share asset.",
-        "hover2": "Configure the liquidity pool to swap any 2 assets on the blockchain.",
-        "hover3": "Apply your own fees to earn from others using your liquidity pool."
-    },
-    "accountLists": {
-        "title": "Kontolisten",
-        "subtitle": "Zeigen Sie Ihre Kontolisten an und verwalten Sie sie",
-        "hover1": "Fügen Sie Konten zu Ihrer Whitelist hinzu.",
-        "hover2": "Fügen Sie Konten zu Ihrer Blacklist hinzu.",
-        "hover3": "Entfernen Sie Konten aus diesen Listen."
-    },
-    "blocked_users": {
-        "title": "Gesperrte Benutzer",
-        "subtitle": "Ihre gesperrten Konten anzeigen und verwalten",
-        "hover1": "Konten anzeigen, die Sie gesperrt haben.",
-        "hover2": "Konten aus Ihrer Ansicht blockieren oder entsperren."
-    },
-    "ltm": {
-        "title": "Konto aktualisieren",
-        "subtitle": "Kaufen Sie eine lebenslange Mitgliedschaft",
-        "hover1": "Eine lebenslange Mitgliedschaft bietet zahlreiche Vorteile.",
-        "hover2": "Mitglieder auf Lebenszeit erhalten eine 80-prozentige Ermäßigung des Unverfallbarkeitsguthabens auf ihre Gebühren.",
-        "hover3": "Lebenslange Mitglieder können Premium-Bitshares-Kontonamen erstellen.",
-        "hover4": "Lebenslange Mitglieder können über das Empfehlungssystem Geld verdienen."
-    },
-    "nodes": {
-        "title": "Knoten",
-        "subtitle": "Konfiguration des Blockchain-Knotens",
-        "hover1": "Stellen Sie eine Verbindung zu einem Bitshares-Knoten Ihrer Wahl her.",
-        "hover2": "Fügen Sie Ihrer Verbindungsliste Knoten hinzu bzw. entfernen Sie sie."
-    },
-    "create_account": {
-        "title": "Konto erstellen",
-        "subtitle": "Erstellen Sie ein neues Cloud Wallet -Konto auf der Bitshares -Blockchain.",
-        "hover1": "Erstellen Sie ein kostenloses Konto mit einem öffentlichen Wasserhahn.",
-        "hover2": "Generieren Sie ein Premium -Konto mit einem vorhandenen LTM -Konto."
-    },
-    "invoice_inventory": {
-        "title": "Rechnungsbestand",
-        "subtitle": "Verwalten Sie Artikel und Preise, die für die Rechnungsstellung verwendet werden",
-        "hover1": "Erstellen und verwalten Sie Lagerartikel und deren Preise für Rechnungen."
-    },
-    "create_invoice": {
-        "title": "Rechnung erstellen",
-        "subtitle": "Generieren Sie Rechnungscodes für Kunden",
-        "hover1": "Erstellen Sie eine Rechnung, indem Sie Artikel aus dem Lagerbestand auswählen und Mengen und Rechnungsdetails angeben."
-    },
-    "pay_invoice": {
-        "title": "Rechnung bezahlen",
-        "subtitle": "Bezahlen Sie Rechnungen mit Rechnungscodes",
-        "hover1": "Bezahlen Sie eine Rechnung, indem Sie den vom Rechnungsersteller bereitgestellten Rechnungscode eingeben.",
-        "hover2": "Bezahlen Sie optional für jeden gekauften Artikel mit unterschiedlichen Vermögenswerten."
-    },
-    "stored_invoices": {
-        "title": "Gespeicherte Rechnungen",
-        "subtitle": "Sehen und verwalten Sie Ihre gespeicherten Rechnungen",
-        "hover1": "Durchsuchen Sie Ihre gespeicherten Rechnungen, sowohl generierte als auch empfangene.",
-        "hover2": "Rechnungsdetails anzeigen und unerwünschte Rechnungen löschen.",
-        "hover3": "Speichern Sie Daten über den Fortschritt der Rechnungserfüllung."
-    },
-    "tfund_user": {
-        "title": "Handel mit gleichem T-Fonds",
-        "subtitle": "Leihen, handeln, zurückzahlen, einfach!",
-        "hover1": "Leihen Sie Vermögenswerte aus einem gleich-T-Fonds aus.",
-        "hover2": "Tauschen Sie diese Same-T-Mittel gegen den Dex ein.",
-        "hover3": "Zahlen Sie das geliehene Vermögen zurück."
-    },
-    "custom_pool_tracker": {
-        "title": "Liquiditätspool Tracker",
-        "subtitle": "Verfolgen Sie Ihre bevorzugten Liquiditätspools mit Leichtigkeit!",
-        "hover1": "Konfigurieren Sie Ihren eigenen benutzerdefinierten Liquiditätspool -Tracker.",
-        "hover2": "Space bis zu 5 austauschbare Vermögenswerte."
-    },
-    "pools": {
-        "title": "Liquiditätspools",
-        "subtitle": "Sehen Sie sich eine Liste aller Liquiditätspools an",
-        "hover1": "Filtern Sie alle Liquiditätspools durch austauschbare Vermögenswerte",
-        "hover2": "Suchen Sie Liquiditätspools zum Austausch von Vermögenswerten.",
-        "hover3": "Identifizieren Sie Liquiditätspools, um Vermögenswerte einzugeben."
-    },
-    "features": {
-        "heading": "Merkmale",
-        "functionalityHeading": "Funktionalität",
-        "zeroAuth": {
-            "title": "Keine Authentifizierung erforderlich!",
-            "description": "Erstellen Sie Ihre Blockchain-Transaktionen, ohne Konten freizuschalten!"
-        },
-        "multiBroadcast": {
-            "title": "Mehrere Übertragungsmethoden für Transaktionen!",
-            "description": "Übertragen Sie Ihre Blockchain-Vorgänge über QR-Codes, Deeplinks oder lokale JSON-Dateien."
-        },
-        "supportsLatest": {
-            "title": "Unterstützt die neuesten Bitshares-Funktionen!",
-            "description": "Interessiert an den neuesten Bitshares DEX-Verbesserungen? "
-        },
-        "switchChains": {
-            "title": "Wechseln Sie ganz einfach zwischen unterstützten Blockchains!",
-            "description": "Der Wechsel zwischen Bitshares Mainnet- und Testnet-Netzwerken dauert Sekunden!"
-        },
-        "nearInstant": {
-            "title": "Nahezu sofortige Blockchain-Operationen!",
-            "description": "Mit drei Sekunden Block-Timings werden Ihre Sendevorgänge fast sofort überprüft!"
-        },
-        "evergreen": {
-            "title": "Gebaut mit immergrünen Technologien!",
-            "description": "Nutzung der neuesten Web-Technologien für eine schnelle, sichere und zuverlässige Bitshares-Zukunft!"
-        },
-        "multiWallets": {
-            "title": "Unterstützt mehrere Wallets!",
-            "description": "Übertragen Sie Transaktionen über Beet- oder BeetEOS-Wallets!"
-        },
-        "localized": {
-            "title": "Vollständig in mehrere Sprachen lokalisiert!",
-            "description": "Verfügbar in 11 Sprachen, Tendenz steigend!"
-        },
-        "blockActors": {
-            "title": "Blockiert schlechte Akteure!",
-            "description": "Hilft Ihnen, bösartige Konten und deren Blockchain-Objekte zu vermeiden!"
-        }
-    },
-    "sections": {
-        "exchangingSubtitle": "Handeln, tauschen, staken und tauschen Sie auf der DEX",
-        "transferSubtitle": "Vermögenswerte senden und Berechtigungen verwalten",
-        "debtSubtitle": "Leihen, verleihen und besicherte Schulden ausgeben",
-        "assetCreationSubtitle": "Token, Smartcoins und Liquiditätspools erstellen",
-        "accountSubtitle": "Verwalten Sie Ihr Portfolio, Aufträge und Favoriten",
-        "blockchainSubtitle": "Blockchain-Daten, Pools und Tracker erkunden",
-        "governanceSubtitle": "Abstimmen, Rollen registrieren und Worker-Vorschläge erstellen",
-        "invoicingSubtitle": "Rechnungen on-chain erstellen, senden und bezahlen",
-        "settingsSubtitle": "Kontolisten, Nodes und Konfiguration"
-    },
-    "configure_visuals": {
-        "title": "Visuals konfigurieren",
-        "subtitle": "Wellen-Hintergründe, Aurora-Glühen, Partikel und Unschärfe-Effekte anpassen",
-        "hover1": "Wählen Sie aus vordefinierten Farbpaletten oder definieren Sie eigene Farben.",
-        "hover2": "Passen Sie Wellenanzahl, Geschwindigkeit, Stärke und Aurora-Intensität an."
-    },
-    "waveHero": {
-        "title": "Ein Bitshares-Client der nächsten Generation!",
-        "subtitle": "Gebaut mit der neuesten Technologie und auf Benutzerfreundlichkeit ausgelegt!"
-    },
-    "hero": {
-        "title": "Die Börse für jeden.",
-        "subtitle": "Handeln, tauschen, staken, leihen, verleihen und mehr auf der dezentralen Bitshares-Börse. Non-custodial, vertrauenslos und durch Blockchain-Technologie betrieben.",
-        "ctaPrimary": "Handel starten",
-        "ctaSecondary": "Einfacher Swap",
-        "scrollForMore": "Für mehr scrollen"
-    },
-    "theme_customizer": {
-        "title": "Design-Anpassung",
-        "subtitle": "Erstelle und bearbeite Designs, die jede Seite, Navigation und Komponente neu einfärben",
-        "hover1": "Verwenden Sie den einfachen Modus für eine Akzentfarbe oder den erweiterten für vollständige Kontrolle.",
-        "hover2": "Weisen Sie Seitenthemen zu und färben Sie Navigationsakzente um."
-    },
-    "home_link": {
-        "title": "Startseite",
-        "subtitle": "Zurück zum Haupt-Dashboard"
-    },
-    "page_themes": {
-        "title": "Seitenspezifische Themen",
-        "subtitle": "Bestimmte Themes für individuelle Seiten zuweisen",
-        "hover1": "Überschreiben Sie das aktive Theme für jede Seite in der App."
-    },
-    "airdrop": {
-        "title": "Airdrop",
-        "subtitle": "Verteilen Sie einen Asset massenhaft an viele Konten auf einmal.",
-        "hover1": "Teilen Sie eine große Empfängerliste in Transaktionen auf, die in die maximal zulässige Transaktionsgröße der Chain passen."
-    },
-    "airdrop_create": {
-        "title": "Airdrop erstellen",
-        "subtitle": "Erstellen Sie eine Empfängerliste und konfigurieren Sie die Asset-Verteilung.",
-        "hover1": "Laden Sie eine CSV/JSON-Datei mit 1.2.x-Konto-IDs hoch, wählen Sie einen Asset und legen Sie fest, wie die Beträge zugewiesen werden."
-    },
-    "airdrop_perform": {
-        "title": "Airdrop ausführen",
-        "subtitle": "Senden Sie die vorbereiteten Transfer-Batches an die Chain.",
-        "hover1": "Jeder Batch wird über Ihr verbundenes Wallet als einzelne Transaktion signiert und gesendet."
-    },
-    "airdrop_calculate": {
-        "title": "Airdrop",
-        "subtitle": "Verteilen Sie ein Asset auf viele Konten durch algorithmische Auswahl oder eine manuelle Liste.",
-        "hover1": "Erstellen Sie einen Kandidatenpool aus manueller Eingabe, Ticket-Sperren, Call-Order-Kollateral, Top-Asset-Inhabern, Limit-Order-Aktivität oder Lifetime-Member-Upgrades.",
-        "hover2": "Führen Sie einen oder mehrere deterministische Algorithmen aus — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — gesät von einer Block-Witness-Signatur.",
-        "hover3": "Überprüfen Sie die Gewinnerkonten, konfigurieren Sie die Verteilung (gleiche Aufteilung, fester Betrag oder benutzerdefiniert) und senden Sie dann jeden Batch über Ihr Beet-Wallet."
-    },
-    "recent_activity": {
-        "title": "Recent activity",
-        "subtitle": "Browse your latest on-chain operations.",
-        "hover1": "Review the most recent operations performed by your account.",
-        "hover2": "Inspect the underlying operation JSON for each entry."
-    },
-    "top_markets": {
-        "title": "Top markets",
-        "subtitle": "The most actively traded markets on the DEX.",
-        "hover1": "Ranked by the number of fill orders over the past 30 days.",
-        "hover2": "Great for spotting the busiest trading pairs.",
-        "dialogDescription": "Choose where to trade this market pair.",
-        "openDex": "Open in DEX limit order",
-        "openInstant": "Open in Instant Swap"
-    },
-    "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
-    "top_pools": {
-        "title": "Top pools",
-        "subtitle": "The most actively swapped liquidity pools on the network.",
-        "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
-        "hover2": "Great for spotting the busiest pools to trade or stake in.",
-        "dialogDescription": "Choose where to use this liquidity pool.",
-        "openSwap": "Open in Simple Swap",
-        "openInstant": "Open in Instant Trade",
-        "openDex": "Open in DEX limit order",
-        "openStake": "Stake assets",
-        "pool": "Pool",
-        "assets": "Assets",
-        "swaps": "Swaps"
+    "blockActors": {
+      "title": "Blockiert schlechte Akteure!",
+      "description": "Hilft Ihnen, bösartige Konten und deren Blockchain-Objekte zu vermeiden!"
     }
+  },
+  "sections": {
+    "exchangingSubtitle": "Handeln, tauschen, staken und tauschen Sie auf der DEX",
+    "transferSubtitle": "Vermögenswerte senden und Berechtigungen verwalten",
+    "debtSubtitle": "Leihen, verleihen und besicherte Schulden ausgeben",
+    "assetCreationSubtitle": "Token, Smartcoins und Liquiditätspools erstellen",
+    "accountSubtitle": "Verwalten Sie Ihr Portfolio, Aufträge und Favoriten",
+    "blockchainSubtitle": "Blockchain-Daten, Pools und Tracker erkunden",
+    "governanceSubtitle": "Abstimmen, Rollen registrieren und Worker-Vorschläge erstellen",
+    "invoicingSubtitle": "Rechnungen on-chain erstellen, senden und bezahlen",
+    "settingsSubtitle": "Kontolisten, Nodes und Konfiguration",
+    "airdropSubtitle": "Bulk send one asset to many accounts"
+  },
+  "configure_visuals": {
+    "title": "Visuals konfigurieren",
+    "subtitle": "Wellen-Hintergründe, Aurora-Glühen, Partikel und Unschärfe-Effekte anpassen",
+    "hover1": "Wählen Sie aus vordefinierten Farbpaletten oder definieren Sie eigene Farben.",
+    "hover2": "Passen Sie Wellenanzahl, Geschwindigkeit, Stärke und Aurora-Intensität an."
+  },
+  "waveHero": {
+    "title": "Ein Bitshares-Client der nächsten Generation!",
+    "subtitle": "Gebaut mit der neuesten Technologie und auf Benutzerfreundlichkeit ausgelegt!"
+  },
+  "hero": {
+    "title": "Die Börse für jeden.",
+    "subtitle": "Handeln, tauschen, staken, leihen, verleihen und mehr auf der dezentralen Bitshares-Börse. Non-custodial, vertrauenslos und durch Blockchain-Technologie betrieben.",
+    "ctaPrimary": "Handel starten",
+    "ctaSecondary": "Einfacher Swap",
+    "scrollForMore": "Für mehr scrollen"
+  },
+  "theme_customizer": {
+    "title": "Design-Anpassung",
+    "subtitle": "Erstelle und bearbeite Designs, die jede Seite, Navigation und Komponente neu einfärben",
+    "hover1": "Verwenden Sie den einfachen Modus für eine Akzentfarbe oder den erweiterten für vollständige Kontrolle.",
+    "hover2": "Weisen Sie Seitenthemen zu und färben Sie Navigationsakzente um."
+  },
+  "home_link": {
+    "title": "Startseite",
+    "subtitle": "Zurück zum Haupt-Dashboard"
+  },
+  "page_themes": {
+    "title": "Seitenspezifische Themen",
+    "subtitle": "Bestimmte Themes für individuelle Seiten zuweisen",
+    "hover1": "Überschreiben Sie das aktive Theme für jede Seite in der App."
+  },
+  "airdrop": {
+    "title": "Airdrop",
+    "subtitle": "Verteilen Sie einen Asset massenhaft an viele Konten auf einmal.",
+    "hover1": "Teilen Sie eine große Empfängerliste in Transaktionen auf, die in die maximal zulässige Transaktionsgröße der Chain passen."
+  },
+  "airdrop_create": {
+    "title": "Airdrop erstellen",
+    "subtitle": "Erstellen Sie eine Empfängerliste und konfigurieren Sie die Asset-Verteilung.",
+    "hover1": "Laden Sie eine CSV/JSON-Datei mit 1.2.x-Konto-IDs hoch, wählen Sie einen Asset und legen Sie fest, wie die Beträge zugewiesen werden."
+  },
+  "airdrop_perform": {
+    "title": "Airdrop ausführen",
+    "subtitle": "Senden Sie die vorbereiteten Transfer-Batches an die Chain.",
+    "hover1": "Jeder Batch wird über Ihr verbundenes Wallet als einzelne Transaktion signiert und gesendet."
+  },
+  "airdrop_calculate": {
+    "title": "Airdrop",
+    "subtitle": "Verteilen Sie ein Asset auf viele Konten durch algorithmische Auswahl oder eine manuelle Liste.",
+    "hover1": "Erstellen Sie einen Kandidatenpool aus manueller Eingabe, Ticket-Sperren, Call-Order-Kollateral, Top-Asset-Inhabern, Limit-Order-Aktivität oder Lifetime-Member-Upgrades.",
+    "hover2": "Führen Sie einen oder mehrere deterministische Algorithmen aus — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — gesät von einer Block-Witness-Signatur.",
+    "hover3": "Überprüfen Sie die Gewinnerkonten, konfigurieren Sie die Verteilung (gleiche Aufteilung, fester Betrag oder benutzerdefiniert) und senden Sie dann jeden Batch über Ihr Beet-Wallet."
+  },
+  "recent_activity": {
+    "title": "Recent activity",
+    "subtitle": "Browse your latest on-chain operations.",
+    "hover1": "Review the most recent operations performed by your account.",
+    "hover2": "Inspect the underlying operation JSON for each entry."
+  },
+  "top_markets": {
+    "title": "Top markets",
+    "subtitle": "The most actively traded markets on the DEX.",
+    "hover1": "Ranked by the number of fill orders over the past 30 days.",
+    "hover2": "Great for spotting the busiest trading pairs.",
+    "dialogDescription": "Choose where to trade this market pair.",
+    "openDex": "Open in DEX limit order",
+    "openInstant": "Open in Instant Swap"
+  },
+  "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+  "top_pools": {
+    "title": "Top pools",
+    "subtitle": "The most actively swapped liquidity pools on the network.",
+    "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
+    "hover2": "Great for spotting the busiest pools to trade or stake in.",
+    "dialogDescription": "Choose where to use this liquidity pool.",
+    "openSwap": "Open in Simple Swap",
+    "openInstant": "Open in Instant Trade",
+    "openDex": "Open in DEX limit order",
+    "openStake": "Stake assets",
+    "pool": "Pool",
+    "assets": "Assets",
+    "swaps": "Swaps"
+  }
 }

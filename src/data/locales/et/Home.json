@@ -1,465 +1,466 @@
 {
-    "instant_trade": {
-        "title": "Vahetu kauplemine",
-        "subtitle": "Vahetage varasid kiiresti parimate saadaolevate hindadega",
-        "hover1": "Kaubelge varadega kohe DEX-is ilma segajateta.",
-        "hover2": "Kasutab tellimuste täitmise või tapmise tehnoloogiat soovitud hindade saamiseks või tellimuse tühistamiseks.",
-        "hover3": "Vaadake, kellega te DEX-is kauplete ja kas nad on lubanud oma tellimustele täitmise tingimused."
+  "instant_trade": {
+    "title": "Vahetu kauplemine",
+    "subtitle": "Vahetage varasid kiiresti parimate saadaolevate hindadega",
+    "hover1": "Kaubelge varadega kohe DEX-is ilma segajateta.",
+    "hover2": "Kasutab tellimuste täitmise või tapmise tehnoloogiat soovitud hindade saamiseks või tellimuse tühistamiseks.",
+    "hover3": "Vaadake, kellega te DEX-is kauplete ja kas nad on lubanud oma tellimustele täitmise tingimused."
+  },
+  "vote": {
+    "title": "Hääletamine",
+    "subtitle": "Hääletage tunnistajate, komisjoni liikmete ja töötajate ettepanekute poolt",
+    "hover1": "Hääletage tunnistajate poolt, kes toodavad plokiahelas plokke.",
+    "hover2": "Hääletage plokiahelat juhtivate komisjoni liikmete poolt.",
+    "hover3": "Hääletage töötajate ettepanekute poolt plokiahela ideede rahastamiseks."
+  },
+  "barter": {
+    "title": "barter",
+    "subtitle": "Kaubavahetus teiste kasutajatega",
+    "hover1": "Kauplege vara teiste kasutajatega.",
+    "hover2": "Bartering on peer-peer kauplemisprotsess.",
+    "hover3": "Vahetus võib hõlmata 3. osapoole tingdeponeerimisteenuseid."
+  },
+  "witnesses": {
+    "title": "tunnistajad",
+    "subtitle": "Vaadake praeguseid aktiivseid ja passiivseid tunnistajaid.",
+    "hover1": "Vaade, kes on kõige rohkem hääli saanud.",
+    "hover2": "Vaade, kelle tunnistajad on hääletanud.",
+    "hover3": "Vaata tunnistajate tuum märkide saldosid."
+  },
+  "committee": {
+    "title": "komisjoni liikmed",
+    "subtitle": "Vaadake praeguseid aktiivseid ja passiivseid komitee liikmeid.",
+    "hover1": "Vaade, kes on kõige rohkem hääli saanud.",
+    "hover2": "Vaadake, kelle poolt komitee liikmed on hääletanud.",
+    "hover3": "Vaatekomitee põhisilmajäägid."
+  },
+  "governance": {
+    "title": "Rolli registreerimine",
+    "subtitle": "Looge/värskendage nii tunnistajate kui ka komisjoni rolle.",
+    "hover1": "Looge, värskendage või kehtestage tunnistajate registreerimine.",
+    "hover2": "Looge või värskendage oma komitee liikme registreerimist."
+  },
+  "create_worker": {
+    "title": "Loo töötaja ettepanek",
+    "subtitle": "Looge ideede rahastamise ettepanek!",
+    "hover1": "Tagastage raha oma projekti rahastamiseks töötajate ettepaneku kaudu.",
+    "hover2": "Töötajate ettepanekuid rahastab Bitshares Reserve Fond.",
+    "hover3": "Töötajate ettepanekud hääletab kogukond."
+  },
+  "dex": {
+    "title": "DEX-i limiittellimused",
+    "subtitle": "Kauple varadega Bitshares DEXis",
+    "hover1": "Limiittellimuste käsitsi koostamine.",
+    "hover2": "Kasutage mis tahes varakauplemispaari.",
+    "hover3": "Määrake tellimuse aegumiskuupäevad.",
+    "hover4": "Keerulisem, kuid odavam kui basseinivahetus."
+  },
+  "pool": {
+    "title": "Likviidsusbasseini börs",
+    "subtitle": "Vahetage varad likviidsuskogumi kaudu",
+    "hover1": "Vahetage varad kasutaja loodud likviidsuskogumite kaudu.",
+    "hover2": "Pooltel on erinevad kauplemispaarid ja tasud.",
+    "hover3": "Lihtsam, kuid kulukam kui piirtellimus."
+  },
+  "swap": {
+    "title": "Lihtne varade vahetus",
+    "subtitle": "Vahetage varasid hõlpsamini basseinide kaudu",
+    "hover1": "Vahetage varad kasutaja loodud likviidsuskogumite kaudu.",
+    "hover2": "Pooltel on erinevad kauplemispaarid ja tasud.",
+    "hover3": "Lihtsam, kuid kulukam kui piirtellimus."
+  },
+  "stake": {
+    "title": "Panuse vara",
+    "subtitle": "Osalusvara likviidsuskogumites",
+    "hover1": "Tasude teenimiseks panustage varasid likviidsusfondidesse.",
+    "hover2": "Panustatud varad on basseinis lukus.",
+    "hover3": "Panustatud varasid saab igal ajal välja võtta."
+  },
+  "transfer": {
+    "title": "Varade ülekandmine",
+    "subtitle": "Saatke vara teistele kasutajatele",
+    "hover1": "Kandke varad mõne sekundi jooksul üle kellelegi Bitsharesi plokiahelas."
+  },
+  "timed_transfer": {
+    "title": "ajastatud ülekanne",
+    "subtitle": "Saada vara teistele kasutajatele hiljem.",
+    "hover1": "Ajakava varade edastamine teisele kasutajale pärast ettepaneku ülevaatamise perioodi möödumist."
+  },
+  "withdraw_permission": {
+    "title": "Luba tagasi võtta",
+    "subtitle": "Hallake oma tagasivõtmist",
+    "hover1": "Looge/redigeerige/kustutage makse väljavõtmise õigused.",
+    "hover2": "Vaadake oma vastuvõtuõigusi."
+  },
+  "htlc": {
+    "title": "Rashi ajalukustatud lepingud (HTLC)",
+    "subtitle": "Looge väidetavaid vahendeid, mis on lukustatud salajaste krüptoklahvide taha.",
+    "hover1": "HTLC lukustab eraldajale raha, kes saab need raha lunastada, pakkudes salajast preimage (parooli), mida saatja kasutas lepingu loomiseks.",
+    "hover2": "Parooli avalikustamine toimub ahelaväliselt."
+  },
+  "create_vesting": {
+    "title": "Vestivarad",
+    "subtitle": "Looge omandamise saldod",
+    "hover1": "Üleandmisbilansi loomine võimaldab lukustada teatud koguse varasid kindlaksmääratud perioodiks.",
+    "hover2": "Võite kasutada ühte kahest omandamise tüübist: Coin Days Destroyed ja Linear Vesting with Cliff.",
+    "hover3": "Müntide hävitatud päevade poliitika mõju seisneb selles, et enne kogu saldo väljavõtmist tuleb koguneda teatud summa \"intressi\", intressi koguneb mündipäevadena (saldo * hoitud pikkus), kui osa saldost võetakse välja, tuleb ülejäänud saldo säilitada. ",
+    "hover4": "Lineaarse üleandmise koos Cliffiga poliitikat kasutatakse traditsiooniliste aktsiate üleandmise lepingute jäljendamiseks, kus iga päev antakse teatud summa kuni selle täieliku küpsemiseni."
+  },
+  "borrow": {
+    "title": "Laenake raha",
+    "subtitle": "Laena teistelt kasutajatelt krediidipakkumisi",
+    "hover1": "Sirvi aktiivse kasutaja loodud krediidipakkumisi.",
+    "hover2": "Laenake neilt varasid soovitud intressimääraga.",
+    "hover3": "Kasutage oma laenu tagamiseks nõutud tagatist."
+  },
+  "lend": {
+    "title": "Laena vahendeid",
+    "subtitle": "Looge teistele laenu pakkumine",
+    "hover1": "Looge oma detsentraliseeritud krediidipakkumised.",
+    "hover2": "Laenake varasid teie määratud intressimääradega.",
+    "hover3": "Täpsustage aktsepteeritav laenutagatis ja hinnad."
+  },
+  "smartcoins": {
+    "title": "Väljasta tagatisega võlg",
+    "subtitle": "Laenake Fiati bitasette, privaatseid nutimünte ja palju muud.",
+    "hover1": "Bitassetid, nagu USD, CNY ja EUR, on komiteede loodud stabiilsed mündid (nutimündid), mida toetab BTS.",
+    "hover2": "Kasutaja loodud smartcoine saab toetada mis tahes varaga ja viidata mis tahes välisele kanalile.",
+    "hover3": "Välised arveldushinnad tuletatakse konfigureeritud söödatootjatelt.",
+    "hover4": "Kokkupuude välishindadega võib ohustada tagatisega võlapositsioone."
+  },
+  "tfunds": {
+    "title": "Sama-T fondid",
+    "subtitle": "Vaadake, looge, värskendage ja kustutage Same-T fonde!",
+    "hover1": "Vaadake kõiki teiste kasutajate praegu pakutavaid Same-T fonde.",
+    "hover2": "Looge lihtsalt uus Same-T fond.",
+    "hover3": "Värskendage või kustutage olemasolevaid Same-T fonde.",
+    "hover4": "Same-T fondid on viis oma osalustelt passiivselt teenida."
+  },
+  "portfolio": {
+    "title": "Teie portfell",
+    "subtitle": "Kontrollige oma saldosid, avatud tellimusi ja hiljutist plokiahela tegevust",
+    "hover1": "Kontrollige oma saldosid.",
+    "hover2": "Jälgige oma avatud tellimusi.",
+    "hover3": "Analüüsige oma hiljutist kontotegevust."
+  },
+  "portfolio_balances": {
+    "title": "Kontojäägid",
+    "subtitle": "Vaadake oma likviidsete saldode ja sellega seotud toiminguid",
+    "hover1": "Sorteeri saldod vaikimisi, tähestiku või summa järgi.",
+    "hover2": "Kiired lingid kaubanduse ja varade teabe juurde.",
+    "hover3": "Vaadake seotud likviidsuskogumeid."
+  },
+  "portfolio_open_orders": {
+    "title": "Avatud tellimused",
+    "subtitle": "Vaadake ja hallake oma avatud DEX-tellimusi",
+    "hover1": "Hüppa otse turupaari juurde.",
+    "hover2": "Uuenda või tühista tellimus.",
+    "hover3": "Kontrollige aegumist ja tellimuse ID-d."
+  },
+  "portfolio_recent_activity": {
+    "title": "Hiljutine tegevus",
+    "subtitle": "Kontrollige oma viimaseid ketisiseseid toiminguid",
+    "hover1": "Sirvige toimingute ID-sid ja plokke.",
+    "hover2": "Kuva toiming JSON.",
+    "hover3": "Avage kõik tegevuse üksikasjad."
+  },
+  "favourites": {
+    "title": "Teie lemmikud",
+    "subtitle": "Kiire juurdepääs lemmikvaradele ja -kontodele",
+    "hover1": "Lisage teile olulised varad, et neid ühes kohas vaadata.",
+    "hover2": "Kiireks viitamiseks jälgige oma lemmikkontosid."
+  },
+  "featured": {
+    "title": "Parimad turud",
+    "subtitle": "Avastage täna kõige aktiivsemalt kaubeldavad varad",
+    "hover1": "Liikuge kõige aktiivsemate kauplemispaaride juurde.",
+    "hover2": "Võrrelge turu kauplemismahtu ja väärtust.",
+    "hover3": "Võrrelge turutehingute kogust."
+  },
+  "deals": {
+    "title": "Krediidipakkumised",
+    "subtitle": "Kontrollige oma krediidipakkumisi",
+    "hover1": "Jälgige oma aktiivseid krediiditehinguid.",
+    "hover2": "Hallake oma krediiditehingute olekut."
+  },
+  "offers": {
+    "title": "Krediidipakkumised",
+    "subtitle": "Kontrollige oma krediidipakkumisi",
+    "hover1": "Jälgige oma aktiivseid krediidipakkumisi.",
+    "hover2": "Hallake oma krediidipakkumiste olekut."
+  },
+  "vesting": {
+    "title": "Üleandmise saldod",
+    "subtitle": "Vaadake ja taotlege preemiaid, suunamistasusid ja muid üleandmise saldosid",
+    "hover1": "Kontrollige oma üleandmisjääke.",
+    "hover2": "Nõudke oma kontojääke."
+  },
+  "proposals": {
+    "title": "Kavandatavad toimingud",
+    "subtitle": "Pakutud kontotoimingute vaatamine ja kinnitamine/lükkamine",
+    "hover1": "Vaadake teiste plokiahela kontode pakutud kontotoiminguid teie konto jaoks.",
+    "hover2": "Kinnitage või lükkake tagasi kavandatud kontotoimingud."
+  },
+  "issued_assets": {
+    "title": "Teie väljastatud varad",
+    "subtitle": "Vaadake kõiki loodud varasid",
+    "hover1": "Vaadake kasutaja väljastatud varasid, nutikoine ja mittevahetatavaid žetoone!",
+    "hover2": "Muutke plokiahelas loodud varasid.",
+    "hover3": "Soovi korral väljastage loodud varade kogus."
+  },
+  "blocks": {
+    "title": "Blockchaini andmed",
+    "subtitle": "Vaadake uusimaid plokiahela kokkuvõtlikke andmeid",
+    "hover1": "Hiljutiste tegevuste ja hiljutiste blokkide reaalajas andmetabelid.",
+    "hover2": "Hiljutine plokkide tehingute loenduse reaalajas diagramm.",
+    "hover3": "Summeeritud plokiahela andmete keskmised ja kogusummad."
+  },
+  "create_uia": {
+    "title": "Kasutaja väljastatud vara",
+    "subtitle": "Looge kõige jaoks oma märk",
+    "hover1": "Looge oma kasutaja väljastatud vara.",
+    "hover2": "Neid saab kasutada erinevatel eesmärkidel.",
+    "hover3": "Neid saab kasutada teie ettevõtte märgina, preemia märgina, mängu märgina ja palju muud.",
+    "hover4": "Lüüsid saavad Bitshares DEX-is kauplemiseks luua börsil tagatud varasid."
+  },
+  "create_ticket": {
+    "title": "Loo pilet",
+    "subtitle": "Häälte kaalu suurendamiseks looge hääleluku pileteid.",
+    "hover1": "Hääleluku piletid annavad teile hääle kaalu tunnistajate, komisjonide ja töötajate hääletamisel.",
+    "hover2": "Likvideerimise korral kulub piletitel teatud ajavahemik, enne kui raha vabastate."
+  },
+  "ticket_leaderboard": {
+    "title": "Piletite edetabel",
+    "subtitle": "Vaadake kombineeritud efektiivset piletivõimsust kontode kaupa",
+    "hover1": "Vaadake, kellel on plokiahelas suurim hääleõigus.",
+    "hover2": "Võrrelge, kuidas teie häälejõud teistega võrreldes on.",
+    "hover3": "Suurema hääleõiguse saamiseks arvutage oma tulevaste hääleluku piletite suurus."
+  },
+  "create_smartcoin": {
+    "title": "Smartcoini vara",
+    "subtitle": "Looge Fiati stabiilse mündi vara",
+    "hover1": "Looge oma Smartcoin.",
+    "hover2": "Neid saab kasutada erinevatel eesmärkidel.",
+    "hover3": "Neid saab kasutada stabiilse mündina, teie ettevõtte märgina, preemia märgina, mängu märgina ja palju muud.",
+    "hover4": "Nutikamünte saab toetada mis tahes varaga ja viidata mis tahes välisele kanalile."
+  },
+  "create_liquidity_pool": {
+    "title": "Looge likviidsusbassein",
+    "subtitle": "Looge uus likviidsuskogum 2 vara vahetamiseks",
+    "hover1": "Teisendab kasutaja väljastatud vara likviidsuskogumi aktsiavaraks.",
+    "hover2": "Seadistage likviidsuskogum, et vahetada plokiahelas kaks vara.",
+    "hover3": "Rakendage oma tasusid, et teenida teistelt oma likviidsusfondi kasutavatelt raha."
+  },
+  "accountLists": {
+    "title": "Kontode loendid",
+    "subtitle": "Saate vaadata ja hallata oma kontoloendeid",
+    "hover1": "Lisage kontod oma lubatud loendisse.",
+    "hover2": "Lisage kontod oma musta nimekirja.",
+    "hover3": "Eemaldage nimetatud loenditest kontod."
+  },
+  "blocked_users": {
+    "title": "Blokeeritud kasutajad",
+    "subtitle": "Vaata ja halda oma blokeeritud kontosid",
+    "hover1": "Vaata kontosid, oled blokeerinud.",
+    "hover2": "Blokeeri või eemalda blokeering kontode vaatest."
+  },
+  "ltm": {
+    "title": "Täiendage kontot",
+    "subtitle": "Ostke eluaegne liikmesus",
+    "hover1": "Eluaegseks liikmeks saamisel on mitmeid eeliseid.",
+    "hover2": "Eluaegsed liikmed saavad tasudelt 80% tagasimakse.",
+    "hover3": "Eluaegsed liikmed saavad luua esmaklassilisi Bitsharesi kontonimesid.",
+    "hover4": "Eluaegsed liikmed saavad teenida suunamissüsteemi kaudu."
+  },
+  "nodes": {
+    "title": "Sõlmed",
+    "subtitle": "Plokiahela sõlme konfiguratsioon",
+    "hover1": "Ühendage oma valitud Bitsharesi sõlmega.",
+    "hover2": "Lisage/eemaldage sõlmed oma ühenduste loendisse."
+  },
+  "create_account": {
+    "title": "Loo konto",
+    "subtitle": "Looge Bitshares Blockchainis uus pilve rahakoti konto.",
+    "hover1": "Looge tasuta konto, kasutades avalikku kraani.",
+    "hover2": "Genereerige olemasoleva LTM -konto abil esmaklassiline konto."
+  },
+  "invoice_inventory": {
+    "title": "Arvete laoseisu",
+    "subtitle": "Hallake arveldamisel kasutatud esemeid ja hindu",
+    "hover1": "Looge ja hallake laoartikleid ja nende hindu arvete jaoks."
+  },
+  "create_invoice": {
+    "title": "Loo arve",
+    "subtitle": "Looge klientidele arvekoode",
+    "hover1": "Koostage arve, valides kaubad laost, esitades kogused ja arve üksikasjad."
+  },
+  "pay_invoice": {
+    "title": "Makske arve",
+    "subtitle": "Tasuge arveid kasutades arvekoode",
+    "hover1": "Tasuge arve sisestades arve koostaja antud arve koodi.",
+    "hover2": "Soovi korral makske iga ostetava kauba eest erinevate varadega."
+  },
+  "stored_invoices": {
+    "title": "Salvestatud arved",
+    "subtitle": "Saate vaadata ja hallata oma salvestatud arveid",
+    "hover1": "Sirvige oma salvestatud arveid, nii loodud kui ka vastu võetud.",
+    "hover2": "Vaadake arve üksikasju ja kustutage soovimatud arved.",
+    "hover3": "Salvestage andmeid täitmisel olevate arvete edenemise kohta."
+  },
+  "tfund_user": {
+    "title": "SAMA-T Fondi kaubandus",
+    "subtitle": "Laenake, kaubelda, tagasi maksta, lihtne!",
+    "hover1": "Laenake varasid sama-T fondilt.",
+    "hover2": "Kauplege need sama-T fondidega DEX-iga.",
+    "hover3": "Laenatud varad tagasi maksta."
+  },
+  "custom_pool_tracker": {
+    "title": "likviidsuse basseini jälgija",
+    "subtitle": "Jälgige oma lemmik likviidsusbasseine hõlpsalt!",
+    "hover1": "Seadistage oma kohandatud likviidsuse basseini jälgija.",
+    "hover2": "Jälgige kuni 5 vahetatavat vara."
+  },
+  "pools": {
+    "title": "likviidsusbasseinid",
+    "subtitle": "Vaadake kõigi likviidsusbasseinide loendit",
+    "hover1": "Filtreerige kõik likviidsusbasseinid vahetatavate varade kaupa",
+    "hover2": "Leidke likviidsusbasseinid varade vahetamiseks.",
+    "hover3": "Tuvastage likviidsusbasseinid, kus on vara."
+  },
+  "features": {
+    "heading": "Omadused",
+    "functionalityHeading": "Funktsionaalsus",
+    "zeroAuth": {
+      "title": "Autentimist pole vaja!",
+      "description": "Looge oma plokiahela tehingud ilma kontosid avamata!"
     },
-    "vote": {
-        "title": "Hääletamine",
-        "subtitle": "Hääletage tunnistajate, komisjoni liikmete ja töötajate ettepanekute poolt",
-        "hover1": "Hääletage tunnistajate poolt, kes toodavad plokiahelas plokke.",
-        "hover2": "Hääletage plokiahelat juhtivate komisjoni liikmete poolt.",
-        "hover3": "Hääletage töötajate ettepanekute poolt plokiahela ideede rahastamiseks."
+    "multiBroadcast": {
+      "title": "Mitu tehingute levitamise meetodit!",
+      "description": "Edastage oma plokiahela toiminguid QR-koodide, süvalinkide või kohalike JSON-failide kaudu."
     },
-    "barter": {
-        "title": "barter",
-        "subtitle": "Kaubavahetus teiste kasutajatega",
-        "hover1": "Kauplege vara teiste kasutajatega.",
-        "hover2": "Bartering on peer-peer kauplemisprotsess.",
-        "hover3": "Vahetus võib hõlmata 3. osapoole tingdeponeerimisteenuseid."
+    "supportsLatest": {
+      "title": "Toetab uusimaid Bitsharesi funktsioone!",
+      "description": "Kas olete huvitatud Bitshares DEXi viimastest täiustustest? "
     },
-    "witnesses": {
-        "title": "tunnistajad",
-        "subtitle": "Vaadake praeguseid aktiivseid ja passiivseid tunnistajaid.",
-        "hover1": "Vaade, kes on kõige rohkem hääli saanud.",
-        "hover2": "Vaade, kelle tunnistajad on hääletanud.",
-        "hover3": "Vaata tunnistajate tuum märkide saldosid."
+    "switchChains": {
+      "title": "Lülituge hõlpsalt toetatud plokiahelate vahel!",
+      "description": "Bitsharesi põhivõrgu ja testneti võrkude vahetamiseks kulub sekundeid!"
     },
-    "committee": {
-        "title": "komisjoni liikmed",
-        "subtitle": "Vaadake praeguseid aktiivseid ja passiivseid komitee liikmeid.",
-        "hover1": "Vaade, kes on kõige rohkem hääli saanud.",
-        "hover2": "Vaadake, kelle poolt komitee liikmed on hääletanud.",
-        "hover3": "Vaatekomitee põhisilmajäägid."
+    "nearInstant": {
+      "title": "Peaaegu kohesed plokiahela toimingud!",
+      "description": "Kolmesekundilise ploki ajastusega kontrollitakse teie edastustoiminguid peaaegu kohe!"
     },
-    "governance": {
-        "title": "Rolli registreerimine",
-        "subtitle": "Looge/värskendage nii tunnistajate kui ka komisjoni rolle.",
-        "hover1": "Looge, värskendage või kehtestage tunnistajate registreerimine.",
-        "hover2": "Looge või värskendage oma komitee liikme registreerimist."
+    "evergreen": {
+      "title": "Ehitatud igihaljaste tehnoloogiatega!",
+      "description": "Kasutades uusimaid veebitehnoloogiaid kiire, turvalise ja usaldusväärse Bitsharesi tuleviku jaoks!"
     },
-    "create_worker": {
-        "title": "Loo töötaja ettepanek",
-        "subtitle": "Looge ideede rahastamise ettepanek!",
-        "hover1": "Tagastage raha oma projekti rahastamiseks töötajate ettepaneku kaudu.",
-        "hover2": "Töötajate ettepanekuid rahastab Bitshares Reserve Fond.",
-        "hover3": "Töötajate ettepanekud hääletab kogukond."
+    "multiWallets": {
+      "title": "Toetab mitut rahakotti!",
+      "description": "Edastage tehinguid Beet või BeetEOS rahakottide kaudu!"
     },
-    "dex": {
-        "title": "DEX-i limiittellimused",
-        "subtitle": "Kauple varadega Bitshares DEXis",
-        "hover1": "Limiittellimuste käsitsi koostamine.",
-        "hover2": "Kasutage mis tahes varakauplemispaari.",
-        "hover3": "Määrake tellimuse aegumiskuupäevad.",
-        "hover4": "Keerulisem, kuid odavam kui basseinivahetus."
+    "localized": {
+      "title": "Täielikult lokaliseeritud mitmesse keelde!",
+      "description": "Saadaval 11 keeles ja kasvab veelgi!"
     },
-    "pool": {
-        "title": "Likviidsusbasseini börs",
-        "subtitle": "Vahetage varad likviidsuskogumi kaudu",
-        "hover1": "Vahetage varad kasutaja loodud likviidsuskogumite kaudu.",
-        "hover2": "Pooltel on erinevad kauplemispaarid ja tasud.",
-        "hover3": "Lihtsam, kuid kulukam kui piirtellimus."
-    },
-    "swap": {
-        "title": "Lihtne varade vahetus",
-        "subtitle": "Vahetage varasid hõlpsamini basseinide kaudu",
-        "hover1": "Vahetage varad kasutaja loodud likviidsuskogumite kaudu.",
-        "hover2": "Pooltel on erinevad kauplemispaarid ja tasud.",
-        "hover3": "Lihtsam, kuid kulukam kui piirtellimus."
-    },
-    "stake": {
-        "title": "Panuse vara",
-        "subtitle": "Osalusvara likviidsuskogumites",
-        "hover1": "Tasude teenimiseks panustage varasid likviidsusfondidesse.",
-        "hover2": "Panustatud varad on basseinis lukus.",
-        "hover3": "Panustatud varasid saab igal ajal välja võtta."
-    },
-    "transfer": {
-        "title": "Varade ülekandmine",
-        "subtitle": "Saatke vara teistele kasutajatele",
-        "hover1": "Kandke varad mõne sekundi jooksul üle kellelegi Bitsharesi plokiahelas."
-    },
-    "timed_transfer": {
-        "title": "ajastatud ülekanne",
-        "subtitle": "Saada vara teistele kasutajatele hiljem.",
-        "hover1": "Ajakava varade edastamine teisele kasutajale pärast ettepaneku ülevaatamise perioodi möödumist."
-    },
-    "withdraw_permission": {
-        "title": "Luba tagasi võtta",
-        "subtitle": "Hallake oma tagasivõtmist",
-        "hover1": "Looge/redigeerige/kustutage makse väljavõtmise õigused.",
-        "hover2": "Vaadake oma vastuvõtuõigusi."
-    },
-    "htlc": {
-        "title": "Rashi ajalukustatud lepingud (HTLC)",
-        "subtitle": "Looge väidetavaid vahendeid, mis on lukustatud salajaste krüptoklahvide taha.",
-        "hover1": "HTLC lukustab eraldajale raha, kes saab need raha lunastada, pakkudes salajast preimage (parooli), mida saatja kasutas lepingu loomiseks.",
-        "hover2": "Parooli avalikustamine toimub ahelaväliselt."
-    },
-    "create_vesting": {
-        "title": "Vestivarad",
-        "subtitle": "Looge omandamise saldod",
-        "hover1": "Üleandmisbilansi loomine võimaldab lukustada teatud koguse varasid kindlaksmääratud perioodiks.",
-        "hover2": "Võite kasutada ühte kahest omandamise tüübist: Coin Days Destroyed ja Linear Vesting with Cliff.",
-        "hover3": "Müntide hävitatud päevade poliitika mõju seisneb selles, et enne kogu saldo väljavõtmist tuleb koguneda teatud summa \"intressi\", intressi koguneb mündipäevadena (saldo * hoitud pikkus), kui osa saldost võetakse välja, tuleb ülejäänud saldo säilitada. ",
-        "hover4": "Lineaarse üleandmise koos Cliffiga poliitikat kasutatakse traditsiooniliste aktsiate üleandmise lepingute jäljendamiseks, kus iga päev antakse teatud summa kuni selle täieliku küpsemiseni."
-    },
-    "borrow": {
-        "title": "Laenake raha",
-        "subtitle": "Laena teistelt kasutajatelt krediidipakkumisi",
-        "hover1": "Sirvi aktiivse kasutaja loodud krediidipakkumisi.",
-        "hover2": "Laenake neilt varasid soovitud intressimääraga.",
-        "hover3": "Kasutage oma laenu tagamiseks nõutud tagatist."
-    },
-    "lend": {
-        "title": "Laena vahendeid",
-        "subtitle": "Looge teistele laenu pakkumine",
-        "hover1": "Looge oma detsentraliseeritud krediidipakkumised.",
-        "hover2": "Laenake varasid teie määratud intressimääradega.",
-        "hover3": "Täpsustage aktsepteeritav laenutagatis ja hinnad."
-    },
-    "smartcoins": {
-        "title": "Väljasta tagatisega võlg",
-        "subtitle": "Laenake Fiati bitasette, privaatseid nutimünte ja palju muud.",
-        "hover1": "Bitassetid, nagu USD, CNY ja EUR, on komiteede loodud stabiilsed mündid (nutimündid), mida toetab BTS.",
-        "hover2": "Kasutaja loodud smartcoine saab toetada mis tahes varaga ja viidata mis tahes välisele kanalile.",
-        "hover3": "Välised arveldushinnad tuletatakse konfigureeritud söödatootjatelt.",
-        "hover4": "Kokkupuude välishindadega võib ohustada tagatisega võlapositsioone."
-    },
-    "tfunds": {
-        "title": "Sama-T fondid",
-        "subtitle": "Vaadake, looge, värskendage ja kustutage Same-T fonde!",
-        "hover1": "Vaadake kõiki teiste kasutajate praegu pakutavaid Same-T fonde.",
-        "hover2": "Looge lihtsalt uus Same-T fond.",
-        "hover3": "Värskendage või kustutage olemasolevaid Same-T fonde.",
-        "hover4": "Same-T fondid on viis oma osalustelt passiivselt teenida."
-    },
-    "portfolio": {
-        "title": "Teie portfell",
-        "subtitle": "Kontrollige oma saldosid, avatud tellimusi ja hiljutist plokiahela tegevust",
-        "hover1": "Kontrollige oma saldosid.",
-        "hover2": "Jälgige oma avatud tellimusi.",
-        "hover3": "Analüüsige oma hiljutist kontotegevust."
-    },
-    "portfolio_balances": {
-        "title": "Kontojäägid",
-        "subtitle": "Vaadake oma likviidsete saldode ja sellega seotud toiminguid",
-        "hover1": "Sorteeri saldod vaikimisi, tähestiku või summa järgi.",
-        "hover2": "Kiired lingid kaubanduse ja varade teabe juurde.",
-        "hover3": "Vaadake seotud likviidsuskogumeid."
-    },
-    "portfolio_open_orders": {
-        "title": "Avatud tellimused",
-        "subtitle": "Vaadake ja hallake oma avatud DEX-tellimusi",
-        "hover1": "Hüppa otse turupaari juurde.",
-        "hover2": "Uuenda või tühista tellimus.",
-        "hover3": "Kontrollige aegumist ja tellimuse ID-d."
-    },
-    "portfolio_recent_activity": {
-        "title": "Hiljutine tegevus",
-        "subtitle": "Kontrollige oma viimaseid ketisiseseid toiminguid",
-        "hover1": "Sirvige toimingute ID-sid ja plokke.",
-        "hover2": "Kuva toiming JSON.",
-        "hover3": "Avage kõik tegevuse üksikasjad."
-    },
-    "favourites": {
-        "title": "Teie lemmikud",
-        "subtitle": "Kiire juurdepääs lemmikvaradele ja -kontodele",
-        "hover1": "Lisage teile olulised varad, et neid ühes kohas vaadata.",
-        "hover2": "Kiireks viitamiseks jälgige oma lemmikkontosid."
-    },
-    "featured": {
-        "title": "Parimad turud",
-        "subtitle": "Avastage täna kõige aktiivsemalt kaubeldavad varad",
-        "hover1": "Liikuge kõige aktiivsemate kauplemispaaride juurde.",
-        "hover2": "Võrrelge turu kauplemismahtu ja väärtust.",
-        "hover3": "Võrrelge turutehingute kogust."
-    },
-    "deals": {
-        "title": "Krediidipakkumised",
-        "subtitle": "Kontrollige oma krediidipakkumisi",
-        "hover1": "Jälgige oma aktiivseid krediiditehinguid.",
-        "hover2": "Hallake oma krediiditehingute olekut."
-    },
-    "offers": {
-        "title": "Krediidipakkumised",
-        "subtitle": "Kontrollige oma krediidipakkumisi",
-        "hover1": "Jälgige oma aktiivseid krediidipakkumisi.",
-        "hover2": "Hallake oma krediidipakkumiste olekut."
-    },
-    "vesting": {
-        "title": "Üleandmise saldod",
-        "subtitle": "Vaadake ja taotlege preemiaid, suunamistasusid ja muid üleandmise saldosid",
-        "hover1": "Kontrollige oma üleandmisjääke.",
-        "hover2": "Nõudke oma kontojääke."
-    },
-    "proposals": {
-        "title": "Kavandatavad toimingud",
-        "subtitle": "Pakutud kontotoimingute vaatamine ja kinnitamine/lükkamine",
-        "hover1": "Vaadake teiste plokiahela kontode pakutud kontotoiminguid teie konto jaoks.",
-        "hover2": "Kinnitage või lükkake tagasi kavandatud kontotoimingud."
-    },
-    "issued_assets": {
-        "title": "Teie väljastatud varad",
-        "subtitle": "Vaadake kõiki loodud varasid",
-        "hover1": "Vaadake kasutaja väljastatud varasid, nutikoine ja mittevahetatavaid žetoone!",
-        "hover2": "Muutke plokiahelas loodud varasid.",
-        "hover3": "Soovi korral väljastage loodud varade kogus."
-    },
-    "blocks": {
-        "title": "Blockchaini andmed",
-        "subtitle": "Vaadake uusimaid plokiahela kokkuvõtlikke andmeid",
-        "hover1": "Hiljutiste tegevuste ja hiljutiste blokkide reaalajas andmetabelid.",
-        "hover2": "Hiljutine plokkide tehingute loenduse reaalajas diagramm.",
-        "hover3": "Summeeritud plokiahela andmete keskmised ja kogusummad."
-    },
-    "create_uia": {
-        "title": "Kasutaja väljastatud vara",
-        "subtitle": "Looge kõige jaoks oma märk",
-        "hover1": "Looge oma kasutaja väljastatud vara.",
-        "hover2": "Neid saab kasutada erinevatel eesmärkidel.",
-        "hover3": "Neid saab kasutada teie ettevõtte märgina, preemia märgina, mängu märgina ja palju muud.",
-        "hover4": "Lüüsid saavad Bitshares DEX-is kauplemiseks luua börsil tagatud varasid."
-    },
-    "create_ticket": {
-        "title": "Loo pilet",
-        "subtitle": "Häälte kaalu suurendamiseks looge hääleluku pileteid.",
-        "hover1": "Hääleluku piletid annavad teile hääle kaalu tunnistajate, komisjonide ja töötajate hääletamisel.",
-        "hover2": "Likvideerimise korral kulub piletitel teatud ajavahemik, enne kui raha vabastate."
-    },
-    "ticket_leaderboard": {
-        "title": "Piletite edetabel",
-        "subtitle": "Vaadake kombineeritud efektiivset piletivõimsust kontode kaupa",
-        "hover1": "Vaadake, kellel on plokiahelas suurim hääleõigus.",
-        "hover2": "Võrrelge, kuidas teie häälejõud teistega võrreldes on.",
-        "hover3": "Suurema hääleõiguse saamiseks arvutage oma tulevaste hääleluku piletite suurus."
-    },
-    "create_smartcoin": {
-        "title": "Smartcoini vara",
-        "subtitle": "Looge Fiati stabiilse mündi vara",
-        "hover1": "Looge oma Smartcoin.",
-        "hover2": "Neid saab kasutada erinevatel eesmärkidel.",
-        "hover3": "Neid saab kasutada stabiilse mündina, teie ettevõtte märgina, preemia märgina, mängu märgina ja palju muud.",
-        "hover4": "Nutikamünte saab toetada mis tahes varaga ja viidata mis tahes välisele kanalile."
-    },
-    "create_liquidity_pool": {
-        "title": "Looge likviidsusbassein",
-        "subtitle": "Looge uus likviidsuskogum 2 vara vahetamiseks",
-        "hover1": "Teisendab kasutaja väljastatud vara likviidsuskogumi aktsiavaraks.",
-        "hover2": "Seadistage likviidsuskogum, et vahetada plokiahelas kaks vara.",
-        "hover3": "Rakendage oma tasusid, et teenida teistelt oma likviidsusfondi kasutavatelt raha."
-    },
-    "accountLists": {
-        "title": "Kontode loendid",
-        "subtitle": "Saate vaadata ja hallata oma kontoloendeid",
-        "hover1": "Lisage kontod oma lubatud loendisse.",
-        "hover2": "Lisage kontod oma musta nimekirja.",
-        "hover3": "Eemaldage nimetatud loenditest kontod."
-    },
-    "blocked_users": {
-        "title": "Blokeeritud kasutajad",
-        "subtitle": "Vaata ja halda oma blokeeritud kontosid",
-        "hover1": "Vaata kontosid, oled blokeerinud.",
-        "hover2": "Blokeeri või eemalda blokeering kontode vaatest."
-    },
-    "ltm": {
-        "title": "Täiendage kontot",
-        "subtitle": "Ostke eluaegne liikmesus",
-        "hover1": "Eluaegseks liikmeks saamisel on mitmeid eeliseid.",
-        "hover2": "Eluaegsed liikmed saavad tasudelt 80% tagasimakse.",
-        "hover3": "Eluaegsed liikmed saavad luua esmaklassilisi Bitsharesi kontonimesid.",
-        "hover4": "Eluaegsed liikmed saavad teenida suunamissüsteemi kaudu."
-    },
-    "nodes": {
-        "title": "Sõlmed",
-        "subtitle": "Plokiahela sõlme konfiguratsioon",
-        "hover1": "Ühendage oma valitud Bitsharesi sõlmega.",
-        "hover2": "Lisage/eemaldage sõlmed oma ühenduste loendisse."
-    },
-    "create_account": {
-        "title": "Loo konto",
-        "subtitle": "Looge Bitshares Blockchainis uus pilve rahakoti konto.",
-        "hover1": "Looge tasuta konto, kasutades avalikku kraani.",
-        "hover2": "Genereerige olemasoleva LTM -konto abil esmaklassiline konto."
-    },
-    "invoice_inventory": {
-        "title": "Arvete laoseisu",
-        "subtitle": "Hallake arveldamisel kasutatud esemeid ja hindu",
-        "hover1": "Looge ja hallake laoartikleid ja nende hindu arvete jaoks."
-    },
-    "create_invoice": {
-        "title": "Loo arve",
-        "subtitle": "Looge klientidele arvekoode",
-        "hover1": "Koostage arve, valides kaubad laost, esitades kogused ja arve üksikasjad."
-    },
-    "pay_invoice": {
-        "title": "Makske arve",
-        "subtitle": "Tasuge arveid kasutades arvekoode",
-        "hover1": "Tasuge arve sisestades arve koostaja antud arve koodi.",
-        "hover2": "Soovi korral makske iga ostetava kauba eest erinevate varadega."
-    },
-    "stored_invoices": {
-        "title": "Salvestatud arved",
-        "subtitle": "Saate vaadata ja hallata oma salvestatud arveid",
-        "hover1": "Sirvige oma salvestatud arveid, nii loodud kui ka vastu võetud.",
-        "hover2": "Vaadake arve üksikasju ja kustutage soovimatud arved.",
-        "hover3": "Salvestage andmeid täitmisel olevate arvete edenemise kohta."
-    },
-    "tfund_user": {
-        "title": "SAMA-T Fondi kaubandus",
-        "subtitle": "Laenake, kaubelda, tagasi maksta, lihtne!",
-        "hover1": "Laenake varasid sama-T fondilt.",
-        "hover2": "Kauplege need sama-T fondidega DEX-iga.",
-        "hover3": "Laenatud varad tagasi maksta."
-    },
-    "custom_pool_tracker": {
-        "title": "likviidsuse basseini jälgija",
-        "subtitle": "Jälgige oma lemmik likviidsusbasseine hõlpsalt!",
-        "hover1": "Seadistage oma kohandatud likviidsuse basseini jälgija.",
-        "hover2": "Jälgige kuni 5 vahetatavat vara."
-    },
-    "pools": {
-        "title": "likviidsusbasseinid",
-        "subtitle": "Vaadake kõigi likviidsusbasseinide loendit",
-        "hover1": "Filtreerige kõik likviidsusbasseinid vahetatavate varade kaupa",
-        "hover2": "Leidke likviidsusbasseinid varade vahetamiseks.",
-        "hover3": "Tuvastage likviidsusbasseinid, kus on vara."
-    },
-    "features": {
-        "heading": "Omadused",
-        "functionalityHeading": "Funktsionaalsus",
-        "zeroAuth": {
-            "title": "Autentimist pole vaja!",
-            "description": "Looge oma plokiahela tehingud ilma kontosid avamata!"
-        },
-        "multiBroadcast": {
-            "title": "Mitu tehingute levitamise meetodit!",
-            "description": "Edastage oma plokiahela toiminguid QR-koodide, süvalinkide või kohalike JSON-failide kaudu."
-        },
-        "supportsLatest": {
-            "title": "Toetab uusimaid Bitsharesi funktsioone!",
-            "description": "Kas olete huvitatud Bitshares DEXi viimastest täiustustest? "
-        },
-        "switchChains": {
-            "title": "Lülituge hõlpsalt toetatud plokiahelate vahel!",
-            "description": "Bitsharesi põhivõrgu ja testneti võrkude vahetamiseks kulub sekundeid!"
-        },
-        "nearInstant": {
-            "title": "Peaaegu kohesed plokiahela toimingud!",
-            "description": "Kolmesekundilise ploki ajastusega kontrollitakse teie edastustoiminguid peaaegu kohe!"
-        },
-        "evergreen": {
-            "title": "Ehitatud igihaljaste tehnoloogiatega!",
-            "description": "Kasutades uusimaid veebitehnoloogiaid kiire, turvalise ja usaldusväärse Bitsharesi tuleviku jaoks!"
-        },
-        "multiWallets": {
-            "title": "Toetab mitut rahakotti!",
-            "description": "Edastage tehinguid Beet või BeetEOS rahakottide kaudu!"
-        },
-        "localized": {
-            "title": "Täielikult lokaliseeritud mitmesse keelde!",
-            "description": "Saadaval 11 keeles ja kasvab veelgi!"
-        },
-        "blockActors": {
-            "title": "Blokeerib halvad näitlejad!",
-            "description": "Aitab vältida pahatahtlikke kontosid ja nende plokiahela objekte!"
-        }
-    },
-    "sections": {
-        "exchangingSubtitle": "Kauple, vaheta, stake'i ja barterda DEX-is",
-        "transferSubtitle": "Saada varasid ja halda õigusi",
-        "debtSubtitle": "Võta laenu, anna laenu ja emiteeri tagatud võlg",
-        "assetCreationSubtitle": "Loo tokeneid, smartcoine ja likviidsuspütleid",
-        "accountSubtitle": "Halda oma portfelli, tellimusi ja lemmikuid",
-        "blockchainSubtitle": "Uuri plokiahela andmeid, pütleid ja jälgijaid",
-        "governanceSubtitle": "Hääleta, registreeri rolle ja loo töötajapakkumisi",
-        "invoicingSubtitle": "Loo, saada ja maksa arveid plokiahelas",
-        "settingsSubtitle": "Kontonimekirjad, sõlmed ja seadistus"
-    },
-    "configure_visuals": {
-        "title": "Konfigureeri visuaale",
-        "subtitle": "Kohanda laine taustu, aurora-sära, osakesi ja udu efekte",
-        "hover1": "Vali eelmääratletud värvipalettide hulgast või määra oma värvid.",
-        "hover2": "Kohanda laine arvu, kiirust, paksust ja aurora intensiivsust."
-    },
-    "waveHero": {
-        "title": "Järgmise põlvkonna Bitsharesi klient!",
-        "subtitle": "Ehitatud uusima tehnoloogiaga, mõeldud kasutusmugavuseks!"
-    },
-    "hero": {
-        "title": "Vahetus kõigile.",
-        "subtitle": "Kauple, vaheta, stake'i, laena, anna laenu ja muud Bitsharesi detsentraliseeritud börsil. Mitte-sotsiodiaalne, usaldusvaba ja plokiahela tehnoloogial põhinev.",
-        "ctaPrimary": "Alusta kauplemist",
-        "ctaSecondary": "Lihtne vahetus",
-        "scrollForMore": "Keri edasi"
-    },
-    "theme_customizer": {
-        "title": "Teema kohandamine",
-        "subtitle": "Loo ja muuda teemasid, mis värvivad iga lehe, navigeerimise ja komponendi",
-        "hover1": "Kasuta lihtsat režiimi ühe aktsendivärvi või täpset režiimi täielikuks kontrolliks.",
-        "hover2": "Määra teemasid lehtede kaupa ja värvita navigeerimise aktsendid."
-    },
-    "home_link": {
-        "title": "Avaleht",
-        "subtitle": "Tagasi peamisele töölauale"
-    },
-    "page_themes": {
-        "title": "Lehepõhised teemad",
-        "subtitle": "Määrake kindlad teemad üksikutele lehtedele",
-        "hover1": "Kirjutage aktiivne teema üle mis tahes lehel rakenduses."
-    },
-    "airdrop": {
-        "title": "Airdrop",
-        "subtitle": "Jaota vara hulgiväliselt paljudele kontodele korraga.",
-        "hover1": "Jaga suur saajate nimekiri tehinguteks, mis on mõõtmetega, et mahtuda ahela maksimaalse tehingu suurusesse."
-    },
-    "airdrop_create": {
-        "title": "Loo airdrop",
-        "subtitle": "Koosta saajate nimekiri ja seadista vara jaotus.",
-        "hover1": "Lae üles 1.2.x konto-ID-de CSV/JSON, vali vara ja see, kuidas summasid jaotatakse."
-    },
-    "airdrop_perform": {
-        "title": "Käivita airdrop",
-        "subtitle": "Kanna valmis pandud ülekande-partiid ahelasse.",
-        "hover1": "Iga partii allkirjastatakse ja kantakse üle ühe tehinguna sinu ühendatud rahakotiga."
-    },
-    "airdrop_calculate": {
-        "title": "Airdrop",
-        "subtitle": "Jaota vara paljude kontode vahel algoritmilise valiku või käsitsi sisestatud nimekirja abil.",
-        "hover1": "Loo kandidaatide baas käsitsi sisestamisest, piletite lukustamisest, kõnekorralduse tagatisest, suurimate varade omanikest, limiitkorralduste aktiivsusest või eluaegse liikme uuendustest.",
-        "hover2": "Käivita üks või mitu deterministlikku algoritmi — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel_of_fish — mida seeditakse ploki tunnistaja allkirjast.",
-        "hover3": "Vaata üle võitnud kontod, seadista jaotust (võrdne jaotus, fikseeritud summa või kohandatud) ja edasta iga partii oma Beet rahakoti kaudu."
-    },
-    "recent_activity": {
-        "title": "Recent activity",
-        "subtitle": "Browse your latest on-chain operations.",
-        "hover1": "Review the most recent operations performed by your account.",
-        "hover2": "Inspect the underlying operation JSON for each entry."
-    },
-    "top_markets": {
-        "title": "Top markets",
-        "subtitle": "The most actively traded markets on the DEX.",
-        "hover1": "Ranked by the number of fill orders over the past 30 days.",
-        "hover2": "Great for spotting the busiest trading pairs.",
-        "dialogDescription": "Choose where to trade this market pair.",
-        "openDex": "Open in DEX limit order",
-        "openInstant": "Open in Instant Swap"
-    },
-    "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
-    "top_pools": {
-        "title": "Top pools",
-        "subtitle": "The most actively swapped liquidity pools on the network.",
-        "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
-        "hover2": "Great for spotting the busiest pools to trade or stake in.",
-        "dialogDescription": "Choose where to use this liquidity pool.",
-        "openSwap": "Open in Simple Swap",
-        "openInstant": "Open in Instant Trade",
-        "openDex": "Open in DEX limit order",
-        "openStake": "Stake assets",
-        "pool": "Pool",
-        "assets": "Assets",
-        "swaps": "Swaps"
+    "blockActors": {
+      "title": "Blokeerib halvad näitlejad!",
+      "description": "Aitab vältida pahatahtlikke kontosid ja nende plokiahela objekte!"
     }
+  },
+  "sections": {
+    "exchangingSubtitle": "Kauple, vaheta, stake'i ja barterda DEX-is",
+    "transferSubtitle": "Saada varasid ja halda õigusi",
+    "debtSubtitle": "Võta laenu, anna laenu ja emiteeri tagatud võlg",
+    "assetCreationSubtitle": "Loo tokeneid, smartcoine ja likviidsuspütleid",
+    "accountSubtitle": "Halda oma portfelli, tellimusi ja lemmikuid",
+    "blockchainSubtitle": "Uuri plokiahela andmeid, pütleid ja jälgijaid",
+    "governanceSubtitle": "Hääleta, registreeri rolle ja loo töötajapakkumisi",
+    "invoicingSubtitle": "Loo, saada ja maksa arveid plokiahelas",
+    "settingsSubtitle": "Kontonimekirjad, sõlmed ja seadistus",
+    "airdropSubtitle": "Bulk send one asset to many accounts"
+  },
+  "configure_visuals": {
+    "title": "Konfigureeri visuaale",
+    "subtitle": "Kohanda laine taustu, aurora-sära, osakesi ja udu efekte",
+    "hover1": "Vali eelmääratletud värvipalettide hulgast või määra oma värvid.",
+    "hover2": "Kohanda laine arvu, kiirust, paksust ja aurora intensiivsust."
+  },
+  "waveHero": {
+    "title": "Järgmise põlvkonna Bitsharesi klient!",
+    "subtitle": "Ehitatud uusima tehnoloogiaga, mõeldud kasutusmugavuseks!"
+  },
+  "hero": {
+    "title": "Vahetus kõigile.",
+    "subtitle": "Kauple, vaheta, stake'i, laena, anna laenu ja muud Bitsharesi detsentraliseeritud börsil. Mitte-sotsiodiaalne, usaldusvaba ja plokiahela tehnoloogial põhinev.",
+    "ctaPrimary": "Alusta kauplemist",
+    "ctaSecondary": "Lihtne vahetus",
+    "scrollForMore": "Keri edasi"
+  },
+  "theme_customizer": {
+    "title": "Teema kohandamine",
+    "subtitle": "Loo ja muuda teemasid, mis värvivad iga lehe, navigeerimise ja komponendi",
+    "hover1": "Kasuta lihtsat režiimi ühe aktsendivärvi või täpset režiimi täielikuks kontrolliks.",
+    "hover2": "Määra teemasid lehtede kaupa ja värvita navigeerimise aktsendid."
+  },
+  "home_link": {
+    "title": "Avaleht",
+    "subtitle": "Tagasi peamisele töölauale"
+  },
+  "page_themes": {
+    "title": "Lehepõhised teemad",
+    "subtitle": "Määrake kindlad teemad üksikutele lehtedele",
+    "hover1": "Kirjutage aktiivne teema üle mis tahes lehel rakenduses."
+  },
+  "airdrop": {
+    "title": "Airdrop",
+    "subtitle": "Jaota vara hulgiväliselt paljudele kontodele korraga.",
+    "hover1": "Jaga suur saajate nimekiri tehinguteks, mis on mõõtmetega, et mahtuda ahela maksimaalse tehingu suurusesse."
+  },
+  "airdrop_create": {
+    "title": "Loo airdrop",
+    "subtitle": "Koosta saajate nimekiri ja seadista vara jaotus.",
+    "hover1": "Lae üles 1.2.x konto-ID-de CSV/JSON, vali vara ja see, kuidas summasid jaotatakse."
+  },
+  "airdrop_perform": {
+    "title": "Käivita airdrop",
+    "subtitle": "Kanna valmis pandud ülekande-partiid ahelasse.",
+    "hover1": "Iga partii allkirjastatakse ja kantakse üle ühe tehinguna sinu ühendatud rahakotiga."
+  },
+  "airdrop_calculate": {
+    "title": "Airdrop",
+    "subtitle": "Jaota vara paljude kontode vahel algoritmilise valiku või käsitsi sisestatud nimekirja abil.",
+    "hover1": "Loo kandidaatide baas käsitsi sisestamisest, piletite lukustamisest, kõnekorralduse tagatisest, suurimate varade omanikest, limiitkorralduste aktiivsusest või eluaegse liikme uuendustest.",
+    "hover2": "Käivita üks või mitu deterministlikku algoritmi — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel_of_fish — mida seeditakse ploki tunnistaja allkirjast.",
+    "hover3": "Vaata üle võitnud kontod, seadista jaotust (võrdne jaotus, fikseeritud summa või kohandatud) ja edasta iga partii oma Beet rahakoti kaudu."
+  },
+  "recent_activity": {
+    "title": "Recent activity",
+    "subtitle": "Browse your latest on-chain operations.",
+    "hover1": "Review the most recent operations performed by your account.",
+    "hover2": "Inspect the underlying operation JSON for each entry."
+  },
+  "top_markets": {
+    "title": "Top markets",
+    "subtitle": "The most actively traded markets on the DEX.",
+    "hover1": "Ranked by the number of fill orders over the past 30 days.",
+    "hover2": "Great for spotting the busiest trading pairs.",
+    "dialogDescription": "Choose where to trade this market pair.",
+    "openDex": "Open in DEX limit order",
+    "openInstant": "Open in Instant Swap"
+  },
+  "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+  "top_pools": {
+    "title": "Top pools",
+    "subtitle": "The most actively swapped liquidity pools on the network.",
+    "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
+    "hover2": "Great for spotting the busiest pools to trade or stake in.",
+    "dialogDescription": "Choose where to use this liquidity pool.",
+    "openSwap": "Open in Simple Swap",
+    "openInstant": "Open in Instant Trade",
+    "openDex": "Open in DEX limit order",
+    "openStake": "Stake assets",
+    "pool": "Pool",
+    "assets": "Assets",
+    "swaps": "Swaps"
+  }
 }

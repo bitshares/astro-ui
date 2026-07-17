@@ -56,5 +56,16 @@
   "pageAccentsDesc": "ปรับแต่งสีเน้นของหน้าที่ต้องการ: การ์ด ไอคอน ไฮไลต์ การไล่ระดับสี และแสงเรือง",
   "customizerTitle": "ตัวแก้ไขสี",
   "customizerDesc": "เลือกองค์ประกอบสีจากรายการและปรับโดยใช้ตัวเลือกสี ค่าฐานสิบหก หรือค่า RGB",
-  "themeElements": "องค์ประกอบธีม"
+  "themeElements": "องค์ประกอบธีม",
+  "deleteDialogTitle": "Delete theme?",
+  "deleteDialogDesc": "This action cannot be undone. The theme will be permanently removed.",
+  "deleteDialogCancel": "Cancel",
+  "deleteDialogConfirm": "Delete",
+  "draft": "Draft",
+  "save": "Save",
+  "discard": "Discard",
+  "themeName": "Theme name",
+  "nameRequired": "Name is required",
+  "nameTooLong": "Max 24 characters",
+  "nameInvalidChars": "Only letters, numbers and spaces"
 }

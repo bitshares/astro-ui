@@ -217,6 +217,11 @@ export default function AppSidebar() {
       title: "Home:portfolio_open_orders.title",
       href: "/open-orders/index.html",
     },
+    {
+      slug: "call_orders",
+      title: "CallOrders:title",
+      href: "/call-orders/index.html",
+    },
     { slug: "favourites", title: "Home:favourites.title", href: "/favourites/index.html" },
     { slug: "issued_assets", title: "Home:issued_assets.title", href: "/issued_assets/index.html" },
     { slug: "offers", title: "Home:offers.title", href: "/offers/index.html" },

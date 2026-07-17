@@ -56,5 +56,16 @@
   "pageAccentsDesc": "Ajuste as cores de destaque de uma página específica: seus cartões, ícones, realces, gradientes e brilhos.",
   "customizerTitle": "Editor de cores",
   "customizerDesc": "Selecione um elemento de cor na lista e ajuste-o usando o seletor de cores, entrada hexadecimal ou valores RGB.",
-  "themeElements": "Elementos do tema"
+  "themeElements": "Elementos do tema",
+  "deleteDialogTitle": "Delete theme?",
+  "deleteDialogDesc": "This action cannot be undone. The theme will be permanently removed.",
+  "deleteDialogCancel": "Cancel",
+  "deleteDialogConfirm": "Delete",
+  "draft": "Draft",
+  "save": "Save",
+  "discard": "Discard",
+  "themeName": "Theme name",
+  "nameRequired": "Name is required",
+  "nameTooLong": "Max 24 characters",
+  "nameInvalidChars": "Only letters, numbers and spaces"
 }

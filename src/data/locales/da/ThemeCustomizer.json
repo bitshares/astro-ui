@@ -56,5 +56,16 @@
   "pageAccentsDesc": "Finjuster accentfarverne for en bestemt side: dens kort, ikoner, fremhævninger, gradienter og glød.",
   "customizerTitle": "Farveeditor",
   "customizerDesc": "Vælg et farveelement fra listen og juster det ved hjælp af farvevælgeren, hex-input eller RGB-værdier.",
-  "themeElements": "Temaelementer"
+  "themeElements": "Temaelementer",
+  "deleteDialogTitle": "Delete theme?",
+  "deleteDialogDesc": "This action cannot be undone. The theme will be permanently removed.",
+  "deleteDialogCancel": "Cancel",
+  "deleteDialogConfirm": "Delete",
+  "draft": "Draft",
+  "save": "Save",
+  "discard": "Discard",
+  "themeName": "Theme name",
+  "nameRequired": "Name is required",
+  "nameTooLong": "Max 24 characters",
+  "nameInvalidChars": "Only letters, numbers and spaces"
 }

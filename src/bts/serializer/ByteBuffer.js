@@ -247,7 +247,9 @@ class ByteBuffer {
 
   append(buffer, encoding) {
     let src;
-    if (Buffer.isBuffer(buffer)) {
+    if (buffer instanceof ByteBuffer) {
+      src = buffer.buffer.subarray(buffer.offset, buffer.limit);
+    } else if (Buffer.isBuffer(buffer)) {
       src = buffer;
     } else if (typeof buffer === "string" && encoding === "binary") {
       src = Buffer.from(buffer, "latin1");

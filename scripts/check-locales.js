@@ -209,12 +209,14 @@ if (Object.keys(results).length === 0) {
         console.log(`      - ${k}`);
       }
     }
+    /*
     if (extraKeys.length > 0) {
       console.log(`    Extra keys (${extraKeys.length}):`);
       for (const k of extraKeys) {
         console.log(`      + ${k}`);
       }
     }
+    */
     if (untranslatedKeys.length > 0) {
       console.log(`    Possibly untranslated (${untranslatedKeys.length}):`);
       for (const k of untranslatedKeys) {

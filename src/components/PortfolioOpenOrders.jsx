@@ -212,7 +212,7 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
   const marketHref = `/dex/index.html?market=${sellAsset?.symbol ?? "?"}_${
     buyAsset?.symbol ?? "?"
   }`;
-  const updateHref = `/order.html?id=${orderId}`;
+  const updateHref = `/order/index.html?id=${orderId}`;
 
   const isCancelOpen = showDialog && orderId === orderID;
   const cancelOfferKey = t("PortfolioTabs:cancelOffer", {
@@ -223,42 +223,35 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
   });
 
   return (
-    <div style={{ ...style, paddingRight: "10px" }}>
+    <div style={{ ...style, paddingRight: "10px", paddingBottom: "4px" }}>
       {/* Mobile: stacked card */}
       <Card className="group bg-card/60 border border-border hover:bg-[hsl(var(--accent-1)/0.03)] hover:border-[hsl(var(--accent-1)/0.2)] transition-all rounded-xl border-l-2 border-l-cyan-500/30 block md:hidden">
-        <CardContent className="p-4 space-y-3">
-          <div className="flex items-start justify-between gap-2">
-            <div className="space-y-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className={cn(
-                  "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold",
-                  sellAsset
-                    ? "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] border-[hsl(var(--accent-danger)/0.3)]"
-                    : "bg-accent/50 text-muted-foreground border-border"
-                )}>
-                  {t("PortfolioTabs:badgeSell")}
-                </span>
-                <div className="text-sm font-semibold text-foreground truncate">
-                  {readableBaseAmount} {sellAsset?.symbol ?? "?"} →{" "}
-                  {readableQuoteAmount} {buyAsset?.symbol ?? "?"}
-                </div>
-              </div>
-              <CopyIdButton orderId={orderId} t={t} />
-            </div>
-            <div className="text-right flex-shrink-0">
-              <div className="text-sm font-semibold dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
-                {priceDisplay}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {buyAsset?.symbol}/{sellAsset?.symbol}
-              </div>
-            </div>
+        <CardContent className="p-3 space-y-2">
+          <div className="flex items-center gap-2">
+            <span className={cn(
+              "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold flex-shrink-0",
+              sellAsset
+                ? "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] border-[hsl(var(--accent-danger)/0.3)]"
+                : "bg-accent/50 text-muted-foreground border-border"
+            )}>
+              {t("PortfolioTabs:badgeSell")}
+            </span>
+            <span className="text-sm font-semibold text-foreground truncate">
+              {readableBaseAmount} {sellAsset?.symbol ?? "?"} → {readableQuoteAmount} {buyAsset?.symbol ?? "?"}
+            </span>
           </div>
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-3 text-xs">
+            <CopyIdButton orderId={orderId} t={t} />
+            <div className="text-sm font-semibold dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+              {priceDisplay}
+            </div>
+            <div className="text-[10px] text-muted-foreground">
+              {buyAsset?.symbol}/{sellAsset?.symbol}
+            </div>
             <TooltipProvider delayDuration={300}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className={cn("font-semibold cursor-help", expiryColor[expiryStatus])}>
+                  <div className={cn("text-xs font-semibold cursor-help whitespace-nowrap", expiryColor[expiryStatus])}>
                     {expiryText}
                   </div>
                 </TooltipTrigger>
@@ -289,39 +282,32 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
         </CardContent>
       </Card>
 
-      {/* Desktop: 4-col row */}
+      {/* Desktop: two-row layout */}
       <Card className="group bg-card/60 border border-border hover:bg-[hsl(var(--accent-1)/0.03)] hover:border-[hsl(var(--accent-1)/0.2)] transition-all rounded-xl border-l-2 border-l-cyan-500/30 hidden md:block">
-        <CardContent className="p-4">
-          <div className="grid grid-cols-[1.5fr_1fr_1fr_auto] gap-4 items-center">
-            <div className="space-y-1.5 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className={cn(
-                  "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold flex-shrink-0",
-                  sellAsset
-                    ? "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] border-[hsl(var(--accent-danger)/0.3)]"
-                    : "bg-accent/50 text-muted-foreground border-border"
-                )}>
-                  {t("PortfolioTabs:badgeSell")}
-                </span>
-                <div className="text-sm font-semibold text-foreground truncate">
-                  {readableBaseAmount} {sellAsset?.symbol ?? "?"} →{" "}
-                  {readableQuoteAmount} {buyAsset?.symbol ?? "?"}
-                </div>
-              </div>
-              <CopyIdButton orderId={orderId} t={t} />
+        <CardContent className="p-3">
+          <div className="grid grid-cols-12 gap-4 items-center">
+            <div className="col-span-5 flex items-center gap-2 min-w-0">
+              <span className={cn(
+                "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold flex-shrink-0",
+                sellAsset
+                  ? "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] border-[hsl(var(--accent-danger)/0.3)]"
+                  : "bg-accent/50 text-muted-foreground border-border"
+              )}>
+                {t("PortfolioTabs:badgeSell")}
+              </span>
+              <span className="text-sm font-semibold text-foreground truncate">
+                {readableBaseAmount} {sellAsset?.symbol ?? "?"} → {readableQuoteAmount} {buyAsset?.symbol ?? "?"}
+              </span>
             </div>
-            <div className="min-w-0">
-              <div className="text-sm font-semibold dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
-                {priceDisplay}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {buyAsset?.symbol}/{sellAsset?.symbol}
-              </div>
+            <div className="col-span-5 min-w-0 text-sm whitespace-nowrap">
+              <span className="font-semibold dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">{priceDisplay}</span>
+              <span className="text-muted-foreground"> {buyAsset?.symbol}/{sellAsset?.symbol}</span>
             </div>
-            <TooltipProvider delayDuration={300}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className={cn("text-sm font-semibold cursor-help", expiryColor[expiryStatus])}>
+            <div className="col-span-2">
+              <TooltipProvider delayDuration={300}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className={cn("text-sm font-semibold cursor-help whitespace-nowrap text-right", expiryColor[expiryStatus])}>
                     {expiryText}
                   </div>
                 </TooltipTrigger>
@@ -330,6 +316,10 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+            </div>
+          </div>
+          <div className="flex items-center justify-between mt-1">
+            <CopyIdButton orderId={orderId} t={t} />
             <div className="flex items-center gap-1">
               <ActionIconLink
                 href={marketHref}
@@ -422,7 +412,7 @@ export default function PortfolioOpenOrders({
   const [orderID, setOrderID] = useState();
   const [showDialog, setShowDialog] = useState(false);
   const [now, setNow] = useState(() => Date.now());
-  const [rowHeight, setRowHeight] = useState(108);
+  const [rowHeight, setRowHeight] = useState(88);
   const [sortBy, setSortBy] = useState("newest");
 
   useEffect(() => {
@@ -433,7 +423,7 @@ export default function PortfolioOpenOrders({
   useEffect(() => {
     if (typeof window === "undefined") return;
     const update = () => {
-      setRowHeight(window.innerWidth < 768 ? 184 : 90);
+      setRowHeight(window.innerWidth < 768 ? 158 : 88);
     };
     update();
     window.addEventListener("resize", update);

@@ -18,7 +18,19 @@ import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { cn } from "@/lib/utils";
-import { Check, Zap, XCircle, ArrowLeftRight, Wallet, ShieldOff } from "lucide-react";
+import {
+  Check,
+  Zap,
+  XCircle,
+  ArrowLeftRight,
+  Wallet,
+  ShieldOff,
+  Repeat,
+  Wand2,
+} from "lucide-react";
+
+import SectionHeader from "@/components/asset-form/SectionHeader.jsx";
+import { Switch } from "@/components/ui/switch";
 
 import {
   Card,
@@ -491,16 +503,30 @@ export default function MarketOrder(properties) {
       <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:w-1/2">
         <div className="grid grid-cols-1 gap-3">
           <Card>
-            <CardHeader className="pb-0 mb-0">
+            <CardHeader className="pb-0 mb-0 relative overflow-hidden">
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+              />
               <CardTitle className="mb-2">
-                <span className="grid grid-cols-2">
-                  <span className="col-span-1 text-left text-foreground">
-                    {t("MarketOrder:updatingLimitOrder", { limitOrderID })}
+                <span className="grid grid-cols-2 items-center">
+                  <span className="col-span-1 flex items-center gap-2.5 text-left text-foreground">
+                    <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.12)] text-[hsl(var(--accent-1-fg))]">
+                      <ArrowLeftRight className="h-4 w-4" />
+                    </span>
+                    <span className="text-base sm:text-lg font-semibold leading-tight">
+                      {t("MarketOrder:updatingLimitOrder", { limitOrderID })}
+                    </span>
                   </span>
                   <span className="text-right">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button className="h-6 !border !text-foreground/80 hover:!bg-accent/50">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-8 gap-1.5 rounded-lg border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.08)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.16)] hover:border-[hsl(var(--accent-1)/0.5)] transition-colors"
+                        >
+                          <Wallet className="h-3.5 w-3.5" />
                           {t("MarketOrder:viewExistingLimitOrderDataButton")}
                         </Button>
                       </DialogTrigger>
@@ -614,23 +640,23 @@ export default function MarketOrder(properties) {
                         <span className="col-span-1">
                           <HoverCard key="amountLockCard">
                             <HoverCardTrigger>
-                              <Toggle
-                                variant="outline"
-                                className="!border !text-foreground/80 hover:!bg-accent/50"
-                                onClick={() => {
-                                  if (priceLock === "editable") {
-                                    setPriceLock("locked");
-                                    setPrice(existingPrice);
-                                    if (amountLock === "locked") {
-                                      setTotalLock("locked");
-                                      setTotal(existingQuoteAmount);
+                                <Toggle
+                                  variant="outline"
+                                  className="!border !border-[hsl(var(--accent-1)/0.3)] !text-[hsl(var(--accent-1-fg))] hover:!bg-[hsl(var(--accent-1)/0.12)] hover:!border-[hsl(var(--accent-1)/0.5)]"
+                                  onClick={() => {
+                                    if (priceLock === "editable") {
+                                      setPriceLock("locked");
+                                      setPrice(existingPrice);
+                                      if (amountLock === "locked") {
+                                        setTotalLock("locked");
+                                        setTotal(existingQuoteAmount);
+                                      }
+                                    } else {
+                                      setPriceLock("editable");
+                                      setTotalLock("editable");
                                     }
-                                  } else {
-                                    setPriceLock("editable");
-                                    setTotalLock("editable");
-                                  }
-                                }}
-                              >
+                                  }}
+                                >
                                 {priceLock === "editable" ? (
                                   <LockOpen2Icon className="h-4 w-4" />
                                 ) : (
@@ -689,13 +715,13 @@ export default function MarketOrder(properties) {
                         <span className="col-span-4 ml-3 text-center">
                           <Popover>
                             <PopoverTrigger asChild>
-                               <Button
-                                className="w-full !border !text-foreground/80 hover:!bg-accent/50"
-                                onClick={() => event.preventDefault()}
-                                variant="outline"
-                              >
-                                {t("MarketOrder:setNewPriceButton")}
-                              </Button>
+                                <Button
+                                  className="w-full !border !border-[hsl(var(--accent-1)/0.3)] !text-[hsl(var(--accent-1-fg))] hover:!bg-[hsl(var(--accent-1)/0.12)] hover:!border-[hsl(var(--accent-1)/0.5)]"
+                                  onClick={() => event.preventDefault()}
+                                  variant="outline"
+                                >
+                                  {t("MarketOrder:setNewPriceButton")}
+                                </Button>
                             </PopoverTrigger>
                             <PopoverContent className="!bg-background !border">
                               <Label>
@@ -757,21 +783,21 @@ export default function MarketOrder(properties) {
                         <span className="col-span-1">
                           <HoverCard key="amountLockCard">
                             <HoverCardTrigger>
-                              <Toggle
-                                variant="outline"
-                                className="!border !text-foreground/80 hover:!bg-accent/50"
-                                onClick={() => {
-                                  if (amountLock === "editable") {
-                                    setAmountLock("locked");
-                                    if (priceLock === "locked") {
-                                      setTotalLock("locked");
+                                <Toggle
+                                  variant="outline"
+                                  className="!border !border-[hsl(var(--accent-1)/0.3)] !text-[hsl(var(--accent-1-fg))] hover:!bg-[hsl(var(--accent-1)/0.12)] hover:!border-[hsl(var(--accent-1)/0.5)]"
+                                  onClick={() => {
+                                    if (amountLock === "editable") {
+                                      setAmountLock("locked");
+                                      if (priceLock === "locked") {
+                                        setTotalLock("locked");
+                                      }
+                                    } else {
+                                      setAmountLock("editable");
+                                      setTotalLock("editable");
                                     }
-                                  } else {
-                                    setAmountLock("editable");
-                                    setTotalLock("editable");
-                                  }
-                                }}
-                              >
+                                  }}
+                                >
                                 {amountLock === "editable" ? (
                                   <LockOpen2Icon className="h-4 w-4" />
                                 ) : (
@@ -830,13 +856,13 @@ export default function MarketOrder(properties) {
                           <span className="col-span-4 ml-3 text-center">
                             <Popover>
                               <PopoverTrigger asChild>
-                                <Button
-                                  className="w-full !border !text-foreground/80 hover:!bg-accent/50"
-                                  onClick={() => event.preventDefault()}
-                                  variant="outline"
-                                >
-                                  {t("MarketOrder:setNewSellAmountButton")}
-                                </Button>
+                                  <Button
+                                    className="w-full !border !border-[hsl(var(--accent-1)/0.3)] !text-[hsl(var(--accent-1-fg))] hover:!bg-[hsl(var(--accent-1)/0.12)] hover:!border-[hsl(var(--accent-1)/0.5)]"
+                                    onClick={() => event.preventDefault()}
+                                    variant="outline"
+                                  >
+                                    {t("MarketOrder:setNewSellAmountButton")}
+                                  </Button>
                               </PopoverTrigger>
                               <PopoverContent className="!bg-background !border">
                                 <Label>
@@ -901,23 +927,23 @@ export default function MarketOrder(properties) {
                         <span className="col-span-1">
                           <HoverCard key="sellTotalCard">
                             <HoverCardTrigger>
-                              <Toggle
-                                variant="outline"
-                                className="!border !text-foreground/80 hover:!bg-accent/50"
-                                onClick={() => {
-                                  if (totalLock === "editable") {
-                                    setTotalLock("locked");
-                                    setTotal(existingQuoteAmount);
-                                    setAmountLock("locked");
-                                    setAmount(existingBaseAmount);
-                                    setPriceLock("locked");
-                                    setPrice(existingPrice);
-                                  } else {
-                                    setTotalLock("editable");
-                                    setAmountLock("editable");
-                                  }
-                                }}
-                              >
+                                <Toggle
+                                  variant="outline"
+                                  className="!border !border-[hsl(var(--accent-1)/0.3)] !text-[hsl(var(--accent-1-fg))] hover:!bg-[hsl(var(--accent-1)/0.12)] hover:!border-[hsl(var(--accent-1)/0.5)]"
+                                  onClick={() => {
+                                    if (totalLock === "editable") {
+                                      setTotalLock("locked");
+                                      setTotal(existingQuoteAmount);
+                                      setAmountLock("locked");
+                                      setAmount(existingBaseAmount);
+                                      setPriceLock("locked");
+                                      setPrice(existingPrice);
+                                    } else {
+                                      setTotalLock("editable");
+                                      setAmountLock("editable");
+                                    }
+                                  }}
+                                >
                                 {totalLock === "editable" ? (
                                   <LockOpen2Icon className="h-4 w-4" />
                                 ) : (
@@ -983,13 +1009,13 @@ export default function MarketOrder(properties) {
                           <span className="col-span-4 ml-3 text-center">
                             <Popover>
                               <PopoverTrigger asChild>
-                                <Button
-                                  className="w-full !border !text-foreground/80 hover:!bg-accent/50"
-                                  onClick={() => event.preventDefault()}
-                                  variant="outline"
-                                >
-                                  {t("MarketOrder:setNewTotalAmountButton")}
-                                </Button>
+                                  <Button
+                                    className="w-full !border !border-[hsl(var(--accent-1)/0.3)] !text-[hsl(var(--accent-1-fg))] hover:!bg-[hsl(var(--accent-1)/0.12)] hover:!border-[hsl(var(--accent-1)/0.5)]"
+                                    onClick={() => event.preventDefault()}
+                                    variant="outline"
+                                  >
+                                    {t("MarketOrder:setNewTotalAmountButton")}
+                                  </Button>
                               </PopoverTrigger>
                               <PopoverContent className="!bg-background !border">
                                 <Label>
@@ -1054,18 +1080,18 @@ export default function MarketOrder(properties) {
                         <span className="col-span-1">
                           <HoverCard key="sellTotalCard">
                             <HoverCardTrigger>
-                              <Toggle
-                                variant="outline"
-                                className="!border !text-foreground/80 hover:!bg-accent/50"
-                                onClick={() => {
-                                  if (expirationLock === "editable") {
-                                    setExpirationLock("locked");
-                                    setDate(new Date(existingExpiry));
-                                  } else {
-                                    setExpirationLock("editable");
-                                  }
-                                }}
-                              >
+                                <Toggle
+                                  variant="outline"
+                                  className="!border !border-[hsl(var(--accent-2)/0.3)] !text-[hsl(var(--accent-2-fg))] hover:!bg-[hsl(var(--accent-2)/0.12)] hover:!border-[hsl(var(--accent-2)/0.5)]"
+                                  onClick={() => {
+                                    if (expirationLock === "editable") {
+                                      setExpirationLock("locked");
+                                      setDate(new Date(existingExpiry));
+                                    } else {
+                                      setExpirationLock("editable");
+                                    }
+                                  }}
+                                >
                                 {expirationLock === "editable" ? (
                                   <LockOpen2Icon className="h-4 w-4" />
                                 ) : (
@@ -1247,46 +1273,41 @@ export default function MarketOrder(properties) {
 
                   <Separator className="mb-2 mt-2" />
 
-                  <Field>
-                    <FieldContent>
-                      <div
-                        className="w-full flex items-center space-x-3 mt-2 cursor-pointer hover:bg-accent/30 rounded-lg px-4 py-2 transition-colors"
-                        onClick={() => {
-                          setOSOEnabled(!osoEnabled);
-                          setInputChars(inputChars + 1);
-                          form.setValue("osoEnabled", !osoEnabled);
-                        }}
-                      >
-                        <div
-                          className={cn(
-                            "h-5 w-5 shrink-0 rounded-sm border flex items-center justify-center transition-colors",
-                            osoEnabled
-                              ? "border-[hsl(var(--accent-3))] bg-[hsl(var(--accent-3))] text-foreground"
-                              : "border-accent/50 dark:border-white/20 bg-transparent"
-                          )}
-                        >
-                          {osoEnabled && <Check className="h-3.5 w-3.5" />}
-                        </div>
-                        <label className="text-sm font-medium cursor-pointer flex-1 text-foreground/80">
-                          {osoEnabled
-                            ? t("MarketOrder:osoEnabled")
-                            : t("MarketOrder:enableOso")}
-                        </label>
-                      </div>
-                    </FieldContent>
+                  <Card
+                    className={cn(
+                      "overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20 transition-colors",
+                      osoEnabled
+                        ? "ring-1 ring-[hsl(var(--accent-3)/0.3)]"
+                        : ""
+                    )}
+                  >
+                    <SectionHeader
+                      icon={Repeat}
+                      title={t("MarketOrder:enableOso")}
+                      description={t("MarketOrder:osoSectionDescription")}
+                      optional
+                      right={
+                        <Switch
+                          checked={osoEnabled}
+                          onCheckedChange={(checked) => {
+                            setOSOEnabled(checked);
+                            setInputChars(inputChars + 1);
+                            form.setValue("osoEnabled", checked);
+                          }}
+                          className="mt-1 shrink-0 data-[state=checked]:bg-[hsl(var(--accent-3))] data-[state=unchecked]:bg-input dark:data-[state=unchecked]:bg-white/[0.12] [&>span]:bg-white"
+                        />
+                      }
+                    />
                     {osoEnabled ? (
-                      <FieldDescription>
-                        {t("MarketOrder:autoOsoActive")}
-                      </FieldDescription>
-                    ) : null}
-                  </Field>
-
-                  {osoEnabled ? (
-                    <>
-                      <Field>
-                        <FieldLabel className="text-sm">
-                          {t("MarketOrder:spreadPercentLabel")}
-                        </FieldLabel>
+                      <CardContent className="space-y-5 p-6">
+                        <div className="flex items-center gap-2 rounded-lg border border-[hsl(var(--accent-3)/0.2)] bg-[hsl(var(--accent-3)/0.06)] px-3 py-2 text-xs text-[hsl(var(--accent-3-fg))]">
+                          <Wand2 className="h-3.5 w-3.5 shrink-0" />
+                          {t("MarketOrder:autoOsoActive")}
+                        </div>
+                        <Field>
+                          <FieldLabel className="text-sm">
+                            {t("MarketOrder:spreadPercentLabel")}
+                          </FieldLabel>
                         <FieldDescription>
                           {t("MarketOrder:spreadPercentDescription")}
                         </FieldDescription>
@@ -1469,8 +1490,9 @@ export default function MarketOrder(properties) {
                           </div>
                         </FieldContent>
                       </Field>
-                    </>
-                  ) : null}
+                      </CardContent>
+                    ) : null}
+                  </Card>
 
                   <Separator className="mt-1" />
 

@@ -1,465 +1,466 @@
 {
-    "instant_trade": {
-        "title": "즉시 거래",
-        "subtitle": "가장 좋은 가격으로 신속하게 자산을 교환하세요",
-        "hover1": "방해받지 않고 DEX에서 즉시 자산을 거래하세요.",
-        "hover2": "Fill-or-Kill 주문 기술을 활용하여 원하는 가격을 얻거나 주문을 취소합니다.",
-        "hover3": "DEX에서 누구와 거래할 것인지, 그리고 그들이 주문에 대해 채우기 조건을 활성화했는지 여부를 확인하세요."
+  "instant_trade": {
+    "title": "즉시 거래",
+    "subtitle": "가장 좋은 가격으로 신속하게 자산을 교환하세요",
+    "hover1": "방해받지 않고 DEX에서 즉시 자산을 거래하세요.",
+    "hover2": "Fill-or-Kill 주문 기술을 활용하여 원하는 가격을 얻거나 주문을 취소합니다.",
+    "hover3": "DEX에서 누구와 거래할 것인지, 그리고 그들이 주문에 대해 채우기 조건을 활성화했는지 여부를 확인하세요."
+  },
+  "vote": {
+    "title": "투표",
+    "subtitle": "증인, 위원회 구성원 및 근로자 제안에 투표하세요.",
+    "hover1": "블록체인에서 블록을 생성하는 증인에게 투표하세요.",
+    "hover2": "블록체인을 관리하는 위원회 구성원에게 투표하세요.",
+    "hover3": "블록체인 아이디어에 자금을 지원하기 위한 작업자 제안에 투표하세요."
+  },
+  "barter": {
+    "title": "교환",
+    "subtitle": "다른 사용자와 거래 자산",
+    "hover1": "다른 사용자와 거래 자산.",
+    "hover2": "물물 교환은 피어 투 피어 거래 프로세스입니다.",
+    "hover3": "물물 교환에는 제 3 자 에스크로 서비스가 포함될 수 있습니다."
+  },
+  "witnesses": {
+    "title": "목격자",
+    "subtitle": "현재 활동적이고 비활성 증인을보십시오.",
+    "hover1": "누가 가장 많은 표를 받았는지보십시오.",
+    "hover2": "증인이 투표 한 사람을보십시오.",
+    "hover3": "증인 핵심 토큰 잔액보기."
+  },
+  "committee": {
+    "title": "️위원회 회원",
+    "subtitle": "현재 활성 및 비활성위원회 구성원을보십시오.",
+    "hover1": "누가 가장 많은 표를 받았는지보십시오.",
+    "hover2": "위원회 위원이 투표 한 사람을보십시오.",
+    "hover3": "위원회 핵심 토큰 잔액."
+  },
+  "governance": {
+    "title": "역할 등록",
+    "subtitle": "증인 및위원회 역할을 모두 작성/업데이트하십시오.",
+    "hover1": "증인 등록을 작성, 업데이트 또는 무효화하십시오.",
+    "hover2": "위원회 회원 등록을 만들거나 업데이트하십시오."
+  },
+  "create_worker": {
+    "title": "직원 제안을 만듭니다",
+    "subtitle": "자금 조달 아이디어를위한 근로자 제안을 만드십시오!",
+    "hover1": "프로젝트에 자금을 지원하기 위해 근로자 제안을 통해 자금을 확보하십시오.",
+    "hover2": "근로자 제안은 Bitshares Reserve Fund가 자금을 지원합니다.",
+    "hover3": "노동자 제안은 지역 사회에서 투표합니다."
+  },
+  "dex": {
+    "title": "DEX 제한 주문",
+    "subtitle": "Bitshares DEX에서 자산을 거래하세요",
+    "hover1": "수동으로 지정가 주문을 제작합니다.",
+    "hover2": "자산 거래 쌍을 사용하십시오.",
+    "hover3": "주문 만료 날짜를 지정합니다.",
+    "hover4": "풀 스왑보다 더 복잡하지만 저렴합니다."
+  },
+  "pool": {
+    "title": "유동성 풀 교환",
+    "subtitle": "유동성 풀을 통해 자산 교환",
+    "hover1": "사용자가 생성한 유동성 풀을 통해 자산을 교환합니다.",
+    "hover2": "풀에는 다양한 거래 쌍과 수수료가 있습니다.",
+    "hover3": "지정가 주문보다 간단하지만 비용이 더 많이 듭니다."
+  },
+  "swap": {
+    "title": "단순 ​​자산 교환",
+    "subtitle": "풀을 통해 더욱 쉽게 자산 교환",
+    "hover1": "사용자가 생성한 유동성 풀을 통해 자산을 교환합니다.",
+    "hover2": "풀에는 다양한 거래 쌍과 수수료가 있습니다.",
+    "hover3": "지정가 주문보다 간단하지만 비용이 더 많이 듭니다."
+  },
+  "stake": {
+    "title": "스테이크 자산",
+    "subtitle": "유동성 풀의 스테이크 자산",
+    "hover1": "유동성 풀에 자산을 스테이킹하여 수수료를 받으세요.",
+    "hover2": "스테이킹된 자산은 풀에 잠겨 있습니다.",
+    "hover3": "스테이킹된 자산은 언제든지 출금될 수 있습니다."
+  },
+  "transfer": {
+    "title": "자산 양도",
+    "subtitle": "다른 사용자에게 자산 보내기",
+    "hover1": "몇 초 만에 Bitshares 블록체인의 누구에게나 자산을 전송할 수 있습니다."
+  },
+  "timed_transfer": {
+    "title": "시간 시간 전송",
+    "subtitle": "나중에 다른 사용자에게 자산을 보냅니다.",
+    "hover1": "제안 검토 기간이 통과 한 후 다른 사용자에게 자산을 전송 일정을 잡으십시오."
+  },
+  "withdraw_permission": {
+    "title": "허가를 철회하십시오",
+    "subtitle": "철수 권한을 관리하십시오",
+    "hover1": "지불/편집/삭제/편집/삭제 인출 권한.",
+    "hover2": "수신 권한을보십시오."
+  },
+  "htlc": {
+    "title": "HASH 타임 잠금 계약 (HTLC)",
+    "subtitle": "비밀 암호화 키 뒤에 잠겨있는 청구 가능한 자금을 만듭니다.",
+    "hover1": "HTLC는 주어진 수령인을 위해 자금을 잠그고, 발신자가 계약을 만들기 위해 사용한 비밀 프리이 이미지 (비밀번호)를 제공하여 해당 자금을 상환 할 수 있습니다.",
+    "hover2": "비밀번호를 공개하면 체인이 없습니다."
+  },
+  "create_vesting": {
+    "title": "조끼 자산",
+    "subtitle": "베스팅 잔액 생성",
+    "hover1": "베스팅 잔고를 생성하면 일정 기간 동안 자산 수량을 잠글 수 있습니다.",
+    "hover2": "두 가지 베스팅 유형 중 하나를 사용할 수 있습니다: Coin Days Destroyed 및 Linear Vesting with Cliff.",
+    "hover3": "Coin Days Destroyed 정책의 효과는 전체 잔액을 인출하기 전에 일정 금액의 \"이자\"가 누적되도록 요구하는 것이며, 이자는 코인데이(잔액 * 보유 기간)만큼 발생하며, 잔액 중 일부가 인출되면 남은 잔액을 보유해야 합니다. ",
+    "hover4": "Cliff 정책을 사용한 선형 베스팅은 완전히 만기될 때까지 매일 특정 금액이 베스팅되는 전통적인 주식 베스팅 계약을 모방하는 데 사용됩니다."
+  },
+  "borrow": {
+    "title": "자금 차입",
+    "subtitle": "다른 사용자의 신용 제안에서 빌리기",
+    "hover1": "활성 사용자가 만든 크레딧 제안을 찾아보세요.",
+    "hover2": "원하는 금리로 자산을 빌리세요.",
+    "hover3": "요청한 담보를 사용하여 대출을 확보하세요."
+  },
+  "lend": {
+    "title": "자금 대출",
+    "subtitle": "다른 사람에게 대출할 수 있는 신용 제안 만들기",
+    "hover1": "자신만의 분산형 신용 제안을 만드세요.",
+    "hover2": "귀하가 정의한 금리로 자산을 대출해 보세요.",
+    "hover3": "허용되는 대출 담보 및 가격을 지정하십시오."
+  },
+  "smartcoins": {
+    "title": "담보부채 발행",
+    "subtitle": "법정화폐 자산, 개인 스마트코인 등을 빌리세요.",
+    "hover1": "USD, CNY, EUR와 같은 비트자산은 BTS를 기반으로 하는 위원회 생성 스테이블코인(스마트코인)입니다.",
+    "hover2": "사용자가 생성한 스마트코인은 모든 자산으로 뒷받침될 수 있으며 외부 피드를 참조할 수 있습니다.",
+    "hover3": "외부 정산 가격은 구성된 사료 생산자로부터 파생됩니다.",
+    "hover4": "외부 가격 정보에 노출되면 담보 부채 포지션에 위험이 발생할 수 있습니다."
+  },
+  "tfunds": {
+    "title": "Same-T 펀드",
+    "subtitle": "Same-T 자금 보기, 생성, 업데이트, 삭제!",
+    "hover1": "현재 다른 사용자가 제공하는 모든 Same-T 펀드를 확인하세요.",
+    "hover2": "새로운 Same-T 펀드를 쉽게 만드세요.",
+    "hover3": "기존 Same-T 자금을 업데이트하거나 삭제하세요.",
+    "hover4": "Same-T 펀드는 보유 자산에서 수동적으로 수익을 얻을 수 있는 방법입니다."
+  },
+  "portfolio": {
+    "title": "귀하의 포트폴리오",
+    "subtitle": "잔액, 미결 주문, 최근 블록체인 활동을 확인하세요.",
+    "hover1": "잔액을 확인하세요.",
+    "hover2": "미결 주문을 모니터링하세요.",
+    "hover3": "최근 계정 활동을 분석하세요."
+  },
+  "portfolio_balances": {
+    "title": "계정 잔액",
+    "subtitle": "액체 잔액 및 관련 작업을 봅니다.",
+    "hover1": "기본, 알파벳순 또는 금액별로 잔액을 정렬합니다.",
+    "hover2": "거래 및 자산 정보에 대한 빠른 링크입니다.",
+    "hover3": "관련 유동성 풀을 참조하세요."
+  },
+  "portfolio_open_orders": {
+    "title": "공개 주문",
+    "subtitle": "공개 DEX 주문 검토 및 관리",
+    "hover1": "시장 쌍으로 바로 이동하십시오.",
+    "hover2": "주문을 업데이트하거나 취소합니다.",
+    "hover3": "만료일과 주문 ID를 확인하세요."
+  },
+  "portfolio_recent_activity": {
+    "title": "최근 활동",
+    "subtitle": "최신 온체인 작업을 검사하세요.",
+    "hover1": "작업 ID 및 블록을 찾아보세요.",
+    "hover2": "작업 JSON을 봅니다.",
+    "hover3": "전체 활동 세부정보를 엽니다."
+  },
+  "favourites": {
+    "title": "즐겨찾기",
+    "subtitle": "즐겨찾는 자산 및 계정에 빠르게 액세스하세요",
+    "hover1": "관심 있는 자산을 추가하여 한 곳에서 시청하세요.",
+    "hover2": "빠른 참조를 위해 즐겨찾는 계정을 추적하세요."
+  },
+  "featured": {
+    "title": "상위 시장",
+    "subtitle": "현재 가장 활발하게 거래되는 자산을 찾아보세요",
+    "hover1": "가장 활동적인 거래쌍으로 이동하세요.",
+    "hover2": "시장 거래량과 가치를 비교해보세요.",
+    "hover3": "시장 거래량을 비교해보세요."
+  },
+  "deals": {
+    "title": "신용 거래",
+    "subtitle": "신용 거래를 확인하세요",
+    "hover1": "귀하의 활성 신용 거래를 모니터링하십시오.",
+    "hover2": "신용 거래 상태를 관리하세요."
+  },
+  "offers": {
+    "title": "크레딧 제공",
+    "subtitle": "신용 제안을 확인하세요",
+    "hover1": "귀하의 활성 신용 제안을 모니터링하십시오.",
+    "hover2": "신용 제안 상태를 관리하세요."
+  },
+  "vesting": {
+    "title": "베스팅 잔액",
+    "subtitle": "보상, 추천 수수료, 기타 베스팅 잔액 보기 및 청구",
+    "hover1": "베스팅 잔액을 확인하세요.",
+    "hover2": "기득권 잔액을 청구하세요."
+  },
+  "proposals": {
+    "title": "제안된 운영",
+    "subtitle": "제안된 계정 운영 보기 및 승인/거부",
+    "hover1": "귀하의 계정에 대해 다른 블록체인 계정이 제안한 계정 작업을 확인하세요.",
+    "hover2": "제안된 계정 작업을 승인하거나 거부합니다."
+  },
+  "issued_assets": {
+    "title": "귀하의 발행 자산",
+    "subtitle": "귀하가 생성한 모든 자산 보기",
+    "hover1": "사용자가 발행한 자산, 스마트코인 및 대체 불가능한 토큰을 확인하세요!",
+    "hover2": "블록체인에서 생성한 자산을 편집하세요.",
+    "hover3": "선택적으로 생성된 자산의 수량을 발행합니다."
+  },
+  "blocks": {
+    "title": "블록체인 데이터",
+    "subtitle": "가장 최근에 요약된 블록체인 데이터 보기",
+    "hover1": "최근 활동 및 최근 블록 라이브 데이터 테이블입니다.",
+    "hover2": "최근 블록 거래 수 라이브 차트.",
+    "hover3": "요약된 블록체인 데이터 평균 및 합계입니다."
+  },
+  "create_uia": {
+    "title": "사용자 발행 자산",
+    "subtitle": "무엇이든 자신만의 토큰을 만드세요",
+    "hover1": "자신만의 사용자 발행 자산을 만드세요.",
+    "hover2": "다양한 목적으로 사용될 수 있습니다.",
+    "hover3": "비즈니스 토큰, 보상 토큰, 게임 토큰 등으로 사용할 수 있습니다.",
+    "hover4": "게이트웨이는 Bitshares DEX에서 거래하기 위한 교환 지원 자산을 생성할 수 있습니다."
+  },
+  "create_ticket": {
+    "title": "티켓 만들기",
+    "subtitle": "투표 가중치를 얻으려면 투표 잠금 티켓을 만드세요.",
+    "hover1": "투표 잠금 티켓은 증인, 위원회 및 근로자 투표 목적에 대한 투표 가중치를 부여합니다.",
+    "hover2": "청산된 티켓은 자금을 잠금 해제하기까지 일정 시간이 걸립니다."
+  },
+  "ticket_leaderboard": {
+    "title": "티켓 리더보드",
+    "subtitle": "계정별 통합 유효 티켓 파워 보기",
+    "hover1": "블록체인에서 누가 가장 많은 투표권을 가지고 있는지 확인하세요.",
+    "hover2": "귀하의 투표권이 다른 사람들과 어떻게 비교되는지 비교해 보세요.",
+    "hover3": "더 많은 투표권을 얻으려면 향후 투표 잠금 티켓의 크기를 계산하세요."
+  },
+  "create_smartcoin": {
+    "title": "스마트코인 자산",
+    "subtitle": "법정화폐 스테이블코인 자산 생성",
+    "hover1": "나만의 스마트코인을 만들어보세요.",
+    "hover2": "다양한 목적으로 사용될 수 있습니다.",
+    "hover3": "스테이블 코인, 비즈니스 토큰, 보상 토큰, 게임 토큰 등으로 사용될 수 있습니다.",
+    "hover4": "스마트코인은 모든 자산으로 뒷받침될 수 있으며 외부 피드를 참조할 수 있습니다."
+  },
+  "create_liquidity_pool": {
+    "title": "유동성 풀 생성",
+    "subtitle": "자산 2개를 교환하기 위한 새로운 유동성 풀 생성",
+    "hover1": "사용자가 발행한 자산을 유동성 풀 공유 자산으로 전환합니다.",
+    "hover2": "블록체인에서 2개의 자산을 교환하도록 유동성 풀을 구성합니다.",
+    "hover3": "유동성 풀을 사용하여 다른 사람으로부터 수익을 얻으려면 자신의 수수료를 적용하십시오."
+  },
+  "accountLists": {
+    "title": "계정 목록",
+    "subtitle": "계정 목록 보기 및 관리",
+    "hover1": "화이트리스트에 계정을 추가하세요.",
+    "hover2": "블랙리스트에 계정을 추가하세요.",
+    "hover3": "해당 목록에서 계정을 제거하십시오."
+  },
+  "blocked_users": {
+    "title": "차단된 사용자",
+    "subtitle": "차단된 계정 보기 및 관리",
+    "hover1": "차단한 계정을 봅니다.",
+    "hover2": "계정을 뷰에서 차단 또는 차단 해제합니다."
+  },
+  "ltm": {
+    "title": "계정 업그레이드",
+    "subtitle": "평생회원권 구매",
+    "hover1": "평생회원이 되면 다양한 혜택이 있습니다.",
+    "hover2": "평생 회원은 수수료에 대해 80%의 베스팅 잔고 리베이트를 받습니다.",
+    "hover3": "평생 회원은 프리미엄 Bitshares 계정 이름을 만들 수 있습니다.",
+    "hover4": "평생 회원은 추천 시스템을 통해 수익을 올릴 수 있습니다."
+  },
+  "nodes": {
+    "title": "노드",
+    "subtitle": "블록체인 노드 구성",
+    "hover1": "원하는 Bitshares 노드에 연결하세요.",
+    "hover2": "연결 목록에 노드를 추가/제거합니다."
+  },
+  "create_account": {
+    "title": "계정을 만듭니다",
+    "subtitle": "Bitshares 블록 체인에 새 클라우드 지갑 계정을 만듭니다.",
+    "hover1": "공개 수도꼭지를 사용하여 무료 계정을 만듭니다.",
+    "hover2": "기존 LTM 계정을 사용하여 프리미엄 계정을 생성하십시오."
+  },
+  "invoice_inventory": {
+    "title": "송장 인벤토리",
+    "subtitle": "인보이스 발행에 사용되는 품목 및 가격 관리",
+    "hover1": "재고 품목과 송장 가격을 생성하고 관리합니다."
+  },
+  "create_invoice": {
+    "title": "송장 만들기",
+    "subtitle": "고객을 위한 송장 코드 생성",
+    "hover1": "재고에서 항목을 선택하고 수량과 송장 세부정보를 제공하여 송장을 생성합니다."
+  },
+  "pay_invoice": {
+    "title": "송장 지불",
+    "subtitle": "송장 코드를 사용하여 송장 지불",
+    "hover1": "청구서 작성자가 제공한 청구서 코드를 입력하여 청구서를 결제하세요.",
+    "hover2": "선택적으로 구매하는 각 품목에 대해 서로 다른 자산으로 지불합니다."
+  },
+  "stored_invoices": {
+    "title": "저장된 송장",
+    "subtitle": "저장된 송장 보기 및 관리",
+    "hover1": "생성 및 수신된 저장된 송장을 찾아보세요.",
+    "hover2": "송장 세부정보를 확인하고 원치 않는 송장을 삭제하세요.",
+    "hover3": "이행 중인 송장 진행 상황에 대한 데이터를 저장합니다."
+  },
+  "tfund_user": {
+    "title": "동일한 T 펀드 거래",
+    "subtitle": "차용, 거래, 상환, 단순!",
+    "hover1": "동일한 T 펀드에서 자산을 빌리십시오.",
+    "hover2": "이 동일한 T 기금을 덱스에서 거래하십시오.",
+    "hover3": "빌린 자산을 상환합니다."
+  },
+  "custom_pool_tracker": {
+    "title": "유동성 풀 추적기",
+    "subtitle": "좋아하는 유동성 풀을 쉽게 추적하십시오!",
+    "hover1": "고유 한 Custom Lividue Pool 추적기를 구성하십시오.",
+    "hover2": "최대 5 개의 교체 가능한 자산을 추적하십시오."
+  },
+  "pools": {
+    "title": "유동성 풀",
+    "subtitle": "모든 유동성 풀 목록을보십시오",
+    "hover1": "교환 가능한 자산으로 모든 유동성 풀을 필터링하십시오",
+    "hover2": "자산 교환을위한 유동성 풀을 찾습니다.",
+    "hover3": "유동성 풀을 식별하여 자산을 스테이크하십시오."
+  },
+  "features": {
+    "heading": "특징",
+    "functionalityHeading": "기능성",
+    "zeroAuth": {
+      "title": "제로 인증이 필요합니다!",
+      "description": "계정을 잠금 해제하지 않고 블록체인 거래를 구축하세요!"
     },
-    "vote": {
-        "title": "투표",
-        "subtitle": "증인, 위원회 구성원 및 근로자 제안에 투표하세요.",
-        "hover1": "블록체인에서 블록을 생성하는 증인에게 투표하세요.",
-        "hover2": "블록체인을 관리하는 위원회 구성원에게 투표하세요.",
-        "hover3": "블록체인 아이디어에 자금을 지원하기 위한 작업자 제안에 투표하세요."
+    "multiBroadcast": {
+      "title": "다양한 거래 방송 방식!",
+      "description": "QR 코드, 딥링크 또는 로컬 JSON 파일을 통해 블록체인 작업을 브로드캐스트하세요."
     },
-    "barter": {
-        "title": "교환",
-        "subtitle": "다른 사용자와 거래 자산",
-        "hover1": "다른 사용자와 거래 자산.",
-        "hover2": "물물 교환은 피어 투 피어 거래 프로세스입니다.",
-        "hover3": "물물 교환에는 제 3 자 에스크로 서비스가 포함될 수 있습니다."
+    "supportsLatest": {
+      "title": "최신 Bitshares 기능을 지원합니다!",
+      "description": "최신 Bitshares DEX 개선 사항에 관심이 있으십니까? "
     },
-    "witnesses": {
-        "title": "목격자",
-        "subtitle": "현재 활동적이고 비활성 증인을보십시오.",
-        "hover1": "누가 가장 많은 표를 받았는지보십시오.",
-        "hover2": "증인이 투표 한 사람을보십시오.",
-        "hover3": "증인 핵심 토큰 잔액보기."
+    "switchChains": {
+      "title": "지원되는 블록체인 간을 쉽게 전환하세요!",
+      "description": "Bitshares 메인넷과 테스트넷 네트워크 간을 전환하는 데 몇 초가 걸립니다!"
     },
-    "committee": {
-        "title": "️위원회 회원",
-        "subtitle": "현재 활성 및 비활성위원회 구성원을보십시오.",
-        "hover1": "누가 가장 많은 표를 받았는지보십시오.",
-        "hover2": "위원회 위원이 투표 한 사람을보십시오.",
-        "hover3": "위원회 핵심 토큰 잔액."
+    "nearInstant": {
+      "title": "거의 즉각적인 블록체인 운영!",
+      "description": "3초의 블록 타이밍을 통해 방송 작업이 거의 즉시 확인됩니다!"
     },
-    "governance": {
-        "title": "역할 등록",
-        "subtitle": "증인 및위원회 역할을 모두 작성/업데이트하십시오.",
-        "hover1": "증인 등록을 작성, 업데이트 또는 무효화하십시오.",
-        "hover2": "위원회 회원 등록을 만들거나 업데이트하십시오."
+    "evergreen": {
+      "title": "끊임없는 기술로 만들어졌습니다!",
+      "description": "빠르고 안전하며 안정적인 Bitshares의 미래를 위해 최신 웹 기술을 사용하세요!"
     },
-    "create_worker": {
-        "title": "직원 제안을 만듭니다",
-        "subtitle": "자금 조달 아이디어를위한 근로자 제안을 만드십시오!",
-        "hover1": "프로젝트에 자금을 지원하기 위해 근로자 제안을 통해 자금을 확보하십시오.",
-        "hover2": "근로자 제안은 Bitshares Reserve Fund가 자금을 지원합니다.",
-        "hover3": "노동자 제안은 지역 사회에서 투표합니다."
+    "multiWallets": {
+      "title": "여러 지갑을 지원합니다!",
+      "description": "Beet 또는 BeetEOS 지갑을 통해 거래를 방송하세요!"
     },
-    "dex": {
-        "title": "DEX 제한 주문",
-        "subtitle": "Bitshares DEX에서 자산을 거래하세요",
-        "hover1": "수동으로 지정가 주문을 제작합니다.",
-        "hover2": "자산 거래 쌍을 사용하십시오.",
-        "hover3": "주문 만료 날짜를 지정합니다.",
-        "hover4": "풀 스왑보다 더 복잡하지만 저렴합니다."
+    "localized": {
+      "title": "여러 언어로 완전히 현지화되었습니다!",
+      "description": "11개 언어로 제공되며 계속해서 제공됩니다!"
     },
-    "pool": {
-        "title": "유동성 풀 교환",
-        "subtitle": "유동성 풀을 통해 자산 교환",
-        "hover1": "사용자가 생성한 유동성 풀을 통해 자산을 교환합니다.",
-        "hover2": "풀에는 다양한 거래 쌍과 수수료가 있습니다.",
-        "hover3": "지정가 주문보다 간단하지만 비용이 더 많이 듭니다."
-    },
-    "swap": {
-        "title": "단순 ​​자산 교환",
-        "subtitle": "풀을 통해 더욱 쉽게 자산 교환",
-        "hover1": "사용자가 생성한 유동성 풀을 통해 자산을 교환합니다.",
-        "hover2": "풀에는 다양한 거래 쌍과 수수료가 있습니다.",
-        "hover3": "지정가 주문보다 간단하지만 비용이 더 많이 듭니다."
-    },
-    "stake": {
-        "title": "스테이크 자산",
-        "subtitle": "유동성 풀의 스테이크 자산",
-        "hover1": "유동성 풀에 자산을 스테이킹하여 수수료를 받으세요.",
-        "hover2": "스테이킹된 자산은 풀에 잠겨 있습니다.",
-        "hover3": "스테이킹된 자산은 언제든지 출금될 수 있습니다."
-    },
-    "transfer": {
-        "title": "자산 양도",
-        "subtitle": "다른 사용자에게 자산 보내기",
-        "hover1": "몇 초 만에 Bitshares 블록체인의 누구에게나 자산을 전송할 수 있습니다."
-    },
-    "timed_transfer": {
-        "title": "시간 시간 전송",
-        "subtitle": "나중에 다른 사용자에게 자산을 보냅니다.",
-        "hover1": "제안 검토 기간이 통과 한 후 다른 사용자에게 자산을 전송 일정을 잡으십시오."
-    },
-    "withdraw_permission": {
-        "title": "허가를 철회하십시오",
-        "subtitle": "철수 권한을 관리하십시오",
-        "hover1": "지불/편집/삭제/편집/삭제 인출 권한.",
-        "hover2": "수신 권한을보십시오."
-    },
-    "htlc": {
-        "title": "HASH 타임 잠금 계약 (HTLC)",
-        "subtitle": "비밀 암호화 키 뒤에 잠겨있는 청구 가능한 자금을 만듭니다.",
-        "hover1": "HTLC는 주어진 수령인을 위해 자금을 잠그고, 발신자가 계약을 만들기 위해 사용한 비밀 프리이 이미지 (비밀번호)를 제공하여 해당 자금을 상환 할 수 있습니다.",
-        "hover2": "비밀번호를 공개하면 체인이 없습니다."
-    },
-    "create_vesting": {
-        "title": "조끼 자산",
-        "subtitle": "베스팅 잔액 생성",
-        "hover1": "베스팅 잔고를 생성하면 일정 기간 동안 자산 수량을 잠글 수 있습니다.",
-        "hover2": "두 가지 베스팅 유형 중 하나를 사용할 수 있습니다: Coin Days Destroyed 및 Linear Vesting with Cliff.",
-        "hover3": "Coin Days Destroyed 정책의 효과는 전체 잔액을 인출하기 전에 일정 금액의 \"이자\"가 누적되도록 요구하는 것이며, 이자는 코인데이(잔액 * 보유 기간)만큼 발생하며, 잔액 중 일부가 인출되면 남은 잔액을 보유해야 합니다. ",
-        "hover4": "Cliff 정책을 사용한 선형 베스팅은 완전히 만기될 때까지 매일 특정 금액이 베스팅되는 전통적인 주식 베스팅 계약을 모방하는 데 사용됩니다."
-    },
-    "borrow": {
-        "title": "자금 차입",
-        "subtitle": "다른 사용자의 신용 제안에서 빌리기",
-        "hover1": "활성 사용자가 만든 크레딧 제안을 찾아보세요.",
-        "hover2": "원하는 금리로 자산을 빌리세요.",
-        "hover3": "요청한 담보를 사용하여 대출을 확보하세요."
-    },
-    "lend": {
-        "title": "자금 대출",
-        "subtitle": "다른 사람에게 대출할 수 있는 신용 제안 만들기",
-        "hover1": "자신만의 분산형 신용 제안을 만드세요.",
-        "hover2": "귀하가 정의한 금리로 자산을 대출해 보세요.",
-        "hover3": "허용되는 대출 담보 및 가격을 지정하십시오."
-    },
-    "smartcoins": {
-        "title": "담보부채 발행",
-        "subtitle": "법정화폐 자산, 개인 스마트코인 등을 빌리세요.",
-        "hover1": "USD, CNY, EUR와 같은 비트자산은 BTS를 기반으로 하는 위원회 생성 스테이블코인(스마트코인)입니다.",
-        "hover2": "사용자가 생성한 스마트코인은 모든 자산으로 뒷받침될 수 있으며 외부 피드를 참조할 수 있습니다.",
-        "hover3": "외부 정산 가격은 구성된 사료 생산자로부터 파생됩니다.",
-        "hover4": "외부 가격 정보에 노출되면 담보 부채 포지션에 위험이 발생할 수 있습니다."
-    },
-    "tfunds": {
-        "title": "Same-T 펀드",
-        "subtitle": "Same-T 자금 보기, 생성, 업데이트, 삭제!",
-        "hover1": "현재 다른 사용자가 제공하는 모든 Same-T 펀드를 확인하세요.",
-        "hover2": "새로운 Same-T 펀드를 쉽게 만드세요.",
-        "hover3": "기존 Same-T 자금을 업데이트하거나 삭제하세요.",
-        "hover4": "Same-T 펀드는 보유 자산에서 수동적으로 수익을 얻을 수 있는 방법입니다."
-    },
-    "portfolio": {
-        "title": "귀하의 포트폴리오",
-        "subtitle": "잔액, 미결 주문, 최근 블록체인 활동을 확인하세요.",
-        "hover1": "잔액을 확인하세요.",
-        "hover2": "미결 주문을 모니터링하세요.",
-        "hover3": "최근 계정 활동을 분석하세요."
-    },
-    "portfolio_balances": {
-        "title": "계정 잔액",
-        "subtitle": "액체 잔액 및 관련 작업을 봅니다.",
-        "hover1": "기본, 알파벳순 또는 금액별로 잔액을 정렬합니다.",
-        "hover2": "거래 및 자산 정보에 대한 빠른 링크입니다.",
-        "hover3": "관련 유동성 풀을 참조하세요."
-    },
-    "portfolio_open_orders": {
-        "title": "공개 주문",
-        "subtitle": "공개 DEX 주문 검토 및 관리",
-        "hover1": "시장 쌍으로 바로 이동하십시오.",
-        "hover2": "주문을 업데이트하거나 취소합니다.",
-        "hover3": "만료일과 주문 ID를 확인하세요."
-    },
-    "portfolio_recent_activity": {
-        "title": "최근 활동",
-        "subtitle": "최신 온체인 작업을 검사하세요.",
-        "hover1": "작업 ID 및 블록을 찾아보세요.",
-        "hover2": "작업 JSON을 봅니다.",
-        "hover3": "전체 활동 세부정보를 엽니다."
-    },
-    "favourites": {
-        "title": "즐겨찾기",
-        "subtitle": "즐겨찾는 자산 및 계정에 빠르게 액세스하세요",
-        "hover1": "관심 있는 자산을 추가하여 한 곳에서 시청하세요.",
-        "hover2": "빠른 참조를 위해 즐겨찾는 계정을 추적하세요."
-    },
-    "featured": {
-        "title": "상위 시장",
-        "subtitle": "현재 가장 활발하게 거래되는 자산을 찾아보세요",
-        "hover1": "가장 활동적인 거래쌍으로 이동하세요.",
-        "hover2": "시장 거래량과 가치를 비교해보세요.",
-        "hover3": "시장 거래량을 비교해보세요."
-    },
-    "deals": {
-        "title": "신용 거래",
-        "subtitle": "신용 거래를 확인하세요",
-        "hover1": "귀하의 활성 신용 거래를 모니터링하십시오.",
-        "hover2": "신용 거래 상태를 관리하세요."
-    },
-    "offers": {
-        "title": "크레딧 제공",
-        "subtitle": "신용 제안을 확인하세요",
-        "hover1": "귀하의 활성 신용 제안을 모니터링하십시오.",
-        "hover2": "신용 제안 상태를 관리하세요."
-    },
-    "vesting": {
-        "title": "베스팅 잔액",
-        "subtitle": "보상, 추천 수수료, 기타 베스팅 잔액 보기 및 청구",
-        "hover1": "베스팅 잔액을 확인하세요.",
-        "hover2": "기득권 잔액을 청구하세요."
-    },
-    "proposals": {
-        "title": "제안된 운영",
-        "subtitle": "제안된 계정 운영 보기 및 승인/거부",
-        "hover1": "귀하의 계정에 대해 다른 블록체인 계정이 제안한 계정 작업을 확인하세요.",
-        "hover2": "제안된 계정 작업을 승인하거나 거부합니다."
-    },
-    "issued_assets": {
-        "title": "귀하의 발행 자산",
-        "subtitle": "귀하가 생성한 모든 자산 보기",
-        "hover1": "사용자가 발행한 자산, 스마트코인 및 대체 불가능한 토큰을 확인하세요!",
-        "hover2": "블록체인에서 생성한 자산을 편집하세요.",
-        "hover3": "선택적으로 생성된 자산의 수량을 발행합니다."
-    },
-    "blocks": {
-        "title": "블록체인 데이터",
-        "subtitle": "가장 최근에 요약된 블록체인 데이터 보기",
-        "hover1": "최근 활동 및 최근 블록 라이브 데이터 테이블입니다.",
-        "hover2": "최근 블록 거래 수 라이브 차트.",
-        "hover3": "요약된 블록체인 데이터 평균 및 합계입니다."
-    },
-    "create_uia": {
-        "title": "사용자 발행 자산",
-        "subtitle": "무엇이든 자신만의 토큰을 만드세요",
-        "hover1": "자신만의 사용자 발행 자산을 만드세요.",
-        "hover2": "다양한 목적으로 사용될 수 있습니다.",
-        "hover3": "비즈니스 토큰, 보상 토큰, 게임 토큰 등으로 사용할 수 있습니다.",
-        "hover4": "게이트웨이는 Bitshares DEX에서 거래하기 위한 교환 지원 자산을 생성할 수 있습니다."
-    },
-    "create_ticket": {
-        "title": "티켓 만들기",
-        "subtitle": "투표 가중치를 얻으려면 투표 잠금 티켓을 만드세요.",
-        "hover1": "투표 잠금 티켓은 증인, 위원회 및 근로자 투표 목적에 대한 투표 가중치를 부여합니다.",
-        "hover2": "청산된 티켓은 자금을 잠금 해제하기까지 일정 시간이 걸립니다."
-    },
-    "ticket_leaderboard": {
-        "title": "티켓 리더보드",
-        "subtitle": "계정별 통합 유효 티켓 파워 보기",
-        "hover1": "블록체인에서 누가 가장 많은 투표권을 가지고 있는지 확인하세요.",
-        "hover2": "귀하의 투표권이 다른 사람들과 어떻게 비교되는지 비교해 보세요.",
-        "hover3": "더 많은 투표권을 얻으려면 향후 투표 잠금 티켓의 크기를 계산하세요."
-    },
-    "create_smartcoin": {
-        "title": "스마트코인 자산",
-        "subtitle": "법정화폐 스테이블코인 자산 생성",
-        "hover1": "나만의 스마트코인을 만들어보세요.",
-        "hover2": "다양한 목적으로 사용될 수 있습니다.",
-        "hover3": "스테이블 코인, 비즈니스 토큰, 보상 토큰, 게임 토큰 등으로 사용될 수 있습니다.",
-        "hover4": "스마트코인은 모든 자산으로 뒷받침될 수 있으며 외부 피드를 참조할 수 있습니다."
-    },
-    "create_liquidity_pool": {
-        "title": "유동성 풀 생성",
-        "subtitle": "자산 2개를 교환하기 위한 새로운 유동성 풀 생성",
-        "hover1": "사용자가 발행한 자산을 유동성 풀 공유 자산으로 전환합니다.",
-        "hover2": "블록체인에서 2개의 자산을 교환하도록 유동성 풀을 구성합니다.",
-        "hover3": "유동성 풀을 사용하여 다른 사람으로부터 수익을 얻으려면 자신의 수수료를 적용하십시오."
-    },
-    "accountLists": {
-        "title": "계정 목록",
-        "subtitle": "계정 목록 보기 및 관리",
-        "hover1": "화이트리스트에 계정을 추가하세요.",
-        "hover2": "블랙리스트에 계정을 추가하세요.",
-        "hover3": "해당 목록에서 계정을 제거하십시오."
-    },
-    "blocked_users": {
-        "title": "차단된 사용자",
-        "subtitle": "차단된 계정 보기 및 관리",
-        "hover1": "차단한 계정을 봅니다.",
-        "hover2": "계정을 뷰에서 차단 또는 차단 해제합니다."
-    },
-    "ltm": {
-        "title": "계정 업그레이드",
-        "subtitle": "평생회원권 구매",
-        "hover1": "평생회원이 되면 다양한 혜택이 있습니다.",
-        "hover2": "평생 회원은 수수료에 대해 80%의 베스팅 잔고 리베이트를 받습니다.",
-        "hover3": "평생 회원은 프리미엄 Bitshares 계정 이름을 만들 수 있습니다.",
-        "hover4": "평생 회원은 추천 시스템을 통해 수익을 올릴 수 있습니다."
-    },
-    "nodes": {
-        "title": "노드",
-        "subtitle": "블록체인 노드 구성",
-        "hover1": "원하는 Bitshares 노드에 연결하세요.",
-        "hover2": "연결 목록에 노드를 추가/제거합니다."
-    },
-    "create_account": {
-        "title": "계정을 만듭니다",
-        "subtitle": "Bitshares 블록 체인에 새 클라우드 지갑 계정을 만듭니다.",
-        "hover1": "공개 수도꼭지를 사용하여 무료 계정을 만듭니다.",
-        "hover2": "기존 LTM 계정을 사용하여 프리미엄 계정을 생성하십시오."
-    },
-    "invoice_inventory": {
-        "title": "송장 인벤토리",
-        "subtitle": "인보이스 발행에 사용되는 품목 및 가격 관리",
-        "hover1": "재고 품목과 송장 가격을 생성하고 관리합니다."
-    },
-    "create_invoice": {
-        "title": "송장 만들기",
-        "subtitle": "고객을 위한 송장 코드 생성",
-        "hover1": "재고에서 항목을 선택하고 수량과 송장 세부정보를 제공하여 송장을 생성합니다."
-    },
-    "pay_invoice": {
-        "title": "송장 지불",
-        "subtitle": "송장 코드를 사용하여 송장 지불",
-        "hover1": "청구서 작성자가 제공한 청구서 코드를 입력하여 청구서를 결제하세요.",
-        "hover2": "선택적으로 구매하는 각 품목에 대해 서로 다른 자산으로 지불합니다."
-    },
-    "stored_invoices": {
-        "title": "저장된 송장",
-        "subtitle": "저장된 송장 보기 및 관리",
-        "hover1": "생성 및 수신된 저장된 송장을 찾아보세요.",
-        "hover2": "송장 세부정보를 확인하고 원치 않는 송장을 삭제하세요.",
-        "hover3": "이행 중인 송장 진행 상황에 대한 데이터를 저장합니다."
-    },
-    "tfund_user": {
-        "title": "동일한 T 펀드 거래",
-        "subtitle": "차용, 거래, 상환, 단순!",
-        "hover1": "동일한 T 펀드에서 자산을 빌리십시오.",
-        "hover2": "이 동일한 T 기금을 덱스에서 거래하십시오.",
-        "hover3": "빌린 자산을 상환합니다."
-    },
-    "custom_pool_tracker": {
-        "title": "유동성 풀 추적기",
-        "subtitle": "좋아하는 유동성 풀을 쉽게 추적하십시오!",
-        "hover1": "고유 한 Custom Lividue Pool 추적기를 구성하십시오.",
-        "hover2": "최대 5 개의 교체 가능한 자산을 추적하십시오."
-    },
-    "pools": {
-        "title": "유동성 풀",
-        "subtitle": "모든 유동성 풀 목록을보십시오",
-        "hover1": "교환 가능한 자산으로 모든 유동성 풀을 필터링하십시오",
-        "hover2": "자산 교환을위한 유동성 풀을 찾습니다.",
-        "hover3": "유동성 풀을 식별하여 자산을 스테이크하십시오."
-    },
-    "features": {
-        "heading": "특징",
-        "functionalityHeading": "기능성",
-        "zeroAuth": {
-            "title": "제로 인증이 필요합니다!",
-            "description": "계정을 잠금 해제하지 않고 블록체인 거래를 구축하세요!"
-        },
-        "multiBroadcast": {
-            "title": "다양한 거래 방송 방식!",
-            "description": "QR 코드, 딥링크 또는 로컬 JSON 파일을 통해 블록체인 작업을 브로드캐스트하세요."
-        },
-        "supportsLatest": {
-            "title": "최신 Bitshares 기능을 지원합니다!",
-            "description": "최신 Bitshares DEX 개선 사항에 관심이 있으십니까? "
-        },
-        "switchChains": {
-            "title": "지원되는 블록체인 간을 쉽게 전환하세요!",
-            "description": "Bitshares 메인넷과 테스트넷 네트워크 간을 전환하는 데 몇 초가 걸립니다!"
-        },
-        "nearInstant": {
-            "title": "거의 즉각적인 블록체인 운영!",
-            "description": "3초의 블록 타이밍을 통해 방송 작업이 거의 즉시 확인됩니다!"
-        },
-        "evergreen": {
-            "title": "끊임없는 기술로 만들어졌습니다!",
-            "description": "빠르고 안전하며 안정적인 Bitshares의 미래를 위해 최신 웹 기술을 사용하세요!"
-        },
-        "multiWallets": {
-            "title": "여러 지갑을 지원합니다!",
-            "description": "Beet 또는 BeetEOS 지갑을 통해 거래를 방송하세요!"
-        },
-        "localized": {
-            "title": "여러 언어로 완전히 현지화되었습니다!",
-            "description": "11개 언어로 제공되며 계속해서 제공됩니다!"
-        },
-        "blockActors": {
-            "title": "나쁜 배우를 차단합니다!",
-            "description": "악의적인 계정과 해당 블록체인 개체를 방지하는 데 도움이 됩니다!"
-        }
-    },
-    "sections": {
-        "exchangingSubtitle": "DEX에서 거래, 스왑, 스테이킹 및 물물교환",
-        "transferSubtitle": "자산을 전송하고 권한 관리",
-        "debtSubtitle": "대출, 거래 및 담보부 채무 발행",
-        "assetCreationSubtitle": "토큰, 스마트코인 및 유동성 풀 생성",
-        "accountSubtitle": "포트폴리오, 주문 및 즐겨찾기 관리",
-        "blockchainSubtitle": "블록체인 데이터, 풀 및 트래커 탐색",
-        "governanceSubtitle": "투표, 역할 등록 및 워커 제안 생성",
-        "invoicingSubtitle": "온체인에서 청구서 생성, 전송 및 결제",
-        "settingsSubtitle": "계정 목록, 노드 및 설정"
-    },
-    "configure_visuals": {
-        "title": "비주얼 구성",
-        "subtitle": "파동 배경, 오로라 글로우, 파티클 및 블러 효과 사용자 지정",
-        "hover1": "미리 정의된 색상 팔레트에서 선택하거나 직접 색상을 정의하세요.",
-        "hover2": "파동 수, 속도, 두께 및 오로라 강도를 조정하세요."
-    },
-    "waveHero": {
-        "title": "차세대 Bitshares 클라이언트!",
-        "subtitle": "최신 기술로 제작되어 사용하기 쉽도록 설계되었습니다!"
-    },
-    "hero": {
-        "title": "모두를 위한 거래소.",
-        "subtitle": "Bitshares 분산형 거래소에서 거래, 스왑, 스테이킹, 대출, 거래 등이 가능합니다. 비수탁형, 신뢰 불필요, 블록체인 기술 기반.",
-        "ctaPrimary": "거래 시작",
-        "ctaSecondary": "심플 스왑",
-        "scrollForMore": "더 보려면 스크롤"
-    },
-    "theme_customizer": {
-        "title": "테마 사용자 지정",
-        "subtitle": "모든 페이지, 내비게이션, 구성 요소의 색상을 바꾸는 테마를 만들고 편집",
-        "hover1": "단순 모드로 액센트 색상을 설정하거나, 고급 모드로 전체를 제어하세요.",
-        "hover2": "페이지별 테마를 지정하고 내비게이션 액센트의 색상을 변경합니다."
-    },
-    "home_link": {
-        "title": "홈",
-        "subtitle": "기본 대시보드로 돌아가기"
-    },
-    "page_themes": {
-        "title": "페이지별 테마",
-        "subtitle": "개별 페이지에 특정 테마를 할당",
-        "hover1": "앱의 모든 페이지에서 활성 테마를 재정의합니다."
-    },
-    "airdrop": {
-        "title": "Airdrop",
-        "subtitle": "한 번에 여러 계정에 자산을 대량 배포합니다.",
-        "hover1": "큰 수신자 목록을 체인의 최대 트랜잭션 크기에 맞게 트랜잭션으로 분할합니다."
-    },
-    "airdrop_create": {
-        "title": "Airdrop 만들기",
-        "subtitle": "수신자 목록을 만들고 자산 분배를 구성합니다.",
-        "hover1": "1.2.x 계정 ID의 CSV/JSON을 업로드하고, 자산과 수량 할당 방식을 선택합니다."
-    },
-    "airdrop_perform": {
-        "title": "Airdrop 실행",
-        "subtitle": "준비된 전송 배치를 체인에 브로드캐스트합니다.",
-        "hover1": "각 배치는 연결된 지갑을 통해 단일 트랜잭션으로 서명 및 전송됩니다."
-    },
-    "airdrop_calculate": {
-        "title": "Airdrop",
-        "subtitle": "알고리즘 선택 또는 수동 목록을 통해 여러 계정에 자산을 분배합니다.",
-        "hover1": "수동 입력, 티켓 잠금, 콜 오더 담보, 상위 자산 보유자, 리밋 오더 활동 또는 평생 회원 업그레이드에서 후보 풀을 구축합니다.",
-        "hover2": "블록 witnesses 서명을 시드로 하는 결정적 알고리즘 — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — 을 하나 이상 실행합니다.",
-        "hover3": "당첨 계정을 검토하고, 분배를 구성(균등 분할, 고정 금액 또는 사용자 정의)한 다음 Beet 지갑을 통해 각 배치를 브로드캐스트합니다."
-    },
-    "recent_activity": {
-        "title": "Recent activity",
-        "subtitle": "Browse your latest on-chain operations.",
-        "hover1": "Review the most recent operations performed by your account.",
-        "hover2": "Inspect the underlying operation JSON for each entry."
-    },
-    "top_markets": {
-        "title": "Top markets",
-        "subtitle": "The most actively traded markets on the DEX.",
-        "hover1": "Ranked by the number of fill orders over the past 30 days.",
-        "hover2": "Great for spotting the busiest trading pairs.",
-        "dialogDescription": "Choose where to trade this market pair.",
-        "openDex": "Open in DEX limit order",
-        "openInstant": "Open in Instant Swap"
-    },
-    "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
-    "top_pools": {
-        "title": "Top pools",
-        "subtitle": "The most actively swapped liquidity pools on the network.",
-        "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
-        "hover2": "Great for spotting the busiest pools to trade or stake in.",
-        "dialogDescription": "Choose where to use this liquidity pool.",
-        "openSwap": "Open in Simple Swap",
-        "openInstant": "Open in Instant Trade",
-        "openDex": "Open in DEX limit order",
-        "openStake": "Stake assets",
-        "pool": "Pool",
-        "assets": "Assets",
-        "swaps": "Swaps"
+    "blockActors": {
+      "title": "나쁜 배우를 차단합니다!",
+      "description": "악의적인 계정과 해당 블록체인 개체를 방지하는 데 도움이 됩니다!"
     }
+  },
+  "sections": {
+    "exchangingSubtitle": "DEX에서 거래, 스왑, 스테이킹 및 물물교환",
+    "transferSubtitle": "자산을 전송하고 권한 관리",
+    "debtSubtitle": "대출, 거래 및 담보부 채무 발행",
+    "assetCreationSubtitle": "토큰, 스마트코인 및 유동성 풀 생성",
+    "accountSubtitle": "포트폴리오, 주문 및 즐겨찾기 관리",
+    "blockchainSubtitle": "블록체인 데이터, 풀 및 트래커 탐색",
+    "governanceSubtitle": "투표, 역할 등록 및 워커 제안 생성",
+    "invoicingSubtitle": "온체인에서 청구서 생성, 전송 및 결제",
+    "settingsSubtitle": "계정 목록, 노드 및 설정",
+    "airdropSubtitle": "Bulk send one asset to many accounts"
+  },
+  "configure_visuals": {
+    "title": "비주얼 구성",
+    "subtitle": "파동 배경, 오로라 글로우, 파티클 및 블러 효과 사용자 지정",
+    "hover1": "미리 정의된 색상 팔레트에서 선택하거나 직접 색상을 정의하세요.",
+    "hover2": "파동 수, 속도, 두께 및 오로라 강도를 조정하세요."
+  },
+  "waveHero": {
+    "title": "차세대 Bitshares 클라이언트!",
+    "subtitle": "최신 기술로 제작되어 사용하기 쉽도록 설계되었습니다!"
+  },
+  "hero": {
+    "title": "모두를 위한 거래소.",
+    "subtitle": "Bitshares 분산형 거래소에서 거래, 스왑, 스테이킹, 대출, 거래 등이 가능합니다. 비수탁형, 신뢰 불필요, 블록체인 기술 기반.",
+    "ctaPrimary": "거래 시작",
+    "ctaSecondary": "심플 스왑",
+    "scrollForMore": "더 보려면 스크롤"
+  },
+  "theme_customizer": {
+    "title": "테마 사용자 지정",
+    "subtitle": "모든 페이지, 내비게이션, 구성 요소의 색상을 바꾸는 테마를 만들고 편집",
+    "hover1": "단순 모드로 액센트 색상을 설정하거나, 고급 모드로 전체를 제어하세요.",
+    "hover2": "페이지별 테마를 지정하고 내비게이션 액센트의 색상을 변경합니다."
+  },
+  "home_link": {
+    "title": "홈",
+    "subtitle": "기본 대시보드로 돌아가기"
+  },
+  "page_themes": {
+    "title": "페이지별 테마",
+    "subtitle": "개별 페이지에 특정 테마를 할당",
+    "hover1": "앱의 모든 페이지에서 활성 테마를 재정의합니다."
+  },
+  "airdrop": {
+    "title": "Airdrop",
+    "subtitle": "한 번에 여러 계정에 자산을 대량 배포합니다.",
+    "hover1": "큰 수신자 목록을 체인의 최대 트랜잭션 크기에 맞게 트랜잭션으로 분할합니다."
+  },
+  "airdrop_create": {
+    "title": "Airdrop 만들기",
+    "subtitle": "수신자 목록을 만들고 자산 분배를 구성합니다.",
+    "hover1": "1.2.x 계정 ID의 CSV/JSON을 업로드하고, 자산과 수량 할당 방식을 선택합니다."
+  },
+  "airdrop_perform": {
+    "title": "Airdrop 실행",
+    "subtitle": "준비된 전송 배치를 체인에 브로드캐스트합니다.",
+    "hover1": "각 배치는 연결된 지갑을 통해 단일 트랜잭션으로 서명 및 전송됩니다."
+  },
+  "airdrop_calculate": {
+    "title": "Airdrop",
+    "subtitle": "알고리즘 선택 또는 수동 목록을 통해 여러 계정에 자산을 분배합니다.",
+    "hover1": "수동 입력, 티켓 잠금, 콜 오더 담보, 상위 자산 보유자, 리밋 오더 활동 또는 평생 회원 업그레이드에서 후보 풀을 구축합니다.",
+    "hover2": "블록 witnesses 서명을 시드로 하는 결정적 알고리즘 — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — 을 하나 이상 실행합니다.",
+    "hover3": "당첨 계정을 검토하고, 분배를 구성(균등 분할, 고정 금액 또는 사용자 정의)한 다음 Beet 지갑을 통해 각 배치를 브로드캐스트합니다."
+  },
+  "recent_activity": {
+    "title": "Recent activity",
+    "subtitle": "Browse your latest on-chain operations.",
+    "hover1": "Review the most recent operations performed by your account.",
+    "hover2": "Inspect the underlying operation JSON for each entry."
+  },
+  "top_markets": {
+    "title": "Top markets",
+    "subtitle": "The most actively traded markets on the DEX.",
+    "hover1": "Ranked by the number of fill orders over the past 30 days.",
+    "hover2": "Great for spotting the busiest trading pairs.",
+    "dialogDescription": "Choose where to trade this market pair.",
+    "openDex": "Open in DEX limit order",
+    "openInstant": "Open in Instant Swap"
+  },
+  "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+  "top_pools": {
+    "title": "Top pools",
+    "subtitle": "The most actively swapped liquidity pools on the network.",
+    "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
+    "hover2": "Great for spotting the busiest pools to trade or stake in.",
+    "dialogDescription": "Choose where to use this liquidity pool.",
+    "openSwap": "Open in Simple Swap",
+    "openInstant": "Open in Instant Trade",
+    "openDex": "Open in DEX limit order",
+    "openStake": "Stake assets",
+    "pool": "Pool",
+    "assets": "Assets",
+    "swaps": "Swaps"
+  }
 }

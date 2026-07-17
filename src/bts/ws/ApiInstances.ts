@@ -381,6 +381,9 @@ const newApis = (
     get chain_id() {
       return state.chain_id;
     },
+    get init_promise() {
+      return state.init_promise;
+    },
     get closeCb() {
       return state.closeCb;
     },
