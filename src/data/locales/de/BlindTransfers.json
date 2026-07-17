@@ -36,14 +36,12 @@
   "addKey": "Schlüssel hinzufügen",
   "noAccountAuths": "Noch keine Konten hinzugefügt.",
   "publicKeyPlaceholder": "Öffentlicher Schlüssel (BTS...)",
-  "stealthMemoToggle": "Stealth-Memo einfügen",
-  "oneTimeKeyLabel": "Einmal-Schlüssel",
-  "memoToLabel": "An (öffentlicher Schlüssel)",
-  "encryptedMemoLabel": "Verschlüsseltes Memo",
   "searchAccountTitle": "Konto suchen",
   "searchAccountDescription": "Suchen Sie das zu verwendende Konto.",
   "reviewBroadcast": "Prüfen & senden",
   "transfer_to_blindHeader": "Transfer in Blind",
   "blind_transferHeader": "Blind-Transfer",
-  "transfer_from_blindHeader": "Transfer aus Blind"
+  "transfer_from_blindHeader": "Transfer aus Blind",
+  "max": "Max",
+  "balanceAvailable": "Available: {{amount}} {{symbol}}"
 }

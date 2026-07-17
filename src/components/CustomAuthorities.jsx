@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -60,6 +59,10 @@ import { $currentNode } from "@/stores/node.ts";
 import DeepLinkDialog from "@/components/common/DeepLinkDialog.jsx";
 import AccountSearch from "@/components/AccountSearch.jsx";
 import { opTypes } from "@/lib/opTypes.js";
+import {
+  RestrictionBuilder,
+  normalizeRestrictions,
+} from "@/components/CustomAuthorityRestrictions.jsx";
 
 // Virtual operations (flagged `// Virtual` in beautify.js) are produced by the
 // chain itself and can never be signed/authorized, so a custom authority cannot
@@ -95,13 +98,17 @@ function inputToUnix(value) {
   return Math.floor(ms / 1000);
 }
 
-function parseJSONOr(value, fallback) {
-  if (typeof value !== "string" || !value.trim()) return fallback;
-  try {
-    return JSON.parse(value);
-  } catch (e) {
-    return null;
-  }
+// Chain restrictions already carry { member_index, restriction_type, argument }.
+// The builder rows use the same shape for flat comparisons, so we can seed
+// directly; nested arguments simply remain visible via the Advanced JSON view.
+function normalizeToRows(restrictions) {
+  if (!Array.isArray(restrictions)) return [];
+  return restrictions.map((r) => ({
+    member_index: Number(r.member_index) || 0,
+    restriction_type: Number(r.restriction_type) || 0,
+    argument: Array.isArray(r.argument) ? r.argument : [7, ""],
+    extensions: [],
+  }));
 }
 
 // account_auths / key_auths on-chain are arrays of [id, weight] tuples.
@@ -462,11 +469,13 @@ function AuthorityForm({ mode, authority, account, chain, usr, t, onClose, onSub
     toAuthPairs(initialAuth.key_auths)
   );
 
-  // Restrictions remain raw JSON (they are static-variant tuples).
-  const [restrictionsText, setRestrictionsText] = useState(
-    JSON.stringify(isUpdate ? [] : authority?.restrictions ?? [], null, 2)
+  // Structured restriction rows (see CustomAuthorityRestrictions.jsx).
+  // On create, seed from the target authority's restrictions (usually none);
+  // on update, restrictions_to_add starts empty.
+  const [restrictions, setRestrictions] = useState(() =>
+    isUpdate ? [] : normalizeToRows(authority?.restrictions)
   );
-  const [restrictionsRemoveText, setRestrictionsRemoveText] = useState("[]");
+  const [restrictionsRemove, setRestrictionsRemove] = useState([]);
 
   const [showAccountSearch, setShowAccountSearch] = useState(false);
   const [error, setError] = useState("");
@@ -492,12 +501,7 @@ function AuthorityForm({ mode, authority, account, chain, usr, t, onClose, onSub
   const handleSubmit = () => {
     setError("");
 
-    const restrictions = parseJSONOr(restrictionsText, []);
-    if (restrictions === null) {
-      setError(t("CustomAuthorities:invalidRestrictionsJson"));
-      return;
-    }
-
+    const normalizedRestrictions = normalizeRestrictions(restrictions);
     const auth = buildAuth();
 
     if (!isUpdate) {
@@ -508,16 +512,10 @@ function AuthorityForm({ mode, authority, account, chain, usr, t, onClose, onSub
         valid_to: inputToUnix(validTo),
         operation_type: Number(operationType) || 0,
         auth,
-        restrictions: restrictions ?? [],
+        restrictions: normalizedRestrictions,
         extensions: [],
       };
       onSubmit(trx, "custom_authority_create");
-      return;
-    }
-
-    const restrictionsRemove = parseJSONOr(restrictionsRemoveText, []);
-    if (restrictionsRemove === null) {
-      setError(t("CustomAuthorities:invalidRestrictionsJson"));
       return;
     }
 
@@ -528,8 +526,10 @@ function AuthorityForm({ mode, authority, account, chain, usr, t, onClose, onSub
       new_valid_from: inputToUnix(validFrom),
       new_valid_to: inputToUnix(validTo),
       new_auth: auth,
-      restrictions_to_remove: restrictionsRemove ?? [],
-      restrictions_to_add: restrictions ?? [],
+      restrictions_to_remove: restrictionsRemove
+        .map((n) => Number(n))
+        .filter((n) => Number.isInteger(n) && n >= 0),
+      restrictions_to_add: normalizedRestrictions,
       extensions: [],
     };
     onSubmit(trx, "custom_authority_update");
@@ -790,36 +790,26 @@ function AuthorityForm({ mode, authority, account, chain, usr, t, onClose, onSub
             </div>
           </div>
 
-          <div className="space-y-1">
-            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground/70">
-              {isUpdate
+          <RestrictionBuilder
+            restrictions={restrictions}
+            opType={operationType}
+            t={t}
+            onChange={setRestrictions}
+            label={
+              isUpdate
                 ? t("CustomAuthorities:restrictionsToAddLabel")
-                : t("CustomAuthorities:restrictionsLabel")}
-            </Label>
-            <Textarea
-              className="font-mono text-xs min-h-[100px]"
-              value={restrictionsText}
-              onChange={(e) => setRestrictionsText(e.target.value)}
-            />
-            <div className="text-[11px] text-muted-foreground">
-              {t("CustomAuthorities:restrictionsHint")}
-            </div>
-          </div>
+                : t("CustomAuthorities:restrictionsLabel")
+            }
+            hint={t("CustomAuthorities:restrictionsHint")}
+          />
 
           {isUpdate ? (
-            <div className="space-y-1">
-              <Label className="text-[10px] uppercase tracking-wider text-muted-foreground/70">
-                {t("CustomAuthorities:restrictionsToRemoveLabel")}
-              </Label>
-              <Textarea
-                className="font-mono text-xs min-h-[60px]"
-                value={restrictionsRemoveText}
-                onChange={(e) => setRestrictionsRemoveText(e.target.value)}
-              />
-              <div className="text-[11px] text-muted-foreground">
-                {t("CustomAuthorities:restrictionsToRemoveHint")}
-              </div>
-            </div>
+            <RemoveRestrictions
+              authority={authority}
+              selected={restrictionsRemove}
+              onChange={setRestrictionsRemove}
+              t={t}
+            />
           ) : null}
 
           {error ? (
@@ -870,6 +860,86 @@ function AuthorityForm({ mode, authority, account, chain, usr, t, onClose, onSub
     </Dialog>
   );
 }
+
+function RemoveRestrictions({ authority, selected, onChange, t }) {
+  const existing = Array.isArray(authority?.restrictions)
+    ? authority.restrictions
+    : [];
+
+  const toggle = (idx) => {
+    if (selected.includes(idx)) {
+      onChange(selected.filter((i) => i !== idx));
+    } else {
+      onChange([...selected, idx]);
+    }
+  };
+
+  return (
+    <div className="rounded-xl border border-border bg-accent/20 p-3 space-y-2">
+      <Label className="text-sm font-semibold">
+        {t("CustomAuthorities:restrictionsToRemoveLabel")}
+      </Label>
+      <div className="text-[11px] text-muted-foreground">
+        {t("CustomAuthorities:restrictionsToRemoveHint")}
+      </div>
+      {existing.length ? (
+        <div className="space-y-1.5">
+          {existing.map((r, idx) => {
+            const isSel = selected.includes(idx);
+            return (
+              <button
+                type="button"
+                key={idx}
+                onClick={() => toggle(idx)}
+                className={
+                  isSel
+                    ? "flex w-full items-center gap-2 rounded-lg border border-[hsl(var(--accent-danger)/0.5)] bg-[hsl(var(--accent-danger)/0.1)] px-2.5 py-1.5 text-left"
+                    : "flex w-full items-center gap-2 rounded-lg border border-border bg-card/60 px-2.5 py-1.5 text-left hover:border-[hsl(var(--accent-1)/0.35)]"
+                }
+              >
+                <span className="font-mono text-[10px] text-muted-foreground w-6">
+                  #{idx}
+                </span>
+                <span className="font-mono text-[11px] text-foreground/80 flex-1 truncate">
+                  {t("CustomAuthorities:func." +
+                    (RESTRICTION_FUNC_KEYS[Number(r.restriction_type)] ??
+                      r.restriction_type))}
+                  {" · "}
+                  {t("CustomAuthorities:memberIndexShort", {
+                    index: r.member_index,
+                  })}
+                </span>
+                {isSel ? (
+                  <Trash2 className="h-3.5 w-3.5 text-[hsl(var(--accent-danger-fg))]" />
+                ) : null}
+              </button>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="text-[11px] text-muted-foreground italic">
+          {t("CustomAuthorities:noExistingRestrictions")}
+        </div>
+      )}
+    </div>
+  );
+}
+
+const RESTRICTION_FUNC_KEYS = {
+  0: "eq",
+  1: "ne",
+  2: "lt",
+  3: "le",
+  4: "gt",
+  5: "ge",
+  6: "in",
+  7: "not_in",
+  8: "has_all",
+  9: "has_none",
+  10: "attr",
+  11: "logical_or",
+  12: "variant_assert",
+};
 
 function DeleteDialog({ authority, account, t, onClose, onConfirm }) {
   const opLabel =

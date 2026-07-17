@@ -439,6 +439,11 @@
         "subtitle": "Assign specific themes to individual pages",
         "hover1": "Override the active theme for any page in the app."
     },
+    "docs": {
+        "title": "Documentation",
+        "subtitle": "Guides and reference for using the app",
+        "hover1": "Browse the Starlight docs for setup, features and tutorials."
+    },
     "home_link": {
         "title": "Home",
         "subtitle": "Return to the main dashboard"

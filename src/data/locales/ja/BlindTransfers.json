@@ -36,14 +36,12 @@
   "addKey": "キーを追加",
   "noAccountAuths": "アカウントはまだ追加されていません。",
   "publicKeyPlaceholder": "公開鍵 (BTS...)",
-  "stealthMemoToggle": "ステルスメモを含める",
-  "oneTimeKeyLabel": "ワンタイムキー",
-  "memoToLabel": "宛先 (公開鍵)",
-  "encryptedMemoLabel": "暗号化メモ",
   "searchAccountTitle": "アカウントを検索",
   "searchAccountDescription": "使用するアカウントを検索します。",
   "reviewBroadcast": "確認してブロードキャスト",
   "transfer_to_blindHeader": "ブラインドへ転送",
   "blind_transferHeader": "ブラインド転送",
-  "transfer_from_blindHeader": "ブラインドから転送"
+  "transfer_from_blindHeader": "ブラインドから転送",
+  "max": "Max",
+  "balanceAvailable": "Available: {{amount}} {{symbol}}"
 }

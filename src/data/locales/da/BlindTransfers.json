@@ -36,14 +36,12 @@
   "addKey": "Tilføj nøgle",
   "noAccountAuths": "Ingen konti tilføjet endnu.",
   "publicKeyPlaceholder": "Offentlig nøgle (BTS...)",
-  "stealthMemoToggle": "Medtag stealth-memo",
-  "oneTimeKeyLabel": "Engangsnøgle",
-  "memoToLabel": "Til (offentlig nøgle)",
-  "encryptedMemoLabel": "Krypteret memo",
   "searchAccountTitle": "Find en konto",
   "searchAccountDescription": "Søg efter den konto, der skal bruges.",
   "reviewBroadcast": "Gennemgå & send",
   "transfer_to_blindHeader": "Overfør til blind",
   "blind_transferHeader": "Blind overførsel",
-  "transfer_from_blindHeader": "Overfør fra blind"
+  "transfer_from_blindHeader": "Overfør fra blind",
+  "max": "Max",
+  "balanceAvailable": "Available: {{amount}} {{symbol}}"
 }

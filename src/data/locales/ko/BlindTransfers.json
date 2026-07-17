@@ -36,14 +36,12 @@
   "addKey": "키 추가",
   "noAccountAuths": "아직 추가된 계정이 없습니다.",
   "publicKeyPlaceholder": "공개 키 (BTS...)",
-  "stealthMemoToggle": "스텔스 메모 포함",
-  "oneTimeKeyLabel": "일회용 키",
-  "memoToLabel": "받는 사람 (공개 키)",
-  "encryptedMemoLabel": "암호화된 메모",
   "searchAccountTitle": "계정 찾기",
   "searchAccountDescription": "사용할 계정을 검색합니다.",
   "reviewBroadcast": "검토 및 브로드캐스트",
   "transfer_to_blindHeader": "블라인드로 전송",
   "blind_transferHeader": "블라인드 전송",
-  "transfer_from_blindHeader": "블라인드에서 전송"
+  "transfer_from_blindHeader": "블라인드에서 전송",
+  "max": "Max",
+  "balanceAvailable": "Available: {{amount}} {{symbol}}"
 }

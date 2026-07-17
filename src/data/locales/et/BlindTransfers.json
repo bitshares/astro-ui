@@ -36,14 +36,12 @@
   "addKey": "Lisa võti",
   "noAccountAuths": "Ühtegi kontot pole veel lisatud.",
   "publicKeyPlaceholder": "Avalik võti (BTS...)",
-  "stealthMemoToggle": "Lisa stealth-memo",
-  "oneTimeKeyLabel": "Ühekordne võti",
-  "memoToLabel": "Saaja (avalik võti)",
-  "encryptedMemoLabel": "Krüpteeritud memo",
   "searchAccountTitle": "Leia konto",
   "searchAccountDescription": "Otsige kasutatavat kontot.",
   "reviewBroadcast": "Vaata üle & kanna üle",
   "transfer_to_blindHeader": "Ülekanne pimesse",
   "blind_transferHeader": "Pime ülekanne",
-  "transfer_from_blindHeader": "Ülekanne pimest välja"
+  "transfer_from_blindHeader": "Ülekanne pimest välja",
+  "max": "Max",
+  "balanceAvailable": "Available: {{amount}} {{symbol}}"
 }

@@ -8,9 +8,13 @@ import PageFooter from '../components/PageFooter';
 
 const btsAllAssets = await getCollection('btsAllAssets');
 const testAllAssets = await getCollection('testAllAssets');
+const btsMarketData = await getCollection('btsMarketData');
+const testMarketData = await getCollection('testMarketData');
 
 const btsAssets = btsAllAssets.map(collection => collection.data);
 const testAssets = testAllAssets.map(collection => collection.data);
+const btsMarkets = btsMarketData.map(collection => collection.data);
+const testMarkets = testMarketData.map(collection => collection.data);
 ---
 
 <Layout title="Blind Transfers">
@@ -20,6 +24,8 @@ const testAssets = testAllAssets.map(collection => collection.data);
 			client:only="react"
 			_assetsBTS={btsAssets}
 			_assetsTEST={testAssets}
+			_marketSearchBTS={btsMarkets}
+			_marketSearchTEST={testMarkets}
 		/>
 		<PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/blind_transfers.astro" />
 	</main>

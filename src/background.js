@@ -8,8 +8,10 @@ import mime from "mime-types";
 
 import { key } from "./bts/ecc/key";
 import PrivateKey from "./bts/ecc/PrivateKey";
+import Aes from "./bts/ecc/Aes";
 import Apis from "./bts/ws/ApiInstances";
 import { chains } from "./config/chains";
+import blindDictionary from "./data/blindDictionary.js";
 
 import {
   app,
@@ -46,6 +48,8 @@ const createWindow = async () => {
     minHeight: 600,
     maximizable: true,
     fullscreenable: true,
+    resizable: true,
+    minimizable: true,
     useContentSize: true,
     autoHideMenuBar: true,
     webPreferences: {
@@ -61,6 +65,7 @@ const createWindow = async () => {
 
   // Load the local HTML file using the custom protocol
   mainWindow.loadURL("file://index.html");
+  mainWindow.maximize();
 
   mainWindow.webContents.setWindowOpenHandler(() => {
     return { action: "deny" };
@@ -354,8 +359,59 @@ const createWindow = async () => {
           refcode: "1.2.1803677",
           referrer: "1.2.1803677",
         },
-      };
+       };
+     }
+   });
+
+  // ---- Blind (stealth) account crypto -------------------------------------
+  // bts/ecc requires Node's Buffer, so all blind-account key operations run
+  // here in the main process and are exposed to the renderer over IPC.
+  function _blindPrefixForChain(chain) {
+    return chain === "bitshares_testnet" ? "TEST" : "BTS";
+  }
+
+  function _blindSerialize(label, chain, privateKey, brainKey) {
+    const prefix = _blindPrefixForChain(chain);
+    return {
+      label,
+      chain,
+      publicKey: privateKey.toPublicKey().toPublicKeyString(prefix),
+      wif: privateKey.toWif(),
+      brainKey: brainKey ?? null,
+    };
+  }
+
+  ipcMain.handle("blindSuggestBrainKey", async () => {
+    return key.suggest_brain_key(blindDictionary.en);
+  });
+
+  ipcMain.handle("blindAccountFromBrainKey", async (event, arg) => {
+    const { label, chain, brainKey, sequence = 0 } = arg;
+    const pk = key.get_brainPrivateKey(brainKey, sequence);
+    return _blindSerialize(label, chain, pk, brainKey);
+  });
+
+  ipcMain.handle("blindAccountFromWif", async (event, arg) => {
+    const { label, chain, wif } = arg;
+    const pk = PrivateKey.fromWif(wif);
+    return _blindSerialize(label, chain, pk, null);
+  });
+
+  ipcMain.handle("blindEncrypt", async (event, arg) => {
+    const { plaintext, password } = arg;
+    return Aes.fromSeed(password).encryptToHex(plaintext);
+  });
+
+  ipcMain.handle("blindDecrypt", async (event, arg) => {
+    const { encrypted, password, validateWif = false } = arg;
+    const decrypted = Aes.fromSeed(password).decryptHexToText(
+      encrypted,
+      "binary"
+    );
+    if (validateWif) {
+      PrivateKey.fromWif(decrypted);
     }
+    return decrypted;
   });
 
   /*

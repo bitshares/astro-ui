@@ -36,14 +36,12 @@
   "addKey": "เพิ่มคีย์",
   "noAccountAuths": "ยังไม่มีบัญชีที่เพิ่มเข้ามา",
   "publicKeyPlaceholder": "คีย์สาธารณะ (BTS...)",
-  "stealthMemoToggle": "รวมเมโมแบบซ่อนเร้น",
-  "oneTimeKeyLabel": "คีย์ใช้ครั้งเดียว",
-  "memoToLabel": "ถึง (คีย์สาธารณะ)",
-  "encryptedMemoLabel": "เมโมที่เข้ารหัส",
   "searchAccountTitle": "ค้นหาบัญชี",
   "searchAccountDescription": "ค้นหาบัญชีที่จะใช้",
   "reviewBroadcast": "ตรวจสอบและเผยแพร่",
   "transfer_to_blindHeader": "โอนไปยังแบบปกปิด",
   "blind_transferHeader": "การโอนแบบปกปิด",
-  "transfer_from_blindHeader": "โอนจากแบบปกปิด"
+  "transfer_from_blindHeader": "โอนจากแบบปกปิด",
+  "max": "Max",
+  "balanceAvailable": "Available: {{amount}} {{symbol}}"
 }

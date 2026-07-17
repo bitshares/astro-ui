@@ -36,14 +36,12 @@
   "addKey": "Añadir clave",
   "noAccountAuths": "Aún no se han añadido cuentas.",
   "publicKeyPlaceholder": "Clave pública (BTS...)",
-  "stealthMemoToggle": "Incluir memo oculto",
-  "oneTimeKeyLabel": "Clave de un solo uso",
-  "memoToLabel": "Para (clave pública)",
-  "encryptedMemoLabel": "Memo cifrado",
   "searchAccountTitle": "Buscar una cuenta",
   "searchAccountDescription": "Busque la cuenta que desea usar.",
   "reviewBroadcast": "Revisar y transmitir",
   "transfer_to_blindHeader": "Transferir a ciego",
   "blind_transferHeader": "Transferencia ciega",
-  "transfer_from_blindHeader": "Transferir desde ciego"
+  "transfer_from_blindHeader": "Transferir desde ciego",
+  "max": "Max",
+  "balanceAvailable": "Available: {{amount}} {{symbol}}"
 }

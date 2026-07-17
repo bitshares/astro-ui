@@ -72,6 +72,7 @@ const pages = [
   "CallOrders",
   "CustomAuthorities",
   "BlindTransfers",
+  "BlindAccounts",
   "GovernanceActions",
   "WorkerCreate",
   "CommitteeMembers",

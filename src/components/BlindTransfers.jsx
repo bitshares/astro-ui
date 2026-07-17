@@ -1,6 +1,7 @@
 import React, {
   useMemo,
   useState,
+  useEffect,
   useSyncExternalStore,
 } from "react";
 import { useStore } from "@nanostores/react";
@@ -11,13 +12,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -37,7 +31,16 @@ import {
   X,
   ShieldCheck,
   AlertTriangle,
+  KeyRound,
+  Info,
 } from "lucide-react";
+
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
 
 import { $currentUser } from "@/stores/users.ts";
 import { $blockList } from "@/stores/blocklist.ts";
@@ -45,7 +48,16 @@ import { $currentNode } from "@/stores/node.ts";
 
 import DeepLinkDialog from "@/components/common/DeepLinkDialog.jsx";
 import AccountSearch from "@/components/AccountSearch.jsx";
-import { blockchainFloat } from "@/lib/common.js";
+import AssetDropDown from "@/components/Market/AssetDropDownCard.jsx";
+import BlindAccounts from "@/components/BlindAccounts.jsx";
+import { $blindAccounts } from "@/stores/blindAccounts.ts";
+import {
+  blockchainFloat,
+  humanReadableFloat,
+  assetAmountRegex,
+  getFlagBooleans,
+} from "@/lib/common.js";
+import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 
 const CARD_SHELL =
   "relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.04)]";
@@ -58,6 +70,34 @@ const GRADIENT_BUTTON =
 const FIELD_LABEL =
   "text-[10px] uppercase tracking-wider text-muted-foreground/70";
 const HEX_MONO = "font-mono text-xs";
+
+// A field label that reveals a descriptive tooltip on hover. Used so that
+// unclear cryptographic fields (blinding factor, commitment, range proof)
+// carry an inline explanation of what to enter.
+function LabelWithInfo({ label, info, className }) {
+  return (
+    <TooltipProvider delayDuration={150}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span
+            className={`inline-flex items-center gap-1 cursor-help ${FIELD_LABEL} ${
+              className ?? ""
+            }`}
+          >
+            {label}
+            <Info className="h-3 w-3 opacity-60" />
+          </span>
+        </TooltipTrigger>
+        <TooltipContent
+          side="top"
+          className="max-w-[280px] whitespace-normal text-left leading-relaxed"
+        >
+          {info}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
 
 function newOwner() {
   return {
@@ -84,25 +124,15 @@ function newOutput() {
     commitment: "",
     range_proof: "",
     owner: newOwner(),
-    stealthEnabled: false,
-    stealth_memo: { one_time_key: "", to: "", encrypted_memo: "" },
   };
 }
 
 function serializeOutput(o) {
-  const out = {
+  return {
     commitment: o.commitment,
     range_proof: o.range_proof,
     owner: serializeOwner(o.owner),
   };
-  if (o.stealthEnabled) {
-    out.stealth_memo = {
-      one_time_key: o.stealth_memo.one_time_key,
-      to: o.stealth_memo.to,
-      encrypted_memo: o.stealth_memo.encrypted_memo,
-    };
-  }
-  return out;
 }
 
 function newInput() {
@@ -119,7 +149,12 @@ const TABS = [
   { key: "from_blind", icon: ArrowUpFromLine, op: "transfer_from_blind" },
 ];
 
-export default function BlindTransfers({ _assetsBTS, _assetsTEST }) {
+export default function BlindTransfers({
+  _assetsBTS,
+  _assetsTEST,
+  _marketSearchBTS,
+  _marketSearchTEST,
+}) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
     $currentUser.subscribe,
@@ -138,6 +173,11 @@ export default function BlindTransfers({ _assetsBTS, _assetsTEST }) {
     if (_chain !== "bitshares") return _assetsTEST || [];
     return _assetsBTS || [];
   }, [_assetsBTS, _assetsTEST, _chain]);
+
+  const marketSearch = useMemo(() => {
+    if (_chain !== "bitshares") return _marketSearchTEST || [];
+    return _marketSearchBTS || [];
+  }, [_marketSearchBTS, _marketSearchTEST, _chain]);
 
   const [activeTab, setActiveTab] = useState("to_blind");
   const [broadcast, setBroadcast] = useState(null);
@@ -199,12 +239,15 @@ export default function BlindTransfers({ _assetsBTS, _assetsTEST }) {
           </p>
         </div>
 
+        <BlindAccounts chain={_chain} />
+
         {activeTab === "to_blind" ? (
           <ToBlindForm
             t={t}
             usr={usr}
             chain={_chain}
             assets={assets}
+            marketSearch={marketSearch}
             onSubmit={(trx) =>
               setBroadcast({ trx, op: "transfer_to_blind" })
             }
@@ -224,6 +267,7 @@ export default function BlindTransfers({ _assetsBTS, _assetsTEST }) {
             usr={usr}
             chain={_chain}
             assets={assets}
+            marketSearch={marketSearch}
             onSubmit={(trx) =>
               setBroadcast({ trx, op: "transfer_from_blind" })
             }
@@ -271,60 +315,203 @@ function SectionCard({ icon: Icon, title, description, children }) {
   );
 }
 
-function AmountAssetField({ t, amount, setAmount, assetId, setAssetId, assets }) {
+function useUserBalances(usr, assets, chain) {
+  const currentNode = useStore($currentNode);
+  const [balances, setBalances] = useState();
+
+  useEffect(() => {
+    async function fetchUserBalances() {
+      if (usr && usr.id && currentNode && assets && assets.length) {
+        const userBalancesStore = createUserBalancesStore([
+          usr.chain,
+          usr.id,
+          currentNode ? currentNode.url : null,
+        ]);
+        userBalancesStore.subscribe(({ data, error, loading }) => {
+          if (data && !error && !loading) {
+            const filteredData = data.filter((balance) =>
+              assets.find((x) => x.id === balance.asset_id)
+            );
+            setBalances(filteredData);
+          }
+        });
+      }
+    }
+    fetchUserBalances();
+  }, [usr, assets, currentNode]);
+
+  return balances;
+}
+
+function useBlindAccounts(chain) {
+  const stored = useStore($blindAccounts);
+  return useMemo(() => (stored && stored[chain]) || [], [stored, chain]);
+}
+
+function AmountAssetField({
+  t,
+  amount,
+  setAmount,
+  selectedSymbol,
+  setSelectedSymbol,
+  assets,
+  marketSearch,
+  balances,
+  chain,
+  confidentialOnly = false,
+}) {
+  // For confidential operations the chain only permits assets that have not
+  // disabled confidential use, are not transfer-restricted and are not
+  // white-listed (see transfer_to_blind_evaluator::do_evaluate).
+  const eligibleAssets = useMemo(() => {
+    if (!confidentialOnly || !assets) return assets || [];
+    return (assets || []).filter((a) => {
+      const flags = getFlagBooleans(a?.options?.flags ?? 0);
+      return !flags.disable_confidential && !flags.transfer_restricted && !flags.white_list;
+    });
+  }, [assets, confidentialOnly]);
+
+  const asset = useMemo(
+    () => (eligibleAssets || []).find((a) => a.symbol === selectedSymbol),
+    [eligibleAssets, selectedSymbol]
+  );
+
+  // Only surface the dropdown assets that are eligible; fall back to the
+  // full market search when flag data is unavailable.
+  const eligibleMarketSearch = useMemo(() => {
+    if (!confidentialOnly || !marketSearch || !marketSearch.length) {
+      return marketSearch || [];
+    }
+    const eligibleIds = new Set(eligibleAssets.map((a) => a.id));
+    return marketSearch.filter((m) => eligibleIds.has(m.id));
+  }, [confidentialOnly, marketSearch, eligibleAssets]);
+
+  const balance = useMemo(() => {
+    if (!asset || !balances) return null;
+    const b = balances.find((x) => x.asset_id === asset.id);
+    return b ? humanReadableFloat(b.amount, asset.precision) : null;
+  }, [asset, balances]);
+
+  const regex = useMemo(() => assetAmountRegex(asset), [asset]);
+
+  const handleAmountChange = (e) => {
+    const input = e.target.value;
+    if (regex.test(input)) {
+      if (balance != null && Number(input) > Number(balance)) {
+        setAmount(balance);
+      } else {
+        setAmount(input);
+      }
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3">
+    <div className="space-y-3">
       <div className="space-y-1">
-        <Label className={FIELD_LABEL}>{t("BlindTransfers:amountLabel")}</Label>
-        <Input
-          type="number"
-          min="0"
-          step="any"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder="0.0"
+        <LabelWithInfo
+          label={t("BlindTransfers:assetLabel")}
+          info={t("BlindTransfers:assetInfo")}
+        />
+        <AssetDropDown
+          assetSymbol={selectedSymbol ?? ""}
+          assetData={asset ? { id: asset.id } : null}
+          storeCallback={setSelectedSymbol}
+          marketSearch={eligibleMarketSearch}
+          type={null}
+          chain={chain}
+          balances={balances}
+          triggerVariant="outline"
+          triggerLabel={selectedSymbol ? selectedSymbol : undefined}
+          triggerClassName="w-full border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.5)]"
         />
       </div>
       <div className="space-y-1">
-        <Label className={FIELD_LABEL}>{t("BlindTransfers:assetLabel")}</Label>
-        <Select value={assetId} onValueChange={setAssetId}>
-          <SelectTrigger className="min-w-[160px]">
-            <SelectValue placeholder={t("BlindTransfers:assetPlaceholder")} />
-          </SelectTrigger>
-          <SelectContent className="max-h-[280px]">
-            {(assets || []).map((a) => (
-              <SelectItem key={a.id} value={a.id}>
-                <span className="font-mono text-xs text-muted-foreground mr-2">
-                  {a.id}
-                </span>
-                {a.symbol}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex items-center justify-between">
+          <LabelWithInfo
+            label={t("BlindTransfers:amountLabel")}
+            info={t("BlindTransfers:amountInfo")}
+          />
+          {asset && balance != null ? (
+            <button
+              type="button"
+              onClick={() => setAmount(balance)}
+              className="text-[10px] uppercase tracking-wider text-[hsl(var(--accent-1-fg))] hover:underline"
+            >
+              {t("BlindTransfers:max")} {balance} {asset?.symbol}
+            </button>
+          ) : null}
+        </div>
+        <Input
+          type="number"
+          min="0"
+          step={
+            asset && asset.precision
+              ? `0.${"0".repeat(asset.precision - 1)}1`
+              : "any"
+          }
+          value={amount}
+          onChange={handleAmountChange}
+          placeholder={asset ? "0.0" : t("BlindTransfers:selectAssetFirst")}
+          disabled={!asset}
+        />
+        {asset && balance != null ? (
+          <p className="text-[11px] text-muted-foreground">
+            {t("BlindTransfers:balanceAvailable", {
+              amount: balance,
+              symbol: asset?.symbol,
+            })}
+          </p>
+        ) : null}
       </div>
     </div>
   );
 }
 
-function OwnerBuilder({ t, chain, owner, setOwner }) {
+function OwnerBuilder({ t, chain, owner, setOwner, blindAccounts }) {
   const [showSearch, setShowSearch] = useState(false);
+  const [showBlindPicker, setShowBlindPicker] = useState(false);
 
   const update = (patch) => setOwner({ ...owner, ...patch });
 
+  const useBlindAccount = (publicKey) => {
+    // A blind recipient is a single-key authority, matching the core
+    // `authority(1, public_key_type(pub), 1)` used for blind_output.owner.
+    update({
+      weight_threshold: "1",
+      account_auths: [],
+      key_auths: [[publicKey, 1]],
+    });
+    setShowBlindPicker(false);
+  };
+
   return (
     <div className="rounded-xl border border-border bg-accent/20 p-3 space-y-3">
-      <div className="flex items-center gap-2">
-        <ShieldCheck className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
-        <Label className="text-sm font-semibold">
-          {t("BlindTransfers:ownerLabel")}
-        </Label>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <ShieldCheck className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
+          <Label className="text-sm font-semibold">
+            {t("BlindTransfers:ownerLabel")}
+          </Label>
+        </div>
+        {blindAccounts && blindAccounts.length ? (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => setShowBlindPicker(true)}
+            className="gap-1 h-7 border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)]"
+          >
+            <KeyRound className="h-3.5 w-3.5" />
+            {t("BlindAccounts:useAsRecipient")}
+          </Button>
+        ) : null}
       </div>
 
       <div className="space-y-1">
-        <Label className={FIELD_LABEL}>
-          {t("BlindTransfers:weightThresholdLabel")}
-        </Label>
+        <LabelWithInfo
+          label={t("BlindTransfers:weightThresholdLabel")}
+          info={t("BlindTransfers:weightThresholdInfo")}
+        />
         <Input
           type="number"
           min="1"
@@ -337,9 +524,10 @@ function OwnerBuilder({ t, chain, owner, setOwner }) {
       {/* account_auths */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <Label className={FIELD_LABEL}>
-            {t("BlindTransfers:accountAuthsLabel")}
-          </Label>
+          <LabelWithInfo
+            label={t("BlindTransfers:accountAuthsLabel")}
+            info={t("BlindTransfers:accountAuthsInfo")}
+          />
           <Button
             type="button"
             size="sm"
@@ -400,9 +588,10 @@ function OwnerBuilder({ t, chain, owner, setOwner }) {
       {/* key_auths */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <Label className={FIELD_LABEL}>
-            {t("BlindTransfers:keyAuthsLabel")}
-          </Label>
+          <LabelWithInfo
+            label={t("BlindTransfers:keyAuthsLabel")}
+            info={t("BlindTransfers:keyAuthsInfo")}
+          />
           <Button
             type="button"
             size="sm"
@@ -485,14 +674,44 @@ function OwnerBuilder({ t, chain, owner, setOwner }) {
           </DialogContent>
         </Dialog>
       ) : null}
+
+      {showBlindPicker ? (
+        <Dialog open onOpenChange={(open) => !open && setShowBlindPicker(false)}>
+          <DialogContent className="sm:max-w-[420px] bg-card">
+            <DialogHeader>
+              <DialogTitle>{t("BlindAccounts:title")}</DialogTitle>
+              <DialogDescription>
+                {t("BlindAccounts:useAsRecipient")}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-2">
+              {blindAccounts.map((acc) => (
+                <button
+                  key={acc.publicKey}
+                  type="button"
+                  onClick={() => useBlindAccount(acc.publicKey)}
+                  className="w-full text-left rounded-lg border border-border bg-card/60 hover:bg-[hsl(var(--accent-1)/0.08)] hover:border-[hsl(var(--accent-1)/0.3)] transition-colors px-3 py-2.5"
+                >
+                  <div className="text-sm font-semibold text-foreground/90">
+                    {acc.label}
+                  </div>
+                  <div className="font-mono text-[11px] text-muted-foreground/70 truncate">
+                    {acc.publicKey}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+      ) : null}
     </div>
   );
 }
 
 function OutputEditor({ t, chain, output, setOutput, onRemove, index, removable }) {
   const update = (patch) => setOutput({ ...output, ...patch });
-  const updateMemo = (patch) =>
-    update({ stealth_memo: { ...output.stealth_memo, ...patch } });
+
+  const blindAccounts = useBlindAccounts(chain);
 
   return (
     <div className="rounded-xl border border-[hsl(var(--accent-2)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.06)] to-transparent p-3 space-y-3">
@@ -514,9 +733,10 @@ function OutputEditor({ t, chain, output, setOutput, onRemove, index, removable 
       </div>
 
       <div className="space-y-1">
-        <Label className={FIELD_LABEL}>
-          {t("BlindTransfers:commitmentLabel")}
-        </Label>
+        <LabelWithInfo
+          label={t("BlindTransfers:commitmentLabel")}
+          info={t("BlindTransfers:commitmentInfo")}
+        />
         <Input
           className={HEX_MONO}
           value={output.commitment}
@@ -526,9 +746,10 @@ function OutputEditor({ t, chain, output, setOutput, onRemove, index, removable 
       </div>
 
       <div className="space-y-1">
-        <Label className={FIELD_LABEL}>
-          {t("BlindTransfers:rangeProofLabel")}
-        </Label>
+        <LabelWithInfo
+          label={t("BlindTransfers:rangeProofLabel")}
+          info={t("BlindTransfers:rangeProofInfo")}
+        />
         <Textarea
           className={`${HEX_MONO} min-h-[70px]`}
           value={output.range_proof}
@@ -542,56 +763,15 @@ function OutputEditor({ t, chain, output, setOutput, onRemove, index, removable 
         chain={chain}
         owner={output.owner}
         setOwner={(owner) => update({ owner })}
+        blindAccounts={blindAccounts}
       />
-
-      <div className="flex items-center justify-between rounded-lg border border-border bg-card/40 px-3 py-2">
-        <Label className="text-xs">{t("BlindTransfers:stealthMemoToggle")}</Label>
-        <input
-          type="checkbox"
-          checked={output.stealthEnabled}
-          onChange={(e) => update({ stealthEnabled: e.target.checked })}
-          className="h-4 w-4 accent-[hsl(var(--accent-1))]"
-        />
-      </div>
-
-      {output.stealthEnabled ? (
-        <div className="space-y-2 rounded-lg border border-border bg-card/40 p-3">
-          <div className="space-y-1">
-            <Label className={FIELD_LABEL}>
-              {t("BlindTransfers:oneTimeKeyLabel")}
-            </Label>
-            <Input
-              className={HEX_MONO}
-              value={output.stealth_memo.one_time_key}
-              onChange={(e) => updateMemo({ one_time_key: e.target.value })}
-            />
-          </div>
-          <div className="space-y-1">
-            <Label className={FIELD_LABEL}>{t("BlindTransfers:memoToLabel")}</Label>
-            <Input
-              className={HEX_MONO}
-              value={output.stealth_memo.to}
-              onChange={(e) => updateMemo({ to: e.target.value })}
-            />
-          </div>
-          <div className="space-y-1">
-            <Label className={FIELD_LABEL}>
-              {t("BlindTransfers:encryptedMemoLabel")}
-            </Label>
-            <Textarea
-              className={`${HEX_MONO} min-h-[60px]`}
-              value={output.stealth_memo.encrypted_memo}
-              onChange={(e) => updateMemo({ encrypted_memo: e.target.value })}
-            />
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }
 
 function InputEditor({ t, chain, input, setInput, onRemove, index, removable }) {
   const update = (patch) => setInput({ ...input, ...patch });
+  const blindAccounts = useBlindAccounts(chain);
   return (
     <div className="rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-3 space-y-3">
       <div className="flex items-center justify-between">
@@ -611,9 +791,10 @@ function InputEditor({ t, chain, input, setInput, onRemove, index, removable }) 
         ) : null}
       </div>
       <div className="space-y-1">
-        <Label className={FIELD_LABEL}>
-          {t("BlindTransfers:commitmentLabel")}
-        </Label>
+        <LabelWithInfo
+          label={t("BlindTransfers:commitmentLabel")}
+          info={t("BlindTransfers:commitmentInfo")}
+        />
         <Input
           className={HEX_MONO}
           value={input.commitment}
@@ -626,20 +807,23 @@ function InputEditor({ t, chain, input, setInput, onRemove, index, removable }) 
         chain={chain}
         owner={input.owner}
         setOwner={(owner) => update({ owner })}
+        blindAccounts={blindAccounts}
       />
     </div>
   );
 }
 
-function ToBlindForm({ t, usr, chain, assets, onSubmit }) {
+function ToBlindForm({ t, usr, chain, assets, marketSearch, onSubmit }) {
   const [amount, setAmount] = useState("");
-  const [assetId, setAssetId] = useState("");
+  const [selectedSymbol, setSelectedSymbol] = useState("");
   const [blindingFactor, setBlindingFactor] = useState("");
   const [outputs, setOutputs] = useState([newOutput()]);
 
+  const balances = useUserBalances(usr, assets, chain);
+
   const asset = useMemo(
-    () => (assets || []).find((a) => a.id === assetId),
-    [assets, assetId]
+    () => (assets || []).find((a) => a.symbol === selectedSymbol),
+    [assets, selectedSymbol]
   );
 
   const canSubmit =
@@ -647,7 +831,7 @@ function ToBlindForm({ t, usr, chain, assets, onSubmit }) {
 
   const submit = () => {
     const trx = {
-      fee: { amount: 0, asset_id: "1.3.0" },
+      fee: { amount: 0, asset_id: asset.id },
       amount: {
         amount: blockchainFloat(Number(amount), asset.precision).toFixed(0),
         asset_id: asset.id,
@@ -669,15 +853,20 @@ function ToBlindForm({ t, usr, chain, assets, onSubmit }) {
         t={t}
         amount={amount}
         setAmount={setAmount}
-        assetId={assetId}
-        setAssetId={setAssetId}
+        selectedSymbol={selectedSymbol}
+        setSelectedSymbol={setSelectedSymbol}
         assets={assets}
+        marketSearch={marketSearch}
+        balances={balances}
+        chain={chain}
+        confidentialOnly
       />
 
       <div className="space-y-1">
-        <Label className={FIELD_LABEL}>
-          {t("BlindTransfers:blindingFactorLabel")}
-        </Label>
+        <LabelWithInfo
+          label={t("BlindTransfers:blindingFactorLabel")}
+          info={t("BlindTransfers:blindingFactorInfo")}
+        />
         <Input
           className={HEX_MONO}
           value={blindingFactor}
@@ -823,17 +1012,19 @@ function BlindTransferForm({ t, chain, onSubmit }) {
   );
 }
 
-function FromBlindForm({ t, usr, chain, assets, onSubmit }) {
+function FromBlindForm({ t, usr, chain, assets, marketSearch, onSubmit }) {
   const [amount, setAmount] = useState("");
-  const [assetId, setAssetId] = useState("");
+  const [selectedSymbol, setSelectedSymbol] = useState("");
   const [toAccount, setToAccount] = useState(null);
   const [blindingFactor, setBlindingFactor] = useState("");
   const [inputs, setInputs] = useState([newInput()]);
   const [showSearch, setShowSearch] = useState(false);
 
+  const balances = useUserBalances(usr, assets, chain);
+
   const asset = useMemo(
-    () => (assets || []).find((a) => a.id === assetId),
-    [assets, assetId]
+    () => (assets || []).find((a) => a.symbol === selectedSymbol),
+    [assets, selectedSymbol]
   );
 
   const canSubmit =
@@ -841,7 +1032,7 @@ function FromBlindForm({ t, usr, chain, assets, onSubmit }) {
 
   const submit = () => {
     const trx = {
-      fee: { amount: 0, asset_id: "1.3.0" },
+      fee: { amount: 0, asset_id: asset.id },
       amount: {
         amount: blockchainFloat(Number(amount), asset.precision).toFixed(0),
         asset_id: asset.id,
@@ -863,13 +1054,20 @@ function FromBlindForm({ t, usr, chain, assets, onSubmit }) {
         t={t}
         amount={amount}
         setAmount={setAmount}
-        assetId={assetId}
-        setAssetId={setAssetId}
+        confidentialOnly
+        selectedSymbol={selectedSymbol}
+        setSelectedSymbol={setSelectedSymbol}
         assets={assets}
+        marketSearch={marketSearch}
+        balances={balances}
+        chain={chain}
       />
 
       <div className="space-y-1">
-        <Label className={FIELD_LABEL}>{t("BlindTransfers:toLabel")}</Label>
+        <LabelWithInfo
+          label={t("BlindTransfers:toLabel")}
+          info={t("BlindTransfers:toInfo")}
+        />
         <div className="flex items-center gap-2">
           <Input
             readOnly
@@ -892,9 +1090,10 @@ function FromBlindForm({ t, usr, chain, assets, onSubmit }) {
       </div>
 
       <div className="space-y-1">
-        <Label className={FIELD_LABEL}>
-          {t("BlindTransfers:blindingFactorLabel")}
-        </Label>
+        <LabelWithInfo
+          label={t("BlindTransfers:blindingFactorLabel")}
+          info={t("BlindTransfers:blindingFactorInfo")}
+        />
         <Input
           className={HEX_MONO}
           value={blindingFactor}

@@ -56,6 +56,7 @@ import {
   BarChart3,
   Ticket,
   Trophy,
+  BookOpen,
   FilePlus,
   FileCheck,
   FileClock,
@@ -139,6 +140,7 @@ const ICONS = {
   configure_visuals: Palette,
   theme_customizer: Palette,
   page_themes: Layers,
+  docs: BookOpen,
   home: Home,
   create_uia: Gem,
   create_smartcoin: Gem,
@@ -385,6 +387,7 @@ export default function PageHeader(properties) {
         { slug: "configure_visuals", title: "Home:configure_visuals.title", description: "Home:configure_visuals.subtitle", href: "/visuals/index.html" },
         { slug: "theme_customizer", title: "Home:theme_customizer.title", description: "Home:theme_customizer.subtitle", href: "/theme/index.html" },
         { slug: "page_themes", title: "Home:page_themes.title", description: "Home:page_themes.subtitle", href: "/page_themes/index.html" },
+        { slug: "docs", title: "Home:docs.title", description: "Home:docs.subtitle", href: "docs/docs-index.html" },
       ],
     },
   ];
