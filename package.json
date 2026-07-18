@@ -1,12 +1,12 @@
 {
   "name": "bitshares_astro_ui",
   "productName": "Bitshares Astro UI",
-  "version": "0.2.12",
+  "version": "0.5.51",
   "main": "app/background.js",
   "homepage": "https://github.com/bts-cm/astro-ui",
   "repository": "github:bts-cm/astro-ui",
-  "author": "BeetEOS team <nftea.gallery@gmail.com>",
-  "description": "Bitshares market UI",
+  "author": "R <nftea.gallery@gmail.com>",
+  "description": "A modern user interface for the Bitshares blockchain, built with Astro and React.",
   "license": "MIT",
   "build": {
     "appId": "bitshares_astro_ui",
@@ -41,7 +41,7 @@
         "AppImage"
       ],
       "mimeTypes": [],
-      "executableName": "BTSAstroUI %U"
+      "executableName": "BTSAstroUI"
     }
   },
   "dependencies": {
