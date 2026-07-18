@@ -1,4 +1,4 @@
-<img width="1674" height="1051" alt="image" src="https://github.com/user-attachments/assets/73251441-59b1-4c80-bdd2-c2eaa3da2513" />
+<img width="1901" height="3877" alt="image" src="https://github.com/user-attachments/assets/202475e4-8c1d-4415-a64b-faf7cca961ed" />
 
 # Bitshares astro UI
 
@@ -57,6 +57,15 @@ Supports Windows, Linux and Mac OSX.
 - Perform override transfers
 - Create invoices, pay invoices, manage invoice inventory
 - Create liquidity pools
+- Perform blind transfers
+- Block accounts from UX
+- Configure visuals/theme
+- Choose themes per page
+- View documentation
+- View most active pools
+- View your call orders
+- Create/manage custom authorities
+- Perform large scale transfer airdrops
 
 ## Dev Commands
 
