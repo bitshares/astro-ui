@@ -1,0 +1,68 @@
+---
+title: Create Invoice
+description: Generate a shareable invoice (off-chain gzip+base58 payload) for a customer to pay.
+sidebar:
+  order: 2
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Create Invoice** builds a payment request you can send to a customer. It collects recipient, line items and an identifier, then compresses the data into a shareable base58 string. No transaction is broadcast — the invoice is off-chain until the customer pays it.
+
+**Open in the app:** [Create Invoice](/create_invoice.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Line items" icon="receipt">
+    Add items with quantities and per-asset prices.
+  </Card>
+  <Card title="Shareable code" icon="link">
+    Produce a compact base58 invoice string.
+  </Card>
+  <Card title="Local save" icon="save">
+    Store generated invoices in your browser.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Create Invoice** from the homepage under *Invoicing*.
+
+2. Enter the recipient account/name, an invoice identifier and line items (each with quantity and price per asset).
+
+3. Generate the invoice — the app gzip+base58 encodes it into a shareable string.
+
+4. Send that string to your customer, or save it to your [Invoice Inventory](/docs/invoicing/invoice_inventory.html).
+
+</Steps>
+
+<Aside type="note" title="Payment happens elsewhere">
+  Creating an invoice does **not** move funds. The customer pays via [Pay Invoice](/docs/invoicing/pay_invoice.html), which broadcasts a `transfer` per asset.
+</Aside>
+
+## Invoice payload
+
+The invoice is a JSON object encoded off-chain:
+
+```json
+{
+  "recipientId": "1.2.x",
+  "recipientName": "alice",
+  "identifier": "INV-2024-001",
+  "note": "Thanks for your order",
+  "timestamp": 1721300000000,
+  "items": [
+    { "id": "widget-1", "name": "Widget", "quantity": 2, "prices": [{ "asset": "USD", "price": 5 }] }
+  ]
+}
+```
+
+Prices use asset **symbols** (e.g. `USD`); the payer resolves them to asset ids when paying.
+
+## Related pages
+
+- [Pay Invoice](/docs/invoicing/pay_invoice.html)
+- [Invoice Inventory](/docs/invoicing/invoice_inventory.html)

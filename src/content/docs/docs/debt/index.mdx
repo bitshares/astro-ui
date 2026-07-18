@@ -1,0 +1,25 @@
+---
+title: Forms of Debt
+description: Borrow against collateral, lend via credit offers, and operate Samet Funds on BitShares.
+sidebar:
+  order: 3
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+The **Forms of Debt** section covers borrowing against collateral, peer-to-peer credit, and fund-based leverage.
+
+<CardGrid>
+  <LinkCard title="Borrow" description="Open or adjust a smartcoin margin position (call_order_update)." href="/docs/debt/borrow/" />
+  <LinkCard title="Lend" description="Create and accept credit offers." href="/docs/debt/lend/" />
+  <LinkCard title="SmartCoins" description="Read-only browser of market-pegged assets." href="/docs/debt/smartcoins/" />
+  <LinkCard title="Tunnel Funds" description="Create and manage Samet Funds." href="/docs/debt/tfunds/" />
+</CardGrid>
+
+## Common operations
+
+- `call_order_update` — open/adjust/close a margin debt position (borrow).
+- `credit_offer_create` / `credit_offer_update` / `credit_offer_accept` — the credit marketplace.
+- `samet_fund_create` / `samet_fund_update` / `samet_fund_delete` — fund management.
+
+Each page documents its exact operation shapes with example JSON.

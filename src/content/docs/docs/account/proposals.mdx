@@ -1,0 +1,93 @@
+---
+title: Proposals
+description: Review, approve and reject account proposals using proposal_update and proposal_delete.
+sidebar:
+  order: 10
+---
+
+import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+
+**Proposals** lists the `proposal` objects relevant to an account — including the `proposed_ops` they contain (which may be `transfer`, `account_update`, and more). You can inspect each operation, then **approve** (adding your authority to the proposal) or **reject** (delete it).
+
+**Open in the app:** [Proposals](/proposals.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Inspect" icon="document">
+    Read each proposal's wrapped operations.
+  </Card>
+  <Card title="Approve" icon="check">
+    Add your approval via `proposal_update`.
+  </Card>
+  <Card title="Reject" icon="close">
+    Delete a proposal via `proposal_delete`.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Proposals** from the homepage under *Account Overviews*.
+
+2. Select the account. Each `1.20.x` proposal shows its proposed operations and required approvals.
+
+3. Individually review/approve the contained operations, then **Approve** the whole proposal → `proposal_update`.
+
+4. To discard a proposal, **Reject** it → `proposal_delete`.
+
+</Steps>
+
+<Aside type="note" title="Approval model">
+  Approval is additive — `proposal_update` adds your account/key to the approval sets. There is no separate `proposal_vote`; the proposal executes once all required approvals are gathered (after any review period).
+</Aside>
+
+## Operations used
+
+<Tabs>
+  <Fragment slot="tab-label">proposal_update (approve)</Fragment>
+  <Fragment slot="tab-panel">
+
+```json
+{
+  "fee_paying_account": "1.2.x",
+  "proposal": "1.20.x",
+  "active_approvals_to_add": ["1.2.x"],
+  "owner_approvals_to_add": [],
+  "key_approvals_to_add": [],
+  "active_approvals_to_remove": [],
+  "owner_approvals_to_remove": [],
+  "key_approvals_to_remove": [],
+  "extensions": {}
+}
+```
+
+  </Fragment>
+  <Fragment slot="tab-label">proposal_delete (reject)</Fragment>
+  <Fragment slot="tab-panel">
+
+```json
+{
+  "fee_paying_account": "1.2.x",
+  "proposal": "1.20.x",
+  "using_owner_authority": false,
+  "extensions": {}
+}
+```
+
+  </Fragment>
+</Tabs>
+
+| Field | Meaning |
+| --- | --- |
+| `proposal` | The `1.20.x` proposal object id. |
+| `fee_paying_account` | Your account paying the fee. |
+| `*_approvals_to_add` | Your account/key ids being added to the approval set. |
+| `using_owner_authority` | Whether owner (vs active) authority signs the deletion. |
+
+## Related pages
+
+- [Timed Transfer](/docs/transfer/timed_transfer.html)
+- [Barter](/docs/exchanging/barter.html)
+- [Custom Authorities](/docs/account/custom_authorities.html)

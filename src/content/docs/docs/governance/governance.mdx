@@ -1,0 +1,114 @@
+---
+title: Governance
+description: Register and update yourself as a witness or committee member.
+sidebar:
+  order: 4
+---
+
+import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+
+**Governance** (the witness/committee registration panel) lets you register as a block producer or committee member, or update your existing registration. Depending on your selection it broadcasts `witness_create` / `witness_update` or `committee_member_create` / `committee_member_update`.
+
+**Open in the app:** [Governance](/governance.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Run for witness" icon="eye">
+    Register/update a witness with a signing key + URL.
+  </Card>
+  <Card title="Run for committee" icon="users">
+    Register/update a committee member with a URL.
+  </Card>
+  <Card title="Update" icon="settings">
+    Change your URL or signing key later.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Governance** from the homepage under *Governance*.
+
+2. Choose to register as a witness or committee member (or update an existing one).
+
+3. Provide your URL and — for witnesses — a block-signing key.
+
+4. Authorize. The app broadcasts the matching create/update operation.
+
+</Steps>
+
+<Aside type="note" title="Registration vs voting">
+  Registering makes you a *candidate*; you still need votes from the network (via [Vote](/docs/governance/vote.html)) to become active.
+</Aside>
+
+## Operations used
+
+<Tabs>
+  <Fragment slot="tab-label">witness_create / _update</Fragment>
+  <Fragment slot="tab-panel">
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "witness_account": "1.2.x",
+  "url": "https://my-witness.com",
+  "block_signing_key": "BTS6...",
+  "extensions": []
+}
+```
+
+Update form:
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "witness": "1.6.x",
+  "witness_account": "1.2.x",
+  "new_url": "https://my-witness.com",
+  "new_signing_key": "BTS6...",
+  "extensions": []
+}
+```
+
+  </Fragment>
+  <Fragment slot="tab-label">committee_member_create / _update</Fragment>
+  <Fragment slot="tab-panel">
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "committee_member_account": "1.2.x",
+  "url": "https://my-committee.com",
+  "extensions": []
+}
+```
+
+Update form:
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "committee_member": "1.5.x",
+  "committee_member_account": "1.2.x",
+  "new_url": "https://my-committee.com",
+  "extensions": []
+}
+```
+
+  </Fragment>
+</Tabs>
+
+| Field | Meaning |
+| --- | --- |
+| `witness_account` / `committee_member_account` | Your account (`1.2.x`). |
+| `url` | Public info page for your candidacy. |
+| `block_signing_key` | Witness block-signing public key. |
+| `witness` / `committee_member` | Existing object id when updating (`1.6.x` / `1.5.x`). |
+
+## Related pages
+
+- [Vote](/docs/governance/vote.html)
+- [Witnesses](/docs/governance/witnesses.html)
+- [Committee](/docs/governance/committee.html)

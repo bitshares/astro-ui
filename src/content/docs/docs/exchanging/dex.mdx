@@ -1,0 +1,134 @@
+---
+title: DEX
+description: Place, edit and cancel limit orders on the BitShares decentralized exchange.
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+
+The **DEX** (Decentralized Exchange) is the core trading surface of the app. From here you can view an order book, submit limit orders, and — when you open an existing order via `?id=1.7.x` — edit its price, size and expiration or cancel it outright. Every action is signed locally and broadcast through your Beet wallet; no custodian ever holds your funds.
+
+**Open in the app:** [DEX](/dex.html).
+
+## What you can do
+
+<CardGrid>
+  <Card title="View the market" icon="swap">
+    Inspect the order book, recent trades, your open orders and the asset pair chart for any `base/quote` market.
+  </Card>
+  <Card title="Create limit orders" icon="document">
+    Submit a `limit_order_create` to buy or sell at a price of your choosing.
+  </Card>
+  <Card title="Edit an order" icon="setting">
+    Open an existing order (`1.7.x`) to modify price, amount, expiration or attach a One-Sided Offer (OSO).
+  </Card>
+  <Card title="Cancel an order" icon="close">
+    Cancel a resting limit order with `limit_order_cancel`.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open the **DEX** from the homepage under *Exchanging Funds* (or visit `/dex.html`).
+
+2. Pick a market using the asset selector, or deep-link a pair with `?market=BASE_QUOTE` (e.g. `?market=USD_BTS`).
+
+3. In the order ticket, choose **Buy** or **Sell**, enter the price and amount, then review the total and fees.
+
+4. Authorize the transaction in your Beet wallet. The order is now resting on the chain as a `limit_order_create`.
+
+5. To manage an existing order, open `?id=1.7.x`; you can then edit fields or cancel.
+
+</Steps>
+
+## Operations used
+
+The DEX builds the following BitShares operations. Use the tabs to switch between them.
+
+<Tabs>
+  <Fragment slot="tab-label">limit_order_create</Fragment>
+  <Fragment slot="tab-panel">
+
+Placing a brand-new order emits a `limit_order_create` (operation `1`). This is the fundamental exchange operation.
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "seller": "1.2.x",
+  "amount_to_sell": { "amount": 10000000, "asset_id": "1.3.0" },
+  "min_to_receive": { "amount": 2500000, "asset_id": "1.3.x" },
+  "expiration": "2026-07-18T00:00:00",
+  "fill_or_kill": false,
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `seller` | Your account object id (`1.2.x`). |
+| `amount_to_sell` | The asset + integer amount you give up (already multiplied by precision). |
+| `min_to_receive` | The worst rate you will accept for the other side. |
+| `expiration` | When the order stops being matched (ISO-8601, no timezone). |
+| `fill_or_kill` | `false` = resting order; `true` = execute fully now or fail. |
+
+  </Fragment>
+  <Fragment slot="tab-label">limit_order_update</Fragment>
+  <Fragment slot="tab-panel">
+
+Editing an existing order (`?id=1.7.x`) emits `limit_order_update` (operation `2`). Only fields you actually change are included; untouched ones are omitted.
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "seller": "1.2.x",
+  "order": "1.7.x",
+  "new_price": {
+    "base": { "amount": 10000000, "asset_id": "1.3.0" },
+    "quote": { "amount": 2500000, "asset_id": "1.3.x" }
+  },
+  "new_expiration": "2026-07-19T00:00:00",
+  "on_fill": [
+    [ 0, {
+      "fee_asset_id": "1.3.0",
+      "spread_percent": 1.0,
+      "size_percent": 50.0,
+      "expiration_seconds": 1000000000,
+      "repeat": true
+    } ]
+  ],
+  "extensions": [],
+  "delta_amount_to_sell": { "amount": 5000000, "asset_id": "1.3.0" }
+}
+```
+
+The `on_fill` array powers the **One-Sided Offer (OSO)**: when the parent order fills, a replacement order is auto-created. `spread_percent` is the offset from the fill price, `size_percent` the fraction of proceeds reinvested, and `repeat` keeps the cycle going.
+
+  </Fragment>
+  <Fragment slot="tab-label">limit_order_cancel</Fragment>
+  <Fragment slot="tab-panel">
+
+Cancelling a resting order emits `limit_order_cancel` (operation `3`).
+
+```json
+{
+  "fee_paying_account": "1.2.x",
+  "order": "1.7.x",
+  "extensions": []
+}
+```
+
+  </Fragment>
+</Tabs>
+
+<Aside type="note" title="Amounts are integers">
+  BitShares stores all balances as integers scaled by each asset's `precision`. `10.00000 BTS` with precision `5` is `1000000`. The app multiplies your human-readable input by the asset precision for you, but raw operation JSON always uses the integer form.
+</Aside>
+
+## Related pages
+
+- [Instant Trade](/docs/exchanging/instant_trade.html)
+- [Swap](/docs/exchanging/swap.html)
+- [Homepage](.html)

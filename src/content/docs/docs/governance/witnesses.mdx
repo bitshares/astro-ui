@@ -1,0 +1,43 @@
+---
+title: Witnesses
+description: Browse active and standby witnesses on the BitShares network (read-only).
+sidebar:
+  order: 2
+---
+
+import { Card, CardGrid, Steps } from '@astrojs/starlight/components';
+
+**Witnesses** lists the block producers (`1.6.x`) of the BitShares network — their signing account, last produced block, missed blocks and total votes. It's a read-only directory; you cast your actual votes on the [Vote](/docs/governance/vote.html) page.
+
+**Open in the app:** [Witnesses](/witnesses.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Producer list" icon="eye">
+    All witnesses with their stats.
+  </Card>
+  <Card title="Health" icon="shield">
+    Missed blocks and last-seen time.
+  </Card>
+  <Card title="Votes" icon="gavel">
+    Total votes each witness has received.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Witnesses** from the homepage under *Governance*.
+
+2. Browse the list of witnesses and their performance.
+
+3. To actually vote for one, open [Vote](/docs/governance/vote.html) and select it.
+
+</Steps>
+
+## Related pages
+
+- [Vote](/docs/governance/vote.html)
+- [Committee](/docs/governance/committee.html)

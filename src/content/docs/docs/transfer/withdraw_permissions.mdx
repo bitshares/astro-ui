@@ -1,0 +1,118 @@
+---
+title: Withdraw Permissions
+description: Grant another account permission to withdraw from yours using withdraw_permission_create and friends.
+sidebar:
+  order: 3
+---
+
+import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
+
+**Withdraw Permissions** let you delegate limited withdrawal rights to another account. You grant an `authorized_account` the ability to pull up to a `withdrawal_limit` per `withdrawal_period_sec`, repeating for `periods_until_expiration` periods. The authorized account then uses `withdraw_permission_claim` to pull funds; you can adjust or revoke at any time.
+
+**Open in the app:** [Withdraw Permissions](/withdraw_permissions.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Delegated access" icon="key">
+    Let a service or sub-account pull funds within strict limits.
+  </Card>
+  <Card title="Rate-limited" icon="clock">
+    A cap per time period, not a one-time grant.
+  </Card>
+  <Card title="Revocable" icon="close">
+    Update or delete the permission whenever you like.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Withdraw Permissions** from the homepage under *Transferring Funds*.
+
+2. Pick the authorized account, asset, per-period limit, period length and number of periods.
+
+3. Create the permission. The app broadcasts `withdraw_permission_create`.
+
+4. Later, the authorized account claims a withdrawal via `withdraw_permission_claim`; you can edit (`withdraw_permission_update`) or revoke (`withdraw_permission_delete`) anytime.
+
+</Steps>
+
+## Operations used
+
+<Tabs>
+  <Fragment slot="tab-label">withdraw_permission_create</Fragment>
+  <Fragment slot="tab-panel">
+
+```json
+{
+  "withdraw_from_account": "1.2.x",
+  "authorized_account": "1.2.x",
+  "withdrawal_limit": { "amount": 100000, "asset_id": "1.3.0" },
+  "withdrawal_period_sec": 86400,
+  "periods_until_expiration": 30,
+  "period_start_time": "2026-07-18T00:00:00.000Z"
+}
+```
+
+  </Fragment>
+  <Fragment slot="tab-label">withdraw_permission_claim</Fragment>
+  <Fragment slot="tab-panel">
+
+The authorized account pulls funds:
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "withdraw_permission": "1.13.x",
+  "withdraw_from_account": "1.2.x",
+  "withdraw_to_account": "1.2.x",
+  "amount_to_withdraw": { "amount": 50000, "asset_id": "1.3.0" }
+}
+```
+
+  </Fragment>
+  <Fragment slot="tab-label">withdraw_permission_update / _delete</Fragment>
+  <Fragment slot="tab-panel">
+
+Update an existing permission (note the extra `permission_to_update`):
+
+```json
+{
+  "withdraw_from_account": "1.2.x",
+  "authorized_account": "1.2.x",
+  "withdrawal_limit": { "amount": 200000, "asset_id": "1.3.0" },
+  "permission_to_update": "1.13.x",
+  "withdrawal_period_sec": 86400,
+  "periods_until_expiration": 60,
+  "period_start_time": "2026-07-18T00:00:00.000Z"
+}
+```
+
+Revoke it entirely:
+
+```json
+{
+  "withdraw_from_account": "1.2.x",
+  "authorized_account": "1.2.x",
+  "withdrawal_permission": "1.13.x"
+}
+```
+
+  </Fragment>
+</Tabs>
+
+| Field | Meaning |
+| --- | --- |
+| `withdraw_from_account` | The payer (you). |
+| `authorized_account` | Who may pull funds. |
+| `withdrawal_limit` | Max per period. |
+| `withdrawal_period_sec` | Length of one period (seconds). |
+| `periods_until_expiration` | How many periods before the grant lapses. |
+| `withdraw_permission` / `permission_to_update` | The `1.13.x` permission object id. |
+
+## Related pages
+
+- [Transfer](/docs/transfer/transfer.html)
+- [Timed Transfer](/docs/transfer/timed_transfer.html)

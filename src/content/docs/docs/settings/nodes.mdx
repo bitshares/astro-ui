@@ -1,0 +1,48 @@
+---
+title: Nodes
+description: Configure and switch the API nodes your app connects to (local config).
+sidebar:
+  order: 4
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Nodes** manages the list of API nodes (wss endpoints) the app connects to. You can add, remove, reorder and ping nodes to test their reachability, and pick which one is active. This is local configuration — it never broadcasts a transaction.
+
+**Open in the app:** [Nodes](/nodes.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Node list" icon="server">
+    Add/remove/reorder wss API endpoints.
+  </Card>
+  <Card title="Ping" icon="activity">
+    Test a node's latency/availability.
+  </Card>
+  <Card title="Switch" icon="arrow-right">
+    Choose the active node per chain.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Nodes** from the homepage under *Settings*.
+
+2. Add a `wss://` endpoint, or remove/reset existing ones.
+
+3. Ping nodes to check they're reachable.
+
+4. Select the active node for your chain.
+
+</Steps>
+
+<Aside type="note" title="Connectivity, not consensus">
+  Changing nodes only changes which API server the app talks to. It has no effect on chain state and broadcasts no operations.
+</Aside>
+
+## Related pages
+
+- [Create Account](/docs/settings/create_account.html)

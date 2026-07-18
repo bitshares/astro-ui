@@ -1,0 +1,66 @@
+---
+title: Credit Deals
+description: Review credit deals and repay borrower-side debts using credit_deal_repay.
+sidebar:
+  order: 8
+---
+
+import { Card, CardGrid, Steps } from '@astrojs/starlight/components';
+
+**Credit Deals** shows the credit deals an account is part of — both as borrower and lender. As the borrower you can repay a deal, which broadcasts `credit_deal_repay`. The lender view is informational only.
+
+**Open in the app:** [Credit Deals](/deals.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Deal history" icon="file-signature">
+    All credit deals involving the account.
+  </Card>
+  <Card title="Borrower repay" icon="coins">
+    Repay outstanding debt via `credit_deal_repay`.
+  </Card>
+  <Card title="Lender view" icon="eye">
+    Inspect deals where you're the lender.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Credit Deals** from the homepage under *Account Overviews*.
+
+2. Select the account. Switch between borrower and lender deals.
+
+3. As borrower, open a deal and choose **Repay**.
+
+4. Enter the repay amount and fee, then authorize → `credit_deal_repay`.
+
+</Steps>
+
+## Operation used
+
+Borrower repayment broadcasts `credit_deal_repay`:
+
+```json
+{
+  "account": "1.2.x",
+  "deal_id": "1.22.x",
+  "repay_amount": { "amount": 100000, "asset_id": "1.3.x" },
+  "credit_fee":   { "amount": 500,    "asset_id": "1.3.x" },
+  "extensions": []
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `account` | Your account (`1.2.x`). |
+| `deal_id` | The `1.22.x` credit deal object id. |
+| `repay_amount` | Principal repaid (`{amount, asset_id}`). |
+| `credit_fee` | Lender fee on the repayment. |
+
+## Related pages
+
+- [Credit Offers](/docs/account/offers.html)
+- [Lend](/docs/debt/lend.html)

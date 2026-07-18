@@ -1,0 +1,49 @@
+---
+title: Recent Activity
+description: Browse the latest on-chain operations for an account (read-only history).
+sidebar:
+  order: 11
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Recent Activity** is a chronological viewer of an account's on-chain operations — transfers, orders, governance votes and more. You can inspect the raw operation JSON for any entry and copy it for reference. It's entirely read-only.
+
+**Open in the app:** [Recent Activity](/recent-activity.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Operation history" icon="activity">
+    Every op the account has been part of, newest first.
+  </Card>
+  <Card title="Raw JSON" icon="document">
+    Expand any entry to read its operation object.
+  </Card>
+  <Card title="Copy" icon="copy">
+    Copy operation JSON to the clipboard for reference.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Recent Activity** from the homepage under *Account Overviews*.
+
+2. Select the account. The list loads the most recent operations.
+
+3. Expand an entry to inspect its `op_object`, and copy the JSON if needed.
+
+4. Refresh to pull newer history.
+
+</Steps>
+
+<Aside type="note" title="Great for learning">
+  This is one of the best places to *see* real operation JSON for any op type — open an entry and study its structure.
+</Aside>
+
+## Related pages
+
+- [Portfolio Balances](/docs/account/balances.html)
+- [Proposals](/docs/account/proposals.html)

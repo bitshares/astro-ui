@@ -1,0 +1,121 @@
+---
+title: Blind Transfers
+description: Send confidential, privacy-preserving transfers using transfer_to_blind, blind_transfer and transfer_from_blind.
+sidebar:
+  order: 6
+---
+
+import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+
+**Blind Transfers** provide confidential transactions on BitShares using Pedersen commitments and range proofs. Amounts and asset types are hidden from the public (only the cryptography proves validity). The app supports three flows: sending into the blind pool (`transfer_to_blind`), moving between blind outputs (`blind_transfer`), and bringing funds back out (`transfer_from_blind`).
+
+**Open in the app:** [Blind Transfers](/blind_transfers.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Confidential amounts" icon="lock">
+    Balances and transfer sizes are hidden via commitments.
+  </Card>
+  <Card title="Range proofs" icon="shield">
+    Cryptographic proofs that amounts are non-negative and within range.
+  </Card>
+  <Card title="Three flows" icon="swap">
+    Blind in, move blind, or reveal back to a normal account.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Blind Transfers** from the homepage under *Transferring Funds*.
+
+2. Switch between **To Blind**, **Blind**, and **From Blind** tabs.
+
+3. For *To Blind*: enter asset/amount and the blind output owner. For *Blind*: define inputs (prior commitments) and outputs. For *From Blind*: reveal a blind input back to a visible account.
+
+4. Authorize in your Beet wallet. The app broadcasts the matching confidential operation.
+
+</Steps>
+
+<Aside type="caution" title="Confidential by design">
+  Because amounts and assets are committed, you cannot later "see" them on chain. Keep your own records of blind outputs and their commitments, or you may be unable to spend them.
+</Aside>
+
+## Operations used
+
+<Tabs>
+  <Fragment slot="tab-label">blind_transfer</Fragment>
+  <Fragment slot="tab-panel">
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "inputs": [
+    {
+      "commitment": "<hex commitment>",
+      "owner": {
+        "weight_threshold": 1,
+        "account_auths": [],
+        "key_auths": [["BTS7...pubkey", 1]],
+        "address_auths": []
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "commitment": "<hex commitment>",
+      "range_proof": "<hex range proof>",
+      "owner": {
+        "weight_threshold": 1,
+        "account_auths": [],
+        "key_auths": [["BTS7...pubkey", 1]],
+        "address_auths": []
+      }
+    }
+  ]
+}
+```
+
+  </Fragment>
+  <Fragment slot="tab-label">transfer_to_blind / _from_blind</Fragment>
+  <Fragment slot="tab-panel">
+
+`transfer_to_blind` adds a visible `from`/`amount` and blind `outputs`:
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "amount": { "amount": 100000, "asset_id": "1.3.0" },
+  "outputs": [
+    {
+      "commitment": "<hex commitment>",
+      "range_proof": "<hex range proof>",
+      "owner": {
+        "weight_threshold": 1,
+        "account_auths": [],
+        "key_auths": [["BTS7...pubkey", 1]],
+        "address_auths": []
+      }
+    }
+  ]
+}
+```
+
+`transfer_from_blind` is the inverse: blind `inputs` plus a visible `to`/`amount`.
+
+  </Fragment>
+</Tabs>
+
+| Field | Meaning |
+| --- | --- |
+| `inputs` / `outputs` | Commitments + owner authority structures. |
+| `commitment` | Pedersen commitment hiding amount+asset. |
+| `range_proof` | Proof the committed amount is valid/non-negative. |
+| `owner` | `weight_threshold` + `account_auths` / `key_auths` / `address_auths`. |
+
+## Related pages
+
+- [HTLC](/docs/transfer/htlc.html)
+- [Transfer](/docs/transfer/transfer.html)

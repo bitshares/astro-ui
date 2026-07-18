@@ -1,6 +1,62 @@
 ---
-title: My docs
-description: Learn more about my project in this docs site built with Starlight.
+title: BitShares Astro UI Docs
+description: Documentation and BitShares operation references for the BitShares Astro UI application.
 ---
 
-Welcome to my project!
+import { Card, CardGrid, Aside, Badge } from '@astrojs/starlight/components';
+
+## What is BitShares Astro UI?
+
+**BitShares Astro UI** is a web and desktop client for the BitShares decentralized exchange and smart-chain. It lets you trade assets on the DEX, borrow against collateral, issue your own tokens, vote in network governance, and manage every corner of your account — all from a single interface that talks to the blockchain through your own wallet (Beet), so your keys never leave your machine.
+
+This is the **documentation** for that application. It explains what each screen does, how to use it, and — for the pages that perform on-chain actions — the exact BitShares **operation** the app builds, with example JSON you can study and learn from.
+
+## How to use these docs
+
+The navigation on the **left side** (the sidebar) lists every page, grouped by the same sections you see on the app's home screen: Exchanging Funds, Transferring Funds, Forms of Debt, Asset Creation, Account Overviews, Blockchain Overviews, Governance, Invoicing, and Settings.
+
+<Aside type="tip" title="Start from the sidebar">
+  Pick the section that matches what you want to do, then open the specific page. Each page follows the same layout: what it does, how to use it, and (where relevant) the operation it broadcasts.
+</Aside>
+
+Most pages also link back to the live application, and cross-link to related pages so you can follow a task end to end — for example from [Borrow](/docs/debt/borrow.html) to [SmartCoins](/docs/debt/smartcoins.html) to [Lend](/docs/debt/lend.html).
+
+## A note on operations
+
+BitShares actions are expressed as **operations** — typed objects that your wallet serializes, signs and broadcasts. Throughout these docs, the action pages show the real operation name(s) and a representative JSON object using placeholder object ids:
+
+<Badge text="1.2.x" variant="note" /> account &nbsp; <Badge text="1.3.x" variant="note" /> asset &nbsp; <Badge text="1.7.x" variant="note" /> limit order &nbsp; <Badge text="1.6.x" variant="note" /> witness
+
+The `x` stands for the numeric id of that object on the chain. Read-only pages (like the blockchain explorers) don't broadcast anything, so they simply describe what you can view.
+
+## Sections at a glance
+
+<CardGrid>
+  <Card title="Exchanging Funds">
+    Trade on the DEX, swap through pools, stake liquidity, and barter. Covers limit orders, instant trades, pool exchanges and Samet Funds.
+  </Card>
+  <Card title="Transferring Funds">
+    Send, schedule, delegate and confidentially move assets — transfers, timed transfers, withdraw permissions, HTLCs, vesting and blind transfers.
+  </Card>
+  <Card title="Forms of Debt">
+    Borrow against collateral, lend via credit offers, and operate Samet Funds (market-pegged debt positions).
+  </Card>
+  <Card title="Asset Creation">
+    Issue user assets (UIAs), market-pegged smartcoins, and deploy liquidity pools.
+  </Card>
+  <Card title="Account Overviews">
+    Inspect balances, orders, debt, authorities, proposals and on-chain history for any account.
+  </Card>
+  <Card title="Blockchain Overviews">
+    Read-only explorers for blocks, liquidity pools and the most active markets.
+  </Card>
+  <Card title="Governance">
+    Vote, register as a witness or committee member, propose workers, and lock governance tickets.
+  </Card>
+  <Card title="Invoicing">
+    Create, store and pay shareable invoices (payment broadcasts a transfer per asset).
+  </Card>
+  <Card title="Settings">
+    Upgrade to Lifetime Member, create accounts, manage nodes and lists, and customize the interface.
+  </Card>
+</CardGrid>

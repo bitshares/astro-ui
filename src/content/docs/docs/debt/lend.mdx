@@ -1,0 +1,122 @@
+---
+title: Lend
+description: Create and accept credit offers using credit_offer_create, credit_offer_update and credit_offer_accept.
+sidebar:
+  order: 2
+---
+
+import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+
+**Lend** is the credit-offer marketplace. As a lender you publish a `credit_offer_create` describing the asset you lend, your fee rate, acceptable collateral and borrowers. Borrowers accept offers with `credit_offer_accept`, locking collateral and receiving the borrowed asset. Lenders can later adjust terms with `credit_offer_update`.
+
+**Open in the app:** [Lend](/lend.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Publish offers" icon="document">
+    Advertise liquidity with your own fee rate and rules.
+  </Card>
+  <Card title="Accept deals" icon="coins">
+    Borrowers lock collateral and draw down your balance.
+  </Card>
+  <Card title="Adjust live" icon="setting">
+    Edit an existing offer's amount and fee with `credit_offer_update`.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Lend** from the homepage under *Forms of Debt* (or open an existing offer to edit it).
+
+2. As a lender: choose the asset, balance, fee rate (basis points), max duration, minimum deal size, acceptable collateral and borrowers, and an auto-disable time.
+
+3. Create the offer → `credit_offer_create`.
+
+4. As a borrower: open an offer, set the borrow amount and collateral, choose auto-repay mode, and accept → `credit_offer_accept`.
+
+</Steps>
+
+<Aside type="note" title="Fee rate units">
+  `fee_rate` is in **basis points** (1/100th of a percent). A value of `500` means a 5.00% fee. `auto_repay` on accept is `0` (none), `1` (full only) or `2` (allow partial).
+</Aside>
+
+## Operations used
+
+<Tabs>
+  <Fragment slot="tab-label">credit_offer_create</Fragment>
+  <Fragment slot="tab-panel">
+
+```json
+{
+  "owner_account": "1.2.x",
+  "asset_type": "1.3.x",
+  "balance": 5000000,
+  "fee_rate": 500,
+  "max_duration_seconds": 2592000,
+  "min_deal_amount": 10000,
+  "enabled": true,
+  "auto_disable_time": "<timestamp>",
+  "acceptable_collateral": [
+    ["1.3.x", { "base": { "asset_id": "1.3.x", "amount": 10000 }, "quote": { "asset_id": "1.3.x", "amount": 100 } }]
+  ],
+  "acceptable_borrowers": [["1.2.x", 100000]],
+  "extensions": []
+}
+```
+
+  </Fragment>
+  <Fragment slot="tab-label">credit_offer_accept</Fragment>
+  <Fragment slot="tab-panel">
+
+```json
+{
+  "borrower": "1.2.x",
+  "offer_id": "1.21.x",
+  "borrow_amount": { "amount": 10000, "asset_id": "1.3.x" },
+  "collateral": { "amount": 20000, "asset_id": "1.3.x" },
+  "max_fee_rate": 500,
+  "min_duration_seconds": 2592000,
+  "extensions": { "auto_repay": 0 }
+}
+```
+
+  </Fragment>
+  <Fragment slot="tab-label">credit_offer_update</Fragment>
+  <Fragment slot="tab-panel">
+
+Editing adds `offer_id` and an optional signed `delta_amount`:
+
+```json
+{
+  "owner_account": "1.2.x",
+  "offer_id": "1.21.x",
+  "delta_amount": { "amount": 2000000, "asset_id": "1.3.x" },
+  "new_fee_rate": 300,
+  "extensions": []
+}
+```
+
+  </Fragment>
+</Tabs>
+
+| Field | Meaning |
+| --- | --- |
+| `asset_type` | The lent asset (`1.3.x`). |
+| `balance` / `delta_amount` | Offer size; `delta_amount` is relative on update. |
+| `fee_rate` / `new_fee_rate` | Basis points. |
+| `acceptable_collateral` | Asset + price per accepted collateral. |
+| `acceptable_borrowers` | Optional whitelist `[account, max amount]`. |
+| `offer_id` | The `1.21.x` credit offer object id. |
+
+<Aside type="note" title="No cancel op">
+  The app currently only supports creating, accepting and updating offers — there is no `credit_offer_cancel` operation. Disable an offer by setting `enabled: false` or an `auto_disable_time`.
+</Aside>
+
+## Related pages
+
+- [Borrow](/docs/debt/borrow.html)
+- [Credit Offers](/docs/account/offers.html)
+- [Credit Deals](/docs/account/deals.html)

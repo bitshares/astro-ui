@@ -1,0 +1,49 @@
+---
+title: Favourites
+description: Quick-access lists of your favourite accounts, assets and markets (browser-local).
+sidebar:
+  order: 5
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Favourites** is your personal quick-access hub. It stores favourite accounts, assets and trading pairs in your browser's local storage so you can jump back to them instantly. Nothing here touches the chain.
+
+**Open in the app:** [Favourites](/favourites.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Accounts" icon="user">
+    Pin frequently-used accounts.
+  </Card>
+  <Card title="Assets" icon="gem">
+    Pin assets you trade or hold.
+  </Card>
+  <Card title="Pairs" icon="swap">
+    Pin market pairs for one-click trading.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Favourites** from the homepage under *Account Overviews*.
+
+2. Add accounts, assets and market pairs via their respective "favourite" controls elsewhere in the app — they appear here.
+
+3. Click any entry to navigate straight to it.
+
+4. Remove an entry to clear it from local storage.
+
+</Steps>
+
+<Aside type="note" title="Per-device">
+  Favourites live in your browser, so they aren't shared across devices or accounts and aren't on-chain.
+</Aside>
+
+## Related pages
+
+- [Portfolio Balances](/docs/account/balances.html)
+- [DEX](/docs/exchanging/dex.html)

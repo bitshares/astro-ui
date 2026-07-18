@@ -1,0 +1,78 @@
+---
+title: Transfer
+description: Send assets to another account with an optional encrypted memo using the transfer operation.
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Transfer** is the most basic action on BitShares: move an amount of an asset from your account to another. You can attach an optional memo, which — when both parties have a memo key — is encrypted on-chain so only sender and recipient can read it.
+
+**Open in the app:** [Transfer](/transfer.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Send any asset" icon="send">
+    Transfer any user-issued or smart-asset you hold.
+  </Card>
+  <Card title="Encrypted memo" icon="lock">
+    Attach a memo encrypted with the counterparties' memo keys.
+  </Card>
+  <Card title="Instant settlement" icon="rocket">
+    Transfers are confirmed in ~1 second by the DPoS consensus.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Transfer** from the homepage under *Transferring Funds*.
+
+2. Choose the asset and enter the amount.
+
+3. Enter the recipient account name or id.
+
+4. Optionally type a memo.
+
+5. Authorize in your Beet wallet. The app broadcasts a `transfer` operation.
+
+</Steps>
+
+## Operation used
+
+Transfer emits a single `transfer` (operation `0`):
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "from": "1.2.x",
+  "to": "1.2.x",
+  "amount": { "amount": 100000, "asset_id": "1.3.0" },
+  "memo": {
+    "from": "BTS7...sender_memo_pubkey",
+    "to": "BTS7...recipient_memo_pubkey",
+    "nonce": "1719000000000",
+    "message": "<encrypted memo>"
+  },
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `from` / `to` | Account object ids (`1.2.x`). |
+| `amount` | Integer amount (× asset precision) and asset id. |
+| `memo` | Optional; `from`/`to` are memo public keys, `nonce` is a unique value, `message` is the encrypted text. Omitted entirely when no memo is set. |
+
+<Aside type="note" title="Amounts are integers">
+  `100000` with an asset of precision `5` equals `1.00000` units. The app multiplies your input by the asset's precision before building the op.
+</Aside>
+
+## Related pages
+
+- [Timed Transfer](/docs/transfer/timed_transfer.html)
+- [Withdraw Permissions](/docs/transfer/withdraw_permissions.html)
+- [Barter](/docs/exchanging/barter.html)

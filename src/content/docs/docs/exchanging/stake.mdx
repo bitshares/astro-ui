@@ -1,0 +1,93 @@
+---
+title: Stake
+description: Deposit to or withdraw from a BitShares liquidity pool using liquidity_pool_deposit and liquidity_pool_withdraw.
+sidebar:
+  order: 4
+---
+
+import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+
+**Stake** lets you provide liquidity to a BitShares liquidity pool. By depositing both sides of the pool you earn a share asset (`1.3.x`) representing your portion; withdrawing burns that share asset to reclaim the underlying assets (plus any accrued fees).
+
+**Open in the app:** [Stake](/stake.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Deposit" icon="plus">
+    Provide `amount_a` and `amount_b` to mint pool share tokens.
+  </Card>
+  <Card title="Withdraw" icon="minus">
+    Burn share tokens to reclaim the two underlying assets.
+  </Card>
+  <Card title="Earn fees" icon="star">
+    Your share entitles you to a cut of pool trading fees.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Stake** from the homepage under *Exchanging Funds*.
+
+2. Select a liquidity pool (`1.19.x`). The app shows its reserves, share asset and your current stake.
+
+3. Switch to the **Deposit** or **Withdraw** tab.
+
+4. Enter the amounts (deposit: both assets; withdraw: share amount), review the preview, then authorize in your Beet wallet.
+
+</Steps>
+
+<Aside type="caution" title="Deposit ratio">
+  A deposit must respect the pool's current ratio of `amount_a` to `amount_b`. If you enter an unbalanced pair the app adjusts the smaller side to match, or rejects the tx. Always review the computed counterpart amount before signing.
+</Aside>
+
+## Operations used
+
+<Tabs>
+  <Fragment slot="tab-label">liquidity_pool_deposit</Fragment>
+  <Fragment slot="tab-panel">
+
+Depositing emits `liquidity_pool_deposit` (operation `61`):
+
+```json
+{
+  "account": "1.2.x",
+  "pool": "1.19.x",
+  "amount_a": { "amount": 10000000, "asset_id": "1.3.0" },
+  "amount_b": { "amount": 5000000, "asset_id": "1.3.x" },
+  "extensions": []
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `account` | Your account object id (`1.2.x`). |
+| `pool` | The liquidity pool object id (`1.19.x`). |
+| `amount_a` / `amount_b` | The two assets you provide, in pool order. |
+
+  </Fragment>
+  <Fragment slot="tab-label">liquidity_pool_withdraw</Fragment>
+  <Fragment slot="tab-panel">
+
+Withdrawing emits `liquidity_pool_withdraw` (operation `62`):
+
+```json
+{
+  "account": "1.2.x",
+  "pool": "1.19.x",
+  "share_amount": { "amount": 1234567, "asset_id": "1.3.x" },
+  "extensions": []
+}
+```
+
+`share_amount.asset_id` is the pool's share asset; its `precision` comes from `share_asset_details`.
+
+  </Fragment>
+</Tabs>
+
+## Related pages
+
+- [Swap](/docs/exchanging/swap.html)
+- [Pools](/docs/blockchain/pools.html)

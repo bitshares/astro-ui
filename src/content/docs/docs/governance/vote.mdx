@@ -1,0 +1,75 @@
+---
+title: Vote
+description: Cast your governance votes by updating your account options with account_update.
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Vote** is how you participate in BitShares governance. Your votes for witnesses, committee members and workers are stored on your account's `options.votes` array. Submitting your selections broadcasts a single `account_update` carrying the new options.
+
+**Open in the app:** [Vote](/vote.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Witness votes" icon="eye">
+    Vote for block producers (`1.6.x`).
+  </Card>
+  <Card title="Committee votes" icon="users">
+    Vote for committee members (`1.5.x`).
+  </Card>
+  <Card title="Worker votes" icon="gavel">
+    Vote for worker proposals (`1.14.x`).
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Vote** from the homepage under *Governance*.
+
+2. Tick the witnesses, committee members and workers you want to support.
+
+3. Review your `num_witness`, `num_committee` and the combined `votes` list.
+
+4. Authorize. The app broadcasts `account_update` with the new options.
+
+</Steps>
+
+<Aside type="note" title="Vote id format">
+  Each `votes` entry is a string `"<type>:<id>"`: `0:` committee, `1:` witness, `2:` worker — matching the chain's `vote_id` encoding. The order doesn't matter; `num_witness` / `num_committee` tell the chain how many of the top votes in each category count.
+</Aside>
+
+## Operation used
+
+Voting broadcasts `account_update` (operation `6`):
+
+```json
+{
+  "account": "1.2.x",
+  "new_options": {
+    "memo_key": "BTS6...pubkey",
+    "voting_account": "1.2.x",
+    "num_witness": 1,
+    "num_committee": 2,
+    "votes": ["0:5", "0:7", "1:3", "2:14"]
+  },
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `account` | Your account (`1.2.x`). |
+| `memo_key` | Your memo public key (echoed from current options). |
+| `num_witness` / `num_committee` | How many witness / committee votes are active. |
+| `votes` | Combined list of `vote_id` strings. |
+
+## Related pages
+
+- [Witnesses](/docs/governance/witnesses.html)
+- [Committee](/docs/governance/committee.html)
+- [Create Worker](/docs/governance/create_worker.html)

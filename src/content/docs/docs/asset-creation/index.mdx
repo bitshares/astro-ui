@@ -1,0 +1,23 @@
+---
+title: Asset Creation
+description: Issue user assets, market-pegged smartcoins, and deploy liquidity pools on BitShares.
+sidebar:
+  order: 4
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+The **Asset Creation** section covers issuing your own tokens and pools.
+
+<CardGrid>
+  <LinkCard title="Create UIA" description="Issue a user-issued asset (asset_create)." href="/docs/asset-creation/create_uia/" />
+  <LinkCard title="Create SmartCoin" description="Launch a market-pegged asset with bitasset_opts." href="/docs/asset-creation/create_smartcoin/" />
+  <LinkCard title="Create Liquidity Pool" description="Deploy a pool pairing two assets (liquidity_pool_create)." href="/docs/asset-creation/create_liquidity_pool/" />
+</CardGrid>
+
+## Common operations
+
+- `asset_create` — the universal asset issuer (UIA or MPA via `bitasset_opts`).
+- `liquidity_pool_create` — deploy a liquidity pool with a share asset.
+
+Each page documents its exact operation shapes with example JSON.

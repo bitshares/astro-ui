@@ -70,11 +70,10 @@ export default function CurrentUser(properties) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Item variant="outline" className="bg-card inline-flex w-auto">
-                  <ItemMedia>
+                  <ItemMedia variant="image" className="rounded-full">
                     <InView onChange={setInView}>
                       {inView ? (
                         <Avatar
-                          size={50}
                           name={usr.username}
                           extra=""
                           expression={{

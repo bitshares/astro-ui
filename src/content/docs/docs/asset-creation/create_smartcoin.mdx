@@ -1,0 +1,101 @@
+---
+title: Create SmartCoin
+description: Launch a market-pegged asset backed by collateral using asset_create with bitasset_opts.
+sidebar:
+  order: 2
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Create SmartCoin** issues a **market-pegged asset (MPA)** — a smartcoin whose value tracks an external reference via collateralized debt positions and price feeds. Compared to a UIA, it adds `bitasset_opts`: feed lifetime, minimum feeds, settlement rules and the short-backing asset.
+
+**Open in the app:** [Create SmartCoin](/create_smartcoin.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Pegged asset" icon="gem">
+    Issue an asset that tracks USD, gold, or a basket via feeds.
+  </Card>
+  <Card title="Feed & settlement rules" icon="settings">
+    Configure feed lifetime, minimum feeds and force-settlement.
+  </Card>
+  <Card title="Backing asset" icon="coins">
+    Choose the collateral (short-backing) asset.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Create SmartCoin** from the homepage under *Asset Creation*.
+
+2. Enter the symbol, precision and `common_options` (same as a UIA).
+
+3. Configure `bitasset_opts`: feed lifetime, minimum feeds, settlement delay/offset/volume, and the short-backing asset.
+
+4. Authorize. The app broadcasts `asset_create` with `bitasset_opts` and `is_prediction_market: false`.
+
+</Steps>
+
+<Aside type="note" title="Feeds required">
+  An MPA needs price feeds from elected feeders to maintain its peg. Without enough `minimum_feeds`, the asset cannot settle or be borrowed against. Plan your feed producers before launching.
+</Aside>
+
+## Operation used
+
+Create SmartCoin emits `asset_create` (operation `10`) with `bitasset_opts`:
+
+```json
+{
+  "issuer": "1.2.x",
+  "symbol": "MYSMART",
+  "precision": 5,
+  "common_options": {
+    "description": "{\"main\":\"My smartcoin\"}",
+    "max_supply": 100000000000000,
+    "market_fee_percent": 0,
+    "max_market_fee": 0,
+    "issuer_permissions": 0,
+    "flags": 0,
+    "core_exchange_rate": {
+      "base":  { "amount": 100000, "asset_id": "1.3.0" },
+      "quote": { "amount": 100000, "asset_id": "1.3.1" }
+    },
+    "whitelist_authorities": [],
+    "blacklist_authorities": [],
+    "whitelist_markets": [],
+    "blacklist_markets": [],
+    "extensions": {}
+  },
+  "bitasset_opts": {
+    "feed_lifetime_sec": 100000,
+    "minimum_feeds": 1,
+    "force_settlement_delay_sec": 60,
+    "force_settlement_offset_percent": 0,
+    "maximum_force_settlement_volume": 5,
+    "short_backing_asset": "1.3.0",
+    "extensions": {}
+  },
+  "is_prediction_market": false,
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `common_options` | Same shape as a UIA (see [Create UIA](/docs/asset-creation/create_uia.html)). |
+| `feed_lifetime_sec` | How long a feed stays valid. |
+| `minimum_feeds` | Feeds required before the peg is active. |
+| `force_settlement_*` | Rules for holders settling at the feed. |
+| `short_backing_asset` | Collateral asset (`1.3.x`) backing the debt. |
+| `is_prediction_market` | `false` for a normal smartcoin. |
+
+`bitasset_opts.extensions` may additionally carry `maintenance_collateral_ratio`, `maximum_short_squeeze_ratio`, `margin_call_fee_ratio` and similar values.
+
+## Related pages
+
+- [Create UIA](/docs/asset-creation/create_uia.html)
+- [Borrow](/docs/debt/borrow.html)
+- [SmartCoins](/docs/debt/smartcoins.html)

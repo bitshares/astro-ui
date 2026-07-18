@@ -1,0 +1,45 @@
+---
+title: Theme Customizer
+description: Build and apply custom color themes (local UI configuration).
+sidebar:
+  order: 7
+---
+
+import { Card, CardGrid, Steps } from '@astrojs/starlight/components';
+
+**Theme Customizer** is a full theme editor. You create draft themes from a seed color, override design tokens, and adjust brand/section/status/page accents — all stored locally and applied via CSS variables. No transaction is broadcast.
+
+**Open in the app:** [Theme Customizer](/theme.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Seed themes" icon="palette">
+    Generate a theme from a base color.
+  </Card>
+  <Card title="Token overrides" icon="sliders">
+    Tune individual design tokens.
+  </Card>
+  <Card title="Accents" icon="star">
+    Per-section and per-status accent colors.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Theme Customizer** from the homepage under *Settings*.
+
+2. Pick a base seed and tweak tokens/accents.
+
+3. Save the draft as a named theme.
+
+4. Apply it globally, or assign it per page via [Per-Page Themes](/docs/settings/page_themes.html).
+
+</Steps>
+
+## Related pages
+
+- [Per-Page Themes](/docs/settings/page_themes.html)
+- [Configure Visuals](/docs/settings/visuals.html)

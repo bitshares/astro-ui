@@ -1,0 +1,93 @@
+---
+title: Create UIA
+description: Issue a new user-issued asset with custom flags, permissions and fees using asset_create.
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Create UIA** issues a new **user-issued asset (UIA)** — a fully customizable token whose supply and rules you control as the issuer. You set the symbol, precision, supply caps, market fees, permissions and flags, plus an optional white/blacklist and a core exchange rate.
+
+**Open in the app:** [Create UIA](/create_uia.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Custom token" icon="gem">
+    Define symbol, precision and supply of your own asset.
+  </Card>
+  <Card title="Permissions & flags" icon="lock">
+    Control transfer, market, and other on-chain flags.
+  </Card>
+  <Card title="Market fees" icon="coins">
+    Optionally charge a market fee and set a max market fee.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Create UIA** from the homepage under *Asset Creation*.
+
+2. Enter the symbol, precision and description, and supply caps.
+
+3. Configure market fee percent, max market fee, issuer permissions and flags (transferable, marketable, etc.).
+
+4. Optionally set whitelist/blacklist authorities and markets, plus a core exchange rate.
+
+5. Authorize. The app broadcasts `asset_create`.
+
+</Steps>
+
+<Aside type="note" title="Lifetime member">
+  On BitShares, issuing assets generally requires **Lifetime Member (LTM)** status. Upgrade first via [Lifetime Membership](/docs/settings/ltm.html) if you see a permission error.
+</Aside>
+
+## Operation used
+
+Create UIA emits `asset_create` (operation `10`):
+
+```json
+{
+  "issuer": "1.2.x",
+  "symbol": "MYUIA",
+  "precision": 5,
+  "common_options": {
+    "description": "{\"main\":\"My user-issued asset\"}",
+    "max_supply": 100000000000000,
+    "market_fee_percent": 0,
+    "max_market_fee": 0,
+    "issuer_permissions": 0,
+    "flags": 0,
+    "core_exchange_rate": {
+      "base":  { "amount": 100000, "asset_id": "1.3.0" },
+      "quote": { "amount": 100000, "asset_id": "1.3.1" }
+    },
+    "whitelist_authorities": [],
+    "blacklist_authorities": [],
+    "whitelist_markets": [],
+    "blacklist_markets": [],
+    "extensions": {}
+  },
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `issuer` | Your account (`1.2.x`). |
+| `symbol` / `precision` | Token ticker and decimal places. |
+| `max_supply` / `max_market_fee` | Integer amounts (× precision). |
+| `market_fee_percent` | Hundredths of a percent (e.g. `100` = 1%). |
+| `issuer_permissions` / `flags` | Bitmask of permission/flag bits. |
+| `core_exchange_rate` | Reference price vs BTS (`1.3.0`). |
+
+Editing an existing UIA later uses `asset_update` with a `new_options` block instead.
+
+## Related pages
+
+- [Create SmartCoin](/docs/asset-creation/create_smartcoin.html)
+- [Issued Assets](/docs/account/issued_assets.html)
+- [Lifetime Membership](/docs/settings/ltm.html)

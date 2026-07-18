@@ -1,0 +1,49 @@
+---
+title: SmartCoins
+description: Browse market-pegged assets (MPAs) and open their margin-borrow pages. Read-only overview.
+sidebar:
+  order: 3
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**SmartCoins** is a read-only browser of **market-pegged assets (MPAs)** — smartcoins whose value tracks an external reference (e.g. USD, EUR, gold) via collateralized debt positions and price feeds. From here you can inspect each smartcoin's health metrics and jump into its borrow page.
+
+**Open in the app:** [SmartCoins](/smartcoins.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Market overview" icon="chart">
+    List all MPAs with status, feed and ratio badges.
+  </Card>
+  <Card title="Health metrics" icon="shield">
+    See MCR, MSSR, ICR and the latest price feed at a glance.
+  </Card>
+  <Card title="Drill down" icon="arrow-right">
+    Open any smartcoin's borrow/manage page (`/smartcoin?id=1.3.x`).
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **SmartCoins** from the homepage under *Forms of Debt*.
+
+2. Filter or search the list of market-pegged assets.
+
+3. Review each card's MCR / MSSR / ICR / feed badges.
+
+4. Click a smartcoin to open its detail/borrow page, where you can open or adjust a CDP (via `call_order_update` — see [Borrow](/docs/debt/borrow.html)).
+
+</Steps>
+
+<Aside type="note" title="View, don't broadcast">
+  This browser emits **no operations**. Creating or updating a smartcoin's feed/parameters happens elsewhere; borrowing against one uses `call_order_update` from the smartcoin detail page.
+</Aside>
+
+## Related pages
+
+- [Borrow](/docs/debt/borrow.html)
+- [Lend](/docs/debt/lend.html)

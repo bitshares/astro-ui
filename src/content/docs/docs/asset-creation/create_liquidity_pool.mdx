@@ -1,0 +1,74 @@
+---
+title: Create Liquidity Pool
+description: Deploy a new liquidity pool with asset_a, asset_b and a share asset using liquidity_pool_create.
+sidebar:
+  order: 3
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Create Liquidity Pool** deploys a new BitShares liquidity pool pairing two assets and minting a share asset to represent ownership. You pick the two pool assets, the share asset that will represent stakes, and the taker/withdrawal fees.
+
+**Open in the app:** [Create Liquidity Pool](/create_pool.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="New pool" icon="droplets">
+    Pair two assets into a tradable liquidity pool.
+  </Card>
+  <Card title="Share asset" icon="gem">
+    A dedicated share asset represents LP ownership.
+  </Card>
+  <Card title="Fee config" icon="coins">
+    Set taker and withdrawal fee percentages.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Create Liquidity Pool** from the homepage under *Asset Creation*.
+
+2. Select `asset_a` and `asset_b` (the two pooled assets) and a `share_asset` to represent stakes.
+
+3. Set the `taker_fee_percent` and `withdrawal_fee_percent` (0–100).
+
+4. Authorize. The app broadcasts `liquidity_pool_create`.
+
+</Steps>
+
+<Aside type="note" title="Share asset choice">
+  The share asset must be an existing asset with zero supply that isn't itself a smartcoin or pool asset. You typically issue one first via [Create UIA](/docs/asset-creation/create_uia.html).
+</Aside>
+
+## Operation used
+
+Create Liquidity Pool emits `liquidity_pool_create` (operation `59`):
+
+```json
+{
+  "account": "1.2.x",
+  "asset_a": "1.3.x",
+  "asset_b": "1.3.x",
+  "share_asset": "1.3.x",
+  "taker_fee_percent": 0,
+  "withdrawal_fee_percent": 0,
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `account` | The creating account (`1.2.x`). |
+| `asset_a` / `asset_b` | The two pooled assets (`1.3.x`). |
+| `share_asset` | Asset id representing LP shares (`1.3.x`). |
+| `taker_fee_percent` | Fee on swaps, in percent (0–100). |
+| `withdrawal_fee_percent` | Fee on withdrawals, in percent. |
+
+## Related pages
+
+- [Stake](/docs/exchanging/stake.html)
+- [Swap](/docs/exchanging/swap.html)
+- [Pools](/docs/blockchain/pools.html)

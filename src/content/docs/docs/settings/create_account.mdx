@@ -1,0 +1,91 @@
+---
+title: Create Account
+description: Register a new BitShares account using account_create (LTM registrar) or a faucet.
+sidebar:
+  order: 5
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Create Account** registers a new account on the blockchain. In the **LTM** method, your Lifetime-Member account acts as the registrar and the app broadcasts an `account_create` operation. In the **faucet** method, the account is registered through a faucet service instead (no direct broadcast).
+
+**Open in the app:** [Create Account](/create_account.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="New account" icon="user-plus">
+    Register a fresh `1.2.x` account.
+  </Card>
+  <Card title="LTM registrar" icon="crown">
+    Your LTM account pays the registration fee.
+  </Card>
+  <Card title="Faucet option" icon="rocket">
+    Register via a faucet when you're not LTM.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Create Account** from the homepage under *Settings*.
+
+2. Enter the new account name and a password (used to derive owner/active/memo keys).
+
+3. Choose **LTM** (you register + pay) or **faucet**.
+
+4. Authorize. In LTM mode the app broadcasts `account_create`.
+
+</Steps>
+
+<Aside type="note" title="Key derivation">
+  Owner, active and memo keys are derived from your password seed and emitted as BTS-prefixed public keys. Keep the password safe — it controls the account.
+</Aside>
+
+## Operation used
+
+The LTM method broadcasts `account_create` (operation `5`). The object is assembled in the app's backend:
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "registrar": "1.2.x",
+  "referrer": "1.2.x",
+  "referrer_percent": 100,
+  "name": "newguy",
+  "owner": {
+    "weight_threshold": 1,
+    "account_auths": [],
+    "key_auths": [["BTSpublicOwnerKey...", 1]],
+    "address_auths": []
+  },
+  "active": {
+    "weight_threshold": 1,
+    "account_auths": [],
+    "key_auths": [["BTSpublicActiveKey...", 1]],
+    "address_auths": []
+  },
+  "options": {
+    "memo_key": "BTSpublicMemoKey...",
+    "voting_account": "1.2.5",
+    "votes": [],
+    "num_witness": 0,
+    "num_committee": 0
+  }
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `registrar` / `referrer` | Your LTM account paying/referring (`1.2.x`). |
+| `referrer_percent` | Referral fee share (100 = full). |
+| `name` | New account name. |
+| `owner` / `active` | Authority structures (threshold + key/account auths). |
+| `options.memo_key` | Memo public key. |
+| `options.voting_account` | Voting proxy (`1.2.5` = self). |
+
+## Related pages
+
+- [Lifetime Membership](/docs/settings/ltm.html)
+- [Vote](/docs/governance/vote.html)

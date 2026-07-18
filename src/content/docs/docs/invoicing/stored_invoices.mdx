@@ -1,0 +1,49 @@
+---
+title: Stored Invoices
+description: Browse invoices you've received and saved in your browser (read-only, local).
+sidebar:
+  order: 4
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Stored Invoices** is your local inbox of invoices you've received and saved. Like the rest of the invoicing feature, these are off-chain base58 strings kept in your browser — you can decode, review and open them for payment. Nothing here broadcasts.
+
+**Open in the app:** [Stored Invoices](/stored_invoices.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Received inbox" icon="inbox">
+    Invoices others have sent you, saved locally.
+  </Card>
+  <Card title="Decode & review" icon="document">
+    Inspect items and totals before paying.
+  </Card>
+  <Card title="Pay" icon="send">
+    Send any invoice to [Pay Invoice](/docs/invoicing/pay_invoice.html).
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Stored Invoices** from the homepage under *Invoicing*.
+
+2. Browse the invoices you've received and saved.
+
+3. Open one to review its decoded contents.
+
+4. Click **Pay** to settle it via [Pay Invoice](/docs/invoicing/pay_invoice.html), which broadcasts the `transfer`(s).
+
+</Steps>
+
+<Aside type="note" title="Per-device and off-chain">
+  Stored invoices live only in your browser's local storage. The actual payment is a normal `transfer` documented on [Pay Invoice](/docs/invoicing/pay_invoice.html).
+</Aside>
+
+## Related pages
+
+- [Pay Invoice](/docs/invoicing/pay_invoice.html)
+- [Invoice Inventory](/docs/invoicing/invoice_inventory.html)

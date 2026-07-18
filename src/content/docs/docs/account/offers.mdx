@@ -1,0 +1,47 @@
+---
+title: Credit Offers
+description: Browse the credit offers you've published or can borrow from (read-only).
+sidebar:
+  order: 7
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Credit Offers** lists credit offers in the marketplace — both the ones you've published as a lender and ones you can borrow from. It's a read-only browser; the actual create/accept/update happens on the Lend and offer pages.
+
+**Open in the app:** [Credit Offers](/offers.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Your offers" icon="document">
+    See the credit offers you've published.
+  </Card>
+  <Card title="Browse market" icon="search">
+    Filter all offers by asset, fee and collateral.
+  </Card>
+  <Card title="Act" icon="arrow-right">
+    Edit your offer, or proceed to accept someone's.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Credit Offers** from the homepage under *Account Overviews*.
+
+2. Switch between your offers and the full marketplace.
+
+3. Use **Edit** on your own offer (opens [Lend](/docs/debt/lend.html)) or **Proceed** on another (opens the offer accept flow).
+
+</Steps>
+
+<Aside type="note" title="No broadcast here">
+  This is a browser. Publishing/accepting uses `credit_offer_create` / `credit_offer_accept` / `credit_offer_update`, documented on [Lend](/docs/debt/lend.html).
+</Aside>
+
+## Related pages
+
+- [Lend](/docs/debt/lend.html)
+- [Credit Deals](/docs/account/deals.html)

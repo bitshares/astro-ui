@@ -1,0 +1,48 @@
+---
+title: Blocked Users
+description: Maintain a client-side list of muted accounts in your browser (local only).
+sidebar:
+  order: 2
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Blocked Users** keeps a personal mute/block list in your browser. Blocking an account here is a purely client-side UX action — it hides or flags those accounts in the app. It does **not** create any on-chain restriction (that would be an `account_whitelist` blacklist — see [Account Lists](/docs/settings/account_lists.html)).
+
+**Open in the app:** [Blocked Users](/blocked-users.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Mute accounts" icon="close">
+    Hide/flag accounts you don't want to see.
+  </Card>
+  <Card title="Per-device" icon="save">
+    Stored in your browser, per chain.
+  </Card>
+  <Card title="Committee list" icon="shield">
+    Read-only view of the on-chain committee blocklist.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Blocked Users** from the homepage under *Settings*.
+
+2. Add an account name/id to your local block list.
+
+3. Remove entries anytime. These changes stay in your browser.
+
+4. Review the (read-only) committee blocklist section if shown.
+
+</Steps>
+
+<Aside type="note" title="Local vs on-chain">
+  This list is cosmetic and local. For an *on-chain* restriction that affects asset/authority rules, use [Account Lists](/docs/settings/account_lists.html) (`account_whitelist`).
+</Aside>
+
+## Related pages
+
+- [Account Lists](/docs/settings/account_lists.html)

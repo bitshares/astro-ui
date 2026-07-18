@@ -1,0 +1,50 @@
+---
+title: Issued Assets
+description: Browse the user-issued assets, smartcoins and pools an account has created (read-only).
+sidebar:
+  order: 6
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Issued Assets** lists everything an account has issued: user-issued assets, smartcoins, liquidity pools and NFT-like assets. It's a read-only explorer with JSON viewers and links; issuer-level actions (issue/reserve/update) are delegated to the issuer-actions component.
+
+**Open in the app:** [Issued Assets](/issued_assets.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Full inventory" icon="boxes">
+    UIAs, MPAs, pools and more issued by the account.
+  </Card>
+  <Card title="Inspect" icon="document">
+    View each asset's JSON and configuration.
+  </Card>
+  <Card title="Act (issuer)" icon="settings">
+    When you're the issuer, manage supply and flags.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Issued Assets** from the homepage under *Account Overviews*.
+
+2. Select the issuing account. Tabs separate UIAs, smartcoins, pools, etc.
+
+3. Open an asset to view its details and JSON.
+
+4. If you are the issuer, use the issuer actions to manage it (those actions broadcast `asset_issue`, `asset_reserve`, `asset_update`, etc., outside this viewer).
+
+</Steps>
+
+<Aside type="note" title="Viewer only">
+  This page lists and inspects issued assets. Creating one is done via [Create UIA](/docs/asset-creation/create_uia.html) or [Create SmartCoin](/docs/asset-creation/create_smartcoin.html).
+</Aside>
+
+## Related pages
+
+- [Create UIA](/docs/asset-creation/create_uia.html)
+- [Create SmartCoin](/docs/asset-creation/create_smartcoin.html)
+- [Portfolio Balances](/docs/account/balances.html)
