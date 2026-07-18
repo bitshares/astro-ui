@@ -24,10 +24,8 @@
   "balanceTooltip": "잔액에 대해 자세히 알아보기",
   "assetType": "자산 유형",
   "userIssuedAsset": "사용자 발행 자산",
-  "predictionMarket": "예측 시장",
   "smartcoin": "스마트코인",
   "userIssuedAssetSummary": "사용자 발행 자산 유형 요약",
-  "predictionMarketSummary": "예측 시장 자산 유형 요약",
   "smartcoinSummary": "스마트코인 자산 유형 요약",
   "userIssuedAssetDescription1": "UIA(사용자 발행 자산)는 사용자가 생성한 블록체인 자산입니다.",
   "userIssuedAssetDescription2": "사용자가 정의하므로 각각 고유한 이름, 설정, 설명 및 목적을 갖습니다.",
@@ -35,11 +33,6 @@
   "userIssuedAssetDescription4": "UIA는 다양한 멀티미디어를 포함하는 대체 불가능한 토큰(NFT)일 수 있습니다.",
   "userIssuedAssetDescription5": "UIA는 유동성 풀 공유 자산에도 사용됩니다.",
   "userIssuedAssetDescription6": "위험 노출을 줄이기 위해 DEX에서 UIA 설정, 설명 및 발급자를 활용하기 전에 항상 평가하십시오.",
-  "predictionMarketDescription1": "예측 시장 자산(PMA)은 총 부채와 총 담보가 항상 동일한 금액(자산 ID는 다르지만)을 갖는 특수 BitAsset입니다.",
-  "predictionMarketDescription2": "예측 시장 자산에 대해서는 마진 콜이나 강제 결제가 수행될 수 없습니다.",
-  "predictionMarketDescription3": "예측 시장은 예측되는 이벤트가 해결된 후 발행자에 의해 전 세계적으로 정산되므로 예측 시장에는 항상 global_settle 권한이 활성화되어 있어야 합니다.",
-  "predictionMarketDescription4": "예측 시장 자산의 글로벌 결제 또는 공매도의 최대 가격은 1:1입니다.",
-  "predictionMarketDescription5": "예측 시장 오라클이 발행자라는 점을 감안할 때 PMA 발행자는 신뢰할 수 있는 당사자여야 하며 PMA 참가자는 베팅의 위험과 오라클이 자신의 역할을 진실하게 수행하는 데 따른 위험에 노출됩니다.",
   "smartcoinDescription1": "스마트코인은 보조 담보, 외부 참조 피드 가격 및 자체 발행 기능을 갖춘 자산입니다.",
   "smartcoinDescription2": "누구나 스마트코인을 만들 수 있으며, 충분한 담보 자산이 있으면 누구나 자신의 계좌에 스마트코인을 발행할 수 있습니다.",
   "smartcoinDescription3": "스마트코인은 위원회 계정 소유의 비트 자산에서 사용되며, 비트 자산(예: USD, CNY, EUR)은 외부 FIAT 통화 가격 피드를 참조하고 BTS(1.3.0) 핵심 토큰으로 뒷받침되는 위원회 브랜드 시장 고정 자산(MPA)입니다.",
@@ -152,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "최대 쇼트 스퀴즈 비율 정보",
   "maximumShortSqueezeRatioDescription": "최대 숏 스퀴즈 비율은 숏 스퀴즈로부터 부채 포지션을 보호할 수 있는 최대 비율입니다.",
   "moreAboutMaximumShortSqueezeRatio": "최대 숏 스퀴즈 비율에 대한 추가 정보",
-  "borrowButton": "빌리다"
+  "borrowButton": "빌리다",
+  "assetDetails": "자산 세부정보",
+  "smartcoinParameters": "스마트코인 매개변수"
 }

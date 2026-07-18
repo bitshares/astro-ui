@@ -1,0 +1,83 @@
+---
+title: Instant Trade
+description: Swap one asset for another instantly at the best available price using a fill-or-kill market order.
+sidebar:
+  order: 2
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Instant Trade** lets you convert one asset into another in a single action, taking whatever liquidity is currently resting on the book. Under the hood it still creates a `limit_order_create`, but with `fill_or_kill: true` so it behaves like a market order — it either fills completely right now or fails without resting.
+
+**Open in the app:** [Instant Trade](/instant_trade.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Best-price fill" icon="swap">
+    Walks the order book and consumes resting orders until your amount is met.
+  </Card>
+  <Card title="One-click swap" icon="rocket">
+    No price to set — just choose what you sell and what you receive.
+  </Card>
+  <Card title="Atomic" icon="lock">
+    `fill_or_kill: true` means partial fills are impossible; it's all-or-nothing.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Instant Trade** from the homepage under *Exchanging Funds*.
+
+2. Select the asset you are **selling** and the amount.
+
+3. Select the asset you want to **receive**. The app estimates the amount using available book depth.
+
+4. Review the indicative rate and any slippage, then authorize in your Beet wallet.
+
+5. The transaction broadcasts as one or more `limit_order_create` ops with `fill_or_kill: true`.
+
+</Steps>
+
+<Aside type="caution" title="Slippage">
+  Because the fill consumes multiple price levels, your realized rate depends on book depth. The app computes the worst acceptable level from the entered receive amount; if the book is thin you may receive less than a single-level quote suggests.
+</Aside>
+
+## Operations used
+
+Instant Trade emits `limit_order_create` (operation `1`) with `fill_or_kill` forced to `true`. When a single resting order is not enough, the app splits your trade into several `limit_order_create` operations, one per consumed order, each carrying a proportional slice.
+
+```json
+[
+  {
+    "seller": "1.2.x",
+    "amount_to_sell": { "amount": 5000000, "asset_id": "1.3.0" },
+    "min_to_receive": { "amount": 1200000, "asset_id": "1.3.x" },
+    "expiration": "2026-07-18T00:00:00",
+    "fill_or_kill": true,
+    "extensions": {}
+  },
+  {
+    "seller": "1.2.x",
+    "amount_to_sell": { "amount": 3000000, "asset_id": "1.3.0" },
+    "min_to_receive": { "amount": 710000, "asset_id": "1.3.x" },
+    "expiration": "2026-07-18T00:00:00",
+    "fill_or_kill": true,
+    "extensions": {}
+  }
+]
+```
+
+| Field | Meaning |
+| --- | --- |
+| `seller` | Your account object id (`1.2.x`). |
+| `amount_to_sell` | Integer amount (scaled by precision) of the asset you give. |
+| `min_to_receive` | The minimum you accept for the other side at this price level. |
+| `fill_or_kill` | Always `true` here — instant or fail. |
+
+## Related pages
+
+- [DEX](/docs/exchanging/dex.html)
+- [Swap](/docs/exchanging/swap.html)

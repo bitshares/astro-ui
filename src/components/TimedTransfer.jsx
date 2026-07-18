@@ -11,13 +11,8 @@ import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import {
   FieldGroup,
@@ -46,15 +41,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Avatar as Av, AvatarFallback } from "@/components/ui/avatar";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import { Avatar as Av, AvatarFallback } from "@/components/ui/avatar";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
+import { Timer, Send, ArrowRight, Info } from "lucide-react";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $currentUser } from "@/stores/users.ts";
@@ -262,21 +261,47 @@ export default function TimedTransfer(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:1/2">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("Transfer:timedTransferAssets")}</CardTitle>
-              <CardDescription>
-                <p>{t("Transfer:sendFundsDescription")}</p>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form
-                onSubmit={(event) => {
-                  setShowDialog(true);
-                  event.preventDefault();
-                }}
-              >
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-start gap-3 mb-4">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <Timer className="h-4 w-4" strokeWidth={2.25} />
+              </span>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="outline"
+                    className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px]"
+                  >
+                    Proposal
+                  </Badge>
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight">
+                    {t("Transfer:timedTransferAssets")}
+                  </h3>
+                </div>
+                <p className="text-xs text-muted-foreground/70 mt-1">
+                  {t("Transfer:sendFundsDescription")}
+                </p>
+              </div>
+            </div>
+            <form
+              onSubmit={(event) => {
+                setShowDialog(true);
+                event.preventDefault();
+              }}
+            >
                 <FieldGroup>
                   <Field>
                     <FieldLabel>{t("Transfer:sendingAccount")}</FieldLabel>
@@ -363,7 +388,7 @@ export default function TimedTransfer(properties) {
                                   : t("Transfer:provideTarget")}
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-[375px] bg-white">
+                            <DialogContent className="sm:max-w-[375px] bg-card">
                               <DialogHeader>
                                 <DialogTitle>
                                   {!usr || !usr.chain
@@ -542,8 +567,8 @@ export default function TimedTransfer(properties) {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="grid grid-cols-1 gap-3">
                       <HoverInfo
-                        content={t("Predictions:sellDialog.expiryContent")}
-                        header={t("Predictions:sellDialog.expiryHeader")}
+                        content={t("Common:expiryContent")}
+                        header={t("Common:expiryHeader")}
                       />
                       <Select
                         onValueChange={(selectedExpiry) => {
@@ -582,7 +607,7 @@ export default function TimedTransfer(properties) {
                         <SelectTrigger className="mb-3 mt-1 w-3/4">
                           <SelectValue placeholder="1hr" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value="1hr">
                             {t("LimitOrderCard:expiry.1hr")}
                           </SelectItem>
@@ -604,8 +629,8 @@ export default function TimedTransfer(properties) {
                         </SelectContent>
                       </Select>
                       {expiryType === "specific" ? (
-                        <Popover>
-                          <PopoverTrigger asChild>
+                        <Dialog>
+                          <DialogTrigger asChild>
                             <Button
                               variant={"outline"}
                               className={cn(
@@ -622,8 +647,8 @@ export default function TimedTransfer(properties) {
                                 </span>
                               )}
                             </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[350px] bg-card border border-border rounded-2xl p-0">
                             <Calendar
                               mode="single"
                               selected={date}
@@ -642,8 +667,8 @@ export default function TimedTransfer(properties) {
                               }}
                               initialFocus
                             />
-                          </PopoverContent>
-                        </Popover>
+                          </DialogContent>
+                        </Dialog>
                       ) : null}
                     </div>
 
@@ -664,7 +689,7 @@ export default function TimedTransfer(properties) {
                         <SelectTrigger className="mb-3 mt-1 w-3/4">
                           <SelectValue placeholder="1 mins" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value={"60000"}>1 mins</SelectItem>
                           <SelectItem value={"300000"}>5 mins</SelectItem>
                           <SelectItem value={"600000"}>10 mins</SelectItem>
@@ -704,19 +729,21 @@ export default function TimedTransfer(properties) {
 
                   {!transferAmount ? (
                     <Button
-                      className="mt-5 mb-3"
+                      className="mt-5 mb-3 h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(20,184,166,0.4)]"
                       variant="outline"
                       disabled
                       type="submit"
                     >
+                      <Send className="h-4 w-4 mr-2" />
                       {t("Transfer:submit")}
                     </Button>
                   ) : (
                     <Button
-                      className="mt-5 mb-3"
+                      className="mt-5 mb-3 h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(20,184,166,0.4)]"
                       variant="outline"
                       type="submit"
                     >
+                      <Send className="h-4 w-4 mr-2" />
                       {t("Transfer:submit")}
                     </Button>
                   )}
@@ -760,28 +787,28 @@ export default function TimedTransfer(properties) {
                             },
                           ],
                         },
-                      ],
-                      review_period_seconds: reviewPeriodSeconds,
-                      extensions: {},
-                    },
-                  ]}
-                />
-              ) : null}
-            </CardContent>
-          </Card>
-        </div>
-        <div className="grid grid-cols-2 mt-5 gap-5">
-          {targetUser && targetUser.name ? (
+                       ],
+                       review_period_seconds: reviewPeriodSeconds,
+                       extensions: {},
+                     },
+                    ]}
+                  />
+                ) : null}
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 mt-5 gap-5">
+            {targetUser && targetUser.name ? (
             <div className="col-span-1">
-              <Card>
-                <CardHeader className="pb-0 mb-0">
-                  <CardTitle>{t("Transfer:doubleCheckTitle")}</CardTitle>
-                  <CardDescription>
-                    {t("Transfer:doubleCheckDescription")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-sm">
-                  <ul className="ml-2 list-disc [&>li]:mt-2">
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-success)/0.5)] to-transparent"
+                />
+                <div className="relative p-4">
+                  <h4 className="text-sm font-semibold text-foreground mb-2">{t("Transfer:doubleCheckTitle")}</h4>
+                  <p className="text-xs text-muted-foreground/70 mb-3">{t("Transfer:doubleCheckDescription")}</p>
+                  <ul className="ml-2 list-disc [&>li]:mt-2 text-sm text-foreground/80">
                     <li>{t("Transfer:doubleCheckFormInputs")}</li>
                     <li>{t("Transfer:validateBeetPrompt")}</li>
                     <li>
@@ -792,31 +819,30 @@ export default function TimedTransfer(properties) {
                       </span>
                     </li>
                   </ul>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           ) : null}
           {targetUser && targetUser.name ? (
             <div className="col-span-1">
-              <Card>
-                <CardHeader className="pb-0 mb-0">
-                  <CardTitle>{t("Transfer:scamAlertTitle")}</CardTitle>
-                  <CardDescription>
-                    {t("Transfer:scamAlertDescription")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-sm">
-                  <ul className="ml-2 list-disc [&>li]:mt-2">
+              <div className="relative overflow-hidden rounded-2xl border border-[hsl(var(--accent-warning)/0.2)] bg-card/60 backdrop-blur-xl">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-warning)/0.5)] to-transparent"
+                />
+                <div className="relative p-4">
+                  <h4 className="text-sm font-semibold text-foreground mb-2">{t("Transfer:scamAlertTitle")}</h4>
+                  <p className="text-xs text-muted-foreground/70 mb-3">{t("Transfer:scamAlertDescription")}</p>
+                  <ul className="ml-2 list-disc [&>li]:mt-2 text-sm text-foreground/80">
                     <li>{t("Transfer:scamAlertPoint1")}</li>
                     <li>{t("Transfer:scamAlertPoint2")}</li>
                     <li>{t("Transfer:scamAlertPoint3")}</li>
                   </ul>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           ) : null}
         </div>
-      </div>
     </>
   );
 }

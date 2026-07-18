@@ -24,10 +24,8 @@
   "balanceTooltip": "Maggiori informazioni sul tuo saldo",
   "assetType": "Tipo di risorsa",
   "userIssuedAsset": "Asset emesso dall'utente",
-  "predictionMarket": "Mercato delle previsioni",
   "smartcoin": "Smartcoin",
   "userIssuedAssetSummary": "Riepilogo del tipo di risorsa emessa dall'utente",
-  "predictionMarketSummary": "Riepilogo del tipo di asset del mercato di previsione",
   "smartcoinSummary": "Riepilogo del tipo di asset Smartcoin",
   "userIssuedAssetDescription1": "Gli asset emessi dagli utenti (UIA) sono asset blockchain creati dagli utenti.",
   "userIssuedAssetDescription2": "Poiché sono definiti dall'utente, ciascuno di essi ha nomi, impostazioni, descrizioni e scopi univoci.",
@@ -35,11 +33,6 @@
   "userIssuedAssetDescription4": "Gli UIA possono essere token non fungibili (NFT) contenenti una varietà di contenuti multimediali.",
   "userIssuedAssetDescription5": "Le UIA vengono utilizzate anche per le attività azionarie del pool di liquidità.",
   "userIssuedAssetDescription6": "Valuta sempre le impostazioni UIA, la descrizione e l'emittente prima di utilizzarli sul DEX per ridurre l'esposizione al rischio.",
-  "predictionMarketDescription1": "Un Prediction Market Asset (PMA) è un BitAsset specializzato in modo tale che il debito totale e il totale delle garanzie collaterali siano sempre uguali (anche se gli ID degli asset differiscono).",
-  "predictionMarketDescription2": "Non è possibile effettuare richieste di margine o regolamenti forzati su un asset del mercato di previsione.",
-  "predictionMarketDescription3": "Un mercato di previsione viene regolato a livello globale dall'emittente dopo che l'evento previsto si risolve, quindi un mercato di previsione deve sempre avere l'autorizzazione global_settle abilitata.",
-  "predictionMarketDescription4": "Il prezzo massimo per la liquidazione globale o la vendita allo scoperto di un asset del mercato di previsione è 1 a 1.",
-  "predictionMarketDescription5": "Dato che l'oracolo del mercato delle previsioni è l'emittente, l'emittente della PMA deve essere una parte fidata, i partecipanti alla PMA sono esposti sia al rischio della scommessa che all'oracolo che adempie sinceramente al proprio ruolo.",
   "smartcoinDescription1": "Uno smartcoin è un asset dotato di garanzia collaterale, un prezzo di riferimento esterno e di autoemissione.",
   "smartcoinDescription2": "Chiunque può creare uno smartcoin e chiunque può emettere smartcoin sul proprio conto, a condizione che siano sufficienti risorse collaterali di supporto.",
   "smartcoinDescription3": "Gli smartcoin sono utilizzati dai bitasset di proprietà del conto del comitato, i bitasset (come USD, CNY, EUR) sono asset ancorati al mercato (MPA) con marchio del comitato che fanno riferimento a feed di prezzo valutari FIAT esterni e sono supportati dal token core BTS (1.3.0).",
@@ -152,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "Informazioni sul rapporto massimo di compressione breve",
   "maximumShortSqueezeRatioDescription": "Il rapporto massimo di short squeeze è il rapporto massimo con il quale una posizione debitoria sarà protetta dagli short squeeze.",
   "moreAboutMaximumShortSqueezeRatio": "Maggiori informazioni sul rapporto massimo di compressione breve",
-  "borrowButton": "Prestito"
+  "borrowButton": "Prestito",
+  "assetDetails": "Dettagli dell'asset",
+  "smartcoinParameters": "Parametri Smartcoin"
 }

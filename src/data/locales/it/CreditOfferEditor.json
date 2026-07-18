@@ -1,5 +1,5 @@
 {
-  "existingID": "Existing Offer ID",
+  "existingID": "ID offerta esistente",
   "price": "Prezzo:",
   "editingPrice": "Modifica prezzo",
   "setNewPrice": "Imposta il nuovo prezzo",
@@ -58,5 +58,7 @@
   "risksPoint3": "Se non configuri mutuatari consentiti, tutti gli utenti blockchain di Bitshares potranno accettare l'accordo per intero. Prendi in considerazione l'utilizzo della funzionalità del mutuatario approvato per prestare a utenti conosciuti/registrati.",
   "risksPoint4": "I mutuatari non sono tenuti a rimborsare i beni prestati, né sono puniti per averlo fatto, possono scegliere di non pagare il prestito e perdere la garanzia. È possibile reclamare i beni prestati o la garanzia solo dopo la scadenza del periodo di rimborso. Fattore questo ",
   "risksPoint5": "La scadenza di un contratto di credito può superare la data di scadenza dell'offerta di credito, non dovresti dare per scontato che avrai indietro i tuoi beni prestati fino a quando non sarà trascorso il periodo di scadenza + ultimo rimborso.",
-  "risksPoint6": "Sii consapevole dei rischi di controparte se utilizzi asset garantiti da cambio (EBA) a scopo di garanzia o prestito poiché il loro valore potrebbe fluttuare in base ai rischi di terzi."
+  "risksPoint6": "Sii consapevole dei rischi di controparte se utilizzi asset garantiti da cambio (EBA) a scopo di garanzia o prestito poiché il loro valore potrebbe fluttuare in base ai rischi di terzi.",
+  "noCollateral": "Nessuna garanzia aggiunta",
+  "noPreApprovedBorrowers": "Nessun mutuatario pre-approvato"
 }

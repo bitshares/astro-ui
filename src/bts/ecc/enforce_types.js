@@ -21,6 +21,11 @@ export default function enforce(type, value) {
             break;
         }
 
+        case "bigint": {
+            if (typeof value === "bigint") return;
+            break;
+        }
+
         case "String": {
             if (typeof value === "string") return;
             break;

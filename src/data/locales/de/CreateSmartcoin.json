@@ -76,5 +76,9 @@
   "dialogContent": {
     "editHeader": "Bearbeiten des folgenden Smartcoins: {{symbol}}",
     "createHeader": "Erstellen Sie den folgenden Smartcoin: {{symbol}}"
+  },
+  "backing_asset": {
+    "header": "Sicherungsasset",
+    "header_content": "Das Sicherungsasset ist das Asset, das als Sicherung für den Smartcoin dient, Dieses Asset wird als Besicherung für die Smartcoin-Schuld verwendet."
   }
 }

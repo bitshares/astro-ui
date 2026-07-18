@@ -9,6 +9,7 @@ import { List } from "react-window";
 import Fuse from "fuse.js";
 import { useStore } from "@nanostores/react";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
+import { User, Coins, Tag, Activity, CircleDollarSign } from "lucide-react";
 
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
@@ -22,19 +23,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Separator } from "./ui/separator.jsx";
 
 import { debounce } from "@/lib/common.js";
 import { getFlagBooleans } from "@/lib/common.js";
@@ -46,13 +39,6 @@ import { createObjectStore } from "@/nanoeffects/Objects.ts";
 
 import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
-
-import ExternalLink from "./common/ExternalLink.jsx";
-
-const activeTabStyle = {
-  backgroundColor: "#252526",
-  color: "white",
-};
 
 export default function Smartcoins(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -279,7 +265,15 @@ export default function Smartcoins(properties) {
         parseInt(b.asset_id.replace("1.3.", "")) -
         parseInt(a.asset_id.replace("1.3.", ""))
     );
-    result = result.filter((x) => !x.is_prediction_market);
+    result = result.filter((x) => {
+      if (x.bitasset_data_id) {
+        const desc = x.options?.description || "";
+        if (desc.includes("condition") && desc.includes("expiry")) {
+          return false;
+        }
+      }
+      return true;
+    });
 
     return result.filter((x) => {
       const _assetData = baseAssetData.find((y) => y.id === x.asset_id);
@@ -355,133 +349,110 @@ export default function Smartcoins(properties) {
 
     return (
       <div style={{ ...style }} key={`acard-${bitasset.asset_id}`}>
-        <Card className="ml-2 mr-2 overflow-visible">
-          <CardHeader className="pb-1">
-            <CardTitle>
-              <span className="hover:text-purple-500">{thisBitassetData.symbol}</span>
-              {" ("}
-              <span className="hover:text-purple-500">{thisBitassetData.id}</span>
-              {")"}
-            </CardTitle>
-            <CardDescription className="text-md">
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="grid grid-cols-1 gap-1 text-sm">
-                  {issuer ? (
-                    <div>
-                      {t("Smartcoins:createdBy")}{" "}
-                      <span className="hover:text-purple-500 font-bold">{issuer.name}</span>
-                      {" ("}
-                      <span className="hover:text-purple-500 font-bold">{issuer.id}</span>
-                      {")"}
-                    </div>
-                  ) : null}
-                  <div>
-                    {t("Smartcoins:collateral")}:
-                    <b>
-                      {" "}
-                      <span className="hover:text-purple-500">{thisCollateralAssetData.symbol}</span>
-                      {" ("}
-                      <span className="hover:text-purple-500">{thisCollateralAssetData.id}</span>
-                      {")"}
-                    </b>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-1 text-sm sm:mt-3">
-                  <div className="grid grid-cols-1 gap-1">
-                    <Badge variant="outline">
-                      {`MCR: ${
-                        bitasset.current_feed.maintenance_collateral_ratio / 10
-                      }`}
-                    </Badge>
-                    <Badge variant="outline">
-                      {`MSSR: ${
-                        bitasset.current_feed.maximum_short_squeeze_ratio / 10
-                      }`}
-                    </Badge>
-                    <Badge variant="outline">
-                      {`ICR: ${
-                        bitasset.current_feed.initial_collateral_ratio / 10
-                      }`}
-                    </Badge>
-                  </div>
-                  <div className="grid grid-cols-1 gap-1">
-                    <Badge variant="outline">
-                      {t("Smartcoins:feedQty", {
-                        qty: bitasset.feeds?.length ?? 0,
-                      })}
-                    </Badge>
-                    {_issuer_permissions &&
-                    Object.keys(_issuer_permissions).length > 0 ? (
-                      <Dialog>
-                        <DialogTrigger>
-                          <Badge variant="outline">
-                            {`${t("Predictions:permissions")}: ${
-                              Object.keys(_issuer_permissions).length
-                            }`}
-                            <QuestionMarkCircledIcon className="ml-1" />
-                          </Badge>
-                        </DialogTrigger>
-                        <DialogContent className="bg-white">
-                          <DialogHeader>
-                            <DialogTitle>
-                              {t("Predictions:permissions")}
-                            </DialogTitle>
-                            <DialogDescription className="text-gray-800">
-                              {Object.keys(_issuer_permissions).join(", ")}
-                            </DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
-                    ) : (
-                      <Badge variant="outline">
-                        {t("Predictions:permissions")}: 0
-                      </Badge>
-                    )}
-                    {_flags && Object.keys(_flags).length > 0 ? (
-                      <Dialog>
-                        <DialogTrigger>
-                          <Badge variant="outline">
-                            {`${t("Predictions:flags")}: ${
-                              Object.keys(_flags).length
-                            }`}
-                            <QuestionMarkCircledIcon className="ml-1" />
-                          </Badge>
-                        </DialogTrigger>
-                        <DialogContent className="bg-white">
-                          <DialogHeader>
-                            <DialogTitle>{t("Predictions:flags")}</DialogTitle>
-                            <DialogDescription className="text-gray-800">
-                              {Object.keys(_flags).join(", ")}
-                            </DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
-                    ) : (
-                      <Badge variant="outline">
-                        {t("Predictions:flags")}: 0
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </CardDescription>
-          </CardHeader>
-          <CardFooter className="pb-5">
-            {_price > 0 ? (
-              <a href={`/smartcoin/index.html?id=${bitasset.asset_id}`}>
-                <Button className="h-8">
-                  {t("Smartcoins:proceedToBorrow", {
-                    asset: thisBitassetData.s,
-                  })}
+        <div className="ml-2 mr-2 overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-sm shadow-[0_0_20px_-5px] shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[0_0_25px_-5px] shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300">
+          <div className="h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.4)] to-transparent" />
+          <div className="p-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-bold tracking-tight">
+                <span className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
+                  {thisBitassetData.symbol}
+                </span>
+                <span className="ml-2 text-xs font-normal text-muted-foreground/60">
+                  ({thisBitassetData.id})
+                </span>
+              </h3>
+              {_price > 0 ? (
+                <a href={`/smartcoin.html?id=${bitasset.asset_id}`} className="shrink-0">
+                  <Button className="h-7 px-3 text-xs bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_10px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0 font-semibold hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[0_0_18px_-3px] hover:shadow-[color:hsl(var(--accent-1)/0.6)] active:scale-95 transition-all duration-200 cursor-pointer">
+                    {t("Smartcoins:proceedToBorrow", { asset: thisBitassetData.s })}
+                  </Button>
+                </a>
+              ) : (
+                <Button disabled className="h-7 px-3 text-xs shrink-0">
+                  {t("Smartcoins:proceedToBorrow", { asset: thisBitassetData.s })}
                 </Button>
-              </a>
-            ) : (
-              <Button disabled className="h-8">
-                {t("Smartcoins:proceedToBorrow", { asset: thisBitassetData.s })}
-              </Button>
-            )}
-          </CardFooter>
-        </Card>
+              )}
+            </div>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 text-sm text-muted-foreground">
+              {issuer ? (
+                <div className="flex items-center gap-1.5">
+                  <User className="h-3.5 w-3.5 text-[hsl(var(--accent-1-fg)/0.7)]" />
+                  <span>{t("Smartcoins:createdBy")}</span>
+                  <span className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent font-semibold">{issuer.name}</span>
+                  <span className="text-xs text-muted-foreground/40">({issuer.id})</span>
+                </div>
+              ) : null}
+              <div className="flex items-center gap-1.5">
+                <Coins className="h-3.5 w-3.5 text-[hsl(var(--accent-2-fg)/0.7)]" />
+                <span>{t("Smartcoins:collateral")}:</span>
+                <span className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent font-semibold">{thisCollateralAssetData.symbol}</span>
+                <span className="text-xs text-muted-foreground/40">({thisCollateralAssetData.id})</span>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-1.5 mt-2">
+              <Badge variant="outline" className="border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] text-xs">
+                <Tag className="h-3 w-3 mr-1 text-[hsl(var(--accent-1-fg)/0.7)]" />
+                MCR {bitasset.current_feed.maintenance_collateral_ratio / 10}
+              </Badge>
+              <Badge variant="outline" className="border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] text-xs">
+                <Tag className="h-3 w-3 mr-1 text-[hsl(var(--accent-1-fg)/0.7)]" />
+                MSSR {bitasset.current_feed.maximum_short_squeeze_ratio / 10}
+              </Badge>
+              <Badge variant="outline" className="border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] text-xs">
+                <Tag className="h-3 w-3 mr-1 text-[hsl(var(--accent-1-fg)/0.7)]" />
+                ICR {bitasset.current_feed.initial_collateral_ratio / 10}
+              </Badge>
+              <Badge variant="outline" className="border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.05)] text-xs">
+                <Activity className="h-3 w-3 mr-1 text-[hsl(var(--accent-2-fg)/0.7)]" />
+                {t("Smartcoins:feedQty", { qty: bitasset.feeds?.length ?? 0 })}
+              </Badge>
+              {_issuer_permissions && Object.keys(_issuer_permissions).length > 0 ? (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Badge variant="outline" className="border-[hsl(var(--accent-3)/0.2)] bg-[hsl(var(--accent-3)/0.05)] text-xs cursor-pointer hover:bg-[hsl(var(--accent-3)/0.1)] transition-colors">
+                      {t("Common:permissions")}: {Object.keys(_issuer_permissions).length}
+                      <QuestionMarkCircledIcon className="ml-1 h-3 w-3" />
+                    </Badge>
+                  </DialogTrigger>
+                  <DialogContent className="bg-card">
+                    <DialogHeader>
+                      <DialogTitle>{t("Common:permissions")}</DialogTitle>
+                      <DialogDescription className="text-foreground">
+                        {Object.keys(_issuer_permissions).join(", ")}
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+              ) : (
+                <Badge variant="outline" className="border-[hsl(var(--accent-3)/0.2)] bg-[hsl(var(--accent-3)/0.05)] text-xs">
+                  {t("Common:permissions")}: 0
+                </Badge>
+              )}
+              {_flags && Object.keys(_flags).length > 0 ? (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Badge variant="outline" className="border-[hsl(var(--accent-warning)/0.2)] bg-[hsl(var(--accent-warning)/0.05)] text-xs cursor-pointer hover:bg-[hsl(var(--accent-warning)/0.1)] transition-colors">
+                      {t("Common:flags")}: {Object.keys(_flags).length}
+                      <QuestionMarkCircledIcon className="ml-1 h-3 w-3" />
+                    </Badge>
+                  </DialogTrigger>
+                  <DialogContent className="bg-card">
+                    <DialogHeader>
+                      <DialogTitle>{t("Common:flags")}</DialogTitle>
+                      <DialogDescription className="text-foreground">
+                        {Object.keys(_flags).join(", ")}
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+              ) : (
+                <Badge variant="outline" className="border-[hsl(var(--accent-warning)/0.2)] bg-[hsl(var(--accent-warning)/0.05)] text-xs">
+                  {t("Common:flags")}: 0
+                </Badge>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -540,18 +511,28 @@ export default function Smartcoins(properties) {
     <>
       <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
         <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("Smartcoins:selectBorrowableAsset")}</CardTitle>
-              <CardDescription>
-                {t("Smartcoins:smartcoinDescription")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_0_40px_-8px] shadow-[color:hsl(var(--accent-1)/0.2)]">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent" />
+            <div className="pointer-events-none absolute -left-20 -top-20 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl" />
+            <div className="pointer-events-none absolute -right-20 -bottom-20 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl" />
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] text-[hsl(var(--accent-1-gradFg))] dark:text-[hsl(var(--accent-1-gradFg))]">
+                  <CircleDollarSign className="h-4.5 w-4.5" strokeWidth={2.25} />
+                </span>
+                <div>
+                  <h2 className="text-xl font-bold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
+                    {t("Smartcoins:selectBorrowableAsset")}
+                  </h2>
+                  <p className="text-xs text-muted-foreground/70 mt-0.5">
+                    {t("Smartcoins:smartcoinDescription")}
+                  </p>
+                </div>
+              </div>
               <div className="w-full">
                 <div className="grid w-full grid-cols-1 md:grid-cols-4 gap-2 mb-3">
                   <Button
-                    style={activeTab === "all" ? activeTabStyle : {}}
+                    className={activeTab === "all" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}
                     variant={activeTab === "all" ? undefined : "outline"}
                     onClick={() => {
                       if (activeTab !== "all") {
@@ -565,7 +546,7 @@ export default function Smartcoins(properties) {
                       : t("Smartcoins:viewAllAssets")}
                   </Button>
                   <Button
-                    style={activeTab === "compatible" ? activeTabStyle : {}}
+                    className={activeTab === "compatible" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}
                     variant={activeTab === "compatible" ? undefined : "outline"}
                     onClick={() => {
                       if (activeTab !== "compatible") {
@@ -579,7 +560,7 @@ export default function Smartcoins(properties) {
                       : t("Smartcoins:viewCompatible")}
                   </Button>
                   <Button
-                    style={activeTab === "holdings" ? activeTabStyle : {}}
+                    className={activeTab === "holdings" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}
                     variant={activeTab === "holdings" ? undefined : "outline"}
                     onClick={() => {
                       if (activeTab !== "holdings") {
@@ -593,7 +574,7 @@ export default function Smartcoins(properties) {
                       : t("Smartcoins:viewHoldings")}
                   </Button>
                   <Button
-                    style={activeTab === "search" ? activeTabStyle : {}}
+                    className={activeTab === "search" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}
                     variant={activeTab === "search" ? undefined : "outline"}
                     onClick={() => {
                       if (activeTab !== "search") {
@@ -612,7 +593,7 @@ export default function Smartcoins(properties) {
                   </Button>
                 </div>
 
-                <Separator className="my-4 mb-3 mt-1" />
+                <div className="my-4 mb-3 mt-1 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.5)] to-transparent" />
 
                 {activeTab === "all" && (
                   <>
@@ -622,7 +603,7 @@ export default function Smartcoins(properties) {
                           setMode("bitassets");
                         }}
                         variant={`${mode === "bitassets" ? "" : "outline"}`}
-                        className="h-6 md:mb-3 md:ml-2"
+                        className={`h-6 md:mb-3 md:ml-2 ${mode === "bitassets" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:bitassets")}
                       </Button>
@@ -631,7 +612,7 @@ export default function Smartcoins(properties) {
                           setMode("honest");
                         }}
                         variant={`${mode === "honest" ? "" : "outline"}`}
-                        className="h-6 md:mb-3 md:ml-2"
+                        className={`h-6 md:mb-3 md:ml-2 ${mode === "honest" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         Honest™️ Smartcoins
                       </Button>
@@ -642,7 +623,7 @@ export default function Smartcoins(properties) {
                         variant={`${
                           mode === "privateSmartcoins" ? "" : "outline"
                         }`}
-                        className="h-6 md:mb-3 md:mr-2"
+                        className={`h-6 md:mb-3 md:mr-2 ${mode === "privateSmartcoins" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:privateSmartcoins")}
                       </Button>
@@ -662,7 +643,7 @@ export default function Smartcoins(properties) {
                           <List
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
-                            rowHeight={235}
+                            rowHeight={130}
                             rowProps={{}}
                           />
                         </div>
@@ -670,7 +651,7 @@ export default function Smartcoins(properties) {
                           <List
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
-                            rowHeight={325}
+                            rowHeight={165}
                             rowProps={{}}
                           />
                         </div>
@@ -686,7 +667,7 @@ export default function Smartcoins(properties) {
                           setMode("bitassets");
                         }}
                         variant={`${mode === "bitassets" ? "" : "outline"}`}
-                        className="h-6 mb-3 ml-2"
+                        className={`h-6 mb-3 ml-2 ${mode === "bitassets" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:bitassets")}
                       </Button>
@@ -695,7 +676,7 @@ export default function Smartcoins(properties) {
                           setMode("honest");
                         }}
                         variant={`${mode === "honest" ? "" : "outline"}`}
-                        className="h-6 mb-3 ml-2"
+                        className={`h-6 mb-3 ml-2 ${mode === "honest" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         Honest™️ Smartcoins
                       </Button>
@@ -706,7 +687,7 @@ export default function Smartcoins(properties) {
                         variant={`${
                           mode === "privateSmartcoins" ? "" : "outline"
                         }`}
-                        className="h-6 mb-3 mr-2"
+                        className={`h-6 mb-3 mr-2 ${mode === "privateSmartcoins" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:privateSmartcoins")}
                       </Button>
@@ -726,7 +707,7 @@ export default function Smartcoins(properties) {
                           <List
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
-                            rowHeight={235}
+                            rowHeight={130}
                             rowProps={{}}
                           />
                         </div>
@@ -734,7 +715,7 @@ export default function Smartcoins(properties) {
                           <List
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
-                            rowHeight={325}
+                            rowHeight={165}
                             rowProps={{}}
                           />
                         </div>
@@ -750,7 +731,7 @@ export default function Smartcoins(properties) {
                           setMode("bitassets");
                         }}
                         variant={`${mode === "bitassets" ? "" : "outline"}`}
-                        className="h-6 mb-3 ml-2"
+                        className={`h-6 mb-3 ml-2 ${mode === "bitassets" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:bitassets")}
                       </Button>
@@ -759,7 +740,7 @@ export default function Smartcoins(properties) {
                           setMode("honest");
                         }}
                         variant={`${mode === "honest" ? "" : "outline"}`}
-                        className="h-6 mb-3 ml-2"
+                        className={`h-6 mb-3 ml-2 ${mode === "honest" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         Honest™️ Smartcoins
                       </Button>
@@ -770,7 +751,7 @@ export default function Smartcoins(properties) {
                         variant={`${
                           mode === "privateSmartcoins" ? "" : "outline"
                         }`}
-                        className="h-6 mb-3 mr-2"
+                        className={`h-6 mb-3 mr-2 ${mode === "privateSmartcoins" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0" : ""}`}
                       >
                         {t("Smartcoins:privateSmartcoins")}
                       </Button>
@@ -796,7 +777,7 @@ export default function Smartcoins(properties) {
                                 ? relevantBitassetData.length
                                 : 0
                             }
-                            rowHeight={235}
+                            rowHeight={130}
                             rowProps={{}}
                           />
                         </div>
@@ -808,7 +789,7 @@ export default function Smartcoins(properties) {
                                 ? relevantBitassetData.length
                                 : 0
                             }
-                            rowHeight={325}
+                            rowHeight={165}
                             rowProps={{}}
                           />
                         </div>
@@ -823,7 +804,7 @@ export default function Smartcoins(properties) {
                     </h5>{" "}
                     <div className="grid w-full grid-cols-1 sm:grid-cols-3 gap-2">
                       <Button
-                        style={activeSearch === "borrow" ? activeTabStyle : {}}
+                        className={activeSearch === "borrow" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0 h-6" : "h-6"}
                         variant={
                           activeSearch === "borrow" ? undefined : "outline"
                         }
@@ -837,16 +818,13 @@ export default function Smartcoins(properties) {
                             );
                           }
                         }}
-                        className="h-6"
                       >
                         {activeSearch === "borrow"
                           ? t("Smartcoins:searchingByBorrowable")
                           : t("Smartcoins:searchByBorrowable")}
                       </Button>
                       <Button
-                        style={
-                          activeSearch === "collateral" ? activeTabStyle : {}
-                        }
+                        className={activeSearch === "collateral" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0 h-6" : "h-6"}
                         variant={
                           activeSearch === "collateral" ? undefined : "outline"
                         }
@@ -860,14 +838,13 @@ export default function Smartcoins(properties) {
                             );
                           }
                         }}
-                        className="h-6"
                       >
                         {activeSearch === "collateral"
                           ? t("Smartcoins:searchingByCollateral")
                           : t("Smartcoins:searchByCollateral")}
                       </Button>
                       <Button
-                        style={activeSearch === "issuer" ? activeTabStyle : {}}
+                        className={activeSearch === "issuer" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_15px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0 h-6" : "h-6"}
                         variant={
                           activeSearch === "issuer" ? undefined : "outline"
                         }
@@ -881,7 +858,6 @@ export default function Smartcoins(properties) {
                             );
                           }
                         }}
-                        className="h-6"
                       >
                         {activeSearch === "issuer"
                           ? t("Smartcoins:searchingByIssuer")
@@ -893,7 +869,7 @@ export default function Smartcoins(properties) {
                       placeholder={
                         thisSearchInput ?? t("Smartcoins:enterSearchText")
                       }
-                      className="mb-3 mt-3 w-full"
+                      className="mb-3 mt-3 w-full border-[hsl(var(--accent-1)/0.2)] bg-card/60"
                       value={thisSearchInput || ""}
                       onChange={(event) => {
                         setThisSearchInput(event.target.value);
@@ -910,7 +886,7 @@ export default function Smartcoins(properties) {
                               <List
                                 rowComponent={SearchRow}
                                 rowCount={thisResult.length}
-                                rowHeight={235}
+                                rowHeight={130}
                                 rowProps={{}}
                               />
                             </div>
@@ -918,7 +894,7 @@ export default function Smartcoins(properties) {
                               <List
                                 rowComponent={SearchRow}
                                 rowCount={thisResult.length}
-                                rowHeight={325}
+                                rowHeight={165}
                                 rowProps={{}}
                               />
                             </div>
@@ -932,8 +908,8 @@ export default function Smartcoins(properties) {
                   </>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </>

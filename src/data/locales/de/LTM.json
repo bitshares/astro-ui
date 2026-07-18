@@ -1,5 +1,5 @@
 {
-  "cardTitle": "💱 LTM-Mitgliedschaft",
+  "cardTitle": "LTM-Mitgliedschaft",
   "cardDescription": "Erwerben Sie eine lebenslange Mitgliedschaft",
   "alreadyMember": "Für dieses Konto wurde bereits eine lebenslange Mitgliedschaft erworben!",
   "benefitsTitle": "Die Vorteile Ihrer aktiven lebenslangen Mitgliedschaft:",
@@ -8,5 +8,11 @@
   "benefit3": "Jetzt können Premium-Kontonamen generiert werden.",
   "wantToPurchase": "Möchten Sie eine lebenslange Mitgliedschaft für Ihr Konto erwerben?",
   "purchaseButton": "Kaufen Sie LTM",
-  "headerText": "Kauf einer lebenslangen Mitgliedschaft für {{username}}"
+  "headerText": "Kauf einer lebenslangen Mitgliedschaft für {{username}}",
+  "memberBadge": "LTM aktiv",
+  "exclusiveBenefits": "Exklusive Vorteile",
+  "feeRebate": "Gebührenrabatt",
+  "referralEarnings": "Empfehlungseinnahmen",
+  "premiumNames": "Premium-Namen",
+  "readyToUpgrade": "Bereit zum Upgrade?"
 }

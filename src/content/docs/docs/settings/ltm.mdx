@@ -1,0 +1,64 @@
+---
+title: Lifetime Membership
+description: Upgrade an account to Lifetime Member status using account_upgrade.
+sidebar:
+  order: 3
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Lifetime Membership (LTM)** upgrades your account so you receive a 80% referral-fee rebate and, crucially, gain the ability to issue assets and do other privileged actions. Upgrading broadcasts a single `account_upgrade` with `upgrade_to_lifetime_member: true`.
+
+**Open in the app:** [Lifetime Membership](/ltm.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Upgrade" icon="crown">
+    Pay the LTM fee to upgrade your account.
+  </Card>
+  <Card title="Issue assets" icon="gem">
+    LTM is required to create UIAs/smartcoins.
+  </Card>
+  <Card title="Rebates" icon="coins">
+    Earn referral-fee rebates.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Lifetime Membership** from the homepage under *Settings*.
+
+2. Confirm you have enough BTS to cover the LTM fee.
+
+3. Authorize. The app broadcasts `account_upgrade`.
+
+</Steps>
+
+<Aside type="caution" title="One-way, paid">
+  The upgrade is permanent and costs the network's LTM fee (paid in BTS). Make sure you have sufficient balance before signing.
+</Aside>
+
+## Operation used
+
+LTM broadcasts `account_upgrade` (operation `8`):
+
+```json
+{
+  "account_to_upgrade": "1.2.x",
+  "upgrade_to_lifetime_member": true,
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `account_to_upgrade` | Your account (`1.2.x`). |
+| `upgrade_to_lifetime_member` | Must be `true` for LTM. |
+
+## Related pages
+
+- [Create Account](/docs/settings/create_account.html)
+- [Create UIA](/docs/asset-creation/create_uia.html)

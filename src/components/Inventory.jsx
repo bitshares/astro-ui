@@ -8,7 +8,15 @@ import React, {
 } from "react";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  Package,
+  Pencil,
+  Trash2,
+  Plus,
+  ScanBarcode,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
@@ -49,12 +57,13 @@ import {
 } from "@/components/ui/card";
 
 import { Badge } from "@/components/ui/badge";
+import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 
-import { debounce } from "@/lib/common";
+import { debounce, assetAmountRegex } from "@/lib/common";
 
 import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
@@ -76,6 +85,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
 import BarcodeScanner from "react-qr-barcode-scanner";
 import AssetDropDown from "@/components/Market/AssetDropDownCard.jsx";
@@ -211,7 +226,7 @@ export default function Inventory(properties) {
 
     return (
       <div style={style} key={it.id ?? it.barcode} className="px-2">
-        <Card variant="outline" className="min-h-[50px]">
+        <Card className="min-h-[50px] rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all">
           <div className="grid grid-cols-11 text-center text-sm">
             <div className="mt-3" title={it.name}>
               {_name}
@@ -243,11 +258,11 @@ export default function Inventory(properties) {
             <div>
               <Dialog>
                 <DialogTrigger>
-                  <Button variant="outline" className="hover:bg-slate-200 mt-1">
+                  <Button variant="outline" className="hover:bg-accent mt-1">
                     {`${it.prices.length} ${t("Inventory:prices")}`}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-white">
+                <DialogContent className="bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("Inventory:pricesFor", { name: it.name })}
@@ -265,46 +280,54 @@ export default function Inventory(properties) {
                 </DialogContent>
               </Dialog>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <Button
-                className="mt-1"
-                variant="outline"
-                size="icon"
-                onClick={() => {
-                  // open dialog in edit mode
-                  setEditingItemId(it.id ?? null);
-                  setFormBarcode(it.barcode ?? "");
-                  setFormName(it.name ?? "");
-                  setFormPrices(it.prices ? [...it.prices] : []);
-                  setValue(it.category ?? "");
-                  setFormDescription(it.description ?? "");
-                  setFormQuantity(
-                    it.quantity !== undefined ? String(it.quantity) : ""
-                  );
-                  setFormLocation(it.location ?? "");
-                  setFormUnitPrice(it.unitPrice ?? "");
-                  setFormReorderLevel(
-                    it.reorderLevel !== undefined ? String(it.reorderLevel) : ""
-                  );
-                  setFormSupplier(it.supplier ?? "");
-                  setFormUnit(it.unit ?? "");
-                  setDialogOpen(true);
-                }}
-              >
-                🔧
-              </Button>
+            <div className="flex items-center gap-1.5">
+              <TooltipProvider delayDuration={300}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      className="h-8 w-8 rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-all"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => {
+                        setEditingItemId(it.id ?? null);
+                        setFormBarcode(it.barcode ?? "");
+                        setFormName(it.name ?? "");
+                        setFormPrices(it.prices ? [...it.prices] : []);
+                        setValue(it.category ?? "");
+                        setFormDescription(it.description ?? "");
+                        setFormQuantity(
+                          it.quantity !== undefined ? String(it.quantity) : ""
+                        );
+                        setFormLocation(it.location ?? "");
+                        setFormUnitPrice(it.unitPrice ?? "");
+                        setFormReorderLevel(
+                          it.reorderLevel !== undefined ? String(it.reorderLevel) : ""
+                        );
+                        setFormSupplier(it.supplier ?? "");
+                        setFormUnit(it.unit ?? "");
+                        setDialogOpen(true);
+                      }}
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="bg-card border-border text-foreground/85">
+                    <p>{t("LimitOrderCard:editLabel")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
                 <AlertDialogTrigger asChild>
                   <Button
-                    className="mt-1"
-                    variant="outline"
+                    className="h-8 w-8 rounded-lg border border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.5)] transition-all"
+                    variant="ghost"
                     size="icon"
                     onClick={() => setConfirmOpen(true)}
                   >
-                    ❌
+                    <Trash2 className="h-3.5 w-3.5" />
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="bg-white">
+                <AlertDialogContent className="bg-card">
                   <AlertDialogHeader>
                     <AlertDialogTitle>
                       {t("Inventory:deleteItemTitle")}
@@ -318,6 +341,7 @@ export default function Inventory(properties) {
                       {t("Inventory:cancel")}
                     </AlertDialogCancel>
                     <AlertDialogAction
+                      className="bg-[hsl(var(--accent-2))] hover:bg-[hsl(var(--accent-2))] text-[hsl(var(--accent-2-gradFg))]"
                       onClick={() => {
                         if (it.id) {
                           removeItemById(it.id);
@@ -371,7 +395,7 @@ export default function Inventory(properties) {
       <div style={style} key={it.id ?? it.barcode} className="px-2">
         <Dialog>
           <DialogTrigger asChild>
-            <Card variant="outline" className="min-h-[50px] hover:bg-gray-400">
+            <Card className="min-h-[50px] rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all cursor-pointer">
               <div className="grid grid-cols-3 text-center text-sm">
                 <div className="mt-3" title={it.name}>
                   {_name}
@@ -385,47 +409,84 @@ export default function Inventory(properties) {
               </div>
             </Card>
           </DialogTrigger>
-          <DialogContent className="bg-white">
-            <div className="grid grid-cols-1 gap-2">
-              <div>
-                {t("Inventory:headerName")}: {_name}
+          <DialogContent className="bg-card">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                  <Package className="h-4 w-4" />
+                </span>
+                {_name}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="grid grid-cols-1 gap-2 text-sm">
+              <div className="rounded-lg border border-border/60 bg-card/40 p-3">
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                      {t("Inventory:headerDescription")}
+                    </div>
+                    <div>{_description}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                      {t("Inventory:headerCategory")}
+                    </div>
+                    <div>{_category}</div>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-lg border border-border/60 bg-card/40 p-3">
+                <div className="grid grid-cols-3 gap-2">
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                      {t("Inventory:headerQuantity")}
+                    </div>
+                    <div className="font-semibold">{it.quantity ?? 0}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                      {t("Inventory:headerReorderAt")}
+                    </div>
+                    <div>{it.reorderLevel ?? 0}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                      {t("Inventory:headerUnitPrice")}
+                    </div>
+                    <div>{it.unitPrice ?? ""}</div>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-lg border border-border/60 bg-card/40 p-3">
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                      {t("Inventory:headerLocation")}
+                    </div>
+                    <div>{_location}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                      {t("Inventory:headerSupplier")}
+                    </div>
+                    <div>{_supplier}</div>
+                  </div>
+                </div>
               </div>
               <div>
-                {t("Inventory:headerDescription")}: {_description}
-              </div>
-              <div>
-                {t("Inventory:headerCategory")}: {_category}
-              </div>
-              <div>
-                {t("Inventory:headerQuantity")}: {it.quantity ?? 0}
-              </div>
-              <div>
-                {t("Inventory:headerReorderAt")}: {it.reorderLevel ?? 0}
-              </div>
-              <div>
-                {t("Inventory:headerLocation")}: {_location}
-              </div>
-              <div>
-                {t("Inventory:headerSupplier")}: {_supplier}
-              </div>
-              <div>
-                {t("Inventory:headerUnitPrice")}: {it.unitPrice ?? ""}
-              </div>
-              <div>
-                {t("Inventory:headerUnits")}: {it.unit ?? ""}
-              </div>
-              <div>
-                {t("Inventory:headerPrices")}:{" "}
+                <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                  {t("Inventory:headerPrices")}:{" "}
+                </div>
                 <Dialog>
                   <DialogTrigger>
                     <Button
                       variant="outline"
-                      className="hover:bg-slate-200 mt-1"
+                      className="hover:bg-accent mt-1"
                     >
                       {`${it.prices.length} ${t("Inventory:prices")}`}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="bg-white">
+                  <DialogContent className="bg-card">
                     <DialogHeader>
                       <DialogTitle>
                         {t("Inventory:pricesFor", { name: it.name })}
@@ -443,14 +504,12 @@ export default function Inventory(properties) {
                   </DialogContent>
                 </Dialog>
               </div>
-              <div>
+              <div className="flex items-center gap-1.5">
                 <Button
-                  title={t("LimitOrderCard:editLabel")}
-                  className="mt-1 mr-2"
-                  variant="outline"
+                  className="h-8 w-8 rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-all"
+                  variant="ghost"
                   size="icon"
                   onClick={() => {
-                    // open dialog in edit mode
                     setEditingItemId(it.id ?? null);
                     setFormBarcode(it.barcode ?? "");
                     setFormName(it.name ?? "");
@@ -472,21 +531,20 @@ export default function Inventory(properties) {
                     setDialogOpen(true);
                   }}
                 >
-                  🔧
+                  <Pencil className="h-3.5 w-3.5" />
                 </Button>
                 <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
                   <AlertDialogTrigger asChild>
                     <Button
-                      title={t("CustomPoolOverview:delete")}
-                      className="mt-1"
-                      variant="outline"
+                      className="h-8 w-8 rounded-lg border border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.5)] transition-all"
+                      variant="ghost"
                       size="icon"
                       onClick={() => setConfirmOpen(true)}
                     >
-                      ❌
+                      <Trash2 className="h-3.5 w-3.5" />
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-white">
+                  <AlertDialogContent className="bg-card">
                     <AlertDialogHeader>
                       <AlertDialogTitle>
                         {t("Inventory:deleteItemTitle")}
@@ -500,6 +558,7 @@ export default function Inventory(properties) {
                         {t("Inventory:cancel")}
                       </AlertDialogCancel>
                       <AlertDialogAction
+                        className="bg-[hsl(var(--accent-2))] hover:bg-[hsl(var(--accent-2))] text-[hsl(var(--accent-2-gradFg))]"
                         onClick={() => {
                           if (it.id) {
                             removeItemById(it.id);
@@ -555,22 +614,24 @@ export default function Inventory(properties) {
           <div className="col-span-1 text-center">
             <Button
               size="icon"
-              variant="outline"
+              variant="ghost"
+              className="h-8 w-8 rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-all"
               onClick={() => {
                 setEditingPriceIndex(index);
                 setPriceDialogOpen(true);
               }}
             >
-              🔧
+              <Pencil className="h-3.5 w-3.5" />
             </Button>
           </div>
           <div className="col-span-1 text-center">
             <Button
               size="icon"
-              variant="outline"
+              variant="ghost"
+              className="h-8 w-8 rounded-lg border border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.5)] transition-all"
               onClick={() => removePriceRow(index)}
             >
-              ❌
+              <Trash2 className="h-3.5 w-3.5" />
             </Button>
           </div>
         </div>
@@ -614,28 +675,19 @@ export default function Inventory(properties) {
     setFormPrices(newPrices);
   }
 
-  // Debounced enforcement: trim decimals to precision, clamp to max supply (human units)
+  // Debounced enforcement: clamp to max supply (human units)
   const debouncedPriceRowEnforce = useCallback(
-    debounce((rawInput, precision, maxSupply, updateCallback) => {
-      let p = precision;
+    debounce((rawInput, maxSupply, updateCallback) => {
       let ms = maxSupply;
-
-      if (p === undefined || p === null) return; // cannot enforce precision
 
       let value = String(rawInput ?? "").trim();
       if (!value) return;
 
-      // Trim decimal places (no rounding) according to precision
-      if (value.includes(".")) {
-        const [whole, frac] = value.split(".");
-        const trimmed = (frac || "").slice(0, Number(p) || 0);
-        value = (Number(p) || 0) > 0 ? `${whole}.${trimmed}` : whole;
-      }
-
       // Clamp against max supply (convert max_supply from base units to human units)
       let maxHuman;
       if (ms !== undefined && ms !== null) {
-        const divisor = Math.pow(10, Number(p) || 0);
+        const p = value.includes(".") ? (value.split(".")[1] || "").length : 0;
+        const divisor = Math.pow(10, p);
         const msNum = typeof ms === "string" ? Number(ms) : ms;
         if (Number.isFinite(msNum)) {
           maxHuman = msNum / divisor;
@@ -646,9 +698,10 @@ export default function Inventory(properties) {
       if (!Number.isFinite(num)) return;
       let finalVal = value;
       if (maxHuman !== undefined && num > maxHuman) {
+        const p = value.includes(".") ? (value.split(".")[1] || "").length : 0;
         finalVal =
-          (Number(p) || 0) > 0
-            ? maxHuman.toFixed(Number(p) || 0)
+          p > 0
+            ? maxHuman.toFixed(p)
             : String(Math.floor(maxHuman));
       }
 
@@ -750,11 +803,6 @@ export default function Inventory(properties) {
         : null;
     }, [selectedAsset, assets]);
 
-    const assetPrecision = useMemo(() => {
-      if (!chosenAssetData) return;
-      return chosenAssetData.precision;
-    }, [chosenAssetData]);
-
     const assetMaxSupply = useMemo(() => {
       if (!chosenAssetData) return;
       return chosenAssetData.max_supply;
@@ -769,9 +817,12 @@ export default function Inventory(properties) {
 
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[375px] bg-white">
+        <DialogContent className="sm:max-w-[375px] bg-card">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <Plus className="h-4 w-4" />
+              </span>
               {editIndex !== null
                 ? t("Inventory:editPrice")
                 : t("Inventory:addPrice")}
@@ -785,15 +836,18 @@ export default function Inventory(properties) {
               <Input
                 placeholder={t("Inventory:placeholderPrice")}
                 value={inputPrice ?? ""}
+                inputMode="decimal"
                 onChange={(e) => {
-                  const val = e.target.value;
-                  setInputPrice(val);
-                  debouncedPriceRowEnforce(
-                    val,
-                    assetPrecision,
-                    assetMaxSupply,
-                    setInputPrice
-                  );
+                  const input = e.target.value;
+                  const regex = assetAmountRegex(chosenAssetData);
+                  if (regex.test(input)) {
+                    setInputPrice(input);
+                    debouncedPriceRowEnforce(
+                      input,
+                      assetMaxSupply,
+                      setInputPrice
+                    );
+                  }
                 }}
                 disabled={!selectedAsset}
               />
@@ -812,7 +866,11 @@ export default function Inventory(properties) {
               />
             </div>
             <div className="col-span-3 text-left mt-4">
-              <Button size="sm" onClick={handleSubmit}>
+              <Button
+                size="sm"
+                onClick={handleSubmit}
+                className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
+              >
                 {t("Inventory:submit")}
               </Button>
             </div>
@@ -846,9 +904,14 @@ export default function Inventory(properties) {
         <DialogTrigger asChild>
           <Button size="sm">{t("Inventory:scanBarcodeTrigger")}</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[640px] bg-white">
+        <DialogContent className="sm:max-w-[640px] bg-card">
           <DialogHeader>
-            <DialogTitle>{t("Inventory:scanBarcodeTitle")}</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <ScanBarcode className="h-4 w-4" />
+              </span>
+              {t("Inventory:scanBarcodeTitle")}
+            </DialogTitle>
             <DialogDescription>
               {t("Inventory:scanBarcodeDesc")}
             </DialogDescription>
@@ -894,7 +957,7 @@ export default function Inventory(properties) {
               </Button>
             </div>
 
-            <div className="w-full h-[420px] bg-black rounded overflow-hidden">
+            <div className="w-full h-[420px] bg-background rounded overflow-hidden">
               {!scannerError ? (
                 <BarcodeScanner
                   width={640}
@@ -924,7 +987,7 @@ export default function Inventory(properties) {
                 />
               ) : (
                 <div className="p-4">
-                  <p className="text-sm text-red-600">
+                  <p className="text-sm text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]">
                     {t("Inventory:cameraError")}{" "}
                     {String(
                       scannerError && scannerError.message
@@ -978,23 +1041,45 @@ export default function Inventory(properties) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button onClick={() => setOpen(true)}>
+          <Button
+            onClick={() => setOpen(true)}
+            className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
+            variant="outline"
+          >
+            <Plus className="h-3.5 w-3.5 mr-1" />
             {t("Inventory:addCategory")}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[500px] bg-white">
+        <DialogContent className="sm:max-w-[500px] bg-card">
           <DialogHeader>
-            <DialogTitle>{t("Inventory:addNewItemType")}</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <Plus className="h-4 w-4" />
+              </span>
+              {t("Inventory:addNewItemType")}
+            </DialogTitle>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-2">
             <Input
               value={newItemType}
-              onChange={(e) => setNewItemType(e.target.value)}
+              onChange={(e) => {
+                const sanitized = e.target.value.replace(/[^a-zA-Z0-9 _-]/g, "");
+                setNewItemType(sanitized);
+              }}
+              onKeyDown={(e) => {
+                const allowed = /[a-zA-Z0-9 _-]/;
+                const ctrlKeys = ["Backspace","Delete","ArrowLeft","ArrowRight","Tab","Home","End"];
+                if (ctrlKeys.includes(e.key) || (e.ctrlKey || e.metaKey)) return;
+                if (!allowed.test(e.key)) e.preventDefault();
+              }}
+              maxLength={50}
+              className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
             />
             <Button
               onClick={() => {
                 submitNewItemType(newItemType, setOpen);
               }}
+              className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] border-0"
             >
               {t("Inventory:submit")}
             </Button>
@@ -1042,6 +1127,10 @@ export default function Inventory(properties) {
       }
       const removed = removeCategory(selected);
       if (removed) {
+        if (selected === value) {
+          const remaining = storedItemCategories.filter((c) => c !== selected);
+          setValue(remaining.length ? remaining[0] : "");
+        }
         setSelected("");
         setOpen(false);
       } else {
@@ -1052,13 +1141,19 @@ export default function Inventory(properties) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="destructive" onClick={() => setOpen(true)}>
+          <Button variant="destructive" onClick={() => setOpen(true)} className="shadow-sm">
+            <Trash2 className="h-3.5 w-3.5 mr-1" />
             {t("Inventory:deleteType")}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[500px] bg-white">
+        <DialogContent className="sm:max-w-[500px] bg-card">
           <DialogHeader>
-            <DialogTitle>{t("Inventory:deleteItemType")}</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-2)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-danger)/0.2)] dark:text-[hsl(var(--accent-2-gradFg))] text-[hsl(var(--accent-2-gradFg))]">
+                <Trash2 className="h-4 w-4" />
+              </span>
+              {t("Inventory:deleteItemType")}
+            </DialogTitle>
             <DialogDescription>
               {t("Inventory:deleteItemTypeDesc")}
             </DialogDescription>
@@ -1138,14 +1233,16 @@ export default function Inventory(properties) {
             </div>
 
             <div className="flex justify-end gap-2 mt-4">
-              <Button variant="outline" onClick={() => setOpen(false)}>
+              <Button variant="outline" onClick={() => setOpen(false)} className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
                 {t("Inventory:cancel")}
               </Button>
               <Button
                 variant="destructive"
                 onClick={handleDelete}
                 disabled={!selected || selectedCount > 0}
+                className="shadow-sm"
               >
+                <Trash2 className="h-3.5 w-3.5 mr-1" />
                 {t("Inventory:delete")}
               </Button>
             </div>
@@ -1158,43 +1255,71 @@ export default function Inventory(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("Inventory:title")}</CardTitle>
-              <CardDescription>{t("Inventory:description")}</CardDescription>
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-3)/0.1)] blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <CardHeader className="p-0 mb-5">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
+                  <Package className="h-4.5 w-4.5" strokeWidth={2.25} />
+                </span>
+                <div>
+                  <CardTitle className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                    {t("Inventory:title")}
+                  </CardTitle>
+                  <CardDescription className="text-xs text-muted-foreground/70 mt-0.5">
+                    {t("Inventory:description")}
+                  </CardDescription>
+                </div>
+              </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-0">
               <div className="space-y-2">
                 {items.length === 0 ? (
-                  <div className="text-sm text-muted-foreground">
-                    {t("Inventory:noItems")}
+                  <div className="flex flex-col items-center gap-3 py-12">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                      <Package className="h-6 w-6" strokeWidth={1.75} />
+                    </span>
+                    <p className="text-sm text-muted-foreground">
+                      {t("Inventory:noItems")}
+                    </p>
                   </div>
                 ) : (
-                  <div className="border rounded border-gray-300 p-2">
+                  <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40 p-3">
                     <div className="grid grid-cols-3 lg:grid-cols-11 text-center">
-                      <div>{t("Inventory:headerName")}</div>
-                      <div>{t("Inventory:headerDescription")}</div>
-                      <div className="hidden lg:block">
+                      <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">{t("Inventory:headerName")}</div>
+                      <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">{t("Inventory:headerDescription")}</div>
+                      <div className="hidden lg:block text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                         {t("Inventory:headerCategory")}
                       </div>
-                      <div>{t("Inventory:headerQuantity")}</div>
-                      <div className="hidden lg:block">
+                      <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">{t("Inventory:headerQuantity")}</div>
+                      <div className="hidden lg:block text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                         {t("Inventory:headerReorderAt")}
                       </div>
-                      <div className="hidden lg:block">
+                      <div className="hidden lg:block text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                         {t("Inventory:headerLocation")}
                       </div>
-                      <div className="hidden lg:block">
+                      <div className="hidden lg:block text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                         {t("Inventory:headerSupplier")}
                       </div>
-                      <div className="hidden lg:block">
+                      <div className="hidden lg:block text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                         {t("Inventory:headerUnitPrice")}
                       </div>
-                      <div className="hidden lg:block">
+                      <div className="hidden lg:block text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                         {t("Inventory:headerUnits")}
                       </div>
-                      <div className="hidden lg:block">
+                      <div className="hidden lg:block text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                         {t("Inventory:headerPrices")}
                       </div>
                     </div>
@@ -1220,15 +1345,15 @@ export default function Inventory(properties) {
                 )}
               </div>
             </CardContent>
-            <CardFooter>
+            <div className="px-0 pb-0 pt-4">
               <Dialog
                 open={dialogOpen}
                 onOpenChange={(open) => setDialogOpen(open)}
               >
                 <DialogTrigger asChild>
                   <Button
+                    className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
                     onClick={() => {
-                      // Ensure add-item opens with a fresh form (clear any edit state)
                       resetForm();
                       setEditingItemId(null);
                       setValue("");
@@ -1236,54 +1361,63 @@ export default function Inventory(properties) {
                       setDialogOpen(true);
                     }}
                   >
+                    <Plus className="h-4 w-4 mr-1.5" />
                     {t("Inventory:addItem")}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-white">
+                <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
                   <DialogHeader>
-                    <DialogTitle>{t("Inventory:addInventoryItem")}</DialogTitle>
+                    <DialogTitle className="flex items-center gap-2">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                        <Package className="h-4 w-4" />
+                      </span>
+                      {t("Inventory:addInventoryItem")}
+                    </DialogTitle>
                     <DialogDescription>
                       {t("Inventory:addItemDesc")}
                     </DialogDescription>
                   </DialogHeader>
 
-                  <div className="grid gap-2">
+                  <div className="grid gap-3">
                     <div>
-                      <label className="text-sm">
+                      <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1.5 block">
                         {t("Inventory:labelBarcodeOptional")}
                       </label>
                       <div className="flex gap-2">
                         <Input
                           value={formBarcode}
                           onChange={(e) => setFormBarcode(e.target.value)}
+                          className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                         />
                         <ScannerDialog />
                       </div>
                     </div>
 
                     <div>
-                      <label className="text-sm">
+                      <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1.5 block">
                         {t("Inventory:labelItemName")}
                       </label>
                       <Input
                         value={formName}
                         onChange={(e) => setFormName(e.target.value)}
+                        className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm">
+                      <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1.5 block">
                         {t("Inventory:labelDescriptionOptional")}
                       </label>
                       <Input
                         value={formDescription}
                         onChange={(e) => setFormDescription(e.target.value)}
                         placeholder={t("Inventory:placeholderShortDescription")}
+                        className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm">
+                      <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1.5 block">
                         {t("Inventory:labelItemType")}
                       </label>
                       <div className="grid grid-cols-4 gap-2">
@@ -1297,7 +1431,7 @@ export default function Inventory(properties) {
                                 variant="outline"
                                 role="combobox"
                                 aria-expanded={categoryPopoverOpen}
-                                className="w-full justify-between"
+                                className="w-full justify-between border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)]"
                               >
                                 {value ? value : t("Inventory:selectCategory")}
                                 <ChevronsUpDown className="opacity-50" />
@@ -1351,7 +1485,7 @@ export default function Inventory(properties) {
 
                     <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <label className="text-sm">
+                        <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1.5 block">
                           {t("Inventory:labelQuantity")}
                         </label>
                         <Input
@@ -1360,20 +1494,22 @@ export default function Inventory(properties) {
                           onChange={(e) => setFormQuantity(e.target.value)}
                           placeholder={t("Inventory:placeholderZero")}
                           min={0}
+                          className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                         />
                       </div>
                       <div>
-                        <label className="text-sm">
+                        <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1.5 block">
                           {t("Inventory:labelUnit")}
                         </label>
                         <Input
                           value={formUnit}
                           onChange={(e) => setFormUnit(e.target.value)}
                           placeholder={t("Inventory:placeholderUnitExample")}
+                          className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                         />
                       </div>
                       <div>
-                        <label className="text-sm">
+                        <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1.5 block">
                           {t("Inventory:labelUnitPrice")}
                         </label>
                         <Input
@@ -1382,13 +1518,14 @@ export default function Inventory(properties) {
                           placeholder={t(
                             "Inventory:placeholderUnitPriceExample"
                           )}
+                          className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <label className="text-sm">
+                        <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1.5 block">
                           {t("Inventory:labelReorderLevel")}
                         </label>
                         <Input
@@ -1397,40 +1534,44 @@ export default function Inventory(properties) {
                           onChange={(e) => setFormReorderLevel(e.target.value)}
                           placeholder={t("Inventory:placeholderZero")}
                           min={0}
+                          className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                         />
                       </div>
                       <div>
-                        <label className="text-sm">
+                        <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1.5 block">
                           {t("Inventory:labelSupplier")}
                         </label>
                         <Input
                           value={formSupplier}
                           onChange={(e) => setFormSupplier(e.target.value)}
                           placeholder={t("Inventory:placeholderSupplierName")}
+                          className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                         />
                       </div>
                       <div>
-                        <label className="text-sm">
+                        <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1.5 block">
                           {t("Inventory:labelLocation")}
                         </label>
                         <Input
                           value={formLocation}
                           onChange={(e) => setFormLocation(e.target.value)}
                           placeholder={t("Inventory:placeholderLocation")}
+                          className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                         />
                       </div>
                     </div>
 
                     <div>
                       <div className="flex items-center justify-between">
-                        <label className="text-sm">
+                        <label className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 block">
                           {t("Inventory:labelPrices")}
                         </label>
                         <Button
                           variant="outline"
-                          className="ml-3 mt-1"
+                          className="ml-3 mt-1 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))]"
                           onClick={addPriceRow}
                         >
+                          <Plus className="h-3.5 w-3.5 mr-1" />
                           {t("Inventory:addPrice")}
                         </Button>
                       </div>
@@ -1447,7 +1588,7 @@ export default function Inventory(properties) {
                     </div>
 
                     {formError ? (
-                      <div className="text-sm text-red-600">{formError}</div>
+                      <div className="rounded-lg border border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] px-3 py-2 text-sm text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]">{formError}</div>
                     ) : null}
 
                     <div className="grid grid-cols-2">
@@ -1466,10 +1607,14 @@ export default function Inventory(properties) {
                             setDialogOpen(false);
                             resetForm();
                           }}
+                          className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                         >
                           {t("Inventory:cancel")}
                         </Button>
-                        <Button onClick={submitForm}>
+                        <Button
+                          onClick={submitForm}
+                          className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
+                        >
                           {t("Inventory:save")}
                         </Button>
                       </div>
@@ -1482,9 +1627,9 @@ export default function Inventory(properties) {
                 onOpenChange={setPriceDialogOpen}
                 editIndex={editingPriceIndex}
               />
-            </CardFooter>
-          </Card>
-        </div>
+            </div>
+          </div>
+        </Card>
       </div>
     </>
   );

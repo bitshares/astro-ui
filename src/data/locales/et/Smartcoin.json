@@ -1,8 +1,8 @@
 {
-  "minimum": "Minimaalne",
+  "minimum": "Min: {{min}}",
   "maximum": "Maksimaalne",
-  "lockDebtAmount": "Lock debt amount",
-  "debtAmountLocked": "Unlock debt amount",
+  "lockDebtAmount": "Lukusta võla summa",
+  "debtAmountLocked": "Võla summa lukustatud",
   "chargeMarketFee": "Varade väljaandja saab lubada turutasusid.",
   "whiteList": "Varade väljaandja saab koostada heakskiidetud turgude nimekirja",
   "overrideAuthority": "Varade väljaandja saab selle NFT endale tagasi anda.",
@@ -145,7 +145,7 @@
   "invalidSmartcoinIdContent1": "Palun",
   "invalidSmartcoinIdContent2": "tagasi ülevaate juurde",
   "invalidSmartcoinIdContent3": "ja valige jätkamiseks mõni muu bitasett.",
-  "CDPFormTitle": "💵 Tagatisvõla positsiooni vorm",
+  "CDPFormTitle": "Tagatisvõla positsiooni vorm",
   "CDPFormDescription1": "Selle vormi abil saate selle nutimündi laenata piisava tagatisega.",
   "CDPFormDescription2": "Enne jätkamist uurige varasid põhjalikult, teadke oma riskipositsiooni ja tolerantse.",
   "borrowingAccount": "Laenukonto",
@@ -187,7 +187,7 @@
   "networkBroadcastFee": "Võrguedastuse tasu",
   "networkBroadcastFeeDescription": "Tasu, mida nõutakse teie kõnetellimuse värskendamise toimingu edastamiseks plokiahelasse",
   "submit": "Esita",
-  "collateralDebtPositionFormTitle": "💵 Tagatisvõla positsiooni vorm",
+  "collateralDebtPositionFormTitle": "Tagatisvõla positsiooni vorm",
   "collateralDebtPositionFormDescription": "Selle vormi abil saate selle nutikamündi laenata piisava tagatise olemasolul. Enne jätkamist uurige varasid põhjalikult, tehke kindlaks oma riskipositsioon ja tolerantsid.",
   "account": "konto",
   "changeAsset": "Muuda vara",
@@ -276,5 +276,10 @@
   "riskExhaustedBalance": "Hinnavoo avaldamisel on seotud tasu, mille tõttu võib hinnavoo avaldaja BTS-i saldo ammendumise korral avaldamise lõpetada, mille tulemuseks on hinnavoogude puudumine kuni konto saldo täiendamiseni.",
   "riskPriceFeedDisagreement": "Hinnavoo avaldajad võivad olla eriarvamusel hinnavoo arvutamise osas, mille tulemuseks on ootamatu hinnavoo volatiilsus. On mitmeid erastatud nutimünte, mis püüavad sel põhjusel kasutada erinevaid nutikamüntide tagatise strateegiaid.",
   "exposureToEBABackAssetBlockchainDowntime": "Kokkupuude EBA tugivarade plokiahela seisakutega",
-  "riskGatewayDepositServiceDown": "Kui olete kasutanud tagatistagatisena EBA-d ja soovite oma tagatispositsiooni hiljem sulgeda/korrigeerida, ei pruugi tagatishoiustamise teenuse katkemise korral olla võimalik tagatisraha nõudmise vältimiseks piisavat tagatist hoiustada."
+  "riskGatewayDepositServiceDown": "Kui olete kasutanud tagatistagatisena EBA-d ja soovite oma tagatispositsiooni hiljem sulgeda/korrigeerida, ei pruugi tagatishoiustamise teenuse katkemise korral olla võimalik tagatisraha nõudmise vältimiseks piisavat tagatist hoiustada.",
+  "bsrm": "BSRM",
+  "minimum2": "Min: {{min}}",
+  "icr2": "ICR",
+  "mcr2": "MCR",
+  "mssr2": "MSSR"
 }

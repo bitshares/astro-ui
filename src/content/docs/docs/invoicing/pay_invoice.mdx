@@ -1,0 +1,76 @@
+---
+title: Pay Invoice
+description: Pay a shared invoice, broadcasting one transfer per asset with the invoice id as memo.
+sidebar:
+  order: 3
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Pay Invoice** settles an invoice someone sent you. You paste the base58 invoice string; the app decodes it, resolves each asset to an id, and broadcasts a `transfer` per distinct asset — with the invoice `identifier` placed in the memo so the recipient can reconcile it.
+
+**Open in the app:** [Pay Invoice](/pay_invoice.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Decode & pay" icon="receipt">
+    Paste an invoice string and pay it in one go.
+  </Card>
+  <Card title="Per-asset transfers" icon="send">
+    One `transfer` per asset in the invoice.
+  </Card>
+  <Card title="Reconcilable" icon="link">
+    The invoice id rides along in the memo.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Pay Invoice** from the homepage under *Invoicing*.
+
+2. Paste the invoice base58 string (or open one from [Stored Invoices](/docs/invoicing/stored_invoices.html)).
+
+3. Review the decoded items and per-asset totals.
+
+4. Authorize. The app broadcasts one `transfer` per asset with the invoice identifier in the memo.
+
+</Steps>
+
+<Aside type="note" title="Memo carries the invoice id">
+  Only the lump sum per asset is on-chain; the line items themselves stay off-chain. The `identifier` (e.g. `INV-2024-001`) is written into the transfer memo so the recipient can match it to their invoice.
+</Aside>
+
+## Operation used
+
+Payment broadcasts one `transfer` (operation `0`) per distinct asset:
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "from": "1.2.x",
+  "to": "1.2.x",
+  "amount": { "amount": 1000000, "asset_id": "1.3.1" },
+  "memo": {
+    "from": "BTS7...payer_memo_pubkey",
+    "to": "BTS7...creator_memo_pubkey",
+    "nonce": "1721300000000",
+    "message": "INV-2024-001"
+  },
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `from` | Your account (`1.2.x`). |
+| `to` | Invoice recipient (`1.2.x`). |
+| `amount` | Integer total for that asset (`{amount, asset_id}`). |
+| `memo.message` | The invoice `identifier` (clear-text). |
+
+## Related pages
+
+- [Create Invoice](/docs/invoicing/create_invoice.html)
+- [Stored Invoices](/docs/invoicing/stored_invoices.html)

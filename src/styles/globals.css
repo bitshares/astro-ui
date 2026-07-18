@@ -1,83 +1,170 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.js";
 
-@layer base {
-  :root {
-    --foreground: 20 14.3% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
-    --primary: 24 9.8% 10%;
-    --primary-foreground: 60 9.1% 97.8%;
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 20 14.3% 4.1%;
-    --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+:root {
+  --background: 0 0% 98%;
+  --foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --primary: 24 9.8% 10%;
+  --primary-foreground: 60 9.1% 97.8%;
+  --secondary: 60 4.8% 95.9%;
+  --secondary-foreground: 24 9.8% 10%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --accent: 60 4.8% 95.9%;
+  --accent-foreground: 24 9.8% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --ring: 20 14.3% 4.1%;
+  --radius: 0.5rem;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
 
-    /* Sidebar theme (light) */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
 
-  .dark {
-    --foreground: 60 9.1% 97.8%;
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
-    --primary: 60 9.1% 97.8%;
-    --primary-foreground: 24 9.8% 10%;
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-    --ring: 24 5.7% 82.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+  /* Accent roles (page components). Fallback values for first paint; overridden
+     per active page at runtime by CustomThemeStyle. Light-mode variant.
+      -fg = accent text readable ON the page background (dark in light mode);
+      -foreground = generic text on the accent bg. */
+  --accent-1: 239 84% 67%;
+  --accent-1-fg: 244 55% 41%;
+  --accent-1-foreground: 244 55% 41%;
+  --accent-2: 292 84% 61%;
+  --accent-2-fg: 295 72% 40%;
+  --accent-2-foreground: 295 72% 40%;
+  --accent-3: 258 90% 66%;
+  --accent-3-fg: 262 61% 45%;
+  --accent-3-foreground: 262 61% 45%;
+  --accent-success: 160 84% 39%;
+  --accent-success-fg: 161 94% 24%;
+  --accent-success-foreground: 161 94% 24%;
+  --accent-danger: 0 84% 60%;
+  --accent-danger-fg: 0 74% 42%;
+  --accent-danger-foreground: 0 74% 42%;
+  --accent-warning: 38 92% 50%;
+  --accent-warning-fg: 32 95% 33%;
+  --accent-warning-foreground: 32 95% 33%;
+  --accent-info: 199 89% 48%;
+  --accent-info-fg: 201 90% 36%;
+  --accent-info-foreground: 201 90% 36%;
+}
 
-    /* Sidebar theme (dark) */
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 0 0% 98%;
-    --sidebar-primary-foreground: 240 5.9% 10%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+.dark {
+  --background: 240 1% 20%;
+  --foreground: 60 9.1% 97.8%;
+  --card: 20 14.3% 4.1%;
+  --card-foreground: 60 9.1% 97.8%;
+  --popover: 20 14.3% 4.1%;
+  --popover-foreground: 60 9.1% 97.8%;
+  --primary: 60 9.1% 97.8%;
+  --primary-foreground: 24 9.8% 10%;
+  --secondary: 12 6.5% 15.1%;
+  --secondary-foreground: 60 9.1% 97.8%;
+  --muted: 12 6.5% 15.1%;
+  --muted-foreground: 24 5.4% 63.9%;
+  --accent: 12 6.5% 15.1%;
+  --accent-foreground: 60 9.1% 97.8%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --border: 12 6.5% 15.1%;
+  --input: 12 6.5% 15.1%;
+  --ring: 24 5.7% 82.9%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+
+  --sidebar-background: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 0 0% 98%;
+  --sidebar-primary-foreground: 240 5.9% 10%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+
+  /* Accent roles (page components) — dark-mode fallback variant.
+      -fg = accent text readable ON the page background (light in dark mode);
+      -foreground = generic text on the accent bg. */
+  --accent-1: 239 84% 67%;
+  --accent-1-fg: 234 89% 74%;
+  --accent-1-foreground: 234 89% 74%;
+  --accent-2: 292 84% 61%;
+  --accent-2-fg: 292 91% 73%;
+  --accent-2-foreground: 292 91% 73%;
+  --accent-3: 258 90% 66%;
+  --accent-3-fg: 255 92% 76%;
+  --accent-3-foreground: 255 92% 76%;
+  --accent-success: 160 84% 39%;
+  --accent-success-fg: 156 72% 67%;
+  --accent-success-foreground: 156 72% 67%;
+  --accent-danger: 0 84% 60%;
+  --accent-danger-fg: 0 91% 71%;
+  --accent-danger-foreground: 0 91% 71%;
+  --accent-warning: 38 92% 50%;
+  --accent-warning-fg: 43 96% 56%;
+  --accent-warning-foreground: 43 96% 56%;
+  --accent-info: 199 89% 48%;
+  --accent-info-fg: 199 95% 74%;
+  --accent-info-foreground: 199 95% 74%;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
+
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}
+
+@media (forced-colors: active) {
+  * {
+    border-color: CanvasText;
+  }
+  .border-border,
+  .border-border\/60,
+  .border-border\/40 {
+    border-color: CanvasText;
+  }
+  button,
+  .btn {
+    border: 1px solid ButtonText;
+  }
+  .shadow-sm,
+  .shadow-md,
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --muted-foreground: 25 5.3% 30%;
+    --border: 20 10% 60%;
+  }
+  .dark {
+    --muted-foreground: 24 5.4% 80%;
+    --border: 12 6.5% 30%;
   }
 }

@@ -28,7 +28,8 @@
       "seller": "판매자: {{seller}} ({{opSeller}})",
       "selling": "판매: {{amount}}",
       "buying": "구매: {{amount}}",
-      "price": "가격: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "가격: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "확장 기능: {{extensions}}"
     },
     "tooltip": "특정 시점까지 특정 환율로 자산 금액을 판매하겠다는 제안"
   },
@@ -198,7 +199,6 @@
       "blacklist_authorities": "블랙리스트 권한: {{blacklist_authorities}}",
       "whitelist_markets": "화이트리스트 시장: {{whitelist_markets}}",
       "blacklist_markets": "블랙리스트 시장: {{blacklist_markets}}",
-      "is_prediction_market": "예측 시장: {{is_prediction_market}}",
       "permissions": "권한:",
       "perm_charge_market_fee": "청구 시장 수수료: {{charge_market_fee}}",
       "perm_white_list": "화이트리스트: {{white_list}}",
@@ -257,7 +257,6 @@
       "blacklist_authorities": "블랙리스트 권한: {{blacklist_authorities}}",
       "whitelist_markets": "화이트리스트 시장: {{whitelist_markets}}",
       "blacklist_markets": "블랙리스트 시장: {{blacklist_markets}}",
-      "is_prediction_market": "예측 시장: {{is_prediction_market}}",
       "permissions": "권한:",
       "perm_charge_market_fee": "청구 시장 수수료: {{charge_market_fee}}",
       "perm_white_list": "화이트리스트: {{white_list}}",

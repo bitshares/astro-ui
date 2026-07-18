@@ -1,0 +1,23 @@
+{
+  "committeeHeader": "위원회 블랙리스트",
+  "committeeCount": "{{count}}개의 계정이 위원회에 의해 블랙리스트에 등록됨",
+  "committeeDescription": "이러한 계정은 Bitshares 위원회에 의해 블랙리스트에 등록되었습니다. 이 목록은 체인에서 유지되며 정기적으로 업데이트됩니다.",
+  "usersHeader": "차단된 계정",
+  "addUser": "계정 차단",
+  "addUserDialogTitle": "계정 차단",
+  "addUserDialogDescription": "개인 차단 목록에 추가할 계정을 검색합니다. 차단된 계정은 애플리케이션 전체에서 숨겨집니다.",
+  "usersEmptyTitle": "차단된 계정 없음",
+  "usersEmptyDescription": "아직 차단한 계정이 없습니다. 계정을 차단하여 보기에 숨깁니다.",
+  "remove": "블랙리스트에서 제거",
+  "favouriteAccount": "즐겨찾는 계정",
+  "unfavouriteAccount": "즐겨찾기에서 제거",
+  "blockAccount": "계정 차단",
+  "alreadyBlocked": "이미 차단됨",
+  "ownerActions": "계정 옵션",
+  "blockConfirmTitle": "{{name}}을(를) 차단할까요?",
+  "blockConfirmDescription": "이 계정을 차단하시겠습니까? 차단된 계정은 애플리케이션 전체에서 숨겨집니다.",
+  "blockConfirmAction": "차단",
+  "blockConfirmCancel": "취소",
+  "pageTitle": "차단된 계정",
+  "pageDescription": "위원회 및 개인 계정 차단 목록 관리"
+}

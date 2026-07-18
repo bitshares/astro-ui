@@ -5,6 +5,7 @@ import React, {
   useSyncExternalStore,
 } from "react";
 import { List } from "react-window";
+import { Activity } from "lucide-react";
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
@@ -56,7 +57,7 @@ import btsAllAssets from "@/data/bitshares/allAssets.json";
 import testAllAssets from "@/data/bitshares_testnet/allAssets.json";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
-import { createAccountHistoryStore } from "@/nanoeffects/AccountHistory.ts";
+import { createAccountActivityStore } from "@/nanoeffects/AccountActivity.ts";
 import {
   createUsernameStore,
   createObjectStore,
@@ -94,6 +95,10 @@ export default function PortfolioRecentActivity() {
     () => (usr && usr.chain ? usr.chain : "bitshares"),
     [usr]
   );
+  const isTestnet = useMemo(
+    () => Boolean(usr && usr.chain && usr.chain !== "bitshares"),
+    [usr]
+  );
   useInitCache(_chain ?? "bitshares", []);
 
   const [activityCounter, setActivityCounter] = useState(0);
@@ -105,11 +110,27 @@ export default function PortfolioRecentActivity() {
   useEffect(() => {
     async function fetchUserHistory() {
       if (usr && usr.id) {
-        const userHistoryStore = createAccountHistoryStore([usr.chain, usr.id]);
+        const userHistoryStore = createAccountActivityStore([usr.id]);
         userHistoryStore.subscribe(({ data, error, loading }) => {
           setActivityLoading(Boolean(loading));
           if (data && !error && !loading) {
-            setActivity(data);
+            // Reshape the ES-based activity payload into the legacy shape the
+            // rendering code expects.
+            const reshaped = (data || []).map((a) => ({
+              operation_history: {
+                op_object: a.op?.[1] ?? {},
+                is_virtual: a.is_virtual,
+              },
+              operation_type: a.op?.[0] ?? 0,
+              account_history: {
+                operation_id: `1.11.${a.operation_id_num}`,
+              },
+              block_data: {
+                block_num: a.block_num,
+                block_time: a.timestamp,
+              },
+            }));
+            setActivity(reshaped);
             setOpRowsById({});
           }
           if (!data && !loading && error) {
@@ -298,7 +319,7 @@ export default function PortfolioRecentActivity() {
 
     return (
       <div style={rowStyle} className="px-2">
-        <Card className="hover:bg-gray-50 md:hidden p-3">
+        <Card className="hover:bg-accent/50 md:hidden p-3">
           <div className="grid grid-cols-[2fr_1fr] items-start gap-2">
             <div className="truncate font-medium mt-2">
               <Dialog
@@ -314,7 +335,7 @@ export default function PortfolioRecentActivity() {
                       : opTypes[activityItem.operation_type.toString()]}
                   </Badge>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-white">
+                <DialogContent className="sm:max-w-[560px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("PortfolioTabs:fullOperationContentsTitle")}
@@ -358,7 +379,7 @@ export default function PortfolioRecentActivity() {
                             ))}
                           </div>
                         ) : (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-muted-foreground">
                             {t("PortfolioTabs:noRecentActivityFound")}
                           </p>
                         )}
@@ -372,7 +393,7 @@ export default function PortfolioRecentActivity() {
           </div>
         </Card>
 
-        <Card className="hover:bg-gray-50 hidden md:block lg:hidden">
+        <Card className="hover:bg-accent/50 hidden md:block lg:hidden">
           <div className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-start gap-2 p-2 mb-2">
             <div className="truncate font-medium mt-2">
               <Dialog
@@ -388,7 +409,7 @@ export default function PortfolioRecentActivity() {
                       : opTypes[activityItem.operation_type.toString()]}
                   </Badge>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-white">
+                <DialogContent className="sm:max-w-[560px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("PortfolioTabs:fullOperationContentsTitle")}
@@ -432,7 +453,7 @@ export default function PortfolioRecentActivity() {
                             ))}
                           </div>
                         ) : (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-muted-foreground">
                             {t("PortfolioTabs:noRecentActivityFound")}
                           </p>
                         )}
@@ -444,13 +465,13 @@ export default function PortfolioRecentActivity() {
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 hover:underline">
+              <span className="text-foreground">
                 {activityItem.account_history.operation_id}
               </span>
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 hover:underline">
+              <span className="text-foreground">
                 {activityItem.block_data.block_num}
               </span>
             </div>
@@ -461,7 +482,7 @@ export default function PortfolioRecentActivity() {
           </div>
         </Card>
 
-        <Card className="hover:bg-gray-50 hidden lg:block">
+        <Card className="hover:bg-accent/50 hidden lg:block">
           <div className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-start gap-2 p-2 mb-2">
             <div className="truncate font-medium mt-2">
               <Dialog
@@ -477,7 +498,7 @@ export default function PortfolioRecentActivity() {
                       : opTypes[activityItem.operation_type.toString()]}
                   </Badge>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-white">
+                <DialogContent className="sm:max-w-[560px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("PortfolioTabs:fullOperationContentsTitle")}
@@ -521,7 +542,7 @@ export default function PortfolioRecentActivity() {
                             ))}
                           </div>
                         ) : (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-muted-foreground">
                             {t("PortfolioTabs:noRecentActivityFound")}
                           </p>
                         )}
@@ -533,13 +554,13 @@ export default function PortfolioRecentActivity() {
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 hover:underline">
+              <span className="text-foreground">
                 {activityItem.account_history.operation_id}
               </span>
             </div>
 
             <div className="font-mono text-xs truncate mt-2">
-              <span className="text-blue-600 hover:underline">
+              <span className="text-foreground">
                 {activityItem.block_data.block_num}
               </span>
             </div>
@@ -555,7 +576,7 @@ export default function PortfolioRecentActivity() {
                     {t("PortfolioTabs:viewOperationButton")}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-white">
+                <DialogContent className="sm:max-w-[560px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("PortfolioTabs:operationJsonTitle")}
@@ -600,7 +621,7 @@ export default function PortfolioRecentActivity() {
                     {t("PortfolioTabs:viewAllButton")}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-white">
+                <DialogContent className="sm:max-w-[560px] bg-card">
                   <DialogHeader>
                     <DialogTitle>
                       {t("PortfolioTabs:fullOperationContentsTitle")}
@@ -635,19 +656,73 @@ export default function PortfolioRecentActivity() {
     );
   };
 
+  if (isTestnet) {
+    return (
+      <div className="container mx-auto mt-5 mb-5">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.20)]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.10)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-3)/0.10)] blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-center gap-3 mb-1">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))]">
+                <Activity className="h-4.5 w-4.5" strokeWidth={2.25} />
+              </span>
+              <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                {t("PortfolioTabs:recentBlockchainActivityTitle")}
+              </h2>
+            </div>
+            <p className="text-xs text-muted-foreground/70 mt-2">
+              {t("Home:testnetUnsupported")}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto mt-5 mb-5">
-      <div className="grid grid-cols-1 mt-5">
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              {t("PortfolioTabs:recentBlockchainActivityTitle")}
-            </CardTitle>
-            <CardDescription>
-              {t("PortfolioTabs:recentBlockchainActivityDescription")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
+      <div className="grid grid-cols-1 gap-5">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.20)]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.10)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-3)/0.10)] blur-3xl"
+          />
+
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))]">
+                <Activity className="h-4.5 w-4.5" strokeWidth={2.25} />
+              </span>
+              <div>
+                <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                  {t("PortfolioTabs:recentBlockchainActivityTitle")}
+                </h2>
+                <p className="text-xs text-muted-foreground/70 mt-0.5">
+                  {t("PortfolioTabs:recentBlockchainActivityDescription")}
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-2 sm:p-3 overflow-hidden">
             {activityLoading ? (
               <div className="flex items-center gap-3">
                 <Spinner />
@@ -718,20 +793,23 @@ export default function PortfolioRecentActivity() {
             ) : (
               <p>{t("PortfolioTabs:noRecentActivityFound")}</p>
             )}
-          </CardContent>
-          <div className="px-6 pb-6">
-            <Button
-              onClick={() => {
-                setActivity();
-                setActivityCounter(activityCounter + 1);
-              }}
-              disabled={activityLoading}
-              aria-busy={activityLoading}
-            >
-              {t("PortfolioTabs:refreshRecentActivityButton")}
-            </Button>
+            </div>
+
+            <div className="mt-4">
+              <Button
+                onClick={() => {
+                  setActivity();
+                  setActivityCounter(activityCounter + 1);
+                }}
+                disabled={activityLoading}
+                aria-busy={activityLoading}
+                className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] hover:shadow-[0_12px_36px_-12px_hsl(var(--accent-1)/0.9)] transition-all"
+              >
+                {t("PortfolioTabs:refreshRecentActivityButton")}
+              </Button>
+            </div>
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   );

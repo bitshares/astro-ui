@@ -7,7 +7,7 @@ import CreateTickets from '../components/CreateTicket.jsx';
 
 <Layout title="Bitshares - Create Ticket">
 	<main>
-		<PageHeader client:only="react" page="create_ticket" backURL="../index.html" />
+		<PageHeader client:only="react" page="create_ticket" />
 		<CreateTickets client:only="react" />
 		<PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/create_ticket.astro" />
 	</main>
@@ -19,7 +19,7 @@ import CreateTickets from '../components/CreateTicket.jsx';
 		padding: 1rem;
 		width: 100%;
 		max-width: calc(100% - 2rem);
-		color: white;
+		color: hsl(var(--foreground));
 		font-size: 20px;
 		line-height: 1.6;
 		min-height: 100vh;

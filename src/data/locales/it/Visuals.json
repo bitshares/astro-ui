@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Configura visualizzazione",
+  "pageDescription": "Personalizza l'aspetto degli sfondi a onde, del bagliore aurora, delle particelle e degli effetti di sfocatura in tutto il sito.",
+  "waveCount": "Numero di onde",
+  "waveCountDesc": "Numero di onde sovrapposte visualizzate dietro l'intestazione della pagina.",
+  "waveSpeed": "Velocità delle onde",
+  "waveSpeedDesc": "Quanto velocemente le onde scorrono sullo sfondo.",
+  "waveThickness": "Spessore delle onde",
+  "waveThicknessDesc": "Controlla lo spessore del tratto di ogni strato d'onda.",
+  "palette": "Tavolozza colori",
+  "paletteDesc": "Scegli una tavolozza predefinita o definisci i tuoi colori personalizzati.",
+  "palettes": {
+    "rainbow": "Arcobaleno",
+    "ocean": "Oceano",
+    "sunset": "Tramonto",
+    "mono": "Monocromatico",
+    "custom": "Personalizzato"
+  },
+  "customColor1": "Colore personalizzato 1",
+  "customColor2": "Colore personalizzato 2",
+  "customColorDesc": "Usati come estremi del gradiente per ogni onda quando è selezionata la tavolozza 'Personalizzato'.",
+  "auroraIntensity": "Intensità dell'aurora",
+  "auroraIntensityDesc": "Forza del bagliore aurora soffuso sopra le onde.",
+  "blurAmount": "Quantità di sfocatura",
+  "blurAmountDesc": "Sfocatura applicata ai gradienti delle onde. 0 le mantiene nitide.",
+  "particles": "Particelle fluttuanti",
+  "particlesDesc": "Attiva/disattiva le piccole particelle fluttuanti nell'intestazione.",
+  "on": "Attivo",
+  "off": "Disattivo",
+  "resetToDefaults": "Ripristina valori predefiniti",
+  "externalServices": {
+    "heading": "Servizi esterni",
+    "description": "Configura i servizi di terze parti utilizzati per recuperare le risorse su tutto il sito.",
+    "ipfsGateway": {
+      "header": "Gateway IPFS",
+      "help": "Gateway utilizzato per risolvere i link IPFS per le immagini NFT e altri contenuti. Usa un gateway pubblico di cui ti fidi.",
+      "placeholder": "https://ipfs.io/ipfs/"
+    }
+  }
+}

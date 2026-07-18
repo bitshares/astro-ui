@@ -1,0 +1,86 @@
+---
+title: Same-T Fund (User)
+description: Borrow from a Samet Fund (TFund), swap the borrowed asset, and repay — as one bundled transaction.
+sidebar:
+  order: 6
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Same-T Fund (User)** (also called a *Samet Fund* / TFund) lets you borrow a reference asset from a fund, immediately swap it into the asset you actually want via the DEX, and repay the fund in a single atomic transaction. The app bundles three operation types together so the borrow, the swap and the repay either all succeed or all fail.
+
+**Open in the app:** [Same-T Fund (User)](/tfund_user.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Leveraged access" icon="coins">
+    Borrow the fund's reference asset without posting collateral elsewhere.
+  </Card>
+  <Card title="Auto-swap" icon="swap">
+    The borrowed amount is immediately market-swapped into your target asset.
+  </Card>
+  <Card title="Atomic repay" icon="lock">
+    Borrow + swap + repay are one transaction; the fund fee is settled on repay.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Same-T Fund (User)** from the homepage under *Exchanging Funds*.
+
+2. Select a fund (`fund_id`) and the asset you want to end up holding.
+
+3. Enter the borrow amount. The app computes the swap and the fund fee, and shows your net received.
+
+4. Authorize in your Beet wallet. The app broadcasts a bundle of `samet_fund_borrow`, `limit_order_create` and `samet_fund_repay` operations.
+
+</Steps>
+
+<Aside type="note" title="Samet Fund operations">
+  This flow uses the **Samet Fund** custom operations `samet_fund_borrow` / `samet_fund_repay` plus a standard `limit_order_create`. All three operation types are bundled into a single atomic transaction.
+</Aside>
+
+## Operations used
+
+The transaction bundles, in order, one `samet_fund_borrow` per open position, one `limit_order_create` for the swap, and one `samet_fund_repay` per position.
+
+```json
+[
+  {
+    "borrower": "1.2.x",
+    "fund_id": "1.20.x",
+    "borrow_amount": { "amount": 10000000, "asset_id": "1.3.x" },
+    "extensions": {}
+  },
+  {
+    "seller": "1.2.x",
+    "amount_to_sell": { "amount": 10000000, "asset_id": "1.3.x" },
+    "min_to_receive": { "amount": 4800000, "asset_id": "1.3.x" },
+    "expiration": "2026-07-19T00:00:00",
+    "fill_or_kill": true,
+    "extensions": {}
+  },
+  {
+    "account": "1.2.x",
+    "fund_id": "1.20.x",
+    "repay_amount": { "amount": 10000000, "asset_id": "1.3.x" },
+    "fund_fee": { "amount": 50000, "asset_id": "1.3.x" },
+    "extensions": {}
+  }
+]
+```
+
+| Operation | Key fields |
+| --- | --- |
+| `samet_fund_borrow` | `borrower`, `fund_id`, `borrow_amount` (`{amount, asset_id}`). |
+| `limit_order_create` | `seller`, `amount_to_sell`, `min_to_receive`, `expiration` (+1 day), `fill_or_kill: true`. |
+| `samet_fund_repay` | `account`, `fund_id`, `repay_amount`, `fund_fee` (`borrow_amount × fee_rate / 1e6`). |
+
+## Related pages
+
+- [Borrow](/docs/debt/borrow.html)
+- [Lend](/docs/debt/lend.html)
+- [Instant Trade](/docs/exchanging/instant_trade.html)

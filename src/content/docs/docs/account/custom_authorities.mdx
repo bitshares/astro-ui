@@ -1,0 +1,113 @@
+---
+title: Custom Authorities
+description: Create, update and delete account custom authorities using custom_authority_create and friends.
+sidebar:
+  order: 4
+---
+
+import { Card, CardGrid, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+**Custom Authorities** let an account define reusable, restricted authorization rules — e.g. "allow account Y to issue `transfer` ops up to a limit, only between certain timestamps." You create, update and delete these authorities, each gating a specific `operation_type` with an `auth` and `restrictions`.
+
+**Open in the app:** [Custom Authorities](/custom_authorities.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Granular control" icon="lock">
+    Restrict who can do what, and when, on your account.
+  </Card>
+  <Card title="Op-scoped" icon="document">
+    Each authority targets one `operation_type`.
+  </Card>
+  <Card title="Time-boxed" icon="clock">
+    Set `valid_from` / `valid_to` windows.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Custom Authorities** from the homepage under *Account Overviews*.
+
+2. Create an authority: pick the account, the `operation_type` to gate, an `auth` (threshold + account/key auths), validity window and restrictions.
+
+3. Submit → `custom_authority_create`.
+
+4. Later, edit (`custom_authority_update`) or delete (`custom_authority_delete`) an existing authority.
+
+</Steps>
+
+## Operations used
+
+<Tabs>
+  <TabItem label="custom_authority_create">
+
+```json
+{
+  "account": "1.2.x",
+  "enabled": false,
+  "valid_from": 1700000000,
+  "valid_to": 1731536000,
+  "operation_type": 0,
+  "auth": {
+    "weight_threshold": 1,
+    "account_auths": [["1.2.x", 1]],
+    "key_auths": [],
+    "address_auths": []
+  },
+  "restrictions": [],
+  "extensions": []
+}
+```
+
+  </TabItem>
+  <TabItem label="custom_authority_update">
+
+```json
+{
+  "account": "1.2.x",
+  "authority_to_update": "1.16.x",
+  "new_enabled": true,
+  "new_valid_from": 1700000000,
+  "new_valid_to": 1731536000,
+  "new_auth": {
+    "weight_threshold": 1,
+    "account_auths": [],
+    "key_auths": [],
+    "address_auths": []
+  },
+  "restrictions_to_remove": [],
+  "restrictions_to_add": [],
+  "extensions": []
+}
+```
+
+  </TabItem>
+  <TabItem label="custom_authority_delete">
+
+```json
+{
+  "account": "1.2.x",
+  "authority_to_delete": "1.16.x",
+  "extensions": []
+}
+```
+
+  </TabItem>
+</Tabs>
+
+| Field | Meaning |
+| --- | --- |
+| `account` | The account the authority applies to (`1.2.x`). |
+| `operation_type` | Numeric op id this authority gates. |
+| `auth` | Threshold + `account_auths` / `key_auths` / `address_auths`. |
+| `valid_from` / `valid_to` | Unix timestamps for the active window. |
+| `restrictions` | Optional extra constraints. |
+| `authority_to_update` / `authority_to_delete` | The `1.16.x` authority object id. |
+
+## Related pages
+
+- [Proposals](/docs/account/proposals.html)
+- [Transfer](/docs/transfer/transfer.html)

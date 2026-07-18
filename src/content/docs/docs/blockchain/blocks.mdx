@@ -1,0 +1,45 @@
+---
+title: Blocks
+description: Explore recent blocks and their transactions on the BitShares blockchain (read-only).
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, Steps } from '@astrojs/starlight/components';
+
+**Blocks** is a read-only explorer of the chain's recent blocks. Each block shows its number, timestamp, signer (delegate/witness) and the operations it contains — useful for confirming that a transaction you broadcast actually landed.
+
+**Open in the app:** [Blocks](/blocks.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Block feed" icon="database">
+    Scroll through the latest blocks as they're produced.
+  </Card>
+  <Card title="Operations" icon="document">
+    Expand a block to see its operations.
+  </Card>
+  <Card title="Signer" icon="user">
+    See which delegate signed each block.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Blocks** from the homepage under *Blockchain Overviews*.
+
+2. Browse the list of recent blocks (newest first).
+
+3. Open a block to inspect its timestamp, signer and operations.
+
+4. Use it to verify a transaction you sent appears on chain.
+
+</Steps>
+
+## Related pages
+
+- [Top Markets](/docs/blockchain/top-markets.html)
+- [Pools](/docs/blockchain/pools.html)

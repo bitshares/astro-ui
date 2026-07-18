@@ -1,6 +1,3 @@
-import pkg from "@exodus/bytebuffer";
-const { Long } = pkg;
-
 import ChainTypes from "../chain/ChainTypes.js";
 
 var MAX_SAFE_INT = 9007199254740991;
@@ -34,7 +31,7 @@ var _my = {
     return value;
   },
   require_long(value, field_name = "") {
-    if (!Long.isLong(value)) {
+    if (typeof value !== "bigint") {
       throw new Error(`Long value required ${field_name} ${value}`);
     }
     return value;
@@ -106,21 +103,18 @@ var _my = {
     if (this.is_empty(value)) {
       return value;
     }
-    if (Long.isLong(value)) {
+    if (typeof value === "bigint") {
       return value;
     }
 
     this.no_overflow64(value, field_name, unsigned);
-    // BigInteger#isBigInteger https://github.com/cryptocoinjs/bigi/issues/20
-    // (code copied from no_overflow64)
-    if (value.t !== undefined && value.s !== undefined) {
-      value = value.toString();
-    }
     if (typeof value === "number") {
       value = "" + value;
     }
-    value = value.trim();
-    var long_value = Long.fromString(value, unsigned);
+    value = ("" + value).trim();
+    var long_value = unsigned
+      ? (BigInt(value) & 0xffffffffffffffffn)
+      : BigInt(value);
     if (long_value.toString() !== value) {
       throw new Error(`Unable to safely convert ${field_name} ${value} to long`);
     }
@@ -138,7 +132,7 @@ var _my = {
       this.no_overflow53(value, field_name);
       return "" + value;
     }
-    if (Long.isLong(value)) {
+    if (typeof value === "bigint") {
       return value.toString();
     }
     throw `unsupported type ${field_name}: (${typeof value}) ${value}`;
@@ -279,9 +273,9 @@ var _my = {
       }
       return;
     }
-    if (Long.isLong(value)) {
+    if (typeof value === "bigint") {
       // typeof value.toInt() is 'number'
-      this.no_overflow53(value.toInt(), field_name);
+      this.no_overflow53(Number(value), field_name);
       return;
     }
     throw `unsupported type ${field_name}: (${typeof value}) ${value}`;
@@ -289,14 +283,7 @@ var _my = {
 
   // signed / unsigned whole numbers only
   no_overflow64(value, field_name = "", unsigned = false) {
-    // https://github.com/dcodeIO/Long.js/issues/20
-    if (Long.isLong(value)) {
-      return;
-    }
-
-    // BigInteger#isBigInteger https://github.com/cryptocoinjs/bigi/issues/20
-    if (value.t !== undefined && value.s !== undefined) {
-      this.no_overflow64(value.toString(), field_name, unsigned);
+    if (typeof value === "bigint") {
       return;
     }
 
@@ -314,8 +301,17 @@ var _my = {
       if (value === "") {
         value = "0";
       }
-      var long_string = Long.fromString(value, unsigned).toString();
-      if (long_string !== value.trim()) {
+      var long_value = BigInt(value);
+      if (unsigned) {
+        if (long_value < 0n || long_value > 0xffffffffffffffffn) {
+          throw new Error(`overflow ${field_name} ${value}`);
+        }
+      } else {
+        if (long_value < -(1n << 63n) || long_value > (1n << 63n) - 1n) {
+          throw new Error(`overflow ${field_name} ${value}`);
+        }
+      }
+      if (long_value.toString() !== value.trim()) {
         throw new Error(`overflow ${field_name} ${value}`);
       }
       return;

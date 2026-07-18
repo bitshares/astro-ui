@@ -96,7 +96,7 @@ export default function BalanceAssetDropDownCard(properties) {
               </CardHeader>
             </Card>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[550px] bg-white">
+          <DialogContent className="sm:max-w-[550px] bg-card">
             <DialogHeader>
               <DialogTitle>
                 {t("Transfer:amountToTransfer", {
@@ -171,7 +171,7 @@ export default function BalanceAssetDropDownCard(properties) {
           <PlusCircledIcon className="mr-2 h-4 w-4" /> {t("Barter:addAsset")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[550px] bg-white">
+      <DialogContent className="sm:max-w-[550px] bg-card">
         <DialogHeader>
           <DialogTitle>
             <h3 className="text-2xl font-extrabold tracking-tight">

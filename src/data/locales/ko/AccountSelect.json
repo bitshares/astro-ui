@@ -24,6 +24,17 @@
   },
   "existing": {
     "description": "이전에 사용한 계정 중 하나를 선택하세요.",
-    "none": "계정을 찾을 수 없습니다."
-  }
+    "none": "계정을 찾을 수 없습니다.",
+    "noneHint": "새 계정 옵션을 사용하여 계정을 추가할 수 있습니다"
+  },
+  "step1": "네트워크",
+  "step2": "계정",
+  "step3": "확인",
+  "mainnet": "메인넷 (BTS)",
+  "testnetLabel": "테스트 네트워크 (TEST)",
+  "newAccountSubtitle": "네트워크에서 모든 계정을 검색",
+  "existingAccountSubtitle": "{{count}} 계정 저장됨",
+  "existingAccountSubtitle_plural": "{{count}} 계정 저장됨",
+  "removeAccount": "계정 제거",
+  "removeAccountLabel": "{{username}} 제거"
 }

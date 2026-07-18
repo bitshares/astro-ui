@@ -76,5 +76,9 @@
   "dialogContent": {
     "editHeader": "Järgmise smartcoini redigeerimine: {{symbol}}",
     "createHeader": "Järgmise Smartcoini loomine: {{symbol}}"
+  },
+  "backing_asset": {
+    "header": "Tagatisvara",
+    "header_content": "Tagatisvara on vara, mida kasutatakse krüptoraha tagamiseks, Seda vara kasutatakse krüptoraha võla tagatisena."
   }
 }

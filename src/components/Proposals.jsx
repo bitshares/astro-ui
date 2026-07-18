@@ -11,15 +11,7 @@ import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
 
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { FileText, ShieldAlert, CheckCircle, XCircle, AlertTriangle, Clock, Gavel } from "lucide-react";
 
 import {
   Dialog,
@@ -56,7 +48,6 @@ import { createObjectStore } from "@/nanoeffects/Objects.ts";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 import HoverInfo from "@/components/common/HoverInfo.tsx";
 import ExternalLink from "./common/ExternalLink.jsx";
-import { Separator } from "./ui/separator.jsx";
 
 const operationStrings = [
   "transfer",
@@ -264,16 +255,16 @@ export default function Proposals(properties) {
 
     return (
       <div style={{ ...style }} key={`card-${proposal.id}`}>
-        <Card className="ml-3 mr-3 mt-3">
-          <CardContent>
+        <div className="ml-3 mr-3 mt-3 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300">
+          <div className="p-4">
             <div className="grid grid-cols-1 gap-3">
               <div className="grid grid-cols-2 gap-3 mt-3">
                 <div className="col-span-2">
                   {t("Proposals:proposalID")}
                   {": "}
-                  <span className="hover:text-purple-500">{proposal.id}</span>
+                  <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">{proposal.id}</span>
                   <Badge
-                    className="ml-3"
+                    className="ml-3 border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] cursor-pointer hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors"
                     onClick={() => {
                       setViewJSON(true);
                       setJSON(proposal);
@@ -287,7 +278,7 @@ export default function Proposals(properties) {
                   {": "}
                   <b>
                     {proposerAccount && proposerAccount.name ? (
-                      <span className="hover:text-purple-500">
+                      <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">
                         {proposerAccount.name}
                       </span>
                     ) : (
@@ -295,7 +286,7 @@ export default function Proposals(properties) {
                     )}
                   </b>{" "}
                   (
-                  <span className="hover:text-purple-500">{proposer}</span>
+                  <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">{proposer}</span>
                   )
                 </div>
                 <div className="col-span-2">
@@ -315,7 +306,7 @@ export default function Proposals(properties) {
                   content={t("Proposals:operationsDescription")}
                   type="header"
                 />
-                <div className="border rounded-md pl-2 pb-2 mt-2">
+                <div className="border border-[hsl(var(--accent-1)/0.15)] rounded-xl pl-2 pb-2 mt-2 bg-card/60">
                   {operations.length && operations.length > 10 ? (
                     <Badge
                       onClick={() => {
@@ -324,14 +315,14 @@ export default function Proposals(properties) {
                           operations,
                         });
                       }}
-                      className=""
+                      className="border-[hsl(var(--accent-3)/0.2)] bg-[hsl(var(--accent-3)/0.1)] text-[hsl(var(--accent-3-fg))] dark:text-[hsl(var(--accent-3-fg))] cursor-pointer hover:bg-[hsl(var(--accent-3)/0.2)] transition-colors"
                     >
                       ⚠️ {operations.length} operations
                     </Badge>
                   ) : (
                     operations.map((x) => (
                       <Badge
-                        className="ml-1"
+                        className="ml-1 border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] cursor-pointer hover:bg-[hsl(var(--accent-2)/0.2)] transition-colors"
                         onClick={() => {
                           setViewJSON(true);
                           setJSON({
@@ -346,18 +337,18 @@ export default function Proposals(properties) {
                 </div>
               </div>
             </div>
-          </CardContent>
-          <CardFooter>
+          </div>
+          <div className="px-4 pb-4">
             <div className="grid grid-cols-2 gap-3 w-full">
               <div className="col-span-2">
-                <Separator />
+                <div className="h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.3)] to-transparent my-2" />
               </div>
               <div className="flex space-x-3">
                 <Button
                   onClick={() => {
                     setApproveOpen(true);
                   }}
-                  className="w-1/2"
+                  className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-success-gradFg))] shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                   {t("Proposals:beginApprovalProcess")}
                 </Button>
@@ -366,14 +357,14 @@ export default function Proposals(properties) {
                     setRejectOpen(true);
                     setRejectedProposalID(proposal.id);
                   }}
-                  className="w-1/2"
+                  className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                 >
                   {t("Proposals:reject")}
                 </Button>
               </div>
             </div>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
         {approveOpen ? (
           <Dialog
             open={approveOpen}
@@ -386,7 +377,7 @@ export default function Proposals(properties) {
               }
             }}
           >
-            <DialogContent className="sm:max-w-[750px] bg-white">
+            <DialogContent className="sm:max-w-[750px] bg-card">
               <DialogHeader>
                 <DialogTitle>{t("Proposals:approveProposal")}</DialogTitle>
                 <DialogDescription>
@@ -430,6 +421,7 @@ export default function Proposals(properties) {
                                   setChosenProposal(proposal);
                                 }
                               }}
+                              className="bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-success-gradFg))] shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                             >
                               {t("Proposals:approveProposedOperation")}
                             </Button>
@@ -439,6 +431,7 @@ export default function Proposals(properties) {
                                 setApprovedCount(0);
                                 setChosenProposal();
                               }}
+                              className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                             >
                               {t("Proposals:rejectProposedOperation")}
                             </Button>
@@ -459,14 +452,20 @@ export default function Proposals(properties) {
     <>
       <div className="container mx-auto mt-5 mb-5">
         <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("Proposals:cardTitle")}</CardTitle>
-              <CardDescription>
-                <p>{t("Proposals:cardDescription")}</p>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.2)]">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-1)/0.2)] blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
+            <div className="p-4 pb-0">
+              <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+                <Gavel className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                {t("Proposals:cardTitle")}
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                {t("Proposals:cardDescription")}
+              </p>
+            </div>
+            <div className="p-4 pt-2">
               <div className="grid grid-cols-1 gap-3">
                 {filteredProposals && filteredProposals.length ? (
                   <div className="w-full border-2 max-h-[500px] overflow-auto">
@@ -480,31 +479,37 @@ export default function Proposals(properties) {
                 ) : (
                   <Empty>
                     <EmptyHeader>
-                      <EmptyMedia variant="icon">❕</EmptyMedia>
+                      <EmptyMedia variant="icon"><FileText className="h-10 w-10 text-[hsl(var(--accent-1-fg))]" /></EmptyMedia>
                       <EmptyTitle>{t("Proposals:noProposals")}</EmptyTitle>
                     </EmptyHeader>
                   </Empty>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle>{t("Proposals:risksTitle")}</CardTitle>
-              <CardDescription>
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-3)/0.1)]">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-3)/0.2)] blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-3)/0.2)] blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-3)/0.7)] via-[hsl(var(--accent-3)/0.7)] to-[hsl(var(--accent-3)/0.7)]" />
+            <div className="p-4 pb-0">
+              <h3 className="text-base font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-3))] to-[hsl(var(--accent-3))] bg-clip-text text-transparent flex items-center gap-2">
+                <ShieldAlert className="h-4 w-4 text-[hsl(var(--accent-3-fg))]" />
+                {t("Proposals:risksTitle")}
+              </h3>
+              <p className="text-sm text-muted-foreground mt-1">
                 {t("Proposals:risksDescription")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </p>
+            </div>
+            <div className="p-4 pt-2">
               <span className="text-sm">
                 <ul className="ml-2 list-disc [&>li]:mt-1 pl-2">
                   <li>{t("Proposals:risk1")}</li>
                   <li>{t("Proposals:risk2")}</li>
                 </ul>
               </span>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {viewJSON && json ? (
             <Dialog
@@ -513,7 +518,7 @@ export default function Proposals(properties) {
                 setViewJSON(open);
               }}
             >
-              <DialogContent className="sm:max-w-[750px] bg-white">
+              <DialogContent className="sm:max-w-[750px] bg-card">
                 <DialogHeader>
                   <DialogTitle>
                     {t("LiveBlocks:dialogContent.json")}
@@ -528,7 +533,7 @@ export default function Proposals(properties) {
                   rows={15}
                 />
                 <Button
-                  className="w-1/4 mt-2"
+                  className="w-1/4 mt-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
                   onClick={() => {
                     navigator.clipboard.writeText(
                       JSON.stringify(json, null, 2)

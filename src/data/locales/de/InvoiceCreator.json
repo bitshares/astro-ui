@@ -13,57 +13,82 @@
     "header": "Kennung",
     "info": "Diese Kennung wird als Notiz/Nachricht verwendet, wenn die Rechnung bezahlt wird."
   },
-  "timeSince": {
-    "header": "Zeit seit Rechnungserstellung",
-    "info": "Zu diesem Zeitpunkt wurde die Rechnung erstellt."
-  },
   "note": {
     "header": "Notiz",
     "info": "Dies ist ein optionaler Hinweis des Rechnungserstellers."
   },
-  "invoiceItems": {
-    "title": "Rechnungspositionen",
-    "headers": {
-      "items": "Artikel",
-      "description": "Beschreibung",
-      "paymentMethods": "Zahlungsmethoden"
+  "inventory": {
+    "header": "Inventargegenstände",
+    "addItem": "Artikel hinzufügen",
+    "searchPlaceholder": "Inventar durchsuchen...",
+    "selectItemDialog": {
+      "title": "Artikel auswählen",
+      "description": "Wählen Sie einen Artikel, der dieser Rechnung hinzugefügt werden soll."
     },
-    "paymentMethodsLabel": "Zahlungsmethoden",
-    "selectPaymentMethodPlaceholder": "Zahlungsart auswählen",
-    "tooltips": {
-      "quantity": "Menge von „{{name}}„gekauft wird: {{quantity}}",
-      "descriptionOf": "Beschreibung von „{{name}}\"",
-      "selectPayment": "Wählen Sie Ihre Zahlungsmethode aus der Dropdown-Auswahl aus"
+    "table": {
+      "name": "Name",
+      "inStock": "Auf Lager",
+      "price": "Preis"
     }
   },
-  "payButton": "Fahren Sie mit der Bezahlung der Rechnung fort",
-  "dialogHeader": "Rechnung bezahlen",
-  "totals": {
-    "title": "Gesamtzahl der Rechnungszahlungen",
-    "description": "Wie viel geben Sie im Vergleich zu Ihrem verfügbaren Guthaben aus?",
-    "columns": {
-      "total": "Gesamtvermögenswert",
-      "balance": "Betrag des Vermögenssaldos",
-      "sufficient": "Ausreichendes Gleichgewicht"
+  "selectedItems": {
+    "table": {
+      "name": "Name",
+      "nameTooltip": "Der Name des gekauften Artikels.",
+      "quantity": "Gekaufte Menge",
+      "quantityTooltip": "Anzahl der Einheiten des Artikels, die vom Rechnungsempfänger gekauft werden.",
+      "totalPossiblePrices": "Mögliche Gesamtpreise",
+      "totalPricesTooltip": "Der Rechnungsempfänger zahlt nur einen dieser Asset-Typen pro gekauftem Artikel."
     },
-    "tooltips": {
-      "amountRequested": "Das ist die Menge {{asset}} angefordert wird.",
-      "currentBalance": "Dies ist Ihr aktueller Kontostand {{asset}}.",
-      "needMore": "Sie müssen erwerben {{required}} mehr {{asset}} um mit der erfolgreichen Rechnungszahlung fortzufahren!"
+    "row": {
+      "quantityTitle": "Gekaufte Menge: {{quantity}}",
+      "totalsTitle": "Summen"
     }
   },
-  "invalid": {
-    "title": "Ungültige Rechnung",
-    "description": "Der angegebene Rechnungscode ist ungültig. ",
-    "reset": "Rechnungscode zurücksetzen"
+  "prices": {
+    "countLabel": "{{count}} Preise",
+    "possibleTotals": {
+      "dialogTitle": "Mögliche Summen",
+      "dialogDescription": "Durch die Zahlung eines der folgenden Asset-Beträge hat der Rechnungsempfänger die Rechnung für diese Menge dieses Artikels vollständig beglichen."
+    }
   },
-  "initial": {
-    "title": "Eine Rechnung bezahlen",
-    "description": "Nach Eingabe eines gültigen Rechnungscodes erscheinen Ihre Rechnungsdaten!",
-    "placeholder": "Geben Sie hier den Rechnungscode ein...",
-    "process": "Rechnungscode verarbeiten"
+  "quantity": {
+    "dialogTitle": "Menge",
+    "dialogDescription": "Wie viele \"{{name}}\" hinzufügen?",
+    "add": "Hinzufügen"
   },
-  "format": {
-    "recipientField": "{{name}} ({{id}})"
+  "itemDetails": {
+    "dialogTitle": "Artikeldetails",
+    "dialogDescription": "Vollständige Eigenschaften für den ausgewählten Artikel."
+  },
+  "emptyInventory": {
+    "title": "Noch keine Artikel im Inventar!",
+    "description": "Sie müssen Inventargegenstände erstellen, bevor eine Rechnung generiert werden kann!",
+    "button": "Artikelbestand"
+  },
+  "generateInvoice": {
+    "button": "Rechnung generieren",
+    "buttonActive": "Rechnung generieren"
+  },
+  "generatedInvoice": {
+    "dialogTitle": "Generierte Rechnung",
+    "dialogDescription": "Geben Sie dem Kunden den folgenden Rechnungscode, um die Rechnung zu bezahlen.",
+    "copyButton": "Rechnungscode in die Zwischenablage kopieren",
+    "copiedButton": "Rechnungscode in die Zwischenablage kopiert!",
+    "invoiceSaved": "Rechnung gespeichert!",
+    "saveInvoice": "Rechnung speichern"
+  },
+  "scanner": {
+    "scan": "Scannen",
+    "dialogTitle": "Barcode scannen",
+    "dialogDescription": "Richten Sie Ihre Kamera auf einen Barcode, um den entsprechenden Artikel hinzuzufügen.",
+    "rear": "Rückseite",
+    "front": "Vorderseite",
+    "torchOn": "Taschenlampe an",
+    "torchOff": "Taschenlampe aus",
+    "close": "Schließen",
+    "retry": "Erneut versuchen",
+    "switch": "Wechseln",
+    "itemNotFound": "Artikel nicht gefunden"
   }
 }

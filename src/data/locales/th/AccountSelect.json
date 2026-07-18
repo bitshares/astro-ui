@@ -24,6 +24,17 @@
   },
   "existing": {
     "description": "เลือกหนึ่งในบัญชีที่คุณใช้ก่อนหน้านี้",
-    "none": "ไม่พบบัญชี"
-  }
+    "none": "ไม่พบบัญชี",
+    "noneHint": "คุณสามารถเพิ่มบัญชีได้โดยใช้ตัวเลือกบัญชีใหม่"
+  },
+  "step1": "เครือข่าย",
+  "step2": "บัญชี",
+  "step3": "ยืนยัน",
+  "mainnet": "เมนเน็ต (BTS)",
+  "testnetLabel": "เครือข่ายทดสอบ (TEST)",
+  "newAccountSubtitle": "ค้นหาบัญชีใดๆ บนเครือข่าย",
+  "existingAccountSubtitle": "บันทึกบัญชี {{count}} บัญชี",
+  "existingAccountSubtitle_plural": "บันทึกบัญชี {{count}} บัญชี",
+  "removeAccount": "ลบบัญชี",
+  "removeAccountLabel": "ลบบัญชี {{username}}"
 }

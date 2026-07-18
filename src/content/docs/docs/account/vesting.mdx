@@ -1,0 +1,67 @@
+---
+title: Vesting Balances
+description: View and claim vesting balances using vesting_balance_withdraw.
+sidebar:
+  order: 9
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Vesting Balances** lists the vesting balances owned by an account — funds locked by a policy (linear-with-cliff or coin-days) that release over time. When an amount has vested, you can claim it, which broadcasts `vesting_balance_withdraw`.
+
+**Open in the app:** [Vesting Balances](/vesting.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Locked funds" icon="lock">
+    See balances gated by a vesting policy.
+  </Card>
+  <Card title="Vested amount" icon="chart">
+    How much is currently claimable.
+  </Card>
+  <Card title="Claim" icon="coins">
+    Withdraw vested funds via `vesting_balance_withdraw`.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Vesting Balances** from the homepage under *Account Overviews*.
+
+2. Select the account. Each `1.13.x` vesting balance shows its policy and vested amount.
+
+3. When funds are available, click **Claim**.
+
+4. Authorize → `vesting_balance_withdraw`.
+
+</Steps>
+
+<Aside type="note" title="Created elsewhere">
+  Vesting balances are created with `vesting_balance_create` on the [Create Vesting](/docs/transfer/create_vesting.html) page. This page only views and claims them.
+</Aside>
+
+## Operation used
+
+Claiming broadcasts `vesting_balance_withdraw` (operation `21`):
+
+```json
+{
+  "vesting_balance": "1.13.x",
+  "owner": "1.2.x",
+  "amount": { "amount": 50000000, "asset_id": "1.3.0" }
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `vesting_balance` | The `1.13.x` vesting balance object id. |
+| `owner` | The owning account (`1.2.x`). |
+| `amount` | Amount to withdraw (`{amount, asset_id}`). |
+
+## Related pages
+
+- [Create Vesting](/docs/transfer/create_vesting.html)
+- [Portfolio Balances](/docs/account/balances.html)

@@ -1,4 +1,5 @@
 {
+  "about": "About",
   "permissions": {
     "header": "Asset's permissions",
     "header_content": "Note: Disabling permissions is a permanent decision",
@@ -310,5 +311,10 @@
     "supportedFiletypes": "Supported filetypes include images, video, audio, 3D files, documents, etc.",
     "main_header_content": "The settings below define how your non-fungible token will behave on the Bitshares blockchain, The asset creator is responsible for properly configuring their non-fungible token.",
     "main_header": "Non-fungible token configuration"
+  },
+  "sectionHeader": {
+    "stepBadge": "Step {{number}}",
+    "optional": "· Optional",
+    "recommended": "· Recommended"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "existingID": "Existing Offer ID",
+  "existingID": "ID da oferta existente",
   "price": "Preço:",
   "editingPrice": "Preço de edição",
   "setNewPrice": "Definir novo preço",
@@ -58,5 +58,7 @@
   "risksPoint3": "Se você não configurar os mutuários permitidos, todos os usuários do blockchain Bitshares poderão aceitar o acordo como um todo. Considere utilizar a funcionalidade de mutuário aprovado para emprestar a usuários conhecidos/registrados.",
   "risksPoint4": "Os mutuários não são obrigados a reembolsar os ativos emprestados, nem são punidos por fazê-lo, eles podem optar por não pagar o empréstimo e perder sua garantia. Você só pode reivindicar a devolução dos ativos emprestados ou da garantia após o término do período de reembolso. ",
   "risksPoint5": "O vencimento de um acordo de crédito pode exceder a data de vencimento da oferta de crédito. Você não deve presumir que terá seus ativos emprestados de volta até que o vencimento + o último período de reembolso tenha passado.",
-  "risksPoint6": "Esteja ciente dos riscos de contraparte ao usar ativos garantidos por bolsa (EBA) para fins de garantia ou empréstimo, pois seu valor pode flutuar com base nos riscos de terceiros."
+  "risksPoint6": "Esteja ciente dos riscos de contraparte ao usar ativos garantidos por bolsa (EBA) para fins de garantia ou empréstimo, pois seu valor pode flutuar com base nos riscos de terceiros.",
+  "noCollateral": "Nenhuma garantia adicionada ainda",
+  "noPreApprovedBorrowers": "Nenhum mutuário pré-aprovado"
 }

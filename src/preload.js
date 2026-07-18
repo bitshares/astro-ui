@@ -8,6 +8,14 @@ contextBridge.exposeInMainWorld("electron", {
     ipcRenderer.invoke("faucetRegistration", args),
   genKey: async () => ipcRenderer.invoke("genKey"),
   genAccount: async (args) => ipcRenderer.invoke("genAccount", args),
+  // Blind (stealth) account crypto (bts/ecc runs in main process)
+  blindSuggestBrainKey: async () => ipcRenderer.invoke("blindSuggestBrainKey"),
+  blindAccountFromBrainKey: async (args) =>
+    ipcRenderer.invoke("blindAccountFromBrainKey", args),
+  blindAccountFromWif: async (args) =>
+    ipcRenderer.invoke("blindAccountFromWif", args),
+  blindEncrypt: async (args) => ipcRenderer.invoke("blindEncrypt", args),
+  blindDecrypt: async (args) => ipcRenderer.invoke("blindDecrypt", args),
   // REST queries
   fetchTopMarkets: async (args) => ipcRenderer.invoke("fetchTopMarkets", args),
   fetchAccountHistory: async (args) =>

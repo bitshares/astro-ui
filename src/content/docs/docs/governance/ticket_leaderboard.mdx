@@ -1,0 +1,47 @@
+---
+title: Ticket Leaderboard
+description: Rank accounts by effective governance voting power from locked tickets (read-only).
+sidebar:
+  order: 7
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Ticket Leaderboard** ranks accounts by their effective voting power — the BTS they've locked into tickets, multiplied by each ticket's lock-duration boost. It's a read-only view of who wields the most governance influence.
+
+**Open in the app:** [Ticket Leaderboard](/ticket_leaderboard.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Power ranking" icon="trophy">
+    Accounts sorted by effective voting weight.
+  </Card>
+  <Card title="Ticket detail" icon="document">
+    Inspect any ticket's lock type and amount.
+  </Card>
+  <Card title="Copy JSON" icon="copy">
+    Copy a ticket's raw object for reference.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Ticket Leaderboard** from the homepage under *Governance*.
+
+2. Browse the ranked list of accounts by voting power.
+
+3. Open a ticket to see its lock type, amount and JSON.
+
+</Steps>
+
+<Aside type="note" title="Earn your place">
+  To appear on the leaderboard, lock BTS into a ticket via [Create Ticket](/docs/governance/create_ticket.html).
+</Aside>
+
+## Related pages
+
+- [Create Ticket](/docs/governance/create_ticket.html)
+- [Vote](/docs/governance/vote.html)

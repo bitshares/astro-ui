@@ -1,0 +1,11 @@
+{
+  "submit": "Soumettre",
+  "insufficient_funds": "Solde insuffisant.",
+  "permissions": "Permissions",
+  "flags": "Drapeaux",
+  "expiryHeader": "Expiration",
+  "expiryContent": "Votre ordre limit restera actif sur le DEX pendant cette durée avant de ne plus exister. Si vous sélectionnez 'fill or kill' et qu'il n'y a pas d'ordre limit de vente DEX correspondant, l'opération échouera, vous faisant gagner du temps et des frais.",
+  "setPriceFeeders": "Définir les fournisseurs de prix",
+  "setPriceFeedersDescription": "Définissez les fournisseurs de prix pour cet actif. Les fournisseurs de prix sont responsables de la fourniture du prix de règlement.",
+  "settingPriceFeeders": "Définition des fournisseurs de prix"
+}

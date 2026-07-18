@@ -27,7 +27,7 @@ const marketSearchTEST = testMarketData.map(collection => collection.data);
 
 <Layout title="Custom Pool Overview">
 	<main>
-		<PageHeader client:only="react" page="custom_pool_overview" backURL="../index.html" />
+		<PageHeader client:only="react" page="custom_pool_overview" />
 		<CustomPoolOverviewComponent
 			client:only="react"
 			_assetsBTS={btsAssets}
@@ -46,7 +46,7 @@ const marketSearchTEST = testMarketData.map(collection => collection.data);
 		margin: auto;
 		padding: 1rem;
 		width: 100%;
-		color: white;
+		color: hsl(var(--foreground));
 		font-size: 20px;
 		line-height: 1.6;
 		min-height: 100vh;

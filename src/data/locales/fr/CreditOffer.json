@@ -57,7 +57,11 @@
     "networkFee": "Frais de réseau",
     "networkFeeDescription": "Le coût de diffusion de votre opération de crédit sur le réseau.",
     "ltmRebate": "Rabais LTM : {{rebate}} BTS (acquisition)",
-    "submit": "Soumettre"
+    "submit": "Soumettre",
+    "lendingAccountShort": "Proposé par {{owner_name}}",
+    "available": "Disponible",
+    "minimum": "Minimum",
+    "expiry": "Expiration"
   },
   "dialogContent": {
     "borrowing": "Emprunt {{finalBorrowAmount}} {{symbol}} depuis {{owner_name}} ({{owner_account}})"

@@ -1,0 +1,6 @@
+{
+  "title": "Sidespecifikke temaer",
+  "description": "Tildel et bestemt tema til individuelle sider. Når du besøger siden, anvendes temaet globalt.",
+  "useActive": "Brug aktuelt tema",
+  "overrideActive": "Denne side bruger sit eget tema"
+}

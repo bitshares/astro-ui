@@ -1,382 +1,488 @@
 {
-  "instant_trade": {
-    "title": "⚡ Instant Trade",
-    "subtitle": "Quickly swap assets at the best available prices",
-    "hover1": "Instantly trade assets on the DEX without any distractions.",
-    "hover2": "Utilizes fill-or-kill order technology to either get the prices you want or cancels the order.",
-    "hover3": "See who you'll be trading with on the DEX and whether they've enabled on-fill conditions on their orders."
-  },
-  "vote": {
-    "title": "🗳️ Voting",
-    "subtitle": "Vote for witnesses, committee members and worker proposals",
-    "hover1": "Vote for witnesses who produce blocks on the blockchain.",
-    "hover2": "Vote for committee members who govern the blockchain.",
-    "hover3": "Vote for worker proposals to fund ideas on the blockchain."
-  },
-  "barter": {
-    "title": "🛒 Barter",
-    "subtitle": "Trade assets with other users",
-    "hover1": "Trade assets with other users.",
-    "hover2": "Bartering is a peer-to-peer trading process.",
-    "hover3": "Bartering can involve 3rd party escrow services."
-  },
-  "witnesses": {
-    "title": "👁️ Witnesses",
-    "subtitle": "View the current active and inactive witnesses.",
-    "hover1": "View who has received the most votes.",
-    "hover2": "View who witnesses have voted for.",
-    "hover3": "View witness core token balances."
-  },
-  "committee": {
-    "title": "🗳️ Committee Members",
-    "subtitle": "View the current active and inactive committee members.",
-    "hover1": "View who has received the most votes.",
-    "hover2": "View who committee members have voted for.",
-    "hover3": "View committee core token balances."
-  },
-  "governance": {
-    "title": "🗳️ Role Registration",
-    "subtitle": "Create/Update both witness and committee roles.",
-    "hover1": "Create, update or invalidate your witness registration.",
-    "hover2": "Create or update your committee member registration."
-  },
-  "create_worker": {
-    "title": "🛠️ Create Worker Proposal",
-    "subtitle": "Create a worker proposal for funding ideas!",
-    "hover1": "Secure funds via a worker proposal to fund your project.",
-    "hover2": "Worker proposals are funded by the Bitshares reserve fund.",
-    "hover3": "Worker proposals are voted on by the community."
-  },
-  "dex": {
-    "title": "📈 DEX Limit Orders",
-    "subtitle": "Trade assets on the Bitshares DEX",
-    "hover1": "Manually craft limit orders.",
-    "hover2": "Use any asset trading pair.",
-    "hover3": "Specify order expiration dates.",
-    "hover4": "More complex but cheaper than pool swaps."
-  },
-  "pool": {
-    "title": "💱 Liquidity Pool Exchange",
-    "subtitle": "Swap assets via a liquidity pool",
-    "hover1": "Swap assets via user created liquidity pools.",
-    "hover2": "Pools have different trading pairs and fees.",
-    "hover3": "Simpler but more costly than a limit order."
-  },
-  "swap": {
-    "title": "🔄 Simple Asset Swap",
-    "subtitle": "More easily swap assets via pools",
-    "hover1": "Swap assets via user created liquidity pools.",
-    "hover2": "Pools have different trading pairs and fees.",
-    "hover3": "Simpler but more costly than a limit order."
-  },
-  "stake": {
-    "title": "🔒 Stake Assets",
-    "subtitle": "Stake assets in liquidity pools",
-    "hover1": "Stake assets in liquidity pools to earn fees.",
-    "hover2": "Staked assets are locked in the pool.",
-    "hover3": "Staked assets can be withdrawn at any time."
-  },
-  "transfer": {
-    "title": "💸 Transfer Assets",
-    "subtitle": "Send assets to other users",
-    "hover1": "Transfer assets to anyone on the Bitshares blockchain in seconds."
-  },
-  "timed_transfer": {
-    "title": "⏱️ Timed Transfer",
-    "subtitle": "Send assets to other users at a later date.",
-    "hover1": "Schedule transfer of assets to another user after proposal review period passes."
-  },
-  "withdraw_permission": {
-    "title": "📥 Withdraw Permission",
-    "subtitle": "Manage your withdraw permissions",
-    "hover1": "Create/edit/delete your payment withdraw permissions.",
-    "hover2": "View your receive withdraw permissions."
-  },
-  "htlc": {
-    "title": "⏳ Hash Time-Locked Contracts (HTLC)",
-    "subtitle": "Create claimable funds locked behind secret crypto keys.",
-    "hover1": "A HTLC locks away funds for given recipient, who can redeem those funds by providing a secret preimage (password) that was used by the sender to create the contract.",
-    "hover2": "Disclosing the password happens off-chain."
-  },
-  "create_vesting": {
-    "title": "🫰 Vest Assets",
-    "subtitle": "Create vesting balances",
-    "hover1": "Creating a vesting balance allows you to lock up a quantity of assets for a set period of time.",
-    "hover2": "You can use one of two vesting types: Coin Days Destroyed and Linear Vesting with Cliff.",
-    "hover3": "Coin Days Destroyed policy's effect is to require a certain amount of “interest” to accrue before the full balance may be withdrawn, Interest accrues as coindays (balance * length held), If some of the balance is withdrawn, the remaining balance must be held longer.",
-    "hover4": "Linear Vesting with Cliff policy is used to mimic traditional stock vesting contracts where each day a certain amount vests until it is fully matured."
-  },
-  "borrow": {
-    "title": "🏦 Borrow Funds",
-    "subtitle": "Borrow from other users credit offers",
-    "hover1": "Browse the active user created credit offers.",
-    "hover2": "Borrow assets from them at their desired rate.",
-    "hover3": "Use requested collateral to secure your loan."
-  },
-  "lend": {
-    "title": "🪙 Lend Funds",
-    "subtitle": "Create a credit offer to lend to others",
-    "hover1": "Create your own decentralized credit offers.",
-    "hover2": "Lend assets at your defined rates.",
-    "hover3": "Specify acceptable loan collateral and prices."
-  },
-  "smartcoins": {
-    "title": "💵 Issue Collateralized debt",
-    "subtitle": "Borrow Fiat bitassets, private smartcoins and more.",
-    "hover1": "Bitassets like USD, CNY and EUR are committee created stablecoins (smartcoins) backed with BTS.",
-    "hover2": "User created smartcoins can be backed with any asset and reference any external feed.",
-    "hover3": "External settlement prices are derived from configured feed producers.",
-    "hover4": "Exposure to external price feeds can pose a risk to collateralized debt positions."
-  },
-  "tfunds": {
-    "title": "🤖 Same-T Funds",
-    "subtitle": "View, create, update, delete Same-T Funds!",
-    "hover1": "View all the Same-T Funds currently on offer by other users.",
-    "hover2": "Easily create a new Same-T fund.",
-    "hover3": "Update or delete your existing Same-T funds.",
-    "hover4": "Same-T funds are a way to earn passively from your holdings."
-  },
-  "portfolio": {
-    "title": "💰 Your Portfolio",
-    "subtitle": "Check your balances, open orders and recent blockchain activity",
-    "hover1": "Check your balances.",
-    "hover2": "Monitor your open orders.",
-    "hover3": "Analyze your recent account activity."
-  },
-  "portfolio_balances": {
-    "title": "📊 Account Balances",
-    "subtitle": "View your liquid balances and related actions",
-    "hover1": "Sort balances by default, alphabetical, or amount.",
-    "hover2": "Quick links to trade and asset info.",
-    "hover3": "See related liquidity pools."
-  },
-  "portfolio_open_orders": {
-    "title": "🧾 Open Orders",
-    "subtitle": "Review and manage your open DEX orders",
-    "hover1": "Jump straight to the market pair.",
-    "hover2": "Update or cancel an order.",
-    "hover3": "Check expiration and order IDs."
-  },
-  "portfolio_recent_activity": {
-    "title": "🧠 Recent Activity",
-    "subtitle": "Inspect your latest on-chain operations",
-    "hover1": "Browse operation IDs and blocks.",
-    "hover2": "View operation JSON.",
-    "hover3": "Open full activity details."
-  },
-  "favourites": {
-    "title": "⭐ Your Favourites",
-    "subtitle": "Quickly access favourite assets and accounts",
-    "hover1": "Add assets you care about to watch them in one place.",
-    "hover2": "Track your favourite accounts for quick reference."
-  },
-  "featured": {
-    "title": "🏆 Top Markets",
-    "subtitle": "Discover the most actively traded assets today",
-    "hover1": "Navigate to the most active trading pairs.",
-    "hover2": "Compare market trading volume and value.",
-    "hover3": "Compare quantity of market trades."
-  },
-  "deals": {
-    "title": "🤝 Credit Deals",
-    "subtitle": "Check your credit deals",
-    "hover1": "Monitor your active credit deals.",
-    "hover2": "Manage the state of your credit deals."
-  },
-  "offers": {
-    "title": "📜 Credit Offers",
-    "subtitle": "Check your credit offers",
-    "hover1": "Monitor your active credit offers.",
-    "hover2": "Manage the state of your credit offers."
-  },
-  "vesting": {
-    "title": "⌚ Vesting Balances",
-    "subtitle": "View and claim rewards, referral fees and other vesting balances",
-    "hover1": "Check your vesting balances.",
-    "hover2": "Claim your vested balances."
-  },
-  "prediction_markets": {
-    "title": "🎲 Predictions",
-    "subtitle": "Browse predictions, manage bets, perform prediction admin.",
-    "hover1": "Browse the available prediction market assets.",
-    "hover2": "Prediction markets can be about anything.",
-    "hover3": "Each prediction market asset has an unique fee."
-  },
-  "proposals": {
-    "title": "🤔 Proposed Operations",
-    "subtitle": "View and Approve/Reject Proposed Account Operations",
-    "hover1": "View the proposed account operations made by other blockchain accounts for your account.",
-    "hover2": "Approve or reject the proposed account operations."
-  },
-  "issued_assets": {
-    "title": "📃 Your Issued Assets",
-    "subtitle": "View all the assets you've created",
-    "hover1": "View user issed assets, prediction market assets, smartcoins and non-fungible tokens!",
-    "hover2": "Edit the assets you've created on the blockchain.",
-    "hover3": "Optionally issue a quantity of your created assets."
-  },
-  "blocks": {
-    "title": "💾 Blockchain data",
-    "subtitle": "View the most recent summarized blockchain data",
-    "hover1": "Recent activity and recent block live data tables.",
-    "hover2": "Recent block transaction count live chart.",
-    "hover3": "Summarized blockchain data averages and totals."
-  },
-  "create_prediction": {
-    "title": "🔮 Prediction Market Asset",
-    "subtitle": "Create a bet about anything",
-    "hover1": "Create bets about literally anything.",
-    "hover2": "Be the bookie and set your own commission.",
-    "hover3": "Both short and long term bets are possible."
-  },
-  "create_uia": {
-    "title": "🍬 User Issued Asset",
-    "subtitle": "Create your own token for anything",
-    "hover1": "Create your own User Issued Asset.",
-    "hover2": "They can be used for a variety of purposes.",
-    "hover3": "They can be used as a token for your business, a reward token, a token for a game, and more.",
-    "hover4": "Gateways can create exchange backed assets for trading on the Bitshares DEX."
-  },
-  "create_smartcoin": {
-    "title": "💷 Smartcoin Asset",
-    "subtitle": "Create a Fiat stablecoin asset",
-    "hover1": "Create your own Smartcoin.",
-    "hover2": "They can be used for a variety of purposes.",
-    "hover3": "They can be used as a stablecoin, a token for your business, a reward token, a token for a game, and more.",
-    "hover4": "Smartcoins can be backed by any asset and reference any external feed."
-  },
-  "create_liquidity_pool": {
-    "title": "💧 Create Liquidity Pool",
-    "subtitle": "Create a new liquidity pool for swapping 2 of any assets",
-    "hover1": "Converts an user issued asset to a liquidity pool share asset.",
-    "hover2": "Configure the liquidity pool to swap any 2 assets on the blockchain.",
-    "hover3": "Apply your own fees to earn from others using your liquidity pool."
-  },
-  "create_ticket": {
-    "title": "🎫 Create Ticket",
-    "subtitle": "Create vote-lock tickets to gain vote weight.",
-    "hover1": "Vote lock tickets grant you vote weight for witness, committee and worker voting purposes.",
-    "hover2": "Tickets if liquidated take a set period of time before unlocking your funds."
-  },
-  "ticket_leaderboard": {
-    "title": "📊 Ticket Leaderboard",
-    "subtitle": "View combined effective ticket power by account",
-    "hover1": "View who has the most voting power on the blockchain.",
-    "hover2": "Compare how your voting power stacks up against others.",
-    "hover3": "Calculate the size of your future vote lock tickets to gain more voting power."
-  },
-  "accountLists": {
-    "title": "📋 Account Lists",
-    "subtitle": "View and manage your account lists",
-    "hover1": "Add accounts to your whitelist.",
-    "hover2": "Add accounts to your blacklist.",
-    "hover3": "Remove accounts from said lists."
-  },
-  "ltm": {
-    "title": "🏅 Upgrade Account",
-    "subtitle": "Buy a lifetime membership",
-    "hover1": "There are multiple benefits to becoming a lifetime member.",
-    "hover2": "Lifetime members receive a 80% vesting balance rebate on fees.",
-    "hover3": "Lifetime members can create premium Bitshares account names.",
-    "hover4": "Lifetime members can earn through the referral system."
-  },
-  "nodes": {
-    "title": "🌐 Nodes",
-    "subtitle": "Blockchain node configuration",
-    "hover1": "Connect to a Bitshares node of your choice.",
-    "hover2": "Add/remove nodes to your connection list."
-  },
-  "create_account": {
-    "title": "🆕 Create Account",
-    "subtitle": "Create a new cloud wallet account on the BitShares blockchain.",
-    "hover1": "Create a free account using a public faucet.",
-    "hover2": "Generate a premium account using an existing LTM account."
-  },
-  "invoice_inventory": {
-    "title": "📦 Invoice Inventory",
-    "subtitle": "Manage items and prices used for invoicing",
-    "hover1": "Create and manage inventory items and their prices for invoices."
-  },
-  "create_invoice": {
-    "title": "🧾 Create Invoice",
-    "subtitle": "Generate invoice codes for customers",
-    "hover1": "Create an invoice by selecting items from the inventory, providing quantities and invoice details."
-  },
-  "pay_invoice": {
-    "title": "💵 Pay Invoice",
-    "subtitle": "Pay invoices using invoice codes",
-    "hover1": "Pay an invoice by entering the invoice code provided by the invoice creator.",
-    "hover2": "Optionally pay with different assets for each item being purchased."
-  },
-  "stored_invoices": {
-    "title": "💾 Stored Invoices",
-    "subtitle": "View and manage your saved invoices",
-    "hover1": "Browse your saved invoices, both generated and received.",
-    "hover2": "View invoice details and delete unwanted invoices.",
-    "hover3": "Store data about the progress of invoices being fulfilled."
-  },
-  "tfund_user": {
-    "title": "🚀 Same-T Fund Trade",
-    "subtitle": "Borrow, trade, repay, simple!",
-    "hover1": "Borrow assets from a same-t fund.",
-    "hover2": "Trade these same-t funds on the DEX.",
-    "hover3": "Repay the borrowed assets."
-  },
-  "custom_pool_tracker": {
-    "title": "📊 Liquidity Pool Tracker",
-    "subtitle": "Track your favorite liquidity pools with ease!",
-    "hover1": "Configure your own custom liquidity pool tracker.",
-    "hover2": "Track up to 5 swappable assets."
-  },
-  "pools": {
-    "title": "💧 Liquidity Pools",
-    "subtitle": "View a list of all liquidity pools",
-    "hover1": "Filter all liquidity pools by swappable assets",
-    "hover2": "Locate liquidity pools for swapping assets.",
-    "hover3": "Identify liquidity pools to stake assets in."
-  },
-  "features": {
-    "heading": "Features",
-    "functionalityHeading": "Functionality",
-    "zeroAuth": {
-      "title": "Zero authentication required!",
-      "description": "Construct your blockchain transactions without unlocking any accounts!"
+    "instant_trade": {
+        "title": "Instant Trade",
+        "subtitle": "Quickly swap assets at the best available prices",
+        "hover1": "Instantly trade assets on the DEX without any distractions.",
+        "hover2": "Utilizes fill-or-kill order technology to either get the prices you want or cancels the order.",
+        "hover3": "See who you'll be trading with on the DEX and whether they've enabled on-fill conditions on their orders."
     },
-    "multiBroadcast": {
-      "title": "Multiple transaction broadcast methods!",
-      "description": "Broadcast your blockchain operations via QR Codes, Deeplinks or local JSON files."
+    "call_orders": {
+        "title": "Call Orders",
+        "subtitle": "View your margin-borrowed positions across all smartcoins",
+        "hover1": "See collateral and debt per smartcoin.",
+        "hover2": "Open the DEX or instant trade for the pair.",
+        "hover3": "Manage the position from the smartcoin page."
     },
-    "supportsLatest": {
-      "title": "Supports the latest Bitshares features!",
-      "description": "Interested in the latest Bitshares DEX improvements? We've got you covered!"
+    "custom_authorities": {
+        "title": "Custom Authorities",
+        "subtitle": "Manage granular operation permissions for your account",
+        "hover1": "View your account's custom authorities.",
+        "hover2": "Create, update or delete authorities.",
+        "hover3": "Grant scoped permissions to accounts or keys."
     },
-    "switchChains": {
-      "title": "Easily switch between supported blockchains!",
-      "description": "It takes seconds to switch between Bitshares mainnet and testnet networks!"
+    "blind_transfers": {
+        "title": "Blind Transfers",
+        "subtitle": "Build confidential blind transfer operations",
+        "hover1": "Move funds to or from blind commitments.",
+        "hover2": "Transfer value between blind commitments.",
+        "hover3": "Export the operation for an external wallet to sign."
     },
-    "nearInstant": {
-      "title": "Near-instant blockchain operations!",
-      "description": "With three second block timings your broadcast operations are verified almost instantly!"
+    "vote": {
+        "title": "Voting",
+        "subtitle": "Vote for witnesses, committee members and worker proposals",
+        "hover1": "Vote for witnesses who produce blocks on the blockchain.",
+        "hover2": "Vote for committee members who govern the blockchain.",
+        "hover3": "Vote for worker proposals to fund ideas on the blockchain."
     },
-    "evergreen": {
-      "title": "Built with evergreen technologies!",
-      "description": "Using the latest web technologies for a fast, secure and reliable Bitshares future!"
+    "barter": {
+        "title": "Barter",
+        "subtitle": "Trade assets with other users",
+        "hover1": "Trade assets with other users.",
+        "hover2": "Bartering is a peer-to-peer trading process.",
+        "hover3": "Bartering can involve 3rd party escrow services."
     },
-    "multiWallets": {
-      "title": "Supports multiple wallets!",
-      "description": "Broadcast transactions via Beet or BeetEOS wallets!"
+    "witnesses": {
+        "title": "Witnesses",
+        "subtitle": "View the current active and inactive witnesses.",
+        "hover1": "View who has received the most votes.",
+        "hover2": "View who witnesses have voted for.",
+        "hover3": "View witness core token balances."
     },
-    "localized": {
-      "title": "Fully localized to multiple languages!",
-      "description": "Available in 11 languages and counting!"
+    "committee": {
+        "title": "Committee Members",
+        "subtitle": "View the current active and inactive committee members.",
+        "hover1": "View who has received the most votes.",
+        "hover2": "View who committee members have voted for.",
+        "hover3": "View committee core token balances."
     },
-    "blockActors": {
-      "title": "Blocks bad actors!",
-      "description": "Helps you avoid malicious accounts and their blockchain objects!"
+    "governance": {
+        "title": "Role Registration",
+        "subtitle": "Create/Update both witness and committee roles.",
+        "hover1": "Create, update or invalidate your witness registration.",
+        "hover2": "Create or update your committee member registration."
+    },
+    "create_worker": {
+        "title": "Create Worker Proposal",
+        "subtitle": "Create a worker proposal for funding ideas!",
+        "hover1": "Secure funds via a worker proposal to fund your project.",
+        "hover2": "Worker proposals are funded by the Bitshares reserve fund.",
+        "hover3": "Worker proposals are voted on by the community."
+    },
+    "dex": {
+        "title": "DEX Limit Orders",
+        "subtitle": "Trade assets on the Bitshares DEX",
+        "hover1": "Manually craft limit orders.",
+        "hover2": "Use any asset trading pair.",
+        "hover3": "Specify order expiration dates.",
+        "hover4": "More complex but cheaper than pool swaps."
+    },
+    "pool": {
+        "title": "Liquidity Pool Exchange",
+        "subtitle": "Swap assets via a liquidity pool",
+        "hover1": "Swap assets via user created liquidity pools.",
+        "hover2": "Pools have different trading pairs and fees.",
+        "hover3": "Simpler but more costly than a limit order."
+    },
+    "swap": {
+        "title": "Simple Asset Swap",
+        "subtitle": "More easily swap assets via pools",
+        "hover1": "Swap assets via user created liquidity pools.",
+        "hover2": "Pools have different trading pairs and fees.",
+        "hover3": "Simpler but more costly than a limit order."
+    },
+    "stake": {
+        "title": "Stake Assets",
+        "subtitle": "Stake assets in liquidity pools",
+        "hover1": "Stake assets in liquidity pools to earn fees.",
+        "hover2": "Staked assets are locked in the pool.",
+        "hover3": "Staked assets can be withdrawn at any time."
+    },
+    "transfer": {
+        "title": "Transfer Assets",
+        "subtitle": "Send assets to other users",
+        "hover1": "Transfer assets to anyone on the Bitshares blockchain in seconds."
+    },
+    "timed_transfer": {
+        "title": "Timed Transfer",
+        "subtitle": "Send assets to other users at a later date.",
+        "hover1": "Schedule transfer of assets to another user after proposal review period passes."
+    },
+    "withdraw_permission": {
+        "title": "Withdraw Permission",
+        "subtitle": "Manage your withdraw permissions",
+        "hover1": "Create/edit/delete your payment withdraw permissions.",
+        "hover2": "View your receive withdraw permissions."
+    },
+    "htlc": {
+        "title": "Hash Time-Locked Contracts (HTLC)",
+        "subtitle": "Create claimable funds locked behind secret crypto keys.",
+        "hover1": "A HTLC locks away funds for given recipient, who can redeem those funds by providing a secret preimage (password) that was used by the sender to create the contract.",
+        "hover2": "Disclosing the password happens off-chain."
+    },
+    "create_vesting": {
+        "title": "Vest Assets",
+        "subtitle": "Create vesting balances",
+        "hover1": "Creating a vesting balance allows you to lock up a quantity of assets for a set period of time.",
+        "hover2": "You can use one of two vesting types: Coin Days Destroyed and Linear Vesting with Cliff.",
+        "hover3": "Coin Days Destroyed policy's effect is to require a certain amount of 'interest' to accrue before the full balance may be withdrawn, Interest accrues as coindays (balance * length held), If some of the balance is withdrawn, the remaining balance must be held longer.",
+        "hover4": "Linear Vesting with Cliff policy is used to mimic traditional stock vesting contracts where each day a certain amount vests until it is fully matured."
+    },
+    "airdrop": {
+        "title": "Airdrop",
+        "subtitle": "Bulk distribute an asset to many accounts in one go.",
+        "hover1": "Split a large recipient list into transactions sized to fit the chain's maximum transaction size."
+    },
+    "airdrop_create": {
+        "title": "Create airdrop",
+        "subtitle": "Build a recipient list and configure the asset distribution.",
+        "hover1": "Upload a CSV/JSON of 1.2.x account ids, choose an asset and how amounts are allocated."
+    },
+    "airdrop_perform": {
+        "title": "Perform airdrop",
+        "subtitle": "Broadcast the prepared transfer batches to the chain.",
+        "hover1": "Each batch is signed and broadcast as a single transaction via your connected wallet."
+    },
+    "borrow": {
+        "title": "Borrow Funds",
+        "subtitle": "Borrow from other users credit offers",
+        "hover1": "Browse the active user created credit offers.",
+        "hover2": "Borrow assets from them at their desired rate.",
+        "hover3": "Use requested collateral to secure your loan."
+    },
+    "lend": {
+        "title": "Lend Funds",
+        "subtitle": "Create a credit offer to lend to others",
+        "hover1": "Create your own decentralized credit offers.",
+        "hover2": "Lend assets at your defined rates.",
+        "hover3": "Specify acceptable loan collateral and prices."
+    },
+    "smartcoins": {
+        "title": "Issue Collateralized debt",
+        "subtitle": "Borrow Fiat bitassets, private smartcoins and more.",
+        "hover1": "Bitassets like USD, CNY and EUR are committee created stablecoins (smartcoins) backed with BTS.",
+        "hover2": "User created smartcoins can be backed with any asset and reference any external feed.",
+        "hover3": "External settlement prices are derived from configured feed producers.",
+        "hover4": "Exposure to external price feeds can pose a risk to collateralized debt positions."
+    },
+    "tfunds": {
+        "title": "Same-T Funds",
+        "subtitle": "View, create, update, delete Same-T Funds!",
+        "hover1": "View all the Same-T Funds currently on offer by other users.",
+        "hover2": "Easily create a new Same-T fund.",
+        "hover3": "Update or delete your existing Same-T funds.",
+        "hover4": "Same-T funds are a way to earn passively from your holdings."
+    },
+    "portfolio": {
+        "title": "Your Portfolio",
+        "subtitle": "Check your balances, open orders and recent blockchain activity",
+        "hover1": "Check your balances.",
+        "hover2": "Monitor your open orders.",
+        "hover3": "Analyze your recent account activity."
+    },
+    "portfolio_balances": {
+        "title": "Account Balances",
+        "subtitle": "View your liquid balances and related actions",
+        "hover1": "Sort balances by default, alphabetical, or amount.",
+        "hover2": "Quick links to trade and asset info.",
+        "hover3": "See related liquidity pools."
+    },
+    "portfolio_open_orders": {
+        "title": "Open Orders",
+        "subtitle": "Review and manage your open DEX orders",
+        "hover1": "Jump straight to the market pair.",
+        "hover2": "Update or cancel an order.",
+        "hover3": "Check expiration and order IDs."
+    },
+    "portfolio_recent_activity": {
+        "title": "Recent Activity",
+        "subtitle": "Inspect your latest on-chain operations",
+        "hover1": "Browse operation IDs and blocks.",
+        "hover2": "View operation JSON.",
+        "hover3": "Open full activity details."
+    },
+    "favourites": {
+        "title": "Your Favourites",
+        "subtitle": "Quickly access favourite assets and accounts",
+        "hover1": "Add assets you care about to watch them in one place.",
+        "hover2": "Track your favourite accounts for quick reference."
+    },
+    "featured": {
+        "title": "Top Markets",
+        "subtitle": "Discover the most actively traded assets today",
+        "hover1": "Navigate to the most active trading pairs.",
+        "hover2": "Compare market trading volume and value.",
+        "hover3": "Compare quantity of market trades."
+    },
+    "deals": {
+        "title": "Credit Deals",
+        "subtitle": "Check your credit deals",
+        "hover1": "Monitor your active credit deals.",
+        "hover2": "Manage the state of your credit deals."
+    },
+    "offers": {
+        "title": "Credit Offers",
+        "subtitle": "Check your credit offers",
+        "hover1": "Monitor your active credit offers.",
+        "hover2": "Manage the state of your credit offers."
+    },
+    "vesting": {
+        "title": "Vesting Balances",
+        "subtitle": "View and claim rewards, referral fees and other vesting balances",
+        "hover1": "Check your vesting balances.",
+        "hover2": "Claim your vested balances."
+    },
+    "proposals": {
+        "title": "Proposed Operations",
+        "subtitle": "View and Approve/Reject Proposed Account Operations",
+        "hover1": "View the proposed account operations made by other blockchain accounts for your account.",
+        "hover2": "Approve or reject the proposed account operations."
+    },
+    "issued_assets": {
+        "title": "Your Issued Assets",
+        "subtitle": "View all the assets you've created",
+        "hover1": "View user issued assets, smartcoins and non-fungible tokens!",
+        "hover2": "Edit the assets you've created on the blockchain.",
+        "hover3": "Optionally issue a quantity of your created assets."
+    },
+    "blocks": {
+        "title": "Blockchain Data",
+        "subtitle": "View the most recent summarized blockchain data",
+        "hover1": "Recent activity and recent block live data tables.",
+        "hover2": "Recent block transaction count live chart.",
+        "hover3": "Summarized blockchain data averages and totals."
+    },
+    "create_uia": {
+        "title": "User Issued Asset",
+        "subtitle": "Create your own token for anything",
+        "hover1": "Create your own User Issued Asset.",
+        "hover2": "They can be used for a variety of purposes.",
+        "hover3": "They can be used as a token for your business, a reward token, a token for a game, and more.",
+        "hover4": "Gateways can create exchange backed assets for trading on the Bitshares DEX."
+    },
+    "create_smartcoin": {
+        "title": "Smartcoin Asset",
+        "subtitle": "Create a Fiat stablecoin asset",
+        "hover1": "Create your own Smartcoin.",
+        "hover2": "They can be used for a variety of purposes.",
+        "hover3": "They can be used as a stablecoin, a token for your business, a reward token, a token for a game, and more.",
+        "hover4": "Smartcoins can be backed by any asset and reference any external feed."
+    },
+    "create_liquidity_pool": {
+        "title": "Create Liquidity Pool",
+        "subtitle": "Create a new liquidity pool for swapping 2 of any assets",
+        "hover1": "Converts an user issued asset to a liquidity pool share asset.",
+        "hover2": "Configure the liquidity pool to swap any 2 assets on the blockchain.",
+        "hover3": "Apply your own fees to earn from others using your liquidity pool."
+    },
+    "create_ticket": {
+        "title": "Create Ticket",
+        "subtitle": "Create vote-lock tickets to gain vote weight.",
+        "hover1": "Vote lock tickets grant you vote weight for witness, committee and worker voting purposes.",
+        "hover2": "Tickets if liquidated take a set period of time before unlocking your funds."
+    },
+    "ticket_leaderboard": {
+        "title": "Ticket Leaderboard",
+        "subtitle": "View combined effective ticket power by account",
+        "hover1": "View who has the most voting power on the blockchain.",
+        "hover2": "Compare how your voting power stacks up against others.",
+        "hover3": "Calculate the size of your future vote lock tickets to gain more voting power."
+    },
+    "accountLists": {
+        "title": "Account Lists",
+        "subtitle": "View and manage your account lists",
+        "hover1": "Add accounts to your whitelist.",
+        "hover2": "Add accounts to your blacklist.",
+        "hover3": "Remove accounts from said lists."
+    },
+    "blocked_users": {
+        "title": "Blocked Users",
+        "subtitle": "View and manage your blocked accounts",
+        "hover1": "View accounts you have blocked.",
+        "hover2": "Block or unblock accounts from your view."
+    },
+    "ltm": {
+        "title": "Upgrade Account",
+        "subtitle": "Buy a lifetime membership",
+        "hover1": "There are multiple benefits to becoming a lifetime member.",
+        "hover2": "Lifetime members receive a 80% vesting balance rebate on fees.",
+        "hover3": "Lifetime members can create premium Bitshares account names.",
+        "hover4": "Lifetime members can earn through the referral system."
+    },
+    "nodes": {
+        "title": "Nodes",
+        "subtitle": "Blockchain node configuration",
+        "hover1": "Connect to a Bitshares node of your choice.",
+        "hover2": "Add/remove nodes to your connection list."
+    },
+    "create_account": {
+        "title": "Create Account",
+        "subtitle": "Create a new cloud wallet account on the BitShares blockchain.",
+        "hover1": "Create a free account using a public faucet.",
+        "hover2": "Generate a premium account using an existing LTM account."
+    },
+    "invoice_inventory": {
+        "title": "Invoice Inventory",
+        "subtitle": "Manage items and prices used for invoicing",
+        "hover1": "Create and manage inventory items and their prices for invoices."
+    },
+    "create_invoice": {
+        "title": "Create Invoice",
+        "subtitle": "Generate invoice codes for customers",
+        "hover1": "Create an invoice by selecting items from the inventory, providing quantities and invoice details."
+    },
+    "pay_invoice": {
+        "title": "Pay Invoice",
+        "subtitle": "Pay invoices using invoice codes",
+        "hover1": "Pay an invoice by entering the invoice code provided by the invoice creator.",
+        "hover2": "Optionally pay with different assets for each item being purchased."
+    },
+    "stored_invoices": {
+        "title": "Stored Invoices",
+        "subtitle": "View and manage your saved invoices",
+        "hover1": "Browse your saved invoices, both generated and received.",
+        "hover2": "View invoice details and delete unwanted invoices.",
+        "hover3": "Store data about the progress of invoices being fulfilled."
+    },
+    "tfund_user": {
+        "title": "Same-T Fund Trade",
+        "subtitle": "Borrow, trade, repay, simple!",
+        "hover1": "Borrow assets from a same-t fund.",
+        "hover2": "Trade these same-t funds on the DEX.",
+        "hover3": "Repay the borrowed assets."
+    },
+    "custom_pool_tracker": {
+        "title": "Liquidity Pool Tracker",
+        "subtitle": "Track your favorite liquidity pools with ease!",
+        "hover1": "Configure your own custom liquidity pool tracker.",
+        "hover2": "Track up to 5 swappable assets."
+    },
+    "pools": {
+        "title": "Liquidity Pools",
+        "subtitle": "View a list of all liquidity pools",
+        "hover1": "Filter all liquidity pools by swappable assets",
+        "hover2": "Locate liquidity pools for swapping assets.",
+        "hover3": "Identify liquidity pools to stake assets in."
+    },
+    "features": {
+        "heading": "Features",
+        "functionalityHeading": "Functionality",
+        "zeroAuth": {
+            "title": "Zero authentication required!",
+            "description": "Construct your blockchain transactions without unlocking any accounts!"
+        },
+        "multiBroadcast": {
+            "title": "Multiple transaction broadcast methods!",
+            "description": "Broadcast your blockchain operations via QR Codes, Deeplinks or local JSON files."
+        },
+        "supportsLatest": {
+            "title": "Supports the latest Bitshares features!",
+            "description": "Interested in the latest Bitshares DEX improvements? We've got you covered!"
+        },
+        "switchChains": {
+            "title": "Easily switch between supported blockchains!",
+            "description": "It takes seconds to switch between Bitshares mainnet and testnet networks!"
+        },
+        "nearInstant": {
+            "title": "Near-instant blockchain operations!",
+            "description": "With three second block timings your broadcast operations are verified almost instantly!"
+        },
+        "evergreen": {
+            "title": "Built with evergreen technologies!",
+            "description": "Using the latest web technologies for a fast, secure and reliable Bitshares future!"
+        },
+        "multiWallets": {
+            "title": "Supports multiple wallets!",
+            "description": "Broadcast transactions via Beet or BeetEOS wallets!"
+        },
+        "localized": {
+            "title": "Fully localized to multiple languages!",
+            "description": "Available in 11 languages and counting!"
+        },
+        "blockActors": {
+            "title": "Blocks bad actors!",
+            "description": "Helps you avoid malicious accounts and their blockchain objects!"
+        }
+    },
+    "hero": {
+        "title": "The exchange for everyone.",
+        "subtitle": "Trade, swap, stake, borrow, lend and more on the Bitshares decentralized exchange. Non-custodial, trustless, and powered by blockchain technology.",
+        "ctaPrimary": "Start Trading",
+        "ctaSecondary": "Simple Swap",
+        "scrollForMore": "Scroll for more"
+    },
+    "sections": {
+        "exchangingSubtitle": "Trade, swap, stake and barter on the DEX",
+        "transferSubtitle": "Send assets and manage permissions",
+        "debtSubtitle": "Borrow, lend and issue collateralized debt",
+        "assetCreationSubtitle": "Create tokens, smartcoins and liquidity pools",
+        "accountSubtitle": "Manage your portfolio, orders and favourites",
+        "blockchainSubtitle": "Explore blockchain data, pools and trackers",
+        "governanceSubtitle": "Vote, register roles and create worker proposals",
+        "invoicingSubtitle": "Create, send and pay invoices on-chain",
+        "settingsSubtitle": "Account lists, nodes and configuration",
+        "airdropSubtitle": "Bulk send one asset to many accounts"
+    },
+    "configure_visuals": {
+        "title": "Configure Visuals",
+        "subtitle": "Customize wave backgrounds, aurora glow, particles and blur effects",
+        "hover1": "Choose from preset color palettes or define your own custom colors.",
+        "hover2": "Adjust wave count, speed, thickness and aurora intensity."
+    },
+    "theme_customizer": {
+        "title": "Theme Customization",
+        "subtitle": "Create and edit themes that recolor every page, nav and component",
+        "hover1": "Use Simple mode for one accent color, or Advanced for full control.",
+        "hover2": "Assign per-page themes and recolor navigation accents."
+    },
+    "page_themes": {
+        "title": "Per-Page Themes",
+        "subtitle": "Assign specific themes to individual pages",
+        "hover1": "Override the active theme for any page in the app."
+    },
+    "docs": {
+        "title": "Documentation",
+        "subtitle": "Guides and reference for using the app",
+        "hover1": "Browse the Starlight docs for setup, features and tutorials."
+    },
+    "home_link": {
+        "title": "Home",
+        "subtitle": "Return to the main dashboard"
+    },
+    "airdrop_calculate": {
+        "title": "Airdrop",
+        "subtitle": "Distribute an asset to many accounts via algorithmic selection or a manual list.",
+        "hover1": "Build a candidate pool from manual input, ticket locks, call-order collateral, top asset holders, limit-order activity, or lifetime member upgrades.",
+        "hover2": "Run one or more deterministic algorithms — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — seeded from a block witness signature.",
+        "hover3": "Review the winning accounts, configure distribution (equal split, fixed amount, or custom), then broadcast each batch through your Beet wallet."
+    },
+    "recent_activity": {
+        "title": "Recent activity",
+        "subtitle": "Browse your latest on-chain operations.",
+        "hover1": "Review the most recent operations performed by your account.",
+        "hover2": "Inspect the underlying operation JSON for each entry."
+    },
+    "top_markets": {
+        "title": "Top markets",
+        "subtitle": "The most actively traded markets on the DEX.",
+        "hover1": "Ranked by the number of fill orders over the past 30 days.",
+        "hover2": "Great for spotting the busiest trading pairs.",
+        "dialogDescription": "Choose where to trade this market pair.",
+        "openDex": "Open in DEX limit order",
+        "openInstant": "Open in Instant Swap"
+    },
+    "testnetUnsupported": "This feature queries the public BitShares Elasticsearch index, which is only available on the mainnet. Testnet is not supported.",
+    "top_pools": {
+        "title": "Top pools",
+        "subtitle": "The most actively swapped liquidity pools on the network.",
+        "hover1": "Ranked by the number of liquidity pool swaps over the past 30 days.",
+        "hover2": "Great for spotting the busiest pools to trade or stake in.",
+        "dialogDescription": "Choose where to use this liquidity pool.",
+        "openSwap": "Open in Simple Swap",
+        "openInstant": "Open in Instant Trade",
+        "openDex": "Open in DEX limit order",
+        "openStake": "Stake assets",
+        "pool": "Pool",
+        "assets": "Assets",
+        "swaps": "Swaps"
     }
-  },
-  "waveHero": {
-    "title": "A Next Generation Bitshares Client!",
-    "subtitle": "Built with the latest tech, designed for ease of use!"
-  }
 }

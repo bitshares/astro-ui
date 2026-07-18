@@ -1,0 +1,23 @@
+{
+  "committeeHeader": "コミッティーブラックリスト",
+  "committeeCount": "{{count}}件のアカウントがコミッティーによりブラックリストに登録されています",
+  "committeeDescription": "これらのアカウントはBitsharesコミッティーによりブラックリストに登録されました。このリストはチェーン上で管理され、定期的に更新されます。",
+  "usersHeader": "ブロックされたアカウント",
+  "addUser": "アカウントをブロック",
+  "addUserDialogTitle": "アカウントをブロック",
+  "addUserDialogDescription": "個人のブロックリストに追加するアカウントを検索します。ブロックされたアカウントはアプリ全体で非表示になります。",
+  "usersEmptyTitle": "ブロックされたアカウントはありません",
+  "usersEmptyDescription": "まだアカウントをブロックしていません。アカウントをブロックして表示から非表示にします。",
+  "remove": "ブラックリストから削除",
+  "favouriteAccount": "お気に入りのアカウント",
+  "unfavouriteAccount": "お気に入りから削除",
+  "blockAccount": "アカウントをブロック",
+  "alreadyBlocked": "ブロック済み",
+  "ownerActions": "アカウントオプション",
+  "blockConfirmTitle": "{{name}}をブロックしますか？",
+  "blockConfirmDescription": "このアカウントをブロックしてもよろしいですか？ブロックするとアプリケーション全体で非表示になります。",
+  "blockConfirmAction": "ブロック",
+  "blockConfirmCancel": "キャンセル",
+  "pageTitle": "ブロックされたアカウント",
+  "pageDescription": "委員会および個人のアカウントブロックリストを管理する"
+}

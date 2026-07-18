@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Configurar visuais",
+  "pageDescription": "Personalize a aparência dos fundos de ondas, do brilho aurora, das partículas e dos efeitos de desfoque em todo o site.",
+  "waveCount": "Número de ondas",
+  "waveCountDesc": "Quantidade de ondas em camadas renderizadas atrás do cabeçalho da página.",
+  "waveSpeed": "Velocidade das ondas",
+  "waveSpeedDesc": "Quão rápido as ondas deslizam pelo fundo.",
+  "waveThickness": "Espessura das ondas",
+  "waveThicknessDesc": "Controla a espessura do traço de cada camada de onda.",
+  "palette": "Paleta de cores",
+  "paletteDesc": "Escolha uma paleta predefinida ou defina suas próprias cores.",
+  "palettes": {
+    "rainbow": "Arco-íris",
+    "ocean": "Oceano",
+    "sunset": "Pôr do sol",
+    "mono": "Monocromático",
+    "custom": "Personalizado"
+  },
+  "customColor1": "Cor personalizada 1",
+  "customColor2": "Cor personalizada 2",
+  "customColorDesc": "Usadas como extremos do gradiente de cada onda quando a paleta 'Personalizado' está selecionada.",
+  "auroraIntensity": "Intensidade da aurora",
+  "auroraIntensityDesc": "Força do brilho suave de aurora sobre as ondas.",
+  "blurAmount": "Quantidade de desfoque",
+  "blurAmountDesc": "Desfoque aplicado aos gradientes das ondas. 0 as mantém nítidas.",
+  "particles": "Partículas flutuantes",
+  "particlesDesc": "Ativa ou desativa as pequenas partículas flutuantes no cabeçalho.",
+  "on": "Ligado",
+  "off": "Desligado",
+  "resetToDefaults": "Restaurar padrões",
+  "externalServices": {
+    "heading": "Serviços externos",
+    "description": "Configure os serviços de terceiros usados para buscar ativos em todo o site.",
+    "ipfsGateway": {
+      "header": "Gateway IPFS",
+      "help": "Gateway usado para resolver links IPFS para imagens NFT e outros conteúdos. Use um gateway público no qual você confia.",
+      "placeholder": "https://ipfs.io/ipfs/"
+    }
+  }
+}

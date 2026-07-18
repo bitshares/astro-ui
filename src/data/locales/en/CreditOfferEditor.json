@@ -58,5 +58,7 @@
   "risksPoint3": "If you do not configure allowed borrowers, then all Bitshares blockchain users can accept the deal in whole, Consider utilizing the approved borrower functionality to lend to known/registered users.",
   "risksPoint4": "Borrowers are not required to repay the lent assets, nor are they punished for doing so, they can choose to default on the loan and lose their collateral, You can only claim back the lent assets or the collateral after the repayment period expires, Factor this into your lending strategy, you may have to top up the balance if borrower defaults are regular.",
   "risksPoint5": "The expiration of a credit deal can exceed the credit offer expiration date, you shouldn't assume you'll have your lent assets back until the expiration + last repayment period has passed.",
-  "risksPoint6": "Be aware of counterparty risks if using exchange backed assets (EBA) for collateral or lending purposes as their value could fluctuate based on their third party risks."
+  "risksPoint6": "Be aware of counterparty risks if using exchange backed assets (EBA) for collateral or lending purposes as their value could fluctuate based on their third party risks.",
+  "noCollateral": "No collateral added yet",
+  "noPreApprovedBorrowers": "No pre-approved borrowers"
 }

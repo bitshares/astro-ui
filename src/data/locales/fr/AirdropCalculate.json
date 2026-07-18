@@ -1,0 +1,201 @@
+{
+  "page": {
+    "title": "Calculatrice d'airdrop",
+    "description": "Créez un pool de destinataires, exécutez des algorithmes de sélection et diffusez un airdrop de n'importe quel actif."
+  },
+  "pool": {
+    "title": "Pool de candidats",
+    "description": "Choisissez la source des candidats à l'airdrop, puis chargez-les. Les algorithmes s'exécutent sur ce pool.",
+    "source": "Source du pool",
+    "source.manual": "Liste manuelle (téléverser / coller)",
+    "source.allaccounts": "Tous les comptes (de 1.2.1 au plus récent)",
+    "source.tickets": "Détenteurs de tickets (verrous)",
+    "source.callorders": "Détenteurs d'ordres d'appel (garantie de dette)",
+    "source.assetholders": "Principaux détenteurs d'actif (solde)",
+    "source.creators": "Principaux créateurs d'ordres à cours limité",
+    "source.fillers": "Principaux exécuteurs d'ordres à cours limité",
+    "source.creatorspair": "Principaux créateurs d'ordres à cours limité (paire spécifique)",
+    "source.fillerspair": "Principaux exécuteurs d'ordres à cours limité (paire spécifique)",
+    "source.ltm": "Comptes passés à membre à vie",
+    "qtyLimit": "Limite de quantité",
+    "qtyLimitHint": "Nombre maximum de comptes à récupérer depuis l'explorateur de chaîne / Elasticsearch.",
+    "pairAsset": "Actif de la paire",
+    "pairAssetHint": "L'actif de l'autre côté de la paire de trading (ce qui est reçu à la vente, ou acheté lors de l'exécution).",
+    "needAsset": "Sélectionnez d'abord l'actif de l'airdrop.",
+    "needAssetHint": "Ces sources de pool sont limitées à l'actif de l'airdrop que vous sélectionnez ci-dessus.",
+    "airdropAssetHint": "L'actif qui sera distribué lors de l'airdrop. Choisissez-le ici afin que le pool puisse être délimité et votre solde vérifié.",
+    "needSmartcoin": "Sélectionnez d'abord un smartcoin valide (actif adossé au marché).",
+    "asset": "Asset",
+    "assetHint": "L'actif à partir duquel ce pool est constitué (détenteurs, ou le côté vente/paiement des ordres à cours limité).",
+    "needPair": "Sélectionnez à la fois l'actif de l'airdrop et l'actif de la paire.",
+    "needPairHint": "Les sources de paire nécessitent deux actifs pour définir la paire de trading.",
+    "callOrderAsset": "Smartcoin",
+    "callOrderAssetHint": "Choisissez un seul actif adossé au marché (smartcoin). Seuls ses emprunteurs (détenteurs d'ordres d'appel) sont chargés ; l'actif doit être un smartcoin, sinon le pool ne peut pas être constitué.",
+    "notSmartcoin": "Cet actif n'est pas un smartcoin (il n'a pas de données bitasset), donc les détenteurs d'ordres d'appel ne peuvent pas être chargés. Choisissez un actif adossé au marché.",
+    "timeframe": "Période",
+    "timeframe.1d": "Dernier jour",
+    "timeframe.7d": "7 derniers jours",
+    "timeframe.30d": "30 derniers jours",
+    "timeframe.365d": "365 derniers jours",
+    "timeframe.specific": "Date spécifique (de cette date jusqu'à maintenant)",
+    "timeframe.pickDate": "Choisir une date de début",
+    "weightAsset": "Actif de pondération (loterie)",
+    "weightAssetHint": "Facultatif. Lorsqu'il est défini, les algorithmes aléatoires (signature) pondèrent chaque compte selon son solde de cet actif. Laissez vide pour une loterie équitable (sans pondération).",
+    "allAccountsHint": "Chaque compte de la chaîne devient une entrée dans la loterie (pondération égale). Seuls les algorithmes de signature (loterie) peuvent s'exécuter sur l'ensemble de l'espace des comptes.",
+    "ticketsHint": "Charge chaque ticket Bitshares (1.18.x) et pondère chaque compte selon son montant verrouillé effectif. Les verrous plus longs comptent davantage.",
+    "callOrdersHint": "Charge les détenteurs d'ordres d'appel (emprunteurs) du smartcoin sélectionné (1.8.x) et pondère chaque compte selon sa garantie.",
+    "assetHoldersHint": "Charge les principaux détenteurs de l'actif de l'airdrop (par solde on-chain) depuis l'index de l'explorateur objects-balance. Chaque compte est pondéré selon son solde.",
+    "creatorsHint": "Charge les comptes ayant créé le plus d'ordres à cours limité vendant l'actif de l'airdrop sur la période sélectionnée. Chaque compte est pondéré selon son nombre d'ordres.",
+    "fillersHint": "Charge les comptes ayant exécuté le plus d'ordres à cours limité payant l'actif de l'airdrop sur la période sélectionnée. Chaque compte est pondéré selon son nombre d'exécutions.",
+    "creatorsPairHint": "Charge les comptes ayant créé le plus d'ordres à cours limité vendant l'actif de l'airdrop contre l'actif de la paire sur la période sélectionnée. Chaque compte est pondéré selon son nombre d'ordres.",
+    "fillersPairHint": "Charge les comptes ayant exécuté le plus d'ordres à cours limité payant l'actif de l'airdrop et recevant l'actif de la paire sur la période sélectionnée. Chaque compte est pondéré selon son nombre d'exécutions.",
+    "ltmHint": "Charge les comptes passés à membre à vie sur la période sélectionnée à partir des opérations account_upgrade. Chaque compte est pondéré de façon égale.",
+    "load": "Charger le pool",
+    "loading": "Chargement…",
+    "loaded": "{{count}} comptes chargés",
+    "accountsLoaded": "{{count}} comptes dans la plage",
+    "weightBy": "Pondérer par",
+    "weightByCollateral": "Garantie",
+    "weightByDebt": "Dette"
+  },
+  "preview": {
+    "title": "Aperçu du pool",
+    "count": "{{count}} entrées",
+    "weight": "Poids",
+    "locked": "Poids verrouillé",
+    "collateral": "Garantie",
+    "balance": "Solde",
+    "orders": "Ordres",
+    "fills": "Exécutions",
+    "upgrades": "Mises à niveau"
+  },
+  "algos": {
+    "title": "Algorithmes",
+    "description": "Sélectionnez un ou plusieurs algorithmes. Chaque algorithme choisi ajoute ses comptes gagnants à la liste finale de destinataires.",
+    "freebie": {
+      "name": "Gratuit (tous)",
+      "desc": "Chaque compte du pool reçoit l'airdrop."
+    },
+    "forward": {
+      "name": "Avant",
+      "desc": "Sélection aléatoire déterministe amorcée à partir de la signature de témoin d'un bloc (morceaux dans l'ordre)."
+    },
+    "reverse": {
+      "name": "Inverse",
+      "desc": "Sélection aléatoire déterministe amorcée à partir de la signature de témoin d'un bloc (morceaux inversés)."
+    },
+    "pi": {
+      "name": "Pi",
+      "desc": "Sélection aléatoire déterministe utilisant un calcul de type PI sur les morceaux de la signature."
+    },
+    "reverse_pi": {
+      "name": "Pi inverse",
+      "desc": "Sélection aléatoire déterministe utilisant un calcul de type PI sur les morceaux de la signature inversés."
+    },
+    "cubed": {
+      "name": "Cubique",
+      "desc": "Sélection aléatoire déterministe élevant au cube les morceaux de 3 chiffres de la signature."
+    },
+    "avg_point_lines": {
+      "name": "Lignes de points moyennes",
+      "desc": "Sélection géométrique : trace des lignes vers le vecteur moyen dérivé de la signature."
+    },
+    "alien_blood": {
+      "name": "Sang alien",
+      "desc": "Sélection géométrique : points éclaboussés dérivés de la signature."
+    },
+    "bouncing_ball": {
+      "name": "Balle rebondissante",
+      "desc": "Sélection géométrique : suit un chemin entre les vecteurs de la signature."
+    },
+    "barrel_of_fish": {
+      "name": "Baril de poissons",
+      "desc": "Sélection géométrique : des fragments volent d'un point d'impact à travers les vecteurs de la signature.",
+      "projectile": "Profondeur du projectile",
+      "beam": "Faisceau",
+      "slow": "Lent",
+      "splinter": "Éclat",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "golden": {
+      "name": "Réseau doré",
+      "desc": "Sélection géométrique : un réseau de Fibonacci (nombre d'or) à faible discrépance remplit le cube uniformément pour une couverture quasi uniforme."
+    },
+    "hash": {
+      "name": "Hash",
+      "desc": "Sélection numérique : un PRNG FNV-1a + xorshift32 amorcé par la signature répartit les tickets uniformément sur toute la plage."
+    },
+    "walk": {
+      "name": "Marche",
+      "desc": "Sélection géométrique : un chemin sinueux avance dans le cube et échantillonne des tickets le long de chaque segment."
+    },
+    "helix": {
+      "name": "Hélice",
+      "desc": "Sélection géométrique : des tickets échantillonnés le long d'une spirale 3D qui monte dans le cube."
+    },
+    "configuration": "configuration"
+  },
+  "block": {
+    "title": "Numéro de bloc",
+    "description": "La signature du témoin de ce bloc initialise les algorithmes aléatoires (signature). Utilisez n'importe quel bloc historique.",
+    "useLatest": "Utiliser le dernier bloc",
+    "random": "Bloc aléatoire",
+    "current": "Dernier bloc connu : {{num}}",
+    "currentUnknown": "Dernier bloc pas encore récupéré."
+  },
+  "options": {
+    "deduplicate": "Dédupliquer les gagnants",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "run": {
+    "run": "Lancer le calcul",
+    "running": "Calcul en cours…"
+  },
+  "result": {
+    "title": "Résultat",
+    "description": "Définissez l'actif de l'airdrop, puis exécutez les algorithmes sélectionnés. Prévisualisez et enregistrez la liste des gagnants.",
+    "asset": "Actif de l'airdrop",
+    "winners": "{{count}} comptes gagnants",
+    "quantityHeading": "Nombre de gagnants",
+    "quantityHint": "Le nombre de comptes sélectionnés comme gagnants par les algorithmes choisis.",
+    "account": "Compte",
+    "qty": "Occurrences",
+    "amount": "Montant",
+    "weight": "Poids",
+    "basis": "Base de distribution",
+    "basisHint": "Comment le total est réparti : par tickets (1 ticket = 1 part), par le poids détenu, ou également.",
+    "basisHits": "Tickets",
+    "basisWeight": "Poids",
+    "basisEqual": "Égal",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "goTo": "Aller à la page",
+    "pageOf": "Page {{page}} sur {{total}}",
+    "pageRange": "{{from}}–{{to}}",
+    "save": "Générer les détails de la transaction d'airdrop",
+    "none": "Aucun gagnant n'a été produit par les algorithmes sélectionnés.",
+    "yourHit": "Votre(s) ticket(s) gagnant(s)",
+    "detailSubtitle": "Choisissez un algorithme ci-dessous pour voir comment ce compte a été tiré.",
+    "noTicketDetail": "Aucun détail par ticket n'est disponible pour ce compte dans ce mode.",
+    "filterLabel": "Afficher",
+    "filterAll": "Tous",
+    "filterNone": "Aucun candidat ne correspond à ce filtre."
+  },
+  "amount": {
+    "title": "Montant à distribuer",
+    "hint": "Le montant total de l'actif sélectionné à répartir entre les comptes gagnants.",
+    "placeholder": "0.0",
+    "max": "Max",
+    "balance": "Votre solde : {{amount}} {{symbol}}",
+    "invalid": "Saisissez un montant supérieur à zéro et n'excédant pas votre solde."
+  },
+  "errors": {
+    "noPool": "Chargez d'abord le pool.",
+    "noAlgo": "Sélectionnez au moins un algorithme.",
+    "noBlock": "Saisissez un numéro de bloc valide pour les algorithmes de signature.",
+    "lotteryOnly": "L'espace complet des comptes ne prend en charge que les algorithmes de signature (loterie).",
+    "needEnrich": "Ce pool est trop grand pour être enrichi, les algorithmes de filtre (LTM / actif / votant) ne peuvent donc pas s'exécuter. Utilisez un pool plus petit ou uniquement des algorithmes de loterie."
+  }
+}

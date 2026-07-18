@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Konfigurér visualisering",
+  "pageDescription": "Tilpas udseendet af bølgebaggrunde, aurora-glød, partikler og sløringseffekter på hele siden.",
+  "waveCount": "Antal bølger",
+  "waveCountDesc": "Antal lagdelte bølger der vises bag sidehovedet.",
+  "waveSpeed": "Bølgehastighed",
+  "waveSpeedDesc": "Hvor hurtigt bølgerne glider hen over baggrunden.",
+  "waveThickness": "Bølgetykkelse",
+  "waveThicknessDesc": "Styrer stregtykkelsen for hvert bølgelag.",
+  "palette": "Farvepalet",
+  "paletteDesc": "Vælg en foruddefineret palet eller definér dine egne farver.",
+  "palettes": {
+    "rainbow": "Regnbue",
+    "ocean": "Hav",
+    "sunset": "Solnedgang",
+    "mono": "Monokrom",
+    "custom": "Brugerdefineret"
+  },
+  "customColor1": "Brugerdefineret farve 1",
+  "customColor2": "Brugerdefineret farve 2",
+  "customColorDesc": "Bruges som gradientendepunkter for hver bølge, når paletten 'Brugerdefineret' er valgt.",
+  "auroraIntensity": "Aurora-intensitet",
+  "auroraIntensityDesc": "Styrken af det bløde aurora-skær over bølgerne.",
+  "blurAmount": "Sløringsmængde",
+  "blurAmountDesc": "Sløring anvendt på bølgegradienterne. 0 holder dem skarpe.",
+  "particles": "Svævende partikler",
+  "particlesDesc": "Slå de små svævende partikler i sidehovedet til eller fra.",
+  "on": "Til",
+  "off": "Fra",
+  "resetToDefaults": "Nulstil til standard",
+  "externalServices": {
+    "heading": "Eksterne tjenester",
+    "description": "Konfigurer tredjepartstjenesterne der bruges til at hente aktiver på hele siden.",
+    "ipfsGateway": {
+      "header": "IPFS-gateway",
+      "help": "Gateway der bruges til at løse IPFS-links til NFT-billeder og andet indhold. Brug en offentlig gateway du stoler på.",
+      "placeholder": "https://ipfs.io/ipfs/"
+    }
+  }
+}

@@ -76,5 +76,9 @@
   "dialogContent": {
     "editHeader": "次のスマートコインを編集します。 {{symbol}}",
     "createHeader": "次のスマートコインを作成します。 {{symbol}}"
+  },
+  "backing_asset": {
+    "header": "裏付け資産",
+    "header_content": "裏付け資産はスマートコインを裏付ける資産です, この資産はスマートコインの債務の担保として使用されます。"
   }
 }

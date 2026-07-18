@@ -18,5 +18,9 @@
   "secondsAgo_other": "{{count}} 몇 초 전에",
   "minutesAgo_other": "{{count}} 몇 분 전",
   "hoursAgo_other": "{{count}} 몇 시간 전",
-  "daysAgo_other": "{{count}} 며칠 전"
+  "daysAgo_other": "{{count}} 며칠 전",
+  "secondsAgo_one": "{{count}}초 전",
+  "minutesAgo_one": "{{count}}분 전",
+  "hoursAgo_one": "{{count}}시간 전",
+  "daysAgo_one": "{{count}}일 전"
 }

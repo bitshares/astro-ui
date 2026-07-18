@@ -21,7 +21,7 @@ module.exports = function(env) {
         externals: [],
         
         resolve: {
-            extensions: ['.*', '.js'],
+            extensions: ['.*', '.ts', '.js'],
             mainFields: ["preload"],
             alias: {
                 env: path.resolve(__dirname, `../config/env_${env}.json`),
@@ -30,6 +30,18 @@ module.exports = function(env) {
         },
 
         devtool: "source-map",
+
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: "babel-loader"
+                    }
+                }
+            ]
+        },
     
         plugins: [
             new FriendlyErrorsWebpackPlugin({

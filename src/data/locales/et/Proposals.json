@@ -7,7 +7,7 @@
   "operationsDescription": "Need on sellesse ettepanekusse salvestatud üksikud toimingud. Klõpsake igal alloleval toimingu ID-l, et näha nende JSON-i üksikasju. Vaadake iga toiming põhjalikult üle ja kontrollige enne kinnitamisega jätkamist, kes on ettepaneku tegija. Kinnitused on pöördumatud, ärge kinnitage oma konto ülekandmist ",
   "beginApprovalProcess": "Alustage kinnitamisprotsessi",
   "reject": "Keelduda ettepanek",
-  "cardTitle": "🤔 Kavandatavad toimingud",
+  "cardTitle": "Kavandatavad toimingud",
   "cardDescription": "Ettepanekud võimaldavad kõigil soovitada toiminguid, mida plokiahelas mõni teine ​​konto teostab. Konto omanik vaatab need ettepanekud üle ja otsustab, kas need heaks kiita või tagasi lükata.",
   "noProposals": "Ettepanekuid pole.",
   "approveProposedOperation": "Kinnitage kavandatud toiming",

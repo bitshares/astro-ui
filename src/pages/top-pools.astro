@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BlockchainTopPools from '../components/BlockchainTopPools.jsx';
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
+---
+
+<Layout title="Top Pools">
+	<main>
+		<PageHeader client:only="react" page="top-pools" />
+		<BlockchainTopPools client:only="react" />
+		<PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/top-pools.astro" />
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1rem;
+		width: 100%;
+		max-width: calc(100% - 2rem);
+		color: hsl(var(--foreground));
+		font-size: 20px;
+		line-height: 1.6;
+		min-height: 100vh;
+	}
+</style>

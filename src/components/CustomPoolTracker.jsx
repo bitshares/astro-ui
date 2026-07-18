@@ -34,6 +34,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 
 import { humanReadableFloat } from "@/lib/common";
+import { BarChart3 } from "lucide-react";
 
 import { $currentUser } from "@/stores/users.ts";
 import { $blockList } from "@/stores/blocklist.ts";
@@ -978,19 +979,19 @@ export default function CustomPoolTracker(properties) {
       <div
         style={{ ...style }}
         key={`poolRow-${res.id}`}
-        className="grid grid-cols-12 text-xs border border-gray-300"
+        className="grid grid-cols-12 text-xs border border-border"
       >
         <div className="grid grid-cols-1">
           <Dialog>
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 text-md ml-1 mr-1 mt-1 mb-1"
+                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md ml-1 mr-1 mt-1 mb-1"
               >
                 🏦 {res.id}
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogContent className="bg-card sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
                   🏦 {t("PoolTracker:pool")} {res.id}
@@ -998,12 +999,12 @@ export default function CustomPoolTracker(properties) {
                 <DialogDescription></DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
-                <a href={`/swap/index.html?pool=${res.id}`}>
+                <a href={`/swap.html?pool=${res.id}`}>
                   <Button variant="outline" className="w-full">
                     {t("PoolTracker:simpleSwap")}
                   </Button>
                 </a>
-                <a href={`/stake/index.html?pool=${res.id}`}>
+                <a href={`/stake.html?pool=${res.id}`}>
                   <Button variant="outline" className="w-full">
                     {t("PoolTracker:stakeAssets")}
                   </Button>
@@ -1015,12 +1016,12 @@ export default function CustomPoolTracker(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 text-md ml-1 mr-1"
+                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md ml-1 mr-1"
               >
                 🪙 {_currentPSA.id}
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogContent className="bg-card sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
                   🪙 {t("PoolTracker:psa")} {_currentPSA.id}
@@ -1028,13 +1029,13 @@ export default function CustomPoolTracker(properties) {
                 <DialogDescription></DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
-                <a href={`/dex/index.html?market=${res.share_asset}_BTS`}>
+                <a href={`/dex.html?market=${res.share_asset}_BTS`}>
                   <Button variant="outline" className="w-full">
                     {t("PoolTracker:buy")}
                   </Button>
                 </a>
                 <a
-                  href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${
+                  href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${
                     _currentPSA.symbol ?? ""
                   }`}
                 >
@@ -1051,12 +1052,12 @@ export default function CustomPoolTracker(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 text-md m-1"
+                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md m-1"
               >
                 {_poolAssetA.symbol}
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogContent className="bg-card sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
                   A: {_poolAssetA.symbol} {_poolAssetA.id}
@@ -1065,7 +1066,7 @@ export default function CustomPoolTracker(properties) {
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <a
-                  href={`/dex/index.html?market=${_poolAssetA.symbol}_${
+                  href={`/dex.html?market=${_poolAssetA.symbol}_${
                     _poolAssetA.symbol === "BTS" ? "HONEST.USD" : "BTS"
                   }`}
                 >
@@ -1074,7 +1075,7 @@ export default function CustomPoolTracker(properties) {
                   </Button>
                 </a>
                 <a
-                  href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetA.symbol}`}
+                  href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetA.symbol}`}
                 >
                   <Button variant="outline" className="w-full">
                     {t("PoolTracker:borrowAsset", {
@@ -1083,7 +1084,7 @@ export default function CustomPoolTracker(properties) {
                   </Button>
                 </a>
                 {smartcoinSymbols.includes(_poolAssetA.symbol) ? (
-                  <a href={`/smartcoin/index.html?id=${_poolAssetA.id}`}>
+                  <a href={`/smartcoin.html?id=${_poolAssetA.id}`}>
                     <Button variant="outline" className="w-full">
                       {t("PoolTracker:createDebt")}
                     </Button>
@@ -1097,12 +1098,12 @@ export default function CustomPoolTracker(properties) {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="hover:text-purple-500 text-md m-1"
+                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md m-1"
               >
                 {_poolAssetB.symbol}
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-white sm:max-w-[425px]">
+            <DialogContent className="bg-card sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
                   B: {_poolAssetB.symbol} {_poolAssetB.id}
@@ -1111,7 +1112,7 @@ export default function CustomPoolTracker(properties) {
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <a
-                  href={`/dex/index.html?market=${_poolAssetB.symbol}_${
+                  href={`/dex.html?market=${_poolAssetB.symbol}_${
                     _poolAssetB.symbol === "BTS" ? "HONEST.USD" : "BTS"
                   }`}
                 >
@@ -1120,7 +1121,7 @@ export default function CustomPoolTracker(properties) {
                   </Button>
                 </a>
                 <a
-                  href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetB.symbol}`}
+                  href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetB.symbol}`}
                 >
                   <Button variant="outline" className="w-full">
                     {t("PoolTracker:borrowAsset", {
@@ -1129,7 +1130,7 @@ export default function CustomPoolTracker(properties) {
                   </Button>
                 </a>
                 {smartcoinSymbols.includes(_poolAssetB.symbol) ? (
-                  <a href={`/smartcoin/index.html?id=${_poolAssetB.id}`}>
+                  <a href={`/smartcoin.html?id=${_poolAssetB.id}`}>
                     <Button variant="outline" className="w-full">
                       {t("PoolTracker:createDebt")}
                     </Button>
@@ -1145,7 +1146,7 @@ export default function CustomPoolTracker(properties) {
             <span className="m-4">${_assetBPrice.toFixed(5)}</span>
           </span>
         </div>
-        <div className="ml-1 border-l border-gray-300 flex items-center justify-center">
+        <div className="ml-1 border-l border-border flex items-center justify-center">
           <div className="grid grid-cols-1">
             <div>
               🌐{" "}
@@ -1163,7 +1164,7 @@ export default function CustomPoolTracker(properties) {
             <div>🔢 ${_poolTotalUSD ? _poolTotalUSD.toFixed(5) : 0}</div>
           </div>
         </div>
-        <div className="ml-1 border-l border-gray-300 flex items-center justify-center">
+        <div className="ml-1 border-l border-border flex items-center justify-center">
           {_psaBalance && _psaBalance.amount ? (
             <>
               🌐 {humanReadableFloat(_psaBalance.amount, _currentPSA.precision)}
@@ -1179,7 +1180,7 @@ export default function CustomPoolTracker(properties) {
         </div>
         {swappableAssets.map((asset, i) => {
           let classNameContents =
-            "flex justify-center items-center border-gray-300";
+            "flex justify-center items-center border-border";
           if (i === 0) {
             classNameContents += " border-l";
           } else if (i === swappableAssets.length - 1) {
@@ -1292,18 +1293,37 @@ export default function CustomPoolTracker(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5">
-        <Card className="p-2">
-          <CardHeader>
-            <CardTitle>
-              {t("PoolTracker:customTitle", {
-                name: storedTracker ? storedTracker.name : "",
-              })}
-            </CardTitle>
-            <CardDescription>
-              {t("PoolTracker:customDescription")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.04)]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-24 -left-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-1)/0.2)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-2)/0.2)] blur-3xl"
+          />
+
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-start justify-between gap-3 mb-5">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
+                    <BarChart3 className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
+                  </span>
+                  {t("PoolTracker:customTitle", {
+                    name: storedTracker ? storedTracker.name : "",
+                  })}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {t("PoolTracker:customDescription")}
+                </p>
+              </div>
+            </div>
+            <Card className="p-2">
             {liquidityPools &&
             liquidityPools.length &&
             swappableAssets &&
@@ -1355,7 +1375,7 @@ export default function CustomPoolTracker(properties) {
                 </div>
                 <div className="grid grid-cols-12 text-xs">
                   <div className="col-span-4"></div>
-                  <div className="col-span-6 text-center border border-gray-300">
+                  <div className="col-span-6 text-center border border-border">
                     <div className={`grid grid-cols-6`}>
                       <div></div>
                       {swappableAssets.map((asset) => (
@@ -1617,8 +1637,9 @@ export default function CustomPoolTracker(properties) {
                 </div>
               </>
             ) : null}
-          </CardContent>
-        </Card>
+            </Card>
+          </div>
+        </div>
       </div>
     </>
   );

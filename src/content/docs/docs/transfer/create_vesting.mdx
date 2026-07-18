@@ -1,0 +1,98 @@
+---
+title: Create Vesting
+description: Lock assets in a vesting balance released over time using vesting_balance_create.
+sidebar:
+  order: 5
+---
+
+import { Card, CardGrid, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+**Create Vesting** locks an amount of an asset into a vesting balance that releases to an owner over time according to a policy. Two policy types are supported: **linear vesting with cliff** (tag `0`) and **coin-days destroyed** (tag `1`). Until the cliff passes, nothing is accessible; afterwards it unlocks linearly (or by destroyed coin-days).
+
+**Open in the app:** [Create Vesting](/create_vesting.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Time-lock" icon="clock">
+    Assets are inaccessible until the vesting schedule allows withdrawal.
+  </Card>
+  <Card title="Cliff + linear" icon="chart">
+    Optionally a cliff, then linear release to the owner.
+  </Card>
+  <Card title="Coin-days" icon="star">
+    Or a coin-days-destroyed policy for a different unlock curve.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Create Vesting** from the homepage under *Transferring Funds*.
+
+2. Pick the asset and amount, and the owner account (can be you or someone else).
+
+3. Choose the policy: linear-with-cliff (set begin time, cliff seconds, duration) or coin-days-destroyed (set start claim time and vesting seconds).
+
+4. Create it. The app broadcasts `vesting_balance_create`.
+
+5. The owner later withdraws via the Vesting Balances page.
+
+</Steps>
+
+## Operations used
+
+<Tabs>
+  <TabItem label="Linear vesting + cliff (tag 0)">
+
+```json
+{
+  "creator": "1.2.x",
+  "owner": "1.2.x",
+  "amount": { "amount": 100000000, "asset_id": "1.3.0" },
+  "policy": [
+    0,
+    {
+      "begin_timestamp": 1780000000,
+      "vesting_cliff_seconds": 2592000,
+      "vesting_duration_seconds": 7776000
+    }
+  ]
+}
+```
+
+`begin_timestamp` and the two durations are **Unix timestamps/seconds** (integers), not ISO strings.
+
+  </TabItem>
+  <TabItem label="Coin-days destroyed (tag 1)">
+
+```json
+{
+  "creator": "1.2.x",
+  "owner": "1.2.x",
+  "amount": { "amount": 100000000, "asset_id": "1.3.0" },
+  "policy": [
+    1,
+    {
+      "start_claim": 1780000000,
+      "vesting_seconds": 7776000
+    }
+  ]
+}
+```
+
+  </TabItem>
+</Tabs>
+
+| Field | Meaning |
+| --- | --- |
+| `creator` | Account funding the vesting balance. |
+| `owner` | Account allowed to withdraw. |
+| `amount` | Locked amount (`{amount, asset_id}`). |
+| `policy` | `[tag, policyBody]` — tag `0` linear/cliff, tag `1` coin-days. |
+
+## Related pages
+
+- [Vesting Balances](/docs/account/vesting.html)
+- [Withdraw Permissions](/docs/transfer/withdraw_permissions.html)

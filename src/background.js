@@ -6,8 +6,12 @@ import { performance } from "node:perf_hooks";
 import { readFile } from "fs/promises";
 import mime from "mime-types";
 
-import { key, PrivateKey } from "bitsharesjs";
-import { Apis } from "bitsharesjs-ws";
+import { key } from "./bts/ecc/key";
+import PrivateKey from "./bts/ecc/PrivateKey";
+import Aes from "./bts/ecc/Aes";
+import Apis from "./bts/ws/ApiInstances";
+import { chains } from "./config/chains";
+import blindDictionary from "./data/blindDictionary.js";
 
 import {
   app,
@@ -40,9 +44,12 @@ protocol.registerSchemesAsPrivileged([
 
 const createWindow = async () => {
   mainWindow = new BrowserWindow({
-    minWidth: 540,
-    minHeight: 100,
+    minWidth: 800,
+    minHeight: 600,
     maximizable: true,
+    fullscreenable: true,
+    resizable: true,
+    minimizable: true,
     useContentSize: true,
     autoHideMenuBar: true,
     webPreferences: {
@@ -58,6 +65,7 @@ const createWindow = async () => {
 
   // Load the local HTML file using the custom protocol
   mainWindow.loadURL("file://index.html");
+  mainWindow.maximize();
 
   mainWindow.webContents.setWindowOpenHandler(() => {
     return { action: "deny" };
@@ -153,27 +161,58 @@ const createWindow = async () => {
     continueFetching = true;
     isFetching = false;
 
-    // Create a new Apis instance
-    try {
-      apisInstance = Apis.instance(url, true);
-    } catch (error) {
-      console.log({ error, location: "Apis.instance", url });
-      continueFetching = false;
-      isFetching = false;
-      return;
+    // Build the ordered list of nodes to try: start with the requested
+    // `url`, then fall back to the rest of the chain's configured nodeList
+    // (skipping duplicates). This lets a node that rejects the connection
+    // (e.g. "Access denied" / `is_allowed`) be transparently bypassed.
+    const chain = arg && arg.chain ? arg.chain : "bitshares";
+    const nodeUrls = [];
+    if (url) nodeUrls.push(url);
+    const configured = (chains[chain] && chains[chain].nodeList) || [];
+    for (const n of configured) {
+      if (n && n.url && !nodeUrls.includes(n.url)) {
+        nodeUrls.push(n.url);
+      }
     }
 
-    try {
-      await apisInstance.init_promise;
-      console.log("connected to:", apisInstance.chain_id);
-    } catch (err) {
-      console.log({ err });
+    let lastConnectError = null;
+    for (const nodeUrl of nodeUrls) {
+      try {
+        apisInstance = Apis.instance(nodeUrl, true);
+      } catch (error) {
+        lastConnectError = error;
+        console.log({ error, location: "Apis.instance", nodeUrl });
+        continue;
+      }
+
+      try {
+        await apisInstance.init_promise;
+        console.log("connected to:", nodeUrl, apisInstance.chain_id);
+        lastConnectError = null;
+        break; // success
+      } catch (err) {
+        lastConnectError = err;
+        console.log({ err, location: "init_promise", nodeUrl });
+        if (apisInstance) {
+          try {
+            apisInstance.close();
+          } catch (e) {
+            /* ignore */
+          }
+          apisInstance = null;
+        }
+        // try next node
+      }
+    }
+
+    if (!apisInstance) {
+      console.log({
+        error: lastConnectError,
+        location: "requestBlocks: all nodes failed",
+        tried: nodeUrls,
+      });
       continueFetching = false;
       isFetching = false;
-      if (apisInstance) {
-        apisInstance.close();
-        apisInstance = null;
-      }
       return;
     }
 
@@ -320,8 +359,59 @@ const createWindow = async () => {
           refcode: "1.2.1803677",
           referrer: "1.2.1803677",
         },
-      };
+       };
+     }
+   });
+
+  // ---- Blind (stealth) account crypto -------------------------------------
+  // bts/ecc requires Node's Buffer, so all blind-account key operations run
+  // here in the main process and are exposed to the renderer over IPC.
+  function _blindPrefixForChain(chain) {
+    return chain === "bitshares_testnet" ? "TEST" : "BTS";
+  }
+
+  function _blindSerialize(label, chain, privateKey, brainKey) {
+    const prefix = _blindPrefixForChain(chain);
+    return {
+      label,
+      chain,
+      publicKey: privateKey.toPublicKey().toPublicKeyString(prefix),
+      wif: privateKey.toWif(),
+      brainKey: brainKey ?? null,
+    };
+  }
+
+  ipcMain.handle("blindSuggestBrainKey", async () => {
+    return key.suggest_brain_key(blindDictionary.en);
+  });
+
+  ipcMain.handle("blindAccountFromBrainKey", async (event, arg) => {
+    const { label, chain, brainKey, sequence = 0 } = arg;
+    const pk = key.get_brainPrivateKey(brainKey, sequence);
+    return _blindSerialize(label, chain, pk, brainKey);
+  });
+
+  ipcMain.handle("blindAccountFromWif", async (event, arg) => {
+    const { label, chain, wif } = arg;
+    const pk = PrivateKey.fromWif(wif);
+    return _blindSerialize(label, chain, pk, null);
+  });
+
+  ipcMain.handle("blindEncrypt", async (event, arg) => {
+    const { plaintext, password } = arg;
+    return Aes.fromSeed(password).encryptToHex(plaintext);
+  });
+
+  ipcMain.handle("blindDecrypt", async (event, arg) => {
+    const { encrypted, password, validateWif = false } = arg;
+    const decrypted = Aes.fromSeed(password).decryptHexToText(
+      encrypted,
+      "binary"
+    );
+    if (validateWif) {
+      PrivateKey.fromWif(decrypted);
     }
+    return decrypted;
   });
 
   /*

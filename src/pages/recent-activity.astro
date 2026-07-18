@@ -7,7 +7,7 @@ import PageFooter from '../components/PageFooter';
 
 <Layout title="Recent Activity">
 	<main>
-		<PageHeader client:only="react" page="portfolio-recent-activity" backURL="../index.html" />
+		<PageHeader client:only="react" page="portfolio-recent-activity" />
 		<PortfolioRecentActivity client:only="react" />
 		<PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/recent-activity.astro" />
 	</main>
@@ -19,7 +19,7 @@ import PageFooter from '../components/PageFooter';
 		padding: 1rem;
 		width: 100%;
 		max-width: calc(100% - 2rem);
-		color: white;
+		color: hsl(var(--foreground));
 		font-size: 20px;
 		line-height: 1.6;
 		min-height: 100vh;

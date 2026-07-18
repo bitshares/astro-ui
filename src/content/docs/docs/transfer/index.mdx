@@ -1,0 +1,31 @@
+---
+title: Transferring Funds
+description: Send, schedule, delegate and confidentially move assets on BitShares.
+sidebar:
+  order: 2
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+The **Transferring Funds** section covers all the ways to move value between accounts — from a simple `transfer` to timed, delegated, escrow, vesting and confidential transfers.
+
+<CardGrid>
+  <LinkCard title="Transfer" description="Send assets with an optional encrypted memo." href="/docs/transfer/transfer/" />
+  <LinkCard title="Timed Transfer" description="Schedule a future transfer via a proposal." href="/docs/transfer/timed_transfer/" />
+  <LinkCard title="Withdraw Permissions" description="Delegate rate-limited withdrawal rights." href="/docs/transfer/withdraw_permissions/" />
+  <LinkCard title="HTLC" description="Hashed-timelock escrow transfers." href="/docs/transfer/htlc/" />
+  <LinkCard title="Create Vesting" description="Lock assets released over time." href="/docs/transfer/create_vesting/" />
+  <LinkCard title="Blind Transfers" description="Confidential, commitment-based transfers." href="/docs/transfer/blind_transfers/" />
+  <LinkCard title="Airdrop Calculator" description="Batch-distribute to many accounts." href="/docs/transfer/airdrop_calculate/" />
+</CardGrid>
+
+## Common operations
+
+- `transfer` — the universal send.
+- `proposal_create` (wrapping `transfer`) — timed transfers.
+- `withdraw_permission_create` / `_update` / `_claim` / `_delete` — delegated withdrawals.
+- `htlc_create` / `htlc_redeem` / `htlc_extend` — conditional escrow.
+- `vesting_balance_create` — time-locked balances.
+- `transfer_to_blind` / `blind_transfer` / `transfer_from_blind` — confidential transfers.
+
+Each page documents its exact operation shapes with example JSON.

@@ -5,11 +5,9 @@
   "proceedToBorrow": "Problema",
   "issueAssetDescription": "In qualità di emittente di questa risorsa, puoi emettere questa risorsa per te stesso o per un altro conto sulla blockchain, fino alla fornitura massima configurata.",
   "manageUIA": "Modificare",
-  "pmaBet": "Scommettere",
   "uiaButton": "Risorse emesse dall'utente",
   "poolsButton": "Attività della riserva di liquidità",
   "smartcoinsButton": "Asset Smartcoin",
-  "predictionButton": "Asset del mercato di previsione",
   "nftButton": "Risorse token non fungibili",
   "listingUIA": "Elenco {{count}} Risorse emesse dall'utente",
   "listingPools": "Elenco {{count}} Attività della riserva di liquidità",
@@ -17,8 +15,6 @@
   "noUIA": "Nessuna risorsa emessa dall'utente trovata",
   "listingSmartcoins": "Elenco {{count}} Asset Smartcoin",
   "noSmartcoins": "Nessun asset Smartcoin trovato",
-  "listingPredictionMarkets": "Elenco {{count}} Asset del mercato di previsione",
-  "noPredictionMarkets": "Nessuna risorsa del mercato di previsione trovata",
   "listingNFTs": "Elenco {{count}} Risorse token non fungibili",
   "noNFTs": "Nessuna risorsa token non fungibile trovata",
   "title": "Visualizzare le risorse blockchain che hai creato",
@@ -103,5 +99,6 @@
   "amount": "Quantità",
   "useMax": "Usa massimo",
   "noAssetInBalance": "Questo account non contiene questa risorsa.",
-  "overrideHeader": "Richiamo {{amount}} {{symbol}} da {{account}}"
+  "overrideHeader": "Richiamo {{amount}} {{symbol}} da {{account}}",
+  "collateralBid": "Offri sulla garanzia"
 }

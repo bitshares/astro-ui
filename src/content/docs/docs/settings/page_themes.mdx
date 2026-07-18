@@ -1,0 +1,47 @@
+---
+title: Per-Page Themes
+description: Assign a specific custom theme to individual pages (local UI configuration).
+sidebar:
+  order: 8
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Per-Page Themes** lets you map each page of the app to a saved custom theme (or the default). The assignment lives locally and is applied at render time. No transaction is broadcast.
+
+**Open in the app:** [Per-Page Themes](/page_themes.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Page mapping" icon="layers">
+    Choose a theme per page slug.
+  </Card>
+  <Card title="Default option" icon="star">
+    Fall back to the global default anytime.
+  </Card>
+  <Card title="Local" icon="save">
+    Assignments persist in your browser.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Per-Page Themes** from the homepage under *Settings*.
+
+2. For each page, pick a saved theme or `__default__`.
+
+3. Save. The app applies the mapped theme when you visit that page.
+
+</Steps>
+
+<Aside type="note" title="Requires a saved theme">
+  The themes you assign here come from [Theme Customizer](/docs/settings/theme.html). Without a saved theme, only the default is available.
+</Aside>
+
+## Related pages
+
+- [Theme Customizer](/docs/settings/theme.html)
+- [Configure Visuals](/docs/settings/visuals.html)

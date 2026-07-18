@@ -15,7 +15,7 @@ const testAllAssetsData = testAllAssets.map(collection => collection.data);
 
 <Layout title="Bitshares credit offer listings">
 	<main>
-		<PageHeader client:only="react" page="offers" backURL="../index.html" />
+		<PageHeader client:only="react" page="offers" />
 		<CreditOffers
 			client:only="react"
 			_assetsBTS={btsAllAssetsData}
@@ -31,7 +31,7 @@ const testAllAssetsData = testAllAssets.map(collection => collection.data);
 		padding: 1rem;
 		width: 100%;
 		max-width: calc(100% - 2rem);
-		color: white;
+		color: hsl(var(--foreground));
 		font-size: 20px;
 		line-height: 1.6;
 		min-height: 100vh;

@@ -1,0 +1,11 @@
+{
+  "submit": "Invia",
+  "insufficient_funds": "Saldo insufficiente.",
+  "permissions": "Permessi",
+  "flags": "Flag",
+  "expiryHeader": "Scadenza",
+  "expiryContent": "Il tuo ordine limite rimarrà attivo sul DEX per questo periodo prima di non esistere più. Se selezioni 'fill or kill' e non c'è un ordine limite di vendita DEX corrispondente, l'operazione fallirà, risparmiando tempo e commissioni.",
+  "setPriceFeeders": "Imposta i fornitori di prezzi",
+  "setPriceFeedersDescription": "Imposta i fornitori di prezzi per questo asset. I fornitori di prezzi sono responsabili della fornitura del prezzo di liquidazione.",
+  "settingPriceFeeders": "Impostazione dei fornitori di prezzi"
+}

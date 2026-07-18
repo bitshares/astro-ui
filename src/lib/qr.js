@@ -1,5 +1,5 @@
-import { Apis } from "bitsharesjs-ws";
-import { TransactionBuilder } from "bitsharesjs";
+import Apis from "../bts/ws/ApiInstances";
+import TransactionBuilder from "../bts/chain/TransactionBuilder";
 
 /**
  * Generate a transaction object suitable for QR encoding.

@@ -12,18 +12,13 @@ import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import HoverInfo from "@/components/common/HoverInfo.tsx";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"; // For Redeem Preimage input
-import { Label } from "@/components/ui/label"; // For Redeem/Extend input labels
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 import {
   Dialog,
@@ -34,6 +29,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
@@ -42,7 +44,9 @@ import { createObjectStore } from "@/nanoeffects/Objects.ts";
 
 import { humanReadableFloat, blockchainFloat } from "@/lib/common";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
-import HtlcCreateDialog from "./HtlcCreateDialog.jsx"; // New component for creation form
+import HtlcCreateDialog from "./HtlcCreateDialog.jsx";
+
+import { Lock, Unlock, Key, Shield, Clock, Hash, Send, CheckCircle2, XCircle, LockKeyhole } from "lucide-react";
 
 const claimPeriods = {
   "1hour": 3600,
@@ -241,67 +245,91 @@ export default function Htlc(properties) {
 
     return (
       <div style={style}>
-        <Card className="m-2 w-full md:w-1/2">
-          <CardContent className="pt-3 pb-1 text-sm">
-            <div className="grid grid-cols-6 gap-1 items-center">
-              <div className="col-span-1">{id}</div>
-              <div className="col-span-1">{toAccountName}</div>
-              <div className="col-span-1">
-                {formattedAmount} {asset?.symbol ?? asset_id}
-              </div>
-              <div className="col-span-1 break-all">
-                <HoverInfo
-                  content={hashValue}
-                  header={`${hashAlgorithm} - Size: ${preimage_size}`}
-                  type={null}
-                />
-              </div>
-              <div className="col-span-1">{formattedExpiration}</div>
-              <div className="col-span-1 text-right pr-2">
-                <Dialog
-                  open={extendDialogOpen}
-                  onOpenChange={setExtendDialogOpen}
-                >
-                  <DialogTrigger asChild>
-                    <Button variant="outline" size="sm">
-                      {t("HTLC:extendButton")}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px] bg-white">
-                    <DialogHeader>
-                      <DialogTitle>
-                        {t("HTLC:extendDialogTitle", { id })}
-                      </DialogTitle>
-                      <DialogDescription>
-                        {t("HTLC:extendDialogDesc")}
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <Label htmlFor="secondsToAdd">
-                        {t("HTLC:secondsToAddLabel")}
-                      </Label>
-                      <Input
-                        id="secondsToAdd"
-                        type="number"
-                        value={secondsToAdd}
-                        min="60"
-                        onChange={(e) =>
-                          setSecondsToAdd(parseInt(e.target.value, 10))
-                        }
-                      />
-                    </div>
-                    <Button
-                      onClick={() => setShowExtendDeeplink(true)}
-                      disabled={!secondsToAdd || secondsToAdd < 60}
-                    >
-                      {t("HTLC:extendButton")}
-                    </Button>
-                  </DialogContent>
-                </Dialog>
-              </div>
+        <div className="m-2 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.04)] to-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] transition-all px-4 py-3">
+          <div className="grid grid-cols-6 gap-2 items-center text-sm">
+            <div className="col-span-1 flex items-center gap-2">
+              <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                <Send className="h-2.5 w-2.5" />
+              </span>
+              <span className="font-mono text-xs font-semibold text-foreground">{id}</span>
             </div>
-          </CardContent>
-        </Card>
+            <div className="col-span-1">
+              <span className="font-mono text-xs text-foreground/85">{toAccountName}</span>
+            </div>
+            <div className="col-span-1">
+              <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-1-fg))]">
+                {formattedAmount} {asset?.symbol ?? asset_id}
+              </span>
+            </div>
+            <div className="col-span-1 break-all">
+              <TooltipProvider delayDuration={200}>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HoverInfo
+                      content={hashValue}
+                      header={`${hashAlgorithm} - Size: ${preimage_size}`}
+                      type={null}
+                    />
+                  </TooltipTrigger>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <div className="col-span-1 flex items-center gap-1">
+              <Clock className="h-3 w-3 text-muted-foreground/50" />
+              <span className="font-mono text-xs text-foreground/70">{formattedExpiration}</span>
+            </div>
+            <div className="col-span-1 text-right">
+              <Dialog
+                open={extendDialogOpen}
+                onOpenChange={setExtendDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="sm" className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-all">
+                    <Clock className="h-3 w-3 mr-1" />
+                    {t("HTLC:extendButton")}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] !bg-card border border-border rounded-2xl">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent"
+                  />
+                  <DialogHeader>
+                    <DialogTitle className="text-foreground">
+                      {t("HTLC:extendDialogTitle", { id })}
+                    </DialogTitle>
+                    <DialogDescription className="text-muted-foreground">
+                      {t("HTLC:extendDialogDesc")}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <Label htmlFor="secondsToAdd" className="text-foreground">
+                      {t("HTLC:secondsToAddLabel")}
+                    </Label>
+                    <Input
+                      id="secondsToAdd"
+                      type="number"
+                      value={secondsToAdd}
+                      min="60"
+                      onChange={(e) =>
+                        setSecondsToAdd(parseInt(e.target.value, 10))
+                      }
+                      className="!bg-card/40 border-border text-foreground"
+                    />
+                  </div>
+                  <Button
+                    onClick={() => setShowExtendDeeplink(true)}
+                    disabled={!secondsToAdd || secondsToAdd < 60}
+                    className="w-full h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(244,63,94,0.4)]"
+                  >
+                    <Clock className="h-4 w-4 mr-2" />
+                    {t("HTLC:extendButton")}
+                  </Button>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
+        </div>
         {showExtendDeeplink && (
           <DeepLinkDialog
             operationNames={["htlc_extend"]}
@@ -355,7 +383,6 @@ export default function Htlc(properties) {
     const hashValue = preimage_hash[1];
     const formattedExpiration = formatExpiration(expiration);
 
-    // For calculating the correct preimage to redeem
     const _preimageInput = useMemo(() => {
       if (!preimageInput || !hashAlgorithm) {
         return null;
@@ -378,7 +405,6 @@ export default function Htlc(properties) {
       return _hexifiedHash;
     }, [preimageInput, hashAlgorithm]);
 
-    // For checking you've got the right preimage
     const _calculatedHash = useMemo(() => {
       if (!preimageInput || !hashAlgorithm) {
         return null;
@@ -403,88 +429,124 @@ export default function Htlc(properties) {
 
     return (
       <div style={style}>
-        <Card className="m-2">
-          <CardContent className="pt-3 pb-1 text-sm">
-            <div className="grid grid-cols-6 gap-1 items-center">
-              <div className="col-span-1">{id}</div>
-              <div className="col-span-1">{fromAccountName}</div>
-              <div className="col-span-1">
+        <div className="m-2 rounded-xl border border-[hsl(var(--accent-2)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-2)/0.04)] to-transparent hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.06)] transition-all px-4 py-3">
+          <div className="grid grid-cols-6 gap-2 items-center text-sm">
+            <div className="col-span-1 flex items-center gap-2">
+              <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
+                <Unlock className="h-2.5 w-2.5" />
+              </span>
+              <span className="font-mono text-xs font-semibold text-foreground">{id}</span>
+            </div>
+            <div className="col-span-1">
+              <span className="font-mono text-xs text-foreground/85">{fromAccountName}</span>
+            </div>
+            <div className="col-span-1">
+              <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-2-fg))]">
                 {formattedAmount} {asset?.symbol ?? asset_id}
-              </div>
-              <div className="col-span-1 break-all">
-                <HoverInfo
-                  content={hashValue}
-                  header={`${hashAlgorithm} - Size: ${preimage_size}`}
-                  type={null}
-                />
-              </div>
-              <div className="col-span-1">{formattedExpiration}</div>
-              <div className="col-span-1 text-right pr-2">
-                <Dialog
-                  open={redeemDialogOpen}
-                  onOpenChange={setRedeemDialogOpen}
-                >
-                  <DialogTrigger asChild>
-                    <Button variant="outline" size="sm">
+              </span>
+            </div>
+            <div className="col-span-1 break-all">
+              <TooltipProvider delayDuration={200}>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HoverInfo
+                      content={hashValue}
+                      header={`${hashAlgorithm} - Size: ${preimage_size}`}
+                      type={null}
+                    />
+                  </TooltipTrigger>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <div className="col-span-1 flex items-center gap-1">
+              <Clock className="h-3 w-3 text-muted-foreground/50" />
+              <span className="font-mono text-xs text-foreground/70">{formattedExpiration}</span>
+            </div>
+            <div className="col-span-1 text-right">
+              <Dialog
+                open={redeemDialogOpen}
+                onOpenChange={setRedeemDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="sm" className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.5)] transition-all">
+                    <Key className="h-3 w-3 mr-1" />
+                    {t("HTLC:redeemButton")}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] !bg-card border border-border rounded-2xl">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-2)/0.6)] to-transparent"
+                  />
+                  <DialogHeader>
+                    <DialogTitle className="text-foreground">
+                      {t("HTLC:redeemDialogTitle", { id })}
+                    </DialogTitle>
+                    <DialogDescription className="text-muted-foreground">
+                      {t("HTLC:redeemDialogDesc")}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <Label htmlFor="preimage" className="text-foreground">
+                      {t("HTLC:preimageLabel")}
+                    </Label>
+                    <Input
+                      id="preimage"
+                      type="text"
+                      placeholder={t("HTLC:preimagePlaceholder")}
+                      value={preimageInput}
+                      onChange={(e) => setPreimageInput(e.target.value)}
+                      className="!bg-card/40 border-border text-foreground"
+                    />
+                    {preimageInput && preimageInput.length && (
+                      <div className="rounded-xl border border-border/60 bg-card/40 p-4 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-medium text-muted-foreground">{t("HTLC:calculatedHash")}</span>
+                          <code className="break-all font-mono text-xs text-[hsl(var(--accent-2-fg))]">
+                            {_calculatedHash ?? "Calculating..."}
+                          </code>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-medium text-muted-foreground">{t("HTLC:referenceHash")}</span>
+                          <code className="break-all font-mono text-xs text-foreground/85">{hashValue}</code>
+                        </div>
+                        <div className="border-t border-border/40 pt-2 flex items-center gap-2">
+                          <span className="text-xs font-medium text-muted-foreground">{t("HTLC:hashMatch")}</span>
+                          {_calculatedHash === hashValue ? (
+                            <Badge variant="outline" className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] text-[10px]">
+                              <CheckCircle2 className="h-3 w-3 mr-1" />
+                              Match
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))] text-[10px]">
+                              <XCircle className="h-3 w-3 mr-1" />
+                              No Match
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {preimageInput &&
+                  preimageInput.length &&
+                  _calculatedHash === hashValue ? (
+                    <Button
+                      onClick={() => setShowRedeemDeeplink(true)}
+                      className="w-full h-11 rounded-xl font-semibold transition-all border-[hsl(var(--accent-2)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.1)] to-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-gradFg))] text-[hsl(var(--accent-2-gradFg))] hover:bg-[hsl(var(--accent-2)/0.2)] hover:border-[hsl(var(--accent-2)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)]"
+                    >
+                      <Unlock className="h-4 w-4 mr-2" />
                       {t("HTLC:redeemButton")}
                     </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px] bg-white">
-                    <DialogHeader>
-                      <DialogTitle>
-                        {t("HTLC:redeemDialogTitle", { id })}
-                      </DialogTitle>
-                      <DialogDescription>
-                        {t("HTLC:redeemDialogDesc")}
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <Label htmlFor="preimage">
-                        {t("HTLC:preimageLabel")}
-                      </Label>
-                      <Input
-                        id="preimage"
-                        type="text"
-                        placeholder={t("HTLC:preimagePlaceholder")}
-                        value={preimageInput}
-                        onChange={(e) => setPreimageInput(e.target.value)}
-                      />
-                      {preimageInput && preimageInput.length && (
-                        <div className="text-sm">
-                          <p>
-                            <strong>{t("HTLC:calculatedHash")}:</strong>{" "}
-                            <code className="break-all">
-                              {_calculatedHash ?? "Calculating..."}
-                            </code>
-                            <strong>{t("HTLC:referenceHash")}:</strong>{" "}
-                            <code className="break-all">{hashValue}</code>
-                          </p>
-                          <p>
-                            <strong>{t("HTLC:hashMatch")}:</strong>{" "}
-                            {_calculatedHash === hashValue ? (
-                              <span>✔️</span>
-                            ) : (
-                              <span>❌</span>
-                            )}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                    {preimageInput &&
-                    preimageInput.length &&
-                    _calculatedHash === hashValue ? (
-                      <Button onClick={() => setShowRedeemDeeplink(true)}>
-                        {t("HTLC:redeemButton")}
-                      </Button>
-                    ) : (
-                      <Button disabled>{t("HTLC:redeemButton")}</Button>
-                    )}
-                  </DialogContent>
-                </Dialog>
-              </div>
+                  ) : (
+                    <Button disabled className="w-full h-11 rounded-xl font-semibold">
+                      {t("HTLC:redeemButton")}
+                    </Button>
+                  )}
+                </DialogContent>
+              </Dialog>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
         {showRedeemDeeplink && (
           <DeepLinkDialog
             operationNames={["htlc_redeem"]}
@@ -513,98 +575,127 @@ export default function Htlc(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("HTLC:title")}</CardTitle>
-              <CardDescription>{t("HTLC:description")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 gap-3 mb-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <HoverInfo
-                    content={t("HTLC:senderDesc")}
-                    header={t("HTLC:senderHeader")}
-                    type="header"
-                  />
-                  <div className="text-right">
-                    <Button
-                      className="w-1/2"
-                      onClick={() => setShowCreateDialog(true)}
-                    >
-                      {t("HTLC:createButton")}
-                    </Button>
-                  </div>
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-danger)/0.1)] blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-start gap-3 mb-4">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <LockKeyhole className="h-4 w-4" strokeWidth={2.25} />
+              </span>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="outline"
+                    className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px]"
+                  >
+                    HTLC
+                  </Badge>
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight">
+                    {t("HTLC:title")}
+                  </h3>
                 </div>
-                <div className="border border-gray-300 rounded min-h-[200px]">
-                  {senderHtlcs && senderHtlcs.length > 0 ? (
-                    <>
-                      <div className="grid grid-cols-6 gap-1 p-2 bg-gray-100 text-xs font-semibold">
-                        <div>{t("HTLC:idColumn")}</div>
-                        <div>{t("HTLC:toColumn")}</div>
-                        <div>{t("HTLC:amountColumn")}</div>
-                        <div>{t("HTLC:hashColumn")}</div>
-                        <div>{t("HTLC:expiresColumn")}</div>
-                        <div className="text-right pr-2">
-                          {t("HTLC:actionsColumn")}
-                        </div>
-                      </div>
-                      <div className="w-full max-h-[500px] overflow-auto">
-                        <List
-                          rowHeight={75}
-                          rowComponent={SenderHtlcRow}
-                          rowCount={senderHtlcs.length}
-                          rowProps={{}}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <p className="p-4 text-center text-gray-500">
-                      {t("HTLC:noSenderHtlc")}
-                    </p>
-                  )}
-                </div>
+                <p className="text-xs text-muted-foreground/70 mt-1">
+                  {t("HTLC:description")}
+                </p>
               </div>
+            </div>
 
-              <div className="grid grid-cols-12 gap-3">
-                <div className="col-span-12">
-                  <HoverInfo
-                    content={t("HTLC:receiverDesc")}
-                    header={t("HTLC:receiverHeader")}
-                    type="header"
-                  />
-                </div>
-                <div className="col-span-12 border border-gray-300 rounded min-h-[200px]">
-                  {receiverHtlcs && receiverHtlcs.length > 0 ? (
-                    <>
-                      <div className="grid grid-cols-6 gap-1 p-2 bg-gray-100 text-xs font-semibold">
-                        <div>{t("HTLC:idColumn")}</div>
-                        <div>{t("HTLC:fromColumn")}</div>
-                        <div>{t("HTLC:amountColumn")}</div>
-                        <div>{t("HTLC:hashColumn")}</div>
-                        <div>{t("HTLC:expiresColumn")}</div>
-                        <div className="text-right pr-2">
-                          {t("HTLC:actionsColumn")}
-                        </div>
-                      </div>
-                      <div className="w-full max-h-[500px] overflow-auto">
-                        <List
-                          rowHeight={75}
-                          rowComponent={ReceiverHtlcRow}
-                          rowCount={receiverHtlcs.length}
-                          rowProps={{}}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <p className="p-4 text-center text-gray-500">
-                      {t("HTLC:noReceiverHtlc")}
-                    </p>
-                  )}
+            <div className="grid grid-cols-1 gap-3 mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <HoverInfo
+                  content={t("HTLC:senderDesc")}
+                  header={t("HTLC:senderHeader")}
+                  type="header"
+                />
+                <div className="text-right">
+                  <Button
+                    className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] transition-all"
+                    onClick={() => setShowCreateDialog(true)}
+                  >
+                    <Lock className="h-4 w-4 mr-2" />
+                    {t("HTLC:createButton")}
+                  </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+              <div className="rounded-xl border border-border/40 bg-card/30">
+                {senderHtlcs && senderHtlcs.length > 0 ? (
+                  <>
+                    <div className="grid grid-cols-6 gap-1 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60 border-b border-border/40">
+                      <div>{t("HTLC:idColumn")}</div>
+                      <div>{t("HTLC:toColumn")}</div>
+                      <div>{t("HTLC:amountColumn")}</div>
+                      <div>{t("HTLC:hashColumn")}</div>
+                      <div>{t("HTLC:expiresColumn")}</div>
+                      <div className="text-right">
+                        {t("HTLC:actionsColumn")}
+                      </div>
+                    </div>
+                    <div className="w-full max-h-[300px] overflow-auto">
+                      <List
+                        rowHeight={75}
+                        rowComponent={SenderHtlcRow}
+                        rowCount={senderHtlcs.length}
+                        rowProps={{}}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex items-center justify-center py-12 text-sm text-muted-foreground/60">
+                    <Lock className="h-4 w-4 mr-2" />
+                    {t("HTLC:noSenderHtlc")}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3">
+              <HoverInfo
+                content={t("HTLC:receiverDesc")}
+                header={t("HTLC:receiverHeader")}
+                type="header"
+              />
+              <div className="rounded-xl border border-border/40 bg-card/30">
+                {receiverHtlcs && receiverHtlcs.length > 0 ? (
+                  <>
+                    <div className="grid grid-cols-6 gap-1 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60 border-b border-border/40">
+                      <div>{t("HTLC:idColumn")}</div>
+                      <div>{t("HTLC:fromColumn")}</div>
+                      <div>{t("HTLC:amountColumn")}</div>
+                      <div>{t("HTLC:hashColumn")}</div>
+                      <div>{t("HTLC:expiresColumn")}</div>
+                      <div className="text-right">
+                        {t("HTLC:actionsColumn")}
+                      </div>
+                    </div>
+                    <div className="w-full max-h-[300px] overflow-auto">
+                      <List
+                        rowHeight={75}
+                        rowComponent={ReceiverHtlcRow}
+                        rowCount={receiverHtlcs.length}
+                        rowProps={{}}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex items-center justify-center py-12 text-sm text-muted-foreground/60">
+                    <Unlock className="h-4 w-4 mr-2" />
+                    {t("HTLC:noReceiverHtlc")}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
 
         {showCreateDialog ? (

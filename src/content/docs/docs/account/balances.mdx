@@ -1,0 +1,50 @@
+---
+title: Portfolio Balances
+description: View the asset balances held by any BitShares account.
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Portfolio Balances** shows every asset an account holds — free balance, frozen/vesting portions, and the asset's details. It's a read-only viewer: you can sort, search, and mark assets as favourites (stored locally in your browser).
+
+**Open in the app:** [Portfolio Balances](/balances.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="All holdings" icon="wallet">
+    List every asset and amount for an account.
+  </Card>
+  <Card title="Sort & search" icon="search">
+    Filter by symbol, hide zero balances, sort by value.
+  </Card>
+  <Card title="Favourite assets" icon="star">
+    Star assets for quick access (saved in your browser).
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Portfolio Balances** from the homepage under *Account Overviews*.
+
+2. Enter or select the account whose balances you want to inspect.
+
+3. Browse, sort and search the holdings.
+
+4. Star frequently-used assets to add them to your local favourites.
+
+</Steps>
+
+<Aside type="note" title="Local only">
+  Favouriting an asset writes to your browser's local storage — it is not an on-chain action and is not shared between devices.
+</Aside>
+
+## Related pages
+
+- [Open Orders](/docs/account/open-orders.html)
+- [Vesting Balances](/docs/account/vesting.html)
+- [Transfer](/docs/transfer/transfer.html)

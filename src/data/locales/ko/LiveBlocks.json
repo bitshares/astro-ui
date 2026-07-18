@@ -38,10 +38,20 @@
   "recentBlocks": {
     "content": "최근 블록 목록.",
     "header": "최근 블록",
-    "blockId": "블록 ID",
-    "timestamp": "타임스탬프",
-    "witnessId": "증인 ID",
-    "transaction": "거래"
+    "blockId": "블록",
+    "timestamp": "시간",
+    "witnessId": "증인",
+    "transaction": "트랜잭션"
+  },
+  "operationsLabel": "ops",
+  "txLabel": "tx",
+  "connecting": "노드에 연결하는 중…",
+  "waiting": "블록을 기다리는 중…",
+  "time": {
+    "now": "방금",
+    "secondsAgo": "{{count}}초 전",
+    "minutesAgo": "{{count}}분 전",
+    "hoursAgo": "{{count}}시간 전"
   },
   "dialogContent": {
     "json": "JSON 데이터",

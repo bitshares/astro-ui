@@ -64,14 +64,8 @@ const getAllAssetData = async (chain) => {
         market_fee_percent: asset.options.market_fee_percent,
         max_market_fee: asset.options.max_market_fee,
         max_supply: asset.options.max_supply,
+        options: { flags: asset.options.flags },
       };
-
-      /*
-        prediction_market: asset.options.description.includes("expiry")
-                        && asset.options.description.includes("condition")
-                        && asset.options.description.includes("market")
-                        && asset.bitasset_data_id
-      */
 
       if (asset.bitasset_data_id) {
         mappedResponse.bitasset_data_id = asset.bitasset_data_id;

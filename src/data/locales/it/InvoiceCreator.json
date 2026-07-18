@@ -73,7 +73,10 @@
   "generatedInvoice": {
     "dialogTitle": "Fattura generata",
     "dialogDescription": "Fornire al cliente il seguente codice fattura per pagare la fattura.",
-    "copyButton": "Copia il codice fattura negli appunti"
+    "copyButton": "Copia il codice fattura negli appunti",
+    "copiedButton": "Codice fattura copiato negli appunti!",
+    "invoiceSaved": "Fattura salvata!",
+    "saveInvoice": "Salva fattura"
   },
   "scanner": {
     "scan": "Scansione",

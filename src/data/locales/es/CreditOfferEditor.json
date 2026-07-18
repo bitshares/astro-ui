@@ -58,5 +58,7 @@
   "risksPoint3": "Si no configura los prestatarios permitidos, todos los usuarios de la cadena de bloques de Bitshares pueden aceptar el trato en su totalidad. Considere utilizar la funcionalidad de prestatario aprobado para prestar a usuarios conocidos/registrados.",
   "risksPoint4": "Los prestatarios no están obligados a reembolsar los activos prestados, ni son castigados por hacerlo, pueden optar por incumplir el préstamo y perder su garantía. Sólo puede reclamar la devolución de los activos prestados o la garantía después de que expire el período de pago. Tenga esto en cuenta. ",
   "risksPoint5": "El vencimiento de una oferta de crédito puede exceder la fecha de vencimiento de la oferta de crédito; no debe asumir que recuperará los activos prestados hasta que haya pasado el vencimiento + el último período de pago.",
-  "risksPoint6": "Tenga en cuenta los riesgos de contraparte si utiliza activos respaldados por divisas (EBA) como garantía o con fines de préstamo, ya que su valor podría fluctuar en función de los riesgos de terceros."
+  "risksPoint6": "Tenga en cuenta los riesgos de contraparte si utiliza activos respaldados por divisas (EBA) como garantía o con fines de préstamo, ya que su valor podría fluctuar en función de los riesgos de terceros.",
+  "noCollateral": "Aún no se ha agregado garantía",
+  "noPreApprovedBorrowers": "No hay prestatarios preaprobados"
 }

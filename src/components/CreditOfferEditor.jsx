@@ -1,11 +1,24 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import { useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
+import {
+  HandCoins,
+  Coins,
+  Percent,
+  Clock,
+  CalendarDays,
+  ShieldCheck,
+  Users,
+  Zap,
+  Trash2,
+  Settings,
+  Info,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
@@ -25,14 +38,7 @@ import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 import {
   Field,
@@ -72,18 +78,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import {
-  Avatar as Av,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Calendar } from "@/components/ui/calendar";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Spinner } from "@/components/ui/spinner";
 
 const repaymentPeriods = {
   "1hr": 60 * 60,
@@ -253,7 +254,6 @@ export default function CreditOfferEditor(properties) {
   useEffect(() => {
     async function parseUrlParams() {
       if (window.location.search) {
-        //console.log("Parsing url params");
         const urlSearchParams = new URLSearchParams(window.location.search);
         const params = Object.fromEntries(urlSearchParams.entries());
         const _id = params && params.id ? params.id : null;
@@ -262,7 +262,6 @@ export default function CreditOfferEditor(properties) {
             ? params.asset || params.symbol
             : null;
 
-        // If an offer id is specified, validate and set it
         if (_id && _id.length) {
           if (!_id.includes("1.21.")) {
             console.log("Invalid credit offer url parameter 2");
@@ -271,7 +270,6 @@ export default function CreditOfferEditor(properties) {
           setOfferID(_id);
         }
 
-        // If an asset symbol is provided, preselect it for a new offer flow
         if (!_id && _assetSymbol && _assetSymbol.length) {
           setSelectedAsset(_assetSymbol.toUpperCase());
         }
@@ -361,7 +359,6 @@ export default function CreditOfferEditor(properties) {
     };
   }, [offerID, usr, assets]);
 
-  // Inside your component
   const [chunkIndex, setChunkIndex] = useState(0);
   useEffect(() => {
     let unsub;
@@ -396,7 +393,6 @@ export default function CreditOfferEditor(properties) {
               }),
             ),
           );
-          // Move to the next chunk
           setChunkIndex((prevIndex) => prevIndex + 1);
         }
       });
@@ -507,88 +503,90 @@ export default function CreditOfferEditor(properties) {
     let _updatedCollateral;
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="ml-2 mr-2 mt-1">
-          <CardHeader className="pb-3 pt-3">
-            <span className="grid grid-cols-12">
-              <span className="col-span-9">
-                <CardTitle>
-                  #{index + 1}: {_targetAsset.symbol} ({_targetAsset.id})
-                </CardTitle>
-                <CardDescription>
-                  {t("CreditOfferEditor:price")} {res.price}{" "}
-                  {_targetAsset.symbol}/{selectedAsset ?? ""}
-                </CardDescription>
-              </span>
-              <span className="col-span-3 text-center">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline">⚙️</Button>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <Label>{t("CreditOfferEditor:editingPrice")}</Label>{" "}
-                    <Input
-                      name="price"
-                      className="mt-4"
-                      placeholder={res.price}
-                      onKeyPress={(event) => {
-                        if (
-                          event.key === "." &&
-                          event.target.value.includes(".")
-                        ) {
-                          event.preventDefault();
-                        }
-                        const regex = assetAmountRegex(_targetAsset);
-                        if (!regex.test(event.key)) {
-                          event.preventDefault();
-                        }
-                      }}
-                      onChange={(event) => {
-                        const regex = assetAmountRegex(_targetAsset);
-                        if (regex.test(event.target.value)) {
-                          _updatedCollateral = acceptableCollateral.map((x) => {
-                            if (x.symbol === res.symbol) {
-                              x.price = parseFloat(event.target.value);
-                            }
-                            return x;
-                          });
-                        }
-                      }}
-                    />
-                    <Button
-                      variant="outline"
-                      className="mt-4"
-                      onClick={() => {
-                        if (
-                          _updatedCollateral &&
-                          _updatedCollateral.price !== res.price
-                        ) {
-                          setAcceptableCollateral(_updatedCollateral);
-                        } else {
-                          console.log("No change in price");
-                        }
-                      }}
-                    >
-                      {t("CreditOfferEditor:setNewPrice")}
-                    </Button>
-                  </PopoverContent>
-                </Popover>
-
-                <Button
-                  variant="outline"
-                  className="ml-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const _newCollateral = acceptableCollateral.filter(
-                      (x) => x.symbol !== res.symbol,
-                    );
-                    setAcceptableCollateral(_newCollateral);
-                  }}
-                >
-                  ❌
-                </Button>
-              </span>
+        <Card className="mx-2 mb-1 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all">
+          <div className="p-3 flex items-center gap-3">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
+              <Coins className="h-3.5 w-3.5" strokeWidth={2.25} />
             </span>
-          </CardHeader>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-semibold text-foreground truncate">
+                #{index + 1}: {_targetAsset.symbol}
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {t("CreditOfferEditor:price")} <span className="font-mono dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">{res.price}</span> {_targetAsset.symbol}/{selectedAsset ?? ""}
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="icon" aria-label="Edit collateral price" className="h-8 w-8 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
+                    <Settings className="h-3.5 w-3.5" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <Label>{t("CreditOfferEditor:editingPrice")}</Label>{" "}
+                  <Input
+                    name="price"
+                    className="mt-4"
+                    placeholder={res.price}
+                    onKeyPress={(event) => {
+                      if (
+                        event.key === "." &&
+                        event.target.value.includes(".")
+                      ) {
+                        event.preventDefault();
+                      }
+                      const regex = assetAmountRegex(_targetAsset);
+                      if (!regex.test(event.key)) {
+                        event.preventDefault();
+                      }
+                    }}
+                    onChange={(event) => {
+                      const regex = assetAmountRegex(_targetAsset);
+                      if (regex.test(event.target.value)) {
+                        _updatedCollateral = acceptableCollateral.map((x) => {
+                          if (x.symbol === res.symbol) {
+                            x.price = parseFloat(event.target.value);
+                          }
+                          return x;
+                        });
+                      }
+                    }}
+                  />
+                  <Button
+                    variant="outline"
+                    className="mt-4 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
+                    onClick={() => {
+                      if (
+                        _updatedCollateral &&
+                        _updatedCollateral.price !== res.price
+                      ) {
+                        setAcceptableCollateral(_updatedCollateral);
+                      }
+                    }}
+                  >
+                    {t("CreditOfferEditor:setNewPrice")}
+                  </Button>
+                </PopoverContent>
+              </Popover>
+
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Remove collateral"
+                className="h-8 w-8 border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)]"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const _newCollateral = acceptableCollateral.filter(
+                    (x) => x.symbol !== res.symbol,
+                  );
+                  setAcceptableCollateral(_newCollateral);
+                }}
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          </div>
         </Card>
       </div>
     );
@@ -604,770 +602,732 @@ export default function CreditOfferEditor(properties) {
 
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="ml-2 mr-2 mt-1">
-          <CardHeader className="pb-3 pt-3">
-            <span className="grid grid-cols-12">
-              <span className="col-span-1">
-                <Avatar
-                  size={40}
-                  name={res.name}
-                  extra="Borrower"
-                  expression={{
-                    eye: "normal",
-                    mouth: "open",
-                  }}
-                  colors={[
-                    "#92A1C6",
-                    "#146A7C",
-                    "#F0AB3D",
-                    "#C271B4",
-                    "#C20D90",
-                  ]}
-                />
-              </span>
-              <span className="col-span-8 ml-3">
-                <CardTitle>
-                  #{index + 1}: {res.name} ({res.id})
-                </CardTitle>
-                <CardDescription>
-                  {t("CreditOfferEditor:borrowLimit")}: {res.amount}{" "}
-                  {foundAsset ? foundAsset.symbol : ""}
-                </CardDescription>
-              </span>
-              <span className="col-span-3 text-center">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline">⚙️</Button>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <Label>{t("CreditOfferEditor:editingMaxAmount")}</Label>
-                    <Input
-                      name="price"
-                      className="mt-4"
-                      placeholder={res.price}
-                      onKeyPress={(event) => {
-                        if (
-                          event.key === "." &&
-                          event.target.value.includes(".")
-                        ) {
-                          event.preventDefault();
-                        }
-                        const regex = assetAmountRegex(foundAsset);
-                        if (!regex.test(event.key)) {
-                          event.preventDefault();
-                        }
-                      }}
-                      onChange={(event) => {
-                        const regex = assetAmountRegex(foundAsset);
-                        if (regex.test(event.target.value)) {
-                          _updatedAllowedAccounts = allowedAccounts.map((x) => {
-                            if (x.id === res.id) {
-                              x.amount = event.target.value;
-                            }
-                            return x;
-                          });
-                        }
-                      }}
-                    />
-                    <Button
-                      variant="outline"
-                      className="mt-4"
-                      onClick={() => {
-                        if (_updatedAllowedAccounts) {
-                          setAllowedAccounts(_updatedAllowedAccounts);
-                        }
-                      }}
-                    >
-                      {t("CreditOfferEditor:setNewMaximum")}
-                    </Button>
-                  </PopoverContent>
-                </Popover>
+        <Card className="mx-2 mb-1 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all">
+          <div className="p-3 flex items-center gap-3">
+            <Avatar
+              size={32}
+              name={res.name}
+              extra="Borrower"
+              expression={{
+                eye: "normal",
+                mouth: "open",
+              }}
+              colors={[
+                "#92A1C6",
+                "#146A7C",
+                "#F0AB3D",
+                "#C271B4",
+                "#C20D90",
+              ]}
+            />
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-semibold text-foreground truncate">
+                #{index + 1}: {res.name}
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {t("CreditOfferEditor:borrowLimit")}: <span className="font-mono dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">{res.amount} {foundAsset ? foundAsset.symbol : ""}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="icon" aria-label="Edit borrower limit" className="h-8 w-8 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
+                    <Settings className="h-3.5 w-3.5" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <Label>{t("CreditOfferEditor:editingMaxAmount")}</Label>
+                  <Input
+                    name="price"
+                    className="mt-4"
+                    placeholder={res.price}
+                    onKeyPress={(event) => {
+                      if (
+                        event.key === "." &&
+                        event.target.value.includes(".")
+                      ) {
+                        event.preventDefault();
+                      }
+                      const regex = assetAmountRegex(foundAsset);
+                      if (!regex.test(event.key)) {
+                        event.preventDefault();
+                      }
+                    }}
+                    onChange={(event) => {
+                      const regex = assetAmountRegex(foundAsset);
+                      if (regex.test(event.target.value)) {
+                        _updatedAllowedAccounts = allowedAccounts.map((x) => {
+                          if (x.id === res.id) {
+                            x.amount = event.target.value;
+                          }
+                          return x;
+                        });
+                      }
+                    }}
+                  />
+                  <Button
+                    variant="outline"
+                    className="mt-4 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
+                    onClick={() => {
+                      if (_updatedAllowedAccounts) {
+                        setAllowedAccounts(_updatedAllowedAccounts);
+                      }
+                    }}
+                  >
+                    {t("CreditOfferEditor:setNewMaximum")}
+                  </Button>
+                </PopoverContent>
+              </Popover>
 
-                <Button
-                  variant="outline"
-                  className="ml-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const _update = allowedAccounts.filter(
-                      (x) => x.id !== res.id,
-                    );
-                    setAllowedAccounts(_update);
-                  }}
-                >
-                  ❌
-                </Button>
-              </span>
-            </span>
-          </CardHeader>
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="Remove borrower"
+                className="h-8 w-8 border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)]"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const _update = allowedAccounts.filter(
+                    (x) => x.id !== res.id,
+                  );
+                  setAllowedAccounts(_update);
+                }}
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          </div>
         </Card>
       </div>
     );
   };
 
   return (
-    <div className="container mx-auto mt-5 mb-5 w-full lg:w-1/2">
-      <div className="grid grid-cols-1 gap-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              {!offerOwner
-                ? t("CreditOfferEditor:creatingNewOffer")
-                : t("CreditOfferEditor:editingExistingOffer")}
-            </CardTitle>
-            <CardDescription>
-              {!offerOwner
-                ? t("CreditOfferEditor:creatingNewOfferDescription")
-                : t("CreditOfferEditor:editingExistingOfferDescription")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form
-              onSubmit={form.handleSubmit(() => {
-                setShowDialog(true);
-              })}
-            >
-              <FieldGroup>
-                {offerID ? (
-                  <span className="grid grid-cols-12">
-                    <span className="col-span-12 lg:col-span-6">
-                      <Field>
-                        <FieldLabel htmlFor={`offerOwner-${offerID ?? "new"}`}>
-                          {t("CreditOfferEditor:offerOwner")}
-                        </FieldLabel>
-                        <FieldContent>
-                          <div className="grid grid-cols-12 mt-4 mr-2">
-                            <div className="col-span-8 mr-2 mb-1 mt-1">
-                              <Input
-                                id={`offerOwner-${offerID ?? "new"}`}
-                                disabled
-                                placeholder={offerOwner ?? "1.2.x"}
-                              />
-                            </div>
-                            <div className="col-span-4 mt-1 text-center">
-                              {t("CreditOfferEditor:viewAccount")}
-                            </div>
-                          </div>
-                        </FieldContent>
-                        <FieldDescription>
-                          {t("CreditOfferEditor:offerOwnerDescription")}
-                        </FieldDescription>
-                      </Field>
-                    </span>
-                    <span className="col-span-12 lg:col-span-6">
-                      <Field>
-                        <FieldLabel htmlFor={`offerId-${offerID ?? "new"}`}>
-                          {t("CreditOfferEditor:existingID")}
-                        </FieldLabel>
-                        <FieldContent>
-                          <div className="grid grid-cols-12 mt-4">
-                            <div className="col-span-10">
-                              <Input
-                                id={`offerId-${offerID ?? "new"}`}
-                                disabled
-                                placeholder={offerID}
-                                className="mb-1 mt-1"
-                              />
-                            </div>
-                            <div className="col-span-2 mt-1 text-center">
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <Button className="ml-2" variant="outline">
-                                    JSON
-                                  </Button>
-                                </DialogTrigger>
-                                <DialogContent className="sm:max-w-[550px] bg-white">
-                                  <DialogHeader>
-                                    <DialogTitle>
-                                      {t(
-                                        "CreditOfferEditor:existingCreditOfferJSON",
-                                      )}
-                                    </DialogTitle>
-                                    <DialogDescription>
-                                      {t(
-                                        "CreditOfferEditor:currentBlockchainData",
-                                      )}
-                                    </DialogDescription>
-                                  </DialogHeader>
-                                  <div className="grid grid-cols-1">
-                                    <div className="col-span-1">
-                                      <ScrollArea className="h-72 rounded-md border">
-                                        <pre>
-                                          {JSON.stringify(offerJSON, null, 2)}
-                                        </pre>
-                                      </ScrollArea>
-                                    </div>
-                                    <div className="col-span-1 mt-3">
-                                      <Button
-                                        variant="outline"
-                                        onClick={() => {
-                                          copyToClipboard(
-                                            JSON.stringify(offerJSON, null, 4),
-                                          );
-                                        }}
-                                      >
-                                        {t(
-                                          "DeepLinkDialog:tabsContent.copyOperationJSON",
-                                        )}
-                                      </Button>
-                                      <span className="ml-3">
-                                        {t("CreditOfferEditor:viewOnbitshares")}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </DialogContent>
-                              </Dialog>
-                            </div>
-                          </div>
-                        </FieldContent>
-                        <FieldDescription>
-                          {t("CreditOfferEditor:viewingExistingOffer")}
-                        </FieldDescription>
-                      </Field>
-                    </span>
-                  </span>
-                ) : null}
-                <Field>
-                  <span className="grid grid-cols-2">
-                    <FieldLabel
-                      className="mt-2"
-                      htmlFor={`targetAsset-${offerID ?? "new"}`}
-                    >
-                      {t("CreditOfferEditor:assetToLend")}
-                    </FieldLabel>
-                    <span className="text-right mt-1">
-                      {!offerID ? (
-                        <AssetDropDown
-                          assetSymbol={selectedAsset ?? ""}
-                          assetData={null}
-                          storeCallback={setSelectedAsset}
-                          otherAsset={null}
-                          marketSearch={marketSearch}
-                          type={null}
-                          chain={usr.chain}
-                          balances={balances}
-                        />
-                      ) : null}
-                    </span>
-                  </span>
-                  <FieldContent>
-                    <div className="grid grid-cols-12 mt-4">
-                      <div className="col-span-1 ml-5">
-                        {!selectedAsset || !foundAsset ? (
-                          <Av>
-                            <AvatarFallback>?</AvatarFallback>
-                          </Av>
-                        ) : null}
-                        {foundAsset ? (
-                          <Av>
-                            <AvatarFallback>
-                              <div className="text-sm">
-                                {foundAsset.bitasset_data_id ? "MPA" : "UIA"}
-                              </div>
-                            </AvatarFallback>
-                          </Av>
-                        ) : null}
-                      </div>
-                      <div className="col-span-11">
-                        {!selectedAsset || !foundAsset ? (
-                          <Input
-                            id={`targetAsset-${offerID ?? "new"}`}
-                            disabled
-                            placeholder="Bitshares asset (1.3.x)"
-                            className="mb-1 mt-1"
-                          />
-                        ) : null}
-                        {foundAsset ? (
-                          <Input
-                            id={`targetAsset-${offerID ?? "new"}`}
-                            disabled
-                            placeholder={`${foundAsset.symbol} (${foundAsset.id})`}
-                            className="mb-1 mt-1"
-                          />
-                        ) : null}
-                      </div>
-                    </div>
-                  </FieldContent>
-                  <FieldDescription>
-                    {t("CreditOfferEditor:lendingAssetDescription")}
-                  </FieldDescription>
-                  <FieldError>
-                    {foundAsset &&
-                    balances &&
-                    !balances.map((x) => x.asset_id).includes(foundAsset.id)
-                      ? t("Transfer:noAssetInAccount", {
-                          username: usr.username,
-                        })
-                      : null}
-                  </FieldError>
-                </Field>
+    <div className="container mx-auto mt-5 mb-5 max-w-4xl">
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+        />
 
-                <Field>
-                  <div className="grid grid-cols-2">
-                    <FieldLabel htmlFor={`lendingAmount-${offerID ?? "new"}`}>
-                      {t("CreditOfferEditor:amountToLend")}
-                    </FieldLabel>
-                    <div className="text-right">
-                      {foundAsset ? (
-                        <Button
-                          variant="outline"
-                          onClick={() => {
-                            event.preventDefault();
-                            setLendingAmount(foundAssetBalance);
-                            form.setValue("lendingAmount", foundAssetBalance);
-                          }}
-                        >
-                          {t("LimitOrderCard:useBalance")}
+        <div className="relative p-5 sm:p-6">
+          <div className="flex items-center gap-3 mb-5">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+              <Coins className="h-4.5 w-4.5" strokeWidth={2.25} />
+            </span>
+            <div>
+              <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                {!offerOwner
+                  ? t("CreditOfferEditor:creatingNewOffer")
+                  : t("CreditOfferEditor:editingExistingOffer")}
+              </h2>
+              <p className="text-xs text-muted-foreground/70 mt-0.5">
+                {!offerOwner
+                  ? t("CreditOfferEditor:creatingNewOfferDescription")
+                  : t("CreditOfferEditor:editingExistingOfferDescription")}
+              </p>
+            </div>
+          </div>
+
+          <form
+            onSubmit={form.handleSubmit(() => {
+              setShowDialog(true);
+            })}
+          >
+            <FieldGroup>
+              {offerID ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div className="rounded-xl border border-border/60 bg-card/40 p-4">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-2">
+                      {t("CreditOfferEditor:offerOwner")}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        id={`offerOwner-${offerID ?? "new"}`}
+                        disabled
+                        placeholder={offerOwner ?? "1.2.x"}
+                        className="bg-card/60"
+                      />
+                      <a href={`/account/${offerOwner}`}>
+                        <Button variant="outline" size="sm" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
+                          {t("CreditOfferEditor:viewAccount")}
                         </Button>
-                      ) : (
-                        <Button disabled>
-                          {t("LimitOrderCard:useBalance")}
-                        </Button>
-                      )}
+                      </a>
                     </div>
                   </div>
-                  <FieldContent>
-                    <Controller
-                      name="lendingAmount"
-                      control={form.control}
-                      render={({ field }) => (
-                        <Input
-                          id={`lendingAmount-${offerID ?? "new"}`}
-                          value={lendingAmount}
-                          placeholder={String(lendingAmount)}
-                          className="mb-1"
-                          onChange={(event) => {
-                            const input = event.target.value;
-                            const inputDecimals = !foundAsset
-                              ? 2
-                              : foundAsset.precision;
-                            let regex = new RegExp(
-                              `^[0-9]*\\.?[0-9]{0,${inputDecimals}}$`,
-                            );
-                            if (regex.test(input)) {
-                              setLendingAmount(input);
-                              field.onChange(input);
-                            }
-                          }}
-                        />
-                      )}
-                    />
-                  </FieldContent>
-                  <FieldDescription>
-                    {t("CreditOfferEditor:lendingAmountDescription")}
-                  </FieldDescription>
-                  <FieldError>
-                    {(!foundAssetBalance && lendingAmount > 0) ||
-                    (foundAssetBalance && foundAssetBalance < lendingAmount)
-                      ? t("Predictions:insufficient_funds")
-                      : null}
-                  </FieldError>
-                </Field>
-
-                <Field>
-                  <span className="grid grid-cols-2">
-                    <FieldLabel>
-                      {t("CreditOfferEditor:lendingRate")}
-                    </FieldLabel>
-                    <span className="text-right">
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <span
+                  <div className="rounded-xl border border-border/60 bg-card/40 p-4">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-2">
+                      {t("CreditOfferEditor:existingID")}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        id={`offerId-${offerID ?? "new"}`}
+                        disabled
+                        placeholder={offerID}
+                        className="bg-card/60"
+                      />
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
+                            JSON
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[550px] !bg-card border border-border">
+                          <DialogHeader>
+                            <DialogTitle>
+                              {t("CreditOfferEditor:existingCreditOfferJSON")}
+                            </DialogTitle>
+                            <DialogDescription className="text-muted-foreground">
+                              {t("CreditOfferEditor:currentBlockchainData")}
+                            </DialogDescription>
+                          </DialogHeader>
+                          <ScrollArea className="h-72 rounded-md border border-border bg-card/60">
+                            <pre className="text-xs text-foreground/80 p-3">
+                              {JSON.stringify(offerJSON, null, 2)}
+                            </pre>
+                          </ScrollArea>
+                          <Button
+                            variant="outline"
+                            className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                             onClick={() => {
-                              event.preventDefault();
+                              copyToClipboard(
+                                JSON.stringify(offerJSON, null, 4),
+                              );
                             }}
-                            className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4 text-lg"
                           >
-                            <Label>
-                              {t("CreditOfferEditor:editLendingRate")}
-                            </Label>{" "}
-                          </span>
-                        </PopoverTrigger>
-                        <PopoverContent>
-                          <Label>{t("CreditOfferEditor:newLendingRate")}</Label>{" "}
-                          <Input
-                            placeholder={String(rate)}
-                            className="mb-2 mt-1"
-                            onChange={(event) => {
-                              const input = event.target.value;
-                              const regex = /^[0-9]*\.?[0-9]{0,2}$/;
-                              if (input && input.length && regex.test(input)) {
-                                if (input >= 0.01 && input <= 100) {
-                                  setRate(input);
-                                } else if (input > 100) {
-                                  setRate(100);
-                                } else if (input < 0.01) {
-                                  setRate(0.01);
-                                }
-                              }
-                            }}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </span>
-                  </span>
+                            {t("DeepLinkDialog:tabsContent.copyOperationJSON")}
+                          </Button>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
 
-                  <FieldContent>
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                    <Coins className="h-3 w-3" strokeWidth={2.5} />
+                  </span>
+                  <span className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                    {t("CreditOfferEditor:assetToLend")}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1">
+                    {!selectedAsset || !foundAsset ? (
+                      <Input
+                        id={`targetAsset-${offerID ?? "new"}`}
+                        disabled
+                        placeholder="Bitshares asset (1.3.x)"
+                        className="bg-card/60"
+                      />
+                    ) : (
+                      <Input
+                        id={`targetAsset-${offerID ?? "new"}`}
+                        disabled
+                        placeholder={`${foundAsset.symbol} (${foundAsset.id})`}
+                        className="bg-card/60"
+                      />
+                    )}
+                  </div>
+                  {!offerID ? (
+                    <AssetDropDown
+                      assetSymbol={selectedAsset ?? ""}
+                      assetData={null}
+                      storeCallback={setSelectedAsset}
+                      otherAsset={null}
+                      marketSearch={marketSearch}
+                      type={null}
+                      chain={usr.chain}
+                      balances={balances}
+                    />
+                  ) : null}
+                </div>
+                {foundAsset &&
+                  balances &&
+                  !balances.map((x) => x.asset_id).includes(foundAsset.id) && (
+                    <p className="text-xs text-[hsl(var(--accent-danger-fg))] mt-2">
+                      {t("Transfer:noAssetInAccount", { username: usr.username })}
+                    </p>
+                  )}
+              </div>
+
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                      <HandCoins className="h-3 w-3" strokeWidth={2.5} />
+                    </span>
+                    <span className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                      {t("CreditOfferEditor:amountToLend")}
+                    </span>
+                  </div>
+                  {foundAsset ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        event.preventDefault();
+                        setLendingAmount(foundAssetBalance);
+                        form.setValue("lendingAmount", foundAssetBalance);
+                      }}
+                      className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)]"
+                    >
+                      {t("LimitOrderCard:useBalance")}
+                    </Button>
+                  ) : null}
+                </div>
+                <Controller
+                  name="lendingAmount"
+                  control={form.control}
+                  render={({ field }) => (
+                    <Input
+                      id={`lendingAmount-${offerID ?? "new"}`}
+                      value={lendingAmount}
+                      placeholder={String(lendingAmount)}
+                      className="bg-card/60 text-lg font-semibold"
+                      onChange={(event) => {
+                        const input = event.target.value;
+                        const inputDecimals = !foundAsset
+                          ? 2
+                          : foundAsset.precision;
+                        let regex = new RegExp(
+                          `^[0-9]*\\.?[0-9]{0,${inputDecimals}}$`,
+                        );
+                        if (regex.test(input)) {
+                          setLendingAmount(input);
+                          field.onChange(input);
+                        }
+                      }}
+                    />
+                  )}
+                />
+                {((!foundAssetBalance && lendingAmount > 0) ||
+                  (foundAssetBalance && foundAssetBalance < lendingAmount)) && (
+                  <p className="text-xs text-[hsl(var(--accent-danger-fg))] mt-2">
+                    {t("Common:insufficient_funds")}
+                  </p>
+                )}
+              </div>
+
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                    <Percent className="h-3 w-3" strokeWidth={2.5} />
+                  </span>
+                  <span className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                    {t("CreditOfferEditor:lendingRate")}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex-1">
                     <Input
                       value={`${rate} %`}
                       placeholder={`${rate} %`}
                       disabled
-                      className="mb-1"
+                      className="bg-card/60 text-lg font-semibold dark:text-[hsl(var(--accent-1-fg))]"
                     />
-                    <Slider
-                      className="mt-3"
-                      key={`Slider${rate}`}
-                      defaultValue={[rate]}
-                      max={100}
-                      min={1}
-                      step={0.01}
-                      onValueChange={(value) => {
-                        debouncedSetRate(value[0]);
-                      }}
-                    />
-                  </FieldContent>
-                  <FieldDescription>
-                    {t("CreditOfferEditor:lendingRateDescription")}
-                  </FieldDescription>
-                </Field>
-
-                <span className="grid grid-cols-12 mt-3 mb-3">
-                  <span className="col-span-12 lg:col-span-4">
-                    <Field>
-                      <FieldLabel>
-                        {t("CreditOfferEditor:repaymentPeriod")}
-                      </FieldLabel>
-                      <FieldContent>
-                        <Select
-                          onValueChange={(selection) => {
-                            setRepayPeriod(selection);
-                          }}
-                        >
-                          <SelectTrigger className="mb-3 w-3/4">
-                            <SelectValue
-                              placeholder={t(
-                                "CreditOfferEditor:placeholder1hr",
-                              )}
-                            />
-                          </SelectTrigger>
-                          <SelectContent className="bg-white">
-                            <SelectItem value="12hr">
-                              {t("CreditOfferEditor:12hours")}
-                            </SelectItem>
-                            <SelectItem value="24hr">
-                              {t("CreditOfferEditor:24hours")}
-                            </SelectItem>
-                            <SelectItem value="3d">
-                              {t("CreditOfferEditor:3days")}
-                            </SelectItem>
-                            <SelectItem value="7d">
-                              {t("CreditOfferEditor:7days")}
-                            </SelectItem>
-                            <SelectItem value="30d">
-                              {t("CreditOfferEditor:30days")}
-                            </SelectItem>
-                            <SelectItem value="90d">
-                              {t("CreditOfferEditor:90days")}
-                            </SelectItem>
-                            <SelectItem value="365d">
-                              {t("CreditOfferEditor:365days")}
-                            </SelectItem>
-                            <SelectItem value="730d">
-                              {t("CreditOfferEditor:730days")}
-                            </SelectItem>
-                            <SelectItem value="1825d">
-                              {t("CreditOfferEditor:1825days")}
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FieldContent>
-                      <FieldDescription>
-                        {t("CreditOfferEditor:maximumDuration")}
-                      </FieldDescription>
-                    </Field>
-                  </span>
-                  <span className="col-span-12 lg:col-span-4">
-                    <Field>
-                      <FieldLabel htmlFor={`minimumAmount-${offerID ?? "new"}`}>
-                        {t("CreditOfferEditor:minimumAmount")}
-                      </FieldLabel>
-                      <FieldContent>
-                        <Input
-                          id={`minimumAmount-${offerID ?? "new"}`}
-                          value={minimumBorowAmount}
-                          placeholder={String(minimumBorowAmount)}
-                          className="mb-1 w-3/4"
-                          onKeyPress={(event) => {
-                            if (
-                              event.key === "." &&
-                              event.target.value.includes(".")
-                            ) {
-                              event.preventDefault();
+                  </div>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
+                        {t("CreditOfferEditor:editLendingRate")}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <Label>{t("CreditOfferEditor:newLendingRate")}</Label>{" "}
+                      <Input
+                        placeholder={String(rate)}
+                        className="mb-2 mt-1"
+                        onChange={(event) => {
+                          const input = event.target.value;
+                          const regex = /^[0-9]*\.?[0-9]{0,2}$/;
+                          if (input && input.length && regex.test(input)) {
+                            if (input >= 0.01 && input <= 100) {
+                              setRate(input);
+                            } else if (input > 100) {
+                              setRate(100);
+                            } else if (input < 0.01) {
+                              setRate(0.01);
                             }
-                            const regex = assetAmountRegex(foundAsset);
-                            if (!regex.test(event.key)) {
-                              event.preventDefault();
-                            }
-                          }}
-                          onChange={(event) => {
-                            const input = event.target.value;
-                            const regex = assetAmountRegex(foundAsset);
-                            if (regex.test(input) && input > 0) {
-                              setMinimumBorowAmount(input);
-                              form.setValue("minimumAmount", input);
-                            }
-                          }}
-                        />
-                      </FieldContent>
-                      <FieldDescription>
-                        {t("CreditOfferEditor:minimumBorrowableAmount")}
-                      </FieldDescription>{" "}
-                    </Field>
-                  </span>
-                  <span className="col-span-12 lg:col-span-4">
-                    <Field>
-                      <FieldLabel>
-                        {t("CreditOfferEditor:expirationDate")}
-                      </FieldLabel>
-                      <FieldContent>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-[240px] justify-start text-left font-normal",
-                                !expiration && "text-muted-foreground",
-                              )}
-                            >
-                              <CalendarIcon className="mr-2 h-4 w-4" />
-                              {expiration ? (
-                                format(expiration, "PPP")
-                              ) : (
-                                <span>
-                                  {t("LimitOrderCard:expiry.pickDate")}
-                                </span>
-                              )}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={expiration}
-                              onSelect={(e) => {
-                                const parsedDate = new Date(e);
-                                const now = new Date();
-                                if (parsedDate < now) {
-                                  setExpiration(
-                                    new Date(
-                                      Date.now() + 1 * 24 * 60 * 60 * 1000,
-                                    ),
-                                  );
-                                  return;
-                                }
-                                setExpiration(e);
-                              }}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </FieldContent>
-                      <FieldDescription>
-                        {t("CreditOfferEditor:creditOfferEnds")}
-                      </FieldDescription>
-                    </Field>
-                  </span>
-                </span>
-
-                <Field>
-                  <FieldLabel>
-                    {t("CreditOfferEditor:acceptedCollateral")}
-                  </FieldLabel>
-                  <FieldContent>
-                    <span className="grid grid-cols-12">
-                      <span className="col-span-12 lg:col-span-9 border border-gray-300 rounded">
-                        <div className="w-full max-h-[210px] overflow-auto">
-                          <List
-                            rowComponent={CollateralRow}
-                            rowCount={acceptableCollateral.length}
-                            rowHeight={80}
-                            rowProps={{}}
-                          />
-                        </div>
-                      </span>
-                      <span className="col-span-12 lg:col-span-3 ml-3 text-center">
-                        <CollateralDropDownCard
-                          chosenAssets={acceptableCollateral}
-                          lendingAsset={
-                            foundAsset && foundAsset.symbol
-                              ? foundAsset.symbol
-                              : ""
                           }
-                          marketSearch={marketSearch}
-                          storeCallback={setAcceptableCollateral}
-                          chain={usr && usr.chain ? usr.chain : "bitshares"}
+                        }}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <Slider
+                  className="mt-3"
+                  key={`Slider${rate}`}
+                  defaultValue={[rate]}
+                  max={100}
+                  min={1}
+                  step={0.01}
+                  onValueChange={(value) => {
+                    debouncedSetRate(value[0]);
+                  }}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div className="rounded-xl border border-border/60 bg-card/40 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Clock className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                      {t("CreditOfferEditor:repaymentPeriod")}
+                    </span>
+                  </div>
+                  <Select
+                    onValueChange={(selection) => {
+                      setRepayPeriod(selection);
+                    }}
+                  >
+                    <SelectTrigger className="w-full bg-card/60">
+                      <SelectValue
+                        placeholder={t("CreditOfferEditor:placeholder1hr")}
+                      />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card">
+                      <SelectItem value="12hr">
+                        {t("CreditOfferEditor:12hours")}
+                      </SelectItem>
+                      <SelectItem value="24hr">
+                        {t("CreditOfferEditor:24hours")}
+                      </SelectItem>
+                      <SelectItem value="3d">
+                        {t("CreditOfferEditor:3days")}
+                      </SelectItem>
+                      <SelectItem value="7d">
+                        {t("CreditOfferEditor:7days")}
+                      </SelectItem>
+                      <SelectItem value="30d">
+                        {t("CreditOfferEditor:30days")}
+                      </SelectItem>
+                      <SelectItem value="90d">
+                        {t("CreditOfferEditor:90days")}
+                      </SelectItem>
+                      <SelectItem value="365d">
+                        {t("CreditOfferEditor:365days")}
+                      </SelectItem>
+                      <SelectItem value="730d">
+                        {t("CreditOfferEditor:730days")}
+                      </SelectItem>
+                      <SelectItem value="1825d">
+                        {t("CreditOfferEditor:1825days")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-[10px] text-muted-foreground mt-2">
+                    {t("CreditOfferEditor:maximumDuration")}
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-border/60 bg-card/40 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Info className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                      {t("CreditOfferEditor:minimumAmount")}
+                    </span>
+                  </div>
+                  <Input
+                    id={`minimumAmount-${offerID ?? "new"}`}
+                    value={minimumBorowAmount}
+                    placeholder={String(minimumBorowAmount)}
+                    className="bg-card/60"
+                    onKeyPress={(event) => {
+                      if (
+                        event.key === "." &&
+                        event.target.value.includes(".")
+                      ) {
+                        event.preventDefault();
+                      }
+                      const regex = assetAmountRegex(foundAsset);
+                      if (!regex.test(event.key)) {
+                        event.preventDefault();
+                      }
+                    }}
+                    onChange={(event) => {
+                      const input = event.target.value;
+                      const regex = assetAmountRegex(foundAsset);
+                      if (regex.test(input) && input > 0) {
+                        setMinimumBorowAmount(input);
+                        form.setValue("minimumAmount", input);
+                      }
+                    }}
+                  />
+                  <p className="text-[10px] text-muted-foreground mt-2">
+                    {t("CreditOfferEditor:minimumBorrowableAmount")}
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-border/60 bg-card/40 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <CalendarDays className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                      {t("CreditOfferEditor:expirationDate")}
+                    </span>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-full justify-start text-left font-normal bg-card/60",
+                          !expiration && "text-muted-foreground",
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {expiration ? (
+                          format(expiration, "PPP")
+                        ) : (
+                          <span>
+                            {t("LimitOrderCard:expiry.pickDate")}
+                          </span>
+                        )}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[350px] bg-card border border-border rounded-2xl p-0">
+                      <Calendar
+                        mode="single"
+                        selected={expiration}
+                        onSelect={(e) => {
+                          const parsedDate = new Date(e);
+                          const now = new Date();
+                          if (parsedDate < now) {
+                            setExpiration(
+                              new Date(
+                                Date.now() + 1 * 24 * 60 * 60 * 1000,
+                              ),
+                            );
+                            return;
+                          }
+                          setExpiration(e);
+                        }}
+                        initialFocus
+                      />
+                    </DialogContent>
+                  </Dialog>
+                  <p className="text-[10px] text-muted-foreground mt-2">
+                    {t("CreditOfferEditor:creditOfferEnds")}
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                    <ShieldCheck className="h-3 w-3" strokeWidth={2.5} />
+                  </span>
+                  <span className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                    {t("CreditOfferEditor:acceptedCollateral")}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+                  <div className="lg:col-span-9 rounded-lg border border-border/60 bg-card/40">
+                    <div className="w-full max-h-[210px] overflow-auto">
+                      {acceptableCollateral.length > 0 ? (
+                        <List
+                          rowComponent={CollateralRow}
+                          rowCount={acceptableCollateral.length}
+                          rowHeight={60}
+                          rowProps={{}}
                         />
-                      </span>
-                    </span>
-                  </FieldContent>
-                  <FieldDescription>
-                    {t("CreditOfferEditor:acceptedCollateralDescription")}
-                  </FieldDescription>
-                </Field>
-
-                <Field>
-                  <FieldLabel>
-                    <span className="grid grid-cols-12">
-                      <span className="col-span-9 ml-3 text-left">
-                        {t("CreditOfferEditor:preApprovedUsers")}
-                      </span>
-
-                      <span className="col-span-3 ml-3 text-right">
-                        <Dialog
-                          open={targetUserDialogOpen}
-                          onOpenChange={(open) => {
-                            setTargetUserDialogOpen(open);
-                          }}
-                        >
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="ml-3 mt-1 bg-white"
-                            >
-                              ➕ {t("CreditOfferEditor:addUser")}
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-[375px] bg-white">
-                            <DialogHeader>
-                              <DialogTitle>
-                                {!usr || !usr.chain
-                                  ? t("Transfer:bitsharesAccountSearch")
-                                  : null}
-                                {usr && usr.chain === "bitshares"
-                                  ? t("Transfer:bitsharesAccountSearchBTS")
-                                  : null}
-                                {usr && usr.chain !== "bitshares"
-                                  ? t("Transfer:bitsharesAccountSearchTEST")
-                                  : null}
-                              </DialogTitle>
-                              <DialogDescription>
-                                {t("Transfer:searchingForAccount")}
-                              </DialogDescription>
-                            </DialogHeader>
-                            <AccountSearch
-                              chain={usr && usr.chain ? usr.chain : "bitshares"}
-                              excludedUsers={
-                                usr && usr.username && usr.username.length
-                                  ? [usr]
-                                  : []
-                              }
-                              setChosenAccount={(_account) => {
-                                if (
-                                  _account &&
-                                  !allowedAccounts.find(
-                                    (_usr) => _usr.id === _account.id,
-                                  )
-                                ) {
-                                  _account.amount = minimumBorowAmount ?? 1;
-                                  setAllowedAccounts(
-                                    allowedAccounts && allowedAccounts.length
-                                      ? [...allowedAccounts, _account]
-                                      : [_account],
-                                  );
-                                }
-                                setTargetUserDialogOpen(false);
-                              }}
-                            />
-                          </DialogContent>
-                        </Dialog>
-                      </span>
-                    </span>
-                  </FieldLabel>
-                  <FieldContent>
-                    <span className="grid grid-cols-12">
-                      <span className="col-span-12 border border-gray-300 rounded">
-                        <div className="w-full max-h-[210px] overflow-auto">
-                          <List
-                            rowComponent={ApprovedBorrowerRow}
-                            rowCount={allowedAccounts.length}
-                            rowHeight={100}
-                            rowProps={{}}
-                          />
+                      ) : (
+                        <div className="text-center py-8 text-muted-foreground text-sm">
+                          {t("CreditOfferEditor:noCollateral")}
                         </div>
-                      </span>
-                    </span>
-                  </FieldContent>
-                  <FieldDescription>
-                    {t("CreditOfferEditor:limitBorrowers")}
-                  </FieldDescription>
-                </Field>
-
-                <Field>
-                  <FieldLabel>{t("CreditOfferEditor:networkFee")}</FieldLabel>
-                  <FieldDescription>
-                    {t("CreditOfferEditor:broadcastCost")}
-                  </FieldDescription>
-                  <FieldContent>
-                    <Input
-                      className="w-3/4"
-                      disabled
-                      value={`${fee} BTS`}
-                      placeholder={1}
+                      )}
+                    </div>
+                  </div>
+                  <div className="lg:col-span-3 flex items-center justify-center">
+                    <CollateralDropDownCard
+                      chosenAssets={acceptableCollateral}
+                      lendingAsset={
+                        foundAsset && foundAsset.symbol
+                          ? foundAsset.symbol
+                          : ""
+                      }
+                      marketSearch={marketSearch}
+                      storeCallback={setAcceptableCollateral}
+                      chain={usr && usr.chain ? usr.chain : "bitshares"}
                     />
-                  </FieldContent>
-                  {usr.id === usr.referrer ? (
-                    <FieldError>
-                      {t("LimitOrderCard:fee.ltmRebate", { rebate: 0.8 * fee })}
-                    </FieldError>
-                  ) : null}
-                </Field>
+                  </div>
+                </div>
+                <p className="text-[10px] text-muted-foreground mt-2">
+                  {t("CreditOfferEditor:acceptedCollateralDescription")}
+                </p>
+              </div>
 
-                <Button className="mt-7 mb-1" variant="outline" type="submit">
-                  {t("CreditOfferEditor:submit")}
-                </Button>
-              </FieldGroup>
-            </form>
-          </CardContent>
-        </Card>
-        {transactionJSON && showDialog ? (
-          <DeepLinkDialog
-            trxJSON={transactionJSON ?? []}
-            operationNames={[
-              !offerID ? "credit_offer_create" : "credit_offer_update",
-            ]}
-            username={usr.username}
-            usrChain={usr.chain}
-            userID={usr.id}
-            dismissCallback={setShowDialog}
-            headerText={
-              !offerID
-                ? t("CreditOfferEditor:creatingCreditOffer", {
-                    lendingAmount,
-                    symbol: foundAsset.symbol,
-                  })
-                : t("CreditOfferEditor:updatingCreditOffer", { offerID })
-            }
-          />
-        ) : null}
-      </div>
-      <div className="grid grid-cols-1 gap-3 mt-5">
-        <Card>
-          <CardHeader className="pb-0">
-            <CardTitle>{t("CreditOfferEditor:risksTitle")}</CardTitle>
-            <CardDescription>
-              {t("CreditOfferEditor:risksDescription")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-sm">
-            <ul className="ml-2 list-disc [&>li]:mt-2 pl-2">
-              <li>{t("CreditOfferEditor:risksPoint1")}</li>
-              <li>{t("CreditOfferEditor:risksPoint2")}</li>
-              <li>{t("CreditOfferEditor:risksPoint3")}</li>
-              <li>{t("CreditOfferEditor:risksPoint4")}</li>
-              <li>{t("CreditOfferEditor:risksPoint5")}</li>
-              <li>{t("CreditOfferEditor:risksPoint6")}</li>
-            </ul>
-          </CardContent>
-        </Card>
-      </div>
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                      <Users className="h-3 w-3" strokeWidth={2.5} />
+                    </span>
+                    <span className="text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                      {t("CreditOfferEditor:preApprovedUsers")}
+                    </span>
+                  </div>
+                  <Dialog
+                    open={targetUserDialogOpen}
+                    onOpenChange={(open) => {
+                      setTargetUserDialogOpen(open);
+                    }}
+                  >
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
+                      >
+                        + {t("CreditOfferEditor:addUser")}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[375px] !bg-card border border-border">
+                      <DialogHeader>
+                        <DialogTitle>
+                          {!usr || !usr.chain
+                            ? t("Transfer:bitsharesAccountSearch")
+                            : null}
+                          {usr && usr.chain === "bitshares"
+                            ? t("Transfer:bitsharesAccountSearchBTS")
+                            : null}
+                          {usr && usr.chain !== "bitshares"
+                            ? t("Transfer:bitsharesAccountSearchTEST")
+                            : null}
+                        </DialogTitle>
+                        <DialogDescription className="text-muted-foreground">
+                          {t("Transfer:searchingForAccount")}
+                        </DialogDescription>
+                      </DialogHeader>
+                      <AccountSearch
+                        chain={usr && usr.chain ? usr.chain : "bitshares"}
+                        excludedUsers={
+                          usr && usr.username && usr.username.length
+                            ? [usr]
+                            : []
+                        }
+                        setChosenAccount={(_account) => {
+                          if (
+                            _account &&
+                            !allowedAccounts.find(
+                              (_usr) => _usr.id === _account.id,
+                            )
+                          ) {
+                            _account.amount = minimumBorowAmount ?? 1;
+                            setAllowedAccounts(
+                              allowedAccounts && allowedAccounts.length
+                                ? [...allowedAccounts, _account]
+                                : [_account],
+                            );
+                          }
+                          setTargetUserDialogOpen(false);
+                        }}
+                      />
+                    </DialogContent>
+                  </Dialog>
+                </div>
+                <div className="rounded-lg border border-border/60 bg-card/40">
+                  <div className="w-full max-h-[210px] overflow-auto">
+                    {allowedAccounts.length > 0 ? (
+                      <List
+                        rowComponent={ApprovedBorrowerRow}
+                        rowCount={allowedAccounts.length}
+                        rowHeight={60}
+                        rowProps={{}}
+                      />
+                    ) : (
+                        <div className="text-center py-8 text-muted-foreground text-sm">
+                          {t("CreditOfferEditor:noPreApprovedBorrowers")}
+                        </div>
+                    )}
+                  </div>
+                </div>
+                <p className="text-[10px] text-muted-foreground mt-2">
+                  {t("CreditOfferEditor:limitBorrowers")}
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] p-4 mb-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Zap className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))]" />
+                  <span className="text-[10px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))]">
+                    {t("CreditOfferEditor:networkFee")}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1 font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                  <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  {fee ? fee.toFixed(5) : "0.00000"}
+                  <span className="text-muted-foreground">BTS</span>
+                </div>
+                {usr.id === usr.referrer && (
+                  <p className="text-[10px] text-muted-foreground mt-1">
+                    {t("LimitOrderCard:fee.ltmRebate", { rebate: 0.8 * fee })}
+                  </p>
+                )}
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full h-14 rounded-2xl font-semibold text-[hsl(var(--accent-1-gradFg))] bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] shadow-[0_8px_30px_-4px_rgba(139,92,246,0.6)] hover:shadow-[0_12px_40px_-4px_rgba(139,92,246,0.8)] active:scale-[0.99] transition-all flex items-center justify-center gap-2 text-base"
+              >
+              <HandCoins className="h-4.5 w-4.5" strokeWidth={2.25} />
+                {t("CreditOfferEditor:submit")}
+              </Button>
+            </FieldGroup>
+          </form>
+        </div>
+      </Card>
+
+      {transactionJSON && showDialog ? (
+        <DeepLinkDialog
+          trxJSON={transactionJSON ?? []}
+          operationNames={[
+            !offerID ? "credit_offer_create" : "credit_offer_update",
+          ]}
+          username={usr.username}
+          usrChain={usr.chain}
+          userID={usr.id}
+          dismissCallback={setShowDialog}
+          headerText={
+            !offerID
+              ? t("CreditOfferEditor:creatingCreditOffer", {
+                  lendingAmount,
+                  symbol: foundAsset.symbol,
+                })
+              : t("CreditOfferEditor:updatingCreditOffer", { offerID })
+          }
+        />
+      ) : null}
+
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.1)] mt-5">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.4)] to-transparent"
+        />
+        <div className="relative p-5 sm:p-6">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-danger)/0.15)] border border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))]">
+              <Info className="h-3 w-3" strokeWidth={2.5} />
+            </span>
+            <h3 className="text-sm font-semibold text-foreground">
+              {t("CreditOfferEditor:risksTitle")}
+            </h3>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {t("CreditOfferEditor:risksDescription")}
+          </p>
+        </div>
+      </Card>
     </div>
   );
 }

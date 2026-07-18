@@ -1,0 +1,80 @@
+---
+title: Create Worker
+description: Propose a worker to be funded by the blockchain using worker_create.
+sidebar:
+  order: 5
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Create Worker** lets you propose a **worker** — a funded role (development, marketing, etc.) paid by the blockchain from the worker budget. You set the owner, time window, daily pay, and how funds are handled (refund, vesting, or burn). Submitting broadcasts `worker_create`.
+
+**Open in the app:** [Create Worker](/create_worker.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Funded proposal" icon="gavel">
+    Request blockchain-funded work.
+  </Card>
+  <Card title="Pay modes" icon="coins">
+    Refund, vesting, or burn the daily pay.
+  </Card>
+  <Card title="Time-boxed" icon="clock">
+    Define begin/end dates and daily pay.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Create Worker** from the homepage under *Governance*.
+
+2. Enter the worker name, URL, begin/end dates and daily pay (in core asset).
+
+3. Choose the pay initializer: refund (`[0, {}]`), vesting (`[1, {pay_vesting_period_days}]`), or burn (`[2, {}]`).
+
+4. Authorize. The app broadcasts `worker_create`.
+
+</Steps>
+
+<Aside type="note" title="Needs votes">
+  A worker only gets paid while it has enough worker votes. Promote it on the [Vote](/docs/governance/vote.html) page.
+</Aside>
+
+## Operation used
+
+Create Worker broadcasts `worker_create` (operation `19`):
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "owner": "1.2.x",
+  "work_begin_date": "2026-08-01T00:00:00",
+  "work_end_date": "2027-08-01T00:00:00",
+  "daily_pay": 100000,
+  "name": "My Worker Proposal",
+  "url": "https://my-worker.com",
+  "initializer": [0, {}],
+  "extensions": {}
+}
+```
+
+`initializer` variants:
+
+- Refund: `[0, {}]`
+- Vesting: `[1, { "pay_vesting_period_days": 90 }]`
+- Burn: `[2, {}]`
+
+| Field | Meaning |
+| --- | --- |
+| `owner` | Account paid by the worker (`1.2.x`). |
+| `work_begin_date` / `work_end_date` | ISO-8601 window. |
+| `daily_pay` | Integer in core-asset precision (e.g. BTS precision 5). |
+| `initializer` | `[type, params]` pay-handling tuple. |
+
+## Related pages
+
+- [Vote](/docs/governance/vote.html)
+- [Committee](/docs/governance/committee.html)

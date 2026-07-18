@@ -1,0 +1,98 @@
+---
+title: Create Ticket
+description: Lock BTS into a governance ticket using ticket_create and ticket_update.
+sidebar:
+  order: 6
+---
+
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+**Create Ticket** locks BTS into a **ticket** — a time-locked stake that boosts your governance voting power the longer you lock. You choose a lock type (e.g. 180 / 360 / 720 days, or forever) and the amount, broadcasting `ticket_create`. Existing tickets can be modified with `ticket_update`.
+
+**Open in the app:** [Create Ticket](/create_ticket.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Lock for power" icon="lock">
+    Longer locks grant more effective voting weight.
+  </Card>
+  <Card title="Lock types" icon="clock">
+    180 / 360 / 720 days, liquid, or forever.
+  </Card>
+  <Card title="Adjust" icon="settings">
+    Change lock type or add funds via `ticket_update`.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Create Ticket** from the homepage under *Governance*.
+
+2. Choose a lock `target_type` and the BTS amount to lock.
+
+3. Authorize → `ticket_create`.
+
+4. Later, change the lock type or add more funds via `ticket_update`.
+
+</Steps>
+
+<Aside type="note" title="target_type values">
+  `target_type` is the lock duration enum: `0` = 180 days, `1` = 360 days, `2` = 720 days, `3` = liquid, `4` = forever. Longer locks multiply your voting power.
+</Aside>
+
+## Operations used
+
+<Tabs>
+  <TabItem label="ticket_create">
+
+```json
+{
+  "account": "1.2.x",
+  "target_type": 0,
+  "amount": { "amount": 10000000, "asset_id": "1.3.0" },
+  "extensions": []
+}
+```
+
+  </TabItem>
+  <TabItem label="ticket_update">
+
+```json
+{
+  "ticket": "1.16.x",
+  "account": "1.2.x",
+  "target_type": 2,
+  "extensions": []
+}
+```
+
+With an added deposit:
+
+```json
+{
+  "ticket": "1.16.x",
+  "account": "1.2.x",
+  "target_type": 2,
+  "amount_for_new_target": { "amount": 5000000, "asset_id": "1.3.0" },
+  "extensions": []
+}
+```
+
+  </TabItem>
+</Tabs>
+
+| Field | Meaning |
+| --- | --- |
+| `account` | Your account (`1.2.x`). |
+| `target_type` | Lock duration enum (0/1/2/3/4). |
+| `amount` | BTS to lock on create. |
+| `ticket` | The `1.16.x` ticket object id being updated. |
+| `amount_for_new_target` | Extra BTS when moving to a new lock type. |
+
+## Related pages
+
+- [Ticket Leaderboard](/docs/governance/ticket_leaderboard.html)
+- [Vote](/docs/governance/vote.html)

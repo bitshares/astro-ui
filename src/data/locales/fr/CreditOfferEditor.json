@@ -1,5 +1,5 @@
 {
-  "existingID": "Existing Offer ID",
+  "existingID": "ID de l'offre existante",
   "price": "Prix:",
   "editingPrice": "Modification du prix",
   "setNewPrice": "Fixer un nouveau prix",
@@ -58,5 +58,7 @@
   "risksPoint3": "Si vous ne configurez pas les emprunteurs autorisés, tous les utilisateurs de la blockchain Bitshares peuvent accepter la transaction dans son intégralité. Pensez à utiliser la fonctionnalité d'emprunteur approuvé pour prêter aux utilisateurs connus/enregistrés.",
   "risksPoint4": "Les emprunteurs ne sont pas tenus de rembourser les actifs prêtés et ne sont pas non plus punis pour cela, ils peuvent choisir de faire défaut sur le prêt et de perdre leur garantie. Vous ne pouvez récupérer les actifs prêtés ou la garantie qu'après l'expiration de la période de remboursement. Tenez compte de ceci ",
   "risksPoint5": "L'expiration d'une opération de crédit peut dépasser la date d'expiration de l'offre de crédit, vous ne devez pas supposer que vous récupérerez vos actifs prêtés jusqu'à ce que l'expiration + la dernière période de remboursement soient passées.",
-  "risksPoint6": "Soyez conscient des risques de contrepartie si vous utilisez des actifs adossés à des changes (EBA) à des fins de garantie ou de prêt, car leur valeur peut fluctuer en fonction des risques liés aux tiers."
+  "risksPoint6": "Soyez conscient des risques de contrepartie si vous utilisez des actifs adossés à des changes (EBA) à des fins de garantie ou de prêt, car leur valeur peut fluctuer en fonction des risques liés aux tiers.",
+  "noCollateral": "Aucune garantie ajoutée",
+  "noPreApprovedBorrowers": "Aucun emprunteur pré-approuvé"
 }

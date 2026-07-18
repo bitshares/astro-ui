@@ -28,7 +28,8 @@
       "seller": "Müüja: {{seller}} ({{opSeller}})",
       "selling": "Müük: {{amount}}",
       "buying": "Ostmine: {{amount}}",
-      "price": "Hind: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "Hind: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "Laiendused: {{extensions}}"
     },
     "tooltip": "Pakkumine müüa teatud summa vara kindlaksmääratud vahetuskursiga teatud ajaks"
   },
@@ -198,7 +199,6 @@
       "blacklist_authorities": "Musta nimekirja asutused: {{blacklist_authorities}}",
       "whitelist_markets": "Lubatud turud: {{whitelist_markets}}",
       "blacklist_markets": "Musta nimekirja turud: {{blacklist_markets}}",
-      "is_prediction_market": "Kas ennustuste turg: {{is_prediction_market}}",
       "permissions": "Load:",
       "perm_charge_market_fee": "Võtke turutasu: {{charge_market_fee}}",
       "perm_white_list": "Valge nimekiri: {{white_list}}",
@@ -257,7 +257,6 @@
       "blacklist_authorities": "Musta nimekirja asutused: {{blacklist_authorities}}",
       "whitelist_markets": "Lubatud turud: {{whitelist_markets}}",
       "blacklist_markets": "Musta nimekirja turud: {{blacklist_markets}}",
-      "is_prediction_market": "Kas ennustuste turg: {{is_prediction_market}}",
       "permissions": "Load:",
       "perm_charge_market_fee": "Võtke turutasu: {{charge_market_fee}}",
       "perm_white_list": "Valge nimekiri: {{white_list}}",
@@ -943,7 +942,8 @@
       "htlc_id": "HTLC ID: {{htlc_id}}",
       "redeemer": "Lunastaja: {{redeemer}} ({{redeemerOP}})",
       "preimage": "Eelpilt: {{preimage}}",
-      "extensions": "Laiendused: {{extensions}}"
+      "extensions": "Laiendused: {{extensions}}",
+      "memo": "Memo: {{memo}}"
     },
     "tooltip": "Lunastage HTLC-toimingu sisu"
   },

@@ -1,5 +1,7 @@
 import { defineCollection, z } from "astro:content";
 import { file } from "astro/loaders";
+import { docsLoader } from '@astrojs/starlight/loaders';
+import { docsSchema } from '@astrojs/starlight/schema';
 
 import bts_assetIssuers from "@/data/bitshares/assetIssuers.json";
 import test_assetIssuers from "@/data/bitshares_testnet/assetIssuers.json";
@@ -432,6 +434,11 @@ const testMinPools = defineCollection({
   schema: minPoolSchema,
 });
 
+const docs = defineCollection({
+  loader: docsLoader(),
+  schema: docsSchema(),
+});
+
 export const collections = {
   btsFeeSchedule,
   testFeeSchedule,
@@ -455,4 +462,5 @@ export const collections = {
   testAssetIssuers,
   btsMinPools,
   testMinPools,
+  docs,
 };

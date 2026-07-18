@@ -30,7 +30,7 @@
   "submit": "Esita",
   "stakingAssetsDesc": "Staking {{aStake}} {{assetASymbol}} ja {{bStake}} {{assetBSymbol}} basseinis {{poolId}}",
   "bitsharesPoolExplorer": "bitsharesi basseiniuurija",
-  "poolJson": "Pool JSON",
+  "poolJson": "Pooli JSON",
   "liquidityPoolJson": "Likviidsusfondi JSON",
   "checkPoolDetails": "Vaadake võrgu poolt selle basseini kohta tagastatud üksikasju",
   "swappableAssetJson": "Vahetatava vara JSON",

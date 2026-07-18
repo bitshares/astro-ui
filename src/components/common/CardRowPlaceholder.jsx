@@ -17,7 +17,7 @@ export default function CardRowPlaceholder(properties) {
           <Button
             variant="outline"
             size="icon"
-            className="h-6 w-6 text-gray-400"
+            className="h-6 w-6 text-muted-foreground"
           >
             ?
           </Button>

@@ -1,0 +1,6 @@
+{
+  "title": "Temas por página",
+  "description": "Atribua um tema específico a páginas individuais. Ao visitar a página, seu tema é aplicado globalmente.",
+  "useActive": "Usar tema ativo",
+  "overrideActive": "Esta página usa seu próprio tema"
+}

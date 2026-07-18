@@ -1,0 +1,64 @@
+---
+title: Invoice Inventory
+description: Manage the invoices you've generated, stored locally in your browser.
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Invoice Inventory** is your local library of invoices you've created. Each invoice is a gzip+base58 encoded payload saved in your browser; this page decodes and lists them, lets you track payment/delivery status, and jump to payment. Nothing here touches the chain.
+
+**Open in the app:** [Invoice Inventory](/invoice_inventory.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Your invoices" icon="receipt">
+    List every invoice you've generated.
+  </Card>
+  <Card title="Status tracking" icon="chart">
+    Mark payment / delivery status locally.
+  </Card>
+  <Card title="Send for payment" icon="arrow-right">
+    Link an invoice to the payment page.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Invoice Inventory** from the homepage under *Invoicing*.
+
+2. Browse the invoices you've created (decoded from local storage).
+
+3. Update payment/delivery status, or click **Pay** to send the invoice to [Pay Invoice](/docs/invoicing/pay_invoice.html).
+
+</Steps>
+
+<Aside type="note" title="Off-chain by design">
+  Invoices are not on-chain objects — they're encoded strings you share out-of-band (email, chat). Only the resulting payment broadcasts a `transfer` (see [Pay Invoice](/docs/invoicing/pay_invoice.html)).
+</Aside>
+
+## Invoice data shape
+
+The encoded invoice payload looks like:
+
+```json
+{
+  "recipientId": "1.2.x",
+  "recipientName": "alice",
+  "identifier": "INV-2024-001",
+  "note": "Thanks for your order",
+  "timestamp": 1721300000000,
+  "items": [
+    { "id": "widget-1", "name": "Widget", "quantity": 2, "prices": [{ "asset": "USD", "price": 5 }] }
+  ]
+}
+```
+
+## Related pages
+
+- [Create Invoice](/docs/invoicing/create_invoice.html)
+- [Pay Invoice](/docs/invoicing/pay_invoice.html)

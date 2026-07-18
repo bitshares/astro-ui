@@ -29,6 +29,14 @@ import { Avatar as Av, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { $currentNode } from "@/stores/node.ts";
 import { humanReadableFloat, blockchainFloat } from "@/lib/common";
@@ -38,6 +46,8 @@ import { Avatar } from "./Avatar.tsx";
 import AccountSearch from "./AccountSearch.jsx";
 import AssetDropDownCard from "./Market/AssetDropDownCard.jsx";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
+
+import { Lock, Clock, Hash, User, Coins, Send, AlertTriangle, Shield, KeyRound } from "lucide-react";
 
 // Common claim periods in seconds
 const claimPeriods = {
@@ -241,9 +251,18 @@ export default function HtlcCreateDialog(properties) {
   return (
     <>
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="sm:max-w-[720px] bg-white">
+        <DialogContent className="sm:max-w-[720px] bg-card">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-danger))] to-[hsl(var(--accent-3))] rounded-t-lg" />
+          <div className="absolute top-8 left-8 w-32 h-32 bg-[hsl(var(--accent-1)/0.1)] rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-8 right-8 w-40 h-40 bg-[hsl(var(--accent-danger)/0.1)] rounded-full blur-3xl pointer-events-none" />
+          
           <DialogHeader>
-            <DialogTitle>{t("HTLCCreate:dialogTitle")}</DialogTitle>
+            <DialogTitle className="flex items-center gap-3 text-xl">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-danger))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
+                <Lock className="w-5 h-5 text-[hsl(var(--accent-1-gradFg))]" />
+              </div>
+              {t("HTLCCreate:dialogTitle")}
+            </DialogTitle>
             <DialogDescription>{t("HTLCCreate:dialogDesc")}</DialogDescription>
           </DialogHeader>
           <form
@@ -254,7 +273,8 @@ export default function HtlcCreateDialog(properties) {
           >
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="toAccount-display">
+                <FieldLabel htmlFor="toAccount-display" className="flex items-center gap-2">
+                  <User className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
                   {t("HTLCCreate:toAccountLabel")}
                 </FieldLabel>
                 <FieldContent>
@@ -295,15 +315,21 @@ export default function HtlcCreateDialog(properties) {
                       onOpenChange={setTargetUserDialogOpen}
                     >
                       <DialogTrigger asChild>
-                        <Button variant="outline">
+                        <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors">
                           {toAccount
                             ? t("HTLCCreate:changeRecipient")
                             : t("HTLCCreate:selectRecipient")}
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-[375px] bg-white">
+                      <DialogContent className="sm:max-w-[375px] bg-card">
+                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-danger))] to-[hsl(var(--accent-3))] rounded-t-lg" />
+                        <div className="absolute top-8 left-8 w-32 h-32 bg-[hsl(var(--accent-1)/0.1)] rounded-full blur-3xl pointer-events-none" />
+                        <div className="absolute bottom-8 right-8 w-40 h-40 bg-[hsl(var(--accent-danger)/0.1)] rounded-full blur-3xl pointer-events-none" />
                         <DialogHeader>
-                          <DialogTitle>
+                          <DialogTitle className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-danger))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
+                              <User className="w-4 h-4 text-[hsl(var(--accent-1-gradFg))]" />
+                            </div>
                             {t("Transfer:bitsharesAccountSearch")}
                           </DialogTitle>
                           <DialogDescription>
@@ -328,7 +354,8 @@ export default function HtlcCreateDialog(properties) {
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="asset-display">
+                <FieldLabel htmlFor="asset-display" className="flex items-center gap-2">
+                  <Coins className="w-4 h-4 text-[hsl(var(--accent-3-fg))]" />
                   {t("HTLCCreate:assetLabel")}
                 </FieldLabel>
                 <FieldContent>
@@ -377,7 +404,8 @@ export default function HtlcCreateDialog(properties) {
 
               {foundAsset ? (
                 <Field>
-                  <FieldLabel htmlFor="amount-input">
+                  <FieldLabel htmlFor="amount-input" className="flex items-center gap-2">
+                    <Send className="w-4 h-4 text-[hsl(var(--accent-danger-fg))]" />
                     {t("HTLCCreate:amountLabel", { symbol: foundAsset.symbol })}
                   </FieldLabel>
                   <FieldContent>
@@ -423,6 +451,7 @@ export default function HtlcCreateDialog(properties) {
                           setAmount(foundAssetBalance);
                           form.setValue("amount", foundAssetBalance);
                         }}
+                        className="border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors"
                       >
                         {t("HTLCCreate:useBalance", {
                           balance: foundAssetBalance,
@@ -442,7 +471,8 @@ export default function HtlcCreateDialog(properties) {
               ) : null}
 
               <Field>
-                <FieldLabel htmlFor="preimage-textarea">
+                <FieldLabel htmlFor="preimage-textarea" className="flex items-center gap-2">
+                  <KeyRound className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
                   {t("HTLCCreate:preimageLabel")}
                 </FieldLabel>
                 <FieldContent>
@@ -459,19 +489,27 @@ export default function HtlcCreateDialog(properties) {
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="hashing-select">
+                <FieldLabel htmlFor="hashing-select" className="flex items-center gap-2">
+                  <Hash className="w-4 h-4 text-[hsl(var(--accent-3-fg))]" />
                   {t("HTLCCreate:algorithm")}
                 </FieldLabel>
                 <FieldContent>
-                  <select
-                    id="hashing-select"
+                  <Select
                     value={hashingAlgorithm}
-                    onChange={(e) => setHashingAlgorithm(e.target.value)}
-                    className="form-select mt-1 block w-full border border-gray-300 rounded"
+                    onValueChange={(v) => setHashingAlgorithm(v)}
                   >
-                    <option value="sha256">SHA-256</option>
-                    <option value="ripemd160">RIPEMD-160</option>
-                  </select>
+                    <SelectTrigger className="w-full bg-accent/30 dark:bg-white/[0.05] border-border text-foreground/70">
+                      <SelectValue className="text-foreground/70" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card border-border">
+                      <SelectItem value="sha256" className="text-foreground/70 focus:bg-accent focus:text-foreground">
+                        SHA-256
+                      </SelectItem>
+                      <SelectItem value="ripemd160" className="text-foreground/70 focus:bg-accent focus:text-foreground">
+                        RIPEMD-160
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FieldContent>
                 <FieldDescription>
                   {t("HTLCCreate:algorithmDesc")}
@@ -479,28 +517,31 @@ export default function HtlcCreateDialog(properties) {
               </Field>
 
               {preimage && (
-                <div className="space-y-2 text-sm p-3 border rounded-md">
+                <div className="space-y-2 text-sm p-3 bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-danger)/0.1)] border border-[hsl(var(--accent-1)/0.2)] rounded-lg">
                   <div className="flex justify-between items-center">
-                    <span className="font-medium">
+                    <span className="font-medium flex items-center gap-2">
+                      <Hash className="w-3 h-3 text-[hsl(var(--accent-1-fg))]" />
                       {t("HTLCCreate:preimageHashLabel")}
                     </span>
-                    <code className="text-muted-foreground break-all text-xs bg-gray-100 p-1 rounded">
+                    <code className="text-muted-foreground break-all text-xs bg-[hsl(var(--accent-1)/0.1)] px-2 py-1 rounded border border-[hsl(var(--accent-1)/0.2)]">
                       {preimageHash || "..."}
                     </code>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="font-medium">
+                    <span className="font-medium flex items-center gap-2">
+                      <AlertTriangle className="w-3 h-3 text-[hsl(var(--accent-3-fg))]" />
                       {t("HTLCCreate:preimageSizeLabel")}
                     </span>
-                    <span className="text-muted-foreground">
+                    <Badge variant="outline" className="border-[hsl(var(--accent-3)/0.3)] text-[hsl(var(--accent-3-fg))]">
                       {preimageSize} bytes
-                    </span>
+                    </Badge>
                   </div>
                 </div>
               )}
 
               <Field>
-                <FieldLabel htmlFor="claimPeriod-input">
+                <FieldLabel htmlFor="claimPeriod-input" className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[hsl(var(--accent-danger-fg))]" />
                   {t("HTLCCreate:claimPeriodLabel")}
                 </FieldLabel>
                 <FieldContent>
@@ -527,7 +568,8 @@ export default function HtlcCreateDialog(properties) {
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="fee-display">
+                <FieldLabel htmlFor="fee-display" className="flex items-center gap-2">
+                  <Coins className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
                   {t("HTLCCreate:feeLabel")}
                 </FieldLabel>
                 <FieldContent>
@@ -546,6 +588,7 @@ export default function HtlcCreateDialog(properties) {
               <Button
                 type="submit"
                 disabled={!isFormValid || showDeeplinkDialog}
+                className="w-full py-3 text-lg font-semibold bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-danger))] to-[hsl(var(--accent-3))] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-300 hover:shadow-xl hover:shadow-[color:hsl(var(--accent-1)/0.4)] hover:-translate-y-0.5"
               >
                 {t("HTLCCreate:submitButton")}
               </Button>

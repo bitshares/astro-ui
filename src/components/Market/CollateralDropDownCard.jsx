@@ -182,7 +182,7 @@ export default function CollateralDropDownCard(properties) {
             onClick={() => {
               event.preventDefault();
             }}
-            className="inline-block border border-gray-300 rounded pl-4 pb-1 pr-4 text-lg"
+            className="inline-block border border-border rounded pl-4 pb-1 pr-4 text-lg"
           >
             <Label>{t("AssetDropDownCard:addCollateral")}</Label>
           </span>
@@ -190,7 +190,7 @@ export default function CollateralDropDownCard(properties) {
       ) : (
         <Label>{t("AssetDropDownCard:missingLendingAsset")}</Label>
       )}
-      <DialogContent className="sm:max-w-[425px] bg-white">
+      <DialogContent className="sm:max-w-[425px] bg-card">
         <>
           <h3 className="text-2xl font-extrabold tracking-tight">
             {t("AssetDropDownCard:whichCollateral")}

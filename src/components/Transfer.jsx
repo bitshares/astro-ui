@@ -10,15 +10,6 @@ import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import {
   Field,
   FieldDescription,
   FieldGroup,
@@ -38,7 +29,6 @@ import {
 import {
   Avatar as Av,
   AvatarFallback,
-  AvatarImage,
 } from "@/components/ui/avatar";
 
 import { Button } from "@/components/ui/button";
@@ -66,6 +56,10 @@ import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 import ExternalLink from "./common/ExternalLink.jsx";
 
 import AssetDropDown from "./Market/AssetDropDownCard.jsx";
+
+import { ArrowRight, Send } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 
 export default function Transfer(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -135,40 +129,8 @@ export default function Transfer(properties) {
     return [];
   }, [_globalParamsBTS, _globalParamsTEST, _chain]);
 
-  const [fee, setFee] = useState(0);
-  useEffect(() => {
-    if (globalParams && globalParams.length) {
-      const foundFee = globalParams.find((x) => x.id === 0);
-      const finalFee = humanReadableFloat(foundFee.data.fee, 5);
-      setFee(finalFee);
-    }
-  }, [globalParams]);
-
-  const [balanceCounter, setBalanceCoutner] = useState(0);
-  const [balances, setBalances] = useState();
-  useEffect(() => {
-    async function fetchUserBalances() {
-      if (usr && usr.id && currentNode && assets && assets.length) {
-        const userBalancesStore = createUserBalancesStore([
-          usr.chain,
-          usr.id,
-          currentNode ? currentNode.url : null,
-        ]);
-
-        userBalancesStore.subscribe(({ data, error, loading }) => {
-          if (data && !error && !loading) {
-            const filteredData = data.filter((balance) =>
-              assets.find((x) => x.id === balance.asset_id)
-            );
-            setBalances(filteredData);
-          }
-        });
-      }
-    }
-
-    fetchUserBalances();
-  }, [usr, assets, currentNode, balanceCounter]);
-
+  // bothUsers and foundAsset must be declared before the fee effect
+  // otherwise they are referenced in the dependency array before initialization
   const [bothUsers, setBothUsers] = useState(false);
   useEffect(() => {
     if (usr && usr.chain && currentNode && targetUser) {
@@ -198,6 +160,63 @@ export default function Transfer(properties) {
       setFoundAsset(found[0]);
     }
   }, [found]);
+
+  const [fee, setFee] = useState(0);
+  useEffect(() => {
+    if (globalParams && globalParams.length) {
+      const foundFee = globalParams.find((x) => x.id === 0);
+      if (foundFee && foundFee.data) {
+        const baseFeeSat = foundFee.data.fee || 0;
+        const pricePerKbyte = foundFee.data.price_per_kbyte || 0;
+
+        let dataStr = JSON.stringify({
+          from: usr?.id || "",
+          to: targetUser?.id || "",
+          amount: transferAmount || 0,
+          asset_id: foundAsset?.id || "",
+          extensions: {},
+        });
+        if (memoContents && memoContents.length) {
+          dataStr += JSON.stringify({
+            from: bothUsers?.[0]?.options?.memo_key || "",
+            to: bothUsers?.[1]?.options?.memo_key || "",
+            nonce: String(Date.now()),
+            message: memoContents,
+          });
+        }
+        const dataSizeKB = new Blob([dataStr]).size / 1024;
+        const dataFeeSat = pricePerKbyte > 0 ? Math.ceil(dataSizeKB * pricePerKbyte) : 0;
+        const totalFeeSat = baseFeeSat + dataFeeSat;
+        setFee(humanReadableFloat(totalFeeSat, 5));
+      }
+    }
+  }, [globalParams, memoContents, targetUser, transferAmount, foundAsset, bothUsers, usr]);
+
+  const [balanceCounter, setBalanceCoutner] = useState(0);
+  const [balances, setBalances] = useState();
+  useEffect(() => {
+    async function fetchUserBalances() {
+      if (usr && usr.id && currentNode && assets && assets.length) {
+        const userBalancesStore = createUserBalancesStore([
+          usr.chain,
+          usr.id,
+          currentNode ? currentNode.url : null,
+        ]);
+
+        userBalancesStore.subscribe(({ data, error, loading }) => {
+          if (data && !error && !loading) {
+            const filteredData = data.filter((balance) =>
+              assets.find((x) => x.id === balance.asset_id)
+            );
+            setBalances(filteredData);
+          }
+        });
+      }
+    }
+
+    fetchUserBalances();
+  }, [usr, assets, currentNode, balanceCounter]);
+ 
 
   const [targetUserDialogOpen, setTargetUserDialogOpen] = useState(false);
 
@@ -279,17 +298,33 @@ export default function Transfer(properties) {
 
   return (
     <>
-      <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:1/2">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("Transfer:transferAssets")}</CardTitle>
-              <CardDescription>
-                <p>{t("Transfer:sendFundsDescription")}</p>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form
+      <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:1/2 space-y-6">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-xl shadow-black/30">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.06)] blur-3xl"
+          />
+          <div className="relative px-5 sm:px-6 pt-5 sm:pt-6 pb-3">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <Send className="h-4.5 w-4.5" strokeWidth={2.25} />
+              </span>
+              <div>
+                <h2 className="text-lg font-semibold text-foreground tracking-tight">
+                  {t("Transfer:transferAssets")}
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {t("Transfer:sendFundsDescription")}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="relative px-5 sm:px-6 pb-6">
+            <form
                 onSubmit={form.handleSubmit(() => {
                   setShowDialog(true);
                 })}
@@ -300,7 +335,9 @@ export default function Transfer(properties) {
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel>{t("Transfer:sendingAccount")}</FieldLabel>
+                        <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
+                          {t("Transfer:sendingAccount")}
+                        </FieldLabel>
                         <div className="grid grid-cols-8 gap-2">
                           <div className="col-span-1 ml-5">
                             <Avatar
@@ -324,14 +361,14 @@ export default function Transfer(properties) {
                             <Input
                               {...field}
                               disabled
-                              className="mb-1 mt-1"
+                              className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 mt-1"
                               value={`${
                                 usr && usr.username ? usr.username : "?"
                               } (${usr && usr.id ? usr.id : "?"})`}
                             />
                           </div>
                         </div>
-                        <FieldDescription>
+                        <FieldDescription className="text-muted-foreground text-xs">
                           {t("Transfer:sendingAccountDescription")}
                         </FieldDescription>
                         {fieldState.invalid && (
@@ -346,7 +383,9 @@ export default function Transfer(properties) {
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel>{t("Transfer:targetAccount")}</FieldLabel>
+                        <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
+                          {t("Transfer:targetAccount")}
+                        </FieldLabel>
                         <div className="grid grid-cols-8 mt-4">
                           <div className="col-span-1 ml-5">
                             {targetUser && targetUser.name ? (
@@ -368,7 +407,9 @@ export default function Transfer(properties) {
                               />
                             ) : (
                               <Av>
-                                <AvatarFallback>?</AvatarFallback>
+                                <AvatarFallback className="bg-card/80 text-muted-foreground text-xs">
+                                  ?
+                                </AvatarFallback>
                               </Av>
                             )}
                           </div>
@@ -381,7 +422,7 @@ export default function Transfer(properties) {
                                   ? `${targetUser.name} (${targetUser.id})`
                                   : "Bitshares account (1.2.x)"
                               }
-                              className="mb-1 mt-1"
+                              className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 mt-1"
                             />
                           </div>
                           <div className="col-span-2">
@@ -392,15 +433,15 @@ export default function Transfer(properties) {
                               }}
                             >
                               <DialogTrigger asChild>
-                                <Button variant="outline" className="ml-3 mt-1">
+                                <Button variant="outline" className="ml-3 mt-1 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]">
                                   {targetUser
                                     ? t("Transfer:changeTarget")
                                     : t("Transfer:provideTarget")}
                                 </Button>
                               </DialogTrigger>
-                              <DialogContent className="sm:max-w-[375px] bg-white">
+                              <DialogContent className="sm:max-w-[375px] border border-border bg-card text-foreground backdrop-blur-2xl shadow-xl shadow-black/50">
                                 <DialogHeader>
-                                  <DialogTitle>
+                                  <DialogTitle className="text-foreground/90 text-sm">
                                     {!usr || !usr.chain
                                       ? t("Transfer:bitsharesAccountSearch")
                                       : null}
@@ -411,7 +452,7 @@ export default function Transfer(properties) {
                                       ? t("Transfer:bitsharesAccountSearchTEST")
                                       : null}
                                   </DialogTitle>
-                                  <DialogDescription>
+                                  <DialogDescription className="text-muted-foreground text-xs">
                                     {t("Transfer:searchingForAccount")}
                                   </DialogDescription>
                                 </DialogHeader>
@@ -430,7 +471,7 @@ export default function Transfer(properties) {
                             </Dialog>
                           </div>
                         </div>
-                        <FieldDescription>
+                        <FieldDescription className="text-muted-foreground text-xs">
                           {!targetUser || !targetUser.name
                             ? t("Transfer:targetAccountDescription")
                             : t("Transfer:targetAccountDescriptionWithName", {
@@ -449,22 +490,24 @@ export default function Transfer(properties) {
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel>{t("Transfer:assetToTransfer")}</FieldLabel>
+                        <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
+                          {t("Transfer:assetToTransfer")}
+                        </FieldLabel>
                         <div className="grid grid-cols-8 mt-4">
                           <div className="col-span-1 ml-5">
                             {!selectedAsset || !foundAsset ? (
                               <Av>
-                                <AvatarFallback>?</AvatarFallback>
+                                <AvatarFallback className="bg-card/80 text-muted-foreground text-xs">
+                                  ?
+                                </AvatarFallback>
                               </Av>
                             ) : null}
                             {foundAsset ? (
                               <Av>
-                                <AvatarFallback>
-                                  <div className="text-sm">
-                                    {foundAsset.bitasset_data_id
-                                      ? "MPA"
-                                      : "UIA"}
-                                  </div>
+                                <AvatarFallback className="bg-card/80 text-foreground/70 text-xs">
+                                  {foundAsset.bitasset_data_id
+                                    ? "MPA"
+                                    : "UIA"}
                                 </AvatarFallback>
                               </Av>
                             ) : null}
@@ -475,7 +518,7 @@ export default function Transfer(properties) {
                                 {...field}
                                 disabled
                                 placeholder="Bitshares asset (1.3.x)"
-                                className="mb-1 mt-1"
+                                className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 mt-1"
                               />
                             ) : null}
                             {foundAsset ? (
@@ -483,7 +526,7 @@ export default function Transfer(properties) {
                                 {...field}
                                 disabled
                                 placeholder={`${foundAsset.symbol} (${foundAsset.id})`}
-                                className="mb-1 mt-1"
+                                className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 mt-1"
                               />
                             ) : null}
                           </div>
@@ -497,13 +540,15 @@ export default function Transfer(properties) {
                               type={null}
                               chain={usr && usr.chain ? usr.chain : "bitshares"}
                               balances={balances}
+                              triggerVariant="outline"
+                              triggerClassName="w-auto border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.5)]"
                             />
                           </div>
                         </div>
-                        <FieldDescription>
+                        <FieldDescription className="text-muted-foreground text-xs">
                           {t("Transfer:assetToTransferDescription")}
                         </FieldDescription>
-                        <FieldError>
+                        <FieldError className="text-[hsl(var(--accent-danger-fg))] text-xs">
                           {foundAsset &&
                           balances &&
                           !balances
@@ -521,13 +566,15 @@ export default function Transfer(properties) {
                     )}
                   />
 
+                  <div className="border-t border-border/60 -mt-2 mb-2" />
+
                   {selectedAsset && targetUser ? (
                     <Controller
                       name="availableAmount"
                       control={form.control}
                       render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                          <FieldLabel>
+                          <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
                             {t("Transfer:amountAvailableToTransfer", {
                               asset: selectedAsset ?? "???",
                             })}
@@ -548,9 +595,9 @@ export default function Transfer(properties) {
                                   )} ${foundAsset.symbol}`
                                 : "0"
                             }
-                            className="mb-1"
+                            className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1"
                           />
-                          <FieldDescription>
+                          <FieldDescription className="text-muted-foreground text-xs">
                             {t("Transfer:maximumAmountDescription", {
                               asset: selectedAsset,
                             })}
@@ -569,7 +616,7 @@ export default function Transfer(properties) {
                       control={form.control}
                       render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                          <FieldLabel>
+                          <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
                             {t("Transfer:amountToTransfer", {
                               asset: selectedAsset ?? "???",
                             })}
@@ -579,7 +626,7 @@ export default function Transfer(properties) {
                             label={t("Transfer:amountToTransferLabel")}
                             value={transferAmount}
                             placeholder={transferAmount}
-                            className="mb-1"
+                            className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 focus-visible:ring-[hsl(var(--accent-1)/0.5)]"
                             onChange={(event) => {
                               const input = event.target.value;
                               const regex = assetAmountRegex(foundAsset);
@@ -590,7 +637,7 @@ export default function Transfer(properties) {
                               }
                             }}
                           />
-                          <FieldDescription>
+                          <FieldDescription className="text-muted-foreground text-xs">
                             {t("Transfer:amountToTransferDescription")}
                           </FieldDescription>
                           {fieldState.invalid && (
@@ -607,20 +654,22 @@ export default function Transfer(properties) {
                       control={form.control}
                       render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                          <FieldLabel>{t("Transfer:optionalMemo")}</FieldLabel>
+                          <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
+                            {t("Transfer:optionalMemo")}
+                          </FieldLabel>
                           <Input
                             {...field}
                             label={t("Transfer:memoFieldLabel")}
                             value={memoContents}
                             placeholder={memoContents}
-                            className="mb-1"
+                            className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 focus-visible:ring-[hsl(var(--accent-1)/0.5)]"
                             onChange={(event) => {
                               const input = event.target.value;
                               setMemoContents(input);
                               field.onChange(input);
                             }}
                           />
-                          <FieldDescription>
+                          <FieldDescription className="text-muted-foreground text-xs">
                             {t("Transfer:memoFieldDescription", {
                               targetUser: targetUser.name,
                             })}
@@ -639,7 +688,9 @@ export default function Transfer(properties) {
                       control={form.control}
                       render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                          <FieldLabel>{t("Transfer:networkFee")}</FieldLabel>
+                          <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
+                            {t("Transfer:networkFee")}
+                          </FieldLabel>
                           <Input
                             {...field}
                             disabled
@@ -647,10 +698,10 @@ export default function Transfer(properties) {
                               "Transfer:networkFeePlaceholder",
                               { fee: fee }
                             )}`}
-                            className="mb-3 mt-3"
+                            className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-3 mt-3"
                           />
                           {usr.id === usr.referrer ? (
-                            <FieldError>
+                            <FieldError className="text-[hsl(var(--accent-success-fg))] text-xs">
                               {t("Transfer:rebate", {
                                 rebate: trimPrice(fee * 0.8, 5),
                               })}
@@ -664,23 +715,39 @@ export default function Transfer(properties) {
                     />
                   ) : null}
 
+                  <div className="border-t border-border/60 -mt-2 mb-2" />
+
                   {!transferAmount ? (
                     <Button
-                      className="mt-5 mb-3"
+                      className="mt-5 mb-3 border-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg)/0.5)] cursor-default w-full sm:w-auto"
                       variant="outline"
                       disabled
                       type="submit"
                     >
+                      <ArrowRight className="h-4 w-4 mr-1.5" />
                       {t("Transfer:submit")}
                     </Button>
                   ) : (
-                    <Button
-                      className="mt-5 mb-3"
-                      variant="outline"
+                    <>
+                      {fee && (
+                        <div className="mt-4 flex items-center justify-between px-1">
+                          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                            {t("Transfer:networkFee")}
+                          </span>
+                          <span className="flex items-center gap-1.5 font-mono text-[hsl(var(--accent-1-fg))] text-sm">
+                            <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+                            {fee.toFixed(5)} {usr.chain === "bitshares" ? "BTS" : "TEST"}
+                          </span>
+                        </div>
+                      )}
+                      <Button
+                      className="mt-5 mb-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-foreground border-0 shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)] hover:shadow-[color:hsl(var(--accent-1)/0.4)] transition-all w-full sm:w-auto"
                       type="submit"
                     >
+                      <ArrowRight className="h-4 w-4 mr-1.5" />
                       {t("Transfer:submit")}
-                    </Button>
+                      </Button>
+                    </>
                   )}
                 </FieldGroup>
               </form>
@@ -702,55 +769,9 @@ export default function Transfer(properties) {
                   trxJSON={operationJSON}
                 />
               ) : null}
-            </CardContent>
-          </Card>
-        </div>
-        <div className="grid grid-cols-2 mt-5 gap-5">
-          {targetUser && targetUser.name ? (
-            <div className="col-span-1">
-              <Card>
-                <CardHeader className="pb-0 mb-0">
-                  <CardTitle>{t("Transfer:doubleCheckTitle")}</CardTitle>
-                  <CardDescription>
-                    {t("Transfer:doubleCheckDescription")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-sm">
-                  <ul className="ml-2 list-disc [&>li]:mt-2">
-                    <li>{t("Transfer:doubleCheckFormInputs")}</li>
-                    <li>{t("Transfer:validateBeetPrompt")}</li>
-                    <li>
-                      <span>
-                        {t("Transfer:bitsharesLink", {
-                          name: targetUser.name,
-                        })}
-                      </span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
             </div>
-          ) : null}
-          {targetUser && targetUser.name ? (
-            <div className="col-span-1">
-              <Card>
-                <CardHeader className="pb-0 mb-0">
-                  <CardTitle>{t("Transfer:scamAlertTitle")}</CardTitle>
-                  <CardDescription>
-                    {t("Transfer:scamAlertDescription")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-sm">
-                  <ul className="ml-2 list-disc [&>li]:mt-2">
-                    <li>{t("Transfer:scamAlertPoint1")}</li>
-                    <li>{t("Transfer:scamAlertPoint2")}</li>
-                    <li>{t("Transfer:scamAlertPoint3")}</li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          ) : null}
-        </div>
+          </div>
+
       </div>
     </>
   );

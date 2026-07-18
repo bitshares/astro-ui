@@ -25,7 +25,7 @@ const testFeeScheduleList = testFeeSchedule.map((collection) => collection.data)
 
 <Layout title="Bitshares asset transfer form">
 	<main>
-		<PageHeader client:only="react" page="transfer" backURL="../index.html" />
+		<PageHeader client:only="react" page="transfer" />
 		<Transfer
 			client:only="react"
 			_assetsBTS={btsAssets}
@@ -45,7 +45,7 @@ const testFeeScheduleList = testFeeSchedule.map((collection) => collection.data)
 		padding: 1rem;
 		width: 100%;
 		max-width: calc(100% - 2rem);
-		color: white;
+		color: hsl(var(--foreground));
 		font-size: 20px;
 		line-height: 1.6;
 		min-height: 100vh;

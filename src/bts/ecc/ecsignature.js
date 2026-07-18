@@ -1,12 +1,10 @@
-import assert from "assert"; // from https://github.com/bitcoinjs/bitcoinjs-lib
-import BigInteger from "bigi";
+import assert from "assert";
 
 import enforceType from "./enforce_types.js";
-import { Buffer } from "safe-buffer";
 
 function ECSignature(r, s) {
-  enforceType(BigInteger, r);
-  enforceType(BigInteger, s);
+  enforceType("bigint", r);
+  enforceType("bigint", s);
 
   this.r = r;
   this.s = s;
@@ -24,8 +22,8 @@ ECSignature.parseCompact = function (buffer) {
   // Recovery param only
   i = i & 3;
 
-  var r = BigInteger.fromBuffer(buffer.slice(1, 33));
-  var s = BigInteger.fromBuffer(buffer.slice(33));
+  var r = readUInt256BE(buffer, 1);
+  var s = readUInt256BE(buffer, 33);
 
   return {
     compressed: compressed,
@@ -61,11 +59,11 @@ ECSignature.fromDER = function (buffer) {
   }
 
   assert.equal(offset, buffer.length, "Invalid DER encoding");
-  var r = BigInteger.fromDERInteger(rB);
-  var s = BigInteger.fromDERInteger(sB);
+  var r = readUInt256BE(rB, rB.length - 32);
+  var s = readUInt256BE(sB, sB.length - 32);
 
-  assert(r.signum() >= 0, "R value is negative");
-  assert(s.signum() >= 0, "S value is negative");
+  assert(r >= 0n, "R value is negative");
+  assert(s >= 0n, "S value is negative");
 
   return new ECSignature(r, s);
 };
@@ -91,25 +89,25 @@ ECSignature.prototype.toCompact = function (i, compressed) {
   var buffer = Buffer.alloc(65);
   buffer.writeUInt8(i, 0);
 
-  this.r.toBuffer(32).copy(buffer, 1);
-  this.s.toBuffer(32).copy(buffer, 33);
+  writeUInt256BE(buffer, this.r, 1);
+  writeUInt256BE(buffer, this.s, 33);
 
   return buffer;
 };
 
 ECSignature.prototype.toDER = function () {
-  var rBa = this.r.toDERInteger();
-  var sBa = this.s.toDERInteger();
+  var rBa = toDERInteger(this.r);
+  var sBa = toDERInteger(this.s);
 
   var sequence = [];
 
   // INTEGER
   sequence.push(0x02, rBa.length);
-  sequence = sequence.concat(rBa);
+  sequence = sequence.concat(Array.from(rBa));
 
   // INTEGER
   sequence.push(0x02, sBa.length);
-  sequence = sequence.concat(sBa);
+  sequence = sequence.concat(Array.from(sBa));
 
   // SEQUENCE
   sequence.unshift(0x30, sequence.length);
@@ -123,5 +121,39 @@ ECSignature.prototype.toScriptSignature = function (hashType) {
 
   return Buffer.concat([this.toDER(), hashTypeBuffer]);
 };
+
+// --- helpers (256-bit big-endian buffer <-> bigint) ---
+function readUInt256BE(buffer, start) {
+  // read 32 bytes big-endian starting at `start`
+  var end = start + 32;
+  if (end > buffer.length) end = buffer.length;
+  var slice = buffer.slice(start, end);
+  if (slice.length < 32) {
+    // left-pad with zeros
+    slice = Buffer.concat([Buffer.alloc(32 - slice.length), slice]);
+  }
+  return BigInt("0x" + slice.toString("hex"));
+}
+
+function writeUInt256BE(buffer, value, offset) {
+  const hex = value.toString(16).padStart(64, "0");
+  Buffer.from(hex, "hex").copy(buffer, offset);
+}
+
+function toDERInteger(value) {
+  var hex = value.toString(16).replace(/^/, "");
+  if (hex.length % 2) hex = "0" + hex;
+  var bytes = Buffer.from(hex, "hex");
+  // ensure minimum length 1
+  if (bytes.length === 0) bytes = Buffer.from([0x00]);
+  // strip leading zero bytes unless needed for sign
+  var i = 0;
+  while (i < bytes.length - 1 && bytes[i] === 0x00) i++;
+  if (bytes[i] & 0x80) {
+    // prepend zero for positive sign
+    return Buffer.concat([Buffer.from([0x00]), bytes.slice(i)]);
+  }
+  return bytes.slice(i);
+}
 
 export default ECSignature;

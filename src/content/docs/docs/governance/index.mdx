@@ -1,0 +1,30 @@
+---
+title: Governance
+description: Vote, register as a witness or committee member, and lock tickets for governance power.
+sidebar:
+  order: 7
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+The **Governance** section covers how the BitShares network is run and how you take part.
+
+<CardGrid>
+  <LinkCard title="Vote" description="Cast witness/committee/worker votes (account_update)." href="/docs/governance/vote/" />
+  <LinkCard title="Witnesses" description="Browse block producers (read-only)." href="/docs/governance/witnesses/" />
+  <LinkCard title="Committee" description="Browse committee members (read-only)." href="/docs/governance/committee/" />
+  <LinkCard title="Governance" description="Register/update a witness or committee member." href="/docs/governance/governance/" />
+  <LinkCard title="Create Worker" description="Propose a funded worker (worker_create)." href="/docs/governance/create_worker/" />
+  <LinkCard title="Create Ticket" description="Lock BTS for voting power (ticket_create)." href="/docs/governance/create_ticket/" />
+  <LinkCard title="Ticket Leaderboard" description="Rank accounts by voting power (read-only)." href="/docs/governance/ticket_leaderboard/" />
+</CardGrid>
+
+## Operations broadcast by this section
+
+- `account_update` — cast your votes.
+- `witness_create` / `witness_update` — register/update a witness.
+- `committee_member_create` / `committee_member_update` — register/update a committee member.
+- `worker_create` — propose a funded worker.
+- `ticket_create` / `ticket_update` — lock BTS tickets.
+
+Witnesses, Committee and Ticket Leaderboard are read-only viewers.

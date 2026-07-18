@@ -15,5 +15,13 @@
   "addToWhitelist": "ホワイトリストに追加",
   "addToBlacklist": "ブラックリストに追加",
   "addAccountToList": "アカウントをリストに追加",
-  "removeAccountFromList": "このアカウントをこのリストから削除します。"
+  "removeAccountFromList": "このアカウントをこのリストから削除します。",
+  "viewingWhitelist": "ホワイトリストを表示中",
+  "viewingBlacklist": "ブラックリストを表示中",
+  "whitelistedCount": "{{count}} 件がホワイトリスト済み",
+  "blacklistedCount": "{{count}} 件がブラックリスト済み",
+  "selectTargetHint": "リストに追加するアカウントを選択してください",
+  "accountName": "アカウント名",
+  "whitelistIcon": "ホワイトリスト",
+  "blacklistIcon": "ブラックリスト"
 }

@@ -1,5 +1,5 @@
 {
-  "title": "🚀 Same-T Fund Trade Wizard!",
+  "title": "Same-T Fund Trade Wizard!",
   "description": "Manually construct Same-T DeFi Limit Order operation chain transactions with the following wizard!",
   "step1": "Step 1: Borrow assets from the following Same-T Funds to proceed!",
   "step1Description": "Debt positions are immediately repaid within your chain of transactions, including fees.",
@@ -32,5 +32,18 @@
   "balance": "Balance",
   "difference": "Difference",
   "finalAmount": "Final Amount",
-  "offering": "Offering"
+  "offering": "Offering",
+  "selected": "Selected",
+  "borrow": "Borrow",
+  "borrowAmount": "Borrow amount",
+  "removeBorrow": "Remove",
+  "stepIndicator": "Step 1",
+  "stepIndicator2": "Step 2",
+  "stepIndicator3": "Step 3",
+  "action": "Action",
+  "editOperation": "Edit operation",
+  "addOperationTooltip": "Add a new limit order to the chain",
+  "noFundsAvailable": "No Same-T Funds available",
+  "noFundsDescription": "There are no Same-T Funds currently available to borrow from.",
+  "operation": "Operation"
 }

@@ -28,7 +28,8 @@
       "seller": "Verkäufer: {{seller}} ({{opSeller}})",
       "selling": "Verkauf: {{amount}}",
       "buying": "Kauf: {{amount}}",
-      "price": "Preis: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "Preis: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "Erweiterungen: {{extensions}}"
     },
     "tooltip": "Ein Angebot, eine bestimmte Menge eines Vermögenswerts zu einem bestimmten Wechselkurs zu einem bestimmten Zeitpunkt zu verkaufen"
   },
@@ -198,7 +199,6 @@
       "blacklist_authorities": "Behörden auf die schwarze Liste setzen: {{blacklist_authorities}}",
       "whitelist_markets": "Whitelist-Märkte: {{whitelist_markets}}",
       "blacklist_markets": "Märkte auf der schwarzen Liste: {{blacklist_markets}}",
-      "is_prediction_market": "Ist Prognosemarkt: {{is_prediction_market}}",
       "permissions": "Berechtigungen:",
       "perm_charge_market_fee": "Marktgebühr berechnen: {{charge_market_fee}}",
       "perm_white_list": "Weiße Liste: {{white_list}}",
@@ -257,7 +257,6 @@
       "blacklist_authorities": "Behörden auf die schwarze Liste setzen: {{blacklist_authorities}}",
       "whitelist_markets": "Whitelist-Märkte: {{whitelist_markets}}",
       "blacklist_markets": "Märkte auf der schwarzen Liste: {{blacklist_markets}}",
-      "is_prediction_market": "Ist Prognosemarkt: {{is_prediction_market}}",
       "permissions": "Berechtigungen:",
       "perm_charge_market_fee": "Marktgebühr berechnen: {{charge_market_fee}}",
       "perm_white_list": "Weiße Liste: {{white_list}}",

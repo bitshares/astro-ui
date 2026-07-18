@@ -38,10 +38,20 @@
   "recentBlocks": {
     "content": "รายการบล็อกล่าสุด",
     "header": "บล็อกล่าสุด",
-    "blockId": "บล็อกไอดี",
-    "timestamp": "การประทับเวลา",
-    "witnessId": "บัตรประจำตัวพยาน",
+    "blockId": "บล็อก",
+    "timestamp": "เมื่อใด",
+    "witnessId": "พยาน",
     "transaction": "ธุรกรรม"
+  },
+  "operationsLabel": "ops",
+  "txLabel": "tx",
+  "connecting": "กำลังเชื่อมต่อกับโหนด…",
+  "waiting": "กำลังรอบล็อก…",
+  "time": {
+    "now": "เมื่อสักครู่",
+    "secondsAgo": "{{count}} วินาทีที่แล้ว",
+    "minutesAgo": "{{count}} นาทีที่แล้ว",
+    "hoursAgo": "{{count}} ชั่วโมงที่แล้ว"
   },
   "dialogContent": {
     "json": "ข้อมูล JSON",

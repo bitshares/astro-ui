@@ -15,5 +15,13 @@
   "addToWhitelist": "Adicionar à lista de permissões",
   "addToBlacklist": "Adicionar à lista negra",
   "addAccountToList": "Adicionar conta à lista",
-  "removeAccountFromList": "Removendo esta conta desta lista."
+  "removeAccountFromList": "Removendo esta conta desta lista.",
+  "viewingWhitelist": "Visualizando lista de permissões",
+  "viewingBlacklist": "Visualizando lista negra",
+  "whitelistedCount": "{{count}} na lista de permissões",
+  "blacklistedCount": "{{count}} na lista negra",
+  "selectTargetHint": "Escolha uma conta para adicionar à sua lista",
+  "accountName": "Nome da conta",
+  "whitelistIcon": "Lista de permissões",
+  "blacklistIcon": "Lista negra"
 }

@@ -1,5 +1,5 @@
 {
-  "cardTitle": "💱 Associação LTM",
+  "cardTitle": "Associação LTM",
   "cardDescription": "Adquira uma assinatura vitalícia",
   "alreadyMember": "Esta conta já adquiriu uma assinatura vitalícia!",
   "benefitsTitle": "Seus benefícios de associação vitalícia ativa:",
@@ -8,5 +8,11 @@
   "benefit3": "Agora capaz de gerar nomes de contas premium.",
   "wantToPurchase": "Quer adquirir uma assinatura vitalícia para sua conta?",
   "purchaseButton": "Comprar LTM",
-  "headerText": "Adquirir uma assinatura vitalícia para {{username}}"
+  "headerText": "Adquirir uma assinatura vitalícia para {{username}}",
+  "memberBadge": "LTM ativo",
+  "exclusiveBenefits": "Benefícios exclusivos",
+  "feeRebate": "Reembolso de taxas",
+  "referralEarnings": "Ganhos por indicação",
+  "premiumNames": "Nomes premium",
+  "readyToUpgrade": "Pronto para atualizar?"
 }

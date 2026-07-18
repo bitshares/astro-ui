@@ -5,11 +5,9 @@
   "proceedToBorrow": "Problème",
   "issueAssetDescription": "En tant qu'émetteur de cet actif, vous pouvez émettre cet actif sur vous-même ou sur un autre compte sur la blockchain, jusqu'à l'offre maximale configurée.",
   "manageUIA": "Modifier",
-  "pmaBet": "Pari",
   "uiaButton": "Actifs émis par l'utilisateur",
   "poolsButton": "Actifs du pool de liquidités",
   "smartcoinsButton": "Actifs Smartcoins",
-  "predictionButton": "Actifs du marché de prédiction",
   "nftButton": "Actifs symboliques non fongibles",
   "listingUIA": "Inscription {{count}} Actifs émis par l'utilisateur",
   "listingPools": "Inscription {{count}} Actifs du pool de liquidités",
@@ -17,8 +15,6 @@
   "noUIA": "Aucun actif émis par l'utilisateur trouvé",
   "listingSmartcoins": "Inscription {{count}} Actifs Smartcoins",
   "noSmartcoins": "Aucun actif Smartcoin trouvé",
-  "listingPredictionMarkets": "Inscription {{count}} Actifs du marché de prédiction",
-  "noPredictionMarkets": "Aucun actif du marché de prédiction trouvé",
   "listingNFTs": "Inscription {{count}} Actifs symboliques non fongibles",
   "noNFTs": "Aucun actif de jeton non fongible trouvé",
   "title": "Affichage des actifs blockchain que vous avez créés",
@@ -103,5 +99,6 @@
   "amount": "Montant",
   "useMax": "Utiliser au maximum",
   "noAssetInBalance": "Ce compte ne détient pas cet actif.",
-  "overrideHeader": "Rappel {{amount}} {{symbol}} depuis {{account}}"
+  "overrideHeader": "Rappel {{amount}} {{symbol}} depuis {{account}}",
+  "collateralBid": "Enchérir sur la garantie"
 }

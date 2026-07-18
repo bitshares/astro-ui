@@ -1,0 +1,83 @@
+---
+title: Borrow
+description: Open or adjust a margin-backed debt position for a smartcoin using call_order_update.
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Borrow** lets you take on debt against collateral by opening or adjusting a **collateralized debt position (CDP)** for a market-pegged asset (smartcoin). There is no dedicated "borrow" operation — borrowing is expressed as a `call_order_update` with positive `delta_collateral` and `delta_debt`. Closing the position uses the same operation with negative deltas.
+
+**Open in the app:** [Borrow](/borrow.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Mint smartcoins" icon="coins">
+    Issue debt in a market-pegged asset by locking collateral.
+  </Card>
+  <Card title="Adjust anytime" icon="setting">
+    Add/remove collateral or debt with another `call_order_update`.
+  </Card>
+  <Card title="Target ratio" icon="chart">
+    Optionally set a target collateral ratio to avoid margin calls.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Borrow** from the homepage under *Forms of Debt*.
+
+2. Select the smartcoin (MPA) you want to borrow and the collateral asset.
+
+3. Enter the collateral amount and the debt you wish to mint; the app shows your collateral ratio vs the MCR.
+
+4. Optionally enable a target collateral ratio.
+
+5. Authorize. The app broadcasts `call_order_update`.
+
+</Steps>
+
+<Aside type="caution" title="Margin calls">
+  If your collateral ratio falls below the maintenance level, your position can be margin-called and force-sold. Keep a buffer above the MCR, or set a target collateral ratio.
+</Aside>
+
+## Operation used
+
+Borrowing and adjusting both use `call_order_update` (operation `12`). Deltas are relative to your current position.
+
+```json
+{
+  "funding_account": "1.2.x",
+  "delta_collateral": { "amount": 1500000, "asset_id": "1.3.x" },
+  "delta_debt": { "amount": 100000, "asset_id": "1.3.x" },
+  "extensions": { "target_collateral_ratio": 1.75 }
+}
+```
+
+To **close** the position, send negative deltas equal to the current position:
+
+```json
+{
+  "funding_account": "1.2.x",
+  "delta_collateral": { "amount": -1500000, "asset_id": "1.3.x" },
+  "delta_debt": { "amount": -100000, "asset_id": "1.3.x" },
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `funding_account` | Your account (`1.2.x`). |
+| `delta_collateral` | Change in locked collateral (`+` add, `-` remove). |
+| `delta_debt` | Change in minted debt (`+` borrow, `-` repay). |
+| `extensions.target_collateral_ratio` | Optional; target CR to reduce call risk. |
+
+## Related pages
+
+- [SmartCoins](/docs/debt/smartcoins.html)
+- [Lend](/docs/debt/lend.html)
+- [Same-T Funds](/docs/debt/tfunds.html)

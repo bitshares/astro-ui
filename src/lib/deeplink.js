@@ -1,5 +1,5 @@
-import { Apis } from "bitsharesjs-ws";
-import { TransactionBuilder } from "bitsharesjs";
+import Apis from "../bts/ws/ApiInstances";
+import TransactionBuilder from "../bts/chain/TransactionBuilder";
 import { v4 as uuidv4 } from "uuid";
 
 const chains = {

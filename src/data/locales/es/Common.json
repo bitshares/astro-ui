@@ -1,0 +1,11 @@
+{
+  "submit": "Enviar",
+  "insufficient_funds": "Saldo insuficiente.",
+  "permissions": "Permisos",
+  "flags": "Banderas",
+  "expiryHeader": "Expiración",
+  "expiryContent": "Su orden límite permanecerá activa en el DEX durante este tiempo antes de que ya no exista. Si selecciona 'fill or kill' y no hay una orden límite de venta de DEX que coincida, la operación fallará, ahorrando su tiempo y tarifas.",
+  "setPriceFeeders": "Establecer alimentadores de precios",
+  "setPriceFeedersDescription": "Establezca los alimentadores de precios para este activo. Los alimentadores de precios son responsables de proporcionar el precio de liquidación.",
+  "settingPriceFeeders": "Estableciendo alimentadores de precios"
+}

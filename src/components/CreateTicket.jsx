@@ -7,16 +7,11 @@ import React, {
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import { Ticket, Lock, Send, Zap } from "lucide-react";
 
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 import HoverInfo from "@/components/common/HoverInfo.tsx";
 import DeepLinkDialog from "@/components/common/DeepLinkDialog.jsx";
@@ -273,9 +268,15 @@ export default function CreateTicket() {
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:w-1/2">
       <div className="grid grid-cols-1 gap-3">
-        <Card>
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-2)/0.2)]">
+          <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.15)] blur-3xl" />
+          <div className="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-3)/0.15)] blur-3xl" />
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-2)/0.7)] via-[hsl(var(--accent-3)/0.7)] to-[hsl(var(--accent-2)/0.7)]" />
           <CardHeader className="pb-1">
-            <CardTitle>{t("CreateTicket:title")}</CardTitle>
+            <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] bg-clip-text text-transparent flex items-center gap-2">
+              <Ticket className="h-5 w-5 text-[hsl(var(--accent-2-fg))]" />
+              {t("CreateTicket:title")}
+            </CardTitle>
             <CardDescription>{t("CreateTicket:description")}</CardDescription>
           </CardHeader>
           <CardContent>
@@ -292,6 +293,11 @@ export default function CreateTicket() {
                   onClick={() => setLockType("lock_180_days")}
                   variant={lockType === "lock_180_days" ? "" : "outline"}
                   size="md"
+                  className={
+                    lockType === "lock_180_days"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
+                      : "text-muted-foreground border-border hover:bg-accent/50"
+                  }
                 >
                   {t("CreateTicket:radioB.sm")}
                 </Button>
@@ -299,6 +305,11 @@ export default function CreateTicket() {
                   onClick={() => setLockType("lock_360_days")}
                   variant={lockType === "lock_360_days" ? "" : "outline"}
                   size="md"
+                  className={
+                    lockType === "lock_360_days"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
+                      : "text-muted-foreground border-border hover:bg-accent/50"
+                  }
                 >
                   {t("CreateTicket:radioB.md")}
                 </Button>
@@ -306,6 +317,11 @@ export default function CreateTicket() {
                   onClick={() => setLockType("lock_720_days")}
                   variant={lockType === "lock_720_days" ? "" : "outline"}
                   size="md"
+                  className={
+                    lockType === "lock_720_days"
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.3)]"
+                      : "text-muted-foreground border-border hover:bg-accent/50"
+                  }
                 >
                   {t("CreateTicket:radioB.lg")}
                 </Button>
@@ -324,8 +340,25 @@ export default function CreateTicket() {
                   <Input
                     type="number"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="mt-2"
+                    min="0"
+                    step="0.00001"
+                    placeholder="0.00000"
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val === "" || val === "-") {
+                        setAmount(val === "-" ? "" : "");
+                        return;
+                      }
+                      const n = parseFloat(val);
+                      if (isNaN(n)) {
+                        setAmount("");
+                        return;
+                      }
+                      if (n < 0) return;
+                      const clamped = Math.round(n * 100000) / 100000;
+                      setAmount(clamped.toString());
+                    }}
+                    className="mt-2 border-[hsl(var(--accent-2)/0.2)] bg-card/60"
                   />
                 </span>
               </div>
@@ -340,7 +373,7 @@ export default function CreateTicket() {
                 </span>
               </div>
 
-              <Alert className="mt-3">
+              <Alert className="mt-3 border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.05)]">
                 <AlertTitle>
                   {t(
                     "CreateTicket:thumbsupNotice.title",
@@ -355,69 +388,93 @@ export default function CreateTicket() {
                 </AlertDescription>
               </Alert>
 
-              <Button className="h-8 mt-4" onClick={() => setShowDialog(true)}>
-                {t("CreatePrediction:buttons.submit")}
+              <Button
+                className="h-8 mt-4 bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.3)] hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!amount || parseFloat(amount) <= 0}
+                onClick={() => setShowDialog(true)}
+              >
+                <Send className="mr-2 h-4 w-4" />
+                {t("CreateUIA:buttons.submit")}
               </Button>
             </div>
           </CardContent>
         </Card>
 
         {usr && userTickets ? (
-          <Card>
+          <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+            <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.15)] blur-3xl" />
+            <div className="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.15)] blur-3xl" />
+            <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
             <CardHeader className="pb-1">
-              <CardTitle>{t("CreateTicket:myTickets.title")}</CardTitle>
-              <CardDescription>
-                {t("CreateTicket:myTickets.description")}
-              </CardDescription>
+              <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+                <Lock className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                {t("CreateTicket:myTickets.title")}
+              </CardTitle>
+              <CardDescription>{t("CreateTicket:myTickets.description")}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div>
-                  {t("CreateTicket:myTickets.totalLocked", {
-                    amount: userTotals.rawSum.toFixed(5),
-                    asset: assetSymbol,
-                  })}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.05)] to-transparent p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)]">
+                      <Lock className="h-3.5 w-3.5 text-[hsl(var(--accent-1-fg))]" />
+                    </div>
+                    <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                      Total locked
+                    </span>
+                  </div>
+                  <div className="font-mono text-xl font-bold text-foreground tabular-nums">
+                    {userTotals.rawSum.toFixed(5)}
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{assetSymbol}</div>
                 </div>
-                <div className="text-right">
-                  {t("CreateTicket:myTickets.totalEffective", {
-                    amount: userTotals.effectiveSum.toFixed(5),
-                    asset: assetSymbol,
-                  })}
+                <div className="relative overflow-hidden rounded-xl border border-[hsl(var(--accent-2)/0.15)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.05)] to-transparent p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)]">
+                      <Zap className="h-3.5 w-3.5 text-[hsl(var(--accent-2-fg))]" />
+                    </div>
+                    <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                      Effective power
+                    </span>
+                  </div>
+                  <div className="font-mono text-xl font-bold text-foreground tabular-nums">
+                    {userTotals.effectiveSum.toFixed(5)}
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{assetSymbol}</div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 mt-3 text-sm">
-                <div>
-                  {t("CreateTicket:myTickets.breakdown.lock180", {
-                    amount: userTotals.byType.lock_180_days.toFixed(5),
-                    asset: assetSymbol,
-                  })}
-                </div>
-                <div>
-                  {t("CreateTicket:myTickets.breakdown.lock360", {
-                    amount: userTotals.byType.lock_360_days.toFixed(5),
-                    asset: assetSymbol,
-                  })}
-                </div>
-                <div>
-                  {t("CreateTicket:myTickets.breakdown.lock720", {
-                    amount: userTotals.byType.lock_720_days.toFixed(5),
-                    asset: assetSymbol,
-                  })}
-                </div>
-                <div>
-                  {t("CreateTicket:myTickets.breakdown.forever", {
-                    amount: userTotals.byType.lock_forever.toFixed(5),
-                    asset: assetSymbol,
-                  })}
-                </div>
-                {userTotals.byType.liquid > 0 ? (
-                  <div>
-                    {t("CreateTicket:myTickets.breakdown.liquid", {
-                      amount: userTotals.byType.liquid.toFixed(5),
-                      asset: assetSymbol,
-                    })}
+
+              <div className="mt-4 grid grid-cols-1 gap-1.5">
+                {[
+                  { key: "lock_180_days", label: t("CreateTicket:radioB.sm"), value: userTotals.byType.lock_180_days, boost: 2, dotClass: "bg-[hsl(var(--accent-success))]", badgeClass: "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.1)] text-[hsl(var(--accent-success-fg))] dark:text-[hsl(var(--accent-success-fg))]" },
+                  { key: "lock_360_days", label: t("CreateTicket:radioB.md"), value: userTotals.byType.lock_360_days, boost: 4, dotClass: "bg-[hsl(var(--accent-2))]", badgeClass: "border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]" },
+                  { key: "lock_720_days", label: t("CreateTicket:radioB.lg"), value: userTotals.byType.lock_720_days, boost: 8, dotClass: "bg-[hsl(var(--accent-2))]", badgeClass: "border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]" },
+                  { key: "lock_forever", label: t("CreateTicket:radioB.xl"), value: userTotals.byType.lock_forever, boost: 8, dotClass: "bg-[hsl(var(--accent-warning))]", badgeClass: "border-[hsl(var(--accent-warning)/0.2)] bg-[hsl(var(--accent-warning)/0.1)] text-[hsl(var(--accent-warning-fg))] dark:text-[hsl(var(--accent-warning-fg))]" },
+                ].map((item) => (
+                  <div key={item.key} className="flex items-center justify-between rounded-lg border border-border/60 bg-card/40 px-3 py-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className={`h-1.5 w-1.5 rounded-full ${item.dotClass}`} />
+                      <span className="text-muted-foreground">{item.label}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-xs tabular-nums">{item.value.toFixed(5)} {assetSymbol}</span>
+                      {item.value > 0 && (
+                        <span className={`inline-flex items-center rounded-md border px-1.5 py-0.5 text-[10px] font-semibold ${item.badgeClass}`}>
+                          {item.boost}x
+                        </span>
+                      )}
+                    </div>
                   </div>
-                ) : null}
+                ))}
+                {userTotals.byType.liquid > 0 && (
+                  <div className="flex items-center justify-between rounded-lg border border-border/60 bg-card/40 px-3 py-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                      <span className="text-muted-foreground">{t("CreateTicket:lockTypeLiquid", "Liquid")}</span>
+                    </div>
+                    <span className="font-mono text-xs tabular-nums">{userTotals.byType.liquid.toFixed(5)} {assetSymbol}</span>
+                  </div>
+                )}
               </div>
 
               {userTickets && userTickets.length ? (
@@ -427,7 +484,7 @@ export default function CreateTicket() {
                   </Label>
                   <Table>
                     <TableHeader>
-                      <TableRow>
+                      <TableRow className="bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)]">
                         <TableHead className="w-[120px]">
                           {t("CreateTicket:myTickets.table.id", "ID")}
                         </TableHead>
@@ -451,7 +508,6 @@ export default function CreateTicket() {
                     <TableBody>
                       {[...userTickets]
                         .sort((a, b) => {
-                          // Sort by numeric id descendant (1.18.x)
                           const na = parseInt((a.id || "").split(".").pop());
                           const nb = parseInt((b.id || "").split(".").pop());
                           return (isNaN(nb) ? 0 : nb) - (isNaN(na) ? 0 : na);
@@ -484,6 +540,7 @@ export default function CreateTicket() {
                                 <Button
                                   size="sm"
                                   variant="outline"
+                                  className="border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.05)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]"
                                   onClick={() => openUpdateDialog(tk)}
                                 >
                                   {t("CreateTicket:buttons.update", "Update")}
@@ -526,7 +583,7 @@ export default function CreateTicket() {
 
         {updateDialogOpen && selectedTicket ? (
           <Dialog open={updateDialogOpen} onOpenChange={setUpdateDialogOpen}>
-            <DialogContent className="sm:max-w-[520px] bg-white">
+            <DialogContent className="sm:max-w-[520px] bg-card/80 backdrop-blur-xl border border-[hsl(var(--accent-2)/0.2)] shadow-lg shadow-[color:hsl(var(--accent-2)/0.2)]">
               <DialogHeader>
                 <DialogTitle>
                   {t("CreateTicket:updateDialog.title", "Update ticket")}
@@ -565,7 +622,7 @@ export default function CreateTicket() {
                         )}
                       />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className="bg-card/80 backdrop-blur-xl border border-[hsl(var(--accent-2)/0.2)]">
                       <SelectItem value="lock_180_days">
                         {t("CreateTicket:radioB.sm")}
                       </SelectItem>
@@ -591,9 +648,26 @@ export default function CreateTicket() {
                     </Label>
                     <Input
                       type="number"
+                      min="0"
+                      step="0.00001"
                       placeholder={"0.00000"}
                       value={updateAmount}
-                      onChange={(e) => setUpdateAmount(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === "" || val === "-") {
+                          setUpdateAmount(val === "-" ? "" : "");
+                          return;
+                        }
+                        const n = parseFloat(val);
+                        if (isNaN(n)) {
+                          setUpdateAmount("");
+                          return;
+                        }
+                        if (n < 0) return;
+                        const clamped = Math.round(n * 100000) / 100000;
+                        setUpdateAmount(clamped.toString());
+                      }}
+                      className="border-[hsl(var(--accent-2)/0.2)] bg-card/60"
                     />
                   </div>
                 ) : null}

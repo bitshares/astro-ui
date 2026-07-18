@@ -1,0 +1,62 @@
+---
+title: Open Orders
+description: Track and cancel an account's active limit orders using limit_order_cancel.
+sidebar:
+  order: 2
+---
+
+import { Card, CardGrid, Steps } from '@astrojs/starlight/components';
+
+**Open Orders** lists the limit orders an account currently has resting on the book. You can inspect each order's price and amount, jump to the market, or cancel it directly — cancelling broadcasts a `limit_order_cancel`.
+
+**Open in the app:** [Open Orders](/open-orders.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Live list" icon="list-ordered">
+    See every resting `limit_order` for the account.
+  </Card>
+  <Card title="Jump to market" icon="arrow-right">
+    Open the order's pair on the DEX to edit it.
+  </Card>
+  <Card title="Cancel" icon="close">
+    Cancel an order with `limit_order_cancel`.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Open Orders** from the homepage under *Account Overviews*.
+
+2. Select the account. The list shows each `1.7.x` order with price/amount.
+
+3. Use **Trade** to open the market, or **Update** to edit the order on the DEX.
+
+4. To remove an order, confirm **Cancel** — the app broadcasts `limit_order_cancel`.
+
+</Steps>
+
+## Operation used
+
+Cancelling broadcasts `limit_order_cancel` (operation `3`):
+
+```json
+{
+  "fee_paying_account": "1.2.x",
+  "order": "1.7.x",
+  "extensions": []
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `fee_paying_account` | Your account (`1.2.x`). |
+| `order` | The `1.7.x` limit-order object id to cancel. |
+
+## Related pages
+
+- [DEX](/docs/exchanging/dex.html)
+- [Portfolio Balances](/docs/account/balances.html)

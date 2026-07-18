@@ -1,0 +1,6 @@
+{
+  "title": "Seitenspezifische Themen",
+  "description": "Weisen Sie individuellen Seiten ein bestimmtes Theme zu. Beim Besuch der Seite wird das Theme global angewendet.",
+  "useActive": "Aktives Theme verwenden",
+  "overrideActive": "Diese Seite verwendet eigenes Theme"
+}

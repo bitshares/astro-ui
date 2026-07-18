@@ -5,11 +5,9 @@
   "proceedToBorrow": "問題",
   "issueAssetDescription": "この資産の発行者は、構成された最大供給量まで、この資産を自分自身またはブロックチェーン上の別のアカウントに発行できます。",
   "manageUIA": "編集",
-  "pmaBet": "ベット",
   "uiaButton": "ユーザー発行アセット",
   "poolsButton": "流動性プール資産",
   "smartcoinsButton": "スマートコイン資産",
-  "predictionButton": "市場資産の予測",
   "nftButton": "代替不可能なトークン資産",
   "listingUIA": "リスト {{count}} ユーザー発行アセット",
   "listingPools": "リスト {{count}} 流動性プール資産",
@@ -17,8 +15,6 @@
   "noUIA": "ユーザー発行のアセットが見つかりませんでした",
   "listingSmartcoins": "リスト {{count}} スマートコイン資産",
   "noSmartcoins": "スマートコイン資産が見つかりません",
-  "listingPredictionMarkets": "リスト {{count}} 市場資産の予測",
-  "noPredictionMarkets": "予測市場資産が見つかりません",
   "listingNFTs": "リスト {{count}} 代替不可能なトークン資産",
   "noNFTs": "代替不可能なトークン資産が見つかりません",
   "title": "作成したブロックチェーン資産の表示",
@@ -103,5 +99,6 @@
   "amount": "額",
   "useMax": "最大値を使用",
   "noAssetInBalance": "このアカウントはこの資産を保持していません。",
-  "overrideHeader": "想起 {{amount}} {{symbol}} から {{account}}"
+  "overrideHeader": "想起 {{amount}} {{symbol}} から {{account}}",
+  "collateralBid": "担保で入札"
 }

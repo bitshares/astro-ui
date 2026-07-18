@@ -63,7 +63,10 @@ async function getCurrentBlock(chain: string, specificNode?: string | null) {
       return;
     }
 
-    resolve(currentBlock);
+    resolve({
+      block: currentBlock,
+      blockNumber: dynamicGlobalProperties.head_block_number,
+    });
   });
 }
 

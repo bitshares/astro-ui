@@ -7,7 +7,9 @@ interface Props {
 
 const { title } = Astro.props;
 import '@/styles/globals.css'
+import ThemeProvider from '@/components/ThemeProvider.jsx'
 import SidebarRoot from '@/components/SidebarRoot.jsx'
+import CustomThemeStyle from '@/components/CustomThemeStyle.jsx'
 ---
 
 <!DOCTYPE html>
@@ -19,13 +21,40 @@ import SidebarRoot from '@/components/SidebarRoot.jsx'
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<script is:inline>
+			// Apply the persisted custom theme before first paint (FOUC-free),
+			// mirroring how the dark-mode class is applied. Re-applies across
+			// Astro view transitions.
+			(function () {
+				function applyCustomTheme() {
+					try {
+						var raw = localStorage.getItem("btsThemeActiveCss");
+						var css = raw ? JSON.parse(raw) : "";
+						var el = document.getElementById("custom-theme-vars");
+						if (!el) {
+							el = document.createElement("style");
+							el.id = "custom-theme-vars";
+							document.head.appendChild(el);
+						}
+						el.textContent = css || "";
+					} catch (e) {}
+				}
+				applyCustomTheme();
+				if (!window.__customThemeInit) {
+					window.__customThemeInit = true;
+					document.addEventListener("astro:after-swap", applyCustomTheme);
+				}
+			})();
+		</script>
 		<ClientRouter />
 	</head>
 	<body>
-		<!-- Wrap the entire app content with the SidebarRoot so its flex wrapper includes the page -->
-		<SidebarRoot client:only="react">
-			<slot />
-		</SidebarRoot>
+		<ThemeProvider client:only="react">
+			<CustomThemeStyle client:only="react" />
+			<SidebarRoot client:only="react">
+				<slot />
+			</SidebarRoot>
+		</ThemeProvider>
 	</body>
 </html>
 <style is:global>
@@ -33,12 +62,10 @@ import SidebarRoot from '@/components/SidebarRoot.jsx'
 		--accent: 136, 58, 234;
 		--accent-light: 224, 204, 250;
 		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60%);
+		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, rgb(var(--background)) 60%);
 	}
 	html {
 		font-family: system-ui, sans-serif;
-		background: #323233;
-		background-size: 224px;
 	}
 	code {
 		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
@@ -46,5 +73,17 @@ import SidebarRoot from '@/components/SidebarRoot.jsx'
 	}
 	body {
 		min-height: 100%;
+		background: hsl(var(--background));
+		background-size: 224px;
+	}
+	main {
+		margin: auto;
+		padding: 1rem;
+		width: 100%;
+		max-width: calc(100% - 2rem);
+		color: hsl(var(--foreground));
+		font-size: 20px;
+		line-height: 1.6;
+		min-height: 100vh;
 	}
 </style>

@@ -34,8 +34,8 @@ export default function MarketPlaceholder(properties) {
 
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const activeTabStyle = {
-    backgroundColor: "#252526",
-    color: "white",
+    backgroundColor: "hsl(var(--primary))",
+    color: "hsl(var(--primary-foreground))",
   };
 
   const assetAData = useMemo(
@@ -111,7 +111,7 @@ export default function MarketPlaceholder(properties) {
                       <div className="text-sm mt-1">
                         {t("MarketPlaceholder:priceLabel")}
                       </div>
-                      <div className="text-gray-500 text-right">
+                      <div className="text-muted-foreground text-right">
                         <span variant="link">?</span>
                       </div>
                     </div>
@@ -125,7 +125,7 @@ export default function MarketPlaceholder(properties) {
                       <div className="text-sm mt-1">
                         {t("MarketPlaceholder:amountLabel")}
                       </div>
-                      <div className="text-gray-500 text-right">?</div>
+                      <div className="text-muted-foreground text-right">?</div>
                     </div>
                     <div className="col-span-1">
                       <Input disabled className="mb-2" />
@@ -138,7 +138,7 @@ export default function MarketPlaceholder(properties) {
                       <div className="text-sm mt-1">
                         {t("MarketPlaceholder:totalLabel")}
                       </div>
-                      <div className="text-gray-500 text-right">?</div>
+                      <div className="text-muted-foreground text-right">?</div>
                     </div>
                     <div className="col-span-1">
                       <Input disabled className="mb-2" />

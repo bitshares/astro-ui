@@ -73,7 +73,10 @@
   "generatedInvoice": {
     "dialogTitle": "생성된 송장",
     "dialogDescription": "송장을 결제하려면 고객에게 다음 송장 코드를 제공하세요.",
-    "copyButton": "송장 코드를 클립보드에 복사"
+    "copyButton": "송장 코드를 클립보드에 복사",
+    "copiedButton": "청구서 코드를 클립보드에 복사했습니다!",
+    "invoiceSaved": "청구서가 저장되었습니다!",
+    "saveInvoice": "청구서 저장"
   },
   "scanner": {
     "scan": "주사",

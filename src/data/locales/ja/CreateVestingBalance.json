@@ -9,7 +9,7 @@
   "target": "対象アカウント",
   "targetDescription": "これは権利確定残高を受け取る口座です。",
   "policy": "権利確定バランスポリシー",
-  "policyDescription": "Coin Days Destroyed または Linear Vesting with Cliff の 2 つのポリシーのいずれかを使用できます。Coin Days Destroyed ポリシーの効果は、残高全額を引き出す前に一定量の「利息」の発生を要求することです。利息はコインデイ (残高 * 長さ) として発生します。",
+  "policyDescription": "Coin Days Destroyed または Linear Vesting with Cliff の 2 つのポリシーのいずれかを使用できます。Coin Days Destroyed ポリシーの効果は、残高全額を引き出す前に一定量の利息の発生を要求することです。利息はコインデイ (残高 * 長さ) として発生します。",
   "asset": "資産",
   "assetDescription": "これは権利確定残高に組み込まれる資産です。",
   "ccd": "コインの日数が破壊されました",
@@ -25,5 +25,9 @@
   "vestingDurationSeconds": "権利確定期間の秒数",
   "vestingDurationSecondsDescription": "これは、残高が確定するまでの秒数です。",
   "dialogHeader": "新しい権利確定残高の作成",
-  "myAccount": "あなたのアカウント"
+  "myAccount": "あなたのアカウント",
+  "useBalance": "残高を使用",
+  "currentBalance": "現在の残高：{{balance}} {{symbol}}",
+  "insufficientFunds": "残高不足",
+  "invalidDecimals": "最大{{precision}}桁の小数点以下が許可されます"
 }

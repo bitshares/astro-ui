@@ -9,7 +9,7 @@
   "target": "บัญชีเป้าหมาย",
   "targetDescription": "นี่คือบัญชีที่จะได้รับยอดคงเหลือการได้รับสิทธิ",
   "policy": "นโยบายการมอบยอดเงินคงเหลือ",
-  "policyDescription": "คุณสามารถใช้หนึ่งในสองนโยบาย: Coin Days Destroyed หรือ Linear Vesting with Cliff, Coin Days Destroyed ผลกระทบของนโยบายคือการกำหนดให้ต้องมี \"ดอกเบี้ย\" จำนวนหนึ่งก่อนที่จะถอนยอดคงเหลือเต็มจำนวน ดอกเบี้ยจะเกิดขึ้นเป็น coindays (ยอดคงเหลือ * ความยาว ",
+  "policyDescription": "คุณสามารถใช้หนึ่งในสองนโยบาย: Coin Days Destroyed หรือ Linear Vesting with Cliff, Coin Days Destroyed ผลกระทบของนโยบายคือการกำหนดให้ต้องมี ดอกเบี้ย จำนวนหนึ่งก่อนที่จะถอนยอดคงเหลือเต็มจำนวน ดอกเบี้ยจะเกิดขึ้นเป็น coindays (ยอดคงเหลือ * ความยาว ",
   "asset": "สินทรัพย์",
   "assetDescription": "นี่คือสินทรัพย์ที่จะนำไปวางในยอดคงเหลือการได้รับสิทธิ",
   "ccd": "เหรียญวันถูกทำลาย",
@@ -25,5 +25,9 @@
   "vestingDurationSeconds": "ระยะเวลาการได้รับสิทธิ์เป็นวินาที",
   "vestingDurationSecondsDescription": "นี่คือจำนวนวินาทีที่ยอดคงเหลือจะตกไป",
   "dialogHeader": "การสร้างยอดคงเหลือการได้รับสิทธิใหม่",
-  "myAccount": "บัญชีของคุณ"
+  "myAccount": "บัญชีของคุณ",
+  "useBalance": "ใช้ยอดคงเหลือ",
+  "currentBalance": "ยอดคงเหลือปัจจุบัน: {{balance}} {{symbol}}",
+  "insufficientFunds": "เงินไม่เพียงพอ",
+  "invalidDecimals": "อนุญาตให้ใช้ทศนิยมสูงสุด {{precision}} ตำแหน่ง"
 }

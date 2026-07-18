@@ -1,0 +1,23 @@
+---
+title: Invoicing
+description: Create, store and pay shareable BitShares invoices.
+sidebar:
+  order: 8
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+The **Invoicing** section covers the off-chain invoice workflow and its on-chain settlement.
+
+<CardGrid>
+  <LinkCard title="Invoice Inventory" description="Your generated invoices (local)." href="/docs/invoicing/invoice_inventory/" />
+  <LinkCard title="Create Invoice" description="Generate a shareable invoice (off-chain)." href="/docs/invoicing/create_invoice/" />
+  <LinkCard title="Pay Invoice" description="Settle an invoice (transfer per asset)." href="/docs/invoicing/pay_invoice/" />
+  <LinkCard title="Stored Invoices" description="Invoices you've received (local)." href="/docs/invoicing/stored_invoices/" />
+</CardGrid>
+
+## How it works
+
+Invoices are **off-chain** base58-encoded payloads (recipient, identifier, line items). Only payment is on-chain: [Pay Invoice](/docs/invoicing/pay_invoice.html) broadcasts a `transfer` per asset, with the invoice `identifier` in the memo.
+
+The only operation in this section is `transfer`; everything else is browser-local.

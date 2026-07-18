@@ -1,6 +1,6 @@
 {
   "dealNo": "Accord #",
-  "with": " avec ",
+  "with": "avec ",
   "borrowed": "tu as emprunté",
   "lent": "Ils ont emprunté",
   "loanCollateral": "Garantie de prêt :",
@@ -30,7 +30,7 @@
   "submit": "Soumettre",
   "deepLink": "Rembourser {{finalRepayAmount}} {{debtAsset}}, pour réclamer {{collateralAsset}}",
   "card": {
-    "title": "💱 Vérifiez vos offres de crédit actives",
+    "title": "Vérifiez vos offres de crédit actives",
     "description": "À partir de là, vous pouvez à la fois surveiller les opérations de crédit actives et gérer les remboursements.",
     "viewingBorrowings": "Consulter vos emprunts",
     "viewBorrowings": "Consultez vos emprunts",

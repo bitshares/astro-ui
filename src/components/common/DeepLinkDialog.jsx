@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { useStore } from "@nanostores/react";
 import { format } from "date-fns";
-import { Apis } from "bitsharesjs-ws";
+import Apis from "../../bts/ws/ApiInstances";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
@@ -16,11 +16,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 
 import {
@@ -154,6 +149,10 @@ export default function DeepLinkDialog(properties) {
     proposal = false,
     // When true, hides/disables the ability to create a proposal from this dialog
     disablePropose = false,
+    // When true, hides the QR code tab (useful for large transactions that exceed QR capacity)
+    disableQR = false,
+    // When true, hides the deeplink tab (useful when the deeplink URL exceeds the webview's character limit)
+    disableDeeplink = false,
   } = properties;
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
@@ -276,23 +275,26 @@ export default function DeepLinkDialog(properties) {
 
       let feeProcessedOperations = [...trxJSON];
 
-      for (let i = 0; i < trxJSON.length; i++) {
+      // All transfer ops share the same base fee, so fetch it ONCE and reuse
+      // it for every operation. Looping over each op previously opened a fresh
+      // websocket connection per operation (N+1 RPCs), which stormed the node
+      // and failed with "websocket state error:0" for large batches.
+      if (window.electron && trxJSON.length) {
+        let singleFee = null;
         try {
-          let currentFee = await window.electron.calculateOperationFees({
+          singleFee = await window.electron.calculateOperationFees({
             nodeURL: currentNode,
-            trxJSON: trxJSON[i],
+            trxJSON: trxJSON[0],
           });
-
-          if (currentFee) {
-            feeProcessedOperations[i].fee = {
-              amount: parseInt(currentFee),
-              asset_id: "1.3.0",
-            };
-          } else {
-            console.log("Failed to fetch fee for operation", trxJSON[i]);
-          }
         } catch (error) {
-          console.error("Error calculating fees:", error);
+          console.error("Error calculating fee:", error);
+        }
+        if (singleFee != null) {
+          const feeObj = { amount: parseInt(singleFee), asset_id: "1.3.0" };
+          feeProcessedOperations = feeProcessedOperations.map((op) => ({
+            ...op,
+            fee: feeObj,
+          }));
         }
       }
 
@@ -348,7 +350,7 @@ export default function DeepLinkDialog(properties) {
         dismissCallback(open);
       }}
     >
-      <DialogContent className="sm:max-w-[800px] bg-white">
+      <DialogContent className="sm:max-w-[800px] bg-card">
         <DialogHeader>
           <DialogTitle>
             {!deeplink ? (
@@ -384,6 +386,7 @@ export default function DeepLinkDialog(properties) {
                 >
                   {t("DeepLinkDialog:tabs.viewTRXObject")}
                 </Button>
+                {!disableDeeplink ? (
                 <Button
                   className="col-span-1"
                   onClick={() => setActiveTab("deeplink")}
@@ -391,6 +394,7 @@ export default function DeepLinkDialog(properties) {
                 >
                   {t("DeepLinkDialog:tabs.rawDeeplink")}
                 </Button>
+                ) : null}
                 <Button
                   className="col-span-1"
                   onClick={() => setActiveTab("localJSON")}
@@ -398,6 +402,7 @@ export default function DeepLinkDialog(properties) {
                 >
                   {t("DeepLinkDialog:tabs.localJSONFile")}
                 </Button>
+                {!disableQR ? (
                 <Button
                   className="col-span-1"
                   onClick={() => setActiveTab("qr")}
@@ -405,6 +410,7 @@ export default function DeepLinkDialog(properties) {
                 >
                   {t("DeepLinkDialog:tabs.qrCode")}
                 </Button>
+                ) : null}
                 {!proposal && !disablePropose ? (
                   <Button
                     className="col-span-1"
@@ -446,7 +452,7 @@ export default function DeepLinkDialog(properties) {
                   </Button>
                 </>
               ) : null}
-              {activeTab === "deeplink" ? (
+              {activeTab === "deeplink" && !disableDeeplink ? (
                 <>
                   <Label className="text-left text-md font-bold">
                     {t("DeepLinkDialog:tabsContent.usingDeeplink")}
@@ -528,7 +534,7 @@ export default function DeepLinkDialog(properties) {
                   ) : null}
                 </>
               ) : null}
-              {activeTab === "qr" ? (
+              {activeTab === "qr" && !disableQR ? (
                 <>
                   <Label className="text-left text-md font-bold">
                     {t("DeepLinkDialog:tabs.qrCode")}
@@ -560,7 +566,7 @@ export default function DeepLinkDialog(properties) {
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder={qrECL} />
                           </SelectTrigger>
-                          <SelectContent className="bg-white">
+                          <SelectContent className="bg-card">
                             {["L", "M", "Q", "H"].map((lvl) => (
                               <SelectItem key={lvl} value={lvl}>
                                 {lvl}
@@ -577,7 +583,7 @@ export default function DeepLinkDialog(properties) {
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder={qrSize} />
                           </SelectTrigger>
-                          <SelectContent className="bg-white">
+                          <SelectContent className="bg-card">
                             {["150", "250", "300", "350", "385"].map((s) => (
                               <SelectItem key={s} value={s}>
                                 {s}
@@ -594,7 +600,7 @@ export default function DeepLinkDialog(properties) {
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder={qrQZ} />
                           </SelectTrigger>
-                          <SelectContent className="bg-white">
+                          <SelectContent className="bg-card">
                             {["5", "10", "25", "50"].map((p) => (
                               <SelectItem key={p} value={p}>
                                 {p}
@@ -611,7 +617,7 @@ export default function DeepLinkDialog(properties) {
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder={qrStyle} />
                           </SelectTrigger>
-                          <SelectContent className="bg-white">
+                          <SelectContent className="bg-card">
                             {["dots", "squares"].map((st) => (
                               <SelectItem key={st} value={st}>
                                 {st}
@@ -707,7 +713,7 @@ export default function DeepLinkDialog(properties) {
                               : t("AccountLists:provideTarget")}
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[375px] bg-white">
+                        <DialogContent className="sm:max-w-[375px] bg-card">
                           <DialogHeader>
                             <DialogTitle>
                               {!usr || !usr.chain
@@ -738,8 +744,8 @@ export default function DeepLinkDialog(properties) {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="grid grid-cols-1 gap-3">
                       <HoverInfo
-                        content={t("Predictions:sellDialog.expiryContent")}
-                        header={t("Predictions:sellDialog.expiryHeader")}
+                        content={t("Common:expiryContent")}
+                        header={t("Common:expiryHeader")}
                         type="header"
                       />
                       <Select
@@ -779,7 +785,7 @@ export default function DeepLinkDialog(properties) {
                         <SelectTrigger className="mb-3 mt-1 w-3/4">
                           <SelectValue placeholder="1hr" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value="1hr">
                             {t("LimitOrderCard:expiry.1hr")}
                           </SelectItem>
@@ -801,8 +807,8 @@ export default function DeepLinkDialog(properties) {
                         </SelectContent>
                       </Select>
                       {expiryType === "specific" ? (
-                        <Popover>
-                          <PopoverTrigger asChild>
+                        <Dialog>
+                          <DialogTrigger asChild>
                             <Button
                               variant={"outline"}
                               className={cn(
@@ -819,8 +825,8 @@ export default function DeepLinkDialog(properties) {
                                 </span>
                               )}
                             </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[350px] bg-card border border-border rounded-2xl p-0">
                             <Calendar
                               mode="single"
                               selected={date}
@@ -841,8 +847,8 @@ export default function DeepLinkDialog(properties) {
                               }}
                               initialFocus
                             />
-                          </PopoverContent>
-                        </Popover>
+                          </DialogContent>
+                        </Dialog>
                       ) : null}
                     </div>
 
@@ -864,7 +870,7 @@ export default function DeepLinkDialog(properties) {
                         <SelectTrigger className="mb-3 mt-1 w-3/4">
                           <SelectValue placeholder="60s" />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value={60000}>60s</SelectItem>
                           <SelectItem value={300000}>300s</SelectItem>
                           <SelectItem value={600000}>600s</SelectItem>

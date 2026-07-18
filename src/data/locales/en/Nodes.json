@@ -1,4 +1,6 @@
 {
+    "pageTitle": "Blockchain Nodes",
+    "pageDescription": "Manage and connect to Bitshares network nodes",
     "cardTitle": "Configure your blockchain connection",
     "cardDescription": "Connect to a Bitshares node of your choice.",
     "add": "Add URL",

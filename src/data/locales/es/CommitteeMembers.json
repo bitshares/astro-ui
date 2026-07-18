@@ -2,7 +2,7 @@
   "title": "Miembros del comité de bitshares",
   "description": "Ver a los miembros actuales del comité activo e inactivo.",
   "filterPlaceholder": "Filtrar por nombre del miembro del comité ...",
-  "active": "Active ({{count}})",
+  "active": "Activo ({{count}})",
   "inactive": "Inactivo ({{count}})",
   "rank": "Rango",
   "name": "Nombre",

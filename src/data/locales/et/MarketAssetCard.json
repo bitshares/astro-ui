@@ -24,10 +24,8 @@
   "balanceTooltip": "Lisateavet teie saldo kohta",
   "assetType": "Vara tüüp",
   "userIssuedAsset": "Kasutaja väljastatud vara",
-  "predictionMarket": "Ennustusturg",
   "smartcoin": "Smartcoin",
   "userIssuedAssetSummary": "Kasutaja väljastatud vara tüübi kokkuvõte",
-  "predictionMarketSummary": "Prognoositud turu varade tüübi kokkuvõte",
   "smartcoinSummary": "Smartcoini vara tüübi kokkuvõte",
   "userIssuedAssetDescription1": "User Issued Assets (UIA) on kasutaja loodud plokiahela varad.",
   "userIssuedAssetDescription2": "Kuna need on kasutaja määratud, on neil kõigil unikaalsed nimed, seaded, kirjeldused ja eesmärgid.",
@@ -35,11 +33,6 @@
   "userIssuedAssetDescription4": "UIA võivad olla mitteasendatavad märgid (NFT-d), mis sisaldavad mitmesuguseid multimeediume.",
   "userIssuedAssetDescription5": "UIA-d kasutatakse ka likviidsusfondi aktsiate varade jaoks.",
   "userIssuedAssetDescription6": "Enne nende kasutamist DEX-is hinnake alati UIA sätteid, kirjeldust ja väljaandjat, et vähendada oma riski.",
-  "predictionMarketDescription1": "Prediction Market Asset (PMA) on spetsiaalne BitAsset, mille puhul koguvõlg ja kogutagatis on alati võrdsed (kuigi varade ID-d on erinevad).",
-  "predictionMarketDescription2": "Ennustusturu varadele ei tohi teha lisatagatise nõudeid ega sundarveldusi.",
-  "predictionMarketDescription3": "Prognoositurgu lahendab globaalselt emitent pärast prognoositava sündmuse lahenemist, seega peab ennustusturul olema global_settle luba alati lubatud.",
-  "predictionMarketDescription4": "Prognoositud turuvara globaalse arvelduse või lühikeseks müügi maksimaalne hind on 1-1.",
-  "predictionMarketDescription5": "Arvestades, et ennustuste turu oraakel on väljastaja, PMA väljastaja peab olema usaldusväärne osapool, on PMA osalejad avatud nii panuse riskile kui ka oraaklile, kes täidab oma rolli ausalt.",
   "smartcoinDescription1": "Smartcoin on vara, millel on tagatistagatis, väline võrdlusvoo hind ja omaemissioon.",
   "smartcoinDescription2": "Igaüks saab luua nutimünte ja igaüks saab oma kontole emiteerida nutikamünte, kui on piisavalt tagatisvarasid.",
   "smartcoinDescription3": "Nutimünte kasutavad komiteekontole kuuluvad bitivarad, bitivarad (nagu USD, CNY, EUR) on komitee kaubamärgiga turuga seotud varad (MPA), mis viitavad välistele FIAT-i valuutahindadele ja on tagatud BTS-i (1.3.0) põhimärgiga.",
@@ -152,5 +145,7 @@
   "maximumShortSqueezeRatioInfo": "Teave maksimaalse lühikese pigistussuhte kohta",
   "maximumShortSqueezeRatioDescription": "Maksimaalne lühiajalise squeeze suhtarv on maksimaalne suhtarv, mida võlapositsioon on kaitstud lühikese squeeze eest.",
   "moreAboutMaximumShortSqueezeRatio": "Lisateavet maksimaalse lühikese pigistamise suhte kohta",
-  "borrowButton": "Laena"
+  "borrowButton": "Laena",
+  "assetDetails": "Vara üksikasjad",
+  "smartcoinParameters": "Smartcoin-i parameetrid"
 }

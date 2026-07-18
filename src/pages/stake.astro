@@ -30,7 +30,7 @@ const testPoolsList = testPools.map((collection) => collection.data);
 
 <Layout title="Bitshares pool staking form">
 	<main>
-		<PageHeader client:only="react" page="stake" backURL="../index.html" />
+		<PageHeader client:only="react" page="stake" />
 		<PoolStake
 			client:only="react"
 			_assetsBTS={btsAssets}
@@ -52,7 +52,7 @@ const testPoolsList = testPools.map((collection) => collection.data);
 		padding: 1rem;
 		width: 100%;
 		max-width: calc(100% - 2rem);
-		color: white;
+		color: hsl(var(--foreground));
 		font-size: 20px;
 		line-height: 1.6;
 		min-height: 100vh;

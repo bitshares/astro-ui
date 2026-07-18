@@ -12,31 +12,70 @@ import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
+import {
+  HandCoins,
+  Search,
+  Clock,
+  ShieldCheck,
+  ArrowRight,
+  Sparkles,
+  Star,
+  StarOff,
+  Ban,
+} from "lucide-react";
 
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import { Spinner } from "@/components/ui/spinner";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
+
+import { Avatar } from "./Avatar.tsx";
 
 import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 import { createCreditOfferStore } from "@/nanoeffects/CreditOffers.ts";
 import { useInitCache } from "@/nanoeffects/Init.ts";
 
 import { $currentUser } from "@/stores/users.ts";
-import { $blockList } from "@/stores/blocklist.ts";
+import {
+  $blockList,
+  $userBlockList,
+  addBlockedUser,
+} from "@/stores/blocklist.ts";
 import { $currentNode } from "@/stores/node.ts";
+import {
+  $favouriteUsers,
+  addFavouriteUser,
+  removeFavouriteUser,
+} from "@/stores/favourites.ts";
 
 import { humanReadableFloat, debounce } from "@/lib/common.js";
-// External links removed due to domain hijack; render plain text instead
 
 function hoursTillExpiration(expirationTime) {
   var expirationDate = new Date(expirationTime);
@@ -45,11 +84,6 @@ function hoursTillExpiration(expirationTime) {
   var hours = Math.round(difference / 1000 / 60 / 60);
   return hours;
 }
-
-const activeTabStyle = {
-  backgroundColor: "#252526",
-  color: "white",
-};
 
 const isValid = (str) => /^[a-zA-Z0-9.-]+$/.test(str);
 
@@ -67,6 +101,16 @@ export default function CreditBorrow(properties) {
   );
 
   const currentNode = useStore($currentNode);
+  const favouriteUsers = useStore($favouriteUsers)[usr?.chain ?? "bitshares"] ?? [];
+  const userBlockList = useSyncExternalStore(
+    $userBlockList.subscribe,
+    $userBlockList.get,
+    () => true
+  );
+  const chainUserBlockList = useMemo(() => {
+    if (!userBlockList) return [];
+    return userBlockList[usr?.chain ?? "bitshares"] ?? [];
+  }, [userBlockList, usr]);
 
   const { _assetsBTS, _assetsTEST } = properties;
 
@@ -88,6 +132,17 @@ export default function CreditBorrow(properties) {
 
   const [allOffers, setAllOffers] = useState([]);
   const [showExpired, setShowExpired] = useState(false);
+  const [blockConfirmOpen, setBlockConfirmOpen] = useState(false);
+  const [blockTarget, setBlockTarget] = useState(null);
+  const [isDesktop, setIsDesktop] = useState(
+    typeof window !== "undefined" ? window.innerWidth >= 768 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     async function fetchCreditOffers() {
@@ -117,7 +172,6 @@ export default function CreditBorrow(properties) {
       }
 
       if (_chain === "bitshares" && blocklist && blocklist.users) {
-        // Discard offers from banned users
         currentOffers = currentOffers.filter(
           (offer) =>
             !blocklist.users.includes(
@@ -126,13 +180,20 @@ export default function CreditBorrow(properties) {
         );
       }
 
+      if (chainUserBlockList && chainUserBlockList.length) {
+        currentOffers = currentOffers.filter(
+          (offer) =>
+            !chainUserBlockList.some((u) => u.id === offer.owner_account)
+        );
+      }
+
       return currentOffers;
     }
     return [];
-  }, [allOffers, _chain, blocklist, showExpired]);
+  }, [allOffers, _chain, blocklist, chainUserBlockList, showExpired]);
 
   const [activeTab, setActiveTab] = useState("allOffers");
-  const [activeSearch, setActiveSearch] = useState("borrow"); // borrow, collateral, owner_name
+  const [activeSearch, setActiveSearch] = useState("borrow");
   const [thisInput, setThisInput] = useState();
   const [thisResult, setThisResult] = useState();
 
@@ -198,7 +259,7 @@ export default function CreditBorrow(properties) {
       adjustedOffers.push(offer);
     }
 
-    let keys = []; // Initialize keys as an empty array
+    let keys = [];
     if (activeSearch === "borrow") {
       keys = ["offer_symbols"];
     } else if (activeSearch === "collateral") {
@@ -214,7 +275,6 @@ export default function CreditBorrow(properties) {
   }, [offers, assets, activeSearch]);
 
   useEffect(() => {
-    //console.log("Parsing url params");
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
 
@@ -292,98 +352,200 @@ export default function CreditBorrow(properties) {
   function CommonRow({ index, style, res, foundAsset }) {
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="ml-2 mr-2">
-          <CardHeader className="pb-1">
-            <CardTitle>
-              {t("CreditBorrow:common.offer")}
-              {" #"}
-              {res.id.replace("1.21.", "")} {t("CreditBorrow:common.by")}{" "}
-              {res.owner_name}
-              {"("}
-              {res.owner_account}
-              {")"}
-            </CardTitle>
-            <CardDescription>
-              {t("CreditBorrow:common.offering")}
-              <b>
-                {` ${humanReadableFloat(
-                  res.current_balance,
-                  foundAsset.precision
-                )} `}
-                {foundAsset.symbol} ({res.asset_type})
-              </b>
-              <br />
-              {t("CreditBorrow:common.accepting")}
-              <b className="ml-1">
-                {assets && assets.length
+        <Card className="mx-2 mb-2 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all">
+          <div className="p-4">
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
+                  <HandCoins className="h-4 w-4" strokeWidth={2.25} />
+                </span>
+                <div className="min-w-0">
+                  <h3 className="text-sm font-semibold text-foreground truncate">
+                    {t("CreditBorrow:common.offer")} #{res.id.replace("1.21.", "")}
+                  </h3>
+                  <Badge variant="outline" className="gap-1.5 border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          type="button"
+                          className="flex items-center gap-1.5 hover:opacity-80 transition-opacity cursor-pointer"
+                        >
+                          <Avatar
+                            size={16}
+                            name={res.owner_name}
+                            extra="offer-owner"
+                            expression={{ eye: "normal", mouth: "smile" }}
+                          />
+                          <span className="whitespace-nowrap">{res.owner_name}</span>
+                          <span className="text-muted-foreground/50 text-[10px] flex-shrink-0">
+                            ({res.owner_account})
+                          </span>
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="w-56">
+                        <DropdownMenuItem
+                          onClick={() => {
+                            const chain = usr?.chain ?? "bitshares";
+                            const isFav = favouriteUsers.some(
+                              (u) => u.id === res.owner_account
+                            );
+                            if (isFav) {
+                              removeFavouriteUser(chain, {
+                                name: res.owner_name,
+                                id: res.owner_account,
+                              });
+                            } else {
+                              addFavouriteUser(chain, {
+                                name: res.owner_name,
+                                id: res.owner_account,
+                              });
+                            }
+                          }}
+                        >
+                          {favouriteUsers.some((u) => u.id === res.owner_account) ? (
+                            <StarOff className="h-4 w-4 mr-2" />
+                          ) : (
+                            <Star className="h-4 w-4 mr-2" />
+                          )}
+                          {favouriteUsers.some((u) => u.id === res.owner_account)
+                            ? t("Blocklist:unfavouriteAccount")
+                            : t("Blocklist:favouriteAccount")}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            if (chainUserBlockList.some((u) => u.id === res.owner_account)) {
+                              return;
+                            }
+                            setBlockTarget({
+                              name: res.owner_name,
+                              id: res.owner_account,
+                            });
+                            setBlockConfirmOpen(true);
+                          }}
+                          disabled={chainUserBlockList.some((u) => u.id === res.owner_account)}
+                        >
+                          <Ban className="h-4 w-4 mr-2" />
+                          {chainUserBlockList.some((u) => u.id === res.owner_account)
+                            ? t("Blocklist:alreadyBlocked")
+                            : t("Blocklist:blockAccount")}
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </Badge>
+                </div>
+              </div>
+              <Badge variant="outline" className="gap-1 text-[10px] border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
+                <Clock className="h-3 w-3" />
+                {hoursTillExpiration(res.auto_disable_time)}h
+              </Badge>
+            </div>
+
+            <div className="rounded-lg border border-border/60 bg-card/40 p-3 mb-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                      {t("CreditBorrow:common.offering")}
+                    </div>
+                    <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
+                      {humanReadableFloat(res.current_balance, foundAsset.precision)} {foundAsset.symbol}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                      {t("CreditBorrow:common.fee", { fee: "" })}
+                    </div>
+                    <div className="font-mono text-xs tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
+                      {(res.fee_rate / 10000).toFixed(2)}%
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1">
+                  <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                    {t("CreditBorrow:common.accepting")}
+                  </div>
+                  <div className="font-mono text-sm tabular-nums text-foreground/85">
+                    {assets && assets.length
                       ? res.acceptable_collateral
                           .map((asset) => asset[0])
-                          .map((x) => {
-                            return assets.find((y) => y.id === x)?.symbol;
+                          .map((x) => assets.find((y) => y.id === x)?.symbol)
+                          .filter((x) => x)
+                          .map((x, index, array) => {
+                            const assetForSymbol = assets.find((y) => y.symbol === x);
+                            const hasBalance = assetForSymbol && balanceAssetIDs && balanceAssetIDs.includes(assetForSymbol.id);
+                            return (
+                              <>
+                                <span
+                                  key={`${x}-${index}`}
+                                  className={cn(
+                                    "inline",
+                                    hasBalance ? "font-semibold text-foreground" : "text-muted-foreground/60"
+                                  )}
+                                >
+                                  {x}
+                                </span>
+                                {index < array.length - 1 ? ", " : ""}
+                              </>
+                            );
                           })
-                          .map((x, index, array) => (
-                            <span key={`${x}-${index}`}>
-                              {x}
-                              {index < array.length - 1 && ", "}
-                            </span>
-                          ))
-                  : t("CreditBorrow:common.loading")}
-              </b>
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-sm pb-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <div className="col-span-1">
-                {t("CreditBorrow:common.fee", { fee: res.fee_rate / 10000 })}
-                <br />
-                {t("CreditBorrow:common.repayPeriod", {
-                  repayPeriod: (res.max_duration_seconds / 60 / 60).toFixed(
+                      : t("CreditBorrow:common.loading")}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
+              <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+                <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                  {t("CreditBorrow:common.repayPeriod", { repayPeriod: "" })}
+                </div>
+                <div className="font-mono text-xs tabular-nums text-foreground/85">
+                  {(res.max_duration_seconds / 60 / 60).toFixed(
                     res.max_duration_seconds / 60 / 60 < 1 ? 2 : 0
-                  ),
-                })}
+                  )}h
+                </div>
               </div>
-              <div className="col-span-1">
-                {t("CreditBorrow:common.validity", {
-                  validity: hoursTillExpiration(res.auto_disable_time),
-                })}
-                <br />
-                {t("CreditBorrow:common.min", {
-                  amount: humanReadableFloat(
-                    res.min_deal_amount,
-                    foundAsset.precision
-                  ),
-                  asset: foundAsset.symbol,
-                })}
+              <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+                <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                  {t("CreditBorrow:common.min", { amount: "", asset: "" })}
+                </div>
+                <div className="font-mono text-xs tabular-nums text-foreground/85">
+                  {humanReadableFloat(res.min_deal_amount, foundAsset.precision)} {foundAsset.symbol}
+                </div>
+              </div>
+              <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+                <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                  {t("CreditBorrow:common.validity", { validity: "" })}
+                </div>
+                <div className="font-mono text-xs tabular-nums text-foreground/85">
+                  {hoursTillExpiration(res.auto_disable_time)}h
+                </div>
               </div>
             </div>
-          </CardContent>
-          <CardFooter className="pb-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <div>
-                <a href={`/offer/index.html?id=${res.id}`}>
-                  <Button>
-                    {t("CreditBorrow:common.proceed", {
+
+            <div className="flex items-center gap-2">
+              <a href={`/offer.html?id=${res.id}`} className="flex-1">
+                <Button className="w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
+                  {t("CreditBorrow:common.proceed", {
+                    offerID: res.id.replace("1.21.", ""),
+                  })}
+                  <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                </Button>
+              </a>
+              <a href={`/lend.html?id=${res.id}`}>
+                <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]">
+                  {t(
+                    `CreditBorrow:common.${
+                      usr.id === res.owner_account ? "edit" : "view"
+                    }`,
+                    {
                       offerID: res.id.replace("1.21.", ""),
-                    })}
-                  </Button>
-                </a>
-              </div>
-              <div>
-                <a href={`/lend/index.html?id=${res.id}`}>
-                  <Button>
-                    {t(
-                      `CreditBorrow:common.${
-                        usr.id === res.owner_account ? "edit" : "view"
-                      }`,
-                      {
-                        offerID: res.id.replace("1.21.", ""),
-                      }
-                    )}
-                  </Button>
-                </a>
-              </div>
+                    }
+                  )}
+                </Button>
+              </a>
             </div>
-          </CardFooter>
+          </div>
         </Card>
       </div>
     );
@@ -391,64 +553,40 @@ export default function CreditBorrow(properties) {
 
   const BalanceRow = ({ index, style }) => {
     let res = compatibleOffers[index];
-
     const foundAsset = assets.find((x) => x.id === res.asset_type);
-
     if (!res || !foundAsset) {
       return null;
     }
-
     return (
-      <CommonRow
-        index={index}
-        style={style}
-        res={res}
-        foundAsset={foundAsset}
-      />
+      <CommonRow index={index} style={style} res={res} foundAsset={foundAsset} />
     );
   };
 
   const OfferRow = ({ index, style }) => {
     let res = offers[index];
-
     const foundAsset = assets.find((x) => x.id === res.asset_type);
-
     if (!res || !foundAsset) {
       return null;
     }
-
     return (
-      <CommonRow
-        index={index}
-        style={style}
-        res={res}
-        foundAsset={foundAsset}
-      />
+      <CommonRow index={index} style={style} res={res} foundAsset={foundAsset} />
     );
   };
 
   const SearchRow = ({ index, style }) => {
     let res = thisResult[index].item;
     const foundAsset = assets.find((x) => x.id === res.asset_type);
-
     if (!res || !foundAsset) {
       return null;
     }
-
     return (
-      <CommonRow
-        index={index}
-        style={style}
-        res={res}
-        foundAsset={foundAsset}
-      />
+      <CommonRow index={index} style={style} res={res} foundAsset={foundAsset} />
     );
   };
 
   const [thisSearchInput, setThisSearchInput] = useState();
 
   const debouncedSetSearchInput = useCallback(
-    // Throttle slider
     debounce((event) => {
       setThisInput(event.target.value);
       window.history.replaceState(
@@ -460,301 +598,283 @@ export default function CreditBorrow(properties) {
     []
   );
 
+  const tabs = [
+    { id: "allOffers", label: t("CreditBorrow:card.viewAll"), activeLabel: t("CreditBorrow:card.viewingAll"), icon: Sparkles },
+    { id: "availableOffers", label: t("CreditBorrow:card.viewAvailable"), activeLabel: t("CreditBorrow:card.viewingAvailable"), icon: ShieldCheck },
+    { id: "searchOffers", label: t("CreditBorrow:card.viewSearch"), activeLabel: t("CreditBorrow:card.viewingSearch"), icon: Search },
+  ];
+
+  const searchTabs = [
+    { id: "borrow", label: t("CreditBorrow:card.borrowSearch"), activeLabel: t("CreditBorrow:card.borrowSearching") },
+    { id: "collateral", label: t("CreditBorrow:card.collateralSearch"), activeLabel: t("CreditBorrow:card.collateralSearching") },
+    { id: "owner_name", label: t("CreditBorrow:card.ownerSearch"), activeLabel: t("CreditBorrow:card.ownerSearching") },
+  ];
+
   return (
-    <>
-      <div className="container mx-auto mt-5 mb-5 w-full lg:w-3/4">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader className="pb-1">
-              <div className="flex flex-row justify-between items-center">
-                <div>
-                  <CardTitle>{t("CreditBorrow:card.title")}</CardTitle>
-                  <CardDescription>
-                    {t("CreditBorrow:card.description")}
-                  </CardDescription>
-                </div>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setShowExpired(!showExpired)}
-                  title={
-                    showExpired
-                      ? t("CreditBorrow:card.hideExpired")
-                      : t("CreditBorrow:card.showExpired")
-                  }
-                >
-                  {showExpired ? <EyeOpenIcon /> : <EyeClosedIcon />}
-                </Button>
+    <div className="container mx-auto mt-5 mb-5 w-full lg:w-3/4">
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
+        />
+
+        <div className="relative p-5 sm:p-6">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <HandCoins className="h-4.5 w-4.5" strokeWidth={2.25} />
+              </span>
+              <div>
+                <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                  {t("CreditBorrow:card.title")}
+                </h2>
+                <p className="text-xs text-muted-foreground/70 mt-0.5">
+                  {t("CreditBorrow:card.description")}
+                </p>
               </div>
-            </CardHeader>
-            <CardContent>
-              {allOffers && allOffers.length && activeTab ? (
-                <>
-                  <div className="w-full">
-                    <div className="grid w-full grid-cols-1 md:grid-cols-3 gap-2">
-                      <Button
-                        style={activeTab === "allOffers" ? activeTabStyle : {}}
-                        variant={
-                          activeTab === "allOffers" ? undefined : "secondary"
+            </div>
+            <TooltipProvider delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    aria-label={showExpired ? t("CreditBorrow:card.hideExpired") : t("CreditBorrow:card.showExpired")}
+                    onClick={() => setShowExpired(!showExpired)}
+                    className={cn(
+                      "h-9 w-9 rounded-xl border transition-all",
+                      showExpired
+                        ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.15)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
+                        : "border-border bg-card/60 text-muted-foreground hover:border-[hsl(var(--accent-1)/0.4)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]"
+                    )}
+                  >
+                    {showExpired ? <EyeOpenIcon className="h-4 w-4" /> : <EyeClosedIcon className="h-4 w-4" />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="bg-card border-border text-foreground/85">
+                  <p>{showExpired ? t("CreditBorrow:card.hideExpired") : t("CreditBorrow:card.showExpired")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+
+          {allOffers && allOffers.length ? (
+            <>
+              <div className="inline-flex rounded-xl border border-border bg-card/40 p-1 gap-1 mb-5">
+                {tabs.map((tab) => {
+                  const active = activeTab === tab.id;
+                  const Icon = tab.icon;
+                  return (
+                    <Button
+                      key={tab.id}
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        if (activeTab !== tab.id) {
+                          setActiveTab(tab.id);
+                          window.history.replaceState(
+                            {},
+                            "",
+                            `?tab=${tab.id}`
+                          );
                         }
-                        onClick={() => {
-                          if (activeTab !== "allOffers") {
-                            setActiveTab("allOffers");
-                            window.history.replaceState(
-                              {},
-                              "",
-                              `?tab=allOffers`
-                            );
-                          }
-                        }}
-                      >
-                        {activeTab === "allOffers"
-                          ? t("CreditBorrow:card.viewingAll")
-                          : t("CreditBorrow:card.viewAll")}
-                      </Button>
-                      <Button
-                        style={
-                          activeTab === "availableOffers" ? activeTabStyle : {}
-                        }
-                        variant={
-                          activeTab === "availableOffers"
-                            ? undefined
-                            : "secondary"
-                        }
-                        onClick={() => {
-                          if (activeTab !== "availableOffers") {
-                            setActiveTab("availableOffers");
-                            window.history.replaceState(
-                              {},
-                              "",
-                              `?tab=availableOffers`
-                            );
-                          }
-                        }}
-                      >
-                        {activeTab === "availableOffers"
-                          ? t("CreditBorrow:card.viewingAvailable")
-                          : t("CreditBorrow:card.viewAvailable")}
-                      </Button>
-                      <Button
-                        style={
-                          activeTab === "searchOffers" ? activeTabStyle : {}
-                        }
-                        variant={
-                          activeTab === "searchOffers" ? undefined : "secondary"
-                        }
-                        onClick={() => {
-                          if (activeTab !== "searchOffers") {
-                            setActiveTab("searchOffers");
-                            window.history.replaceState(
-                              {},
-                              "",
-                              `?tab=searchOffers&searchTab=${activeSearch}&searchText=${
-                                thisInput ?? ""
-                              }`
-                            );
-                          }
-                        }}
-                      >
-                        {activeTab === "searchOffers"
-                          ? t("CreditBorrow:card.viewingSearch")
-                          : t("CreditBorrow:card.viewSearch")}
-                      </Button>
+                      }}
+                      className={cn(
+                        "px-3 py-1.5 text-xs font-medium rounded-lg transition-all inline-flex items-center gap-1.5",
+                        active
+                          ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
+                          : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
+                      )}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      {active ? tab.activeLabel : tab.label}
+                    </Button>
+                  );
+                })}
+              </div>
+
+              {activeTab === "allOffers" && (
+                <div>
+                  <div className="flex items-center gap-2 mb-3 px-1">
+                    <Sparkles className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                    <span className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
+                      {t("CreditBorrow:card.allOffers")}
+                    </span>
+                    <span className="text-xs text-muted-foreground/60">·</span>
+                    <span className="text-xs text-muted-foreground">
+                      {offers.length} {offers.length === 1 ? "offer" : "offers"}
+                    </span>
+                  </div>
+                  {assets && offers && offers.length ? (
+                    <div className="w-full">
+                      <List
+                        rowComponent={OfferRow}
+                        rowCount={offers.length}
+                        rowHeight={isDesktop ? 330 : 380}
+                        rowProps={{}}
+                      />
                     </div>
+                  ) : null}
+                </div>
+              )}
+
+              {activeTab === "availableOffers" && (
+                <div>
+                  <div className="flex items-center gap-2 mb-3 px-1">
+                    <ShieldCheck className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                    <span className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
+                      {t("CreditBorrow:card.availableOffers")}
+                    </span>
+                    <span className="text-xs text-muted-foreground/60">·</span>
+                    <span className="text-xs text-muted-foreground">
+                      {compatibleOffers.length} compatible
+                    </span>
+                  </div>
+                  {assets && compatibleOffers && compatibleOffers.length ? (
+                    <div className="w-full">
+                      <List
+                        rowComponent={BalanceRow}
+                        rowCount={compatibleOffers.length}
+                        rowHeight={isDesktop ? 330 : 380}
+                        rowProps={{}}
+                      />
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground text-sm">
+                      {t("CreditBorrow:card.noCompatibleOffers")}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "searchOffers" && (
+                <div>
+                  <div className="flex items-center gap-2 mb-3 px-1">
+                    <Search className="h-3.5 w-3.5 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                    <span className="text-xs font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
+                      {t("CreditBorrow:card.searchPrompt")}
+                    </span>
                   </div>
 
-                  {activeTab === "allOffers" && (
-                    <div>
-                      <h5 className="mb-2 text-center">
-                        {t("CreditBorrow:card.allOffers")}
-                      </h5>
-                      {assets && offers && offers.length ? (
-                        <div className="w-full max-h-[500px] overflow-auto">
-                          <span className="hidden md:block">
-                            <List
-                              rowComponent={OfferRow}
-                              rowCount={offers.length}
-                              rowHeight={225}
-                              rowProps={{}}
-                            />
-                          </span>
-                          <span className="block md:hidden">
-                            <List
-                              rowComponent={OfferRow}
-                              rowCount={offers.length}
-                              rowHeight={350}
-                              rowProps={{}}
-                            />
-                          </span>
+                  <div className="inline-flex rounded-xl border border-border bg-card/40 p-1 gap-1 mb-3">
+                    {searchTabs.map((tab) => {
+                      const active = activeSearch === tab.id;
+                      return (
+                        <Button
+                          key={tab.id}
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            if (activeSearch !== tab.id) {
+                              setActiveSearch(tab.id);
+                              window.history.replaceState(
+                                {},
+                                "",
+                                `?tab=searchOffers&searchTab=${tab.id}${
+                                  thisInput ? `&searchText=${thisInput}` : ""
+                                }`
+                              );
+                            }
+                          }}
+                          className={cn(
+                            "px-3 py-1.5 text-xs font-medium rounded-lg transition-all",
+                            active
+                              ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-8px_rgba(16,185,129,0.6)]"
+                              : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
+                          )}
+                        >
+                          {active ? tab.activeLabel : tab.label}
+                        </Button>
+                      );
+                    })}
+                  </div>
+
+                  <div className="relative mb-4">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/60" />
+                    <Input
+                      name="searchInput"
+                      placeholder={thisSearchInput ?? t("Smartcoins:enterSearchText")}
+                      className="pl-9 bg-card/40 border-border focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
+                      value={thisSearchInput || ""}
+                      onChange={(event) => {
+                        setThisSearchInput(event.target.value);
+                        debouncedSetSearchInput(event);
+                      }}
+                    />
+                  </div>
+
+                  {["borrow", "collateral", "owner_name"].includes(activeSearch) && (
+                    <>
+                      {thisResult && thisResult.length ? (
+                        <div className="w-full">
+                          <List
+                            rowComponent={SearchRow}
+                            rowCount={thisResult.length}
+                            rowHeight={isDesktop ? 330 : 380}
+                            rowProps={{}}
+                          />
                         </div>
                       ) : null}
-                    </div>
-                  )}
-
-                  {activeTab === "availableOffers" && (
-                    <div>
-                      <h5 className="mb-2 text-center">
-                        {t("CreditBorrow:card.availableOffers")}
-                      </h5>
-                      {assets && compatibleOffers && compatibleOffers.length ? (
-                        <div className="w-full max-h-[500px] overflow-auto">
-                          <span className="hidden md:block">
-                            <List
-                              rowComponent={BalanceRow}
-                              rowCount={compatibleOffers.length}
-                              rowHeight={225}
-                              rowProps={{}}
-                            />
-                          </span>
-                          <span className="block md:hidden">
-                            <List
-                              rowComponent={BalanceRow}
-                              rowCount={compatibleOffers.length}
-                              rowHeight={350}
-                              rowProps={{}}
-                            />
-                          </span>
+                      {thisInput && thisResult && !thisResult.length ? (
+                        <div className="text-center py-8 text-muted-foreground text-sm">
+                          {t("CreditBorrow:card.noResults")}
                         </div>
                       ) : null}
-                    </div>
+                    </>
                   )}
-
-                  {activeTab === "searchOffers" && (
-                    <div>
-                      <h5 className="mb-2 text-center">
-                        {t("CreditBorrow:card.searchPrompt")}
-                      </h5>
-                      <div className="grid w-full grid-cols-1 sm:grid-cols-3 gap-2">
-                        <Button
-                          style={
-                            activeSearch === "borrow" ? activeTabStyle : {}
-                          }
-                          variant={
-                            activeSearch === "borrow" ? undefined : "secondary"
-                          }
-                          onClick={() => {
-                            if (activeSearch !== "borrow") {
-                              setActiveSearch("borrow");
-                              window.history.replaceState(
-                                {},
-                                "",
-                                `?tab=searchOffers&searchTab=borrow${
-                                  thisInput ? `&searchText=${thisInput}` : ""
-                                }`
-                              );
-                            }
-                          }}
-                        >
-                          {activeSearch === "borrow"
-                            ? t("CreditBorrow:card.borrowSearching")
-                            : t("CreditBorrow:card.borrowSearch")}
-                        </Button>
-                        <Button
-                          style={
-                            activeSearch === "collateral" ? activeTabStyle : {}
-                          }
-                          variant={
-                            activeSearch === "collateral"
-                              ? undefined
-                              : "secondary"
-                          }
-                          onClick={() => {
-                            if (activeSearch !== "collateral") {
-                              setActiveSearch("collateral");
-                              window.history.replaceState(
-                                {},
-                                "",
-                                `?tab=searchOffers&searchTab=collateral${
-                                  thisInput ? `&searchText=${thisInput}` : ""
-                                }`
-                              );
-                            }
-                          }}
-                        >
-                          {activeSearch === "collateral"
-                            ? t("CreditBorrow:card.collateralSearching")
-                            : t("CreditBorrow:card.collateralSearch")}
-                        </Button>
-                        <Button
-                          style={
-                            activeSearch === "owner_name" ? activeTabStyle : {}
-                          }
-                          variant={
-                            activeSearch === "owner_name"
-                              ? undefined
-                              : "secondary"
-                          }
-                          onClick={() => {
-                            if (activeSearch !== "owner_name") {
-                              setActiveSearch("owner_name");
-                              window.history.replaceState(
-                                {},
-                                "",
-                                `?tab=searchOffers&searchTab=owner_name${
-                                  thisInput ? `&searchText=${thisInput}` : ""
-                                }`
-                              );
-                            }
-                          }}
-                        >
-                          {activeSearch === "owner_name"
-                            ? t("CreditBorrow:card.ownerSearching")
-                            : t("CreditBorrow:card.ownerSearch")}
-                        </Button>
-                      </div>
-
-                      <Input
-                        name="searchInput"
-                        placeholder={
-                          thisSearchInput ?? t("Smartcoins:enterSearchText")
-                        }
-                        className="mb-3 mt-3 w-full"
-                        value={thisSearchInput || ""}
-                        onChange={(event) => {
-                          setThisSearchInput(event.target.value);
-                          debouncedSetSearchInput(event);
-                        }}
-                      />
-
-                      {["borrow", "collateral", "owner_name"].includes(
-                        activeSearch
-                      ) && (
-                        <>
-                          {thisResult && thisResult.length ? (
-                            <div className="w-full max-h-[500px] overflow-auto">
-                              <span className="hidden md:block">
-                                <List
-                                  rowComponent={SearchRow}
-                                  rowCount={thisResult.length}
-                                  rowHeight={225}
-                                  rowProps={{}}
-                                />
-                              </span>
-                              <span className="block md:hidden">
-                                <List
-                                  rowComponent={SearchRow}
-                                  rowCount={thisResult.length}
-                                  rowHeight={350}
-                                  rowProps={{}}
-                                />
-                              </span>
-                            </div>
-                          ) : null}
-                          {thisInput && thisResult && !thisResult.length
-                            ? t("CreditBorrow:card.noResults")
-                            : null}
-                        </>
-                      )}
-                    </div>
-                  )}
-                </>
-              ) : (
-                t("CreditBorrow:card.loading")
+                </div>
               )}
-            </CardContent>
-          </Card>
+            </>
+          ) : (
+            <div className="flex flex-col items-center gap-3 py-12">
+              <Spinner className="size-6 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
+              <p className="text-foreground/70 text-sm">
+                {t("CreditBorrow:card.loading")}
+              </p>
+            </div>
+          )}
         </div>
-      </div>
-    </>
+      </Card>
+
+      <AlertDialog open={blockConfirmOpen} onOpenChange={setBlockConfirmOpen}>
+        <AlertDialogContent className="bg-card">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {t("Blocklist:blockConfirmTitle", { name: blockTarget?.name ?? "" })}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("Blocklist:blockConfirmDescription")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("Blocklist:blockConfirmCancel")}</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-[hsl(var(--accent-danger))] hover:bg-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))]"
+              onClick={() => {
+                if (blockTarget) {
+                  const chain = usr?.chain ?? "bitshares";
+                  addBlockedUser(chain, blockTarget);
+                }
+                setBlockTarget(null);
+                setBlockConfirmOpen(false);
+              }}
+            >
+              {t("Blocklist:blockConfirmAction")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
   );
 }

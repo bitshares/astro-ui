@@ -1,6 +1,6 @@
 {
   "dealNo": "거래 #",
-  "with": " ~와 함께 ",
+  "with": "~와 함께 ",
   "borrowed": "당신은 빌린",
   "lent": "그들은 빌렸다",
   "loanCollateral": "대출 담보:",
@@ -30,7 +30,7 @@
   "submit": "제출하다",
   "deepLink": "상환 중 {{finalRepayAmount}} {{debtAsset}}, 돌려받기 위해 {{collateralAsset}}",
   "card": {
-    "title": "💱 활성 신용 거래를 확인하세요",
+    "title": "활성 신용 거래를 확인하세요",
     "description": "여기에서 활성 신용 거래를 모니터링하고 상환을 관리할 수 있습니다.",
     "viewingBorrowings": "대출 보기",
     "viewBorrowings": "대출 보기",

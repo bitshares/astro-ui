@@ -1,6 +1,6 @@
 {
   "dealNo": "取引 ＃",
-  "with": " と ",
+  "with": "と ",
   "borrowed": "あなたは借りました",
   "lent": "彼らは借りた",
   "loanCollateral": "融資担保:",
@@ -30,7 +30,7 @@
   "submit": "提出する",
   "deepLink": "返済中 {{finalRepayAmount}} {{debtAsset}}、取り戻すために {{collateralAsset}}",
   "card": {
-    "title": "💱 アクティブなクレジット取引を確認してください",
+    "title": "アクティブなクレジット取引を確認してください",
     "description": "ここから、アクティブなクレジット取引を監視したり、返済を管理したりできます。",
     "viewingBorrowings": "借入の表示",
     "viewBorrowings": "借入状況を確認する",

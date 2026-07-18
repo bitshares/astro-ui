@@ -73,7 +73,10 @@
   "generatedInvoice": {
     "dialogTitle": "Fatura Gerada",
     "dialogDescription": "Forneça ao cliente o seguinte código de fatura para pagar a fatura.",
-    "copyButton": "Copie o código da fatura para a área de transferência"
+    "copyButton": "Copie o código da fatura para a área de transferência",
+    "copiedButton": "Código de fatura copiado para a área de transferência!",
+    "invoiceSaved": "Fatura salva!",
+    "saveInvoice": "Salvar fatura"
   },
   "scanner": {
     "scan": "Digitalizar",

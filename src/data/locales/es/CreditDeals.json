@@ -1,6 +1,6 @@
 {
   "dealNo": "Trato #",
-  "with": " con ",
+  "with": "con ",
   "borrowed": "tomaste prestado",
   "lent": "ellos tomaron prestado",
   "loanCollateral": "Garantía de préstamo:",
@@ -30,7 +30,7 @@
   "submit": "Entregar",
   "deepLink": "pagar {{finalRepayAmount}} {{debtAsset}}, para reclamar {{collateralAsset}}",
   "card": {
-    "title": "💱 Consulta tus ofertas de crédito activas",
+    "title": "Consulta tus ofertas de crédito activas",
     "description": "Desde aquí puede controlar las ofertas de crédito activas y gestionar los reembolsos.",
     "viewingBorrowings": "Ver sus préstamos",
     "viewBorrowings": "Ver sus préstamos",

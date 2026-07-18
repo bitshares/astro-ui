@@ -11,13 +11,8 @@ import { format, set } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import {
   Empty,
@@ -32,6 +27,13 @@ import HoverInfo from "@/components/common/HoverInfo.tsx";
 
 import { Button } from "@/components/ui/button";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
@@ -44,6 +46,8 @@ import { createObjectStore } from "@/nanoeffects/Objects.ts";
 
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 import WithdrawDialog from "./WithdrawDialog.jsx";
+
+import { Shield, ShieldCheck, ShieldAlert, Clock, ArrowUpRight, ArrowDownLeft, Trash2, FileCheck } from "lucide-react";
 
 export default function WithdrawPermissions(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -279,114 +283,129 @@ export default function WithdrawPermissions(properties) {
 
     return (
       <div style={style}>
-        <Card className="m-2 pt-5">
-          <CardContent className="mb-0 pb-0">
-            <div className="grid grid-cols-1 text-sm">
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <b>{t("WithdrawPermissions:id")}</b>: {id}
-                </div>
-                <div>
-                  <b>{t("WithdrawPermissions:payer")}</b>: {withdrawAccount}
-                </div>
+        <div className="m-2 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.04)] to-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] transition-all px-4 py-3">
+          <div className="grid grid-cols-1 text-sm gap-2">
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                  <ArrowUpRight className="h-2.5 w-2.5" />
+                </span>
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:id")}</span>
+                <span className="font-mono text-xs font-semibold text-foreground">{id}</span>
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <b>{t("WithdrawPermissions:withdraw_period_amount")}</b>:{" "}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:payer")}</span>
+                <span className="font-mono text-xs font-semibold text-foreground">{withdrawAccount}</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:withdraw_period_amount")}</span>
+                <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-1-fg))]">
                   {withdrawAmount} {withdrawAsset.symbol}
-                </div>
-                <div>
-                  <b>{t("WithdrawPermissions:claimed")}</b>:{" "}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:claimed")}</span>
+                <span className="font-mono text-xs text-foreground/85">
                   {claimed_this_period} {withdrawAsset.symbol} (
                   {claimed_this_period > 0
                     ? ((claimed_this_period / withdrawAmount) * 100).toFixed(3)
                     : 0}
                   %)
-                </div>
+                </span>
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <b>{t("WithdrawPermissions:period_start_time")}</b>:{" "}
-                  {formattedPeriodStartTime}
-                </div>
-                <div>
-                  <b>{t("WithdrawPermissions:expiration")}</b>:{" "}
-                  {formattedExpiration}
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <b>{t("WithdrawPermissions:withdrawal_period_sec")}</b>:{" "}
-                  {formatDuration(withdrawal_period_sec)}
-                </div>
-                <div>
-                  <b>{t("WithdrawPermissions:time_remaining")}</b>:{" "}
-                  {formatDuration(timeTillNextPeriod)}
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <b>{t("WithdrawPermissions:remaining_periods")}</b>:{" "}
-                  {remainingPeriods}
-                </div>
-                <div>
-                  <b>{t("WithdrawPermissions:maximum_claimable")}</b>:<br />
-                  {maximumClaimable} {withdrawAsset.symbol}
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-5 mt-2 mb-3">
-                <WithdrawDialog
-                  usr={usr}
-                  assets={assets}
-                  marketSearch={marketSearch}
-                  balances={balances}
-                  showDialog={showEditDialog}
-                  setShowDialog={setShowEditDialog}
-                  mode="edit"
-                  //
-                  _existingWithdrawPermissionID={currentWithdrawPermission.id}
-                  _targetUser={{
-                    id: withdrawAccount,
-                    name: withdrawAccountData.name,
-                  }}
-                  _selectedAsset={withdrawAsset.symbol}
-                  _transferAmount={withdrawAmount}
-                  _withdrawalPeriodSec={withdrawal_period_sec}
-                  _periodsUntilExpiration={remainingPeriods}
-                  _expiration={currentWithdrawPermission.expiration}
-                />
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setDeleteDialogOpen(true);
-                  }}
-                >
-                  {t("WithdrawPermissions:delete")}
-                </Button>
-              </div>
-              {deleteDialogOpen ? (
-                <DeepLinkDialog
-                  operationNames={["withdraw_permission_delete"]}
-                  username={usr && usr.username ? usr.username : ""}
-                  usrChain={usr && usr.chain ? usr.chain : "bitshares"}
-                  userID={usr.id}
-                  dismissCallback={setDeleteDialogOpen}
-                  key={`DeletingWithdrawPermission`}
-                  headerText={t(
-                    "WithdrawPermissions:deleteWithdrawPermissionHeader"
-                  )}
-                  trxJSON={[
-                    {
-                      withdraw_from_account: usr.id,
-                      authorized_account: withdrawAccount,
-                      withdrawal_permission: currentWithdrawPermission.id,
-                    },
-                  ]}
-                />
-              ) : null}
             </div>
-          </CardContent>
-        </Card>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2">
+                <Clock className="h-3 w-3 text-muted-foreground/50" />
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:period_start_time")}</span>
+                <span className="font-mono text-xs text-foreground/70">{formattedPeriodStartTime}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:expiration")}</span>
+                <span className="font-mono text-xs text-foreground/70">{formattedExpiration}</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:withdrawal_period_sec")}</span>
+                <Badge variant="outline" className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px] font-mono">
+                  {formatDuration(withdrawal_period_sec)}
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:time_remaining")}</span>
+                <Badge variant="outline" className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px] font-mono">
+                  {formatDuration(timeTillNextPeriod)}
+                </Badge>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:remaining_periods")}</span>
+                <span className="font-mono text-xs text-foreground/85">{remainingPeriods}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:maximum_claimable")}</span>
+                <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-1-fg))]">
+                  {maximumClaimable} {withdrawAsset.symbol}
+                </span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-5 mt-2">
+              <WithdrawDialog
+                usr={usr}
+                assets={assets}
+                marketSearch={marketSearch}
+                balances={balances}
+                showDialog={showEditDialog}
+                setShowDialog={setShowEditDialog}
+                mode="edit"
+                _existingWithdrawPermissionID={currentWithdrawPermission.id}
+                _targetUser={{
+                  id: withdrawAccount,
+                  name: withdrawAccountData.name,
+                }}
+                _selectedAsset={withdrawAsset.symbol}
+                _transferAmount={withdrawAmount}
+                _withdrawalPeriodSec={withdrawal_period_sec}
+                _periodsUntilExpiration={remainingPeriods}
+                _expiration={currentWithdrawPermission.expiration}
+              />
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setDeleteDialogOpen(true);
+                }}
+                className="border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.2)] hover:border-[hsl(var(--accent-danger)/0.5)] transition-all"
+              >
+                <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+                {t("WithdrawPermissions:delete")}
+              </Button>
+            </div>
+            {deleteDialogOpen ? (
+              <DeepLinkDialog
+                operationNames={["withdraw_permission_delete"]}
+                username={usr && usr.username ? usr.username : ""}
+                usrChain={usr && usr.chain ? usr.chain : "bitshares"}
+                userID={usr.id}
+                dismissCallback={setDeleteDialogOpen}
+                key={`DeletingWithdrawPermission`}
+                headerText={t(
+                  "WithdrawPermissions:deleteWithdrawPermissionHeader"
+                )}
+                trxJSON={[
+                  {
+                    withdraw_from_account: usr.id,
+                    authorized_account: withdrawAccount,
+                    withdrawal_permission: currentWithdrawPermission.id,
+                  },
+                ]}
+              />
+            ) : null}
+          </div>
+        </div>
       </div>
     );
   };
@@ -453,110 +472,126 @@ export default function WithdrawPermissions(properties) {
 
     return (
       <div style={style}>
-        <Card className="m-2 pt-5">
-          <CardContent>
-            <div className="grid grid-cols-1 text-sm">
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <b>{t("WithdrawPermissions:id")}</b>: {id}
-                </div>
-                <div>
-                  <b>{t("WithdrawPermissions:payer")}</b>: {payer}
-                </div>
+        <div className="m-2 rounded-xl border border-[hsl(var(--accent-2)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-2)/0.04)] to-transparent hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.06)] transition-all px-4 py-3">
+          <div className="grid grid-cols-1 text-sm gap-2">
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
+                  <ArrowDownLeft className="h-2.5 w-2.5" />
+                </span>
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:id")}</span>
+                <span className="font-mono text-xs font-semibold text-foreground">{id}</span>
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <b>{t("WithdrawPermissions:withdraw_period_amount")}</b>:{" "}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:payer")}</span>
+                <span className="font-mono text-xs font-semibold text-foreground">{payer}</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:withdraw_period_amount")}</span>
+                <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-2-fg))]">
                   {withdrawAmount} {withdrawAsset.symbol}
-                </div>
-                <div>
-                  <b>{t("WithdrawPermissions:claimed")}</b>:{" "}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:claimed")}</span>
+                <span className="font-mono text-xs text-foreground/85">
                   {claimed_this_period} {withdrawAsset.symbol} (
                   {claimed_this_period > 0
                     ? ((claimed_this_period / withdrawAmount) * 100).toFixed(3)
                     : 0}
                   %)
-                </div>
+                </span>
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <b>{t("WithdrawPermissions:period_start_time")}</b>:<br />
-                  {formattedPeriodStartTime}
-                </div>
-                <div>
-                  <b>{t("WithdrawPermissions:expiration")}</b>:<br />
-                  {formattedExpiration}
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <b>{t("WithdrawPermissions:withdrawal_period_sec")}</b>:{" "}
-                  {formatDuration(withdrawal_period_sec)}
-                </div>
-                <div>
-                  <b>{t("WithdrawPermissions:time_remaining")}</b>:{" "}
-                  {formatDuration(timeTillNextPeriod)}
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <b>{t("WithdrawPermissions:remaining_periods")}</b>:{" "}
-                  {remainingPeriods}
-                </div>
-                <div>
-                  <b>{t("WithdrawPermissions:maximum_claimable")}</b>:<br />
-                  {maximumClaimable} {withdrawAsset.symbol}
-                </div>
-              </div>
-              {claimed_this_period < withdrawAmount ? (
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setOpenClaimDialog(true);
-                  }}
-                  className="w-1/4 mt-2"
-                >
-                  {t("WithdrawPermissions:claim")}
-                </Button>
-              ) : (
-                <Button variant="outline" disabled className="w-1/4 mt-2">
-                  {t("WithdrawPermissions:claim")}
-                </Button>
-              )}
-              {openClaimDialog ? (
-                <DeepLinkDialog
-                  operationNames={["withdraw_permission_claim"]}
-                  username={usr && usr.username ? usr.username : ""}
-                  usrChain={usr && usr.chain ? usr.chain : "bitshares"}
-                  userID={usr.id}
-                  dismissCallback={setOpenClaimDialog}
-                  key={`ClaimingWithdrawPermission`}
-                  headerText={t(
-                    "WithdrawPermissions:claimWithdrawPermissionHeader"
-                  )}
-                  trxJSON={[
-                    {
-                      fee: {
-                        amount: 0,
-                        asset_id: "1.3.0",
-                      },
-                      withdraw_permission: id,
-                      withdraw_from_account: payer,
-                      withdraw_to_account: usr.id,
-                      amount_to_withdraw: {
-                        amount: blockchainFloat(
-                          withdrawAmount,
-                          withdrawAsset.precision
-                        ),
-                        asset_id: withdrawAsset.id,
-                      },
-                    },
-                  ]}
-                />
-              ) : null}
             </div>
-          </CardContent>
-        </Card>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2">
+                <Clock className="h-3 w-3 text-muted-foreground/50" />
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:period_start_time")}</span>
+                <span className="font-mono text-xs text-foreground/70">{formattedPeriodStartTime}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:expiration")}</span>
+                <span className="font-mono text-xs text-foreground/70">{formattedExpiration}</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:withdrawal_period_sec")}</span>
+                <Badge variant="outline" className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] text-[10px] font-mono">
+                  {formatDuration(withdrawal_period_sec)}
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:time_remaining")}</span>
+                <Badge variant="outline" className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] text-[10px] font-mono">
+                  {formatDuration(timeTillNextPeriod)}
+                </Badge>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:remaining_periods")}</span>
+                <span className="font-mono text-xs text-foreground/85">{remainingPeriods}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("WithdrawPermissions:maximum_claimable")}</span>
+                <span className="font-mono text-xs font-semibold text-[hsl(var(--accent-2-fg))]">
+                  {maximumClaimable} {withdrawAsset.symbol}
+                </span>
+              </div>
+            </div>
+            {claimed_this_period < withdrawAmount ? (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setOpenClaimDialog(true);
+                }}
+                className="w-1/4 mt-2 border-[hsl(var(--accent-success)/0.3)] bg-[hsl(var(--accent-success)/0.1)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))] hover:bg-[hsl(var(--accent-success)/0.2)] hover:border-[hsl(var(--accent-success)/0.5)] transition-all"
+              >
+                <ShieldCheck className="h-3.5 w-3.5 mr-1.5" />
+                {t("WithdrawPermissions:claim")}
+              </Button>
+            ) : (
+              <Button variant="outline" disabled className="w-1/4 mt-2">
+                <ShieldAlert className="h-3.5 w-3.5 mr-1.5" />
+                {t("WithdrawPermissions:claim")}
+              </Button>
+            )}
+            {openClaimDialog ? (
+              <DeepLinkDialog
+                operationNames={["withdraw_permission_claim"]}
+                username={usr && usr.username ? usr.username : ""}
+                usrChain={usr && usr.chain ? usr.chain : "bitshares"}
+                userID={usr.id}
+                dismissCallback={setOpenClaimDialog}
+                key={`ClaimingWithdrawPermission`}
+                headerText={t(
+                  "WithdrawPermissions:claimWithdrawPermissionHeader"
+                )}
+                trxJSON={[
+                  {
+                    fee: {
+                      amount: 0,
+                      asset_id: "1.3.0",
+                    },
+                    withdraw_permission: id,
+                    withdraw_from_account: payer,
+                    withdraw_to_account: usr.id,
+                    amount_to_withdraw: {
+                      amount: blockchainFloat(
+                        withdrawAmount,
+                        withdrawAsset.precision
+                      ),
+                      asset_id: withdrawAsset.id,
+                    },
+                  },
+                ]}
+              />
+            ) : null}
+          </div>
+        </div>
       </div>
     );
   };
@@ -564,129 +599,147 @@ export default function WithdrawPermissions(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:1/2">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("WithdrawPermissions:title")}</CardTitle>
-              <CardDescription>
-                <p>{t("WithdrawPermissions:description")}</p>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-12 gap-3">
-                <div className="col-span-12">
-                  <HoverInfo
-                    content={t("WithdrawPermissions:outbound_description")}
-                    header={t("WithdrawPermissions:outbound")}
-                    type="header"
-                  />
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-start gap-3 mb-4">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <FileCheck className="h-4 w-4" strokeWidth={2.25} />
+              </span>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="outline"
+                    className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px]"
+                  >
+                    Permissions
+                  </Badge>
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight">
+                    {t("WithdrawPermissions:title")}
+                  </h3>
                 </div>
-
-                {payerWithdrawalPermissions &&
-                payerWithdrawalPermissions.length ? (
-                  <div className="col-span-9 border border-gray-300 rounded">
-                    <div className="w-full max-h-[400px] overflow-auto">
-                      <List
-                        rowHeight={35}
-                        rowComponent={PayingWithdrawPermissionRow}
-                        rowCount={
-                          payerWithdrawalPermissions
-                            ? payerWithdrawalPermissions.length
-                            : 0
-                        }
-                        rowProps={{}}
-                      />
-                    </div>
-                    <div className="col-span-3">
-                      <WithdrawDialog
-                        usr={usr}
-                        assets={assets}
-                        marketSearch={marketSearch}
-                        balances={balances}
-                        showDialog={showCreateDialog}
-                        setShowDialog={setShowCreateDialog}
-                        mode="create"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="col-span-12">
-                      <Empty>
-                        <EmptyHeader>
-                          <EmptyMedia variant="icon">❔</EmptyMedia>
-                          <EmptyTitle>
-                            {t("WithdrawPermissions:not_sending_anything")}
-                          </EmptyTitle>
-                          <EmptyDescription>
-                            {t(
-                              "WithdrawPermissions:not_sending_anything_description"
-                            )}
-                          </EmptyDescription>
-                        </EmptyHeader>
-                        <EmptyContent>
-                          <WithdrawDialog
-                            usr={usr}
-                            assets={assets}
-                            marketSearch={marketSearch}
-                            balances={balances}
-                            showDialog={showCreateDialog}
-                            setShowDialog={setShowCreateDialog}
-                            mode="create"
-                          />
-                        </EmptyContent>
-                      </Empty>
-                    </div>
-                    <div className="col-span-8"></div>
-                  </>
-                )}
-
-                <div className="col-span-12 mt-2">
-                  <HoverInfo
-                    content={t("WithdrawPermissions:inbound_description")}
-                    header={t("WithdrawPermissions:inbound")}
-                    type="header"
-                  />
-                </div>
-                {receivingWithdrawalPermissions &&
-                receivingWithdrawalPermissions.length ? (
-                  <div className="col-span-12 border border-gray-300 rounded">
-                    <div className="w-full max-h-[400px] overflow-auto">
-                      <List
-                        rowHeight={35}
-                        rowComponent={ReceivingWithdrawPermissionRow}
-                        rowCount={
-                          receivingWithdrawalPermissions
-                            ? receivingWithdrawalPermissions.length
-                            : 0
-                        }
-                        rowProps={{}}
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="col-span-12">
-                      <Empty>
-                        <EmptyHeader>
-                          <EmptyMedia variant="icon">❔</EmptyMedia>
-                          <EmptyTitle>
-                            {t("WithdrawPermissions:not_receiving_anything")}
-                          </EmptyTitle>
-                          <EmptyDescription>
-                            {t(
-                              "WithdrawPermissions:not_receiving_anything_description"
-                            )}
-                          </EmptyDescription>
-                        </EmptyHeader>
-                      </Empty>
-                    </div>
-                    <div className="col-span-8"></div>
-                  </>
-                )}
+                <p className="text-xs text-muted-foreground/70 mt-1">
+                  {t("WithdrawPermissions:description")}
+                </p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+            <div className="grid grid-cols-12 gap-3">
+              <div className="col-span-12">
+                <HoverInfo
+                  content={t("WithdrawPermissions:outbound_description")}
+                  header={t("WithdrawPermissions:outbound")}
+                  type="header"
+                />
+              </div>
+
+              {payerWithdrawalPermissions &&
+              payerWithdrawalPermissions.length ? (
+                <div className="col-span-9">
+                  <div className="w-full max-h-[400px] overflow-auto">
+                    <List
+                      rowHeight={35}
+                      rowComponent={PayingWithdrawPermissionRow}
+                      rowCount={
+                        payerWithdrawalPermissions
+                          ? payerWithdrawalPermissions.length
+                          : 0
+                      }
+                      rowProps={{}}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="col-span-12">
+                    <Empty className="border border-dashed border-[hsl(var(--accent-1)/0.2)] rounded-xl bg-[hsl(var(--accent-1)/0.03)]">
+                      <EmptyHeader>
+                        <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
+                          <Shield className="w-6 h-6" />
+                        </EmptyMedia>
+                        <EmptyTitle className="text-foreground/80">
+                          {t("WithdrawPermissions:not_sending_anything")}
+                        </EmptyTitle>
+                        <EmptyDescription className="text-muted-foreground">
+                          {t(
+                            "WithdrawPermissions:not_sending_anything_description"
+                          )}
+                        </EmptyDescription>
+                      </EmptyHeader>
+                      <EmptyContent>
+                        <WithdrawDialog
+                          usr={usr}
+                          assets={assets}
+                          marketSearch={marketSearch}
+                          balances={balances}
+                          showDialog={showCreateDialog}
+                          setShowDialog={setShowCreateDialog}
+                          mode="create"
+                        />
+                      </EmptyContent>
+                    </Empty>
+                  </div>
+                  <div className="col-span-8"></div>
+                </>
+              )}
+
+              <div className="col-span-12 mt-2">
+                <HoverInfo
+                  content={t("WithdrawPermissions:inbound_description")}
+                  header={t("WithdrawPermissions:inbound")}
+                  type="header"
+                />
+              </div>
+              {receivingWithdrawalPermissions &&
+              receivingWithdrawalPermissions.length ? (
+                <div className="col-span-12">
+                  <div className="w-full max-h-[400px] overflow-auto">
+                    <List
+                      rowHeight={35}
+                      rowComponent={ReceivingWithdrawPermissionRow}
+                      rowCount={
+                        receivingWithdrawalPermissions
+                          ? receivingWithdrawalPermissions.length
+                          : 0
+                      }
+                      rowProps={{}}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="col-span-12">
+                    <Empty className="border border-dashed border-[hsl(var(--accent-2)/0.2)] rounded-xl bg-[hsl(var(--accent-2)/0.03)]">
+                      <EmptyHeader>
+                        <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-2)/0.15)] text-[hsl(var(--accent-2-fg))]">
+                          <ShieldAlert className="w-6 h-6" />
+                        </EmptyMedia>
+                        <EmptyTitle className="text-foreground/80">
+                          {t("WithdrawPermissions:not_receiving_anything")}
+                        </EmptyTitle>
+                        <EmptyDescription className="text-muted-foreground">
+                          {t(
+                            "WithdrawPermissions:not_receiving_anything_description"
+                          )}
+                        </EmptyDescription>
+                      </EmptyHeader>
+                    </Empty>
+                  </div>
+                  <div className="col-span-8"></div>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </>

@@ -34,7 +34,7 @@
   "exchangeHeader": "Vahetades {{sellAmount}} {{symbolA}} jaoks {{buyAmount}} {{symbolB}}",
   "swapBuySell": "Vahetus osta/müüa",
   "bitsharesPoolExplorer": "bitsharesi basseiniuurija",
-  "poolJsonButton": "Pool JSON",
+  "poolJsonButton": "Pooli JSON",
   "liquidityPoolJsonTitle": "Likviidsusfondi JSON",
   "liquidityPoolJsonDescription": "Vaadake võrgu poolt selle basseini kohta tagastatud üksikasju",
   "swappableAssetJsonButton": "Vahetatava vara JSON",

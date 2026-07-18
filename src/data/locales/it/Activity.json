@@ -28,7 +28,8 @@
       "seller": "Venditore: {{seller}} ({{opSeller}})",
       "selling": "Vendita: {{amount}}",
       "buying": "Acquisto: {{amount}}",
-      "price": "Prezzo: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "Prezzo: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "Estensioni: {{extensions}}"
     },
     "tooltip": "Un'offerta di vendita di un importo di un bene a un tasso di cambio specificato entro un determinato periodo"
   },
@@ -198,7 +199,6 @@
       "blacklist_authorities": "Autorità della lista nera: {{blacklist_authorities}}",
       "whitelist_markets": "Mercati nella lista bianca: {{whitelist_markets}}",
       "blacklist_markets": "Mercati nella lista nera: {{blacklist_markets}}",
-      "is_prediction_market": "Il mercato delle previsioni è: {{is_prediction_market}}",
       "permissions": "Autorizzazioni:",
       "perm_charge_market_fee": "Commissione di mercato addebitata: {{charge_market_fee}}",
       "perm_white_list": "Lista bianca: {{white_list}}",
@@ -257,7 +257,6 @@
       "blacklist_authorities": "Autorità della lista nera: {{blacklist_authorities}}",
       "whitelist_markets": "Mercati nella lista bianca: {{whitelist_markets}}",
       "blacklist_markets": "Mercati nella lista nera: {{blacklist_markets}}",
-      "is_prediction_market": "Il mercato delle previsioni è: {{is_prediction_market}}",
       "permissions": "Autorizzazioni:",
       "perm_charge_market_fee": "Commissione di mercato addebitata: {{charge_market_fee}}",
       "perm_white_list": "Lista bianca: {{white_list}}",

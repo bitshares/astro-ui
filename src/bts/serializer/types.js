@@ -1,5 +1,5 @@
 // Low-level types that make up operations
-import ByteBuffer from "@exodus/bytebuffer";
+import ByteBuffer from "./ByteBuffer.js";
 
 import v from "./SerializerValidation.js";
 import fp from "./FastParser.js";
@@ -12,11 +12,18 @@ import Address from "../ecc/address.js";
 
 import ChainConfig from "../ws/ChainConfig";
 
-import { Buffer } from "safe-buffer";
+
+// Debug-only flag (mirrors bitsharesjs: an npm config switch, normally
+// unset/falsy). Defined here so the `if (HEX_DUMP)` checks don't throw
+// ReferenceError during serialization.
+const HEX_DUMP =
+  typeof process !== "undefined" &&
+  process.env &&
+  process.env.npm_config__graphene_serializer_hex_dump;
+
 
 var Types = {};
 
-// const HEX_DUMP = process ? process.env.npm_config__graphene_serializer_hex_dump : null;
 
 Types.uint8 = {
   fromByteBuffer(b) {
@@ -686,7 +693,6 @@ Types.extension = function (fields_def) {
     v.string(r.name);
     v.required(r.type, "st_operation");
   });
-  //v.required(st_operation, "st_operation");
   return {
     fromByteBuffer(b) {
       let count = b.readVarint32();
@@ -707,10 +713,8 @@ Types.extension = function (fields_def) {
         count--;
       }
       return o;
-      // return st_operation.fromByteBuffer(b);
     },
     appendByteBuffer(b, object) {
-      //let tempBuffer = new Buffer([]);
       let tempBuffer = new ByteBuffer(ByteBuffer.DEFAULT_CAPACITY, ByteBuffer.LITTLE_ENDIAN);
       var count = 0;
       if (object) {
@@ -749,7 +753,6 @@ Types.extension = function (fields_def) {
         if (object === undefined) {
           return undefined;
         } else {
-          // return st_operation.toObject(object, debug);
           let result = {};
           fields_def.forEach((f) => {
             if (object[f.name] !== undefined && object[f.name] !== null) {

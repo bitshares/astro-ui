@@ -1,0 +1,73 @@
+---
+title: Swap
+description: Exchange assets through a liquidity pool using the liquidity_pool_exchange operation.
+sidebar:
+  order: 3
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Swap** exchanges one asset for another via a BitShares **liquidity pool** rather than the order book. It uses the `liquidity_pool_exchange` operation (operation `63`), pricing according to the pool's constant-product (or equivalent) formula and applying the pool's configured fee.
+
+**Open in the app:** [Swap](/swap.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Pool pricing" icon="swap">
+    Price is derived from pool reserves, not an order book.
+  </Card>
+  <Card title="Single action" icon="rocket">
+    Pick the pool, choose sell/receive amounts, confirm.
+  </Card>
+  <Card title="Slippage control" icon="shield">
+    `min_to_receive` is rounded up so you never get less than expected.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Swap** from the homepage under *Exchanging Funds*.
+
+2. Choose a liquidity pool (any `1.19.x` pool id) or pick the two assets and let the app find a pool.
+
+3. Enter the amount you want to sell. The app shows the estimated receive amount after the pool fee.
+
+4. Review the rate and set a minimum receive if you want protection against slippage.
+
+5. Authorize in your Beet wallet. The transaction broadcasts `liquidity_pool_exchange`.
+
+</Steps>
+
+<Aside type="note" title="Rounding">
+  The app rounds `min_to_receive` **up** so the swap is rejected rather than giving you less than your stated minimum. The sell side is rounded down. This protects you from unfavorable fills.
+</Aside>
+
+## Operation used
+
+Swap emits a single `liquidity_pool_exchange` (operation `63`):
+
+```json
+{
+  "fee": { "amount": 0, "asset_id": "1.3.0" },
+  "account": "1.2.x",
+  "pool": "1.19.x",
+  "amount_to_sell": { "amount": 10000000, "asset_id": "1.3.0" },
+  "min_to_receive": { "amount": 4800000, "asset_id": "1.3.x" },
+  "extensions": []
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `account` | Your account object id (`1.2.x`). |
+| `pool` | The liquidity pool object id (`1.19.x`). |
+| `amount_to_sell` | Integer amount you provide. |
+| `min_to_receive` | Minimum you accept out (rounded up). |
+
+## Related pages
+
+- [Stake](/docs/exchanging/stake.html)
+- [DEX](/docs/exchanging/dex.html)

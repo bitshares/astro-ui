@@ -28,7 +28,8 @@
       "seller": "販売者: {{seller}} ({{opSeller}})",
       "selling": "販売: {{amount}}",
       "buying": "購入: {{amount}}",
-      "price": "価格: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "価格: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "拡張機能: {{extensions}}"
     },
     "tooltip": "一定の期間までに指定された為替レートで一定量の資産を売却するというオファー"
   },
@@ -198,7 +199,6 @@
       "blacklist_authorities": "ブラックリスト当局: {{blacklist_authorities}}",
       "whitelist_markets": "ホワイトリスト マーケット: {{whitelist_markets}}",
       "blacklist_markets": "ブラックリスト マーケット: {{blacklist_markets}}",
-      "is_prediction_market": "予測市場です: {{is_prediction_market}}",
       "permissions": "権限:",
       "perm_charge_market_fee": "チャージマーケット手数料: {{charge_market_fee}}",
       "perm_white_list": "ホワイトリスト: {{white_list}}",
@@ -257,7 +257,6 @@
       "blacklist_authorities": "ブラックリスト当局: {{blacklist_authorities}}",
       "whitelist_markets": "ホワイトリスト マーケット: {{whitelist_markets}}",
       "blacklist_markets": "ブラックリスト マーケット: {{blacklist_markets}}",
-      "is_prediction_market": "予測市場です: {{is_prediction_market}}",
       "permissions": "権限:",
       "perm_charge_market_fee": "チャージマーケット手数料: {{charge_market_fee}}",
       "perm_white_list": "ホワイトリスト: {{white_list}}",

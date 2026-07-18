@@ -19,7 +19,7 @@
   "price_assetB_assetA": "Pris {{assetB}}/{{assetA}}",
   "total_assetB": "Total {{assetB}}",
   "description": "Indtast hvor meget {{assetB}} du ønsker ved at sælge {{assetA}}, vil du blive matchet med eksisterende budordrer.",
-  "balance": "Balance: {{balance}} {{asset}}",
+  "balance": "Saldo: {{balance}} {{asset}}",
   "instant_trading_method": "Øjeblikkelig handelsmetode",
   "single_limit_order": "Enkelt grænserækkefølge",
   "multiple_limit_orders": "Flere grænseordrer",

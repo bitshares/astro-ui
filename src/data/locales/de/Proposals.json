@@ -7,7 +7,7 @@
   "operationsDescription": "Dies sind die einzelnen Vorgänge, die in diesem Vorschlag gespeichert sind. Klicken Sie unten auf die einzelnen Vorgangs-IDs, um deren JSON-Details anzuzeigen. Überprüfen Sie jeden Vorgang gründlich und überprüfen Sie noch einmal, wer der Antragsteller ist, bevor Sie mit der Genehmigung fortfahren. Genehmigungen sind unwiderruflich. Die Übertragung Ihres Kontos wird nicht genehmigt ",
   "beginApprovalProcess": "Beginnen Sie mit dem Genehmigungsprozess",
   "reject": "Vorschlag ablehnen",
-  "cardTitle": "🤔 Vorgeschlagene Operationen",
+  "cardTitle": "Vorgeschlagene Operationen",
   "cardDescription": "Mit Vorschlägen kann jeder Vorgänge vorschlagen, die von einem anderen Konto in der Blockchain ausgeführt werden sollen. Der Kontoinhaber überprüft diese Vorschläge und entscheidet, ob er sie genehmigt oder ablehnt.",
   "noProposals": "Keine Vorschläge verfügbar.",
   "approveProposedOperation": "Genehmigen Sie den vorgeschlagenen Vorgang",

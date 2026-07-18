@@ -30,6 +30,7 @@ const allowedDomains = [
   "https://react.dev/",
   "https://github.com/",
   "https://astro.build/",
+  "https://blocksights.info/",
   "https://www.pinata.cloud/",
   "https://nft.storage/",
   "https://web3.storage/",
@@ -86,7 +87,7 @@ export default function ExternalLink(properties) {
           setOpen(open);
         }}
       >
-        <DialogContent className="sm:max-w-[500px] bg-white">
+        <DialogContent className="sm:max-w-[500px] bg-card">
           <DialogHeader>
             <DialogTitle>
               {t("ExternalLink:dialogContent.leaveApp")}

@@ -1,5 +1,5 @@
-import BigInteger from "bigi";
-import { Point, getCurveByName } from "ecurve";
+import * as secp256k1Module from "@noble/curves/secp256k1.js";
+const { secp256k1 } = secp256k1Module;
 
 import pkg from "bs58";
 const { encode, decode } = pkg;
@@ -9,11 +9,12 @@ import deepEqual from "deep-equal";
 
 import { sha256, sha512, ripemd160 } from "./hash.js";
 import ChainConfig from "../ws/ChainConfig";
+import ByteBuffer from "../serializer/ByteBuffer.js";
+import { CURVE_N } from "./ecdsa.js";
 
-import { Buffer } from "safe-buffer";
-const secp256k1 = getCurveByName("secp256k1");
+import { Buffer } from "buffer";
 
-const { G, n } = secp256k1;
+const NULL_KEY_HEX = "000000000000000000000000000000000000000000000000000000000000000000";
 
 class PublicKey {
   /** @param {Point} public key */
@@ -26,21 +27,16 @@ class PublicKey {
   }
 
   static fromBuffer(buffer) {
-    if (
-      buffer.toString("hex") ===
-      "000000000000000000000000000000000000000000000000000000000000000000"
-    )
-      return new PublicKey(null);
-    return new PublicKey(Point.decodeFrom(secp256k1, buffer));
+    if (buffer.toString("hex") === NULL_KEY_HEX) return new PublicKey(null);
+    // @noble/curves@2.x Point.fromHex expects a hex *string* (the old
+    // ecurve Point.decodeFrom accepted a Buffer directly), so we convert.
+    return new PublicKey(secp256k1.Point.fromHex(buffer.toString("hex")));
   }
 
-  toBuffer(compressed = this.Q ? this.Q.compressed : null) {
+  toBuffer(compressed = true) {
     if (this.Q === null)
-      return Buffer.from(
-        "000000000000000000000000000000000000000000000000000000000000000000",
-        "hex"
-      );
-    return this.Q.getEncoded(compressed);
+      return Buffer.from(NULL_KEY_HEX, "hex");
+    return Buffer.from(this.Q.toBytes(compressed));
   }
 
   static fromPoint(point) {
@@ -48,8 +44,8 @@ class PublicKey {
   }
 
   toUncompressed() {
-    var buf = this.Q.getEncoded(false);
-    var point = Point.decodeFrom(secp256k1, buf);
+    var buf = this.Q.toBytes(false);
+    var point = secp256k1.Point.fromHex(Buffer.from(buf).toString("hex"));
     return PublicKey.fromPoint(point);
   }
 
@@ -66,9 +62,9 @@ class PublicKey {
   }
 
   /**
-        Full public key
-        {return} string
-    */
+   * Full public key
+   * {return} string
+   */
   toPublicKeyString(address_prefix = ChainConfig.address_prefix) {
     var pub_buf = this.toBuffer();
     var checksum = ripemd160(pub_buf);
@@ -77,10 +73,10 @@ class PublicKey {
   }
 
   /**
-        @arg {string} public_key - like GPHXyz...
-        @arg {string} address_prefix - like GPH
-        @return PublicKey or `null` (if the public_key string is invalid)
-    */
+   * @arg {string} public_key - like GPHXyz...
+   * @arg {string} address_prefix - like GPH
+   * @return PublicKey or `null` (if the public_key string is invalid)
+   */
   static fromPublicKeyString(public_key, address_prefix = ChainConfig.address_prefix) {
     try {
       return PublicKey.fromStringOrThrow(public_key, address_prefix);
@@ -90,11 +86,11 @@ class PublicKey {
   }
 
   /**
-        @arg {string} public_key - like GPHXyz...
-        @arg {string} address_prefix - like GPH
-        @throws {Error} if public key is invalid
-        @return PublicKey
-    */
+   * @arg {string} public_key - like GPHXyz...
+   * @arg {string} address_prefix - like GPH
+   * @throws {Error} if public key is invalid
+   * @return PublicKey
+   */
   static fromStringOrThrow(public_key, address_prefix = ChainConfig.address_prefix) {
     if (public_key.Q === null)
       public_key = address_prefix + "1111111111111111111111111111111114T1Anm"; // null key
@@ -147,14 +143,13 @@ class PublicKey {
     offset = Buffer.concat([this.toBuffer(), offset]);
     offset = sha256(offset);
 
-    let c = BigInteger.fromBuffer(offset);
+    let c = BigInt("0x" + offset.toString("hex"));
+    if (c >= CURVE_N) throw new Error("Child offset went out of bounds, try again");
 
-    if (c.compareTo(n) >= 0) throw new Error("Child offset went out of bounds, try again");
-
-    let cG = G.multiply(c);
+    let cG = secp256k1.Point.BASE.multiply(c);
     let Qprime = this.Q.add(cG);
 
-    if (secp256k1.isInfinity(Qprime))
+    if (Qprime.equals(secp256k1.Point.ZERO))
       throw new Error("Child offset derived to an invalid key, try again");
 
     return PublicKey.fromPoint(Qprime);

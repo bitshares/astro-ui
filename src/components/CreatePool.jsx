@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useEffect,
   useSyncExternalStore,
@@ -11,10 +11,11 @@ import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
+import { cn } from "@/lib/utils";
+
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -35,6 +36,8 @@ import HoverInfo from "@/components/common/HoverInfo.tsx";
 import AssetDropDown from "@/components/Market/AssetDropDownCard.jsx";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 
+import { Droplets, Layers, Coins, ArrowLeftRight, Percent, ArrowDownUp } from "lucide-react";
+
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createIssuedAssetsStore } from "@/nanoeffects/IssuedAssets.ts";
 import { createObjectStore } from "@/nanoeffects/Objects.ts";
@@ -43,7 +46,7 @@ import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 import { $currentUser, $userStorage } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
 
-import { debounce } from "@/lib/common.js";
+import { debounce, humanReadableFloat } from "@/lib/common.js";
 
 export default function IssuedAssets(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -186,21 +189,44 @@ export default function IssuedAssets(properties) {
       return null;
     }
 
+    const maxSupply =
+      issuedAsset.options && issuedAsset.options.max_supply
+        ? humanReadableFloat(
+            issuedAsset.options.max_supply,
+            issuedAsset.precision
+          ).toLocaleString(undefined, { maximumFractionDigits: 0 })
+        : "0";
+
     return (
       <div style={{ ...style }} key={`acard-${issuedAsset.id}`}>
         <Card
-          className={`ml-2 mr-2 cursor-pointer ${
+          className={cn(
+            "ml-2 mr-2 cursor-pointer transition-colors border-border hover:border-[hsl(var(--accent-1)/0.4)]",
             selectedAsset && selectedAsset !== issuedAsset.id
-              ? "bg-gray-300"
+              ? "bg-accent"
+              : "",
+            selectedAsset && selectedAsset === issuedAsset.id
+              ? "bg-[hsl(var(--accent-1)/0.1)] border-[hsl(var(--accent-1)/0.5)]"
               : ""
-          }`}
+          )}
           onClick={() => setSelectedAsset(issuedAsset.id)}
         >
-          <CardHeader className="pb-1">
-            <CardTitle className="pb-4">
-              {selectedAsset && selectedAsset === issuedAsset.id ? "✔️ " : ""}
-              {`${issuedAsset.symbol} (${issuedAsset.id})`}
-            </CardTitle>
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between gap-2">
+              <CardTitle className="pb-0">
+                {selectedAsset && selectedAsset === issuedAsset.id ? (
+                  <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">
+                    ✔️{" "}
+                  </span>
+                ) : (
+                  ""
+                )}
+                {`${issuedAsset.symbol} (${issuedAsset.id})`}
+              </CardTitle>
+              <div className="text-xs font-medium text-muted-foreground/80 whitespace-nowrap text-right">
+                {t("CreatePool:max_supply")}: {maxSupply} {issuedAsset.symbol}
+              </div>
+            </div>
           </CardHeader>
         </Card>
       </div>
@@ -212,6 +238,12 @@ export default function IssuedAssets(properties) {
   const [assetA, setAssetA] = useState(null);
   const [assetB, setAssetB] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
+
+  const swapAssets = () => {
+    const temp = assetA;
+    setAssetA(assetB);
+    setAssetB(temp);
+  };
 
   const assetAData = useMemo(() => {
     if (assets && assetA) {
@@ -226,6 +258,27 @@ export default function IssuedAssets(properties) {
     }
     return null;
   }, [assets, assetB]);
+
+  const shareAsset = useMemo(() => {
+    if (!eligibleAssets || !selectedAsset) {
+      return null;
+    }
+    return eligibleAssets.find((asset) => asset.id === selectedAsset) || null;
+  }, [eligibleAssets, selectedAsset]);
+
+  const shareAssetMaxSupply = useMemo(() => {
+    if (
+      !shareAsset ||
+      !shareAsset.options ||
+      !shareAsset.options.max_supply
+    ) {
+      return null;
+    }
+    return humanReadableFloat(
+      shareAsset.options.max_supply,
+      shareAsset.precision
+    ).toLocaleString(undefined, { maximumFractionDigits: 0 });
+  }, [shareAsset]);
 
   const debouncedPercent = useCallback(
     debounce((input, setCommissionFunction) => {
@@ -254,65 +307,219 @@ export default function IssuedAssets(properties) {
     []
   );
 
+  const StepHeader = ({ icon: Icon, step, title, description, done }) => (
+    <div className="flex items-start gap-3 border-b border-border px-5 py-4 sm:px-6">
+      <span
+        className={cn(
+          "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ring-1",
+          done
+            ? "bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg))] ring-[hsl(var(--accent-1)/0.4)]"
+            : "bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))] ring-[hsl(var(--accent-1)/0.3)]"
+        )}
+      >
+        <Icon className="h-4 w-4" strokeWidth={2.25} />
+      </span>
+      <div className="flex-1 min-w-0">
+        <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
+          {`Step ${step}`}
+          {done ? (
+            <span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[hsl(var(--accent-1)/0.3)]">
+              ✓
+            </span>
+          ) : null}
+        </span>
+        <h3 className="mt-0.5 text-base font-semibold leading-tight text-foreground">
+          {title}
+        </h3>
+        {description ? (
+          <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>
+        ) : null}
+      </div>
+    </div>
+  );
+
   return (
     <>
-      <div className="container mx-auto mt-5 mb-5 w-full lg:w-3/4">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("CreatePool:title")}</CardTitle>
-            <CardDescription>{t("CreatePool:description")}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="mt-2">
-              {eligibleAssets.length > 0 ? (
-                <h5 className="mb-2 text-center">
-                  {t("IssuedAssets:listingUIA", {
-                    count: eligibleAssets.length,
-                  })}
-                </h5>
-              ) : null}
-              {loading ? (
-                <div className="text-center mt-5">
-                  {t("CreditBorrow:common.loading")}
-                </div>
-              ) : null}
-              {!loading && (!eligibleAssets || !eligibleAssets.length) ? (
-                <Empty className="mt-5">
-                  <EmptyHeader>
-                    <EmptyMedia variant="icon">❔</EmptyMedia>
-                    <EmptyTitle>{t("IssuedAssets:noUIA")}</EmptyTitle>
-                    <EmptyDescription>
-                      {t("CreatePool:noEligibleAssets")}
-                    </EmptyDescription>
-                  </EmptyHeader>
-                  <EmptyContent>
-                    <Button asChild>
-                      <a href="/create_uia/index.html">
-                        {t("PageHeader:create_uia")}
-                      </a>
-                    </Button>
-                  </EmptyContent>
-                </Empty>
-              ) : (
-                <>
-                  <Card>
-                    <CardContent>
-                      <div className="w-full max-h-[350px] min-h-[350px] overflow-auto">
-                        <List
-                          rowComponent={AssetRow}
-                          rowCount={eligibleAssets.length}
-                          rowHeight={75}
-                          rowProps={{}}
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </>
-              )}
+      <div className="container mx-auto mt-5 mb-5 w-full max-w-4xl">
+        <div className="relative overflow-hidden rounded-xl border border-border bg-card/60 backdrop-blur-xl px-6 py-5 shadow-lg shadow-black/20 ring-1 dark:ring-white/[0.06] ring-border">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+          />
+          <div className="relative flex items-center gap-4">
+            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+              <Droplets className="h-6 w-6" strokeWidth={2.25} />
+            </span>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl font-bold tracking-tight text-foreground">
+                {t("CreatePool:title")}
+              </h1>
+              <p className="mt-0.5 text-sm text-muted-foreground">
+                {t("CreatePool:description")}
+              </p>
             </div>
-            {!loading && eligibleAssets && eligibleAssets.length ? (
-              <div className="grid grid-cols-1 gap-5 mb-3 mt-5">
-                <div>
+            </div>
+          </div>
+
+          <div className="mt-6 flex flex-col gap-6">
+            <Card className="overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20">
+              <StepHeader
+                icon={Coins}
+                step={1}
+                title={t("CreatePool:step1_title")}
+                description={t("CreatePool:step1_description")}
+                done={!!selectedAsset}
+              />
+              <CardContent className="p-5 sm:p-6">
+                {loading ? (
+                  <div className="text-center mt-5">
+                    {t("CreditBorrow:common.loading")}
+                  </div>
+                ) : !eligibleAssets || !eligibleAssets.length ? (
+                  <Empty className="mt-2">
+                    <EmptyHeader>
+                      <EmptyMedia variant="icon">
+                        <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                          <Droplets className="h-6 w-6" strokeWidth={1.75} />
+                        </span>
+                      </EmptyMedia>
+                      <EmptyTitle>{t("IssuedAssets:noUIA")}</EmptyTitle>
+                      <EmptyDescription>
+                        {t("CreatePool:noEligibleAssets")}
+                      </EmptyDescription>
+                    </EmptyHeader>
+                    <EmptyContent>
+                      <Button
+                        asChild
+                        variant="outline"
+                        className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
+                      >
+                        <a href="/create_uia.html">
+                          {t("PageHeader:create_uia")}
+                        </a>
+                      </Button>
+                    </EmptyContent>
+                  </Empty>
+                ) : (
+                  <>
+                    <h5 className="mb-2 text-center">
+                      {t("IssuedAssets:listingUIA", {
+                        count: eligibleAssets.length,
+                      })}
+                    </h5>
+                    <div className="w-full max-h-[350px] min-h-[350px] overflow-auto rounded-lg bg-card/30 border border-[hsl(var(--accent-1)/0.2)]">
+                      <List
+                        rowComponent={AssetRow}
+                        rowCount={eligibleAssets.length}
+                        rowHeight={75}
+                        rowProps={{}}
+                      />
+                    </div>
+                    <p className="mt-3 text-xs text-muted-foreground/80 leading-relaxed">
+                      {t("CreatePool:step1_max_supply_note")}
+                    </p>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+            <Card className="overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20">
+              <StepHeader
+                icon={ArrowLeftRight}
+                step={2}
+                title={t("CreatePool:step2_title")}
+                description={t("CreatePool:step2_description")}
+                done={!!(assetA && assetB)}
+              />
+              <CardContent className="p-5 sm:p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-3 items-stretch">
+                  <div>
+                    <HoverInfo
+                      header={t("CreatePool:assetA")}
+                      content={t("CreatePool:assetA_description")}
+                    />
+                    <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-2 mt-1">
+                      <AssetDropDown
+                        assetSymbol={assetA ?? ""}
+                        assetData={assetAData}
+                        storeCallback={(sym) => {
+                          if (sym && sym === assetB) {
+                            return;
+                          }
+                          setAssetA(sym);
+                        }}
+                        otherAsset={assetB}
+                        marketSearch={marketSearch}
+                        type={"quote"}
+                        size="small"
+                        chain={usr && usr.chain ? usr.chain : "bitshares"}
+                        balances={balances}
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={swapAssets}
+                    className="self-stretch flex items-center justify-center"
+                    aria-label={t("CreatePool:swap_pair")}
+                    title={t("CreatePool:swap_pair")}
+                  >
+                    <span className="inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-border bg-card/80 text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.5)] hover:shadow-[0_0_24px_-6px_rgba(34,211,238,0.55)] transition-all group">
+                      <ArrowDownUp className="h-4 w-4 group-hover:rotate-180 transition-transform duration-300" />
+                    </span>
+                  </button>
+
+                  <div>
+                    <HoverInfo
+                      header={t("CreatePool:assetB")}
+                      content={t("CreatePool:assetB_description")}
+                    />
+                    <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-2 mt-1">
+                      <AssetDropDown
+                        assetSymbol={assetB ?? ""}
+                        assetData={assetBData}
+                        storeCallback={(sym) => {
+                          if (sym && sym === assetA) {
+                            return;
+                          }
+                          setAssetB(sym);
+                        }}
+                        otherAsset={assetA}
+                        marketSearch={marketSearch}
+                        type={"base"}
+                        size="small"
+                        chain={usr && usr.chain ? usr.chain : "bitshares"}
+                        balances={balances}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {assetA && assetB && assetA === assetB ? (
+                  <p className="mt-3 text-xs font-medium text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]">
+                    ⚠ {t("CreatePool:duplicate_assets")}
+                  </p>
+                ) : null}
+              </CardContent>
+            </Card>
+
+            <Card className="overflow-hidden border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-black/20">
+              <StepHeader
+                icon={Percent}
+                step={3}
+                title={t("CreatePool:step3_title")}
+                description={t("CreatePool:step3_description")}
+                done={!!(selectedAsset && assetA && assetB)}
+              />
+              <CardContent className="p-5 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-3 sm:p-4">
                   <HoverInfo
                     header={t("CreatePool:taker_fee_header")}
                     content={t("CreatePool:taker_fee_content")}
@@ -332,10 +539,10 @@ export default function IssuedAssets(properties) {
                         setTakerFeePercent
                       );
                     }}
-                    className="mt-1"
+                    className="mt-1 !bg-card/40 border-border focus-visible:!ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                   />
                 </div>
-                <div>
+                <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-3 sm:p-4">
                   <HoverInfo
                     header={t("CreatePool:withdrawal_fee_header")}
                     content={t("CreatePool:withdrawal_fee_content")}
@@ -355,83 +562,90 @@ export default function IssuedAssets(properties) {
                         setWithdrawalFeePercent
                       );
                     }}
-                    className="mt-1"
+                    className="mt-1 !bg-card/40 border-border focus-visible:!ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="col-span-2">
-                    <HoverInfo
-                      header={t("CreatePool:assetA")}
-                      content={t("CreatePool:assetA_description")}
-                    />
+              </CardContent>
+            </Card>
+
+            {selectedAsset && assetA && assetB && assetA !== assetB ? (
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-[hsl(var(--accent-1)/0.04)] p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.15)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                    <Layers className="h-3.5 w-3.5" strokeWidth={2.25} />
+                  </span>
+                  <h3 className="text-sm font-semibold text-foreground">
+                    {t("CreatePool:summary_title")}
+                  </h3>
+                </div>
+                <p className="text-xs text-muted-foreground mb-3">
+                  {t("CreatePool:summary_ready")}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                      {t("CreatePool:summary_share_asset")}
+                    </div>
+                    <div className="font-mono text-sm tabular-nums text-foreground/85 truncate">
+                      {selectedAsset}
+                    </div>
+                    {shareAssetMaxSupply ? (
+                      <div className="mt-1 text-[11px] text-muted-foreground">
+                        {t("CreatePool:max_supply")}: {shareAssetMaxSupply}{" "}
+                        {shareAsset ? shareAsset.symbol : ""}
+                      </div>
+                    ) : null}
                   </div>
-                  <Input
-                    disabled
-                    value={
-                      assetAData
-                        ? `${assetAData.symbol} (${assetAData.id})`
-                        : assetA
-                    }
-                    type="text"
-                  />
-                  <AssetDropDown
-                    assetSymbol={assetA ?? ""}
-                    assetData={assetAData}
-                    storeCallback={setAssetA}
-                    otherAsset={assetB}
-                    marketSearch={marketSearch}
-                    type={"quote"}
-                    chain={usr && usr.chain ? usr.chain : "bitshares"}
-                    balances={balances}
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="col-span-2">
-                    <HoverInfo
-                      header={t("CreatePool:assetB")}
-                      content={t("CreatePool:assetB_description")}
-                    />
+                  <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                      {t("CreatePool:summary_pair")}
+                    </div>
+                    <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] truncate">
+                      {`${assetA} / ${assetB}`}
+                    </div>
                   </div>
-                  <Input
-                    disabled
-                    value={
-                      assetBData
-                        ? `${assetBData.symbol} (${assetBData.id})`
-                        : assetB
-                    }
-                    type="text"
-                  />
-                  <AssetDropDown
-                    assetSymbol={assetB ?? ""}
-                    assetData={assetBData}
-                    storeCallback={setAssetB}
-                    otherAsset={assetA}
-                    marketSearch={marketSearch}
-                    type={"base"}
-                    chain={usr && usr.chain ? usr.chain : "bitshares"}
-                    balances={balances}
-                  />
-                </div>
-                <div>
-                  {assetA && assetB && selectedAsset ? (
-                    <Button
-                      className="h-8"
-                      onClick={() => {
-                        setShowDialog(true);
-                      }}
-                    >
-                      {t("CreatePrediction:buttons.submit")}
-                    </Button>
-                  ) : (
-                    <Button className="h-8" disabled>
-                      {t("CreatePrediction:buttons.submit")}
-                    </Button>
-                  )}
+                  <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                      {t("CreatePool:summary_taker_fee")}
+                    </div>
+                    <div className="font-mono text-sm tabular-nums text-foreground/85">
+                      {`${takerFeePercent}%`}
+                    </div>
+                  </div>
+                  <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                      {t("CreatePool:summary_withdrawal_fee")}
+                    </div>
+                    <div className="font-mono text-sm tabular-nums text-foreground/85">
+                      {`${withdrawalFeePercent}%`}
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : null}
-          </CardContent>
-        </Card>
+
+            <div>
+              <button
+                type="button"
+                disabled={!(assetA && assetB && selectedAsset && assetA !== assetB)}
+                onClick={() => {
+                  setShowDialog(true);
+                }}
+                className={cn(
+                  "w-full h-14 rounded-2xl font-semibold text-[hsl(var(--accent-1-gradFg))] flex items-center justify-center gap-2 text-base transition-all group",
+                  assetA && assetB && selectedAsset
+                    ? "bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] shadow-[0_8px_32px_-12px_rgba(6,182,212,0.7)] hover:shadow-[0_12px_40px_-12px_rgba(20,184,166,0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
+                    : "bg-card/60 border border-border/40 dark:border-white/5 text-muted-foreground cursor-not-allowed"
+                )}
+              >
+                <Droplets
+                  className="h-4 w-4 group-hover:scale-110 transition-transform"
+                  strokeWidth={2.5}
+                />
+                {t("CreateUIA:buttons.submit")}
+              </button>
+            </div>
+          </div>
       </div>
       {showDialog ? (
         <DeepLinkDialog

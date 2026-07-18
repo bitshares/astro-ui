@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { sha256 } from "@noble/hashes/sha2.js";
 import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
+import { Vote, Check, X, Ticket, ArrowUp, ArrowDown } from "lucide-react";
 
 import {
   Card,
@@ -621,8 +622,8 @@ export default function Witnesses(properties) {
 
     return (
       <div style={style} key={witness.id}>
-        <Card className={`mb-1 ${witness.active ? "bg-green-100" : ""}`}>
-          <CardContent className="pt-3 pb-3 text-sm">
+        <div className={`mb-1 relative overflow-hidden rounded-xl border ${witness.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
+          <div className="p-3 text-sm">
             <div className="grid grid-cols-4 gap-2 items-center">
               <div className="flex items-center">
                 <span className="hidden md:block">
@@ -649,11 +650,11 @@ export default function Witnesses(properties) {
                 <span className="ml-2">{witness.name}</span>
               </div>
               <div>
-                <span className="text-blue-500 hover:text-purple-500">
+                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
                   {witness.id}
                 </span>{" "}
                 (
-                <span className="text-blue-500 hover:text-purple-500">
+                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
                   {witness.account_id}
                 </span>
                 )
@@ -677,12 +678,12 @@ export default function Witnesses(properties) {
                   }}
                   value={isToggled}
                 >
-                  {isToggled ? "✔️" : "✖️"}
+                  {isToggled ? <Check className="h-4 w-4 text-[hsl(var(--accent-success-fg))]" /> : <X className="h-4 w-4 text-[hsl(var(--accent-danger-fg))]" />}
                 </Toggle>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   };
@@ -698,8 +699,8 @@ export default function Witnesses(properties) {
 
     return (
       <div style={style} key={member.id}>
-        <Card className={`mb-1 ${member.active ? "bg-green-100" : ""}`}>
-          <CardContent className="pt-3 pb-3 text-sm">
+        <div className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
+          <div className="p-3 text-sm">
             <div className="grid grid-cols-4 gap-2 items-center">
               <div className="flex items-center">
                 <span className="hidden md:block">
@@ -724,11 +725,11 @@ export default function Witnesses(properties) {
                 <span className="ml-2">{member.name}</span>
               </div>
               <div>
-                <span className="text-blue-500 hover:text-purple-500">
+                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
                   {member.id}
                 </span>{" "}
                 (
-                <span className="text-blue-500 hover:text-purple-500">
+                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
                   {member.account_id}
                 </span>
                 )
@@ -755,12 +756,12 @@ export default function Witnesses(properties) {
                   }}
                   value={isToggled}
                 >
-                  {isToggled ? "✔️" : "✖️"}
+                  {isToggled ? <Check className="h-4 w-4 text-[hsl(var(--accent-success-fg))]" /> : <X className="h-4 w-4 text-[hsl(var(--accent-danger-fg))]" />}
                 </Toggle>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   };
@@ -778,16 +779,16 @@ export default function Witnesses(properties) {
 
     return (
       <div style={style} key={worker.id}>
-        <Card className={`mb-1`}>
-          <CardContent className="pt-3 pb-3 text-sm">
+        <div className={`mb-1 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
+          <div className="p-3 text-sm">
             <div className="grid grid-cols-8 md:grid-cols-12 gap-2 items-center">
               <div>
                 {budgetConsumers.find((bc) => bc.id === worker.id)
-                  ? "✅"
-                  : "❌"}
+                  ? <Check className="h-3.5 w-3.5 text-[hsl(var(--accent-success-fg))]" />
+                  : <X className="h-3.5 w-3.5 text-[hsl(var(--accent-danger-fg))]" />}
               </div>
               <div className="hidden md:block">
-                <span className="text-blue-500 hover:text-purple-500">
+                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
                   {worker.id}
                 </span>
               </div>
@@ -798,11 +799,11 @@ export default function Witnesses(properties) {
                     : worker.name}
                 </div>
                 <div>
-                  <span className="text-blue-500 hover:text-purple-500">
+                  <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
                     {worker.username}
                   </span>{" "}
                   (
-                  <span className="text-blue-500 hover:text-purple-500">
+                  <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
                     {worker.worker_account}
                   </span>
                   )
@@ -831,12 +832,12 @@ export default function Witnesses(properties) {
                   }}
                   value={isToggled}
                 >
-                  {isToggled ? "✔️" : "✖️"}
+                  {isToggled ? <Check className="h-4 w-4 text-[hsl(var(--accent-success-fg))]" /> : <X className="h-4 w-4 text-[hsl(var(--accent-danger-fg))]" />}
                 </Toggle>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   };
@@ -846,32 +847,38 @@ export default function Witnesses(properties) {
 
   return (
     <div className="container mx-auto mt-5 mb-5">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("Voting:title")}</CardTitle>
+      <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.2)]">
+        <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-1)/0.2)] blur-3xl" />
+        <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
+        <CardHeader className="pb-0">
+          <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
+            <Vote className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+            {t("Voting:title")}
+          </CardTitle>
           <CardDescription>{t("Voting:description")}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 pt-2">
           <Input
             placeholder={t("Witnesses:filterPlaceholder")}
             onChange={(e) => debouncedFilterChange(e.target.value)}
-            className="mb-4 w-full md:w-1/3"
+            className="mb-4 w-full md:w-1/3 border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
           />
           <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
             <Button
-              variant={selectedVoteType === "witnesses" ? "default" : "outline"}
+              className={selectedVoteType === "witnesses" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
               onClick={() => setSelectedVoteType("witnesses")}
             >
               {t("Voting:tabs.witnesses")}
             </Button>
             <Button
-              variant={selectedVoteType === "committee" ? "default" : "outline"}
+              className={selectedVoteType === "committee" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
               onClick={() => setSelectedVoteType("committee")}
             >
               {t("Voting:tabs.committee")}
             </Button>
             <Button
-              variant={selectedVoteType === "workers" ? "default" : "outline"}
+              className={selectedVoteType === "workers" ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200" : "text-muted-foreground hover:text-foreground border-border hover:bg-accent/50 transition-colors"}
               onClick={() => setSelectedVoteType("workers")}
             >
               {t("Voting:tabs.workers")}
@@ -880,7 +887,7 @@ export default function Witnesses(properties) {
 
           {selectedVoteType === "witnesses" ? (
             <div className="w-full">
-              <div className="grid grid-cols-4 gap-2 p-2 bg-gray-100 rounded-t-md font-semibold text-sm">
+              <div className="grid grid-cols-4 gap-2 p-2 bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)] rounded-t-md font-semibold text-sm">
                 <div
                   className="cursor-pointer"
                   onClick={() => handleWitnessSort("name")}
@@ -922,7 +929,7 @@ export default function Witnesses(properties) {
           ) : null}
           {selectedVoteType === "committee" ? (
             <div className="w-full">
-              <div className="grid grid-cols-4 gap-2 p-2 bg-gray-100 rounded-t-md font-semibold text-sm">
+              <div className="grid grid-cols-4 gap-2 p-2 bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)] rounded-t-md font-semibold text-sm">
                 <div onClick={() => handleCommitteeSort("name")}>
                   {t("CommitteeMembers:name")}{" "}
                   {committeeSortKey === "name"
@@ -961,7 +968,7 @@ export default function Witnesses(properties) {
           ) : null}
           {selectedVoteType === "workers" ? (
             <div className="w-full">
-              <div className="grid grid-cols-8 md:grid-cols-12 gap-2 p-2 bg-gray-100 rounded-t-md font-semibold text-sm">
+              <div className="grid grid-cols-8 md:grid-cols-12 gap-2 p-2 bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)] rounded-t-md font-semibold text-sm">
                 <div>{t("Voting:workers.active")}</div>
                 <div className="hidden md:block">
                   {t("CommitteeMembers:ids")}
@@ -1018,15 +1025,18 @@ export default function Witnesses(properties) {
           ) : null}
         </CardContent>
         <CardFooter>
-          <Button onClick={() => setShowDialog(true)} disabled={!checkedVotes}>
+          <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer" onClick={() => setShowDialog(true)} disabled={!checkedVotes}>
             {t("Voting:submit")}
           </Button>
         </CardFooter>
       </Card>
-      <Card className="mt-5 w-full md:w-1/2 mx-auto">
+      <Card className="mt-5 w-full md:w-1/2 mx-auto relative overflow-hidden border-[hsl(var(--accent-2)/0.15)] bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-2)/0.1)]">
+        <div className="pointer-events-none absolute -top-20 -left-20 h-40 w-40 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-3)/0.2)] blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-2)/0.2)] blur-3xl" />
+        <div className="h-0.5 w-full bg-gradient-to-r from-[hsl(var(--accent-2)/0.5)] via-[hsl(var(--accent-3)/0.5)] to-[hsl(var(--accent-2)/0.5)]" />
         <Empty className="mt-5">
           <EmptyHeader>
-            <EmptyMedia variant="icon">❔</EmptyMedia>
+            <EmptyMedia variant="icon"><Ticket className="h-10 w-10 text-[hsl(var(--accent-2-fg))]" /></EmptyMedia>
             <EmptyTitle>{t("Voting:ticket.title")}</EmptyTitle>
             <EmptyDescription>
               {t("Voting:ticket.descriptionLine1")}
@@ -1035,8 +1045,8 @@ export default function Witnesses(properties) {
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <Button asChild>
-              <a href="/create_ticket/index.html">
+            <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.2)] hover:from-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-3))] hover:shadow-[color:hsl(var(--accent-2)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
+              <a href="/create_ticket.html">
                 {t("Voting:ticket.createButton")}
               </a>
             </Button>

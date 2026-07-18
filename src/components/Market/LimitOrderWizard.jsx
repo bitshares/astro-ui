@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -17,23 +18,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { createLimitOrdersStore } from "@/nanoeffects/MarketLimitOrders.ts";
-import { $currentNode } from "@/stores/node.ts";
-import {
-  $favouriteAssets,
-  addFavouriteAsset,
-  removeFavouriteAsset,
-} from "@/stores/favourites.ts";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
 import {
   Dialog,
   DialogContent,
@@ -43,9 +27,28 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import { createLimitOrdersStore } from "@/nanoeffects/MarketLimitOrders.ts";
+import { $currentNode } from "@/stores/node.ts";
+import {
+  $favouriteAssets,
+  addFavouriteAsset,
+  removeFavouriteAsset,
+} from "@/stores/favourites.ts";
+
 import { humanReadableFloat, assetAmountRegex } from "@/lib/common.js";
+import { cn } from "@/lib/utils";
 
 import BasicAssetDropDownCard from "@/components/Market/BasicAssetDropDownCard.jsx";
+
+import {
+  ArrowDownUp,
+  Coins,
+  Plus,
+  Minus,
+  ShoppingCart,
+  TrendingUp,
+  Wallet,
+} from "lucide-react";
 
 export default function LimitOrderWizard(properties) {
   const {
@@ -74,7 +77,6 @@ export default function LimitOrderWizard(properties) {
 
   const handleClick = () => {
     setClicked(true);
-
     setMarketLimitOrders([]);
 
     const _previousBuyingAsset = buyingAsset;
@@ -147,7 +149,7 @@ export default function LimitOrderWizard(properties) {
     if (
       sellingAsset &&
       buyingAsset &&
-      sellingAsset !== buyingAsset && // prevent invalid market pairs
+      sellingAsset !== buyingAsset &&
       sellingAssetData &&
       buyingAssetData &&
       chain &&
@@ -164,23 +166,17 @@ export default function LimitOrderWizard(properties) {
     currentNode,
   ]);
 
+  // ─── Limit order row ───────────────────────────────────────────
   const limitOrderRow = ({ index, style }) => {
     let _order = marketLimitOrders[index];
+    const [buyDialogOpen, setBuyDialogOpen] = useState(false);
+    const [tempBuyAmount, setTempBuyAmount] = useState("0");
 
     if (!_order) {
       return null;
     }
 
-    const regex = assetAmountRegex(sellingAssetData);
-
     const existingOperation = operations.find((op) => op.id === _order.id);
-    const [limitOrderBuyAmount, setLimitOrderBuyAmount] = useState(
-      existingOperation ? existingOperation.final_buy_amount : 0
-    );
-
-    const [tempBuyAmount, setTempBuyAmount] = useState(
-      existingOperation ? existingOperation.final_buy_amount : 0
-    );
 
     const _assetLimitOrderOffers = assets.find(
       (x) => x.id === _order.sell_price.base.asset_id
@@ -198,34 +194,20 @@ export default function LimitOrderWizard(properties) {
     );
 
     const percentageCommitted =
-      limitOrderBuyAmount > 0
+      existingOperation
         ? (
-            (parseFloat(limitOrderBuyAmount) / parseFloat(_amountOffered)) *
+            (parseFloat(existingOperation.final_buy_amount) / parseFloat(_amountOffered)) *
             100
-          ).toFixed(3)
+          ).toFixed(1)
         : 0;
 
     const price = (
       parseFloat(_amountSellerDesires) / parseFloat(_amountOffered)
     ).toFixed(_assetLimitOrderWants.precision);
 
-    const _quoteFee =
-      _assetLimitOrderOffers && _assetLimitOrderOffers.market_fee_percent
-        ? _assetLimitOrderOffers.market_fee_percent / 10000
-        : 0;
-
     const sellingAssetBalance = updatedBalances.find(
       (x) => x.asset_id === _assetLimitOrderWants.id
     );
-
-    const percentPossible =
-      sellingAssetBalance &&
-      sellingAssetBalance.amount &&
-      parseFloat(sellingAssetBalance.amount) > 0
-        ? (parseFloat(sellingAssetBalance.amount) +
-            parseFloat(limitOrderBuyAmount) * parseFloat(price)) /
-          parseFloat(_amountSellerDesires)
-        : 0;
 
     let totalAmountRequired = 0;
     for (let i = 0; i < index; i++) {
@@ -260,14 +242,11 @@ export default function LimitOrderWizard(properties) {
     const hasEnoughFunds =
       sellingAssetBalance &&
       parseFloat(sellingAssetBalance.amount) >= totalAmountRequired;
+
     const previousOperation =
       index > 0
         ? operations.find((op) => op.id === marketLimitOrders[index - 1].id)
         : null;
-
-    const previousRowAmount = previousOperation
-      ? parseFloat(previousOperation.final_buy_amount)
-      : 0;
 
     const previousRowOfferedAmount =
       previousOperation && marketLimitOrders[index - 1]
@@ -277,364 +256,428 @@ export default function LimitOrderWizard(properties) {
           )
         : 0;
 
+    const previousRowAmount = previousOperation
+      ? parseFloat(previousOperation.final_buy_amount)
+      : 0;
+
     const boughtMax =
       previousRowAmount > 0 && previousRowAmount >= previousRowOfferedAmount;
 
+    const canInteract =
+      index === 0 ||
+      (hasEnoughFunds && boughtMax) ||
+      (existingOperation && parseFloat(existingOperation.final_buy_amount) > 0);
+
+    const isSelected = !!existingOperation;
+    const regex = assetAmountRegex(sellingAssetData);
+    const _quoteFee =
+      _assetLimitOrderOffers && _assetLimitOrderOffers.market_fee_percent
+        ? _assetLimitOrderOffers.market_fee_percent / 10000
+        : 0;
+    const percentPossible =
+      sellingAssetBalance &&
+      sellingAssetBalance.amount &&
+      parseFloat(sellingAssetBalance.amount) > 0
+        ? (parseFloat(sellingAssetBalance.amount) +
+            parseFloat(existingOperation?.final_buy_amount || 0) * parseFloat(price)) /
+          parseFloat(_amountSellerDesires)
+        : 0;
+
     return (
-      <div
-        style={style}
-        key={`marketLimitOrder-${_order.id}`}
-        className="grid grid-cols-5 gap-3 border rounded border-gray-300 p-2 text-center"
-      >
-        <div>{_amountOffered}</div>
-        <div className="border-l border-r border-gray-300">
-          {_amountSellerDesires}
-        </div>
-        <div className="border-r border-gray-300">{price}</div>
-        <div className="border-r border-gray-300">{percentageCommitted}</div>
-        <div className="grid grid-cols-2 gap-2">
-          {index === 0 || // first row
-          (hasEnoughFunds && boughtMax) || // has enough funds and has bought max in previous row
-          percentageCommitted > 0 ? ( // has bought something in this row
-            <Dialog>
-              <DialogTrigger>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setTempBuyAmount(limitOrderBuyAmount);
-                  }}
-                >
-                  ➕
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="bg-white">
-                <DialogHeader>
-                  <DialogTitle>
-                    {t("LimitOrderWizard:buyingIntoOpenLimitOrder")}
-                  </DialogTitle>
-                  <DialogDescription>
-                    {t("LimitOrderWizard:howMuchToBuy")}
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid grid-cols-1 gap-3">
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="col-span-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        {t("TFundUser:amountAvailable")}
-                      </label>
-                    </div>
-                    <Input value={_amountOffered} type="text" disabled />
-                    <Input
-                      value={_assetLimitOrderOffers.symbol}
-                      type="text"
-                      disabled
+      <div style={style} key={`marketLimitOrder-${_order.id}`}>
+        <div
+          className={cn(
+            "group flex items-center gap-2 rounded-xl border transition-all px-3 py-2.5",
+            isSelected
+              ? "border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.08)] to-transparent hover:border-[hsl(var(--accent-1)/0.6)]"
+              : "border-border/40 bg-card/30 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.04)]"
+          )}
+        >
+          <div className="grid grid-cols-5 gap-2 flex-1 items-center text-xs">
+            <div className="font-mono tabular-nums text-foreground/85">
+              {_amountOffered}
+            </div>
+            <div className="font-mono tabular-nums text-foreground/85">
+              {_amountSellerDesires}
+            </div>
+            <div className="font-mono tabular-nums text-muted-foreground">
+              {price}
+            </div>
+            <div className="flex items-center gap-1">
+              {isSelected ? (
+                <div className="w-full bg-[hsl(var(--accent-1)/0.2)] rounded-full h-1.5">
+                  <div
+                    className="bg-[hsl(var(--accent-1))] h-1.5 rounded-full transition-all"
+                    style={{ width: `${Math.min(100, percentageCommitted)}%` }}
+                  />
+                </div>
+              ) : (
+                <span className="text-muted-foreground/50">—</span>
+              )}
+            </div>
+            <div className="flex items-center justify-end gap-1">
+              {canInteract ? (
+                <Dialog open={buyDialogOpen} onOpenChange={(open) => {
+                  setBuyDialogOpen(open);
+                  if (open) {
+                    setTempBuyAmount(existingOperation ? existingOperation.final_buy_amount : "0");
+                  }
+                }}>
+                  <DialogTrigger asChild>
+                    <button
+                      type="button"
+                      className={cn(
+                        "inline-flex h-7 w-7 items-center justify-center rounded-md border transition-all",
+                        isSelected
+                          ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
+                          : "border-border/60 bg-card/40 text-muted-foreground hover:border-[hsl(var(--accent-1)/0.4)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]"
+                      )}
+                    >
+                      <ShoppingCart className="h-3.5 w-3.5" />
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[520px] !bg-card border border-border rounded-2xl">
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent"
                     />
-                  </div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    {t("LimitOrderWizard:buying")}
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Input
-                      value={tempBuyAmount}
-                      type="text"
-                      onInput={(e) => {
-                        const value = e.currentTarget.value;
-                        if (regex.test(value)) {
-                          setTempBuyAmount(
-                            value > _amountOffered ? _amountOffered : value
-                          );
-                        }
-                      }}
-                    />
-                    {percentPossible > 0 ? (
+                    <DialogHeader>
+                      <DialogTitle className="text-foreground">
+                        {t("LimitOrderWizard:buyingIntoOpenLimitOrder")}
+                      </DialogTitle>
+                      <DialogDescription className="text-muted-foreground">
+                        {t("LimitOrderWizard:howMuchToBuy")}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div className="rounded-xl border border-border/60 bg-card/40 p-4 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-medium text-muted-foreground">
+                            {t("TFundUser:amountAvailable")}
+                          </span>
+                          <Badge
+                            variant="outline"
+                            className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] font-mono text-[10px]"
+                          >
+                            {_amountOffered} {_assetLimitOrderOffers.symbol}
+                          </Badge>
+                        </div>
+                        <div className="grid grid-cols-[1fr_auto] gap-2">
+                          <Input
+                            value={tempBuyAmount}
+                            type="text"
+                            onInput={(e) => {
+                              const value = e.currentTarget.value;
+                              if (regex.test(value)) {
+                                setTempBuyAmount(
+                                  value > _amountOffered ? _amountOffered : value
+                                );
+                              }
+                            }}
+                            className="!bg-card/40 border-border text-foreground text-lg font-semibold"
+                          />
+                          <TooltipProvider delayDuration={200}>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  disabled={!percentPossible || percentPossible <= 0}
+                                  onClick={() => {
+                                    if (
+                                      !sellingAssetBalance ||
+                                      !sellingAssetBalance.amount ||
+                                      sellingAssetBalance.amount <= 0
+                                    ) {
+                                      setTempBuyAmount(0);
+                                      return;
+                                    }
+                                    if (percentPossible > 1) {
+                                      setTempBuyAmount(parseFloat(_amountOffered));
+                                    } else {
+                                      setTempBuyAmount(
+                                        parseFloat(_amountOffered * percentPossible)
+                                      );
+                                    }
+                                  }}
+                                  className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)]"
+                                >
+                                  <Wallet className="h-3.5 w-3.5 mr-1" />
+                                  {t("LimitOrderWizard:max")}
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent className="bg-card border-border text-foreground/85">
+                                <p>{t("LimitOrderWizard:maxTooltip", "Set maximum affordable amount")}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </div>
+                      </div>
+                      <div className="rounded-xl border border-border/60 bg-card/40 p-4 space-y-3">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1 block">
+                              {t("LimitOrderWizard:buying")}
+                            </span>
+                            <div className="flex items-baseline gap-1">
+                              <span className="font-mono text-sm tabular-nums text-[hsl(var(--accent-success-fg))] font-semibold">
+                                {parseFloat(tempBuyAmount * price).toFixed(
+                                  sellingAssetData.precision
+                                )}
+                              </span>
+                              <span className="text-xs text-foreground/70">
+                                {sellingAssetData.symbol}
+                              </span>
+                            </div>
+                          </div>
+                          <div>
+                            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1 block">
+                              {t("LimitOrderWizard:price")}
+                            </span>
+                            <div className="flex items-baseline gap-1">
+                              <span className="font-mono text-sm tabular-nums text-foreground/85">
+                                {price}
+                              </span>
+                              <span className="text-xs text-muted-foreground">
+                                {_assetLimitOrderWants.symbol}/{_assetLimitOrderOffers.symbol}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        {_quoteFee > 0 ? (
+                          <div className="border-t border-border/40 pt-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+                                {t("LimitOrderWizard:marketFee")}
+                              </span>
+                              <span className="font-mono text-xs text-foreground/70">
+                                {(
+                                  parseFloat(_quoteFee) * parseFloat(tempBuyAmount)
+                                ).toFixed(buyingAssetData.precision)}{" "}
+                                {buyingAssetData.symbol}
+                                <span className="text-muted-foreground/50 ml-1">
+                                  ({(_quoteFee * 100).toFixed(2)}%)
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        ) : null}
+                      </div>
                       <Button
                         variant="outline"
+                        className={cn(
+                          "w-full h-11 rounded-xl font-semibold transition-all",
+                          "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]",
+                          "hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)]"
+                        )}
                         onClick={() => {
-                          if (
-                            !sellingAssetBalance ||
-                            !sellingAssetBalance.amount ||
-                            sellingAssetBalance.amount <= 0
-                          ) {
-                            setTempBuyAmount(parseFloat(0));
-                            return;
-                          }
-                          if (percentPossible > 1) {
-                            setTempBuyAmount(parseFloat(_amountOffered));
-                          } else {
-                            setTempBuyAmount(
-                              parseFloat(_amountOffered * percentPossible)
+                          setOperations((prevOperations) => {
+                            const _ops = [...prevOperations];
+                            const existingOperationIndex = _ops.findIndex(
+                              (op) => op.id === _order.id
                             );
-                          }
-                        }}
-                      >
-                        {t("LimitOrderWizard:max")}
-                      </Button>
-                    ) : (
-                      <Button variant="outline" disabled>
-                        {t("LimitOrderWizard:max")}
-                      </Button>
-                    )}
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      {t("LimitOrderWizard:selling")}
-                    </label>
-                  </div>
-                  <Input
-                    value={parseFloat(tempBuyAmount * price).toFixed(
-                      sellingAssetData.precision
-                    )}
-                    type="text"
-                    disabled
-                  />
-                  <Input value={sellingAssetData.symbol} type="text" disabled />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      {t("LimitOrderWizard:price")}
-                    </label>
-                  </div>
-                  <Input value={price} type="text" disabled />
-                  <Input
-                    value={`${_assetLimitOrderWants.symbol}/${_assetLimitOrderOffers.symbol}`}
-                    type="text"
-                    disabled
-                  />
-                </div>
-                {_quoteFee > 0 ? (
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="col-span-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        {t("LimitOrderWizard:marketFee")}
-                      </label>
-                    </div>
-                    <Input
-                      value={`${(
-                        parseFloat(_quoteFee) * parseFloat(tempBuyAmount)
-                      ).toFixed(buyingAssetData.precision)} (${
-                        _quoteFee * 100
-                      }%)`}
-                      type="text"
-                      disabled
-                    />
-                    <Input
-                      value={buyingAssetData.symbol}
-                      type="text"
-                      disabled
-                    />
-                  </div>
-                ) : null}
-                <div className="grid grid-cols-1 gap-2">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setLimitOrderBuyAmount(tempBuyAmount);
-                      setOperations((prevOperations) => {
-                        const _ops = [...prevOperations];
+                            const existingOp =
+                              existingOperationIndex !== -1
+                                ? _ops[existingOperationIndex]
+                                : null;
 
-                        const existingOperationIndex = _ops.findIndex(
-                          (op) => op.id === _order.id
-                        );
-                        const existingOperation =
-                          existingOperationIndex !== -1
-                            ? _ops[existingOperationIndex]
-                            : null;
+                            if (
+                              existingOp &&
+                              existingOp.final_buy_amount === tempBuyAmount
+                            ) {
+                              return _ops;
+                            }
 
-                        // Early return if the value is already set
-                        if (
-                          existingOperation &&
-                          existingOperation.final_buy_amount === tempBuyAmount
-                        ) {
-                          return _ops;
-                        }
+                            for (let i = 0; i < index; i++) {
+                              const priorOrder = marketLimitOrders[i];
 
-                        // Update prior orders to 100%
-                        for (let i = 0; i < index; i++) {
-                          const priorOrder = marketLimitOrders[i];
-
-                          const _assetPurchased = assets.find(
-                            (x) => x.id === priorOrder.sell_price.quote.asset_id
-                          );
-                          const _assetSold = assets.find(
-                            (x) => x.id === priorOrder.sell_price.base.asset_id
-                          );
-
-                          const _amountBought = humanReadableFloat(
-                            priorOrder.sell_price.quote.amount,
-                            _assetPurchased.precision
-                          );
-                          const _amountSold = humanReadableFloat(
-                            priorOrder.sell_price.base.amount,
-                            _assetSold.precision
-                          );
-
-                          const _price = parseFloat(
-                            (_amountBought / _amountSold).toFixed(
-                              _assetPurchased.precision
-                            )
-                          );
-
-                          const existingPriorOperationIndex = _ops.findIndex(
-                            (op) => op.id === priorOrder.id
-                          );
-                          if (existingPriorOperationIndex !== -1) {
-                            // Update existing prior operation
-                            _ops[existingPriorOperationIndex] = {
-                              ..._ops[existingPriorOperationIndex],
-                              final_buy_amount: _amountSold,
-                              final_asset_purchased: _assetLimitOrderOffers.id,
-                              final_asset_sold: _assetLimitOrderWants.id,
-                              final_price: _price,
-                            };
-                          } else {
-                            // Add new prior operation
-                            priorOrder["final_buy_amount"] = _amountSold;
-                            priorOrder["final_asset_purchased"] =
-                              _assetLimitOrderOffers.id;
-                            priorOrder["final_asset_sold"] =
-                              _assetLimitOrderWants.id;
-                            priorOrder["final_price"] = _price;
-                            _ops.push(priorOrder);
-                          }
-                        }
-
-                        // Remove subsequent orders if the current order is less than 100%
-                        if (tempBuyAmount < _amountOffered) {
-                          for (
-                            let i = index + 1;
-                            i < marketLimitOrders.length;
-                            i++
-                          ) {
-                            const subsequentOrder = marketLimitOrders[i];
-                            const existingSubsequentOperationIndex =
-                              _ops.findIndex(
-                                (op) => op.id === subsequentOrder.id
+                              const _assetPurchased = assets.find(
+                                (x) => x.id === priorOrder.sell_price.quote.asset_id
+                              );
+                              const _assetSold = assets.find(
+                                (x) => x.id === priorOrder.sell_price.base.asset_id
                               );
 
-                            if (existingSubsequentOperationIndex !== -1) {
-                              // Remove existing subsequent operation
-                              _ops.splice(existingSubsequentOperationIndex, 1);
+                              const _amountBought = humanReadableFloat(
+                                priorOrder.sell_price.quote.amount,
+                                _assetPurchased.precision
+                              );
+                              const _amountSold = humanReadableFloat(
+                                priorOrder.sell_price.base.amount,
+                                _assetSold.precision
+                              );
+
+                              const _price = parseFloat(
+                                (_amountBought / _amountSold).toFixed(
+                                  _assetPurchased.precision
+                                )
+                              );
+
+                              const existingPriorOperationIndex = _ops.findIndex(
+                                (op) => op.id === priorOrder.id
+                              );
+                              if (existingPriorOperationIndex !== -1) {
+                                _ops[existingPriorOperationIndex] = {
+                                  ..._ops[existingPriorOperationIndex],
+                                  final_buy_amount: _amountSold,
+                                  final_asset_purchased: _assetLimitOrderOffers.id,
+                                  final_asset_sold: _assetLimitOrderWants.id,
+                                  final_price: _price,
+                                };
+                              } else {
+                                priorOrder["final_buy_amount"] = _amountSold;
+                                priorOrder["final_asset_purchased"] =
+                                  _assetLimitOrderOffers.id;
+                                priorOrder["final_asset_sold"] =
+                                  _assetLimitOrderWants.id;
+                                priorOrder["final_price"] = _price;
+                                _ops.push(priorOrder);
+                              }
                             }
-                          }
 
-                          if (tempBuyAmount === 0) {
-                            // Remove the current order if set to 0%
-                            return _ops.filter((op) => op.id !== _order.id);
-                          }
-                        }
+                            if (tempBuyAmount < _amountOffered) {
+                              for (
+                                let i = index + 1;
+                                i < marketLimitOrders.length;
+                                i++
+                              ) {
+                                const subsequentOrder = marketLimitOrders[i];
+                                const existingSubsequentOperationIndex =
+                                  _ops.findIndex(
+                                    (op) => op.id === subsequentOrder.id
+                                  );
 
-                        // Set current order to the specified buy amount
-                        if (existingOperationIndex !== -1) {
-                          // Update existing operation
-                          _ops[existingOperationIndex] = {
-                            ..._ops[existingOperationIndex],
-                            final_buy_amount: tempBuyAmount,
-                          };
-                        } else {
-                          // Add new operation
-                          _order["final_buy_amount"] = tempBuyAmount;
-                          _order["final_asset_purchased"] =
-                            _assetLimitOrderOffers.id;
-                          _order["final_asset_sold"] = _assetLimitOrderWants.id;
-                          _order["final_price"] = parseFloat(price);
-                          _ops.push(_order);
-                        }
+                                if (existingSubsequentOperationIndex !== -1) {
+                                  _ops.splice(existingSubsequentOperationIndex, 1);
+                                }
+                              }
 
-                        return _ops;
-                      });
-                    }}
-                  >
-                    {t("LimitOrderWizard:submit")}
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          ) : null}
-          {operations &&
-          operations.length &&
-          operations.find((op) => op.id === _order.id) ? (
-            <Button
-              variant="outline"
-              onClick={() => {
-                setOperations((prevOperations) => {
-                  const _ops = [...prevOperations];
-                  const existingOperationIndex = _ops.findIndex(
-                    (op) => op.id === _order.id
-                  );
-                  if (existingOperationIndex !== -1) {
-                    // Remove the current operation
-                    _ops.splice(existingOperationIndex, 1);
+                              if (tempBuyAmount === 0) {
+                                return _ops.filter((op) => op.id !== _order.id);
+                              }
+                            }
 
-                    // Remove subsequent operations that rely on the current operation
-                    for (let i = index + 1; i < marketLimitOrders.length; i++) {
-                      const subsequentOrder = marketLimitOrders[i];
-                      const existingSubsequentOperationIndex = _ops.findIndex(
-                        (op) => op.id === subsequentOrder.id
+                            if (existingOperationIndex !== -1) {
+                              _ops[existingOperationIndex] = {
+                                ..._ops[existingOperationIndex],
+                                final_buy_amount: tempBuyAmount,
+                              };
+                            } else {
+                              _order["final_buy_amount"] = tempBuyAmount;
+                              _order["final_asset_purchased"] =
+                                _assetLimitOrderOffers.id;
+                              _order["final_asset_sold"] = _assetLimitOrderWants.id;
+                              _order["final_price"] = parseFloat(price);
+                              _ops.push(_order);
+                            }
+
+                            return _ops;
+                          });
+                          setBuyDialogOpen(false);
+                        }}
+                      >
+                        {t("LimitOrderWizard:submit")}
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              ) : (
+                <button
+                  type="button"
+                  disabled
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/30 bg-card/20 text-muted-foreground/30 cursor-not-allowed"
+                >
+                  <ShoppingCart className="h-3.5 w-3.5" />
+                </button>
+              )}
+              {isSelected ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOperations((prevOperations) => {
+                      const _ops = [...prevOperations];
+                      const existingOperationIndex = _ops.findIndex(
+                        (op) => op.id === _order.id
                       );
-
-                      if (existingSubsequentOperationIndex !== -1) {
-                        _ops.splice(existingSubsequentOperationIndex, 1);
+                      if (existingOperationIndex !== -1) {
+                        _ops.splice(existingOperationIndex, 1);
+                        for (let i = index + 1; i < marketLimitOrders.length; i++) {
+                          const subsequentOrder = marketLimitOrders[i];
+                          const idx = _ops.findIndex(
+                            (op) => op.id === subsequentOrder.id
+                          );
+                          if (idx !== -1) {
+                            _ops.splice(idx, 1);
+                          }
+                        }
                       }
-                    }
-                  }
-                  return _ops;
-                });
-              }}
-            >
-              ➖
-            </Button>
-          ) : null}
+                      return _ops;
+                    });
+                  }}
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.2)] hover:border-[hsl(var(--accent-danger)/0.5)] transition-all"
+                >
+                  <Minus className="h-3 w-3" />
+                </button>
+              ) : null}
+            </div>
+          </div>
         </div>
       </div>
     );
   };
 
+  // ─── Main dialog ────────────────────────────────────────────────
   return (
     <Dialog open={addOperationDialog} onOpenChange={setAddOperationDialog}>
-      <DialogTrigger>
-        <Button variant="outline" className="mt-3">
-          ➕
+      <DialogTrigger asChild>
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-10 gap-1.5 rounded-xl border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)] transition-all text-xs font-semibold"
+        >
+          <Plus className="h-4 w-4" />
+          {t("LimitOrderWizard:addOperation", "Add operation")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[1080px] bg-white">
+      <DialogContent className="sm:max-w-[1080px] !bg-card border border-border rounded-2xl">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
+        />
         <DialogHeader>
-          <DialogTitle>{t("LimitOrderWizard:title")}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-foreground flex items-center gap-2">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+              <ShoppingCart className="h-3.5 w-3.5" />
+            </span>
+            {t("LimitOrderWizard:title")}
+          </DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             {t("LimitOrderWizard:description")}
           </DialogDescription>
         </DialogHeader>
-        <div className="grid grid-cols-7 gap-5">
-          <div className="col-span-3">
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="text-left">
-                      {t("LimitOrderWizard:buying")}
-                    </div>
-                    <div className="text-right">
-                      <BasicAssetDropDownCard
-                        assetSymbol={buyingAsset ?? ""}
-                        assetData={buyingAssetData}
-                        storeCallback={setBuyingAsset}
-                        otherAsset={sellingAsset}
-                        marketSearch={marketSearch}
-                        type={"quote"}
-                        size="small"
-                        chain={chain}
-                        borrowPositions={borrowPositions}
-                        usrBalances={usrBalances}
-                      />
-                    </div>
-                  </div>
-                </CardTitle>
-              </CardHeader>
-              {buyingAssetData ? (
-                <CardContent>
-                  <div style={{ display: "flex", alignItems: "left" }}>
+
+        <div className="flex items-center gap-3 mb-4">
+          <div className="flex-1 rounded-xl border border-[hsl(var(--accent-success)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-success)/0.06)] to-transparent p-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-success)/0.15)] border border-[hsl(var(--accent-success)/0.3)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]">
+                  <TrendingUp className="h-3 w-3" />
+                </span>
+                <span className="text-xs font-semibold text-foreground">
+                  {t("LimitOrderWizard:buying")}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                {buyingAssetData ? (
+                  <span className="text-[10px] font-mono tabular-nums text-muted-foreground">
                     {updatedBalances &&
                     updatedBalances.length &&
                     updatedBalances.find(
@@ -644,98 +687,97 @@ export default function LimitOrderWizard(properties) {
                           updatedBalances.find(
                             (x) => x.asset_id === buyingAssetData.id
                           ).amount
-                        ).toFixed(buyingAssetData.precision)} ${
-                          buyingAssetData.symbol
-                        } `
-                      : `0 ${buyingAssetData.symbol} `}
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          {isFavouriteBuy ? (
-                            <HeartFilledIcon
-                              className="mt-1 ml-2"
-                              onClick={() => {
-                                removeFavouriteAsset(chain, {
-                                  id: buyingAssetData.id,
-                                  symbol: buyingAssetData.symbol,
-                                  issuer: marketSearch.find(
-                                    (x) => x.s === buyingAssetData.symbol
-                                  ).u,
-                                });
-                              }}
-                            />
-                          ) : (
-                            <HeartIcon
-                              className="mt-1 ml-2"
-                              onClick={() => {
-                                addFavouriteAsset(chain, {
-                                  id: buyingAssetData.id,
-                                  symbol: buyingAssetData.symbol,
-                                  issuer: marketSearch.find(
-                                    (x) => x.s === buyingAssetData.symbol
-                                  ).u,
-                                });
-                              }}
-                            />
-                          )}
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          {t("LimitOrderWizard:favourite")}
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </CardContent>
-              ) : null}
-            </Card>
+                        ).toFixed(buyingAssetData.precision)}`
+                      : "0"}
+                  </span>
+                ) : null}
+                <BasicAssetDropDownCard
+                  assetSymbol={buyingAsset ?? ""}
+                  assetData={buyingAssetData}
+                  storeCallback={setBuyingAsset}
+                  otherAsset={sellingAsset}
+                  marketSearch={marketSearch}
+                  type={"quote"}
+                  size="small"
+                  chain={chain}
+                  borrowPositions={borrowPositions}
+                  usrBalances={usrBalances}
+                />
+                <TooltipProvider delayDuration={200}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      {isFavouriteBuy ? (
+                        <HeartFilledIcon
+                          className="h-4 w-4 text-[hsl(var(--accent-danger-fg))] cursor-pointer shrink-0"
+                          onClick={() => {
+                            removeFavouriteAsset(chain, {
+                              id: buyingAssetData.id,
+                              symbol: buyingAssetData.symbol,
+                              issuer: marketSearch.find(
+                                (x) => x.s === buyingAssetData.symbol
+                              ).u,
+                            });
+                          }}
+                        />
+                      ) : (
+                        <HeartIcon
+                          className="h-4 w-4 text-muted-foreground/50 hover:text-[hsl(var(--accent-danger-fg))] cursor-pointer shrink-0 transition-colors"
+                          onClick={() => {
+                            addFavouriteAsset(chain, {
+                              id: buyingAssetData.id,
+                              symbol: buyingAssetData.symbol,
+                              issuer: marketSearch.find(
+                                (x) => x.s === buyingAssetData.symbol
+                              ).u,
+                            });
+                          }}
+                        />
+                      )}
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-card border-border text-foreground/85">
+                      {t("LimitOrderWizard:favourite")}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center justify-center">
-            {buyingAsset && sellingAsset ? (
-              <Button
-                variant="outline"
-                className="w-full h-7"
-                onClick={handleClick}
-              >
-                {clicked ? (
-                  <ReloadIcon className="animate-spin" />
-                ) : (
-                  <ReloadIcon />
-                )}
-              </Button>
-            ) : (
-              <Button variant="outline" className="w-full h-7" disabled>
-                <ReloadIcon />
-              </Button>
-            )}
-          </div>
-          <div className="col-span-3">
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="text-left">
-                      {t("LimitOrderWizard:selling")}
-                    </div>
-                    <div className="text-right">
-                      <BasicAssetDropDownCard
-                        assetSymbol={sellingAsset ?? ""}
-                        assetData={sellingAssetData}
-                        storeCallback={setSellingAsset}
-                        otherAsset={buyingAsset}
-                        marketSearch={marketSearch}
-                        type={"base"}
-                        size="small"
-                        chain={chain}
-                        borrowPositions={borrowPositions}
-                        usrBalances={usrBalances}
-                      />
-                    </div>
-                  </div>
-                </CardTitle>
-              </CardHeader>
-              {sellingAssetData ? (
-                <CardContent>
-                  <div style={{ display: "flex", alignItems: "left" }}>
+
+          <TooltipProvider delayDuration={200}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  onClick={handleClick}
+                  disabled={!buyingAsset || !sellingAsset}
+                  className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-border bg-card/80 hover:border-[hsl(var(--accent-1)/0.5)] hover:shadow-[0_0_24px_-6px_rgba(59,130,246,0.4)] transition-all disabled:opacity-40 disabled:cursor-not-allowed group"
+                >
+                  {clicked ? (
+                    <ReloadIcon className="h-4 w-4 animate-spin text-muted-foreground" />
+                  ) : (
+                    <ArrowDownUp className="h-4 w-4 text-foreground/70 group-hover:rotate-180 transition-transform duration-300" />
+                  )}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className="bg-card border-border text-foreground/85">
+                <p>{t("LimitOrderWizard:swapPair", "Swap buying/selling pair")}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <div className="flex-1 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                  <Coins className="h-3 w-3" />
+                </span>
+                <span className="text-xs font-semibold text-foreground">
+                  {t("LimitOrderWizard:selling")}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                {sellingAssetData ? (
+                  <span className="text-[10px] font-mono tabular-nums text-muted-foreground">
                     {updatedBalances &&
                     updatedBalances.length &&
                     updatedBalances.find(
@@ -745,111 +787,101 @@ export default function LimitOrderWizard(properties) {
                           updatedBalances.find(
                             (x) => x.asset_id === sellingAssetData.id
                           ).amount
-                        ).toFixed(sellingAssetData.precision)} ${
-                          sellingAssetData.symbol
-                        } `
-                      : `0 ${sellingAssetData.symbol} `}
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          {isFavouriteSell ? (
-                            <HeartFilledIcon
-                              className="mt-1 ml-2"
-                              onClick={() => {
-                                removeFavouriteAsset(chain, {
-                                  id: sellingAssetData.id,
-                                  symbol: sellingAssetData.symbol,
-                                  issuer: marketSearch.find(
-                                    (x) => x.s === sellingAssetData.symbol
-                                  ).u,
-                                });
-                              }}
-                            />
-                          ) : (
-                            <HeartIcon
-                              className="mt-1 ml-2"
-                              onClick={() => {
-                                addFavouriteAsset(chain, {
-                                  id: sellingAssetData.id,
-                                  symbol: sellingAssetData.symbol,
-                                  issuer: marketSearch.find(
-                                    (x) => x.s === sellingAssetData.symbol
-                                  ).u,
-                                });
-                              }}
-                            />
-                          )}
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          {t("LimitOrderWizard:favourite")}
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </CardContent>
-              ) : null}
-            </Card>
+                        ).toFixed(sellingAssetData.precision)}`
+                      : "0"}
+                  </span>
+                ) : null}
+                <BasicAssetDropDownCard
+                  assetSymbol={sellingAsset ?? ""}
+                  assetData={sellingAssetData}
+                  storeCallback={setSellingAsset}
+                  otherAsset={buyingAsset}
+                  marketSearch={marketSearch}
+                  type={"base"}
+                  size="small"
+                  chain={chain}
+                  borrowPositions={borrowPositions}
+                  usrBalances={usrBalances}
+                />
+                <TooltipProvider delayDuration={200}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      {isFavouriteSell ? (
+                        <HeartFilledIcon
+                          className="h-4 w-4 text-[hsl(var(--accent-danger-fg))] cursor-pointer shrink-0"
+                          onClick={() => {
+                            removeFavouriteAsset(chain, {
+                              id: sellingAssetData.id,
+                              symbol: sellingAssetData.symbol,
+                              issuer: marketSearch.find(
+                                (x) => x.s === sellingAssetData.symbol
+                              ).u,
+                            });
+                          }}
+                        />
+                      ) : (
+                        <HeartIcon
+                          className="h-4 w-4 text-muted-foreground/50 hover:text-[hsl(var(--accent-danger-fg))] cursor-pointer shrink-0 transition-colors"
+                          onClick={() => {
+                            addFavouriteAsset(chain, {
+                              id: sellingAssetData.id,
+                              symbol: sellingAssetData.symbol,
+                              issuer: marketSearch.find(
+                                (x) => x.s === sellingAssetData.symbol
+                              ).u,
+                            });
+                          }}
+                        />
+                      )}
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-card border-border text-foreground/85">
+                      {t("LimitOrderWizard:favourite")}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-2">
-          {buyingAsset && sellingAsset ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("LimitOrderWizard:marketLimitOrders")}</CardTitle>
-                <CardDescription>
-                  {t("LimitOrderWizard:marketLimitOrdersDescription", {
-                    buyingAsset: buyingAssetData ? buyingAssetData.symbol : "",
-                    sellingAsset: sellingAssetData
-                      ? sellingAssetData.symbol
-                      : "",
-                  })}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-5 gap-2 text-center">
-                  <div>{buyingAssetData ? buyingAssetData.symbol : null}</div>
-                  <div>{sellingAssetData ? sellingAssetData.symbol : null}</div>
-                  <div>{t("LimitOrderWizard:price")}</div>
-                  <div>{t("LimitOrderWizard:buyingPercentage")}</div>
-                  <div></div>
-                </div>
-                {isFetching && sellingAsset !== buyingAsset ? (
-                  <div className="space-y-2 mt-5">
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                  </div>
-                ) : null}
-                {!isFetching &&
-                (!marketLimitOrders || !marketLimitOrders.length) &&
-                sellingAsset !== buyingAsset ? (
-                  <div className="text-center mt-5">
-                    {t("LimitOrderWizard:noOrdersAvailable")}
-                  </div>
-                ) : null}
-                {sellingAsset === buyingAsset ? (
-                  <div className="text-center mt-5">
-                    {t("LimitOrderWizard:invalidTradingPair")}
-                  </div>
-                ) : null}
-                {!isFetching &&
-                marketLimitOrders &&
-                marketLimitOrders.length &&
-                sellingAsset !== buyingAsset ? (
-                  <div className="w-full mt-3 max-h-[200px] overflow-auto">
-                    <List
-                      rowComponent={limitOrderRow}
-                      rowCount={marketLimitOrders.length}
-                      rowHeight={50}
-                      rowProps={{}}
-                      key={`list-limitorders`}
-                    />
-                  </div>
-                ) : null}
-              </CardContent>
-            </Card>
-          ) : null}
+
+        <div className="rounded-xl border border-border/40 bg-card/30">
+          <div className="grid grid-cols-5 gap-2 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60 border-b border-border/40">
+            <div>{buyingAssetData ? buyingAssetData.symbol : "—"}</div>
+            <div>{sellingAssetData ? sellingAssetData.symbol : "—"}</div>
+            <div>{t("LimitOrderWizard:price")}</div>
+            <div>{t("LimitOrderWizard:buyingPercentage")}</div>
+            <div className="text-right">{t("LimitOrderWizard:action", "Action")}</div>
+          </div>
+
+          {!buyingAsset || !sellingAsset ? (
+            <div className="flex items-center justify-center py-12 text-sm text-muted-foreground/60">
+              {t("LimitOrderWizard:selectPair", "Select a buying and selling asset to view orders")}
+            </div>
+          ) : isFetching && sellingAsset !== buyingAsset ? (
+            <div className="space-y-2 p-4">
+              {[0, 1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-10 w-full rounded-xl bg-accent/40" />
+              ))}
+            </div>
+          ) : sellingAsset === buyingAsset ? (
+            <div className="flex items-center justify-center py-12 text-sm text-[hsl(var(--accent-danger-fg)/0.7)]">
+              {t("LimitOrderWizard:invalidTradingPair")}
+            </div>
+          ) : !marketLimitOrders || !marketLimitOrders.length ? (
+            <div className="flex items-center justify-center py-12 text-sm text-muted-foreground/60">
+              {t("LimitOrderWizard:noOrdersAvailable")}
+            </div>
+          ) : (
+            <div className="w-full max-h-[300px] overflow-auto p-1">
+              <List
+                rowComponent={limitOrderRow}
+                rowCount={marketLimitOrders.length}
+                rowHeight={48}
+                rowProps={{}}
+                key={`list-limitorders`}
+              />
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

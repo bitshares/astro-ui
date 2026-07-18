@@ -1,5 +1,5 @@
 {
-  "existingID": "Existing Offer ID",
+  "existingID": "Olemasoleva pakkumise ID",
   "price": "Hind:",
   "editingPrice": "Hinna redigeerimine",
   "setNewPrice": "Määra uus hind",
@@ -58,5 +58,7 @@
   "risksPoint3": "Kui te lubatud laenuvõtjaid ei konfigureeri, saavad kõik Bitsharesi plokiahela kasutajad tehinguga nõustuda. Kaaluge teadaolevatele/registreeritud kasutajatele laenamiseks heakskiidetud laenuvõtja funktsiooni kasutamist.",
   "risksPoint4": "Laenuvõtjad ei ole kohustatud laenatud vara tagasi maksma ega karistata selle eest, nad saavad valida laenu mittemaksmise ja tagatisest ilmajäämise, Laenatud vara või tagatise saate tagasi nõuda alles pärast tagasimaksetähtaja möödumist. ",
   "risksPoint5": "Krediiditehingu aegumine võib ületada krediidipakkumise aegumiskuupäeva, te ei tohiks eeldada, et saate laenutatud varad tagasi enne, kui aegumistähtaeg + viimane tagasimakseperiood on möödas.",
-  "risksPoint6": "Olge teadlik vastaspoole riskidest, kui kasutate börsil tagatud varasid (EBA) tagatise või laenu andmise eesmärgil, kuna nende väärtus võib kõikuda nende kolmanda osapoole riskide tõttu."
+  "risksPoint6": "Olge teadlik vastaspoole riskidest, kui kasutate börsil tagatud varasid (EBA) tagatise või laenu andmise eesmärgil, kuna nende väärtus võib kõikuda nende kolmanda osapoole riskide tõttu.",
+  "noCollateral": "Tagatist pole veel lisatud",
+  "noPreApprovedBorrowers": "Eelnevalt heaks kiidetud laenuvõtjaid pole"
 }

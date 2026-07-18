@@ -10,6 +10,8 @@ import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -22,13 +24,11 @@ import {
 } from "@/components/ui/empty";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 
@@ -39,6 +39,8 @@ import { createVestingBalanceStore } from "@/nanoeffects/VestingBalances.ts";
 
 import { humanReadableFloat } from "@/lib/common.js";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
+
+import { Coins, PiggyBank, TrendingUp, Clock, Calendar as Cal, ArrowUpCircle, Info, Hourglass } from "lucide-react";
 
 function hoursTillExpiration(expirationTime) {
   var expirationDate = new Date(expirationTime);
@@ -121,134 +123,193 @@ export default function Vesting(properties) {
 
     return (
       <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card
-          className={`ml-2 mr-2 h-[${
-            vestingType === "cashback" ? "165px" : "75px"
-          }]`}
-        >
-          <CardHeader className="pb-0">
-            <CardTitle>
-              <div className="grid grid-cols-2">
-                <div>{readableBalance}</div>
-                <div className="text-right">({res.id})</div>
-              </div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm pb-3 mt-1">
-            {policy ? (
-              <div className="grid grid-cols-3 gap-2">
-                <div className="col-span-1">
-                  <b>{t("Vesting:vesting_seconds")}</b> {policy.vesting_seconds}
-                  <br />
-                  <b>{t("Vesting:start_claim")}</b>:{" "}
-                  {new Date(policy.start_claim).toLocaleString()}
-                  <br />
+        <div className="m-2 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.04)] to-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] transition-all px-4 py-3">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                <Coins className="h-3 w-3" />
+              </span>
+              <span className="font-mono text-sm font-semibold text-[hsl(var(--accent-1-fg))]">
+                {readableBalance}
+              </span>
+            </div>
+            <Badge
+              variant="outline"
+              className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px] font-mono"
+            >
+              {res.id}
+            </Badge>
+          </div>
+          
+          {policy ? (
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <div className="space-y-1">
+                <div className="flex items-center gap-1.5">
+                  <Clock className="h-3 w-3 text-muted-foreground/50" />
+                  <span className="text-[10px] text-muted-foreground">{t("Vesting:vesting_seconds")}</span>
+                  <span className="font-mono text-xs text-foreground/85">{policy.vesting_seconds}</span>
                 </div>
-                <div className="col-span-2">
-                  <b>{t("Vesting:coin_seconds_earned")}</b>:{" "}
-                  {policy.coin_seconds_earned}
-                  <br />
-                  <b>{t("Vesting:coin_seconds_earned_last_update")}</b>:{" "}
-                  {new Date(
-                    policy.coin_seconds_earned_last_update
-                  ).toLocaleString()}
-                  <br />
+                <div className="flex items-center gap-1.5">
+                  <Cal className="h-3 w-3 text-muted-foreground/50" />
+                  <span className="text-[10px] text-muted-foreground">{t("Vesting:start_claim")}</span>
+                  <span className="font-mono text-xs text-foreground/70">
+                    {new Date(policy.start_claim).toLocaleString()}
+                  </span>
                 </div>
               </div>
-            ) : null}
-          </CardContent>
-          <CardFooter>
+              <div className="space-y-1">
+                <div className="flex items-center gap-1.5">
+                  <TrendingUp className="h-3 w-3 text-muted-foreground/50" />
+                  <span className="text-[10px] text-muted-foreground">{t("Vesting:coin_seconds_earned")}</span>
+                  <span className="font-mono text-xs text-foreground/85">{policy.coin_seconds_earned}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Clock className="h-3 w-3 text-muted-foreground/50" />
+                  <span className="text-[10px] text-muted-foreground">{t("Vesting:coin_seconds_earned_last_update")}</span>
+                  <span className="font-mono text-xs text-foreground/70">
+                    {new Date(policy.coin_seconds_earned_last_update).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ) : null}
+          
+          <div className="mt-3 pt-3 border-t border-border/40">
             <Button
               onClick={() => {
                 setChosenVestingBalance({ res, readableBalance });
                 setShowDialog(true);
               }}
-              className={res.balance_type === "cashback" ? "" : "mt-1"}
+              className="w-full h-9 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)]"
             >
+              <ArrowUpCircle className="h-4 w-4 mr-2" />
               {t(
                 `Vesting:${
                   res.balance_type === "cashback" ? "claim_a" : "claim_b"
                 }`
               )}
             </Button>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   };
 
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:1/2">
-      <div className="grid grid-cols-1 gap-3">
-        <Card>
-          <CardHeader className="pb-1">
-            <CardTitle>{t("Vesting:card.title")}</CardTitle>
-            <CardDescription>{t("Vesting:card.description")}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-2 mt-2">
-              <Button
-                onClick={() => setVestingType("cashback")}
-                variant={vestingType === "cashback" ? "" : "outline"}
-                size="md"
-              >
-                {t("Vesting:cashback")}
-              </Button>
-              <Button
-                onClick={() => setVestingType("market_fee_sharing")}
-                variant={vestingType === "market_fee_sharing" ? "" : "outline"}
-                size="md"
-              >
-                {t("Vesting:market_fees")}
-              </Button>
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-20 -left-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-20 -right-20 h-48 w-48 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+        />
+        <div className="relative p-5 sm:p-6">
+          <div className="flex items-start gap-3 mb-4">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+              <Hourglass className="h-4 w-4" strokeWidth={2.25} />
+            </span>
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <Badge
+                  variant="outline"
+                  className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px]"
+                >
+                  Vesting
+                </Badge>
+                <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight">
+                  {t("Vesting:card.title")}
+                </h3>
+              </div>
+              <p className="text-xs text-muted-foreground/70 mt-1">
+                {t("Vesting:card.description")}
+              </p>
             </div>
+          </div>
 
-            <>
-              {chosenVestingData && chosenVestingData.length ? (
-                <div className="w-full mt-3 max-h-[500px] overflow-auto">
-                  <List
-                    rowComponent={VestingRow}
-                    rowCount={chosenVestingData.length}
-                    rowHeight={vestingType === "cashback" ? 175 : 150}
-                    rowProps={{}}
-                  />
-                </div>
-              ) : null}
-              {chosenVestingData && !chosenVestingData.length ? (
-                <Empty>
-                  <EmptyHeader>
-                    <EmptyMedia variant="icon">❕</EmptyMedia>
-                    <EmptyTitle>{t("Vesting:card.empty")}</EmptyTitle>
-                  </EmptyHeader>
-                </Empty>
-              ) : null}
-            </>
-          </CardContent>
-        </Card>
-        {showDialog ? (
-          <DeepLinkDialog
-            operationNames={["vesting_balance_withdraw"]}
-            username={usr.username}
-            usrChain={usr.chain}
-            userID={usr.id}
-            dismissCallback={setShowDialog}
-            key={`deeplink-dialog-${chosenVestingBalance.res.id}`}
-            headerText={t("Vesting:dialogContent.header", {
-              readable: chosenVestingBalance.readableBalance,
-            })}
-            trxJSON={[
-              {
-                vesting_balance: chosenVestingBalance.res.id,
-                owner: usr.id,
-                amount: {
-                  amount: chosenVestingBalance.res.balance.amount,
-                  asset_id: chosenVestingBalance.res.balance.asset_id,
-                },
-              },
-            ]}
-          />
-        ) : null}
+          <div className="grid grid-cols-2 gap-2 mt-4">
+            <Button
+              onClick={() => setVestingType("cashback")}
+              variant={vestingType === "cashback" ? "" : "outline"}
+              className={
+                vestingType === "cashback"
+                  ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)]"
+                  : "border-border hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)]"
+              }
+            >
+              <Coins className="h-4 w-4 mr-2" />
+              {t("Vesting:cashback")}
+            </Button>
+            <Button
+              onClick={() => setVestingType("market_fee_sharing")}
+              variant={vestingType === "market_fee_sharing" ? "" : "outline"}
+              className={
+                vestingType === "market_fee_sharing"
+                  ? "border-[hsl(var(--accent-1)/0.4)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)]"
+                  : "border-border hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)]"
+              }
+            >
+              <TrendingUp className="h-4 w-4 mr-2" />
+              {t("Vesting:market_fees")}
+            </Button>
+          </div>
+
+          <>
+            {chosenVestingData && chosenVestingData.length ? (
+              <div className="w-full mt-4 max-h-[400px] overflow-auto">
+                <List
+                  rowComponent={VestingRow}
+                  rowCount={chosenVestingData.length}
+                  rowHeight={vestingType === "cashback" ? 200 : 100}
+                  rowProps={{}}
+                />
+              </div>
+            ) : null}
+            {chosenVestingData && !chosenVestingData.length ? (
+              <Empty className="mt-4 border border-dashed border-[hsl(var(--accent-1)/0.2)] rounded-xl bg-[hsl(var(--accent-1)/0.03)]">
+                <EmptyHeader>
+                  <EmptyMedia variant="icon" className="bg-[hsl(var(--accent-1)/0.15)] text-[hsl(var(--accent-1-fg))]">
+                    <PiggyBank className="w-6 h-6" />
+                  </EmptyMedia>
+                  <EmptyTitle className="text-foreground/80">
+                    {t("Vesting:card.empty")}
+                  </EmptyTitle>
+                </EmptyHeader>
+              </Empty>
+            ) : null}
+          </>
+        </div>
       </div>
+
+      {showDialog ? (
+        <DeepLinkDialog
+          operationNames={["vesting_balance_withdraw"]}
+          username={usr.username}
+          usrChain={usr.chain}
+          userID={usr.id}
+          dismissCallback={setShowDialog}
+          key={`deeplink-dialog-${chosenVestingBalance.res.id}`}
+          headerText={t("Vesting:dialogContent.header", {
+            readable: chosenVestingBalance.readableBalance,
+          })}
+          trxJSON={[
+            {
+              vesting_balance: chosenVestingBalance.res.id,
+              owner: usr.id,
+              amount: {
+                amount: chosenVestingBalance.res.balance.amount,
+                asset_id: chosenVestingBalance.res.balance.asset_id,
+              },
+            },
+          ]}
+        />
+      ) : null}
     </div>
   );
 }

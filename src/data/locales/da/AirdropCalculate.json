@@ -1,0 +1,201 @@
+{
+  "page": {
+    "title": "Airdrop-beregner",
+    "description": "Opret en modtagerpulje, kør udvælgelsesalgoritmer og udsend en airdrop af enhver aktiv."
+  },
+  "pool": {
+    "title": "Kandidatpulje",
+    "description": "Vælg hvor airdrop-kandidaterne kommer fra, og indlæs dem derefter. Algoritmer køres mod denne pulje.",
+    "source": "Puljekilde",
+    "source.manual": "Manuel liste (upload / indsæt)",
+    "source.allaccounts": "Alle konti (1.2.1 til nyeste)",
+    "source.tickets": "Billetindehavere (låse)",
+    "source.callorders": "Indehavere af call-ordrer (gældssikkerhed)",
+    "source.assetholders": "Største aktivindehavere (saldo)",
+    "source.creators": "Største oprettere af limitordrer",
+    "source.fillers": "Største udfyldere af limitordrer",
+    "source.creatorspair": "Største oprettere af limitordrer (bestemt par)",
+    "source.fillerspair": "Største udfyldere af limitordrer (bestemt par)",
+    "source.ltm": "Opgraderinger til livstidsmedlem",
+    "qtyLimit": "Mængdegrænse",
+    "qtyLimitHint": "Maksimalt antal konti der hentes fra blokudforskeren / Elasticsearch.",
+    "pairAsset": "Pair-aktiv",
+    "pairAssetHint": "Aktivet på den anden side af handelsparet (det modtagne ved salg, eller købte ved udfyldning).",
+    "needAsset": "Vælg først airdrop-aktivet.",
+    "needAssetHint": "Disse puljekilder er begrænset til det airdrop-aktiv du vælger ovenfor.",
+    "airdropAssetHint": "Det aktiv der vil blive fordelt i airdroppen. Vælg det her, så puljen kan afgrænses og din saldo tjekkes.",
+    "needSmartcoin": "Vælg først en gyldig smartcoin (markeds-peget aktiv).",
+    "asset": "Aktiv",
+    "assetHint": "Det aktiv denne pulje bygges fra (ejere, eller salgs/betalingssiden af limit-ordrerne).",
+    "needPair": "Vælg både airdrop-aktivet og pair-aktivet.",
+    "needPairHint": "Pair-kilder kræver to aktiver for at definere handelsparet.",
+    "callOrderAsset": "Smartcoin",
+    "callOrderAssetHint": "Vælg et enkelt markeds-peget aktiv (smartcoin). Kun dets låntagere (call-order-ejere) indlæses; aktivet skal være en smartcoin, ellers kan puljen ikke bygges.",
+    "notSmartcoin": "Dette aktiv er ikke en smartcoin (det har ingen bitasset-data), så call-order-ejere kan ikke indlæses. Vælg et markeds-peget aktiv.",
+    "timeframe": "Tidsrum",
+    "timeframe.1d": "Sidste 1 dag",
+    "timeframe.7d": "Sidste 7 dage",
+    "timeframe.30d": "Sidste 30 dage",
+    "timeframe.365d": "Sidste 365 dage",
+    "timeframe.specific": "Bestemt dato (fra da og indtil nu)",
+    "timeframe.pickDate": "Vælg en startdato",
+    "weightAsset": "Vægtaktiv (lotteri)",
+    "weightAssetHint": "Valgfrit. Når det er sat, vægter de tilfældige (signatur-) algoritmer hver konto efter dens saldo af dette aktiv. Lad stå tomt for et ligeværdigt (uvægtet) lotteri.",
+    "allAccountsHint": "Hver konto på kæden bliver ét element i lotteriet (vægtet ligeligt). Kun signatur- (lotteri-) algoritmerne kan køres mod hele konto-rummet.",
+    "ticketsHint": "Indlæser hver Bitshares-billet (1.18.x) og vægter hver konto efter dens effektive låste beløb. Længere locks tæller for mere.",
+    "callOrdersHint": "Indlæser call-order-ejerne (låntagerne) af den valgte smartcoin (1.8.x) og vægter hver konto efter dens sikkerhed.",
+    "assetHoldersHint": "Indlæser de største ejere af airdrop-aktivet (efter on-chain-saldo) fra objects-balance-udforsker-indekset. Hver konto vægtes efter sin saldo.",
+    "creatorsHint": "Indlæser de konti der oprettede flest limit-ordrer ved salg af airdrop-aktivet i det valgte tidsrum. Hver konto vægtes efter sit ordre-antal.",
+    "fillersHint": "Indlæser de konti der udfyldte flest limit-ordrer ved betaling med airdrop-aktivet i det valgte tidsrum. Hver konto vægtes efter sit fill-antal.",
+    "creatorsPairHint": "Indlæser de konti der oprettede flest limit-ordrer ved salg af airdrop-aktivet for pair-aktivet i det valgte tidsrum. Hver konto vægtes efter sit ordre-antal.",
+    "fillersPairHint": "Indlæser de konti der udfyldte flest limit-ordrer ved betaling med airdrop-aktivet og modtagelse af pair-aktivet i det valgte tidsrum. Hver konto vægtes efter sit fill-antal.",
+    "ltmHint": "Indlæser konti der opgraderede til lifetime-medlem i det valgte tidsrum fra account_upgrade-operationerne. Hver konto vægtes ligeligt.",
+    "load": "Indlæs pulje",
+    "loading": "Indlæser…",
+    "loaded": "Indlæste {{count}} konti",
+    "accountsLoaded": "{{count}} konti i området",
+    "weightBy": "Vægt efter",
+    "weightByCollateral": "Sikkerhed",
+    "weightByDebt": "Gæld"
+  },
+  "preview": {
+    "title": "Puljeoversigt",
+    "count": "{{count}} elementer",
+    "weight": "Vægt",
+    "locked": "Låst vægt",
+    "collateral": "Sikkerhed",
+    "balance": "Saldo",
+    "orders": "Ordrer",
+    "fills": "Udfyldninger",
+    "upgrades": "Opgraderinger"
+  },
+  "algos": {
+    "title": "Algoritmer",
+    "description": "Vælg én eller flere algoritmer. Hver valgt algoritme føjer sine vindende konti til den endelige modtagerliste.",
+    "freebie": {
+      "name": "Gratis (alle)",
+      "desc": "Hver konto i puljen modtager airdroppen."
+    },
+    "forward": {
+      "name": "Fremad",
+      "desc": "Deterministisk tilfældig udvælgelse forankret i en blocks vidnesignatur (fremadgående bidder)."
+    },
+    "reverse": {
+      "name": "Omvendt",
+      "desc": "Deterministisk tilfældig udvælgelse forankret i en blocks vidnesignatur (omvendte bidder)."
+    },
+    "pi": {
+      "name": "Pi",
+      "desc": "Deterministisk tilfældig udvælgelse via en pi-agtig beregning over signaturbidderne."
+    },
+    "reverse_pi": {
+      "name": "Omvendt pi",
+      "desc": "Deterministisk tilfældig udvælgelse via en pi-agtig beregning over de omvendte signaturbidder."
+    },
+    "cubed": {
+      "name": "Kubisk",
+      "desc": "Deterministisk tilfældig udvælgelse der opløfter signaturens 3-cifrede bidder i tredje potens."
+    },
+    "avg_point_lines": {
+      "name": "Gennemsnitlige punktlinjer",
+      "desc": "Geometrisk udvælgelse: trækker linjer til den gennemsnitlige vektor fra signaturen."
+    },
+    "alien_blood": {
+      "name": "Rumvæsenblod",
+      "desc": "Geometrisk udvælgelse: sprøjtpunkter udledt fra signaturen."
+    },
+    "bouncing_ball": {
+      "name": "Sprellende bold",
+      "desc": "Geometrisk udvælgelse: følger en bane mellem signaturvektorer."
+    },
+    "barrel_of_fish": {
+      "name": "Fiskefat",
+      "desc": "Geometrisk udvælgelse: fragmenter flyver fra et nedslagspunkt gennem signaturvektorer.",
+      "projectile": "Projektildybde",
+      "beam": "Stråle",
+      "slow": "Langsom",
+      "splinter": "Splint",
+      "yes": "Ja",
+      "no": "Nej"
+    },
+    "golden": {
+      "name": "Gyldent gitter",
+      "desc": "Geometrisk udvælgelse: et lav-afvigende Fibonacci-gitter (gyldent snit) fylder terningen jævnt for næsten ens dækning."
+    },
+    "hash": {
+      "name": "Hash",
+      "desc": "Numerisk udvælgelse: en signatur-forsynet FNV-1a + xorshift32 PRNG spreder billetter jævnt over hele området."
+    },
+    "walk": {
+      "name": "Vandring",
+      "desc": "Geometrisk udvælgelse: en slyngende sti går gennem terningen og sampler billetter langs hvert segment."
+    },
+    "helix": {
+      "name": "Helix",
+      "desc": "Geometrisk udvælgelse: billetter samlet langs en 3-D spiral der stiger gennem terningen."
+    },
+    "configuration": "konfiguration"
+  },
+  "block": {
+    "title": "Bloknummer",
+    "description": "Vidnets signatur på denne blok seeder de tilfældige (signatur-) algoritmer. Brug en hvilken som helst historisk blok.",
+    "useLatest": "Brug seneste blok",
+    "random": "Tilfældig blok",
+    "current": "Senest kendte blok: {{num}}",
+    "currentUnknown": "Seneste blok er ikke hentet endnu."
+  },
+  "options": {
+    "deduplicate": "Fjern duplikerede vindere",
+    "yes": "Ja",
+    "no": "Nej"
+  },
+  "run": {
+    "run": "Kør beregning",
+    "running": "Beregner…"
+  },
+  "result": {
+    "title": "Resultat",
+    "description": "Sæt airdrop-aktivet, og kør derefter de valgte algoritmer. Forhåndsvis og gem vinderlisten.",
+    "asset": "Airdrop-aktiv",
+    "winners": "{{count}} vindende konti",
+    "quantityHeading": "Antal vindere",
+    "quantityHint": "Antallet af konti, der er valgt som vindere af de valgte algoritmer.",
+    "account": "Konto",
+    "qty": "Træffere",
+    "amount": "Beløb",
+    "weight": "Vægt",
+    "basis": "Fordelingsgrundlag",
+    "basisHint": "Hvordan det samlede beløb fordeles: efter hits (ét hit = én andel), efter beholdt vægt, eller ligeligt.",
+    "basisHits": "Træffere",
+    "basisWeight": "Vægt",
+    "basisEqual": "Lige",
+    "prev": "Forrige",
+    "next": "Næste",
+    "goTo": "Gå til side",
+    "pageOf": "Side {{page}} af {{total}}",
+    "pageRange": "{{from}}–{{to}}",
+    "save": "Generer airdrop-transaktionsdetaljer",
+    "none": "Ingen vindere blev produceret af de valgte algoritmer.",
+    "yourHit": "Dine vindende billet(ter)",
+    "detailSubtitle": "Vælg en algoritme nedenfor for at se, hvordan denne konto blev trukket.",
+    "noTicketDetail": "Der er ingen billetdetaljer tilgængelige for denne konto i denne tilstand.",
+    "filterLabel": "Vis",
+    "filterAll": "Alle",
+    "filterNone": "Ingen kandidater matcher dette filter."
+  },
+  "amount": {
+    "title": "Beløb til airdrop",
+    "hint": "Det samlede beløb af det valgte aktiv, der skal fordeles mellem de vindende konti.",
+    "placeholder": "0,0",
+    "max": "Maks",
+    "balance": "Din saldo: {{amount}} {{symbol}}",
+    "invalid": "Indtast et beløb større end nul og ikke mere end din saldo."
+  },
+  "errors": {
+    "noPool": "Indlæs puljen først.",
+    "noAlgo": "Vælg mindst én algoritme.",
+    "noBlock": "Indtast et gyldigt bloknummer til signatur-algoritmerne.",
+    "lotteryOnly": "Hele konto-rummet understøtter kun signatur- (lotteri-) algoritmerne.",
+    "needEnrich": "Denne pulje er for stor til at berige, så filteralgoritmer (LTM / aktiv / voter) kan ikke køres. Brug en mindre pulje eller kun lotteri-algoritmer."
+  }
+}

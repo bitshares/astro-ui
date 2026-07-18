@@ -76,5 +76,9 @@
   "dialogContent": {
     "editHeader": "Editando o seguinte smartcoin: {{symbol}}",
     "createHeader": "Criando o seguinte Smartcoin: {{symbol}}"
+  },
+  "backing_asset": {
+    "header": "Asset de colateral",
+    "header_content": "O asset de colateral é o asset utilizado para dar suporte à smartcoin, Este asset será usado como garantia para respaldar a dívida da smartcoin."
   }
 }

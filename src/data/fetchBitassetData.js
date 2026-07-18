@@ -27,19 +27,6 @@ const main = async () => {
 
     writeToFile(finalBitassetData, chain, "bitassetData");
 
-    finalBitassetData.forEach((bitasset) => {
-      if (bitasset.is_prediction_market && bitasset.is_prediction_market === true) {
-        const matchingAsset = allData.find((asset) => asset.bitasset_data_id === bitasset.id);
-        if (matchingAsset) {
-          matchingAsset.prediction_market = true;
-        }
-        const matchingMinAsset = minAssets.find((asset) => `2.4.${asset.bdi}` === bitasset.id);
-        if (matchingMinAsset) {
-          matchingMinAsset.pm = true;
-        }
-      }
-    });
-
     writeToFile(allData, chain, "allAssets");
     writeToFile(minAssets, chain, "minAssets");
 

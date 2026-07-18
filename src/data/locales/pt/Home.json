@@ -1,27 +1,48 @@
 {
   "instant_trade": {
-    "title": "⚡ Negociação Instantânea",
+    "title": "Negociação Instantânea",
     "subtitle": "Troque ativos rapidamente pelos melhores preços disponíveis",
     "hover1": "Negocie ativos instantaneamente no DEX sem distrações.",
     "hover2": "Utiliza tecnologia de preenchimento ou eliminação de pedidos para obter os preços desejados ou cancelar o pedido.",
     "hover3": "Veja com quem você negociará no DEX e se eles ativaram condições de preenchimento em seus pedidos."
   },
+  "call_orders": {
+    "title": "Ordens de chamada",
+    "subtitle": "Veja suas posições de margem em todos os smartcoins",
+    "hover1": "Veja colateral e dívida por smartcoin.",
+    "hover2": "Abra DEX ou troca instantânea para o par.",
+    "hover3": "Gerencie a posição pela página do smartcoin."
+  },
+  "custom_authorities": {
+    "title": "Autoridades Personalizadas",
+    "subtitle": "Gerencie permissões de operação granulares para sua conta",
+    "hover1": "Visualize as autoridades personalizadas da sua conta.",
+    "hover2": "Crie, atualize ou exclua autoridades.",
+    "hover3": "Conceda permissões delimitadas a contas ou chaves."
+  },
+  "blind_transfers": {
+    "title": "Transferências ocultas",
+    "subtitle": "Construa operações de transferência oculta confidenciais",
+    "hover1": "Mova fundos para ou a partir de compromissos ocultos.",
+    "hover2": "Transfira valor entre compromissos ocultos.",
+    "hover3": "Exporte a operação para uma carteira externa assinar."
+  },
   "vote": {
-    "title": "🗳️ Votação",
+    "title": "Votação",
     "subtitle": "Vote em testemunhas, membros do comitê e propostas de trabalhadores",
     "hover1": "Vote em testemunhas que produzem blocos na blockchain.",
     "hover2": "Vote nos membros do comitê que governam o blockchain.",
     "hover3": "Vote em propostas de trabalhadores para financiar ideias no blockchain."
   },
   "barter": {
-    "title": "🛒 Troca",
+    "title": "Troca",
     "subtitle": "Trocar ativos com outros usuários",
     "hover1": "Troca ativos com outros usuários.",
     "hover2": "A troca é um processo de negociação ponto a ponto.",
     "hover3": "A troca pode envolver serviços de garantia de terceiros."
   },
   "witnesses": {
-    "title": "👁️ Testemunhas",
+    "title": "Testemunhas",
     "subtitle": "Veja as testemunhas ativas e inativas atuais.",
     "hover1": "Ver quem recebeu mais votos.",
     "hover2": "Veja quem testemunhas votou.",
@@ -35,20 +56,20 @@
     "hover3": "Veja os saldos do token do comitê."
   },
   "governance": {
-    "title": "🗳️ Registro de função",
+    "title": "Registro de função",
     "subtitle": "Crie/atualize as funções de testemunha e comitê.",
     "hover1": "Crie, atualize ou invalide seu registro de testemunha.",
     "hover2": "Crie ou atualize o registro do seu membro do comitê."
   },
   "create_worker": {
-    "title": "🛠️ Criar proposta do trabalhador",
+    "title": "Criar proposta do trabalhador",
     "subtitle": "Crie uma proposta de trabalhador para idéias de financiamento!",
     "hover1": "Garanta fundos por meio de uma proposta de trabalhador para financiar seu projeto.",
     "hover2": "As propostas de trabalhadores são financiadas pelo Bitshares Reserve Fund.",
     "hover3": "As propostas de trabalhadores são votadas pela comunidade."
   },
   "dex": {
-    "title": "📈 Pedidos com limite DEX",
+    "title": "Pedidos com limite DEX",
     "subtitle": "Negocie ativos no Bitshares DEX",
     "hover1": "Crie pedidos com limite manualmente.",
     "hover2": "Use qualquer par de negociação de ativos.",
@@ -56,50 +77,50 @@
     "hover4": "Mais complexo, mas mais barato que os pool swaps."
   },
   "pool": {
-    "title": "💱 Troca de pool de liquidez",
+    "title": "Troca de pool de liquidez",
     "subtitle": "Trocar ativos por meio de um pool de liquidez",
     "hover1": "Troque ativos por meio de pools de liquidez criados pelo usuário.",
     "hover2": "Os pools têm diferentes pares de negociação e taxas.",
     "hover3": "Mais simples, mas mais caro do que um pedido com limite."
   },
   "swap": {
-    "title": "🔄 Troca simples de ativos",
+    "title": "Troca simples de ativos",
     "subtitle": "Trocar ativos com mais facilidade por meio de pools",
     "hover1": "Troque ativos por meio de pools de liquidez criados pelo usuário.",
     "hover2": "Os pools têm diferentes pares de negociação e taxas.",
     "hover3": "Mais simples, mas mais caro do que um pedido com limite."
   },
   "stake": {
-    "title": "🔒 Ativos de participação",
+    "title": "Ativos de participação",
     "subtitle": "Participar ativos em pools de liquidez",
     "hover1": "Aposte ativos em pools de liquidez para ganhar taxas.",
     "hover2": "Os ativos apostados são bloqueados no pool.",
     "hover3": "Os ativos apostados podem ser retirados a qualquer momento."
   },
   "transfer": {
-    "title": "💸 Transferir ativos",
+    "title": "Transferir ativos",
     "subtitle": "Envie ativos para outros usuários",
     "hover1": "Transfira ativos para qualquer pessoa na blockchain Bitshares em segundos."
   },
   "timed_transfer": {
-    "title": "⏱️ Transferência cronometrada",
+    "title": "Transferência cronometrada",
     "subtitle": "Envie ativos para outros usuários posteriormente.",
     "hover1": "Agendar a transferência de ativos para outro usuário após o passar do período de revisão da proposta."
   },
   "withdraw_permission": {
-    "title": "📥 Retire a permissão",
+    "title": "Retire a permissão",
     "subtitle": "Gerencie suas permissões de retirada",
     "hover1": "Crie/edite/exclua suas permissões de retirada de pagamento.",
     "hover2": "Veja suas permissões de retirada de retirada."
   },
   "htlc": {
-    "title": "⏳ Contratos de travamento de tempo de hash (HTLC)",
+    "title": "Contratos de travamento de tempo de hash (HTLC)",
     "subtitle": "Crie fundos reivindicáveis ​​trancados atrás das teclas de criptografia secretas.",
     "hover1": "Um HTLC bloqueia os fundos para determinado destinatário, que pode resgatar esses fundos, fornecendo uma previmagem secreta (senha) usada pelo remetente para criar o contrato.",
     "hover2": "A divulgação da senha acontece fora da cadeia."
   },
   "create_vesting": {
-    "title": "🫰 Colete ativos",
+    "title": "Colete ativos",
     "subtitle": "Criar saldos de aquisição",
     "hover1": "A criação de um saldo de aquisição permite bloquear uma quantidade de ativos por um determinado período de tempo.",
     "hover2": "Você pode usar um dos dois tipos de aquisição: Coin Days Destroyed e Linear Vesting with Cliff.",
@@ -107,21 +128,21 @@
     "hover4": "A política de aquisição linear com Cliff é usada para imitar os contratos tradicionais de aquisição de ações, onde a cada dia uma determinada quantia é adquirida até que esteja totalmente vencida."
   },
   "borrow": {
-    "title": "🏦 Emprestar fundos",
+    "title": "Emprestar fundos",
     "subtitle": "Peça emprestado ofertas de crédito de outros usuários",
     "hover1": "Navegue pelas ofertas de crédito criadas por usuários ativos.",
     "hover2": "Peça emprestado ativos deles à taxa desejada.",
     "hover3": "Use a garantia solicitada para garantir seu empréstimo."
   },
   "lend": {
-    "title": "🪙 Emprestar fundos",
+    "title": "Emprestar fundos",
     "subtitle": "Crie uma oferta de crédito para emprestar a terceiros",
     "hover1": "Crie suas próprias ofertas de crédito descentralizadas.",
     "hover2": "Empreste ativos às taxas definidas.",
     "hover3": "Especifique garantias e preços de empréstimo aceitáveis."
   },
   "smartcoins": {
-    "title": "💵 Emitir dívida garantida",
+    "title": "Emitir dívida garantida",
     "subtitle": "Peça emprestado bitassets Fiat, smartcoins privados e muito mais.",
     "hover1": "Bitassets como USD, CNY e EUR são stablecoins (smartcoins) criadas pelo comitê e apoiadas pelo BTS.",
     "hover2": "Smartcoins criadas pelo usuário podem ser apoiadas por qualquer ativo e referenciar qualquer feed externo.",
@@ -129,7 +150,7 @@
     "hover4": "A exposição a preços externos pode representar um risco para posições de dívida garantidas."
   },
   "tfunds": {
-    "title": "🤖 Fundos Same-T",
+    "title": "Fundos Same-T",
     "subtitle": "Visualize, crie, atualize e exclua fundos Same-T!",
     "hover1": "Veja todos os fundos Same-T atualmente oferecidos por outros usuários.",
     "hover2": "Crie facilmente um novo fundo Same-T.",
@@ -137,100 +158,86 @@
     "hover4": "Os fundos Same-T são uma forma de ganhar passivamente com suas participações."
   },
   "portfolio": {
-    "title": "💰 Seu portfólio",
+    "title": "Seu portfólio",
     "subtitle": "Verifique seus saldos, pedidos abertos e atividades recentes de blockchain",
     "hover1": "Verifique seus saldos.",
     "hover2": "Monitore seus pedidos em aberto.",
     "hover3": "Analise a atividade recente da sua conta."
   },
   "portfolio_balances": {
-    "title": "📊 Saldos de contas",
+    "title": "Saldos de contas",
     "subtitle": "Veja seus saldos líquidos e ações relacionadas",
     "hover1": "Classifique os saldos por padrão, ordem alfabética ou valor.",
     "hover2": "Links rápidos para informações comerciais e de ativos.",
     "hover3": "Veja pools de liquidez relacionados."
   },
   "portfolio_open_orders": {
-    "title": "🧾 Pedidos abertos",
+    "title": "Pedidos abertos",
     "subtitle": "Revise e gerencie seus pedidos DEX abertos",
     "hover1": "Vá direto para o par de mercado.",
     "hover2": "Atualize ou cancele um pedido.",
     "hover3": "Verifique a validade e os IDs do pedido."
   },
   "portfolio_recent_activity": {
-    "title": "🧠 Atividade recente",
+    "title": "Atividade recente",
     "subtitle": "Inspecione suas últimas operações na rede",
     "hover1": "Procure IDs e blocos de operação.",
     "hover2": "Veja a operação JSON.",
     "hover3": "Abra detalhes completos da atividade."
   },
   "favourites": {
-    "title": "⭐ Seus favoritos",
+    "title": "Seus favoritos",
     "subtitle": "Acesse rapidamente ativos e contas favoritas",
     "hover1": "Adicione ativos de seu interesse para assisti-los em um só lugar.",
     "hover2": "Acompanhe suas contas favoritas para referência rápida."
   },
   "featured": {
-    "title": "🏆 Principais mercados",
+    "title": "Principais mercados",
     "subtitle": "Descubra os ativos mais negociados atualmente",
     "hover1": "Navegue até os pares de negociação mais ativos.",
     "hover2": "Compare o volume e o valor de negociação do mercado.",
     "hover3": "Compare a quantidade de negociações no mercado."
   },
   "deals": {
-    "title": "🤝 Ofertas de crédito",
+    "title": "Ofertas de crédito",
     "subtitle": "Verifique suas ofertas de crédito",
     "hover1": "Monitore suas ofertas de crédito ativas.",
     "hover2": "Gerencie o estado de suas negociações de crédito."
   },
   "offers": {
-    "title": "📜 Ofertas de crédito",
+    "title": "Ofertas de crédito",
     "subtitle": "Verifique suas ofertas de crédito",
     "hover1": "Monitore suas ofertas de crédito ativas.",
     "hover2": "Gerencie o estado de suas ofertas de crédito."
   },
   "vesting": {
-    "title": "⌚ Saldos adquiridos",
+    "title": "Saldos adquiridos",
     "subtitle": "Visualize e reivindique recompensas, taxas de referência e outros saldos adquiridos",
     "hover1": "Verifique seus saldos de aquisição.",
     "hover2": "Reivindique seus saldos adquiridos."
   },
-  "prediction_markets": {
-    "title": "🎲 Previsões",
-    "subtitle": "Procure previsões, gerencie apostas, execute a administração de previsões.",
-    "hover1": "Navegue pelos ativos de mercado de previsão disponíveis.",
-    "hover2": "Os mercados de previsão podem ser sobre qualquer coisa.",
-    "hover3": "Cada ativo de mercado de previsão possui uma taxa exclusiva."
-  },
   "proposals": {
-    "title": "🤔 Operações propostas",
+    "title": "Operações propostas",
     "subtitle": "Visualizar e aprovar/rejeitar operações de conta propostas",
     "hover1": "Veja as operações de conta propostas feitas por outras contas blockchain para sua conta.",
     "hover2": "Aprovar ou rejeitar as operações de conta propostas."
   },
   "issued_assets": {
-    "title": "📃 Seus ativos emitidos",
+    "title": "Seus ativos emitidos",
     "subtitle": "Veja todos os ativos que você criou",
-    "hover1": "Veja ativos emitidos pelo usuário, ativos de mercado de previsão, smartcoins e tokens não fungíveis!",
+    "hover1": "Veja ativos emitidos pelo usuário, smartcoins e tokens não fungíveis!",
     "hover2": "Edite os ativos que você criou no blockchain.",
     "hover3": "Opcionalmente, emita uma quantidade de seus ativos criados."
   },
   "blocks": {
-    "title": "💾 Dados Blockchain",
+    "title": "Dados Blockchain",
     "subtitle": "Veja os dados resumidos mais recentes do blockchain",
     "hover1": "Atividade recente e tabelas de dados em tempo real de bloqueio recente.",
     "hover2": "Gráfico ao vivo de contagem de transações em bloco recentes.",
     "hover3": "Médias e totais resumidos de dados de blockchain."
   },
-  "create_prediction": {
-    "title": "🔮 Previsão de ativos de mercado",
-    "subtitle": "Crie uma aposta sobre qualquer coisa",
-    "hover1": "Crie apostas sobre literalmente qualquer coisa.",
-    "hover2": "Seja o agenciador de apostas e defina sua própria comissão.",
-    "hover3": "São possíveis apostas de curto e longo prazo."
-  },
   "create_uia": {
-    "title": "🍬 Ativo emitido pelo usuário",
+    "title": "Ativo emitido pelo usuário",
     "subtitle": "Crie seu próprio token para qualquer coisa",
     "hover1": "Crie seu próprio ativo emitido pelo usuário.",
     "hover2": "Eles podem ser usados ​​para diversos fins.",
@@ -238,20 +245,20 @@
     "hover4": "Os gateways podem criar ativos garantidos por exchanges para negociação no Bitshares DEX."
   },
   "create_ticket": {
-    "title": "🎫 Criar ingresso",
+    "title": "Criar ingresso",
     "subtitle": "Crie tickets de bloqueio de voto para ganhar peso de voto.",
     "hover1": "Os tíquetes de bloqueio de voto concedem peso de voto para fins de votação de testemunhas, comitês e trabalhadores.",
     "hover2": "Os ingressos, se liquidados, levam um determinado período de tempo antes de desbloquear seus fundos."
   },
   "ticket_leaderboard": {
-    "title": "📊 Tabela de classificação de ingressos",
+    "title": "Tabela de classificação de ingressos",
     "subtitle": "Veja o poder efetivo combinado do ticket por conta",
     "hover1": "Veja quem tem maior poder de voto no blockchain.",
     "hover2": "Compare como seu poder de voto se compara ao de outros.",
     "hover3": "Calcule o tamanho de seus futuros tíquetes de bloqueio de voto para obter mais poder de voto."
   },
   "create_smartcoin": {
-    "title": "💷 Ativo Smartcoin",
+    "title": "Ativo Smartcoin",
     "subtitle": "Crie um ativo stablecoin Fiat",
     "hover1": "Crie seu próprio Smartcoin.",
     "hover2": "Eles podem ser usados ​​para diversos fins.",
@@ -259,21 +266,27 @@
     "hover4": "Smartcoins podem ser apoiados por qualquer ativo e fazer referência a qualquer feed externo."
   },
   "create_liquidity_pool": {
-    "title": "💧 Criar pool de liquidez",
+    "title": "Criar pool de liquidez",
     "subtitle": "Crie um novo pool de liquidez para trocar 2 de quaisquer ativos",
     "hover1": "Converte um ativo emitido pelo usuário em um ativo de participação no pool de liquidez.",
     "hover2": "Configure o pool de liquidez para trocar quaisquer 2 ativos no blockchain.",
     "hover3": "Aplique suas próprias taxas para ganhar de outras pessoas usando seu pool de liquidez."
   },
   "accountLists": {
-    "title": "📋 Listas de contas",
+    "title": "Listas de contas",
     "subtitle": "Visualize e gerencie suas listas de contas",
     "hover1": "Adicione contas à sua lista de permissões.",
     "hover2": "Adicione contas à sua lista negra.",
     "hover3": "Remova contas dessas listas."
   },
+  "blocked_users": {
+    "title": "Usuários bloqueados",
+    "subtitle": "Visualize e gerencie suas contas bloqueadas",
+    "hover1": "Veja as contas que você bloqueou.",
+    "hover2": "Bloqueie ou desbloqueie contas da sua visualização."
+  },
   "ltm": {
-    "title": "🏅 Atualizar conta",
+    "title": "Atualizar conta",
     "subtitle": "Compre uma assinatura vitalícia",
     "hover1": "Existem vários benefícios em se tornar um membro vitalício.",
     "hover2": "Os membros vitalícios recebem um desconto de 80% no saldo adquirido nas taxas.",
@@ -281,55 +294,55 @@
     "hover4": "Membros vitalícios podem ganhar por meio do sistema de indicação."
   },
   "nodes": {
-    "title": "🌐 Nós",
+    "title": "Nós",
     "subtitle": "Configuração do nó Blockchain",
     "hover1": "Conecte-se a um nó Bitshares de sua escolha.",
     "hover2": "Adicione/remova nós à sua lista de conexões."
   },
   "create_account": {
-    "title": "🆕 Crie conta",
+    "title": "Crie conta",
     "subtitle": "Crie uma nova conta de carteira em nuvem na blockchain Bitshares.",
     "hover1": "Crie uma conta gratuita usando uma torneira pública.",
     "hover2": "Gere uma conta premium usando uma conta LTM existente."
   },
   "invoice_inventory": {
-    "title": "📦 Inventário de fatura",
+    "title": "Inventário de fatura",
     "subtitle": "Gerenciar itens e preços usados ​​para faturamento",
     "hover1": "Crie e gerencie itens de estoque e seus preços para faturas."
   },
   "create_invoice": {
-    "title": "🧾 Criar fatura",
+    "title": "Criar fatura",
     "subtitle": "Gerar códigos de fatura para clientes",
     "hover1": "Crie uma fatura selecionando itens do estoque, fornecendo quantidades e detalhes da fatura."
   },
   "pay_invoice": {
-    "title": "💵 Pagar fatura",
+    "title": "Pagar fatura",
     "subtitle": "Pagar faturas usando códigos de fatura",
     "hover1": "Pague uma fatura inserindo o código da fatura fornecido pelo criador da fatura.",
     "hover2": "Opcionalmente, pague com ativos diferentes para cada item adquirido."
   },
   "stored_invoices": {
-    "title": "💾 Faturas armazenadas",
+    "title": "Faturas armazenadas",
     "subtitle": "Visualize e gerencie suas faturas salvas",
     "hover1": "Navegue pelas suas faturas salvas, geradas e recebidas.",
     "hover2": "Visualize detalhes da fatura e exclua faturas indesejadas.",
     "hover3": "Armazene dados sobre o andamento das faturas sendo cumpridas."
   },
   "tfund_user": {
-    "title": "🚀 Comércio de fundos do mesmo T",
+    "title": "Comércio de fundos do mesmo T",
     "subtitle": "Pedir emprestado, comércio, reembolso, simples!",
     "hover1": "Emprestar ativos de um fundo T-T.",
     "hover2": "Trocar esses fundos do mesmo T no DEX.",
     "hover3": "Reembolsar os ativos emprestados."
   },
   "custom_pool_tracker": {
-    "title": "📊 Rastreador de pool de liquidez",
+    "title": "Rastreador de pool de liquidez",
     "subtitle": "Rastreie seus pools de liquidez favoritos com facilidade!",
     "hover1": "Configure seu próprio rastreador de pool de liquidez personalizado.",
     "hover2": "Rastreie até 5 ativos trocáveis."
   },
   "pools": {
-    "title": "💧 Pools de liquidez",
+    "title": "Pools de liquidez",
     "subtitle": "Veja uma lista de todos os pools de liquidez",
     "hover1": "Filtre todos os pools de liquidez por ativos trocáveis",
     "hover2": "Localize os pools de liquidez para trocar ativos.",
@@ -375,8 +388,100 @@
       "description": "Ajuda você a evitar contas maliciosas e seus objetos blockchain!"
     }
   },
+  "sections": {
+    "exchangingSubtitle": "Negocie, troque, stake e permute na DEX",
+    "transferSubtitle": "Envie ativos e gerencie permissões",
+    "debtSubtitle": "Empreste, tome emprestado e emita dívida colateralizada",
+    "assetCreationSubtitle": "Crie tokens, smartcoins e pools de liquidez",
+    "accountSubtitle": "Gerencie sua carteira, ordens e favoritos",
+    "blockchainSubtitle": "Explore dados blockchain, pools e rastreadores",
+    "governanceSubtitle": "Vote, registre funções e crie propostas de worker",
+    "invoicingSubtitle": "Crie, envie e pague faturas on-chain",
+    "settingsSubtitle": "Listas de contas, nós e configuração",
+    "airdropSubtitle": "Envie um ativo em massa para muitas contas"
+  },
+  "configure_visuals": {
+    "title": "Configurar visuais",
+    "subtitle": "Personalize fundos ondulados, brilho aurora, partículas e efeitos de desfoque",
+    "hover1": "Escolha entre paletas de cores predefinidas ou defina suas próprias cores.",
+    "hover2": "Ajuste a quantidade, velocidade, espessura das ondas e a intensidade da aurora."
+  },
   "waveHero": {
     "title": "Um cliente Bitshares de próxima geração!",
     "subtitle": "Construído com a mais recente tecnologia, projetado para facilidade de uso!"
+  },
+  "hero": {
+    "title": "A exchange para todos.",
+    "subtitle": "Negocie, troque, stake, empreste, tome emprestado e mais na exchange descentralizada Bitshares. Non-custodial, sem confiança e baseada em tecnologia blockchain.",
+    "ctaPrimary": "Começar a negociar",
+    "ctaSecondary": "Swap simples",
+    "scrollForMore": "Role para mais"
+  },
+  "theme_customizer": {
+    "title": "Personalização de tema",
+    "subtitle": "Crie e edite temas que recolorem cada página, navegação e componente",
+    "hover1": "Use o modo Simples para uma cor de destaque, ou Avançado para controle total.",
+    "hover2": "Atribua temas por página e recolore os destaques da navegação."
+  },
+  "home_link": {
+    "title": "Início",
+    "subtitle": "Voltar ao painel principal"
+  },
+  "page_themes": {
+    "title": "Temas por página",
+    "subtitle": "Atribuir temas específicos a páginas individuais",
+    "hover1": "Substitua o tema ativo para qualquer página do aplicativo."
+  },
+  "airdrop": {
+    "title": "Airdrop",
+    "subtitle": "Distribua um ativo em massa para muitas contas de uma só vez.",
+    "hover1": "Divida uma grande lista de destinatários em transações dimensionadas para caber no tamanho máximo de transação da chain."
+  },
+  "airdrop_create": {
+    "title": "Criar airdrop",
+    "subtitle": "Crie uma lista de destinatários e configure a distribuição do ativo.",
+    "hover1": "Envie um CSV/JSON de IDs de conta 1.2.x, escolha um ativo e como os valores são alocados."
+  },
+  "airdrop_perform": {
+    "title": "Executar airdrop",
+    "subtitle": "Transmita os lotes de transferência preparados para a chain.",
+    "hover1": "Cada lote é assinado e transmitido como uma única transação através da sua carteira conectada."
+  },
+  "airdrop_calculate": {
+    "title": "Airdrop",
+    "subtitle": "Distribua um ativo para muitas contas via seleção algorítmica ou lista manual.",
+    "hover1": "Construa um pool de candidatos a partir de entrada manual, bloqueios de tickets, garantia de ordens de chamada, maiores detentores de ativos, atividade de ordens limitadas ou atualizações de membros vitalícios.",
+    "hover2": "Execute um ou mais algoritmos deterministas — freebie, forward, reverse, pi, cubed, alien blood, bouncing ball, barrel of fish — sementados a partir da assinatura de um testemunho de bloco.",
+    "hover3": "Revise as contas vencedoras, configure a distribuição (divisão igualitária, valor fixo ou personalizado), depois transmita cada lote através da sua carteira Beet."
+  },
+  "recent_activity": {
+    "title": "Atividade recente",
+    "subtitle": "Navegue pelas suas operações mais recentes na cadeia.",
+    "hover1": "Revise as operações mais recentes realizadas pela sua conta.",
+    "hover2": "Inspecione o JSON da operação subjacente de cada entrada."
+  },
+  "top_markets": {
+    "title": "Principais mercados",
+    "subtitle": "Os mercados mais ativamente negociados na DEX.",
+    "hover1": "Classificados pelo número de ordens executadas nos últimos 30 dias.",
+    "hover2": "Ótimo para identificar os pares de negociação mais movimentados.",
+    "dialogDescription": "Escolha onde negociar este par de mercado.",
+    "openDex": "Abrir em ordem limitada na DEX",
+    "openInstant": "Abrir no Instant Swap"
+  },
+  "testnetUnsupported": "Este recurso consulta o índice público BitShares Elasticsearch, que só está disponível na mainnet. A testnet não é suportada.",
+  "top_pools": {
+    "title": "Principais pools",
+    "subtitle": "Os pools de liquidez mais ativamente trocados na rede.",
+    "hover1": "Classificados pelo número de trocas de pools de liquidez nos últimos 30 dias.",
+    "hover2": "Ótimo para identificar os pools mais movimentados para negociar ou fazer staking.",
+    "dialogDescription": "Escolha onde usar este pool de liquidez.",
+    "openSwap": "Abrir no Simple Swap",
+    "openInstant": "Abrir no Instant Trade",
+    "openDex": "Abrir em ordem limitada na DEX",
+    "openStake": "Fazer staking de ativos",
+    "pool": "Pool",
+    "assets": "Ativos",
+    "swaps": "Trocas"
   }
 }

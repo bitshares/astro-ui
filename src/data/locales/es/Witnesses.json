@@ -2,7 +2,7 @@
   "title": "Testigos de bitshares",
   "description": "Ver los testigos actuales activos y en espera.",
   "filterPlaceholder": "Filtrar por el nombre del testigo ...",
-  "active": "Active ({{count}})",
+  "active": "Activo ({{count}})",
   "standby": "Standby ({{count}})",
   "rank": "Rango",
   "name": "Nombre",

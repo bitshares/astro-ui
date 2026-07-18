@@ -1,0 +1,11 @@
+{
+  "submit": "Esita",
+  "insufficient_funds": "Ebapiisav saldo.",
+  "permissions": "Load",
+  "flags": "Lipud",
+  "expiryHeader": "Aegumine",
+  "expiryContent": "Teie limiitkorraldus jääb DEX-il aktiivseks selle aja jooksul, enne kui see enam ei eksisteeri. Kui valite 'fill or kill' ja sobivat DEX-i müügi limiitkorraldust ei ole, siis operatsioon ebaõnnestub, säästes teie aega ja tasusid.",
+  "setPriceFeeders": "Määra hinnapakkujad",
+  "setPriceFeedersDescription": "Määrake selle varade hinnapakkujad. Hinnapakkujad vastutavad likvideerimishinna esitamise eest.",
+  "settingPriceFeeders": "Hinnapakkujate määramine"
+}

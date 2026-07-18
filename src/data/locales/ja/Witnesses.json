@@ -18,5 +18,9 @@
   "secondsAgo_other": "{{count}} 数秒前",
   "minutesAgo_other": "{{count}} 数分前",
   "hoursAgo_other": "{{count}} 数時間前",
-  "daysAgo_other": "{{count}} 数日前"
+  "daysAgo_other": "{{count}} 数日前",
+  "secondsAgo_one": "{{count}} 秒前",
+  "minutesAgo_one": "{{count}} 分前",
+  "hoursAgo_one": "{{count}} 時間前",
+  "daysAgo_one": "{{count}} 日前"
 }

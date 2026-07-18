@@ -76,5 +76,9 @@
   "dialogContent": {
     "editHeader": "Redigering af følgende smartcoin: {{symbol}}",
     "createHeader": "Oprettelse af følgende Smartcoin: {{symbol}}"
+  },
+  "backing_asset": {
+    "header": "Sikkerhedsasset",
+    "header_content": "Sikkerhedsassetten er den asset, der bruges som sikkerhed for smartcoinen, Denne asset vil blive brugt som sikkerhed for smartcoin-gælden."
   }
 }

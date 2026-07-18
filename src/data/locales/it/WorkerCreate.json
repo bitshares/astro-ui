@@ -18,7 +18,7 @@
   "endDateInfo": "La data in cui il lavoro (e l'ammissibilità al pagamento) termina. ",
   "endDateInfoHeader": "Data di fine",
   "dateError": "La data di fine deve essere dopo la data di inizio.",
-  "dailyPayLabel": "Daily Pay ({{coresymbol}})",
+  "dailyPayLabel": "Paga giornaliera ({{coresymbol}})",
   "dailyPayInfo": "L'importo di {{coresymbol}} richiesto al giorno. ",
   "dailyPayInfoHeader": "Richiesta di retribuzione giornaliera",
   "payError": "La retribuzione giornaliera deve essere un importo positivo.",

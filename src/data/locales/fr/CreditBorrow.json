@@ -15,7 +15,7 @@
     "view": "Afficher les paramètres"
   },
   "card": {
-    "title": "🏦 Visualisation des offres de crédit disponibles",
+    "title": "Visualisation des offres de crédit disponibles",
     "description": "Les offres de crédit sont générées par les utilisateurs, elles proposent différents taux, actifs et durées, évaluent les conditions avant de créer des offres.",
     "viewingAll": "Voir toutes les offres",
     "viewAll": "Voir toutes les offres",

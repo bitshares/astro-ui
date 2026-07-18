@@ -2,12 +2,13 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { persistentAtom } from "@nanostores/persistent";
 
-const languages = ["en", "da", "de", "es", "fr", "it", "ja", "ko", "pt", "th"];
+const languages = ["en", "da", "de", "es", "et", "fr", "it", "ja", "ko", "pt", "th"];
 const pages = [
   "Activity",
   "AccountSearch",
   "AccountSelect",
   "AssetDropDownCard",
+  "Blocklist",
   "CreatePool",
   "CreditOfferEditor",
   "CreditBorrow",
@@ -19,7 +20,6 @@ const pages = [
   "ExternalLink",
   "Featured",
   "Home",
-  "CreatePrediction",
   "LimitOrderCard",
   "LTM",
   "Market",
@@ -46,7 +46,6 @@ const pages = [
   "Nodes",
   "SimpleSwap",
   "Vesting",
-  "Predictions",
   "SameTFunds",
   "CreateVestingBalance",
   "CreateUIA",
@@ -56,6 +55,8 @@ const pages = [
   "LiveBlocks",
   "AccountLists",
   "Proposals",
+  "Airdrop",
+  "AirdropCalculate",
   "Operations",
   "PoolTracker",
   "CreateAccount",
@@ -68,6 +69,10 @@ const pages = [
   "HTLC",
   "HTLCCreate",
   "Barter",
+  "CallOrders",
+  "CustomAuthorities",
+  "BlindTransfers",
+  "BlindAccounts",
   "GovernanceActions",
   "WorkerCreate",
   "CommitteeMembers",
@@ -81,6 +86,10 @@ const pages = [
   "PayInvoice",
   "InvoiceStorage",
   "InstantTrade",
+  "Visuals",
+  "ThemeCustomizer",
+  "PageThemes",
+  "Common"
 ];
 
 const locale = persistentAtom("locale", "en");
@@ -92,14 +101,31 @@ async function fetchTranslations() {
   const localPages = {};
   for (const page of pages) {
     let response;
-    if (window && window.electron) {
-      response = await fetch(`/locales/${_locale}/${page}.json`);
-    } else {
-      response = await fetch(`../src/data/locales/${_locale}/${page}.json`);
+    try {
+      if (typeof window !== "undefined" && window.electron) {
+        response = await fetch(`/locales/${_locale}/${page}.json`);
+      } else {
+        response = await fetch(`../src/data/locales/${_locale}/${page}.json`);
+      }
+    } catch (err) {
+      console.warn(`Failed fetching locale file for ${page} (${_locale}):`, err);
+      continue;
     }
-    if (response) {
+
+    if (!response || !response.ok) {
+      console.warn(
+        `Locale file missing or not OK for ${page} (${_locale}):`,
+        response && response.status
+      );
+      continue;
+    }
+
+    try {
       const jsonContents = await response.json();
       localPages[page] = jsonContents;
+    } catch (err) {
+      console.warn(`Failed parsing locale JSON for ${page} (${_locale}):`, err);
+      continue;
     }
   }
 

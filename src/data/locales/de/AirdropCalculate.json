@@ -1,0 +1,201 @@
+{
+  "page": {
+    "title": "Airdrop-Rechner",
+    "description": "Erstelle einen Empfängerpool, führe Auswahlalgorithmen aus und sende einen Airdrop eines beliebigen Assets."
+  },
+  "pool": {
+    "title": "Kandidaten-Pool",
+    "description": "Wählen Sie, woher die Airdrop-Kandidaten stammen, und laden Sie sie dann. Algorithmen laufen gegen diesen Pool.",
+    "source": "Pool-Quelle",
+    "source.manual": "Manuelle Liste (hochladen / einfügen)",
+    "source.allaccounts": "Alle Konten (1.2.1 bis neueste)",
+    "source.tickets": "Ticket-Inhaber (Locks)",
+    "source.callorders": "Call-Order-Inhaber (Schuldensicherheiten)",
+    "source.assetholders": "Größte Asset-Inhaber (Saldo)",
+    "source.creators": "Meiste Limit-Order-Ersteller",
+    "source.fillers": "Meiste Limit-Order-Ausfüller",
+    "source.creatorspair": "Meiste Limit-Order-Ersteller (spezifisches Paar)",
+    "source.fillerspair": "Meiste Limit-Order-Ausfüller (spezifisches Paar)",
+    "source.ltm": "Lifetime-Mitglied-Aufrüster",
+    "qtyLimit": "Mengenlimit",
+    "qtyLimitHint": "Maximale Anzahl von Konten, die aus dem Chain-Explorer / Elasticsearch abgerufen werden.",
+    "pairAsset": "Paar-Asset",
+    "pairAssetHint": "Das Asset auf der anderen Seite des Handelspaars (das beim Verkauf erhaltene bzw. beim Ausfüllen gekaufte).",
+    "needAsset": "Wählen Sie zuerst das Airdrop-Asset.",
+    "needAssetHint": "Diese Pool-Quellen beziehen sich auf das oben ausgewählte Airdrop-Asset.",
+    "airdropAssetHint": "Das Asset, das im Airdrop verteilt wird. Wählen Sie es hier, damit der Pool eingegrenzt und Ihr Saldo geprüft werden kann.",
+    "needSmartcoin": "Wählen Sie zuerst einen gültigen Smartcoin (marktgebundenes Asset).",
+    "asset": "Asset",
+    "assetHint": "Das Asset, aus dem dieser Pool besteht (Inhaber oder die Verkaufs/Zahlungsseite der Limit-Orders).",
+    "needPair": "Wählen Sie sowohl das Airdrop-Asset als auch das Paar-Asset.",
+    "needPairHint": "Paar-Quellen benötigen zwei Assets, um das Handelspaar zu definieren.",
+    "callOrderAsset": "Smartcoin",
+    "callOrderAssetHint": "Wählen Sie ein einzelnes marktgebundenes Asset (Smartcoin). Nur dessen Borrower (Call-Order-Inhaber) werden geladen; das Asset muss ein Smartcoin sein, sonst kann der Pool nicht erstellt werden.",
+    "notSmartcoin": "Dieses Asset ist kein Smartcoin (es hat keine Bitasset-Daten), daher können Call-Order-Inhaber nicht geladen werden. Wählen Sie ein marktgebundenes Asset.",
+    "timeframe": "Zeitraum",
+    "timeframe.1d": "Letzter 1 Tag",
+    "timeframe.7d": "Letzte 7 Tage",
+    "timeframe.30d": "Letzte 30 Tage",
+    "timeframe.365d": "Letzte 365 Tage",
+    "timeframe.specific": "Bestimmtes Datum (von dann bis jetzt)",
+    "timeframe.pickDate": "Startdatum wählen",
+    "weightAsset": "Gewichtungs-Asset (Lotterie)",
+    "weightAssetHint": "Optional. Wenn gesetzt, gewichten die zufälligen (Signatur-) Algorithmen jedes Konto nach seinem Saldo dieses Assets. Leer lassen für eine gleichgewichtete (ungewichtete) Lotterie.",
+    "allAccountsHint": "Jedes Konto in der Chain wird ein Eintrag in der Lotterie (gleich gewichtet). Nur die Signatur- (Lotterie-) Algorithmen können gegen den gesamten Konto-Raum laufen.",
+    "ticketsHint": "Lädt jedes Bitshares-Ticket (1.18.x) und gewichtet jedes Konto nach seinem effektiven gesperrten Betrag. Längere Locks zählen mehr.",
+    "callOrdersHint": "Lädt die Call-Order-Inhaber (Borrower) des ausgewählten Smartcoins (1.8.x) und gewichtet jedes Konto nach seiner Sicherheit.",
+    "assetHoldersHint": "Lädt die größten Inhaber des Airdrop-Assets (nach On-Chain-Saldo) aus dem Objects-Balance-Explorer-Index. Jedes Konto wird nach seinem Saldo gewichtet.",
+    "creatorsHint": "Lädt die Konten, die im ausgewählten Zeitraum die meisten Limit-Orders zum Verkauf des Airdrop-Assets erstellt haben. Jedes Konto wird nach seiner Order-Anzahl gewichtet.",
+    "fillersHint": "Lädt die Konten, die im ausgewählten Zeitraum die meisten Limit-Orders zur Zahlung mit dem Airdrop-Asset ausgefüllt haben. Jedes Konto wird nach seiner Fill-Anzahl gewichtet.",
+    "creatorsPairHint": "Lädt die Konten, die im ausgewählten Zeitraum die meisten Limit-Orders zum Verkauf des Airdrop-Assets für das Paar-Asset erstellt haben. Jedes Konto wird nach seiner Order-Anzahl gewichtet.",
+    "fillersPairHint": "Lädt die Konten, die im ausgewählten Zeitraum die meisten Limit-Orders zur Zahlung mit dem Airdrop-Asset und Erhalt des Paar-Assets ausgefüllt haben. Jedes Konto wird nach seiner Fill-Anzahl gewichtet.",
+    "ltmHint": "Lädt Konten, die im ausgewählten Zeitraum über die account_upgrade-Operationen auf Lifetime-Mitglied aufgerüstet haben. Jedes Konto wird gleich gewichtet.",
+    "load": "Pool laden",
+    "loading": "Wird geladen…",
+    "loaded": "{{count}} Konten geladen",
+    "accountsLoaded": "{{count}} Konten im Bereich",
+    "weightBy": "Gewichten nach",
+    "weightByCollateral": "Sicherheit",
+    "weightByDebt": "Schuld"
+  },
+  "preview": {
+    "title": "Pool-Vorschau",
+    "count": "{{count}} Einträge",
+    "weight": "Gewicht",
+    "locked": "Gesperrtes Gewicht",
+    "collateral": "Sicherheit",
+    "balance": "Saldo",
+    "orders": "Bestellungen",
+    "fills": "Ausführungen",
+    "upgrades": "Upgrades"
+  },
+  "algos": {
+    "title": "Algorithmen",
+    "description": "Wähle einen oder mehrere Algorithmen. Jeder gewählte Algorithmus fügt seine Gewinnerkonten der endgültigen Empfängerliste hinzu.",
+    "freebie": {
+      "name": "Gratis (alle)",
+      "desc": "Jedes Konto im Pool erhält den Airdrop."
+    },
+    "forward": {
+      "name": "Vorwärts",
+      "desc": "Deterministische Zufallsauswahl, die aus der Witness-Signatur eines Blocks gesät wird (vorwärts gerichtete Blöcke)."
+    },
+    "reverse": {
+      "name": "Rückwärts",
+      "desc": "Deterministische Zufallsauswahl, die aus der Witness-Signatur eines Blocks gesät wird (umgekehrte Blöcke)."
+    },
+    "pi": {
+      "name": "Pi",
+      "desc": "Deterministische Zufallsauswahl mittels einer pi-artigen Berechnung über die Signaturblöcke."
+    },
+    "reverse_pi": {
+      "name": "Umgekehrtes Pi",
+      "desc": "Deterministische Zufallsauswahl mittels einer pi-artigen Berechnung über die umgekehrten Signaturblöcke."
+    },
+    "cubed": {
+      "name": "Kubisch",
+      "desc": "Deterministische Zufallsauswahl, die 3-stellige Blöcke der Signatur hoch drei rechnet."
+    },
+    "avg_point_lines": {
+      "name": "Mittelwert-Punktlinien",
+      "desc": "Geometrische Auswahl: zieht Linien zum aus der Signatur abgeleiteten Durchschnittsvektor."
+    },
+    "alien_blood": {
+      "name": "Alienblut",
+      "desc": "Geometrische Auswahl: aus der Signatur abgeleitete Spritzpunkte."
+    },
+    "bouncing_ball": {
+      "name": "Hüpfender Ball",
+      "desc": "Geometrische Auswahl: verfolgt einen Pfad zwischen Signaturvektoren."
+    },
+    "barrel_of_fish": {
+      "name": "Fischfass",
+      "desc": "Geometrische Auswahl: Fragmente fliegen von einem Einschlagspunkt durch Signaturvektoren.",
+      "projectile": "Projektiltiefe",
+      "beam": "Strahl",
+      "slow": "Langsam",
+      "splinter": "Splitter",
+      "yes": "Ja",
+      "no": "Nein"
+    },
+    "golden": {
+      "name": "Goldenes Gitter",
+      "desc": "Geometrische Auswahl: ein Gitter mit geringer Diskrepanz (goldener Schnitt / Fibonacci) füllt den Würfel gleichmäßig für nahezu gleichmäßige Abdeckung."
+    },
+    "hash": {
+      "name": "Hash",
+      "desc": "Numerische Auswahl: ein signaturgesäter FNV-1a + xorshift32 PRNG verteilt Tickets gleichmäßig über den gesamten Bereich."
+    },
+    "walk": {
+      "name": "Spaziergang",
+      "desc": "Geometrische Auswahl: ein schlängelnder Pfad schreitet durch den Würfel und sampelt Tickets entlang jedes Segments."
+    },
+    "helix": {
+      "name": "Helix",
+      "desc": "Geometrische Auswahl: Tickets entlang einer 3-D-Spirale, die durch den Würfel aufsteigt, abgetastet."
+    },
+    "configuration": "Konfiguration"
+  },
+  "block": {
+    "title": "Blocknummer",
+    "description": "Die Witness-Signatur dieses Blocks seedet die zufälligen (Signatur-) Algorithmen. Verwenden Sie einen beliebigen historischen Block.",
+    "useLatest": "Neuesten Block verwenden",
+    "random": "Zufälliger Block",
+    "current": "Neuester bekannter Block: {{num}}",
+    "currentUnknown": "Neuester Block noch nicht abgerufen."
+  },
+  "options": {
+    "deduplicate": "Gewinner deduplizieren",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "run": {
+    "run": "Berechnung ausführen",
+    "running": "Wird berechnet…"
+  },
+  "result": {
+    "title": "Ergebnis",
+    "description": "Setzen Sie das Airdrop-Asset und führen Sie dann die ausgewählten Algorithmen aus. Vorschau und Speichern der Gewinnerliste.",
+    "asset": "Airdrop-Asset",
+    "winners": "{{count}} Gewinner-Konten",
+    "quantityHeading": "Anzahl der Gewinner",
+    "quantityHint": "Die Anzahl der Konten, die von den gewählten Algorithmen als Gewinner ausgewählt wurden.",
+    "account": "Konto",
+    "qty": "Treffer",
+    "amount": "Betrag",
+    "weight": "Gewicht",
+    "basis": "Verteilungsgrundlage",
+    "basisHint": "Wie der Gesamtbetrag aufgeteilt wird: nach Treffern (ein Treffer = ein Anteil), nach gehaltenem Gewicht oder gleichmäßig.",
+    "basisHits": "Treffer",
+    "basisWeight": "Gewicht",
+    "basisEqual": "Gleich",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "goTo": "Zu Seite",
+    "pageOf": "Seite {{page}} von {{total}}",
+    "pageRange": "{{from}}–{{to}}",
+    "save": "Airdrop-Transaktionsdetails generieren",
+    "none": "Die ausgewählten Algorithmen haben keine Gewinner erzeugt.",
+    "yourHit": "Deine gewinnenden Ticket(s)",
+    "detailSubtitle": "Wähle unten einen Algorithmus, um zu sehen, wie dieses Konto gezogen wurde.",
+    "noTicketDetail": "Für dieses Konto ist in diesem Modus keine Ticket-Detailansicht verfügbar.",
+    "filterLabel": "Anzeigen",
+    "filterAll": "Alle",
+    "filterNone": "Keine Kandidaten entsprechen diesem Filter."
+  },
+  "amount": {
+    "title": "Zu verteilender Betrag",
+    "hint": "Der Gesamtbetrag des ausgewählten Assets, der auf die Gewinnerkonten aufgeteilt wird.",
+    "placeholder": "0,0",
+    "max": "Max",
+    "balance": "Ihr Saldo: {{amount}} {{symbol}}",
+    "invalid": "Geben Sie einen Betrag größer als null und nicht mehr als Ihren Saldo ein."
+  },
+  "errors": {
+    "noPool": "Laden Sie zuerst den Pool.",
+    "noAlgo": "Wählen Sie mindestens einen Algorithmus aus.",
+    "noBlock": "Geben Sie eine gültige Blocknummer für die Signatur-Algorithmen ein.",
+    "lotteryOnly": "Der gesamte Konto-Raum unterstützt nur die Signatur- (Lotterie-) Algorithmen.",
+    "needEnrich": "Dieser Pool ist zu groß zum Anreichern, daher können Filteralgorithmen (LTM / Asset / Voter) nicht ausgeführt werden. Verwenden Sie einen kleineren Pool oder nur Lotterie-Algorithmen."
+  }
+}

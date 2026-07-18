@@ -7,7 +7,7 @@
   "operationsDescription": "Ce sont les opérations individuelles stockées dans cette proposition, cliquez sur chaque identifiant d'opération ci-dessous pour afficher leurs détails JSON, examinez attentivement chaque opération et vérifiez qui est le proposant avant de procéder à l'approbation, les approbations sont irréversibles, n'approuvez pas le transfert de votre compte ",
   "beginApprovalProcess": "Commencer le processus d'approbation",
   "reject": "Rejeter la proposition",
-  "cardTitle": "🤔 Opérations proposées",
+  "cardTitle": "Opérations proposées",
   "cardDescription": "Les propositions permettent à quiconque de suggérer des opérations à exécuter par un autre compte sur la blockchain. Le propriétaire du compte examine ces propositions et décide de les approuver ou de les rejeter.",
   "noProposals": "Aucune proposition disponible.",
   "approveProposedOperation": "Approuver l'opération proposée",

@@ -9,7 +9,7 @@
   "target": "Conto di destinazione",
   "targetDescription": "Questo è il conto che riceverà il saldo di maturazione.",
   "policy": "Politica del saldo di maturazione",
-  "policyDescription": "È possibile utilizzare una delle due politiche: Coin Days Destroyed o Linear Vesting con Cliff, l'effetto della politica Coin Days Destroyed è di richiedere che una certa quantità di \"interessi\" maturi prima che l'intero saldo possa essere ritirato. Gli interessi maturano come coinday (saldo * lunghezza ",
+  "policyDescription": "È possibile utilizzare una delle due politiche: Coin Days Destroyed o Linear Vesting con Cliff, l'effetto della politica Coin Days Destroyed è di richiedere che una certa quantità di interessi maturi prima che l'intero saldo possa essere ritirato. Gli interessi maturano come coinday (saldo * lunghezza ",
   "asset": "Risorsa",
   "assetDescription": "Questa è l'attività che verrà inserita nel saldo di maturazione.",
   "ccd": "Giorni di monete distrutti",
@@ -25,5 +25,9 @@
   "vestingDurationSeconds": "Durata della maturazione secondi",
   "vestingDurationSecondsDescription": "Questo è il numero di secondi in cui matura il saldo.",
   "dialogHeader": "Creazione di un nuovo saldo di maturazione",
-  "myAccount": "Il tuo conto"
+  "myAccount": "Il tuo conto",
+  "useBalance": "Usa saldo",
+  "currentBalance": "Saldo attuale: {{balance}} {{symbol}}",
+  "insufficientFunds": "Fondi insufficienti",
+  "invalidDecimals": "Massimo {{precision}} decimali consentiti"
 }

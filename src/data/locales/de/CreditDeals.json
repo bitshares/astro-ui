@@ -1,6 +1,6 @@
 {
   "dealNo": "Handeln #",
-  "with": " mit ",
+  "with": "mit ",
   "borrowed": "Du hast geliehen",
   "lent": "Sie haben geliehen",
   "loanCollateral": "Kreditsicherheiten:",
@@ -30,7 +30,7 @@
   "submit": "Einreichen",
   "deepLink": "Zurückzahlen {{finalRepayAmount}} {{debtAsset}}, zurückfordern {{collateralAsset}}",
   "card": {
-    "title": "💱 Überprüfen Sie Ihre aktiven Kreditverträge",
+    "title": "Überprüfen Sie Ihre aktiven Kreditverträge",
     "description": "Von hier aus können Sie sowohl aktive Kreditgeschäfte überwachen als auch Rückzahlungen verwalten.",
     "viewingBorrowings": "Sehen Sie sich Ihre Ausleihen an",
     "viewBorrowings": "Sehen Sie sich Ihre Kredite an",

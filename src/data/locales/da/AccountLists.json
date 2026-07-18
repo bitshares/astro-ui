@@ -9,11 +9,19 @@
   "changeTarget": "Skift mål",
   "provideTarget": "Giv mål",
   "bitsharesAccountSearch": "BitShares-kontosøgning",
-  "bitsharesAccountSearchBTS": "BitShares Account Search (BTS)",
+  "bitsharesAccountSearchBTS": "BitShares-kontosøgning (BTS)",
   "bitsharesAccountSearchTEST": "BitShares-kontosøgning (TEST)",
   "searchingForAccount": "Søger efter konto...",
   "addToWhitelist": "Tilføj til hvidliste",
   "addToBlacklist": "Tilføj til sortliste",
   "addAccountToList": "Føj konto til listen",
-  "removeAccountFromList": "Fjerner denne konto fra denne liste."
+  "removeAccountFromList": "Fjerner denne konto fra denne liste.",
+  "viewingWhitelist": "Viser hvidliste",
+  "viewingBlacklist": "Viser sortliste",
+  "whitelistedCount": "{{count}} på hvidlisten",
+  "blacklistedCount": "{{count}} på sortlisten",
+  "selectTargetHint": "Vælg en konto at tilføje til din liste",
+  "accountName": "Kontonavn",
+  "whitelistIcon": "Hvidliste",
+  "blacklistIcon": "Sortliste"
 }

@@ -1,0 +1,47 @@
+---
+title: Call Orders
+description: Inspect an account's margin call orders and collateralized debt positions (read-only).
+sidebar:
+  order: 3
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+**Call Orders** lists the margin call orders (`call_order` objects) associated with an account's collateralized debt positions. For each you can see collateral, debt, collateral ratio, MCR and the linked smartcoin. It's a read-only viewer that links out to the trading and borrowing tools.
+
+**Open in the app:** [Call Orders](/call-orders.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Debt overview" icon="coins">
+    See collateral vs debt for each smartcoin position.
+  </Card>
+  <Card title="Risk metrics" icon="shield">
+    Collateral ratio, MCR and margin-call status.
+  </Card>
+  <Card title="Drill down" icon="arrow-right">
+    Jump to the DEX, Instant Trade or Borrow for the asset.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Call Orders** from the homepage under *Account Overviews*.
+
+2. Select the account. Each `call_order` shows collateral, debt and ratios.
+
+3. Use the links to manage the position on the relevant tool (e.g. [Borrow](/docs/debt/borrow.html) to adjust via `call_order_update`).
+
+</Steps>
+
+<Aside type="note" title="Adjusting a position">
+  This page only displays positions. To open, add collateral to, or close a position, use [Borrow](/docs/debt/borrow.html) which broadcasts `call_order_update`.
+</Aside>
+
+## Related pages
+
+- [Borrow](/docs/debt/borrow.html)
+- [SmartCoins](/docs/debt/smartcoins.html)

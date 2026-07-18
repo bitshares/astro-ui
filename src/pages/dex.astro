@@ -30,7 +30,7 @@ const globalParamsTEST = testFeeSchedule.map(collection => collection.data);
 
 <Layout title="Bitshares decentralized cryptocurrency exchange - limit order page">
 	<main>
-		<PageHeader client:only="react" page="dex" backURL="../index.html" />
+		<PageHeader client:only="react" page="dex" />
         <MarketOverlay
             client:only="react"
             _assetsBTS={assetsBTS}
@@ -52,7 +52,7 @@ const globalParamsTEST = testFeeSchedule.map(collection => collection.data);
 		padding: 1rem;
 		width: 100%;
 		max-width: calc(100% - 2rem);
-		color: white;
+		color: hsl(var(--foreground));
 		font-size: 20px;
 		line-height: 1.6;
 		min-height: 100vh;

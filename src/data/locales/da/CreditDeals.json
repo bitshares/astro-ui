@@ -1,6 +1,6 @@
 {
   "dealNo": "Aftale #",
-  "with": " med ",
+  "with": "med ",
   "borrowed": "Du lånte",
   "lent": "De lånte",
   "loanCollateral": "Sikkerhed for lån:",
@@ -30,7 +30,7 @@
   "submit": "Indsend",
   "deepLink": "Tilbagebetaling {{finalRepayAmount}} {{debtAsset}}, for at kræve tilbage {{collateralAsset}}",
   "card": {
-    "title": "💱 Tjek dine aktive kreditaftaler",
+    "title": "Tjek dine aktive kreditaftaler",
     "description": "Herfra kan du både overvåge aktive kreditaftaler og administrere tilbagebetalinger.",
     "viewingBorrowings": "Se dine lån",
     "viewBorrowings": "Se dine lån",

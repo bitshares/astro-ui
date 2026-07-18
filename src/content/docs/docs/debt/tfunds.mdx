@@ -1,0 +1,100 @@
+---
+title: Same-T Funds
+description: Create, top up, update and delete Samet Funds (TFunds) using samet_fund_create, samet_fund_update and samet_fund_delete.
+sidebar:
+  order: 4
+---
+
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+**Same-T Funds** (also called Samet Funds / TFunds) are on-chain lending pools you can operate as an owner. You create a fund with a backing asset and a fee rate; borrowers draw from it (via the [Same-T Fund (User)](/docs/exchanging/tfund_user.html) page) and repay with a fund fee. As the owner you can top up, change the fee, or delete the fund.
+
+**Open in the app:** [Same-T Funds](/tfunds.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Run a fund" icon="coins">
+    Provide a backing asset and earn a fee on borrows.
+  </Card>
+  <Card title="Top up / adjust" icon="setting">
+    Refill or change the fee via `samet_fund_update`.
+  </Card>
+  <Card title="Shut down" icon="close">
+    Delete the fund with `samet_fund_delete`.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Same-T Funds** from the homepage under *Forms of Debt*.
+
+2. Create a fund: choose the backing asset, balance and fee rate (basis points). → `samet_fund_create`.
+
+3. To add liquidity or change the fee, update the fund with a signed `delta_amount`. → `samet_fund_update`.
+
+4. To retire the fund, delete it. → `samet_fund_delete`.
+
+</Steps>
+
+<Aside type="note" title="Refill is an update">
+  There is no separate refill operation. Topping up a fund is a `samet_fund_update` with a **positive** `delta_amount`; withdrawing is a **negative** `delta_amount`.
+</Aside>
+
+## Operations used
+
+<Tabs>
+  <TabItem label="samet_fund_create">
+
+```json
+{
+  "owner_account": "1.2.x",
+  "asset_type": "1.3.x",
+  "balance": 10000000,
+  "fee_rate": 500,
+  "extensions": {}
+}
+```
+
+  </TabItem>
+  <TabItem label="samet_fund_update">
+
+```json
+{
+  "owner_account": "1.2.x",
+  "fund_id": "1.20.x",
+  "delta_amount": { "amount": 5000000, "asset_id": "1.3.x" },
+  "new_fee_rate": 300,
+  "extensions": {}
+}
+```
+
+  </TabItem>
+  <TabItem label="samet_fund_delete">
+
+```json
+{
+  "owner_account": "1.2.x",
+  "fund_id": "1.20.x",
+  "extensions": []
+}
+```
+
+  </TabItem>
+</Tabs>
+
+| Field | Meaning |
+| --- | --- |
+| `owner_account` | Fund owner (`1.2.x`). |
+| `asset_type` | Backing asset id (`1.3.x`). |
+| `balance` / `delta_amount` | Fund size; `delta_amount` signed on update. |
+| `fee_rate` / `new_fee_rate` | Basis points. |
+| `fund_id` | The `1.20.x` fund object id. |
+
+## Related pages
+
+- [Same-T Fund (User)](/docs/exchanging/tfund_user.html)
+- [Borrow](/docs/debt/borrow.html)
+- [Lend](/docs/debt/lend.html)

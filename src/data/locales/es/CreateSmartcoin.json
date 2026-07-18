@@ -76,5 +76,9 @@
   "dialogContent": {
     "editHeader": "Editando la siguiente smartcoin: {{symbol}}",
     "createHeader": "Creando la siguiente Smartcoin: {{symbol}}"
+  },
+  "backing_asset": {
+    "header": "Asset de respaldo",
+    "header_content": "El asset de respaldo es el asset que se utiliza para respaldar la smartcoin, Este asset se utilizará como garantía para respaldar la deuda de la smartcoin."
   }
 }

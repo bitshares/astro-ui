@@ -206,7 +206,7 @@ export default function BasicAssetDropDown(properties) {
               type === "base" || type === "backing" ? "outline" : "primary"
             }
             className={`${size && size === "small" ? "h-7 " : ""}p-3 ${
-              type === "quote" ? "bg-black hover:bg-gray-700 text-white" : ""
+              type === "quote" ? "bg-primary hover:bg-primary/90 text-primary-foreground" : ""
             } hover:shadow-lg`}
             onClick={() => setDialogOpen(true)}
           >
@@ -221,7 +221,7 @@ export default function BasicAssetDropDown(properties) {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[550px] bg-white">
+      <DialogContent className="sm:max-w-[550px] bg-card">
         <DialogHeader>
           <DialogTitle>
             <h3 className="text-2xl font-extrabold tracking-tight">

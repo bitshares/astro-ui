@@ -1,13 +1,13 @@
 {
   "cardTitle": "Account Lists",
-  "cardDescription": "Manage your whitelisted and blacklisted accounts.",
+  "cardDescription": "View and manage your whitelisted and blacklisted accounts",
   "whitelist": "Whitelist",
   "blacklist": "Blacklist",
-  "noWhitelistedAccounts": "No whitelisted accounts.",
-  "noBlacklistedAccounts": "No blacklisted accounts.",
+  "noWhitelistedAccounts": "No whitelisted accounts yet.",
+  "noBlacklistedAccounts": "No blacklisted accounts yet.",
   "remove": "Remove",
-  "changeTarget": "Change Target",
-  "provideTarget": "Provide Target",
+  "changeTarget": "Change",
+  "provideTarget": "Select Account",
   "bitsharesAccountSearch": "BitShares Account Search",
   "bitsharesAccountSearchBTS": "BitShares Account Search (BTS)",
   "bitsharesAccountSearchTEST": "BitShares Account Search (TEST)",
@@ -15,5 +15,13 @@
   "addToWhitelist": "Add to Whitelist",
   "addToBlacklist": "Add to Blacklist",
   "addAccountToList": "Add Account to List",
-  "removeAccountFromList": "Removing this account from this list."
+  "removeAccountFromList": "Removing this account from this list.",
+  "viewingWhitelist": "Viewing Whitelist",
+  "viewingBlacklist": "Viewing Blacklist",
+  "whitelistedCount": "{{count}} whitelisted",
+  "blacklistedCount": "{{count}} blacklisted",
+  "selectTargetHint": "Choose an account to add to your list",
+  "accountName": "Account name",
+  "whitelistIcon": "Whitelist",
+  "blacklistIcon": "Blacklist"
 }

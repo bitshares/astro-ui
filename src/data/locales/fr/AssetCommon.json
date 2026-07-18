@@ -1,4 +1,5 @@
 {
+  "about": "À propos de",
   "permissions": {
     "header": "Autorisations de l'actif",
     "header_content": "Remarque : la désactivation des autorisations est une décision permanente",
@@ -310,5 +311,10 @@
     "supportedFiletypes": "Les types de fichiers pris en charge incluent les images, la vidéo, l'audio, les fichiers 3D, les documents, etc.",
     "main_header_content": "Les paramètres ci-dessous définissent le comportement de votre jeton non fongible sur la blockchain Bitshares. Le créateur de l'actif est responsable de la configuration correcte de son jeton non fongible.",
     "main_header": "Configuration de jeton non fongible"
+  },
+  "sectionHeader": {
+    "stepBadge": "Étape {{number}}",
+    "optional": "· Optionnel",
+    "recommended": "· Recommandé"
   }
 }

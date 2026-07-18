@@ -58,5 +58,7 @@
   "risksPoint3": "Wenn Sie keine zulässigen Kreditnehmer konfigurieren, können alle Benutzer der Bitshares-Blockchain den Deal als Ganzes annehmen. Erwägen Sie die Verwendung der Funktion „Genehmigter Kreditnehmer“, um Kredite an bekannte/registrierte Benutzer zu vergeben.",
   "risksPoint4": "Kreditnehmer sind nicht zur Rückzahlung der geliehenen Vermögenswerte verpflichtet und werden dafür auch nicht bestraft. Sie können sich dafür entscheiden, mit dem Kredit in Verzug zu geraten und ihre Sicherheiten zu verlieren. Sie können die geliehenen Vermögenswerte oder die Sicherheiten erst nach Ablauf der Rückzahlungsfrist zurückfordern. Berücksichtigen Sie dies ",
   "risksPoint5": "Der Ablauf eines Kreditgeschäfts kann über das Ablaufdatum des Kreditangebots hinausgehen. Sie sollten nicht davon ausgehen, dass Sie Ihre geliehenen Vermögenswerte zurückerhalten, bis der Ablauf und die letzte Rückzahlungsfrist abgelaufen sind.",
-  "risksPoint6": "Seien Sie sich der Kontrahentenrisiken bewusst, wenn Sie Exchange Backed Assets (EBA) als Sicherheit oder Kreditvergabe verwenden, da ihr Wert aufgrund der Risiken Dritter schwanken kann."
+  "risksPoint6": "Seien Sie sich der Kontrahentenrisiken bewusst, wenn Sie Exchange Backed Assets (EBA) als Sicherheit oder Kreditvergabe verwenden, da ihr Wert aufgrund der Risiken Dritter schwanken kann.",
+  "noCollateral": "Noch keine Sicherheit hinzugefügt",
+  "noPreApprovedBorrowers": "Keine vorab genehmigten Kreditnehmer"
 }

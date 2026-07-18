@@ -5,11 +5,9 @@
   "proceedToBorrow": "Asunto",
   "issueAssetDescription": "Como emisor de este activo, puede emitirlo para usted mismo o para otra cuenta en la cadena de bloques, hasta el suministro máximo configurado.",
   "manageUIA": "Editar",
-  "pmaBet": "Apuesta",
   "uiaButton": "Activos emitidos por el usuario",
   "poolsButton": "Activos del fondo común de liquidez",
   "smartcoinsButton": "Activos de monedas inteligentes",
-  "predictionButton": "Activos del mercado de predicción",
   "nftButton": "Activos simbólicos no fungibles",
   "listingUIA": "Listado {{count}} Activos emitidos por el usuario",
   "listingPools": "Listado {{count}} Activos del fondo común de liquidez",
@@ -17,8 +15,6 @@
   "noUIA": "No se encontraron activos emitidos por el usuario",
   "listingSmartcoins": "Listado {{count}} Activos de monedas inteligentes",
   "noSmartcoins": "No se encontraron activos de Smartcoin",
-  "listingPredictionMarkets": "Listado {{count}} Activos del mercado de predicción",
-  "noPredictionMarkets": "No se encontraron activos del mercado de predicción",
   "listingNFTs": "Listado {{count}} Activos simbólicos no fungibles",
   "noNFTs": "No se encontraron activos simbólicos no fungibles",
   "title": "Ver los activos de blockchain que has creado",
@@ -103,5 +99,6 @@
   "amount": "Cantidad",
   "useMax": "Usar máximo",
   "noAssetInBalance": "Esta cuenta no contiene este activo.",
-  "overrideHeader": "Recordar {{amount}} {{symbol}} de {{account}}"
+  "overrideHeader": "Recordar {{amount}} {{symbol}} de {{account}}",
+  "collateralBid": "Pujar por la garantía"
 }

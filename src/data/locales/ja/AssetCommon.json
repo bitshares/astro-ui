@@ -1,4 +1,5 @@
 {
+  "about": "について",
   "permissions": {
     "header": "アセットの権限",
     "header_content": "注: アクセス許可の無効化は永続的な決定です。",
@@ -310,5 +311,10 @@
     "supportedFiletypes": "サポートされているファイルタイプには、画像、ビデオ、オーディオ、3D ファイル、ドキュメントなどが含まれます。",
     "main_header_content": "以下の設定は、代替不可能なトークンが Bitshares ブロックチェーン上でどのように動作するかを定義します。アセット作成者は、代替不可能なトークンを適切に構成する責任があります。",
     "main_header": "代替不可能なトークン構成"
+  },
+  "sectionHeader": {
+    "stepBadge": "ステップ {{number}}",
+    "optional": "・オプション",
+    "recommended": "・推奨"
   }
 }

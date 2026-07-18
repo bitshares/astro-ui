@@ -1,5 +1,5 @@
 {
-  "cardTitle": "💱LTMメンバーシップ",
+  "cardTitle": "LTMメンバーシップ",
   "cardDescription": "生涯メンバーシップを購入する",
   "alreadyMember": "このアカウントはすでに生涯メンバーシップを購入しています。",
   "benefitsTitle": "アクティブな生涯メンバーシップの特典:",
@@ -8,5 +8,11 @@
   "benefit3": "プレミアムアカウント名を生成できるようになりました。",
   "wantToPurchase": "アカウントの永久メンバーシップを購入したいですか?",
   "purchaseButton": "LTMを購入する",
-  "headerText": "生涯メンバーシップを購入すると、 {{username}}"
+  "headerText": "生涯メンバーシップを購入すると、 {{username}}",
+  "memberBadge": "LTM有効",
+  "exclusiveBenefits": "限定特典",
+  "feeRebate": "手数料リベート",
+  "referralEarnings": "紹介報酬",
+  "premiumNames": "プレミアム名",
+  "readyToUpgrade": "アップグレードする準備はできましたか？"
 }

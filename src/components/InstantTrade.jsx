@@ -8,7 +8,7 @@ import React, {
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { useStore } from "@nanostores/react";
-import { ReloadIcon, ResetIcon } from "@radix-ui/react-icons";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useForm, Controller } from "react-hook-form";
 import { List } from "react-window";
 
@@ -20,6 +20,7 @@ import {
   copyToClipboard,
   assetAmountRegex,
 } from "@/lib/common";
+import { cn } from "@/lib/utils";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
@@ -31,21 +32,22 @@ import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  ArrowDownUp,
+  ArrowUp,
+  ArrowDown,
+  Copy,
+  Info,
+  RefreshCw,
+  TrendingUp,
+  Users,
+  Wallet,
+  Zap,
+} from "lucide-react";
 
 import {
   Field,
   FieldGroup,
   FieldLabel,
-  FieldContent,
-  FieldDescription,
-  FieldError,
 } from "@/components/ui/field";
 
 import {
@@ -65,7 +67,6 @@ import {
 } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -164,10 +165,11 @@ export default function InstantTrade(properties) {
 
   const [limitOrderFee, setLimitOrderFee] = useState(0);
   useEffect(() => {
-    if (globalParams && globalParams.parameters) {
+    if (globalParams && globalParams.length) {
       const foundFee = globalParams.find((x) => x.id === 1);
-      const finalFee = humanReadableFloat(foundFee.data.fee, 5);
-      setLimitOrderFee(finalFee);
+      if (foundFee && foundFee.data && foundFee.data.fee) {
+        setLimitOrderFee(humanReadableFloat(foundFee.data.fee, 5));
+      }
     }
   }, [globalParams]);
 
@@ -183,8 +185,18 @@ export default function InstantTrade(properties) {
     [marketSearch]
   );
 
-  const [assetA, setAssetA] = useState(!window.location.search ? "CNY" : null);
-  const [assetB, setAssetB] = useState(!window.location.search ? "BTS" : null);
+  const defaultCoreSymbol = _chain === "bitshares" ? "BTS" : "TEST";
+  const defaultQuoteSymbol = _chain === "bitshares" ? "HONEST.USD" : "TESTPMA";
+
+  const [assetA, setAssetA] = useState(!window.location.search ? defaultQuoteSymbol : null);
+  const [assetB, setAssetB] = useState(!window.location.search ? defaultCoreSymbol : null);
+
+  useEffect(() => {
+    if (!window.location.search) {
+      setAssetA(defaultQuoteSymbol);
+      setAssetB(defaultCoreSymbol);
+    }
+  }, [_chain]);
 
   useEffect(() => {
     async function parseUrlAssets() {
@@ -199,14 +211,14 @@ export default function InstantTrade(properties) {
       if (!market || !market.length) {
         console.log("No market parameters found.");
         finalAssetA = "1.3.0";
-        finalAssetB = "CNY";
+        finalAssetB = defaultQuoteSymbol;
       } else {
         let asset_a = market.split("_")[0].toUpperCase();
         let asset_b = market.split("_")[1].toUpperCase();
 
         if (asset_a && asset_b && asset_b.length && asset_a === asset_b) {
           // Avoid invalid duplicate asset market pairs
-          asset_b = asset_a === "BTS" ? "CNY" : "1.3.0";
+          asset_b = asset_a === defaultCoreSymbol ? defaultQuoteSymbol : "1.3.0";
           console.log("Invalid market parameters - replaced quote asset.");
         }
 
@@ -238,7 +250,7 @@ export default function InstantTrade(properties) {
           (!searchSymbols.includes(asset_b) && !searchIds.includes(asset_b))
         ) {
           console.log("Asset B replaced with default.");
-          finalAssetB = finalAssetA !== "CNY" ? "CNY" : "1.3.0";
+          finalAssetB = finalAssetA !== defaultQuoteSymbol ? defaultQuoteSymbol : "1.3.0";
         }
 
         if (!finalAssetB) {
@@ -250,7 +262,7 @@ export default function InstantTrade(properties) {
           } else {
             console.log("Setting default asset B");
             finalAssetB =
-              asset_a !== "BTS" && asset_a !== "1.3.0" ? "1.3.0" : "CNY";
+              asset_a !== defaultCoreSymbol && asset_a !== "1.3.0" ? "1.3.0" : defaultQuoteSymbol;
           }
         }
       }
@@ -723,13 +735,44 @@ export default function InstantTrade(properties) {
     !assetBDetails
   ) {
     return (
-      <div className="container mx-auto mt-5 mb-5">
-        <div className="grid grid-cols-1 gap-3 text-center">
-          <p>{t("MarketPlaceholder:loadingAssetDescription")}</p>
+      <div className="container mx-auto mt-5 mb-5 max-w-4xl">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl p-8 text-center">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent"
+          />
+          <div className="flex flex-col items-center gap-3">
+            <Spinner className="size-6 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
+            <p className="text-foreground/70 text-sm">
+              {t("MarketPlaceholder:loadingAssetDescription")}
+            </p>
+          </div>
         </div>
       </div>
     );
   }
+
+  // Set sell amount to user's available balance
+  const setMaxA = () => {
+    if (assetABalance > 0) {
+      const formatted = parseFloat(assetABalance);
+      setAmountA(formatted);
+      form.setValue("sellAmount", formatted);
+      setTradeMode("sell");
+      setInputChars((c) => c + 1);
+    }
+  };
+
+  // Set buy amount to user's available balance
+  const setMaxB = () => {
+    if (assetBBalance > 0) {
+      const formatted = parseFloat(assetBBalance);
+      setAmountB(formatted);
+      form.setValue("buyAmount", formatted);
+      setTradeMode("buy");
+      setInputChars((c) => c + 1);
+    }
+  };
 
   const Row = ({ index, style }) => {
     const order = buyOrders[index];
@@ -750,79 +793,83 @@ export default function InstantTrade(properties) {
 
     return (
       <div style={style}>
-        <div className="grid grid-cols-3 md:grid-cols-6 text-sm hover:bg-gray-400">
+        <div className="grid grid-cols-3 md:grid-cols-6 text-sm items-center border-b border-border/40 hover:bg-[hsl(var(--accent-1)/0.06)] hover:border-[hsl(var(--accent-1)/0.20)] transition-colors py-1.5 px-2">
           <div className="hidden md:block">
             <Dialog>
               <DialogTrigger asChild>
-                <Badge
-                  variant="secondary"
-                  className="h-4 min-w-4 rounded-full px-1 font-mono tabular-nums"
+                <button
+                  type="button"
+                  className="text-[11px] font-mono dark:text-[hsl(var(--accent-1-fg)/0.70)] text-[hsl(var(--accent-1-fg)/0.80)] dark:hover:text-[hsl(var(--accent-1-fg))] hover:text-[hsl(var(--accent-1-fg))] hover:underline underline-offset-2"
                 >
-                  {order.id}
-                </Badge>
+                  #{order.id}
+                </button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[550px] bg-white">
+              <DialogContent
+                className="sm:max-w-[550px] !bg-card border border-border text-foreground/85"
+              >
                 <DialogHeader>
                   <DialogTitle>
                     {t("InstantTrade:limit_order_contents")}
                   </DialogTitle>
-                  <DialogDescription>
+                  <DialogDescription className="text-muted-foreground">
                     {t("InstantTrade:limit_order_details")}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid grid-cols-1">
                   <div className="col-span-1">
-                    <ScrollArea className="h-72 rounded-md border">
-                      <pre>
+                    <ScrollArea className="h-72 rounded-md border border-border bg-card/60">
+                      <pre className="text-xs text-foreground/80 p-3">
                         {JSON.stringify([order, orderDetails], null, 2)}
                       </pre>
                     </ScrollArea>
                   </div>
-                  <div className="col-span-2 mt-3">
+                  <div className="col-span-2 mt-3 flex items-center gap-2">
                     <Button
                       variant="outline"
-                      className="mr-2"
+                      className="border-border bg-card/60 hover:bg-card/80 hover:border-[hsl(var(--accent-1)/0.40)] text-foreground"
                       onClick={() => {
                         copyToClipboard(
                           JSON.stringify([order, orderDetails], null, 4)
                         );
                       }}
                     >
+                      <Copy className="h-3.5 w-3.5 mr-1.5" />
                       {t("DeepLinkDialog:tabsContent.copyOperationJSON")}
                     </Button>
-                    {order.id}
+                    <span className="text-[11px] font-mono text-muted-foreground">
+                      #{order.id}
+                    </span>
                   </div>
                 </div>
               </DialogContent>
             </Dialog>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden md:block text-muted-foreground truncate pr-2">
             {order.owner_name}
           </div>
           <div className="hidden md:block">
             {orderDetails && orderDetails.on_fill.length ? (
               <Dialog>
                 <DialogTrigger asChild>
-                  <Badge
-                    variant="secondary"
-                    className="h-4 min-w-4 rounded-full px-1 font-mono tabular-nums"
-                  >
-                    ✔️
-                  </Badge>
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-success)/0.15)] border border-[hsl(var(--accent-success)/0.40)] text-[hsl(var(--accent-success-fg))] text-xs cursor-pointer hover:bg-[hsl(var(--accent-success)/0.25)]">
+                    ✓
+                  </span>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[550px] bg-white">
+                <DialogContent
+                  className="sm:max-w-[550px] !bg-card border border-border text-foreground/85"
+                >
                   <DialogHeader>
                     <DialogTitle>
                       {t("InstantTrade:on_fill_details")}
                     </DialogTitle>
-                    <DialogDescription>
+                    <DialogDescription className="text-muted-foreground">
                       {t("InstantTrade:on_fill_desc")}
                     </DialogDescription>
                   </DialogHeader>
                   <div className="grid grid-cols-1">
                     <div className="col-span-1">
-                      <ScrollArea className="h-72 rounded-md border">
-                        <pre>
+                      <ScrollArea className="h-72 rounded-md border border-border bg-card/60">
+                        <pre className="text-xs text-foreground/80 p-3">
                           {JSON.stringify(orderDetails.on_fill, null, 2)}
                         </pre>
                       </ScrollArea>
@@ -830,12 +877,14 @@ export default function InstantTrade(properties) {
                     <div className="col-span-1 mt-3">
                       <Button
                         variant="outline"
+                        className="border-border bg-card/60 hover:bg-card/80 hover:border-[hsl(var(--accent-success)/0.40)] text-foreground"
                         onClick={() => {
                           copyToClipboard(
                             JSON.stringify(orderDetails.on_fill, null, 4)
                           );
                         }}
                       >
+                        <Copy className="h-3.5 w-3.5 mr-1.5" />
                         {t("DeepLinkDialog:tabsContent.copyOperationJSON")}
                       </Button>
                     </div>
@@ -844,13 +893,13 @@ export default function InstantTrade(properties) {
               </Dialog>
             ) : null}
           </div>
-          <div className="col-span-1 pl-3 font-mono text-right tabular-nums">
+          <div className="col-span-1 pl-3 font-mono text-right tabular-nums text-foreground/85">
             {quote.toFixed(assetAData.precision)}
           </div>
-          <div className="col-span-1 pl-3 font-mono text-right tabular-nums">
+          <div className="col-span-1 pl-3 font-mono text-right tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.90)] text-[hsl(var(--accent-1-fg))]">
             {price}
           </div>
-          <div className="col-span-1 pl-3 font-mono text-right tabular-nums">
+          <div className="col-span-1 pl-3 font-mono text-right tabular-nums text-muted-foreground">
             {totalBase}
           </div>
         </div>
@@ -859,73 +908,101 @@ export default function InstantTrade(properties) {
   };
 
   return (
-    <div className="container mx-auto mt-5 mb-5">
+    <div className="container mx-auto mt-5 mb-5 max-w-4xl">
       <div className="grid grid-cols-1 gap-5">
-        <Card>
-          <CardHeader className="pt-2 pb-2">
-            <CardTitle className="text-lg">
-              {usr.chain === "bitshares"
-                ? "Bitshares "
-                : "Bitshares (Testnet) "}
-              {t("InstantTrade:instant_trade")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pb-3">
-            <div className="grid grid-cols-3 gap-1">
-              <AssetDropDown
-                assetSymbol={assetB}
-                assetData={assetBData}
-                storeCallback={setAssetB}
-                otherAsset={assetA}
-                marketSearch={marketSearch}
-                type={"quote"}
-                size="small"
-                chain={usr.chain}
-                balances={balances}
-              />
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.20)]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.10)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-3)/0.10)] blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <Zap className="h-4.5 w-4.5" strokeWidth={2.25} />
+              </span>
+              <div>
+                <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                  {usr.chain === "bitshares"
+                    ? "Bitshares "
+                    : "Bitshares (Testnet) "}
+                  {t("InstantTrade:instant_trade")}
+                </h2>
+                <p className="text-xs text-muted-foreground/70 mt-0.5">
+                  {t("InstantTrade:description", { assetB, assetA })}
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-3 items-stretch">
+              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-2">
+                <AssetDropDown
+                  assetSymbol={assetB}
+                  assetData={assetBData}
+                  storeCallback={setAssetB}
+                  otherAsset={assetA}
+                  marketSearch={marketSearch}
+                  type={"quote"}
+                  size="small"
+                  chain={usr.chain}
+                  balances={balances}
+                />
+              </div>
 
               <a
-                style={{ lineHeight: 1 }}
-                href={`/instant_trade/index.html?market=${assetB}_${assetA}`}
+                href={`/instant_trade.html?market=${assetB}_${assetA}`}
                 onClick={() => setClicked(true)}
+                className="self-stretch flex items-center justify-center"
+                aria-label="Swap pair"
+                title="Swap pair"
               >
-                <Button variant="outline" className="w-full h-7">
+                <span className="inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-border bg-card/80 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] hover:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.50)] hover:bg-card/80 hover:shadow-[0_0_24px_-6px_hsl(var(--accent-1)/0.55)] transition-all group">
                   {clicked ? (
-                    <ReloadIcon className="animate-spin" />
+                    <ReloadIcon className="h-4 w-4 animate-spin" />
                   ) : (
-                    <ReloadIcon />
+                    <ArrowDownUp className="h-4 w-4 group-hover:rotate-180 transition-transform duration-300" />
                   )}
-                </Button>
+                </span>
               </a>
 
-              <AssetDropDown
-                assetSymbol={assetA}
-                assetData={assetAData}
-                storeCallback={setAssetA}
-                otherAsset={assetB}
-                marketSearch={marketSearch}
-                type={"base"}
-                size="small"
-                chain={usr.chain}
-                balances={balances}
-              />
+              <div className="rounded-xl border border-[hsl(var(--accent-2)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.06)] to-transparent p-2">
+                <AssetDropDown
+                  assetSymbol={assetA}
+                  assetData={assetAData}
+                  storeCallback={setAssetA}
+                  otherAsset={assetB}
+                  marketSearch={marketSearch}
+                  type={"base"}
+                  size="small"
+                  chain={usr.chain}
+                  balances={balances}
+                />
+              </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle>
-              {t("LimitOrderCard:buyingWith", {
-                assetA: assetB,
-                assetB: assetA,
-              })}
-            </CardTitle>
-            <CardDescription>
-              {t("InstantTrade:description", { assetB, assetA })}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.10)]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.40)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-[hsl(var(--accent-1)/0.07)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-[hsl(var(--accent-2)/0.07)] blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
             {assetA && assetB && marketSearch && assetAData && assetBData ? (
               <form onSubmit={form.handleSubmit(() => setShowDialog(true))}>
                 <FieldGroup>
@@ -934,44 +1011,58 @@ export default function InstantTrade(properties) {
                       name="sellAmount"
                       control={form.control}
                       render={({ field, fieldState }) => (
-                        <Field
-                          invalid={fieldState.invalid}
-                          className="mt-1 text-xs"
-                        >
-                          <FieldLabel>
-                            <div className="w-full grid grid-cols-2">
-                              <div className="text-left">
+                        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.07)] to-transparent p-3 sm:p-4">
+                          <Field
+                            invalid={fieldState.invalid}
+                            className="text-xs"
+                          >
+                            <FieldLabel className="text-foreground/80">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.90)] text-[hsl(var(--accent-1-fg))]">
+                                <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.30)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                                  <ArrowUp className="h-3 w-3" strokeWidth={2.5} />
+                                </span>
                                 {t(
                                   "LimitOrderCard:sellAmount.sellDescription",
                                   {
                                     asset: assetA,
                                   }
                                 )}
-                              </div>
-                              <div className="text-right">
+                              </span>
+                            </FieldLabel>
+
+                            <div className="mt-1.5 flex items-center justify-between gap-2">
+                              <span className="text-[11px] text-muted-foreground">
                                 {t("InstantTrade:balance", {
                                   balance: assetABalance,
                                   asset: assetA,
                                 })}
-                              </div>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={setMaxA}
+                                className="inline-flex items-center rounded-md border border-[hsl(var(--accent-1)/0.30)] bg-[hsl(var(--accent-1)/0.10)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.20)] hover:border-[hsl(var(--accent-1)/0.50)] transition-colors"
+                              >
+                                MAX
+                              </button>
                             </div>
-                          </FieldLabel>
 
-                          <Input
-                            value={amountA}
-                            className="mb-2 mt-1"
-                            onChange={(event) => {
-                              const input = event.target.value;
-                              const regex = assetAmountRegex(assetAData);
-                              if (regex.test(input)) {
-                                setAmountA(input);
-                                setTradeMode("sell");
-                                form.setValue("sellAmount", input);
-                                setInputChars(inputChars + 1);
-                              }
-                            }}
-                          />
-                        </Field>
+                            <Input
+                              value={amountA}
+                              className="mt-2 h-14 sm:h-16 text-2xl sm:text-3xl font-semibold !bg-card/40 border-border text-foreground placeholder:text-muted-foreground/50 focus-visible:!ring-[hsl(var(--accent-1)/0.40)] focus-visible:border-[hsl(var(--accent-1)/0.50)]"
+                              onChange={(event) => {
+                                const input = event.target.value;
+                                const regex = assetAmountRegex(assetAData);
+                                if (regex.test(input)) {
+                                  setAmountA(input);
+                                  setTradeMode("sell");
+                                  form.setValue("sellAmount", input);
+                                  setInputChars(inputChars + 1);
+                                }
+                              }}
+                              placeholder="0.00"
+                            />
+                          </Field>
+                        </div>
                       )}
                     />
 
@@ -979,385 +1070,431 @@ export default function InstantTrade(properties) {
                       name="buyAmount"
                       control={form.control}
                       render={({ field, fieldState }) => (
-                        <Field
-                          invalid={fieldState.invalid}
-                          className="mt-1 text-xs"
-                        >
-                          <FieldLabel>
-                            <div className="w-full grid grid-cols-2">
-                              <div className="text-left">
+                        <div className="rounded-xl border border-[hsl(var(--accent-2)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.07)] to-transparent p-3 sm:p-4">
+                          <Field
+                            invalid={fieldState.invalid}
+                            className="text-xs"
+                          >
+                            <FieldLabel className="text-foreground/80">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg)/0.90)] text-[hsl(var(--accent-2-fg))]">
+                                <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-2)/0.15)] border border-[hsl(var(--accent-2)/0.30)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
+                                  <ArrowDown
+                                    className="h-3 w-3"
+                                    strokeWidth={2.5}
+                                  />
+                                </span>
                                 {t("LimitOrderCard:sellAmount.buyDescription", {
                                   asset: assetB,
                                 })}
-                              </div>
-                              <div className="text-right">
+                              </span>
+                            </FieldLabel>
+                            <div className="mt-1.5 flex items-center justify-between gap-2">
+                              <span className="text-[11px] text-muted-foreground">
                                 {t("InstantTrade:balance", {
                                   balance: assetBBalance,
                                   asset: assetB,
                                 })}
-                              </div>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={setMaxB}
+                                className="inline-flex items-center rounded-md border border-[hsl(var(--accent-2)/0.30)] bg-[hsl(var(--accent-2)/0.10)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.20)] hover:border-[hsl(var(--accent-2)/0.50)] transition-colors"
+                              >
+                                MAX
+                              </button>
                             </div>
-                          </FieldLabel>
-                          <Input
-                            value={amountB}
-                            className="mb-2 mt-1"
-                            onChange={(event) => {
-                              const input = event.target.value;
-                              const regex = assetAmountRegex(assetBData);
-                              if (regex.test(input)) {
-                                setAmountB(input);
-                                setTradeMode("buy");
-                                form.setValue("buyAmount", input);
-                                setInputChars(inputChars + 1);
-                              }
-                            }}
-                          />
-                        </Field>
+                            <Input
+                              value={amountB}
+                              className="mt-2 h-14 sm:h-16 text-2xl sm:text-3xl font-semibold !bg-card/40 border-border text-foreground placeholder:text-muted-foreground/50 focus-visible:!ring-[hsl(var(--accent-2)/0.40)] focus-visible:border-[hsl(var(--accent-2)/0.50)]"
+                              onChange={(event) => {
+                                const input = event.target.value;
+                                const regex = assetAmountRegex(assetBData);
+                                if (regex.test(input)) {
+                                  setAmountB(input);
+                                  setTradeMode("buy");
+                                  form.setValue("buyAmount", input);
+                                  setInputChars(inputChars + 1);
+                                }
+                              }}
+                              placeholder="0.00"
+                            />
+                          </Field>
+                        </div>
                       )}
                     />
+                  </div>
 
+                  <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
                     <Controller
                       name="maxSellable"
                       control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field className="text-xs">
-                          <FieldLabel>
+                      render={() => (
+                        <div className="rounded-xl border border-border/60 bg-card/40 p-3">
+                          <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
                             {t("InstantTrade:max_purchaseable_assetA", {
                               assetA,
                             })}
-                          </FieldLabel>
-
-                          <Input
-                            placeholder={maxSellable}
-                            className="mb-2 mt-1"
-                            readOnly
-                          />
-                        </Field>
+                          </div>
+                          <div className="font-mono text-sm tabular-nums text-foreground/85">
+                            {maxSellable || "—"}
+                          </div>
+                        </div>
                       )}
                     />
 
                     <Controller
                       name="maxPurchaseable"
                       control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field className="text-xs">
-                          <FieldLabel>
+                      render={() => (
+                        <div className="rounded-xl border border-border/60 bg-card/40 p-3">
+                          <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
                             {t("InstantTrade:max_purchaseable_assetB", {
                               assetB,
                             })}
-                          </FieldLabel>
-
-                          <Input
-                            placeholder={maxPurchaseable}
-                            className="mb-2 mt-1"
-                            readOnly
-                          />
-                        </Field>
+                          </div>
+                          <div className="font-mono text-sm tabular-nums text-foreground/85">
+                            {maxPurchaseable || "—"}
+                          </div>
+                        </div>
                       )}
                     />
 
-                    <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-5">
-                      <Controller
-                        name="avgPrice"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                          <Field className="text-xs">
-                            <FieldLabel>
-                              {t("InstantTrade:effective_average_price", {
-                                assetB,
-                                assetA,
-                              })}
-                            </FieldLabel>
+                    <Controller
+                      name="avgPrice"
+                      control={form.control}
+                      render={() => (
+                        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40 p-3">
+                          <div className="text-[10px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.70)] text-[hsl(var(--accent-1-fg)/0.80)] mb-1 inline-flex items-center gap-1">
+                            <TrendingUp className="h-3 w-3" strokeWidth={2.5} />
+                            {t("InstantTrade:effective_average_price", {
+                              assetB,
+                              assetA,
+                            })}
+                          </div>
+                          <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.90)] text-[hsl(var(--accent-1-fg))]">
+                            {avgPrice || "—"}
+                          </div>
+                        </div>
+                      )}
+                    />
 
-                            <Input
-                              placeholder={avgPrice}
-                              className="mb-2 mt-1"
-                              readOnly
-                            />
-                          </Field>
-                        )}
-                      />
+                    <Controller
+                      name="qtyLimitOrders"
+                      control={form.control}
+                      render={() => (
+                        <div className="rounded-xl border border-border/60 bg-card/40 p-3">
+                          <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
+                            {t("InstantTrade:quantity_limit_orders")}
+                          </div>
+                          <div className="font-mono text-sm tabular-nums text-foreground/85">
+                            {orderCalc ? orderCalc.orders.length : 0}
+                          </div>
+                        </div>
+                      )}
+                    />
 
-                      <Controller
-                        name="qtyLimitOrders"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                          <Field className="text-xs">
-                            <FieldLabel>
-                              {t("InstantTrade:quantity_limit_orders")}
-                            </FieldLabel>
+                    <Controller
+                      name="uniqueSellers"
+                      control={form.control}
+                      render={() => (
+                        <div className="rounded-xl border border-border/60 bg-card/40 p-3">
+                          <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1 inline-flex items-center gap-1">
+                            <Users className="h-3 w-3" strokeWidth={2.5} />
+                            {t("InstantTrade:unique_sellers")}
+                          </div>
+                          <div className="font-mono text-sm tabular-nums text-foreground/85">
+                            {orderCalc &&
+                            orderCalc.orders &&
+                            orderCalc.orders.length
+                              ? [
+                                  ...new Set(
+                                    orderCalc.orders.map(
+                                      (x) => x.owner_name
+                                    )
+                                  ),
+                                ].length
+                              : 0}
+                          </div>
+                        </div>
+                      )}
+                    />
 
-                            <Input
-                              placeholder={
-                                orderCalc ? orderCalc.orders.length : 0
-                              }
-                              className="mb-2 mt-1"
-                              readOnly
-                            />
-                          </Field>
-                        )}
-                      />
-
-                      <Controller
-                        name="uniqueSellers"
-                        control={form.control}
-                        render={({ field, fieldState }) => (
-                          <Field className="text-xs">
-                            <FieldLabel>
-                              {t("InstantTrade:unique_sellers")}
-                            </FieldLabel>
-
-                            <Input
-                              placeholder={
-                                orderCalc &&
-                                orderCalc.orders &&
-                                orderCalc.orders.length
-                                  ? [
-                                      ...new Set(
-                                        orderCalc.orders.map(
-                                          (x) => x.owner_name
-                                        )
-                                      ),
-                                    ].length
-                                  : 0
-                              }
-                              className="mb-2 mt-1"
-                              readOnly
-                            />
-                          </Field>
-                        )}
-                      />
-                    </div>
+                    <Controller
+                      name="networkFee"
+                      control={form.control}
+                      render={() => (
+                        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-[hsl(var(--accent-1)/0.05)] p-3">
+                          <div className="text-[10px] font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.80)] text-[hsl(var(--accent-1-fg))] mb-1 inline-flex items-center gap-1">
+                            <Zap className="h-3 w-3" strokeWidth={2.5} />
+                            {t("InstantTrade:networkFee")}
+                          </div>
+                          <div className="flex items-center gap-1 font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                            <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
+                            {limitOrderFee ? limitOrderFee.toFixed(5) : "0.00000"}
+                            <span className="text-muted-foreground">BTS</span>
+                          </div>
+                        </div>
+                      )}
+                    />
 
                     {marketFees && assetBData ? (
                       <Controller
                         name="marketFees"
                         control={form.control}
-                        render={({ field, fieldState }) => (
-                          <Field>
-                            <FieldLabel>
+                        render={() => (
+                          <div className="rounded-xl border border-border/60 bg-card/40 p-3">
+                            <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1 inline-flex items-center gap-1">
+                              <Info className="h-3 w-3" strokeWidth={2.5} />
                               {t("LimitOrderCard:marketFees.label")}
-                            </FieldLabel>
-                            <Input
-                              disabled
-                              placeholder={`${marketFees} ${assetBData.symbol}`}
-                              className="mb-2 mt-1"
-                            />
-                            <FieldDescription>
+                            </div>
+                            <div className="font-mono text-sm tabular-nums text-foreground/85">
+                              {marketFees} {assetBData.symbol}
+                            </div>
+                            <div className="text-[10px] text-muted-foreground mt-0.5">
                               {t("LimitOrderCard:marketFees.description")}
-                            </FieldDescription>
-                          </Field>
+                            </div>
+                          </div>
                         )}
                       />
                     ) : null}
                   </div>
 
-                  {/*
-                      <Controller
-                      name="fee"
-                      control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field invalid={fieldState.invalid} disabled>
-                          <FieldLabel>
-                            {t("LimitOrderCard:fee.label")}
-                          </FieldLabel>
-                          <FieldDescription>
-                            {t("LimitOrderCard:fee.description")}
-                          </FieldDescription>
-                          <Input
-                            {...field}
-                            disabled
-                            label={t("LimitOrderCard:fee.label")}
-                            value={`${fee} BTS`}
-                            placeholder={1}
-                          />
-                          {expiryType === "fkill" || usr.id === usr.referrer ? (
-                            <FieldError>
-                              {expiryType === "fkill"
-                                ? t("LimitOrderCard:fee.unfilledRebate", {
-                                    fee,
-                                  })
-                                : null}
-                              <br />
-                              {usr.id === usr.referrer
-                                ? t("LimitOrderCard:fee.ltmRebate", {
-                                    rebate: 0.8 * fee,
-                                  })
-                                : null}
-                            </FieldError>
-                          ) : null}
-                        </Field>
-                      )}
-                    />
-                  */}
-
-                  <div className="mb-3">
-                    <Label className="mb-4 block">
+                  <div className="mt-5">
+                    <Label className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-2 block">
                       {t("InstantTrade:instant_trading_method")}
                     </Label>
+                    <div className="inline-flex rounded-xl border border-border bg-card/40 p-1 gap-1">
+                      {[
+                        {
+                          value: "single",
+                          label: t("InstantTrade:single_limit_order"),
+                        },
+                        {
+                          value: "multiple",
+                          label: t("InstantTrade:multiple_limit_orders"),
+                        },
+                      ].map((opt) => {
+                        const active = tradeMethod === opt.value;
+                        return (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            onClick={() => setTradeMethod(opt.value)}
+                            className={cn(
+                              "px-3 py-1.5 text-xs font-medium rounded-lg transition-all",
+                              active
+                                ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] border border-[hsl(var(--accent-1)/0.40)] shadow-[0_0_18px_-8px_hsl(var(--accent-1)/0.6)]"
+                                : "text-muted-foreground hover:text-accent-foreground/90 hover:bg-accent/40 border border-transparent"
+                            )}
+                          >
+                            {opt.label}
+                          </button>
+                        );
+                      })}
+                    </div>
                     <RadioGroup
                       defaultValue="single"
                       value={tradeMethod}
                       onValueChange={setTradeMethod}
-                      className="flex flex-row space-x-4"
+                      className="hidden"
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="single" id="r1" />
-                        <Label htmlFor="r1">
-                          {t("InstantTrade:single_limit_order")}
-                        </Label>
+                        <Label htmlFor="r1">r1</Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="multiple" id="r2" />
-                        <Label htmlFor="r2">
-                          {t("InstantTrade:multiple_limit_orders")}
-                        </Label>
+                        <Label htmlFor="r2">r2</Label>
                       </div>
                     </RadioGroup>
                   </div>
 
                   {!amountA || !amountB ? (
-                    <Button
-                      className="mt-7 mb-1 w-full md:w-1/4 text-left"
-                      variant="outline"
+                    <button
+                      type="submit"
                       disabled
-                      type="submit"
+                      className="mt-6 w-full h-14 rounded-2xl font-semibold text-muted-foreground bg-card/60 border border-border/40 dark:border-white/5 cursor-not-allowed flex items-center justify-center gap-2 text-base"
                     >
+                      <Zap className="h-4 w-4" strokeWidth={2.5} />
                       {t("LimitOrderCard:submit")}
-                    </Button>
+                    </button>
                   ) : (
-                    <Button
-                      className="mt-7 mb-1 w-full md:w-1/4 text-left"
-                      variant="outline"
-                      type="submit"
-                    >
-                      {t("LimitOrderCard:submit")}
-                    </Button>
+                    <>
+                      {limitOrderFee && (
+                        <div className="mt-4 flex items-center justify-between px-1">
+                          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                            {t("InstantTrade:networkFee")}
+                          </span>
+                          <span className="flex items-center gap-1.5 font-mono dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-sm">
+                            <Zap className="h-3.5 w-3.5" strokeWidth={2.5} />
+                            {limitOrderFee.toFixed(5)} BTS
+                          </span>
+                        </div>
+                      )}
+                      <button
+                        type="submit"
+                        className="mt-6 w-full h-14 rounded-2xl font-semibold text-[hsl(var(--accent-1-gradFg))] bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-3))] to-[hsl(var(--accent-danger))] shadow-[0_8px_32px_-12px_hsl(var(--accent-3)/0.7)] hover:shadow-[0_12px_40px_-12px_hsl(var(--accent-3)/0.9)] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-3))] hover:to-[hsl(var(--accent-danger))] transition-all flex items-center justify-center gap-2 text-base group"
+                      >
+                        <Zap
+                          className="h-4 w-4 group-hover:scale-110 transition-transform"
+                          strokeWidth={2.5}
+                        />
+                        {t("LimitOrderCard:submit")}
+                      </button>
+                    </>
                   )}
                 </FieldGroup>
               </form>
             ) : null}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.40)] to-transparent"
+          />
           <Accordion
             type="single"
             defaultValue="openBuyLimitOrders"
             collapsible
+            className="relative"
           >
-            <AccordionItem key="openBuyLimitOrders" value="openBuyLimitOrders">
-              <AccordionTrigger>
-                <CardHeader>
-                  <CardTitle>
+            <AccordionItem
+              key="openBuyLimitOrders"
+              value="openBuyLimitOrders"
+              className="border-b-0"
+            >
+              <AccordionTrigger className="px-5 sm:px-6 py-4 hover:no-underline hover:bg-accent/20">
+                <div className="flex-1 text-left">
+                  <div className="flex items-center gap-2 text-base sm:text-lg font-semibold text-foreground">
+                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.30)] bg-[hsl(var(--accent-1)/0.10)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                      <TrendingUp className="h-3.5 w-3.5" strokeWidth={2.5} />
+                    </span>
                     {t("MarketOrderCard:openBuyLimitOrdersTitle")}
-                  </CardTitle>
-                  <CardDescription>
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">
                     {t("MarketOrderCard:buyLimitOrdersDescription", {
                       assetA: assetB,
                       assetB: assetA,
                     })}
-                    <br />
+                  </div>
+                  <div className="text-[11px] text-muted-foreground mt-1 inline-flex items-center gap-1.5">
                     {updatingMarket ? (
-                      <Spinner className="size-4" />
+                      <Spinner className="size-3" />
                     ) : (
-                      t("InstantTrade:last_updated", {
-                        time: marketTimestamp
-                          ? marketTimestamp.toLocaleTimeString()
-                          : "",
-                      })
+                      <>
+                        <RefreshCw className="h-2.5 w-2.5" />
+                        {t("InstantTrade:last_updated", {
+                          time: marketTimestamp
+                            ? marketTimestamp.toLocaleTimeString()
+                            : "",
+                        })}
+                      </>
                     )}
-                  </CardDescription>
-                </CardHeader>
+                  </div>
+                </div>
               </AccordionTrigger>
-              <AccordionContent>
-                <CardContent>
-                  {buyOrders && buyOrders.length ? (
-                    <>
-                      <div className="grid grid-cols-3 md:grid-cols-6 font-bold">
-                        <div className="hidden md:block">
-                          {t("InstantTrade:id")}
-                        </div>
-                        <div className="hidden md:block">
-                          {t("InstantTrade:seller")}
-                        </div>
-                        <div className="hidden md:block">
-                          {t("InstantTrade:on_repeat")}
-                        </div>
-                        <div className="col-span-1 pl-3 text-right pr-2">
-                          {t("InstantTrade:amount_assetA", { assetA })}
-                        </div>
-                        <div className="col-span-1 pl-3 text-md text-right pr-2">
-                          {t("InstantTrade:price_assetB_assetA", {
-                            assetB,
-                            assetA,
-                          })}
-                        </div>
-                        <div className="col-span-1 pl-3 text-md text-right pr-2">
-                          {t("InstantTrade:total_assetB", { assetB })}
-                        </div>
+              <AccordionContent className="px-5 sm:px-6 pb-5">
+                {buyOrders && buyOrders.length ? (
+                  <>
+                    <div className="grid grid-cols-3 md:grid-cols-6 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-2 mb-1 px-2">
+                      <div className="hidden md:block">
+                        {t("InstantTrade:id")}
                       </div>
-                      <div className="h-[300px] overflow-hidden">
-                        {buyOrders && buyOrderDetails ? (
-                          <List
-                            height={300}
-                            rowComponent={Row}
-                            rowCount={buyOrders.length}
-                            rowHeight={20}
-                            rowProps={{}}
-                          />
-                        ) : (
-                          <div className="flex items-center">
-                            <Spinner className="size-8" />
-                          </div>
-                        )}
+                      <div className="hidden md:block">
+                        {t("InstantTrade:seller")}
                       </div>
-                    </>
-                  ) : (
-                    t("MarketOrderCard:noOpenOrders")
-                  )}
-                </CardContent>
-                <CardFooter>
+                      <div className="hidden md:block">
+                        {t("InstantTrade:on_repeat")}
+                      </div>
+                      <div className="col-span-1 text-right">
+                        {t("InstantTrade:amount_assetA", { assetA })}
+                      </div>
+                      <div className="col-span-1 text-right dark:text-[hsl(var(--accent-1-fg)/0.70)] text-[hsl(var(--accent-1-fg)/0.80)]">
+                        {t("InstantTrade:price_assetB_assetA", {
+                          assetB,
+                          assetA,
+                        })}
+                      </div>
+                      <div className="col-span-1 text-right">
+                        {t("InstantTrade:total_assetB", { assetB })}
+                      </div>
+                    </div>
+                    <div className="h-[300px] overflow-hidden rounded-lg bg-card/30 border border-border/40">
+                      {buyOrders && buyOrderDetails ? (
+                        <List
+                          height={300}
+                          rowComponent={Row}
+                          rowCount={buyOrders.length}
+                          rowHeight={32}
+                          rowProps={{}}
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full">
+                          <Spinner className="size-6 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
+                        </div>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-sm text-muted-foreground/70 text-center py-8">
+                    {t("MarketOrderCard:noOpenOrders")}
+                  </div>
+                )}
+                <div className="mt-3 flex justify-end">
                   <Button
                     onClick={() => setBuyOrderIterator((n) => n + 1)}
                     variant="outline"
+                    size="icon"
+                    aria-label="Refresh"
+                    className="h-9 w-9 rounded-xl border-border bg-card/60 hover:bg-card/80 hover:border-[hsl(var(--accent-1)/0.40)] text-foreground/70 hover:text-accent-foreground"
                   >
-                    <ReloadIcon className="hover:animate-spin" />
+                    <RefreshCw className="h-3.5 w-3.5" />
                   </Button>
-                </CardFooter>
+                </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-        </Card>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              {t("InstantTrade:market_limit_orders_buying_from")}
-            </CardTitle>
-            <CardDescription>
-              <div className="w-full grid grid-cols-2">
-                <div className="text-left">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.40)] to-transparent"
+          />
+          <div className="relative p-5 sm:p-6">
+            <div className="flex items-start gap-3 mb-4">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <Wallet className="h-4 w-4" strokeWidth={2.25} />
+              </span>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">
+                  {t("InstantTrade:market_limit_orders_buying_from")}
+                </h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
                   {t("InstantTrade:market_limit_orders_desc")}
-                </div>
-                <div className="text-right">
+                </p>
+                <div className="text-[11px] text-muted-foreground mt-1 inline-flex items-center gap-1.5">
                   {updatingMarket ? (
-                    <Spinner className="size-4" />
+                    <Spinner className="size-3" />
                   ) : (
-                    t("InstantTrade:last_updated", {
-                      time: marketTimestamp
-                        ? marketTimestamp.toLocaleTimeString()
-                        : "",
-                    })
+                    <>
+                      <RefreshCw className="h-2.5 w-2.5" />
+                      {t("InstantTrade:last_updated", {
+                        time: marketTimestamp
+                          ? marketTimestamp.toLocaleTimeString()
+                          : "",
+                      })}
+                    </>
                   )}
                 </div>
               </div>
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+            </div>
+
             {orderCalc && orderCalc.orders.length ? (
               <>
-                <div className="grid grid-cols-3 md:grid-cols-6">
+                <div className="grid grid-cols-3 md:grid-cols-6 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-2 mb-1 px-2">
                   <div className="hidden md:block">{t("InstantTrade:id")}</div>
                   <div className="hidden md:block">
                     {t("InstantTrade:seller")}
@@ -1365,44 +1502,49 @@ export default function InstantTrade(properties) {
                   <div className="hidden md:block">
                     {t("InstantTrade:on_repeat")}
                   </div>
-                  <div className="col-span-1 pl-3 text-right pr-2">
+                  <div className="col-span-1 text-right">
                     {t("InstantTrade:amount_assetA", { assetA })}
                   </div>
-                  <div className="col-span-1 pl-3 text-md text-right pr-2">
+                  <div className="col-span-1 text-right dark:text-[hsl(var(--accent-1-fg)/0.70)] text-[hsl(var(--accent-1-fg)/0.80)]">
                     {t("InstantTrade:price_assetB_assetA", {
                       assetB,
                       assetA,
                     })}
                   </div>
-                  <div className="col-span-1 pl-3 text-md text-right pr-2">
+                  <div className="col-span-1 text-right">
                     {t("InstantTrade:total_assetB", { assetB })}
                   </div>
                 </div>
-                <div className="h-[300px] overflow-hidden">
+                <div className="h-[300px] overflow-hidden rounded-lg bg-card/30 border border-border/40">
                   {orderCalc && orderCalc.orders && buyOrderDetails ? (
                     <List
                       height={300}
                       rowComponent={Row}
                       rowCount={orderCalc.orders.length}
-                      rowHeight={20}
+                      rowHeight={32}
                       rowProps={{}}
                     />
                   ) : null}
                 </div>
               </>
             ) : (
-              t("InstantTrade:no_orders_to_purchase")
+              <div className="text-sm text-muted-foreground/70 text-center py-8">
+                {t("InstantTrade:no_orders_to_purchase")}
+              </div>
             )}
-          </CardContent>
-          <CardFooter>
-            <Button
-              onClick={() => setBuyOrderIterator((n) => n + 1)}
-              variant="outline"
-            >
-              <ReloadIcon className="hover:animate-spin" />
-            </Button>
-          </CardFooter>
-        </Card>
+            <div className="mt-3 flex justify-end">
+              <Button
+                onClick={() => setBuyOrderIterator((n) => n + 1)}
+                variant="outline"
+                size="icon"
+                aria-label="Refresh"
+                className="h-9 w-9 rounded-xl border-border bg-card/60 hover:bg-card/80 hover:border-[hsl(var(--accent-1)/0.40)] text-foreground/70 hover:text-accent-foreground"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          </div>
+        </div>
 
         {showDialog ? (
           <DeepLinkDialog

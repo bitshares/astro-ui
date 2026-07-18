@@ -69,12 +69,11 @@ export default function CurrentUser(properties) {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Item variant="outline" className="bg-white inline-flex w-auto">
-                  <ItemMedia>
+                <Item variant="outline" className="bg-card inline-flex w-auto">
+                  <ItemMedia variant="image" className="rounded-full">
                     <InView onChange={setInView}>
                       {inView ? (
                         <Avatar
-                          size={50}
                           name={usr.username}
                           extra=""
                           expression={{
@@ -93,7 +92,7 @@ export default function CurrentUser(properties) {
                     </InView>
                   </ItemMedia>
                   <ItemContent>
-                    <ItemTitle className="text-black">{usr.username}</ItemTitle>
+                    <ItemTitle className="text-foreground">{usr.username}</ItemTitle>
                     <ItemDescription className="text-left">
                       <Breadcrumb>
                         <BreadcrumbList>
@@ -123,7 +122,7 @@ export default function CurrentUser(properties) {
           </TooltipProvider>
         </span>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] bg-white">
+      <DialogContent className="sm:max-w-[600px] bg-card">
         <DialogHeader>
           <DialogTitle>
             {t("CurrentUser:dialogContent.replacingUser")}

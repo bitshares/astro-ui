@@ -1,0 +1,23 @@
+{
+  "committeeHeader": "Lista negra do comitê",
+  "committeeCount": "{{count}} contas na lista negra do comitê",
+  "committeeDescription": "Estas contas foram colocadas na lista negra pelo comitê da Bitshares. Esta lista é mantida na blockchain e atualizada periodicamente.",
+  "usersHeader": "Suas contas bloqueadas",
+  "addUser": "Bloquear conta",
+  "addUserDialogTitle": "Bloquear uma conta",
+  "addUserDialogDescription": "Pesquise uma conta para adicionar à sua lista de bloqueio pessoal. Contas bloqueadas ficarão ocultas em toda a sua visualização.",
+  "usersEmptyTitle": "Nenhuma conta bloqueada",
+  "usersEmptyDescription": "Você ainda não bloqueou nenhuma conta. Bloqueie contas para ocultá-las da sua visualização.",
+  "remove": "Remover da lista negra",
+  "favouriteAccount": "Conta favorita",
+  "unfavouriteAccount": "Remover dos favoritos",
+  "blockAccount": "Bloquear conta",
+  "alreadyBlocked": "Já bloqueado",
+  "ownerActions": "Opções de conta",
+  "blockConfirmTitle": "Bloquear {{name}}?",
+  "blockConfirmDescription": "Tem certeza de que deseja bloquear esta conta? Ela ficará oculta em toda a sua visualização no aplicativo.",
+  "blockConfirmAction": "Bloquear",
+  "blockConfirmCancel": "Cancelar",
+  "pageTitle": "Contas bloqueadas",
+  "pageDescription": "Gerencie listas de bloqueio de contas do comitê e pessoais"
+}

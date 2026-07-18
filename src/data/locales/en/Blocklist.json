@@ -1,0 +1,23 @@
+{
+  "pageTitle": "Blocked Accounts",
+  "pageDescription": "Manage committee and personal account blocklists",
+  "committeeHeader": "Committee Blacklist",
+  "committeeCount": "{{count}} accounts blacklisted by the committee",
+  "committeeDescription": "These accounts have been blacklisted by the Bitshares committee. This list is maintained on-chain and updated periodically.",
+  "usersHeader": "Your Blocked Accounts",
+  "addUser": "Block Account",
+  "addUserDialogTitle": "Block an account",
+  "addUserDialogDescription": "Search for an account to add to your personal blocklist. Blocked accounts will be hidden from your view across the application.",
+  "usersEmptyTitle": "No blocked accounts",
+  "usersEmptyDescription": "You haven't blocked any accounts yet. Block accounts to hide them from your view.",
+  "remove": "Remove from blocklist",
+  "favouriteAccount": "Favourite account",
+  "unfavouriteAccount": "Remove from favourites",
+  "blockAccount": "Block account",
+  "alreadyBlocked": "Already blocked",
+  "ownerActions": "Account options",
+  "blockConfirmTitle": "Block {{name}}?",
+  "blockConfirmDescription": "Are you sure you want to block this account? They will be hidden from your view across the application.",
+  "blockConfirmAction": "Block",
+  "blockConfirmCancel": "Cancel"
+}

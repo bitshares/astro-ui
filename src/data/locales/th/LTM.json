@@ -1,5 +1,5 @@
 {
-  "cardTitle": "💱 สมาชิก LTM",
+  "cardTitle": "สมาชิก LTM",
   "cardDescription": "ซื้อสมาชิกตลอดชีพ",
   "alreadyMember": "บัญชีนี้ได้ซื้อสมาชิกตลอดชีพแล้ว!",
   "benefitsTitle": "สิทธิประโยชน์การเป็นสมาชิกตลอดชีพของคุณ:",
@@ -8,5 +8,11 @@
   "benefit3": "ตอนนี้สามารถสร้างชื่อบัญชีพรีเมี่ยมได้แล้ว",
   "wantToPurchase": "ต้องการซื้อสมาชิกตลอดชีพสำหรับบัญชีของคุณหรือไม่?",
   "purchaseButton": "ซื้อ LTM",
-  "headerText": "การซื้อสมาชิกตลอดชีพสำหรับ {{username}}"
+  "headerText": "การซื้อสมาชิกตลอดชีพสำหรับ {{username}}",
+  "memberBadge": "LTM ใช้งานอยู่",
+  "exclusiveBenefits": "สิทธิประโยชน์พิเศษ",
+  "feeRebate": "ส่วนลดค่าธรรมเนียม",
+  "referralEarnings": "รายได้จากการแนะนำ",
+  "premiumNames": "ชื่อพรีเมียม",
+  "readyToUpgrade": "พร้อมอัปเกรดแล้วหรือยัง?"
 }

@@ -96,18 +96,18 @@ export default function Featured(properties) {
             <span className="col-span-2 md:col-span-1">
               <a
                 className="hover:underline"
-                href={`/dex/index.html?market=${pairUnderscore}`}
+                href={`/dex.html?market=${pairUnderscore}`}
               >
                 {market.pair}
               </a>
             </span>
             <span className="hidden md:block col-span-1">
-              <a href={`/dex/index.html?market=${pairUnderscore}`}>
+              <a href={`/dex.html?market=${pairUnderscore}`}>
                 {market["24h_volume"]}
               </a>
             </span>
             <span className="hidden md:block col-span-1">
-              <a href={`/dex/index.html?market=${pairUnderscore}`}>
+              <a href={`/dex.html?market=${pairUnderscore}`}>
                 {market.nb_operations}
               </a>
             </span>
@@ -122,7 +122,7 @@ export default function Featured(properties) {
                     {t("PageHeader:pools")}
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-white">
+                <DialogContent className="bg-card">
                   <PoolDialogs
                     assetA={assetA}
                     assetB={assetB}

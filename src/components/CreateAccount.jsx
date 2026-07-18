@@ -44,6 +44,8 @@ import { $currentNode } from "@/stores/node.ts";
 import { $currentUser } from "@/stores/users.ts";
 import { debounce, copyToClipboard } from "@/lib/common";
 
+import { UserPlus } from "lucide-react";
+
 const CreateAccount = () => {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const currentNode = useStore($currentNode);
@@ -166,23 +168,49 @@ const CreateAccount = () => {
 
     if (registeredAccount) {
       setAccountCreated(true);
-      //setAccountResponse(registeredAccount);
       console.log({ registeredAccount });
     }
   };
 
+  const isFormValid =
+    username &&
+    username.length &&
+    username.length < 64 &&
+    username.split(".").length <= 2 &&
+    !username.includes("--") &&
+    !/[^a-zA-Z0-9-.]/.test(username) &&
+    (method === "ltm" ||
+      (method === "faucet" &&
+        !isNaN(username[username.length - 1]) &&
+        username[username.length - 1] !== ".")) &&
+    password &&
+    generatedPassword &&
+    password === generatedPassword &&
+    generatedAccountData &&
+    loseAccessChecked &&
+    noRecoveryChecked &&
+    writtenDownChecked;
+
   return (
-    <div className="container mx-auto mt-5 mb-5 w-full lg:w-3/4">
+    <div className="container mx-auto mt-5 mb-5 w-full lg:w-3/4 text-foreground">
       <div className="grid grid-cols-1 gap-3">
-        <Card>
+        <Card className="bg-card/60 border-border shadow-lg shadow-black/20 backdrop-blur-sm">
+          <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))]" />
           <CardHeader className="pb-5">
-            <CardTitle>🆕 {t("CreateAccount:createAccount")}</CardTitle>
-            <CardDescription>{t("CreateAccount:description")}</CardDescription>
+            <CardTitle className="flex items-center gap-2">
+              <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[hsl(var(--accent-1)/0.15)] flex-shrink-0">
+                <UserPlus className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+              </span>
+              {t("CreateAccount:createAccount")}
+            </CardTitle>
+            <CardDescription className="text-muted-foreground ml-11">
+              {t("CreateAccount:description")}
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-foreground/70 mb-1.5">
                   {t("CreateAccount:username")}
                 </label>
                 <Input
@@ -190,38 +218,39 @@ const CreateAccount = () => {
                   onChange={(e) => {
                     setUsername(e.target.value);
                   }}
+                  className="bg-accent/30 dark:bg-white/[0.05] border-border text-foreground placeholder:text-muted-foreground/60"
                 />
                 {username &&
                 username.length &&
                 searched &&
                 (usernameAvailable === null || usernameAvailable === false) ? (
-                  <p className="mt-2 text-sm text-red-600">
+                  <p className="mt-2 text-sm text-[hsl(var(--accent-danger-fg))]">
                     {t("CreateAccount:usernameUnavailable")}
                   </p>
                 ) : null}
                 {username &&
                 username.length &&
-                (username.length > 63 || // accounts can't be longer than 64 characters
+                (username.length > 63 ||
                   (method === "faucet" &&
-                    isNaN(username[username.length - 1])) || // free accounts must end in a number
-                  username[username.length - 1] === "." || // accounts can't end in a period
-                  username.includes("--") || // No 2 dashes in a row
-                  username.split(".").length > 2 || // accounts can't include more than 1 period
-                  /[^a-zA-Z0-9-.]/.test(username)) ? ( // only allow letters, numbers, dashes, and one dot
-                  <p className="mt-2 text-sm text-red-600">
+                    isNaN(username[username.length - 1])) ||
+                  username[username.length - 1] === "." ||
+                  username.includes("--") ||
+                  username.split(".").length > 2 ||
+                  /[^a-zA-Z0-9-.]/.test(username)) ? (
+                  <p className="mt-2 text-sm text-[hsl(var(--accent-danger-fg))]">
                     {t("CreateAccount:invalidUsername")}
                   </p>
                 ) : null}
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 flex items-center">
+                <label className="text-sm font-medium text-foreground/70 flex items-center mb-1.5">
                   {t("CreateAccount:generatedPassword")}
                   <HoverCard>
                     <HoverCardTrigger asChild>
-                      <QuestionMarkCircledIcon className="ml-2" />
+                      <QuestionMarkCircledIcon className="ml-2 h-4 w-4 text-muted-foreground cursor-help" />
                     </HoverCardTrigger>
-                    <HoverCardContent>
-                      <p>{t("CreateAccount:genPassAbout")}</p>
+                    <HoverCardContent className="w-80 bg-card border-border text-foreground text-sm">
+                      <p className="text-foreground/70">{t("CreateAccount:genPassAbout")}</p>
                     </HoverCardContent>
                   </HoverCard>
                 </label>
@@ -231,69 +260,75 @@ const CreateAccount = () => {
                       type={passMode === "hide" ? "password" : "text"}
                       value={generatedPassword}
                       disabled
+                      className="bg-accent/30 dark:bg-white/[0.05] border-border text-foreground disabled:opacity-60"
                     />
                   </div>
-                  <div className="col-span-4 md:col-span-1">
+                  <div className="col-span-4 md:col-span-1 flex gap-1">
                     <Button
                       variant="outline"
-                      className="mr-2"
+                      size="icon"
+                      className="border-border text-muted-foreground hover:bg-accent/60"
                       onClick={() => {
                         setPassMode(passMode === "show" ? "hide" : "show");
                       }}
                     >
                       {passMode === "hide" ? (
-                        <EyeClosedIcon />
+                        <EyeClosedIcon className="h-4 w-4" />
                       ) : (
-                        <EyeOpenIcon />
+                        <EyeOpenIcon className="h-4 w-4" />
                       )}
                     </Button>
                     <Button
                       variant="outline"
-                      className="mr-2"
+                      size="icon"
+                      className="border-border text-muted-foreground hover:bg-accent/60"
                       onClick={() => {
                         copyToClipboard(generatedPassword);
                       }}
                     >
-                      <CopyIcon />
+                      <CopyIcon className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="outline"
+                      size="icon"
+                      className="border-border text-muted-foreground hover:bg-accent/60"
                       onClick={() => {
                         setItr(itr + 1);
                       }}
                     >
-                      <ReloadIcon />
+                      <ReloadIcon className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-foreground/70 mb-1.5">
                   {t("CreateAccount:confirmPasswordTitle")}
                 </label>
                 <Input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="bg-accent/30 dark:bg-white/[0.05] border-border text-foreground placeholder:text-muted-foreground/60"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-foreground/70 mb-1.5">
                   {t("CreateAccount:method")}
                 </label>
                 <Select
                   value={method}
                   onValueChange={(value) => setMethod(value)}
                 >
-                  <SelectTrigger className="mb-1">
-                    <SelectValue />
+                  <SelectTrigger className="bg-accent/30 dark:bg-white/[0.05] border-border text-foreground/70">
+                    <SelectValue className="text-foreground/70" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  <SelectContent className="bg-card border-border shadow-2xl dark:shadow-black/40 shadow-black/15">
                     <SelectGroup>
-                      <SelectItem value="faucet">
+                      <SelectItem value="faucet" className="text-foreground/70 focus:bg-accent focus:text-accent-foreground">
                         {t("CreateAccount:faucetMethod")}
                       </SelectItem>
-                      <SelectItem value="ltm">
+                      <SelectItem value="ltm" className="text-foreground/70 focus:bg-accent focus:text-accent-foreground">
                         {t("CreateAccount:ltmMethod")}
                       </SelectItem>
                     </SelectGroup>
@@ -302,84 +337,54 @@ const CreateAccount = () => {
               </div>
 
               <div className="grid grid-cols-1 gap-3">
-                <div className="flex items-center">
-                  <Checkbox
-                    id="checkbox1"
-                    checked={loseAccessChecked}
-                    onClick={() => {
-                      setLoseAccessChecked(!loseAccessChecked);
-                    }}
-                  />
-                  <label htmlFor="checkbox1" className="ml-2 mb-2 text-sm">
-                    {t("CreateAccount:loseAccess")}
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <Checkbox
-                    id="checkbox2"
-                    checked={noRecoveryChecked}
-                    onClick={() => {
-                      setNoRecoveryChecked(!noRecoveryChecked);
-                    }}
-                  />
-                  <label htmlFor="checkbox2" className="ml-2 mb-2 text-sm">
-                    {t("CreateAccount:noRecovery")}
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <Checkbox
-                    id="checkbox3"
-                    checked={writtenDownChecked}
-                    onClick={() => {
-                      setWrittenDownChecked(!writtenDownChecked);
-                    }}
-                  />
-                  <label htmlFor="checkbox3" className="ml-2 mb-2 text-sm">
-                    {t("CreateAccount:writtenDown")}
-                  </label>
-                </div>
+                {[
+                  { id: "checkbox1", checked: loseAccessChecked, set: setLoseAccessChecked, label: t("CreateAccount:loseAccess") },
+                  { id: "checkbox2", checked: noRecoveryChecked, set: setNoRecoveryChecked, label: t("CreateAccount:noRecovery") },
+                  { id: "checkbox3", checked: writtenDownChecked, set: setWrittenDownChecked, label: t("CreateAccount:writtenDown") },
+                ].map(({ id, checked, set, label }) => (
+                  <div key={id} className="flex items-center">
+                    <Checkbox
+                      id={id}
+                      checked={checked}
+                      onClick={() => set(!checked)}
+                      className="border-foreground/30 data-[state=checked]:bg-[hsl(var(--accent-1))] data-[state=checked]:border-[hsl(var(--accent-1))]"
+                    />
+                    <label htmlFor={id} className="ml-2 mb-0 text-sm text-foreground/70">
+                      {label}
+                    </label>
+                  </div>
+                ))}
               </div>
-              {username &&
-              username.length &&
-              username.length < 64 &&
-              username.split(".").length <= 2 &&
-              !username.includes("--") &&
-              !/[^a-zA-Z0-9-.]/.test(username) &&
-              (method === "ltm" ||
-                (method === "faucet" &&
-                  !isNaN(username[username.length - 1]) &&
-                  username[username.length - 1] !== ".")) &&
-              password &&
-              generatedPassword &&
-              password === generatedPassword &&
-              generatedAccountData &&
-              loseAccessChecked &&
-              noRecoveryChecked &&
-              writtenDownChecked ? (
-                <>
-                  {method === "ltm" && !deeplinkDialog ? (
-                    <Button
-                      onClick={() => setDeeplinkDialog(true)}
-                      className="w-1/3 text-left"
-                    >
-                      {t("CreateAccount:generateDeeplink")}
-                    </Button>
-                  ) : null}
-                  {method === "faucet" ? (
-                    <Button onClick={faucetConfirm} className="w-1/3 text-left">
-                      {t("CreateAccount:submit")}
-                    </Button>
-                  ) : null}
-                </>
-              ) : (
-                <Button className="w-1/3 text-left" disabled>
-                  {t("CreateAccount:submit")}
-                </Button>
-              )}
+
+              <div className="flex gap-2">
+                {isFormValid ? (
+                  <>
+                    {method === "ltm" && !deeplinkDialog ? (
+                      <Button
+                        onClick={() => setDeeplinkDialog(true)}
+                        className="bg-[hsl(var(--accent-1))] hover:bg-[hsl(var(--accent-1))] text-foreground"
+                      >
+                        {t("CreateAccount:generateDeeplink")}
+                      </Button>
+                    ) : null}
+                    {method === "faucet" ? (
+                      <Button onClick={faucetConfirm} className="bg-[hsl(var(--accent-1))] hover:bg-[hsl(var(--accent-1))] text-foreground">
+                        {t("CreateAccount:submit")}
+                      </Button>
+                    ) : null}
+                  </>
+                ) : (
+                  <Button className="bg-accent/40 text-muted-foreground" disabled>
+                    {t("CreateAccount:submit")}
+                  </Button>
+                )}
+              </div>
             </div>
-            {accountCreated ? <p>{t("CreateAccount:accountCreated")}</p> : null}
+            {accountCreated ? (
+              <p className="mt-4 text-[hsl(var(--accent-1-fg))] text-sm">{t("CreateAccount:accountCreated")}</p>
+            ) : null}
             {faucetInProgress ? (
-              <p>{t("CreateAccount:faucetInProgress")}</p>
+              <p className="mt-4 text-muted-foreground text-sm">{t("CreateAccount:faucetInProgress")}</p>
             ) : null}
           </CardContent>
         </Card>

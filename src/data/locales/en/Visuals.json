@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Configure Visuals",
+  "pageDescription": "Customize the appearance of wave backgrounds, aurora glow, particles, and blur effects across the site.",
+  "waveCount": "Wave count",
+  "waveCountDesc": "Number of layered waves rendered behind the page header.",
+  "waveSpeed": "Wave speed",
+  "waveSpeedDesc": "How quickly the waves glide across the background.",
+  "waveThickness": "Wave thickness",
+  "waveThicknessDesc": "Controls the stroke thickness of each wave layer.",
+  "palette": "Color palette",
+  "paletteDesc": "Choose a preset palette or define your own custom colors.",
+  "palettes": {
+    "rainbow": "Rainbow",
+    "ocean": "Ocean",
+    "sunset": "Sunset",
+    "mono": "Monochrome",
+    "custom": "Custom"
+  },
+  "customColor1": "Custom color 1",
+  "customColor2": "Custom color 2",
+  "customColorDesc": "Used as the gradient endpoints for every wave when the 'Custom' palette is selected.",
+  "auroraIntensity": "Aurora intensity",
+  "auroraIntensityDesc": "Strength of the soft aurora glow layered over the waves.",
+  "blurAmount": "Blur amount",
+  "blurAmountDesc": "Blur applied to the wave gradients. 0 keeps them crisp.",
+  "particles": "Floating particles",
+  "particlesDesc": "Toggle the small floating particles drifting across the header.",
+  "on": "On",
+  "off": "Off",
+  "resetToDefaults": "Reset to defaults",
+  "externalServices": {
+    "heading": "External services",
+    "description": "Configure the third-party services used to fetch assets across the site.",
+    "ipfsGateway": {
+      "header": "IPFS gateway",
+      "help": "Gateway used to resolve IPFS links for NFT images and other content. Use a public gateway you trust.",
+      "placeholder": "https://ipfs.io/ipfs/"
+    }
+  }
+}

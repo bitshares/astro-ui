@@ -28,7 +28,8 @@
       "seller": "Vendeur : {{seller}} ({{opSeller}})",
       "selling": "Vente : {{amount}}",
       "buying": "Achat : {{amount}}",
-      "price": "Prix : {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "Prix : {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "Extensions : {{extensions}}"
     },
     "tooltip": "Une offre de vendre un montant d'un actif à un taux de change spécifié avant un certain temps"
   },
@@ -197,8 +198,7 @@
       "whitelist_authorities": "Autorités de liste blanche : {{whitelist_authorities}}",
       "blacklist_authorities": "Autorités de la liste noire : {{blacklist_authorities}}",
       "whitelist_markets": "Marchés sur liste blanche : {{whitelist_markets}}",
-      "blacklist_markets": "Marchés sur liste noire : {{blacklist_markets}}",
-      "is_prediction_market": "Le marché des prédictions est-il : {{is_prediction_market}}",
+      "blacklist_markets": "Marchés sur liste noire : {{blacklist_markets}}",
       "permissions": "Autorisations :",
       "perm_charge_market_fee": "Frais de marché : {{charge_market_fee}}",
       "perm_white_list": "Liste blanche : {{white_list}}",
@@ -256,8 +256,7 @@
       "whitelist_authorities": "Autorités de liste blanche : {{whitelist_authorities}}",
       "blacklist_authorities": "Autorités de la liste noire : {{blacklist_authorities}}",
       "whitelist_markets": "Marchés sur liste blanche : {{whitelist_markets}}",
-      "blacklist_markets": "Marchés sur liste noire : {{blacklist_markets}}",
-      "is_prediction_market": "Le marché des prédictions est-il : {{is_prediction_market}}",
+      "blacklist_markets": "Marchés sur liste noire : {{blacklist_markets}}",
       "permissions": "Autorisations :",
       "perm_charge_market_fee": "Frais de marché : {{charge_market_fee}}",
       "perm_white_list": "Liste blanche : {{white_list}}",

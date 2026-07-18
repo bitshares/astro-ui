@@ -45,6 +45,8 @@ import HoverInfo from "@/components/common/HoverInfo.tsx";
 import AssetDropDown from "@/components/Market/AssetDropDownCard.jsx";
 import { humanReadableFloat, blockchainFloat } from "@/lib/common.js";
 
+import { PiggyBank, User, Coins, Calendar, Clock, Shield, Timer, ArrowRight, Info, Zap } from "lucide-react";
+
 export default function CreateVestingBalance(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
@@ -135,9 +137,20 @@ export default function CreateVestingBalance(properties) {
       return assetBalance;
     }
   }, [usrBalances, assetData]);
+  
+  const [beginDateTime, setBeginDateTime] = useState();
+
+  const isSubmitDisabled = useMemo(() => {
+    // require target account, asset selection, positive amount, and a begin date
+    if (!targetUser) return true;
+    if (!asset || !assetData) return true;
+    const amt = parseFloat(amount);
+    if (isNaN(amt) || amt <= 0) return true;
+    if (!beginDateTime) return true;
+    return false;
+  }, [targetUser, asset, assetData, amount, beginDateTime]);
 
   // ccd & lvc
-  const [beginDateTime, setBeginDateTime] = useState();
 
   // ccd policy
   const [vestingSeconds, setVestingSeconds] = useState(0);
@@ -166,42 +179,64 @@ export default function CreateVestingBalance(properties) {
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-1/2">
       <div className="grid grid-cols-1 gap-3">
-        <Card>
-          <CardHeader className="pb-1">
-            <CardTitle>{t("CreateVestingBalance:card.title")}</CardTitle>
+        <Card className="relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))]" />
+          <div className="absolute top-8 left-8 w-32 h-32 bg-[hsl(var(--accent-1)/0.1)] rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-8 right-8 w-40 h-40 bg-[hsl(var(--accent-1)/0.1)] rounded-full blur-3xl pointer-events-none" />
+          
+          <CardHeader className="pb-1 relative z-10">
+            <CardTitle className="flex items-center gap-3 text-xl">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
+                <Clock className="w-5 h-5 text-[hsl(var(--accent-1-gradFg))]" />
+              </div>
+              {t("CreateVestingBalance:card.title")}
+            </CardTitle>
             <CardDescription>
               {t("CreateVestingBalance:card.description")}
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 gap-3">
-              <div className="grid grid-cols-2 gap-2 mt-1 mb-2">
-                <span className="col-span-2">
-                  <HoverInfo
-                    header={t("CreateVestingBalance:policy")}
-                    content={t("CreateVestingBalance:policyDescription")}
-                    type="header"
-                  />
-                </span>
-                <Button
-                  onClick={() => setPolicy("ccd")}
-                  variant={policy === "ccd" ? "" : "outline"}
-                  size="md"
-                >
-                  {t("CreateVestingBalance:ccd")}
-                </Button>
-                <Button
-                  onClick={() => setPolicy("lvc")}
-                  variant={policy === "lvc" ? "" : "outline"}
-                  size="md"
-                >
-                  {t("CreateVestingBalance:lvc")}
-                </Button>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <CardContent className="relative z-10">
+              <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-2 gap-2 mt-1 mb-2">
+                  <span className="col-span-2">
+                    <HoverInfo
+                      header={t("CreateVestingBalance:policy")}
+                      content={t("CreateVestingBalance:policyDescription")}
+                      type="header"
+                    />
+                  </span>
+                  <Button
+                    onClick={() => setPolicy("ccd")}
+                    variant={policy === "ccd" ? "" : "outline"}
+                    size="md"
+                    className={policy === "ccd" 
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]" 
+                      : "border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors"}
+                  >
+                    <Coins className="w-4 h-4 mr-2" />
+                    {t("CreateVestingBalance:ccd")}
+                  </Button>
+                  <Button
+                    onClick={() => setPolicy("lvc")}
+                    variant={policy === "lvc" ? "" : "outline"}
+                    size="md"
+                    className={policy === "lvc" 
+                      ? "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]" 
+                      : "border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors"}
+                  >
+                    <Timer className="w-4 h-4 mr-2" />
+                    {t("CreateVestingBalance:lvc")}
+                  </Button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <span className="col-span-1">
                   <HoverInfo
-                    header={t("CreateVestingBalance:target")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
+                        {t("CreateVestingBalance:target")}
+                      </span>
+                    }
                     content={t("CreateVestingBalance:targetDescription")}
                     type="header"
                   />
@@ -215,13 +250,19 @@ export default function CreateVestingBalance(properties) {
                       }}
                     >
                       <DialogTrigger asChild>
-                        <Button variant="outline" className="hover:shadow-lg">
+                        <Button variant="outline" className="hover:shadow-lg border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors">
                           {t("CreateVestingBalance:selectAccount")}
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-[375px] bg-white">
+                      <DialogContent className="sm:max-w-[375px] bg-card">
+                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] rounded-t-lg" />
+                        <div className="absolute top-8 left-8 w-32 h-32 bg-[hsl(var(--accent-1)/0.1)] rounded-full blur-3xl pointer-events-none" />
+                        <div className="absolute bottom-8 right-8 w-40 h-40 bg-[hsl(var(--accent-1)/0.1)] rounded-full blur-3xl pointer-events-none" />
                         <DialogHeader>
-                          <DialogTitle>
+                          <DialogTitle className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)]">
+                              <User className="w-4 h-4 text-[hsl(var(--accent-1-gradFg))]" />
+                            </div>
                             {!usr || !usr.chain
                               ? t("Transfer:bitsharesAccountSearch")
                               : null}
@@ -241,7 +282,6 @@ export default function CreateVestingBalance(properties) {
                           excludedUsers={[]}
                           setChosenAccount={(_account) => {
                             if (_account) {
-                              //console.log({ _account, usr });
                               setTargetUser(_account);
                             }
                             setTargetUserDialogOpen(false);
@@ -254,7 +294,7 @@ export default function CreateVestingBalance(properties) {
                         setTargetUser({ id: usr.id, name: usr.username });
                       }}
                       variant="outline"
-                      className="hover:shadow-lg"
+                      className="hover:shadow-lg border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] transition-colors"
                     >
                       {t("CreateVestingBalance:myAccount")}
                     </Button>
@@ -268,77 +308,114 @@ export default function CreateVestingBalance(properties) {
                         ? `${targetUser.name} (${targetUser.id})`
                         : "??? (1.2.x)"
                     }
+                    className="bg-[hsl(var(--accent-1)/0.05)] border-[hsl(var(--accent-1)/0.2)]"
                   />
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-2 mt-1">
+              <div className="grid grid-cols-1 gap-2 mt-1">
                 <span className="col-span-1">
                   <HoverInfo
-                    header={t("CreateVestingBalance:asset")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Coins className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
+                        {t("CreateVestingBalance:asset")}
+                      </span>
+                    }
                     content={t("CreateVestingBalance:assetDescription")}
                     type="header"
                   />
                 </span>
-                <span className="col-span-1 text-right">
-                  <AssetDropDown
-                    assetSymbol={asset ?? ""}
-                    assetData={null}
-                    storeCallback={setAsset}
-                    otherAsset={null}
-                    marketSearch={marketSearch}
-                    type={"backing"}
-                    chain={usr && usr.chain ? usr.chain : "bitshares"}
-                    balances={usrBalances}
-                  />
-                </span>
-                <span className="col-span-2">
-                  <Input
-                    type="text"
-                    placeholder={
-                      assetData ? `${assetData.symbol} (${assetData.id})` : ""
-                    }
-                    disabled
-                  />
-                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  <span className="col-span-1">
+                    <Input
+                      type="text"
+                      placeholder={
+                        assetData ? `${assetData.symbol} (${assetData.id})` : ""
+                      }
+                      disabled
+                      className="bg-[hsl(var(--accent-1)/0.05)] border-[hsl(var(--accent-1)/0.2)]"
+                    />
+                  </span>
+                  <span className="col-span-1">
+                    <AssetDropDown
+                      assetSymbol={asset ?? ""}
+                      assetData={null}
+                      storeCallback={setAsset}
+                      otherAsset={null}
+                      marketSearch={marketSearch}
+                      type={"backing"}
+                      chain={usr && usr.chain ? usr.chain : "bitshares"}
+                      balances={usrBalances}
+                    />
+                  </span>
+                </div>
               </div>
-              <div className="grid grid-cols-2 mt-1">
-                <span className="col-span-1">
-                  <HoverInfo
-                    header={t("CreateVestingBalance:amount")}
-                    content={t("CreateVestingBalance:amountDescription")}
-                    type="header"
-                  />
-                  {asset && amount > chosenAssetBalance ? (
-                    <Badge variant="destructive" className="h-9 mt-2">
-                      <ExclamationTriangleIcon className="mr-2" />{" "}
-                      {t("Predictions:insufficient_funds")}
-                    </Badge>
-                  ) : null}
-                </span>
-                <span className="col-span-1 text-right">
-                  <Button
-                    className="mt-2 ml-1 hover:shadow-md"
-                    onClick={() => {
-                      setAmount(chosenAssetBalance);
-                    }}
-                    variant="outline"
-                  >
-                    {t("Predictions:issueDialog.balance")}
-                  </Button>
-                </span>
+              <div className="grid grid-cols-1 mt-1">
+                <div className="flex items-start justify-between w-full">
+                  <div className="text-left w-full">
+                    <HoverInfo
+                      header={
+                        <span className="flex items-center gap-2">
+                          <ArrowRight className="w-4 h-4 text-[hsl(var(--accent-2-fg))]" />
+                          {t("CreateVestingBalance:amount")}
+                        </span>
+                      }
+                      content={t("CreateVestingBalance:amountDescription")}
+                      type="header"
+                    />
+                    {asset && chosenAssetBalance !== undefined && (
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {t("CreateVestingBalance:currentBalance", {
+                          balance: chosenAssetBalance,
+                          symbol: assetData?.symbol || "",
+                        })}
+                      </p>
+                    )}
+                  </div>
+                  <div className="text-right ml-4">
+                    <Button
+                      className="mt-2 ml-1 hover:shadow-md border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.1)] hover:text-[hsl(var(--accent-2-fg))] transition-colors"
+                      onClick={() => {
+                        setAmount(chosenAssetBalance);
+                      }}
+                      variant="outline"
+                      disabled={!asset}
+                    >
+                      {t("CreateVestingBalance:useBalance")}
+                    </Button>
+                  </div>
+                </div>
                 <span className="col-span-2">
                   <Input
                     type="number"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="mt-2"
+                    disabled={!asset}
+                    min="0"
+                    step={assetData ? `0.${"0".repeat(assetData.precision - 1)}1` : "0.01"}
+                    onChange={(e) => {
+                      const val = parseFloat(e.target.value);
+                      if (val < 0) return;
+                      if (assetData && e.target.value.includes(".")) {
+                        const decimals = e.target.value.split(".")[1];
+                        if (decimals && decimals.length > assetData.precision) {
+                          return;
+                        }
+                      }
+                      setAmount(e.target.value);
+                    }}
+                    className="mt-2 bg-[hsl(var(--accent-2)/0.05)] border-[hsl(var(--accent-2)/0.2)]"
                   />
                 </span>
               </div>
               {policy === "ccd" ? (
-                <div className="grid grid-cols-1 mt-1">
+                <div className="grid grid-cols-1 mt-1 p-4 bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] border border-[hsl(var(--accent-1)/0.2)] rounded-lg">
                   <HoverInfo
-                    header={t("CreateVestingBalance:startClaim")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
+                        {t("CreateVestingBalance:startClaim")}
+                      </span>
+                    }
                     content={t("CreateVestingBalance:startClaimDescription")}
                     type="header"
                   />
@@ -362,7 +439,12 @@ export default function CreateVestingBalance(properties) {
                     />
                   </div>
                   <HoverInfo
-                    header={t("CreateVestingBalance:vestingSeconds")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
+                        {t("CreateVestingBalance:vestingSeconds")}
+                      </span>
+                    }
                     content={t(
                       "CreateVestingBalance:vestingSecondsDescription"
                     )}
@@ -372,14 +454,20 @@ export default function CreateVestingBalance(properties) {
                     type="number"
                     value={vestingSeconds}
                     onChange={(e) => setVestingSeconds(e.target.value)}
-                    className="w-1/2 mt-2"
+                    min="0"
+                    className="w-1/2 mt-2 bg-[hsl(var(--accent-1)/0.05)] border-[hsl(var(--accent-1)/0.2)]"
                   />
                 </div>
               ) : null}
               {policy === "lvc" ? (
-                <div className="grid grid-cols-1 mt-1">
+                <div className="grid grid-cols-1 mt-1 p-4 bg-gradient-to-r from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-2)/0.1)] border border-[hsl(var(--accent-1)/0.2)] rounded-lg">
                   <HoverInfo
-                    header={t("CreateVestingBalance:beginTime")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
+                        {t("CreateVestingBalance:beginTime")}
+                      </span>
+                    }
                     content={t("CreateVestingBalance:beginTimeDescription")}
                     type="header"
                   />
@@ -403,7 +491,12 @@ export default function CreateVestingBalance(properties) {
                     />
                   </div>
                   <HoverInfo
-                    header={t("CreateVestingBalance:vestingCliffSeconds")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Shield className="w-4 h-4 text-[hsl(var(--accent-2-fg))]" />
+                        {t("CreateVestingBalance:vestingCliffSeconds")}
+                      </span>
+                    }
                     content={t(
                       "CreateVestingBalance:vestingCliffSecondsDescription"
                     )}
@@ -413,10 +506,16 @@ export default function CreateVestingBalance(properties) {
                     type="number"
                     value={vestingCliffSeconds}
                     onChange={(e) => setVestingCliffSeconds(e.target.value)}
-                    className="w-1/2 mt-2 mb-1"
+                    min="0"
+                    className="w-1/2 mt-2 mb-1 bg-[hsl(var(--accent-1)/0.05)] border-[hsl(var(--accent-1)/0.2)]"
                   />
                   <HoverInfo
-                    header={t("CreateVestingBalance:vestingDurationSeconds")}
+                    header={
+                      <span className="flex items-center gap-2">
+                        <Timer className="w-4 h-4 text-[hsl(var(--accent-1-fg))]" />
+                        {t("CreateVestingBalance:vestingDurationSeconds")}
+                      </span>
+                    }
                     content={t(
                       "CreateVestingBalance:vestingDurationSecondsDescription"
                     )}
@@ -426,17 +525,20 @@ export default function CreateVestingBalance(properties) {
                     type="number"
                     value={vestingDurationSeconds}
                     onChange={(e) => setVestingDurationSeconds(e.target.value)}
-                    className="w-1/2 mt-2"
+                    min="0"
+                    className="w-1/2 mt-2 bg-[hsl(var(--accent-1)/0.05)] border-[hsl(var(--accent-1)/0.2)]"
                   />
                 </div>
               ) : null}
               <Button
-                className="h-8 mt-4"
+                className="h-10 mt-4 w-full bg-gradient-to-r from-[hsl(var(--accent-1))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:via-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-lg shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-300 hover:shadow-xl hover:shadow-[color:hsl(var(--accent-1)/0.4)] hover:-translate-y-0.5"
                 onClick={() => {
+                  if (isSubmitDisabled) return;
                   setShowDialog(true);
                 }}
+                disabled={isSubmitDisabled}
               >
-                {t("CreatePrediction:buttons.submit")}
+                {t("CreateUIA:buttons.submit")}
               </Button>
             </div>
           </CardContent>

@@ -8,7 +8,18 @@ import React, {
 } from "react";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
-import { Check, ChevronsUpDown, Folder } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  FileText,
+  FilePlus,
+  PackageOpen,
+  Trash2,
+  Copy,
+  CheckCircle2,
+  ScanBarcode,
+  ShoppingCart,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import Fuse from "fuse.js";
@@ -35,6 +46,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 import {
   Dialog,
@@ -262,9 +274,14 @@ export default function InvoiceCreator(properties) {
             {t("InvoiceCreator:scanner.scan")}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[640px] bg-white">
+        <DialogContent className="sm:max-w-[640px] bg-card">
           <DialogHeader>
-            <DialogTitle>{t("InvoiceCreator:scanner.dialogTitle")}</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <ScanBarcode className="h-4 w-4" />
+              </span>
+              {t("InvoiceCreator:scanner.dialogTitle")}
+            </DialogTitle>
             <DialogDescription>
               {t("InvoiceCreator:scanner.dialogDescription")}
             </DialogDescription>
@@ -305,7 +322,7 @@ export default function InvoiceCreator(properties) {
               </Button>
             </div>
 
-            <div className="w-full h-[420px] bg-black rounded overflow-hidden">
+            <div className="w-full h-[420px] bg-background rounded overflow-hidden">
               {!scannerError ? (
                 <BarcodeScanner
                   width={640}
@@ -349,7 +366,7 @@ export default function InvoiceCreator(properties) {
                 />
               ) : (
                 <div className="p-4">
-                  <p className="text-sm text-red-600">
+                  <p className="text-sm text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]">
                     {String(scannerError?.message || scannerError)}
                   </p>
                   <div className="mt-2 flex gap-2">
@@ -429,7 +446,7 @@ export default function InvoiceCreator(properties) {
                       })}
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[420px] bg-white">
+                  <DialogContent className="sm:max-w-[420px] bg-card">
                     <DialogHeader>
                       <DialogTitle>
                         {t("InvoiceCreator:prices.possibleTotals.dialogTitle")}
@@ -460,14 +477,15 @@ export default function InvoiceCreator(properties) {
               <div className="col-span-1 text-right mt-1">
                 <Button
                   size="icon"
-                  variant="outline"
+                  variant="ghost"
+                  className="h-8 w-8 rounded-lg border border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.2)] hover:border-[hsl(var(--accent-danger)/0.5)] transition-all"
                   onClick={() => {
                     setSelectedItems((prev) =>
                       prev.filter((_, i) => i !== index)
                     );
                   }}
                 >
-                  ❌
+                  <Trash2 className="h-3.5 w-3.5" />
                 </Button>
               </div>
             </div>
@@ -489,7 +507,7 @@ export default function InvoiceCreator(properties) {
       : "";
 
     return (
-      <div style={style} className="px-2 cursor-pointer hover:bg-slate-50">
+      <div style={style} className="px-2 cursor-pointer hover:bg-card">
         <Card
           onClick={() => {
             setCandidateItem(it);
@@ -518,15 +536,36 @@ export default function InvoiceCreator(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 w-full">
-        <div className="grid grid-cols-1 gap-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("InvoiceCreator:title")}</CardTitle>
-              <CardDescription>
-                {t("InvoiceCreator:description")}
-              </CardDescription>
+        <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
+          />
+          <div className="relative p-5 sm:p-6">
+            <CardHeader className="p-0 mb-5">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
+                  <FilePlus className="h-4.5 w-4.5" strokeWidth={2.25} />
+                </span>
+                <div>
+                  <CardTitle className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                    {t("InvoiceCreator:title")}
+                  </CardTitle>
+                  <CardDescription className="text-xs text-muted-foreground/70 mt-0.5">
+                    {t("InvoiceCreator:description")}
+                  </CardDescription>
+                </div>
+              </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-0">
               <div className="grid grid-cols-1 gap-2">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
@@ -538,7 +577,7 @@ export default function InvoiceCreator(properties) {
                     <Input
                       value={`${usr ? `${usr.username} (${usr.id})` : ""}`}
                       readOnly
-                      className="mt-2"
+                      className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                     />
                   </div>
                   <div>
@@ -550,7 +589,7 @@ export default function InvoiceCreator(properties) {
                     <Input
                       value={recipientName}
                       onChange={(e) => setRecipientName(e.target.value)}
-                      className="mt-2"
+                      className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                     />
                   </div>
                 </div>
@@ -562,7 +601,7 @@ export default function InvoiceCreator(properties) {
                 <Input
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className="mt-2"
+                  className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                 />
                 <HoverInfo
                   content={t("InvoiceCreator:note.info")}
@@ -572,16 +611,21 @@ export default function InvoiceCreator(properties) {
                 <Textarea
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  className="mt-2"
+                  className="mt-2 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                 />
 
                 {items && items.length ? (
                   <>
-                    <Card className="mt-5">
+                    <Card className="mt-5 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-sm">
                       <CardHeader>
                         <CardTitle>
                           <div className="grid grid-cols-2">
-                            <div>{t("InvoiceCreator:inventory.header")}</div>
+                            <div className="flex items-center gap-2">
+                              <ShoppingCart className="h-4 w-4 dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]" />
+                              <span className="text-sm font-medium uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg)/0.7)] text-[hsl(var(--accent-1-fg)/0.8)]">
+                                {t("InvoiceCreator:inventory.header")}
+                              </span>
+                            </div>
                             <div className="text-right">
                               <div className="inline-flex items-center gap-2">
                                 <ScannerDialog />
@@ -592,14 +636,19 @@ export default function InvoiceCreator(properties) {
                                   <DialogTrigger asChild>
                                     <Button
                                       variant="outline"
+                                      className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                                       onClick={() => setAddDialogOpen(true)}
                                     >
+                                      <FilePlus className="h-3.5 w-3.5 mr-1" />
                                       {t("InvoiceCreator:inventory.addItem")}
                                     </Button>
                                   </DialogTrigger>
-                                  <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-white">
+                                  <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
                                     <DialogHeader>
-                                      <DialogTitle>
+                                      <DialogTitle className="flex items-center gap-2">
+                                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                                          <ShoppingCart className="h-4 w-4" />
+                                        </span>
                                         {t(
                                           "InvoiceCreator:inventory.selectItemDialog.title"
                                         )}
@@ -620,6 +669,7 @@ export default function InvoiceCreator(properties) {
                                           onChange={(e) =>
                                             setSearchQuery(e.target.value)
                                           }
+                                          className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                                         />
                                       </div>
                                       <div className="border rounded">
@@ -658,10 +708,10 @@ export default function InvoiceCreator(properties) {
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="border">
-                          <div className="grid grid-cols-12 text-center text-sm px-2 py-1 border-b-2">
+                        <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40">
+                          <div className="grid grid-cols-12 text-center text-sm px-2 py-1.5 border-b border-[hsl(var(--accent-1)/0.15)]">
                             <div
-                              className="col-span-5 text-left"
+                              className="col-span-5 text-left text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70"
                               title={t(
                                 "InvoiceCreator:selectedItems.table.nameTooltip"
                               )}
@@ -669,7 +719,7 @@ export default function InvoiceCreator(properties) {
                               {t("InvoiceCreator:selectedItems.table.name")}
                             </div>
                             <div
-                              className="col-span-2"
+                              className="col-span-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70"
                               title={t(
                                 "InvoiceCreator:selectedItems.table.quantityTooltip"
                               )}
@@ -677,7 +727,7 @@ export default function InvoiceCreator(properties) {
                               {t("InvoiceCreator:selectedItems.table.quantity")}
                             </div>
                             <div
-                              className="col-span-4 text-center pr-2"
+                              className="col-span-4 text-center pr-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70"
                               title={t(
                                 "InvoiceCreator:selectedItems.table.totalPricesTooltip"
                               )}
@@ -703,9 +753,12 @@ export default function InvoiceCreator(properties) {
                       open={qtyDialogOpen}
                       onOpenChange={setQtyDialogOpen}
                     >
-                      <DialogContent className="sm:max-w-[420px] bg-white">
+                      <DialogContent className="sm:max-w-[420px] bg-card">
                         <DialogHeader>
-                          <DialogTitle>
+                          <DialogTitle className="flex items-center gap-2">
+                            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                              <ShoppingCart className="h-4 w-4" />
+                            </span>
                             {t("InvoiceCreator:quantity.dialogTitle")}
                           </DialogTitle>
                           <DialogDescription>
@@ -721,6 +774,7 @@ export default function InvoiceCreator(properties) {
                               min={1}
                               value={qtyValue}
                               onChange={(e) => setQtyValue(e.target.value)}
+                              className="focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                             />
                           </div>
                           <div className="text-right">
@@ -731,6 +785,7 @@ export default function InvoiceCreator(properties) {
                                 setQtyDialogOpen(false);
                                 setAddDialogOpen(false);
                               }}
+                              className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all"
                             >
                               {t("InvoiceCreator:quantity.add")}
                             </Button>
@@ -742,9 +797,12 @@ export default function InvoiceCreator(properties) {
                       open={detailsDialogOpen}
                       onOpenChange={setDetailsDialogOpen}
                     >
-                      <DialogContent className="sm:max-w-[640px] bg-white">
+                      <DialogContent className="sm:max-w-[640px] bg-card">
                         <DialogHeader>
-                          <DialogTitle>
+                          <DialogTitle className="flex items-center gap-2">
+                            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                              <FileText className="h-4 w-4" />
+                            </span>
                             {t("InvoiceCreator:itemDetails.dialogTitle")}
                           </DialogTitle>
                           <DialogDescription>
@@ -780,7 +838,9 @@ export default function InvoiceCreator(properties) {
                   <Empty>
                     <EmptyHeader>
                       <EmptyMedia variant="icon">
-                        <Folder />
+                        <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">
+                          <PackageOpen />
+                        </span>
                       </EmptyMedia>
                       <EmptyTitle>
                         {t("InvoiceCreator:emptyInventory.title")}
@@ -791,8 +851,8 @@ export default function InvoiceCreator(properties) {
                     </EmptyHeader>
                     <EmptyContent>
                       <div className="text-center">
-                        <a href="/invoice_inventory/index.html">
-                          <Button>
+                        <a href="/invoice_inventory.html">
+                          <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
                             {t("InvoiceCreator:emptyInventory.button")}
                           </Button>
                         </a>
@@ -802,21 +862,24 @@ export default function InvoiceCreator(properties) {
                 )}
               </div>
             </CardContent>
-            <CardFooter>
+            <div className="px-0 pb-0 pt-4">
               {canSubmit ? (
                 <div className="flex flex-wrap gap-3 items-center">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button onClick={handleGenerateInvoice}>
+                      <Button onClick={handleGenerateInvoice} className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
                         {t(
                           "InvoiceCreator:generateInvoice.buttonActive",
                           "Proceed to pay invoice"
                         )}
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-white">
+                    <DialogContent className="sm:max-w-[720px] sm:min-w-[720px] bg-card">
                       <DialogHeader>
-                        <DialogTitle>
+                        <DialogTitle className="flex items-center gap-2">
+                          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                            <FileText className="h-4 w-4" />
+                          </span>
                           {t("InvoiceCreator:generatedInvoice.dialogTitle")}
                         </DialogTitle>
                         <DialogDescription>
@@ -828,7 +891,7 @@ export default function InvoiceCreator(properties) {
                       <Textarea
                         value={generatedCode}
                         readOnly
-                        className="w-full h-48"
+                        className="w-full h-48 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                       />
                       <div className="flex items-center gap-2 mt-2">
                         <Button
@@ -839,16 +902,29 @@ export default function InvoiceCreator(properties) {
                             setTimeout(() => setCopied(false), 2000);
                           }}
                           disabled={!generatedCode || copied}
+                          className={cn(
+                            copied
+                              ? "bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] border border-[hsl(var(--accent-1)/0.3)]"
+                              : "bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)]"
+                          )}
                         >
-                          {copied
-                            ? t(
+                          {copied ? (
+                            <>
+                              <CheckCircle2 className="h-3.5 w-3.5 mr-1.5" />
+                              {t(
                                 "InvoiceCreator:generatedInvoice.copiedButton",
                                 "Copied"
-                              )
-                            : t(
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-3.5 w-3.5 mr-1.5" />
+                              {t(
                                 "InvoiceCreator:generatedInvoice.copyButton",
                                 "Copy"
                               )}
+                            </>
+                          )}
                         </Button>
                         <Button
                           onClick={() => {
@@ -865,6 +941,9 @@ export default function InvoiceCreator(properties) {
                               ? "outline"
                               : "default"
                           }
+                          className={cn(
+                            !hasGeneratedInvoice(generatedCode) && "border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
+                          )}
                         >
                           {hasGeneratedInvoice(generatedCode)
                             ? t(
@@ -881,7 +960,6 @@ export default function InvoiceCreator(properties) {
                   </Dialog>
                   <Button
                     onClick={async () => {
-                      // Ensure invoice code exists
                       if (!generatedCode) {
                         await handleGenerateInvoice();
                       }
@@ -901,6 +979,11 @@ export default function InvoiceCreator(properties) {
                         ? "outline"
                         : "secondary"
                     }
+                    className={cn(
+                      generatedCode && hasGeneratedInvoice(generatedCode)
+                        ? ""
+                        : "border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
+                    )}
                   >
                     {generatedCode && hasGeneratedInvoice(generatedCode)
                       ? t("InvoiceCreator:saveForLater.saved", "Invoice saved")
@@ -911,13 +994,13 @@ export default function InvoiceCreator(properties) {
                   </Button>
                 </div>
               ) : (
-                <Button disabled>
+                <Button disabled className="opacity-60">
                   {t("InvoiceCreator:generateInvoice.button")}
                 </Button>
               )}
-            </CardFooter>
-          </Card>
-        </div>
+            </div>
+          </div>
+        </Card>
       </div>
     </>
   );

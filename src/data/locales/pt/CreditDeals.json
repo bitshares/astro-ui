@@ -1,6 +1,6 @@
 {
   "dealNo": "Negócio #",
-  "with": " com ",
+  "with": "com ",
   "borrowed": "Você pegou emprestado",
   "lent": "Eles pegaram emprestado",
   "loanCollateral": "Garantia do empréstimo:",
@@ -30,7 +30,7 @@
   "submit": "Enviar",
   "deepLink": "Reembolsando {{finalRepayAmount}} {{debtAsset}}, para reivindicar de volta {{collateralAsset}}",
   "card": {
-    "title": "💱 Verifique suas ofertas de crédito ativas",
+    "title": "Verifique suas ofertas de crédito ativas",
     "description": "A partir daqui você pode monitorar ofertas de crédito ativas e gerenciar pagamentos.",
     "viewingBorrowings": "Visualizando seus empréstimos",
     "viewBorrowings": "Veja seus empréstimos",

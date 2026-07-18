@@ -25,12 +25,11 @@ module.exports = function(env) {
         })],
 
         resolve: {
-            extensions: ['.js', '.json'],
+            extensions: ['.ts', '.js', '.json'],
             mainFields: ["main"],
             alias: {
                 env: path.resolve(__dirname, `../config/env_${env}.json`),
-                '~': path.resolve(__dirname, '../src/'),
-                'bitsharesjs-ws': path.resolve(__dirname, 'node_modules/bitsharesjs-ws')
+                '~': path.resolve(__dirname, '../src/')
             }
         },
 
@@ -38,6 +37,13 @@ module.exports = function(env) {
         
         module: {
             rules: [
+                {
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: "babel-loader"
+                    }
+                },
                 {
                     test: /node_modules[/\\](bytebuffer)[/\\].+/,
                     resolve: {

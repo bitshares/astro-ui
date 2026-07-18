@@ -1,0 +1,11 @@
+{
+  "submit": "Indsend",
+  "insufficient_funds": "Utilstrækkelig saldo.",
+  "permissions": "Tilladelser",
+  "flags": "Flag",
+  "expiryHeader": "Udløb",
+  "expiryContent": "Din begrænsningsordre vil forblive aktiv på DEX i denne tid, før den ikke længere eksisterer. Hvis du vælger 'fill or kill', og der ikke er nogen matchende DEX-salg begrænsningsordre, vil operationen mislykkes og spare din tid og gebyrer.",
+  "setPriceFeeders": "Sæt prishopslædere",
+  "setPriceFeedersDescription": "Sæt prishopslæderne for denne asset. Prishopslæderne er ansvarlige for at levere afviklingsprisen.",
+  "settingPriceFeeders": "Sætter prishopslædere"
+}

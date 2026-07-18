@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Darstellung anpassen",
+  "pageDescription": "Passe das Aussehen der Wellen-Hintergründe, des Aurora-Leuchtens, der Partikel und der Unschärfe-Effekte auf der gesamten Seite an.",
+  "waveCount": "Anzahl der Wellen",
+  "waveCountDesc": "Anzahl der übereinanderliegenden Wellen hinter dem Seitenkopf.",
+  "waveSpeed": "Wellengeschwindigkeit",
+  "waveSpeedDesc": "Wie schnell die Wellen über den Hintergrund gleiten.",
+  "waveThickness": "Wellenstärke",
+  "waveThicknessDesc": "Steuert die Strichstärke jeder Wellenschicht.",
+  "palette": "Farbpalette",
+  "paletteDesc": "Wähle eine vorgegebene Palette oder lege eigene Farben fest.",
+  "palettes": {
+    "rainbow": "Regenbogen",
+    "ocean": "Ozean",
+    "sunset": "Sonnenuntergang",
+    "mono": "Monochrom",
+    "custom": "Benutzerdefiniert"
+  },
+  "customColor1": "Eigene Farbe 1",
+  "customColor2": "Eigene Farbe 2",
+  "customColorDesc": "Werden als Verlaufs-Endpunkte für jede Welle verwendet, wenn die Palette 'Benutzerdefiniert' ausgewählt ist.",
+  "auroraIntensity": "Aurora-Intensität",
+  "auroraIntensityDesc": "Stärke des weichen Aurora-Leuchtens über den Wellen.",
+  "blurAmount": "Unschärfe",
+  "blurAmountDesc": "Unschärfe der Wellenverläufe. 0 lässt sie scharf.",
+  "particles": "Schwebende Partikel",
+  "particlesDesc": "Schaltet die kleinen schwebenden Partikel im Kopfbereich um.",
+  "on": "Ein",
+  "off": "Aus",
+  "resetToDefaults": "Auf Standardwerte zurücksetzen",
+  "externalServices": {
+    "heading": "Externe Dienste",
+    "description": "Konfigurieren Sie die Drittanbieterdienste zum Abrufen von Assets auf der gesamten Website.",
+    "ipfsGateway": {
+      "header": "IPFS-Gateway",
+      "help": "Gateway zum Auflösen von IPFS-Links für NFT-Bilder und andere Inhalte. Verwenden Sie ein öffentliches Gateway, dem Sie vertrauen.",
+      "placeholder": "https://ipfs.io/ipfs/"
+    }
+  }
+}

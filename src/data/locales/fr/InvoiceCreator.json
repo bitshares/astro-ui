@@ -73,7 +73,10 @@
   "generatedInvoice": {
     "dialogTitle": "Facture générée",
     "dialogDescription": "Fournissez au client le code de facture suivant pour payer la facture.",
-    "copyButton": "Copier le code de la facture dans le presse-papiers"
+    "copyButton": "Copier le code de la facture dans le presse-papiers",
+    "copiedButton": "Code de facture copié dans le presse-papiers !",
+    "invoiceSaved": "Facture enregistrée !",
+    "saveInvoice": "Enregistrer la facture"
   },
   "scanner": {
     "scan": "Balayage",

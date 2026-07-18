@@ -28,7 +28,8 @@
       "seller": "ผู้ขาย: {{seller}} ({{opSeller}})",
       "selling": "ขาย: {{amount}}",
       "buying": "กำลังซื้อ: {{amount}}",
-      "price": "ราคา: {{price}} {{sellSymbol}}/{{buySymbol}}"
+      "price": "ราคา: {{price}} {{sellSymbol}}/{{buySymbol}}",
+      "extensions": "ส่วนขยาย: {{extensions}}"
     },
     "tooltip": "การเสนอขายสินทรัพย์ตามอัตราแลกเปลี่ยนที่ระบุภายในระยะเวลาหนึ่ง"
   },
@@ -198,7 +199,6 @@
       "blacklist_authorities": "ผู้มีอำนาจในบัญชีดำ: {{blacklist_authorities}}",
       "whitelist_markets": "ตลาดไวท์ลิสต์: {{whitelist_markets}}",
       "blacklist_markets": "ตลาดบัญชีดำ: {{blacklist_markets}}",
-      "is_prediction_market": "เป็นตลาดการคาดการณ์: {{is_prediction_market}}",
       "permissions": "สิทธิ์:",
       "perm_charge_market_fee": "เรียกเก็บค่าธรรมเนียมตลาด: {{charge_market_fee}}",
       "perm_white_list": "รายการที่อนุญาต: {{white_list}}",
@@ -257,7 +257,6 @@
       "blacklist_authorities": "ผู้มีอำนาจในบัญชีดำ: {{blacklist_authorities}}",
       "whitelist_markets": "ตลาดไวท์ลิสต์: {{whitelist_markets}}",
       "blacklist_markets": "ตลาดบัญชีดำ: {{blacklist_markets}}",
-      "is_prediction_market": "เป็นตลาดการคาดการณ์: {{is_prediction_market}}",
       "permissions": "สิทธิ์:",
       "perm_charge_market_fee": "เรียกเก็บค่าธรรมเนียมตลาด: {{charge_market_fee}}",
       "perm_white_list": "รายการที่อนุญาต: {{white_list}}",

@@ -1,0 +1,86 @@
+---
+title: Account Lists
+description: Manage on-chain whitelist and blacklist membership using account_whitelist.
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+**Account Lists** manages an account's on-chain **whitelist** and **blacklist** via the `account_whitelist` operation. Adding an account to your whitelist (or blacklist) is recorded on chain and affects other operations that consult these lists (e.g. asset transfer/whitelist rules).
+
+**Open in the app:** [Account Lists](/account_lists.html).
+
+## What it does
+
+<CardGrid>
+  <Card title="Whitelist" icon="check">
+    Mark trusted accounts (listing value `1`).
+  </Card>
+  <Card title="Blacklist" icon="close">
+    Mark blocked accounts (listing value `2`).
+  </Card>
+  <Card title="On-chain" icon="lock">
+    Membership is stored on your account object.
+  </Card>
+</CardGrid>
+
+## How to use
+
+<Steps>
+
+1. Open **Account Lists** from the homepage under *Settings*.
+
+2. Choose to add an account to your whitelist or blacklist.
+
+3. Enter the target account. Authorize → `account_whitelist`.
+
+4. To remove, repeat with listing value `0`.
+
+</Steps>
+
+<Aside type="note" title="Listing values">
+  `new_listing` is `0` (remove), `1` (add to whitelist) or `2` (add to blacklist). These lists are consulted by whitelist-restricted assets and authorities.
+</Aside>
+
+## Operation used
+
+<Tabs>
+  <TabItem label="Add to whitelist / blacklist">
+
+```json
+{
+  "authorizing_account": "1.2.x",
+  "account_to_list": "1.2.x",
+  "new_listing": 1,
+  "extensions": {}
+}
+```
+
+Blacklist uses `new_listing: 2`.
+
+  </TabItem>
+  <TabItem label="Remove">
+
+```json
+{
+  "authorizing_account": "1.2.x",
+  "account_to_list": "1.2.x",
+  "new_listing": 0,
+  "extensions": {}
+}
+```
+
+  </TabItem>
+</Tabs>
+
+| Field | Meaning |
+| --- | --- |
+| `authorizing_account` | Your account (`1.2.x`). |
+| `account_to_list` | The account being listed (`1.2.x`). |
+| `new_listing` | `0` remove, `1` whitelist, `2` blacklist. |
+
+## Related pages
+
+- [Blocked Users](/docs/settings/blocked-users.html)
+- [Custom Authorities](/docs/account/custom_authorities.html)

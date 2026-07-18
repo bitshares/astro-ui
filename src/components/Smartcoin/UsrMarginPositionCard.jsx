@@ -1,15 +1,16 @@
 import React, { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
+import { Wallet, TrendingUp } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 import DeepLinkDialog from "@/components/common/DeepLinkDialog";
 import { humanReadableFloat } from "@/lib/common.js";
@@ -78,78 +79,119 @@ export default function UsrMarginPositionCard({
     : null;
 
   return (
-    <Card className="mt-2">
-      <CardHeader className="pb-2">
-        <CardTitle>
-          {t("Smartcoin:currentMarginPosition", {
-            asset: parsedAsset.s,
-            id: parsedAsset.id,
-          })}
-        </CardTitle>
-        <CardDescription>
-          {t("Smartcoin:ongoingMarginPosition")}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="text-sm">
-        {t("Smartcoin:balance")} <b>{debtAssetHoldings ?? 0}</b>
-        {parsedAsset ? ` ${parsedAsset.s}` : " ?"}
-        <br />
-        {t("Smartcoin:debt")}{" "}
-        <b>{humanReadableFloat(usrMarginPositions[0].debt, parsedAsset.p)}</b>{" "}
-        {parsedAsset.s}
-        <br />
-        {t("Smartcoin:collateralAtRisk")}{" "}
-        <b>
-          {humanReadableFloat(
-            usrMarginPositions[0].collateral,
-            parsedCollateralAsset.p
-          )}
-        </b>{" "}
-        {parsedCollateralAsset.s}
-        <br />
-        {t("Smartcoin:currentRatio")} <b>{ratio}</b>
-        <br />
-        {t("Smartcoin:marginCallPrice")} <b>{callPrice}</b>{" "}
-        {parsedCollateralAsset.s}
-        {" ("}
-        {(1 / callPrice).toFixed(parsedAsset.p)} {parsedAsset.s}/
-        {parsedCollateralAsset.s}
-        {")"}
-        {tcr ? (
-          <>
-            <br />
-            {t("Smartcoin:targetCollateralRatio")}
-            <b>{tcr}</b>
-          </>
-        ) : null}
-        <br />
-        <br />
-        {debtAssetHoldings >=
-        humanReadableFloat(usrMarginPositions[0].debt, parsedAsset.p) ? (
-          <Button
-            className="mt-3 mr-2"
-            onClick={() => setShowClosePositionDialog(true)}
+    <Card className="mt-2 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
+      <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent" />
+      <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-1)/0.08)] blur-3xl" />
+      <span aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-[hsl(var(--accent-2)/0.08)] blur-3xl" />
+      <CardContent className="relative p-5">
+        <CardHeader className="flex flex-row items-center gap-3 mb-4 p-0">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
+            <Wallet className="h-4 w-4" strokeWidth={2.25} />
+          </span>
+          <div>
+            <CardTitle className="text-sm font-semibold text-foreground tracking-tight">
+              {t("Smartcoin:currentMarginPosition", {
+                asset: parsedAsset.s,
+                id: parsedAsset.id,
+              })}
+            </CardTitle>
+            <CardDescription className="text-[10px] text-muted-foreground/60 mt-0.5">
+              {t("Smartcoin:ongoingMarginPosition")}
+            </CardDescription>
+          </div>
+        </CardHeader>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+          <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+            <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+              {t("Smartcoin:balance")}
+            </div>
+            <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
+              {debtAssetHoldings ?? 0} {parsedAsset.s}
+            </div>
+          </div>
+          <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+            <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+              {t("Smartcoin:debt")}
+            </div>
+            <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
+              {humanReadableFloat(usrMarginPositions[0].debt, parsedAsset.p)} {parsedAsset.s}
+            </div>
+          </div>
+          <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+            <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+              {t("Smartcoin:collateralAtRisk")}
+            </div>
+            <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
+              {humanReadableFloat(
+                usrMarginPositions[0].collateral,
+                parsedCollateralAsset.p
+              )} {parsedCollateralAsset.s}
+            </div>
+          </div>
+          <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+            <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+              {t("Smartcoin:currentRatio")}
+            </div>
+            <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
+              {ratio}
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+            <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+              {t("Smartcoin:marginCallPrice")}
+            </div>
+            <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
+              {callPrice} {parsedCollateralAsset.s}
+              <span className="text-xs text-muted-foreground/60 ml-1">
+                ({(1 / callPrice).toFixed(parsedAsset.p)} {parsedAsset.s}/{parsedCollateralAsset.s})
+              </span>
+            </div>
+          </div>
+          {tcr ? (
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
+              <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+                {t("Smartcoin:targetCollateralRatio")}
+              </div>
+              <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
+                {tcr}
+              </div>
+            </div>
+          ) : null}
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {debtAssetHoldings >=
+          humanReadableFloat(usrMarginPositions[0].debt, parsedAsset.p) ? (
+            <Button
+              className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] shadow-[0_4px_14px_-4px_rgba(244,63,94,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(244,63,94,0.6)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] transition-all"
+              onClick={() => setShowClosePositionDialog(true)}
+            >
+              {t("Smartcoin:closePosition")}
+            </Button>
+          ) : null}
+          <a
+            href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${parsedAsset.s}`}
           >
-            {t("Smartcoin:closePosition")}
-          </Button>
-        ) : null}
-        <a
-          href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${parsedAsset.s}`}
-        >
-          <Button className="mr-2">
-            {t("Smartcoin:borrow", { asset: parsedAsset.s })}
-          </Button>
-        </a>
-        <a
-          href={`/dex/index.html?market=${parsedAsset.s}_${parsedCollateralAsset.s}`}
-        >
-          <Button className="mr-2">
-            {t("Smartcoin:buyWith", {
-              asset1: parsedAsset.s,
-              asset2: parsedCollateralAsset.s,
-            })}
-          </Button>
-        </a>
+            <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_4px_14px_-4px_rgba(99,102,241,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(99,102,241,0.6)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] transition-all">
+              {t("Smartcoin:borrow", { asset: parsedAsset.s })}
+            </Button>
+          </a>
+          <a
+            href={`/dex.html?market=${parsedAsset.s}_${parsedCollateralAsset.s}`}
+          >
+            <Button className="bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-success-gradFg))] shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] transition-all">
+              {t("Smartcoin:buyWith", {
+                asset1: parsedAsset.s,
+                asset2: parsedCollateralAsset.s,
+              })}
+            </Button>
+          </a>
+        </div>
+
         {showClosePositionDialog ? (
           <DeepLinkDialog
             operationNames={["call_order_update"]}

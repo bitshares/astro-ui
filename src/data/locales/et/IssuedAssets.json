@@ -5,11 +5,9 @@
   "proceedToBorrow": "probleem",
   "issueAssetDescription": "Selle vara väljaandjana saate selle vara väljastada endale või mõnele teisele plokiahela kontole kuni konfigureeritud maksimaalse pakkumiseni.",
   "manageUIA": "Muuda",
-  "pmaBet": "Panusta",
   "uiaButton": "Kasutaja väljastatud varad",
   "poolsButton": "Likviidsusfondi varad",
   "smartcoinsButton": "Smartcoini varad",
-  "predictionButton": "Prognoositavad turuvarad",
   "nftButton": "Mittevahetatavad märgivarad",
   "listingUIA": "Nimekiri {{count}} Kasutaja väljastatud varad",
   "listingPools": "Nimekiri {{count}} Likviidsusfondi varad",
@@ -17,8 +15,6 @@
   "noUIA": "Ühtegi kasutaja väljastatud vara ei leitud",
   "listingSmartcoins": "Nimekiri {{count}} Smartcoini varad",
   "noSmartcoins": "Smartcoini varasid ei leitud",
-  "listingPredictionMarkets": "Nimekiri {{count}} Prognoositavad turuvarad",
-  "noPredictionMarkets": "Ennustusturu varasid ei leitud",
   "listingNFTs": "Nimekiri {{count}} Mittevahetatavad märgivarad",
   "noNFTs": "Mitteasendatavaid märgivarasid ei leitud",
   "title": "Teie loodud plokiahela varade vaatamine",
@@ -103,5 +99,6 @@
   "amount": "Summa",
   "useMax": "Kasutage max",
   "noAssetInBalance": "Sellel kontol ei ole seda vara.",
-  "overrideHeader": "Tuleta meelde {{amount}} {{symbol}} alates {{account}}"
+  "overrideHeader": "Tuleta meelde {{amount}} {{symbol}} alates {{account}}",
+  "collateralBid": "Paku tagatisele"
 }

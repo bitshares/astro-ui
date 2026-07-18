@@ -1,61 +1,43 @@
-import createHash from "create-hash";
-import createHmac from "create-hmac";
+import { sha1 as _sha1, ripemd160 as _ripemd160 } from "@noble/hashes/legacy.js";
+import { sha256 as _sha256, sha512 as _sha512 } from "@noble/hashes/sha2.js";
+import { hmac } from "@noble/hashes/hmac.js";
 
-/** @arg {string|Buffer} data
-    @arg {string} [digest = null] - 'hex', 'binary' or 'base64'
-    @return {string|Buffer} - Buffer when digest is null, or string
+const toBytes = (data) =>
+  typeof data === "string" ? new TextEncoder().encode(data) : data;
+
+/** @arg {string|Buffer|Uint8Array} data
+    @arg {string} [encoding = null] - 'hex', 'binary' or 'base64'
+    @return {Buffer|string} - Buffer when encoding is null, or string
 */
 function sha1(data, encoding) {
-    return createHash("sha1")
-        .update(data)
-        .digest(encoding);
+  const out = Buffer.from(_sha1(toBytes(data)));
+  return encoding ? out.toString(encoding) : out;
 }
 
-/** @arg {string|Buffer} data
-    @arg {string} [digest = null] - 'hex', 'binary' or 'base64'
-    @return {string|Buffer} - Buffer when digest is null, or string
+/** @arg {string|Buffer|Uint8Array} data
+    @arg {string} [encoding = null] - 'hex', 'binary' or 'base64'
+    @return {Buffer|string} - Buffer when encoding is null, or string
 */
 function sha256(data, encoding) {
-    return createHash("sha256")
-        .update(data)
-        .digest(encoding);
+  const out = Buffer.from(_sha256(toBytes(data)));
+  return encoding ? out.toString(encoding) : out;
 }
 
-/** @arg {string|Buffer} data
-    @arg {string} [digest = null] - 'hex', 'binary' or 'base64'
-    @return {string|Buffer} - Buffer when digest is null, or string
+/** @arg {string|Buffer|Uint8Array} data
+    @arg {string} [encoding = null] - 'hex', 'binary' or 'base64'
+    @return {Buffer|string} - Buffer when encoding is null, or string
 */
 function sha512(data, encoding) {
-    return createHash("sha512")
-        .update(data)
-        .digest(encoding);
+  const out = Buffer.from(_sha512(toBytes(data)));
+  return encoding ? out.toString(encoding) : out;
 }
 
 function HmacSHA256(buffer, secret) {
-    return createHmac("sha256", secret)
-        .update(buffer)
-        .digest();
+  return Buffer.from(hmac(_sha256, toBytes(secret), toBytes(buffer)));
 }
 
 function ripemd160(data) {
-    try{
-        return createHash('rmd160').update(data).digest();
-    } catch(e){
-        return createHash('ripemd160').update(data).digest();
-    }
+  return Buffer.from(_ripemd160(toBytes(data)));
 }
 
-// function hash160(buffer) {
-//   return ripemd160(sha256(buffer))
-// }
-//
-// function hash256(buffer) {
-//   return sha256(sha256(buffer))
-// }
-
-//
-// function HmacSHA512(buffer, secret) {
-//   return crypto.createHmac('sha512', secret).update(buffer).digest()
-// }
-
-export {sha1, sha256, sha512, HmacSHA256, ripemd160};
+export { sha1, sha256, sha512, HmacSHA256, ripemd160 };

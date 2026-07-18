@@ -38,14 +38,10 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 
 import { humanReadableFloat, trimPrice, blockchainFloat } from "@/lib/common";
 import { cn } from "@/lib/utils";
@@ -55,6 +51,8 @@ import AccountSearch from "./AccountSearch.jsx";
 
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 import AssetDropDown from "./Market/AssetDropDownCard.jsx";
+
+import { Shield, ShieldCheck, Clock, CalendarDays, Coins, User, AlertTriangle } from "lucide-react";
 
 const hoursToSeconds = {
   "1hr": 3600,
@@ -204,7 +202,7 @@ export default function WithdrawPermissions(properties) {
             : t("WithdrawPermissions:create_permission")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[750px] bg-white">
+      <DialogContent className="sm:max-w-[750px] bg-card">
         <DialogHeader>
           <DialogTitle>
             {mode === "edit"
@@ -298,7 +296,7 @@ export default function WithdrawPermissions(properties) {
                                   : t("Transfer:provideTarget")}
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-[375px] bg-white">
+                            <DialogContent className="sm:max-w-[375px] bg-card">
                               <DialogHeader>
                                 <DialogTitle>
                                   {!usr || !usr.chain
@@ -557,7 +555,7 @@ export default function WithdrawPermissions(properties) {
                             }
                           />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value="1hr">
                             {t("WithdrawDialog:1hr")}
                           </SelectItem>
@@ -677,7 +675,7 @@ export default function WithdrawPermissions(properties) {
                         <SelectTrigger className="mb-3 mt-1 w-1/4">
                           <SelectValue placeholder={expiry} />
                         </SelectTrigger>
-                        <SelectContent className="bg-white">
+                        <SelectContent className="bg-card">
                           <SelectItem value="now">
                             {t("WithdrawPermissions:now")}
                           </SelectItem>
@@ -702,8 +700,8 @@ export default function WithdrawPermissions(properties) {
                         </SelectContent>
                       </Select>
                       {expiryType === "specific" ? (
-                        <Popover>
-                          <PopoverTrigger asChild>
+                        <Dialog>
+                          <DialogTrigger asChild>
                             <Button
                               variant={"outline"}
                               className={cn(
@@ -720,8 +718,8 @@ export default function WithdrawPermissions(properties) {
                                 </span>
                               )}
                             </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[350px] bg-card border border-border rounded-2xl p-0">
                             <Calendar
                               mode="single"
                               selected={date}
@@ -741,8 +739,8 @@ export default function WithdrawPermissions(properties) {
                               }}
                               initialFocus
                             />
-                          </PopoverContent>
-                        </Popover>
+                          </DialogContent>
+                        </Dialog>
                       ) : null}
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />

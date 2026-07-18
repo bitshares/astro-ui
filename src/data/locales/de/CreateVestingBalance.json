@@ -9,7 +9,7 @@
   "target": "Zielkonto",
   "targetDescription": "Dies ist das Konto, auf das das Sperrguthaben überwiesen wird.",
   "policy": "Vesting-Saldo-Richtlinie",
-  "policyDescription": "Sie können eine von zwei Richtlinien verwenden: Coin Days Destroyed oder Linear Vesting mit Cliff. Die Wirkung der Coin Days Destroyed-Policy besteht darin, dass ein bestimmter Betrag an „Zinsen“ anfallen muss, bevor der gesamte Saldo abgehoben werden kann. Die Zinsen fallen in Form von Coindays (Saldo * Länge) an ",
+  "policyDescription": "Sie können eine von zwei Richtlinien verwenden: Coin Days Destroyed oder Linear Vesting mit Cliff. Die Wirkung der Coin Days Destroyed-Policy besteht darin, dass ein bestimmter Betrag an Zinsen anfallen muss, bevor der gesamte Saldo abgehoben werden kann. Die Zinsen fallen in Form von Coindays (Saldo * Länge) an ",
   "asset": "Vermögenswert",
   "assetDescription": "Dabei handelt es sich um den Vermögenswert, der in den Freizügigkeitssaldo eingezahlt wird.",
   "ccd": "Münztage zerstört",
@@ -25,5 +25,9 @@
   "vestingDurationSeconds": "Sperrfrist in Sekunden",
   "vestingDurationSecondsDescription": "Dies ist die Anzahl der Sekunden, über die das Guthaben unverfallbar wird.",
   "dialogHeader": "Erstellen eines neuen Vesting-Guthabens",
-  "myAccount": "Ihr Konto"
+  "myAccount": "Ihr Konto",
+  "useBalance": "Guthaben verwenden",
+  "currentBalance": "Aktuelles Guthaben: {{balance}} {{symbol}}",
+  "insufficientFunds": "Unzureichendes Guthaben",
+  "invalidDecimals": "Maximal {{precision}} Dezimalstellen erlaubt"
 }

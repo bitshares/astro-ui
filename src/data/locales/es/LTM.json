@@ -1,5 +1,5 @@
 {
-  "cardTitle": "💱 Membresía LTM",
+  "cardTitle": "Membresía LTM",
   "cardDescription": "Compra una membresía vitalicia",
   "alreadyMember": "¡Esta cuenta ya ha adquirido una membresía vitalicia!",
   "benefitsTitle": "Beneficios de su membresía activa vitalicia:",
@@ -8,5 +8,11 @@
   "benefit3": "Ahora puedo generar nombres de cuentas premium.",
   "wantToPurchase": "¿Quiere comprar una membresía de por vida para su cuenta?",
   "purchaseButton": "Comprar LTM",
-  "headerText": "Comprar una membresía vitalicia para {{username}}"
+  "headerText": "Comprar una membresía vitalicia para {{username}}",
+  "memberBadge": "LTM activo",
+  "exclusiveBenefits": "Beneficios exclusivos",
+  "feeRebate": "Reembolso de tarifas",
+  "referralEarnings": "Ganancias por referidos",
+  "premiumNames": "Nombres premium",
+  "readyToUpgrade": "¿Listo para actualizar?"
 }

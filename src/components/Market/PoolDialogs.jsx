@@ -34,6 +34,8 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
+import { Button } from "@/components/ui/button";
+
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $blockList } from "@/stores/blocklist.ts";
 
@@ -137,7 +139,7 @@ export default function PoolDialogs(properties) {
   }) {
     return (
       <>
-        <div className="hidden md:grid md:grid-cols-10 hover:bg-slate-100">
+        <div className="hidden md:grid md:grid-cols-10 hover:bg-accent">
           <div className="col-span-1">
             <p>{id}</p>
           </div>
@@ -152,7 +154,7 @@ export default function PoolDialogs(properties) {
           </div>
         </div>
         <div
-          className="grid md:hidden grid-cols-10 hover:bg-slate-100"
+          className="grid md:hidden grid-cols-10 hover:bg-accent"
           title={share_asset_symbol}
         >
           <div className="col-span-2">
@@ -171,55 +173,109 @@ export default function PoolDialogs(properties) {
 
   const PoolRowA = ({ index, style }) => {
     const pool = assetAPools[index];
+    const link = `/swap.html?pool=${pool.id}`;
     return (
-      <a
-        style={style}
-        href={`/swap/index.html?pool=${pool.id}`}
-        key={`a_${pool.id}`}
-      >
-        <RowHyperlink
-          id={pool.id}
-          share_asset_symbol={pool.share_asset_symbol}
-          asset_a_symbol={pool.asset_a_symbol}
-          asset_b_symbol={pool.asset_b_symbol}
-        />
-      </a>
+      <div style={style} key={`a_${pool.id}`} className="flex items-center justify-between gap-2">
+        <a href={link} className="flex-1">
+          <RowHyperlink
+            id={pool.id}
+            share_asset_symbol={pool.share_asset_symbol}
+            asset_a_symbol={pool.asset_a_symbol}
+            asset_b_symbol={pool.asset_b_symbol}
+          />
+        </a>
+        <div className="flex-shrink-0 flex items-center gap-2">
+          <a href={link} className="inline-flex items-center px-2 py-1 rounded-md border border-border bg-card/40 text-xs">
+            {t("PoolDialogs:openPool")}
+          </a>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => {
+              try {
+                navigator.clipboard.writeText(link);
+              } catch (e) {
+                console.log("clipboard error", e);
+              }
+            }}
+            title={t("PoolDialogs:copyPoolLink")}
+          >
+            ⧉
+          </Button>
+        </div>
+      </div>
     );
   };
 
   const PoolRowB = ({ index, style }) => {
     const pool = assetBPools[index];
+    const link = `/swap.html?pool=${pool.id}`;
     return (
-      <a
-        style={style}
-        href={`/swap/index.html?pool=${pool.id}`}
-        key={`a_${pool.id}`}
-      >
-        <RowHyperlink
-          id={pool.id}
-          share_asset_symbol={pool.share_asset_symbol}
-          asset_a_symbol={pool.asset_a_symbol}
-          asset_b_symbol={pool.asset_b_symbol}
-        />
-      </a>
+      <div style={style} key={`b_${pool.id}`} className="flex items-center justify-between gap-2">
+        <a href={link} className="flex-1">
+          <RowHyperlink
+            id={pool.id}
+            share_asset_symbol={pool.share_asset_symbol}
+            asset_a_symbol={pool.asset_a_symbol}
+            asset_b_symbol={pool.asset_b_symbol}
+          />
+        </a>
+        <div className="flex-shrink-0 flex items-center gap-2">
+          <a href={link} className="inline-flex items-center px-2 py-1 rounded-md border border-border bg-card/40 text-xs">
+            {t("PoolDialogs:openPool")}
+          </a>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => {
+              try {
+                navigator.clipboard.writeText(link);
+              } catch (e) {
+                console.log("clipboard error", e);
+              }
+            }}
+            title={t("PoolDialogs:copyPoolLink")}
+          >
+            ⧉
+          </Button>
+        </div>
+      </div>
     );
   };
 
   const PoolRowMarket = ({ index, style }) => {
     const pool = assetMarketPools[index];
+    const link = `/swap.html?pool=${pool.id}`;
     return (
-      <a
-        style={style}
-        href={`/swap/index.html?pool=${pool.id}`}
-        key={`a_${pool.id}`}
-      >
-        <RowHyperlink
-          id={pool.id}
-          share_asset_symbol={pool.share_asset_symbol}
-          asset_a_symbol={pool.asset_a_symbol}
-          asset_b_symbol={pool.asset_b_symbol}
-        />
-      </a>
+      <div style={style} key={`m_${pool.id}`} className="flex items-center justify-between gap-2">
+        <a href={link} className="flex-1">
+          <RowHyperlink
+            id={pool.id}
+            share_asset_symbol={pool.share_asset_symbol}
+            asset_a_symbol={pool.asset_a_symbol}
+            asset_b_symbol={pool.asset_b_symbol}
+          />
+        </a>
+        <div className="flex-shrink-0 flex items-center gap-2">
+          <a href={link} className="inline-flex items-center px-2 py-1 rounded-md border border-border bg-card/40 text-xs">
+            {t("PoolDialogs:openPool")}
+          </a>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => {
+              try {
+                navigator.clipboard.writeText(link);
+              } catch (e) {
+                console.log("clipboard error", e);
+              }
+            }}
+            title={t("PoolDialogs:copyPoolLink")}
+          >
+            ⧉
+          </Button>
+        </div>
+      </div>
     );
   };
 
@@ -276,7 +332,7 @@ export default function PoolDialogs(properties) {
             </CardHeader>
           </Card>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[800px] bg-white">
+        <DialogContent className="sm:max-w-[800px] bg-card">
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogDescription>{dialogDescription}</DialogDescription>
