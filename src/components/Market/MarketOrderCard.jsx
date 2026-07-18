@@ -194,8 +194,8 @@ export default function MarketOrderCard(properties) {
             <a
               href={
                 isBuy
-                  ? `/dex/index.html?market=${assetA}_${assetB}&type=sell&price=${price}&amount=${cumulativeQuote}`
-                  : `/dex/index.html?market=${assetA}_${assetB}&type=buy&price=${price}&amount=${cumulativeQuote}`
+                  ? `/dex.html?market=${assetA}_${assetB}&type=sell&price=${price}&amount=${cumulativeQuote}`
+                  : `/dex.html?market=${assetA}_${assetB}&type=buy&price=${price}&amount=${cumulativeQuote}`
               }
             >
               <Button

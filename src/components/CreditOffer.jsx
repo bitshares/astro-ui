@@ -525,7 +525,7 @@ export default function CreditOffer(properties) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <a href="/offers/index.html">
+                <a href="/offers.html">
                   <Button className="h-6 bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-warning))] text-[hsl(var(--accent-danger-gradFg))] shadow-md shadow-[color:hsl(var(--accent-danger)/0.3)] hover:shadow-[color:hsl(var(--accent-danger)/0.5)] active:scale-95 transition-all duration-200 cursor-pointer">
                     {t("CreditOffer:errorCard.buttonLabel")}
                   </Button>

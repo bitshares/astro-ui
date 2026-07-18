@@ -5,7 +5,7 @@ sidebar:
   order: 6
 ---
 
-import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 **Blind Transfers** provide confidential transactions on BitShares using Pedersen commitments and range proofs. Amounts and asset types are hidden from the public (only the cryptography proves validity). The app supports three flows: sending into the blind pool (`transfer_to_blind`), moving between blind outputs (`blind_transfer`), and bringing funds back out (`transfer_from_blind`).
 
@@ -46,8 +46,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 ## Operations used
 
 <Tabs>
-  <Fragment slot="tab-label">blind_transfer</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="blind_transfer">
 
 ```json
 {
@@ -78,9 +77,8 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">transfer_to_blind / _from_blind</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="transfer_to_blind / _from_blind">
 
 `transfer_to_blind` adds a visible `from`/`amount` and blind `outputs`:
 
@@ -105,7 +103,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 
 `transfer_from_blind` is the inverse: blind `inputs` plus a visible `to`/`amount`.
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 | Field | Meaning |

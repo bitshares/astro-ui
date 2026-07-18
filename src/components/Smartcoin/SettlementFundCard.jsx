@@ -92,7 +92,7 @@ export function GlobalSettlementCard({
             </div>
           </div>
 
-          <a href={`/settlement/index.html?id=${finalAsset.id}`}>
+          <a href={`/settlement.html?id=${finalAsset.id}`}>
             <Button className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-1))] text-[hsl(var(--accent-danger-gradFg))] shadow-[0_4px_14px_-4px_rgba(239,68,68,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(239,68,68,0.6)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-1))] transition-all">
               {t("Smartcoin:bidOnSettlementFund", {
                 symbol: finalAsset.symbol,
@@ -186,7 +186,7 @@ export function IndividualSettlementCard({
             </div>
           </div>
 
-          <a href={`/settlement/index.html?id=${finalAsset.id}`}>
+          <a href={`/settlement.html?id=${finalAsset.id}`}>
             <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_4px_14px_-4px_rgba(245,158,11,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(245,158,11,0.6)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] transition-all">
               {t("Smartcoin:bidOnSettlementFund", {
                 symbol: finalAsset.symbol,

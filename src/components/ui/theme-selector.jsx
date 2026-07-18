@@ -75,7 +75,7 @@ export default function ThemeSelector() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <a href="/theme/index.html" className="flex items-center gap-2">
+          <a href="/theme.html" className="flex items-center gap-2">
             <SlidersHorizontal className="h-4 w-4" />
             <span>{t("ThemeCustomizer:customizeThemes")}</span>
           </a>

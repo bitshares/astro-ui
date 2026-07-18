@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 **Account Lists** manages an account's on-chain **whitelist** and **blacklist** via the `account_whitelist` operation. Adding an account to your whitelist (or blacklist) is recorded on chain and affects other operations that consult these lists (e.g. asset transfer/whitelist rules).
 
@@ -46,8 +46,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 ## Operation used
 
 <Tabs>
-  <Fragment slot="tab-label">Add to whitelist / blacklist</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="Add to whitelist / blacklist">
 
 ```json
 {
@@ -60,9 +59,8 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 
 Blacklist uses `new_listing: 2`.
 
-  </Fragment>
-  <Fragment slot="tab-label">Remove</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="Remove">
 
 ```json
 {
@@ -73,7 +71,7 @@ Blacklist uses `new_listing: 2`.
 }
 ```
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 | Field | Meaning |

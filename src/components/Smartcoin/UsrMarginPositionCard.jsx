@@ -174,14 +174,14 @@ export default function UsrMarginPositionCard({
             </Button>
           ) : null}
           <a
-            href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${parsedAsset.s}`}
+            href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${parsedAsset.s}`}
           >
             <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_4px_14px_-4px_rgba(99,102,241,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(99,102,241,0.6)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] transition-all">
               {t("Smartcoin:borrow", { asset: parsedAsset.s })}
             </Button>
           </a>
           <a
-            href={`/dex/index.html?market=${parsedAsset.s}_${parsedCollateralAsset.s}`}
+            href={`/dex.html?market=${parsedAsset.s}_${parsedCollateralAsset.s}`}
           >
             <Button className="bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-success-gradFg))] shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] transition-all">
               {t("Smartcoin:buyWith", {

@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 **Governance** (the witness/committee registration panel) lets you register as a block producer or committee member, or update your existing registration. Depending on your selection it broadcasts `witness_create` / `witness_update` or `committee_member_create` / `committee_member_update`.
 
@@ -46,8 +46,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 ## Operations used
 
 <Tabs>
-  <Fragment slot="tab-label">witness_create / _update</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="witness_create / _update">
 
 ```json
 {
@@ -72,9 +71,8 @@ Update form:
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">committee_member_create / _update</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="committee_member_create / _update">
 
 ```json
 {
@@ -97,7 +95,7 @@ Update form:
 }
 ```
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 | Field | Meaning |

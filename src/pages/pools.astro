@@ -27,7 +27,7 @@ const marketSearchTEST = testMarketData.map(collection => collection.data);
 
 <Layout title="Custom Pool Overview">
 	<main>
-		<PageHeader client:only="react" page="pools" backURL="../index.html" />
+		<PageHeader client:only="react" page="pools" />
 		<PoolList
 			client:only="react"
 			_assetsBTS={btsAssets}

@@ -15,7 +15,7 @@ const testAssets = testAllAssets.map((collection) => collection.data);
 
 <Layout title="Bitshares Pay Invoice">
 	<main>
-		<PageHeader client:only="react" page="pay_invoice" backURL="../index.html" />
+		<PageHeader client:only="react" page="pay_invoice" />
 		<UserPayInvoice client:only="react"
 			_assetsBTS={btsAssets}
 			_assetsTEST={testAssets} />

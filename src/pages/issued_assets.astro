@@ -15,7 +15,7 @@ const testAssets = testAllAssets.map(collection => collection.data);
 
 <Layout title="Bitshares - Issued Asset Overview">
 	<main>
-		<PageHeader client:only="react" page="issuedAssets" backURL="../index.html" />
+		<PageHeader client:only="react" page="issuedAssets" />
 		<IssuedAssets
 			client:only="react"
 			_assetsBTS={btsAssets}

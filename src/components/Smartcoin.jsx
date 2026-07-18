@@ -955,7 +955,7 @@ export default function Smartcoin(properties) {
             </CardHeader>
             <CardContent>
               {t("Smartcoin:invalidSmartcoinIdContent1")}{" "}
-              <a className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]" href="/smartcoins/index.html">
+              <a className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]" href="/smartcoins.html">
                 {t("Smartcoin:invalidSmartcoinIdContent2")}
               </a>{" "}
               {t("Smartcoin:invalidSmartcoinIdContent3")}

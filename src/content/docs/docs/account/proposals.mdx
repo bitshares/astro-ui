@@ -5,7 +5,7 @@ sidebar:
   order: 10
 ---
 
-import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 **Proposals** lists the `proposal` objects relevant to an account — including the `proposed_ops` they contain (which may be `transfer`, `account_update`, and more). You can inspect each operation, then **approve** (adding your authority to the proposal) or **reject** (delete it).
 
@@ -46,8 +46,42 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 ## Operations used
 
 <Tabs>
-  <Fragment slot="tab-label">proposal_update (approve)</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="proposal_create">
+
+Creating a proposal wraps one or more operations in a `proposal_create` (operation `22`). The proposal executes once all required approvals are gathered and the review period has elapsed. Used by [Timed Transfer](/docs/transfer/timed_transfer.html) and [Barter](/docs/exchanging/barter.html).
+
+```json
+{
+  "fee_paying_account": "1.2.x",
+  "expiration_time": "2026-07-25T12:00:00.000Z",
+  "proposed_ops": [
+    {
+      "op": [
+        0,
+        {
+          "fee": { "amount": 0, "asset_id": "1.3.0" },
+          "from": "1.2.x",
+          "to": "1.2.x",
+          "amount": { "amount": 50000, "asset_id": "1.3.0" },
+          "extensions": {}
+        }
+      ]
+    }
+  ],
+  "review_period_seconds": 3600,
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `fee_paying_account` | Account that pays the proposal fee. |
+| `expiration_time` | ISO-8601; proposal becomes invalid after this. |
+| `proposed_ops` | Array of `{ op: [opId, opBody] }` — the operations to execute. |
+| `review_period_seconds` | Inspection window before the operations are actionable. |
+
+  </TabItem>
+  <TabItem label="proposal_update (approve)">
 
 ```json
 {
@@ -63,9 +97,8 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">proposal_delete (reject)</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="proposal_delete (reject)">
 
 ```json
 {
@@ -76,7 +109,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 | Field | Meaning |

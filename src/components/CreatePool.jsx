@@ -402,7 +402,7 @@ export default function IssuedAssets(properties) {
                         variant="outline"
                         className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.5)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]"
                       >
-                        <a href="/create_uia/index.html">
+                        <a href="/create_uia.html">
                           {t("PageHeader:create_uia")}
                         </a>
                       </Button>

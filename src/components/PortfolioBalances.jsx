@@ -253,7 +253,7 @@ export default function PortfolioBalances({
     const rightContents = (
       <>
         <a
-          href={`/dex/index.html?market=${currentAsset.symbol}_${
+          href={`/dex.html?market=${currentAsset.symbol}_${
             currentAsset.symbol === "BTS" ? "HONEST.USD" : "BTS"
           }`}
         >

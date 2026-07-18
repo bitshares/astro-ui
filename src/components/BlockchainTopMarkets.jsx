@@ -248,7 +248,7 @@ export default function BlockchainTopMarkets() {
               <>
                 <Button
                   onClick={() => {
-                    window.location.href = `/dex/index.html?market=${selected.baseSymbol}_${selected.quoteSymbol}`;
+                    window.location.href = `/dex.html?market=${selected.baseSymbol}_${selected.quoteSymbol}`;
                   }}
                   className="w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] hover:shadow-[0_12px_36px_-12px_hsl(var(--accent-1)/0.9)] transition-all"
                 >
@@ -257,7 +257,7 @@ export default function BlockchainTopMarkets() {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    window.location.href = `/instant_trade/index.html?market=${selected.baseSymbol}_${selected.quoteSymbol}`;
+                    window.location.href = `/instant_trade.html?market=${selected.baseSymbol}_${selected.quoteSymbol}`;
                   }}
                   className="w-full border-[hsl(var(--accent-1)/0.30)] hover:bg-[hsl(var(--accent-1)/0.10)] hover:border-[hsl(var(--accent-1)/0.5)] text-foreground"
                 >

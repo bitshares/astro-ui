@@ -999,12 +999,12 @@ export default function CustomPoolTracker(properties) {
                 <DialogDescription></DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
-                <a href={`/swap/index.html?pool=${res.id}`}>
+                <a href={`/swap.html?pool=${res.id}`}>
                   <Button variant="outline" className="w-full">
                     {t("PoolTracker:simpleSwap")}
                   </Button>
                 </a>
-                <a href={`/stake/index.html?pool=${res.id}`}>
+                <a href={`/stake.html?pool=${res.id}`}>
                   <Button variant="outline" className="w-full">
                     {t("PoolTracker:stakeAssets")}
                   </Button>
@@ -1029,13 +1029,13 @@ export default function CustomPoolTracker(properties) {
                 <DialogDescription></DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
-                <a href={`/dex/index.html?market=${res.share_asset}_BTS`}>
+                <a href={`/dex.html?market=${res.share_asset}_BTS`}>
                   <Button variant="outline" className="w-full">
                     {t("PoolTracker:buy")}
                   </Button>
                 </a>
                 <a
-                  href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${
+                  href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${
                     _currentPSA.symbol ?? ""
                   }`}
                 >
@@ -1066,7 +1066,7 @@ export default function CustomPoolTracker(properties) {
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <a
-                  href={`/dex/index.html?market=${_poolAssetA.symbol}_${
+                  href={`/dex.html?market=${_poolAssetA.symbol}_${
                     _poolAssetA.symbol === "BTS" ? "HONEST.USD" : "BTS"
                   }`}
                 >
@@ -1075,7 +1075,7 @@ export default function CustomPoolTracker(properties) {
                   </Button>
                 </a>
                 <a
-                  href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetA.symbol}`}
+                  href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetA.symbol}`}
                 >
                   <Button variant="outline" className="w-full">
                     {t("PoolTracker:borrowAsset", {
@@ -1084,7 +1084,7 @@ export default function CustomPoolTracker(properties) {
                   </Button>
                 </a>
                 {smartcoinSymbols.includes(_poolAssetA.symbol) ? (
-                  <a href={`/smartcoin/index.html?id=${_poolAssetA.id}`}>
+                  <a href={`/smartcoin.html?id=${_poolAssetA.id}`}>
                     <Button variant="outline" className="w-full">
                       {t("PoolTracker:createDebt")}
                     </Button>
@@ -1112,7 +1112,7 @@ export default function CustomPoolTracker(properties) {
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <a
-                  href={`/dex/index.html?market=${_poolAssetB.symbol}_${
+                  href={`/dex.html?market=${_poolAssetB.symbol}_${
                     _poolAssetB.symbol === "BTS" ? "HONEST.USD" : "BTS"
                   }`}
                 >
@@ -1121,7 +1121,7 @@ export default function CustomPoolTracker(properties) {
                   </Button>
                 </a>
                 <a
-                  href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetB.symbol}`}
+                  href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetB.symbol}`}
                 >
                   <Button variant="outline" className="w-full">
                     {t("PoolTracker:borrowAsset", {
@@ -1130,7 +1130,7 @@ export default function CustomPoolTracker(properties) {
                   </Button>
                 </a>
                 {smartcoinSymbols.includes(_poolAssetB.symbol) ? (
-                  <a href={`/smartcoin/index.html?id=${_poolAssetB.id}`}>
+                  <a href={`/smartcoin.html?id=${_poolAssetB.id}`}>
                     <Button variant="outline" className="w-full">
                       {t("PoolTracker:createDebt")}
                     </Button>

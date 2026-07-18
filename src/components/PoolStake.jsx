@@ -1699,17 +1699,17 @@ export default function PoolStake(properties) {
                     <Label className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70">{t("PoolStake:searchBorrowableAssets")}</Label>
                     <div className="flex flex-wrap gap-2 mt-2">
                       <a
-                        href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetA.symbol}`}
+                        href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${assetA.symbol}`}
                       >
                         <Badge className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] cursor-pointer transition-colors">{assetA.symbol}</Badge>
                       </a>
                       <a
-                        href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${assetB.symbol}`}
+                        href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${assetB.symbol}`}
                       >
                         <Badge className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] cursor-pointer transition-colors">{assetB.symbol}</Badge>
                       </a>
                       <a
-                        href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${foundPool?.share_asset_symbol}`}
+                        href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${foundPool?.share_asset_symbol}`}
                       >
                         <Badge className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] cursor-pointer transition-colors">
                           {foundPool?.share_asset_symbol}
@@ -1719,17 +1719,17 @@ export default function PoolStake(properties) {
                     <Label className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70 mt-3 block">{t("PoolStake:searchByAcceptedCollateral")}</Label>
                     <div className="flex flex-wrap gap-2 mt-2">
                       <a
-                        href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetA.symbol}`}
+                        href={`/borrow.html?tab=searchOffers&searchTab=collateral&searchText=${assetA.symbol}`}
                       >
                         <Badge className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] cursor-pointer transition-colors">{assetA.symbol}</Badge>
                       </a>
                       <a
-                        href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${assetB.symbol}`}
+                        href={`/borrow.html?tab=searchOffers&searchTab=collateral&searchText=${assetB.symbol}`}
                       >
                         <Badge className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] cursor-pointer transition-colors">{assetB.symbol}</Badge>
                       </a>
                       <a
-                        href={`/borrow/index.html?tab=searchOffers&searchTab=collateral&searchText=${foundPool?.share_asset_symbol}`}
+                        href={`/borrow.html?tab=searchOffers&searchTab=collateral&searchText=${foundPool?.share_asset_symbol}`}
                       >
                         <Badge className="border-[hsl(var(--accent-2)/0.3)] bg-[hsl(var(--accent-2)/0.1)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.2)] cursor-pointer transition-colors">
                           {foundPool?.share_asset_symbol}

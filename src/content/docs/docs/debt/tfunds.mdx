@@ -1,15 +1,15 @@
 ---
-title: Tunnel Funds
+title: Same-T Funds
 description: Create, top up, update and delete Samet Funds (TFunds) using samet_fund_create, samet_fund_update and samet_fund_delete.
 sidebar:
   order: 4
 ---
 
-import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
-**Tunnel Funds** (Samet Funds / TFunds) are on-chain lending pools you can operate as an owner. You create a fund with a backing asset and a fee rate; borrowers draw from it (via the [Tunnel Fund (User)](/docs/exchanging/tfund_user.html) page) and repay with a fund fee. As the owner you can top up, change the fee, or delete the fund.
+**Same-T Funds** (also called Samet Funds / TFunds) are on-chain lending pools you can operate as an owner. You create a fund with a backing asset and a fee rate; borrowers draw from it (via the [Same-T Fund (User)](/docs/exchanging/tfund_user.html) page) and repay with a fund fee. As the owner you can top up, change the fee, or delete the fund.
 
-**Open in the app:** [Tunnel Funds](/tfunds.html).
+**Open in the app:** [Same-T Funds](/tfunds.html).
 
 ## What it does
 
@@ -29,7 +29,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 
 <Steps>
 
-1. Open **Tunnel Funds** from the homepage under *Forms of Debt*.
+1. Open **Same-T Funds** from the homepage under *Forms of Debt*.
 
 2. Create a fund: choose the backing asset, balance and fee rate (basis points). → `samet_fund_create`.
 
@@ -46,8 +46,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 ## Operations used
 
 <Tabs>
-  <Fragment slot="tab-label">samet_fund_create</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="samet_fund_create">
 
 ```json
 {
@@ -59,9 +58,8 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">samet_fund_update</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="samet_fund_update">
 
 ```json
 {
@@ -73,9 +71,8 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">samet_fund_delete</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="samet_fund_delete">
 
 ```json
 {
@@ -85,7 +82,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 | Field | Meaning |
@@ -98,6 +95,6 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 
 ## Related pages
 
-- [Tunnel Fund (User)](/docs/exchanging/tfund_user.html)
+- [Same-T Fund (User)](/docs/exchanging/tfund_user.html)
 - [Borrow](/docs/debt/borrow.html)
 - [Lend](/docs/debt/lend.html)

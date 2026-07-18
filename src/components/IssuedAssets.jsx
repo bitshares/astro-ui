@@ -371,7 +371,7 @@ export default function IssuedAssets(properties) {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <a
-              href={`/dex/index.html?market=${issuedAsset.symbol}_${
+              href={`/dex.html?market=${issuedAsset.symbol}_${
                 parsedDescription && parsedDescription.market
                   ? parsedDescription.market
                   : "BTS"
@@ -383,21 +383,21 @@ export default function IssuedAssets(properties) {
               </DropdownMenuItem>
             </a>
             <a
-              href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${issuedAsset.symbol}`}
+              href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${issuedAsset.symbol}`}
             >
               <DropdownMenuItem>
                 <ArrowRight className="h-3.5 w-3.5 mr-2" />
                 {t("IssuedAssets:creditBorrow")}
               </DropdownMenuItem>
             </a>
-            <a href={`/lend/index.html?asset=${issuedAsset.symbol}`}>
+            <a href={`/lend.html?asset=${issuedAsset.symbol}`}>
               <DropdownMenuItem>
                 <ArrowRight className="h-3.5 w-3.5 mr-2" />
                 {t("IssuedAssets:creditLend")}
               </DropdownMenuItem>
             </a>
             {activeTab === "smartcoins" ? (
-              <a href={`/smartcoin/index.html?id=${issuedAsset.id}`}>
+              <a href={`/smartcoin.html?id=${issuedAsset.id}`}>
                 <DropdownMenuItem>
                   <ArrowRight className="h-3.5 w-3.5 mr-2" />
                   {t("IssuedAssets:proceedToBorrow")}
@@ -405,7 +405,7 @@ export default function IssuedAssets(properties) {
               </a>
             ) : null}
             {activeTab === "smartcoins" && smartcoinCheck ? (
-              <a href={`/settlement/index.html?id=${issuedAsset.id}`}>
+              <a href={`/settlement.html?id=${issuedAsset.id}`}>
                 <DropdownMenuItem>
                   <ArrowRight className="h-3.5 w-3.5 mr-2" />
                   {t("IssuedAssets:collateralBid")}
@@ -615,7 +615,7 @@ export default function IssuedAssets(properties) {
                       </EmptyHeader>
                       <EmptyContent>
                         <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] border-0">
-                          <a href="/create_uia/index.html">
+                          <a href="/create_uia.html">
                             {t("PageHeader:create_uia")}
                           </a>
                         </Button>
@@ -675,7 +675,7 @@ export default function IssuedAssets(properties) {
                       </EmptyHeader>
                       <EmptyContent>
                         <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-2-gradFg))] border-0">
-                          <a href="/create_pool/index.html">
+                          <a href="/create_pool.html">
                             {t("PageHeader:create_pool")}
                           </a>
                         </Button>
@@ -737,7 +737,7 @@ export default function IssuedAssets(properties) {
                       </EmptyHeader>
                       <EmptyContent>
                         <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] border-0">
-                          <a href="/create_smartcoin/index.html">
+                          <a href="/create_smartcoin.html">
                             {t("PageHeader:create_smartcoin")}
                           </a>
                         </Button>

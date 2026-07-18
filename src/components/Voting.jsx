@@ -1046,7 +1046,7 @@ export default function Witnesses(properties) {
           </EmptyHeader>
           <EmptyContent>
             <Button asChild className="bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-2-gradFg))] shadow-md shadow-[color:hsl(var(--accent-2)/0.2)] hover:from-[hsl(var(--accent-2))] hover:to-[hsl(var(--accent-3))] hover:shadow-[color:hsl(var(--accent-2)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
-              <a href="/create_ticket/index.html">
+              <a href="/create_ticket.html">
                 {t("Voting:ticket.createButton")}
               </a>
             </Button>

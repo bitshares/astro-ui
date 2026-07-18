@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 **HTLC** (Hashed Timelock Contract) lets you lock funds for a recipient who can only claim them by revealing a secret preimage that hashes to an agreed value — within a `claim_period_seconds` window. It's the building block for cross-chain atomic swaps and conditional escrow. If the secret isn't revealed in time, the sender can refund.
 
@@ -48,8 +48,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 ## Operations used
 
 <Tabs>
-  <Fragment slot="tab-label">htlc_create</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="htlc_create">
 
 ```json
 {
@@ -63,9 +62,8 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">htlc_redeem</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="htlc_redeem">
 
 ```json
 {
@@ -76,9 +74,8 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">htlc_extend</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="htlc_extend">
 
 ```json
 {
@@ -89,7 +86,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 | Field | Meaning |

@@ -22,7 +22,7 @@ export default defineConfig({
             { label: 'Swap', link: '/docs/exchanging/swap/' },
             { label: 'Stake', link: '/docs/exchanging/stake/' },
             { label: 'Barter', link: '/docs/exchanging/barter/' },
-            { label: 'Tunnel Fund (User)', link: '/docs/exchanging/tfund_user/' },
+            { label: 'Same-T Fund (User)', link: '/docs/exchanging/tfund_user/' },
           ],
         },
         {
@@ -43,7 +43,7 @@ export default defineConfig({
             { label: 'Borrow', link: '/docs/debt/borrow/' },
             { label: 'Lend', link: '/docs/debt/lend/' },
             { label: 'SmartCoins', link: '/docs/debt/smartcoins/' },
-            { label: 'Tunnel Funds', link: '/docs/debt/tfunds/' },
+            { label: 'Same-T Funds', link: '/docs/debt/tfunds/' },
           ],
         },
         {

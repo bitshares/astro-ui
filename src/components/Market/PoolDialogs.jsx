@@ -173,7 +173,7 @@ export default function PoolDialogs(properties) {
 
   const PoolRowA = ({ index, style }) => {
     const pool = assetAPools[index];
-    const link = `/swap/index.html?pool=${pool.id}`;
+    const link = `/swap.html?pool=${pool.id}`;
     return (
       <div style={style} key={`a_${pool.id}`} className="flex items-center justify-between gap-2">
         <a href={link} className="flex-1">
@@ -209,7 +209,7 @@ export default function PoolDialogs(properties) {
 
   const PoolRowB = ({ index, style }) => {
     const pool = assetBPools[index];
-    const link = `/swap/index.html?pool=${pool.id}`;
+    const link = `/swap.html?pool=${pool.id}`;
     return (
       <div style={style} key={`b_${pool.id}`} className="flex items-center justify-between gap-2">
         <a href={link} className="flex-1">
@@ -245,7 +245,7 @@ export default function PoolDialogs(properties) {
 
   const PoolRowMarket = ({ index, style }) => {
     const pool = assetMarketPools[index];
-    const link = `/swap/index.html?pool=${pool.id}`;
+    const link = `/swap.html?pool=${pool.id}`;
     return (
       <div style={style} key={`m_${pool.id}`} className="flex items-center justify-between gap-2">
         <a href={link} className="flex-1">

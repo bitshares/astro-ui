@@ -59,7 +59,7 @@ export function OrderBookCard({
           <a
             href={
               parsedAsset && parsedCollateralAsset
-                ? `/dex/index.html?market=${parsedAsset.s}_${parsedCollateralAsset.s}`
+                ? `/dex.html?market=${parsedAsset.s}_${parsedCollateralAsset.s}`
                 : ""
             }
           >

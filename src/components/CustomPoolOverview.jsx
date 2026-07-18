@@ -396,7 +396,7 @@ export default function CustomPoolOverview(properties) {
         className="grid grid-cols-6 gap-2"
       >
         <div className="col-span-5">
-          <a href={`/custom_pool_tracker/index.html?id=${_tracker.id}`}>
+          <a href={`/custom_pool_tracker.html?id=${_tracker.id}`}>
             <Card>
               <CardHeader className="pt-2 pb-2">
                 <CardDescription>

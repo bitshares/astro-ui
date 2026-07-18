@@ -340,7 +340,7 @@ export default function CreditDeals(properties) {
                 {t("CreditDeals:repayLoan")}
               </Button>
               <a
-                href={`/dex/index.html?market=${debtAsset.symbol}_${collateralAsset.symbol}`}
+                href={`/dex.html?market=${debtAsset.symbol}_${collateralAsset.symbol}`}
               >
                 <Button className="ml-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
                   {t("CreditDeals:trade", { symbol: debtAsset.symbol })}
@@ -731,7 +731,7 @@ export default function CreditDeals(properties) {
                         </EmptyTitle>
                       </EmptyHeader>
                       <EmptyContent>
-                        <a href="/borrow/index.html">
+                        <a href="/borrow.html">
                           <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">{t("Home:borrow.title")}</Button>
                         </a>
                       </EmptyContent>

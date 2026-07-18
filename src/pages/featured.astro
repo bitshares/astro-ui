@@ -20,7 +20,7 @@ const poolsTEST = testPools.map((collection) => collection.data);
 
 <Layout title="Featured Bitshares markets - listing the highest traded market pairs">
 	<main>
-		<PageHeader client:only="react" page="featured" backURL="../index.html" />
+		<PageHeader client:only="react" page="featured" />
 		<FeaturedComponent client:only="react"
 			_assetsBTS={btsAssets}
 			_assetsTEST={testAssets}

@@ -1,5 +1,5 @@
 ---
-title: Tunnel Fund (User)
+title: Same-T Fund (User)
 description: Borrow from a Samet Fund (TFund), swap the borrowed asset, and repay — as one bundled transaction.
 sidebar:
   order: 6
@@ -7,9 +7,9 @@ sidebar:
 
 import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
 
-**Tunnel Fund (User)** (also called a *Samet Fund* / TFund) lets you borrow a reference asset from a fund, immediately swap it into the asset you actually want via the DEX, and repay the fund in a single atomic transaction. The app bundles three operation types together so the borrow, the swap and the repay either all succeed or all fail.
+**Same-T Fund (User)** (also called a *Samet Fund* / TFund) lets you borrow a reference asset from a fund, immediately swap it into the asset you actually want via the DEX, and repay the fund in a single atomic transaction. The app bundles three operation types together so the borrow, the swap and the repay either all succeed or all fail.
 
-**Open in the app:** [Tunnel Fund (User)](/tfund_user.html).
+**Open in the app:** [Same-T Fund (User)](/tfund_user.html).
 
 ## What it does
 
@@ -29,7 +29,7 @@ import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
 
 <Steps>
 
-1. Open **Tunnel Fund (User)** from the homepage under *Exchanging Funds*.
+1. Open **Same-T Fund (User)** from the homepage under *Exchanging Funds*.
 
 2. Select a fund (`fund_id`) and the asset you want to end up holding.
 
@@ -39,8 +39,8 @@ import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
 
 </Steps>
 
-<Aside type="note" title="No tunnel operation">
-  Despite the "tunnel" naming, this flow uses the **Samet Fund** custom operations `samet_fund_borrow` / `samet_fund_repay` plus a standard `limit_order_create`. There is no separate `tunnel_transfer` operation.
+<Aside type="note" title="Samet Fund operations">
+  This flow uses the **Samet Fund** custom operations `samet_fund_borrow` / `samet_fund_repay` plus a standard `limit_order_create`. All three operation types are bundled into a single atomic transaction.
 </Aside>
 
 ## Operations used

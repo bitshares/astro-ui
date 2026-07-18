@@ -170,7 +170,7 @@ export default function MyOrderSummary(properties) {
                   </ScrollArea>
                 </div>
                 <div className="col-span-1 text-left mt-5">
-                  <a href={`/order/index.html?id=${res.id}`}>
+                  <a href={`/order.html?id=${res.id}`}>
                     <Button variant="outline" className="mt-2 mr-2">
                       {t("MyOrderSummary:proceedToUpdateButton")}
                     </Button>

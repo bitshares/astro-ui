@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 **Create UIA** issues a new **user-issued asset (UIA)** — a fully customizable token whose supply and rules you control as the issuer. You set the symbol, precision, supply caps, market fees, permissions and flags, plus an optional white/blacklist and a core exchange rate.
 
@@ -45,9 +45,14 @@ import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
   On BitShares, issuing assets generally requires **Lifetime Member (LTM)** status. Upgrade first via [Lifetime Membership](/docs/settings/ltm.html) if you see a permission error.
 </Aside>
 
-## Operation used
+## Operations used
 
-Create UIA emits `asset_create` (operation `10`):
+Create UIA emits different operations depending on whether you are creating a new asset or editing an existing one.
+
+<Tabs>
+  <TabItem label="asset_create">
+
+Creating a new UIA emits `asset_create` (operation `10`):
 
 ```json
 {
@@ -84,7 +89,43 @@ Create UIA emits `asset_create` (operation `10`):
 | `issuer_permissions` / `flags` | Bitmask of permission/flag bits. |
 | `core_exchange_rate` | Reference price vs BTS (`1.3.0`). |
 
-Editing an existing UIA later uses `asset_update` with a `new_options` block instead.
+  </TabItem>
+  <TabItem label="asset_update">
+
+Editing an existing UIA emits `asset_update` (operation `11`) with a `new_options` block:
+
+```json
+{
+  "issuer": "1.2.x",
+  "asset_to_update": "1.3.x",
+  "new_options": {
+    "description": "{\"main\":\"Updated description\"}",
+    "max_supply": 100000000000000,
+    "market_fee_percent": 100,
+    "max_market_fee": 500000,
+    "issuer_permissions": 0,
+    "flags": 0,
+    "core_exchange_rate": {
+      "base":  { "amount": 100000, "asset_id": "1.3.0" },
+      "quote": { "amount": 100000, "asset_id": "1.3.x" }
+    },
+    "whitelist_authorities": [],
+    "blacklist_authorities": [],
+    "whitelist_markets": [],
+    "blacklist_markets": [],
+    "extensions": {}
+  },
+  "extensions": {}
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `asset_to_update` | The `1.3.x` asset object id. |
+| `new_options` | Replacement common_options (same shape as create). |
+
+  </TabItem>
+</Tabs>
 
 ## Related pages
 

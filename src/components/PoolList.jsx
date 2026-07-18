@@ -473,19 +473,19 @@ export default function CustomPoolOverview(properties) {
                   Pool Actions
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <a href={`/swap/index.html?pool=${pool.id}`}>
+                  <a href={`/swap.html?pool=${pool.id}`}>
                     <Button variant="outline" className="w-full justify-start gap-2">
                       <RefreshCw className="h-3.5 w-3.5" />
                       {t("PoolList:simpleSwap")}
                     </Button>
                   </a>
-                  <a href={`/stake/index.html?pool=${pool.id}`}>
+                  <a href={`/stake.html?pool=${pool.id}`}>
                     <Button variant="outline" className="w-full justify-start gap-2">
                       <Coins className="h-3.5 w-3.5" />
                       {t("PoolList:stakeAssets")}
                     </Button>
                   </a>
-                  <a href={`/dex/index.html?market=${shareAsset.symbol}_BTS`}>
+                  <a href={`/dex.html?market=${shareAsset.symbol}_BTS`}>
                     <Button variant="outline" className="w-full justify-start gap-2">
                       <ArrowUpRight className="h-3.5 w-3.5" />
                       {t("PoolList:buyPoolShareAsset")}
@@ -503,7 +503,7 @@ export default function CustomPoolOverview(properties) {
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                       <a
-                        href={`/dex/index.html?market=${asset.symbol}_${
+                        href={`/dex.html?market=${asset.symbol}_${
                           asset.symbol === "BTS" ? "HONEST.USD" : "BTS"
                         }`}
                       >
@@ -517,7 +517,7 @@ export default function CustomPoolOverview(properties) {
                         </Button>
                       </a>
                       <a
-                        href={`/borrow/index.html?tab=searchOffers&searchTab=borrow&searchText=${
+                        href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${
                           asset.symbol ?? ""
                         }`}
                       >
@@ -531,7 +531,7 @@ export default function CustomPoolOverview(properties) {
                         </Button>
                       </a>
                       {asset.bitasset_data_id ? (
-                        <a href={`/smartcoin/index.html?id=${asset.id}`}>
+                        <a href={`/smartcoin.html?id=${asset.id}`}>
                           <Button
                             variant="outline"
                             size="sm"

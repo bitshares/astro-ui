@@ -720,7 +720,7 @@ export default function Market(properties) {
 
               {/* Internal links: Pools and Credit Offers for quick access */}
               <a
-                href={`/swap/index.html?market=${assetA}_${assetB}`}
+                href={`/swap.html?market=${assetA}_${assetB}`}
                 className="inline-flex items-center gap-1.5 rounded-md border border-border bg-accent/40 hover:bg-accent/60 hover:border-accent/50 px-2.5 py-1.5 text-xs text-foreground/80 hover:text-accent-foreground transition-all"
               >
                 <ExternalLinkIcon className="h-3 w-3" />
@@ -728,7 +728,7 @@ export default function Market(properties) {
               </a>
 
               <a
-                href={`/lend/index.html?asset=${assetA}`}
+                href={`/lend.html?asset=${assetA}`}
                 className="inline-flex items-center gap-1.5 rounded-md border border-border bg-accent/40 hover:bg-accent/60 hover:border-accent/50 px-2.5 py-1.5 text-xs text-foreground/80 hover:text-accent-foreground transition-all"
               >
                 <ExternalLinkIcon className="h-3 w-3" />
@@ -779,7 +779,7 @@ export default function Market(properties) {
                   />
                 </div>
                 <a
-                  href={`/dex/index.html?market=${assetB}_${assetA}`}
+                  href={`/dex.html?market=${assetB}_${assetA}`}
                   className="group flex h-10 w-10 items-center justify-center rounded-full border border-border bg-accent/40 hover:bg-[hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.4)] transition-all"
                   title="Swap assets"
                 >

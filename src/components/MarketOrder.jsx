@@ -1582,7 +1582,7 @@ export default function MarketOrder(properties) {
           <div className="grid grid-cols-2 gap-5 mt-1">
             <div className="col-span-1">
               <a
-                href={`/dex/index.html?market=${
+                href={`/dex.html?market=${
                   quoteAsset ? quoteAsset.symbol : "?"
                 }_${baseAsset ? baseAsset.symbol : "?"}`}
               >

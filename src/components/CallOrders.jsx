@@ -465,14 +465,14 @@ export default function CallOrders({
     selectedInfo?.collateralSymbol ?? selected?.collateral_asset ?? "";
 
   const dexHref = selected
-    ? `/dex/index.html?market=${selectedCollateralSymbol}_${selectedSymbol}`
-    : "/dex/index.html";
+    ? `/dex.html?market=${selectedCollateralSymbol}_${selectedSymbol}`
+    : "/dex.html";
   const instantTradeHref = selected
-    ? `/instant_trade/index.html?market=${selectedSymbol}_${selectedCollateralSymbol}`
-    : "/instant_trade/index.html";
+    ? `/instant_trade.html?market=${selectedSymbol}_${selectedCollateralSymbol}`
+    : "/instant_trade.html";
   const smartcoinHref = selected
-    ? `/smartcoin/index.html?id=${selected.debt_asset}`
-    : "/smartcoins/index.html";
+    ? `/smartcoin.html?id=${selected.debt_asset}`
+    : "/smartcoins.html";
 
   return (
     <div className="container mx-auto mt-5 mb-5 max-w-5xl text-foreground">
@@ -604,7 +604,7 @@ export default function CallOrders({
                 </EmptyHeader>
                 <EmptyContent>
                   <Button asChild className="bg-[hsl(var(--accent-1))] hover:bg-[hsl(var(--accent-1))] text-foreground">
-                    <a href="/dex/index.html">{t("CallOrders:noOrdersCta")}</a>
+                    <a href="/dex.html">{t("CallOrders:noOrdersCta")}</a>
                   </Button>
                 </EmptyContent>
               </Empty>

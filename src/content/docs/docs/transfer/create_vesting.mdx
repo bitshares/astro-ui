@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 **Create Vesting** locks an amount of an asset into a vesting balance that releases to an owner over time according to a policy. Two policy types are supported: **linear vesting with cliff** (tag `0`) and **coin-days destroyed** (tag `1`). Until the cliff passes, nothing is accessible; afterwards it unlocks linearly (or by destroyed coin-days).
 
@@ -44,8 +44,7 @@ import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
 ## Operations used
 
 <Tabs>
-  <Fragment slot="tab-label">Linear vesting + cliff (tag 0)</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="Linear vesting + cliff (tag 0)">
 
 ```json
 {
@@ -65,9 +64,8 @@ import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
 
 `begin_timestamp` and the two durations are **Unix timestamps/seconds** (integers), not ISO strings.
 
-  </Fragment>
-  <Fragment slot="tab-label">Coin-days destroyed (tag 1)</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="Coin-days destroyed (tag 1)">
 
 ```json
 {
@@ -84,7 +82,7 @@ import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
 }
 ```
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 | Field | Meaning |

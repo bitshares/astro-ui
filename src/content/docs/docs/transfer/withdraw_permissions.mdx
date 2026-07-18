@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 **Withdraw Permissions** let you delegate limited withdrawal rights to another account. You grant an `authorized_account` the ability to pull up to a `withdrawal_limit` per `withdrawal_period_sec`, repeating for `periods_until_expiration` periods. The authorized account then uses `withdraw_permission_claim` to pull funds; you can adjust or revoke at any time.
 
@@ -42,8 +42,7 @@ import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
 ## Operations used
 
 <Tabs>
-  <Fragment slot="tab-label">withdraw_permission_create</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="withdraw_permission_create">
 
 ```json
 {
@@ -56,9 +55,8 @@ import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">withdraw_permission_claim</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="withdraw_permission_claim">
 
 The authorized account pulls funds:
 
@@ -72,9 +70,8 @@ The authorized account pulls funds:
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">withdraw_permission_update / _delete</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="withdraw_permission_update / _delete">
 
 Update an existing permission (note the extra `permission_to_update`):
 
@@ -100,7 +97,7 @@ Revoke it entirely:
 }
 ```
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 | Field | Meaning |

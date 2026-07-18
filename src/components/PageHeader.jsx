@@ -459,7 +459,7 @@ export default function PageHeader(properties) {
             <div className="col-span-12 md:col-span-6 text-center">
               <div className="relative">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-foreground dark:text-white dark:[text-shadow:_0_1px_2px_rgba(0,0,0,0.9),_0_2px_12px_rgba(0,0,0,0.7),_0_0_24px_rgba(0,0,0,0.5)]">
-                  <a href=".html">
+                  <a href="../index.html">
                     {page && page === "index"
                       ? <span className="font-medium">{t("PageHeader:welcomeMessage")}</span>
                       : ""}

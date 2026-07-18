@@ -171,7 +171,7 @@ export default function CDPForm({
                         />
                       </span>
                       <span className="col-span-2">
-                        <a href="/smartcoins/index.html">
+                        <a href="/smartcoins.html">
                           <Button
                             className="ml-3 border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors"
                             variant="outline"

@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 The **DEX** (Decentralized Exchange) is the core trading surface of the app. From here you can view an order book, submit limit orders, and — when you open an existing order via `?id=1.7.x` — edit its price, size and expiration or cancel it outright. Every action is signed locally and broadcast through your Beet wallet; no custodian ever holds your funds.
 
@@ -49,8 +49,7 @@ The **DEX** (Decentralized Exchange) is the core trading surface of the app. Fro
 The DEX builds the following BitShares operations. Use the tabs to switch between them.
 
 <Tabs>
-  <Fragment slot="tab-label">limit_order_create</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="limit_order_create">
 
 Placing a brand-new order emits a `limit_order_create` (operation `1`). This is the fundamental exchange operation.
 
@@ -74,9 +73,8 @@ Placing a brand-new order emits a `limit_order_create` (operation `1`). This is 
 | `expiration` | When the order stops being matched (ISO-8601, no timezone). |
 | `fill_or_kill` | `false` = resting order; `true` = execute fully now or fail. |
 
-  </Fragment>
-  <Fragment slot="tab-label">limit_order_update</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="limit_order_update">
 
 Editing an existing order (`?id=1.7.x`) emits `limit_order_update` (operation `2`). Only fields you actually change are included; untouched ones are omitted.
 
@@ -106,9 +104,8 @@ Editing an existing order (`?id=1.7.x`) emits `limit_order_update` (operation `2
 
 The `on_fill` array powers the **One-Sided Offer (OSO)**: when the parent order fills, a replacement order is auto-created. `spread_percent` is the offset from the fill price, `size_percent` the fraction of proceeds reinvested, and `repeat` keeps the cycle going.
 
-  </Fragment>
-  <Fragment slot="tab-label">limit_order_cancel</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="limit_order_cancel">
 
 Cancelling a resting order emits `limit_order_cancel` (operation `3`).
 
@@ -120,7 +117,7 @@ Cancelling a resting order emits `limit_order_cancel` (operation `3`).
 }
 ```
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 <Aside type="note" title="Amounts are integers">

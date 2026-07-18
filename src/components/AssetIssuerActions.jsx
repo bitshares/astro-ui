@@ -451,10 +451,10 @@ function AssetIssuerActions(props) {
 
   const manageHref = useMemo(() => {
     if (isSmartcoin || (isNFT && asset?.bitasset_data_id)) {
-      return `/create_smartcoin/index.html?id=${asset?.id}`;
+      return `/create_smartcoin.html?id=${asset?.id}`;
     }
     if (isUIA || isNFT) {
-      return `/create_uia/index.html?id=${asset?.id}`;
+      return `/create_uia.html?id=${asset?.id}`;
     }
     return null;
   }, [asset?.id, isSmartcoin, isNFT, isUIA]);

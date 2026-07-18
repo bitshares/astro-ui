@@ -324,7 +324,7 @@ export default function InvoiceStorage() {
                       </Button>
                       {canPay ? (
                         <a
-                          href={`/pay_invoice/index.html?id=${encodeURIComponent(
+                          href={`/pay_invoice.html?id=${encodeURIComponent(
                             entry.code
                           )}`}
                           title={t("InvoiceStorage:actions.payTitle")}
@@ -425,7 +425,7 @@ export default function InvoiceStorage() {
                 </Button>
                 {canPay ? (
                   <a
-                    href={`/pay_invoice/index.html?id=${encodeURIComponent(
+                    href={`/pay_invoice.html?id=${encodeURIComponent(
                       entry.code
                     )}`}
                     title={t("InvoiceStorage:actions.payTitle")}

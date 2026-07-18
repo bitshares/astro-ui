@@ -362,7 +362,7 @@ export default function Smartcoins(properties) {
                 </span>
               </h3>
               {_price > 0 ? (
-                <a href={`/smartcoin/index.html?id=${bitasset.asset_id}`} className="shrink-0">
+                <a href={`/smartcoin.html?id=${bitasset.asset_id}`} className="shrink-0">
                   <Button className="h-7 px-3 text-xs bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_0_10px_-3px] shadow-[color:hsl(var(--accent-1)/0.4)] border-0 font-semibold hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[0_0_18px_-3px] hover:shadow-[color:hsl(var(--accent-1)/0.6)] active:scale-95 transition-all duration-200 cursor-pointer">
                     {t("Smartcoins:proceedToBorrow", { asset: thisBitassetData.s })}
                   </Button>

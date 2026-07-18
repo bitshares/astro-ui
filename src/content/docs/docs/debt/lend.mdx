@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 **Lend** is the credit-offer marketplace. As a lender you publish a `credit_offer_create` describing the asset you lend, your fee rate, acceptable collateral and borrowers. Borrowers accept offers with `credit_offer_accept`, locking collateral and receiving the borrowed asset. Lenders can later adjust terms with `credit_offer_update`.
 
@@ -46,8 +46,7 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 ## Operations used
 
 <Tabs>
-  <Fragment slot="tab-label">credit_offer_create</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="credit_offer_create">
 
 ```json
 {
@@ -67,9 +66,8 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">credit_offer_accept</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="credit_offer_accept">
 
 ```json
 {
@@ -83,9 +81,8 @@ import { Card, CardGrid, Aside, Steps, Tabs } from '@astrojs/starlight/component
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">credit_offer_update</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="credit_offer_update">
 
 Editing adds `offer_id` and an optional signed `delta_amount`:
 
@@ -99,7 +96,7 @@ Editing adds `offer_id` and an optional signed `delta_amount`:
 }
 ```
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 | Field | Meaning |

@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
+import { Card, CardGrid, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 **Custom Authorities** let an account define reusable, restricted authorization rules — e.g. "allow account Y to issue `transfer` ops up to a limit, only between certain timestamps." You create, update and delete these authorities, each gating a specific `operation_type` with an `auth` and `restrictions`.
 
@@ -42,8 +42,7 @@ import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
 ## Operations used
 
 <Tabs>
-  <Fragment slot="tab-label">custom_authority_create</Fragment>
-  <Fragment slot="tab-panel">
+  <TabItem label="custom_authority_create">
 
 ```json
 {
@@ -63,9 +62,8 @@ import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">custom_authority_update</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="custom_authority_update">
 
 ```json
 {
@@ -86,9 +84,8 @@ import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
 }
 ```
 
-  </Fragment>
-  <Fragment slot="tab-label">custom_authority_delete</Fragment>
-  <Fragment slot="tab-panel">
+  </TabItem>
+  <TabItem label="custom_authority_delete">
 
 ```json
 {
@@ -98,7 +95,7 @@ import { Card, CardGrid, Steps, Tabs } from '@astrojs/starlight/components';
 }
 ```
 
-  </Fragment>
+  </TabItem>
 </Tabs>
 
 | Field | Meaning |

@@ -851,7 +851,7 @@ export default function InvoiceCreator(properties) {
                     </EmptyHeader>
                     <EmptyContent>
                       <div className="text-center">
-                        <a href="/invoice_inventory/index.html">
+                        <a href="/invoice_inventory.html">
                           <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
                             {t("InvoiceCreator:emptyInventory.button")}
                           </Button>

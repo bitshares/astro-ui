@@ -209,10 +209,10 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
 
   const { text: expiryText, status: expiryStatus } = formatTimeRemaining(expiration, now);
 
-  const marketHref = `/dex/index.html?market=${sellAsset?.symbol ?? "?"}_${
+  const marketHref = `/dex.html?market=${sellAsset?.symbol ?? "?"}_${
     buyAsset?.symbol ?? "?"
   }`;
-  const updateHref = `/order/index.html?id=${orderId}`;
+  const updateHref = `/order.html?id=${orderId}`;
 
   const isCancelOpen = showDialog && orderId === orderID;
   const cancelOfferKey = t("PortfolioTabs:cancelOffer", {
@@ -600,7 +600,7 @@ export default function PortfolioOpenOrders({
                 </EmptyHeader>
                 <EmptyContent>
                   <Button asChild className="bg-[hsl(var(--accent-1))] hover:bg-[hsl(var(--accent-1))] text-foreground">
-                    <a href="/dex/index.html">
+                    <a href="/dex.html">
                       {t("PortfolioTabs:noOpenOrdersCta")}
                     </a>
                   </Button>

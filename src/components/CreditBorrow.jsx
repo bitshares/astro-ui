@@ -524,7 +524,7 @@ export default function CreditBorrow(properties) {
             </div>
 
             <div className="flex items-center gap-2">
-              <a href={`/offer/index.html?id=${res.id}`} className="flex-1">
+              <a href={`/offer.html?id=${res.id}`} className="flex-1">
                 <Button className="w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
                   {t("CreditBorrow:common.proceed", {
                     offerID: res.id.replace("1.21.", ""),
@@ -532,7 +532,7 @@ export default function CreditBorrow(properties) {
                   <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
                 </Button>
               </a>
-              <a href={`/lend/index.html?id=${res.id}`}>
+              <a href={`/lend.html?id=${res.id}`}>
                 <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]">
                   {t(
                     `CreditBorrow:common.${
