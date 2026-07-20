@@ -25,6 +25,15 @@ import CustomThemeStyle from '@/components/CustomThemeStyle.jsx'
 			// Apply the persisted custom theme before first paint (FOUC-free),
 			// mirroring how the dark-mode class is applied. Re-applies across
 			// Astro view transitions.
+			//
+			// IMPORTANT: the style element MUST be the LAST child of <head>. The
+			// compiled Layout.css also defines default --accent-* variables on
+			// :root, and a normal :root rule that appears LATER in the document
+			// wins the cascade. If this element were inserted early (e.g. by this
+			// inline script at parse time, before the Layout.css <link>), the
+			// purple defaults from Layout.css would override the per-page accent
+			// (turning instant trade purple instead of amber) on a full reload /
+			// language switch. Appending last guarantees our theme always wins.
 			(function () {
 				function applyCustomTheme() {
 					try {
@@ -34,9 +43,11 @@ import CustomThemeStyle from '@/components/CustomThemeStyle.jsx'
 						if (!el) {
 							el = document.createElement("style");
 							el.id = "custom-theme-vars";
-							document.head.appendChild(el);
 						}
 						el.textContent = css || "";
+						// Always keep it as the final node in <head> so it wins
+						// the cascade over Layout.css's default --accent-* vars.
+						document.head.appendChild(el);
 					} catch (e) {}
 				}
 				applyCustomTheme();

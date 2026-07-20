@@ -26,9 +26,12 @@ function applyCss(css) {
   if (!el) {
     el = document.createElement("style");
     el.id = STYLE_ID;
-    document.head.appendChild(el);
   }
   el.textContent = css || "";
+  // Append last so this element is always the final node in <head>, guaranteeing
+  // it wins the cascade over the compiled Layout.css :root --accent-* defaults
+  // (which would otherwise turn per-page accents purple on a full reload).
+  document.head.appendChild(el);
 }
 
 export default function CustomThemeStyle() {
