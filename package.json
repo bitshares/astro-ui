@@ -1,7 +1,7 @@
 {
   "name": "bitshares_astro_ui",
   "productName": "Bitshares Astro UI",
-  "version": "0.5.51",
+  "version": "0.5.52",
   "main": "app/background.js",
   "homepage": "https://github.com/bts-cm/astro-ui",
   "repository": "github:bts-cm/astro-ui",
@@ -101,7 +101,7 @@
     "embla-carousel-react": "^8.6.0",
     "fuse.js": "^7.5.0",
     "input-otp": "^1.4.2",
-    "isomorphic-ws": "^5.0.0",
+
     "lucide-react": "^0.546.0",
     "mime-types": "^3.0.1",
     "nanostores": "^1.4.0",
