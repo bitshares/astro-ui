@@ -458,6 +458,13 @@
     "openDex": "In DEX-Limit-Order öffnen",
     "openInstant": "In Instant Swap öffnen"
   },
+  "monthly_referrer": {
+    "title": "Monatlicher Empfehlungsgeber",
+    "subtitle": "Der BTS-Spender an den Ersteller dieser Anwendung wird der Empfehlungsgeber für neue Konten",
+    "hover1": "Spenden Sie BTS zur Unterstützung des Erstellers dieser Anwendung — der #1-Spender der letzten 30 Tage wird der Empfehlungsgeber/Registrator für neue Konten, die in dieser App erstellt wurden.",
+    "hover2": "Nur der Top-Spender erhält die Empfehlungsgeber-Rolle; Rang 2–100 erhalten Anerkennung, aber keine Empfehlungsgutschrift.",
+    "hover3": "Gilt nur für Konten, die innerhalb dieser Anwendung erstellt wurden. Lebenslange Mitgliedschaft erforderlich, um Empfehlungsgebühren zu verdienen."
+  },
   "testnetUnsupported": "Diese Funktion fragt den öffentlichen BitShares-Elasticsearch-Index ab, der nur im Hauptnetz verfügbar ist. Testnet wird nicht unterstützt.",
   "top_pools": {
     "title": "Top-Pools",

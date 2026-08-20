@@ -21,5 +21,7 @@
     "invalidUsername": "Sie haben einen ungültigen Benutzernamen angegeben. Bitte versuchen Sie es erneut.",
     "generateDeeplink": "Blockchain -Betrieb erzeugen",
     "faucetInProgress": "Wasserhahnregistrierung in Arbeit ...",
-    "faucetError": "Es gab einen Fehler bei der Registrierung Ihres Kontos. "
+    "faucetError": "Es gab einen Fehler bei der Registrierung Ihres Kontos. ",
+    "referredBy": "Ihr Konto wird registriert & empfohlen von:",
+    "becomeReferrer": "Spenden Sie, um der Empfehlungsgeber neuer Konten zu werden"
   }

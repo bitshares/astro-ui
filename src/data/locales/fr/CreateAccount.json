@@ -21,5 +21,7 @@
     "invalidUsername": "Vous avez fourni un nom d'utilisateur invalide, veuillez réessayer.",
     "generateDeeplink": "Générer un fonctionnement de la blockchain",
     "faucetInProgress": "Enregistrement du robinet en cours ...",
-    "faucetError": "Il y a eu une erreur d'enregistrer votre compte. "
+    "faucetError": "Il y a eu une erreur d'enregistrer votre compte. ",
+    "referredBy": "Votre compte sera enregistré & parrainé par :",
+    "becomeReferrer": "Faites un don pour devenir le parrain des nouveaux comptes"
   }

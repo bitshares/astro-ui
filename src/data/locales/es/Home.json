@@ -469,6 +469,13 @@
     "openDex": "Abrir en orden límite DEX",
     "openInstant": "Abrir en Instant Swap"
   },
+  "monthly_referrer": {
+    "title": "Referidor mensual",
+    "subtitle": "El donador BTS principal al creador de esta aplicación se convierte en el referidor de las cuentas nuevas",
+    "hover1": "Done BTS para apoyar al creador de esta aplicación — el donador #1 de los últimos 30 días se convierte en el referidor/registrar de las cuentas nuevas creadas en esta aplicación.",
+    "hover2": "Solo el donador principal obtiene el rol de referidor; los donadores clasificados del 2–100 reciben reconocimiento, pero no crédito de referido.",
+    "hover3": "Se aplica solo a cuentas creadas dentro de esta aplicación. Se requiere membresía de por vida para ganar comisiones de referido."
+  },
   "testnetUnsupported": "Esta función consulta el índice público de BitShares Elasticsearch, que solo está disponible en la red principal. Testnet no es compatible.",
   "top_pools": {
     "title": "Pools principales",

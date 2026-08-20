@@ -1,0 +1,34 @@
+{
+  "title": "Monthly Referrer",
+  "testnetMessage": "This feature is only available on mainnet. On testnet, the default referrer account ({{default}}) will be used for all new accounts.",
+  "subtitle": "Top BTS donor to the creator of this application becomes the referrer for new accounts created in this app.",
+  "currentReferrer": "New accounts created in this app are currently registered & referred by:",
+  "th": {
+    "rank": "Rank",
+    "donor": "Donor",
+    "transfers": "Transfers",
+    "amount": "Total"
+  },
+  "donate": {
+    "title": "Donate to become the top donor",
+    "target": "Donating {{symbol}} to {{target}}",
+    "amount": "Amount",
+    "available": "Available",
+    "submit": "Donate",
+    "header": "Donating {{amount}} {{symbol}} to {{target}}",
+    "insufficient": "Insufficient balance"
+  },
+  "empty": "No BTS donations to the creator of this application in the past 30 days.",
+  "emptyDefault": "New accounts are currently registered & referred by the default account:",
+  "ltmRequired": "You need a Lifetime Membership to earn referral fees from donations.",
+  "ltmUpgradeCta": "Upgrade to Lifetime Membership",
+  "how": {
+    "title": "How it works",
+    "intro": "Donate BTS to the creator of this application",
+    "intro2": "— the top donor of the past 30 days becomes the referrer/registrar for every new account created in this app.",
+    "topOnly": "Only the #1 donor earns the referrer/registrar role. Donors ranked 2–100 are listed here but receive no referral credit.",
+    "ltm": "Lifetime membership required — without an upgraded LTM account your referrals earn you no fees.",
+    "appOnly": "Only accounts created inside this application (create account, faucet method) are attributed to the top donor. Registrations made through other BitShares wallets or interfaces do not count.",
+    "noGuarantee": "Becoming the top donor does not guarantee you any referrals — you must actively invite people to create accounts through this app during the window. If nobody donates, the referrer falls back to the default account:"
+  }
+}

@@ -21,5 +21,7 @@
     "invalidUsername": "無効なユーザー名を提供しました。もう一度やり直してください。",
     "generateDeeplink": "ブロックチェーン操作を生成します",
     "faucetInProgress": "進行中の蛇口登録...",
-    "faucetError": "アカウントを登録するエラーがありました。"
+    "faucetError": "アカウントを登録するエラーがありました。",
+    "referredBy": "あなたのアカウントは以下によって登録・紹介されます：",
+    "becomeReferrer": "新しいアカウントのリフェラーになるために寄付する"
   }

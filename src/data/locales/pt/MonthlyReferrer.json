@@ -1,0 +1,34 @@
+{
+  "title": "Referenciador mensal",
+  "testnetMessage": "Este recurso está disponível apenas na mainnet. Na testnet, a conta de referenciador padrão ({{default}}) será usada para todas as novas contas.",
+  "subtitle": "O melhor doador BTS para o criador deste aplicativo torna-se o referenciador para novas contas criadas neste aplicativo.",
+  "currentReferrer": "Novas contas criadas neste aplicativo estão atualmente registradas & referenciadas por:",
+  "th": {
+    "rank": "Posição",
+    "donor": "Doador",
+    "transfers": "Transferências",
+    "amount": "Total"
+  },
+  "donate": {
+    "title": "Doar para se tornar o melhor doador",
+    "target": "Doando {{symbol}} para {{target}}",
+    "amount": "Valor",
+    "available": "Disponível",
+    "submit": "Doar",
+    "header": "Doando {{amount}} {{symbol}} para {{target}}",
+    "insufficient": "Saldo insuficiente"
+  },
+  "empty": "Nenhuma doação BTS para o criador deste aplicativo nos últimos 30 dias.",
+  "emptyDefault": "Novas contas estão atualmente registradas & referenciadas pela conta padrão:",
+  "ltmRequired": "Você precisa de uma associação vitalícia para ganhar taxas de referência de doações.",
+  "ltmUpgradeCta": "Atualizar para associação vitalícia",
+  "how": {
+    "title": "Como funciona",
+    "intro": "Doe BTS para o criador deste aplicativo",
+    "intro2": "— o melhor doador dos últimos 30 dias torna-se o referenciador/registrar para cada nova conta criada neste aplicativo.",
+    "topOnly": "Apenas o doador #1 obtém a função de referenciador/registrar. Doadores classificados de 2 a 100 são listados aqui, mas não recebem crédito de referência.",
+    "ltm": "Associação vitalícia necessária — sem uma conta LTM atualizada, suas referências não lhe rendem taxas.",
+    "appOnly": "Apenas contas criadas dentro deste aplicativo (criar conta, método faucet) são atribuídas ao melhor doador. Registros feitos através de outras carteiras ou interfaces BitShares não contam.",
+    "noGuarantee": "Tornar-se o melhor doador não garante referências — você deve convidar ativamente pessoas a criar contas através deste aplicativo durante a janela. Se ninguém doar, o referenciador volta para a conta padrão:"
+  }
+}

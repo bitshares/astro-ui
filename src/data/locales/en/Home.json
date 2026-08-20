@@ -320,6 +320,13 @@
         "hover1": "Create a free account using a public faucet.",
         "hover2": "Generate a premium account using an existing LTM account."
     },
+    "monthly_referrer": {
+        "title": "Monthly Referrer",
+        "subtitle": "Top BTS donor to the creator of this application becomes the referrer for new accounts",
+        "hover1": "Donate BTS to support the creator of this application — the #1 donor of the past 30 days becomes the referrer/registrar for new accounts created in this app.",
+        "hover2": "Only the top donor earns the referrer role; ranks 2–100 get recognition, not referral credit.",
+        "hover3": "Applies only to accounts created inside this application. Lifetime membership is required to earn referral fees."
+    },
     "invoice_inventory": {
         "title": "Invoice Inventory",
         "subtitle": "Manage items and prices used for invoicing",

@@ -21,5 +21,7 @@
     "invalidUsername": "Ha proporcionado un nombre de usuario no válido, intente nuevamente.",
     "generateDeeplink": "Generar operación de blockchain",
     "faucetInProgress": "Registro de grifo en progreso ...",
-    "faucetError": "Hubo un error al registrar su cuenta. "
+    "faucetError": "Hubo un error al registrar su cuenta. ",
+    "referredBy": "Su cuenta será registrada & referida por:",
+    "becomeReferrer": "Done para convertirse en el referidor de nuevas cuentas"
   }

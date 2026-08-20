@@ -349,15 +349,19 @@ const createWindow = async () => {
         },
       };
     } else {
-      // Creating user with the public account faucet
+      // Creating user with the public account faucet. The renderer passes an
+      // optional referrerOverride (the top monthly donator to nft.artist, see
+      // the Monthly Referrer reward feature); when none is supplied we fall
+      // back to the default referrer/registration account.
+      const referrer = arg.referrerOverride || (arg.chain === "bitshares" ? "1.2.1803677" : "1.2.3");
       return {
         account: {
           name: username,
           owner_key: owner_public,
           active_key: active_public,
           memo_key: memo_public,
-          refcode: "1.2.1803677",
-          referrer: "1.2.1803677",
+          refcode: referrer,
+          referrer,
         },
        };
      }

@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
+import MonthlyReferrer from '../components/MonthlyReferrer.jsx';
+---
+
+<Layout title="Bitshares - Monthly Referrer">
+  <main>
+    <PageHeader client:only="react" page="monthly_referrer" />
+    <MonthlyReferrer client:only="react" />
+    <PageFooter client:only="react" sourceURL="https://github.com/BTS-CM/astro-ui/blob/main/src/pages/monthly_referrer.astro" />
+  </main>
+</Layout>
+<style>
+  main {
+    margin: auto;
+    padding: 1rem;
+    width: 100%;
+    max-width: calc(100% - 2rem);
+    color: hsl(var(--foreground));
+    font-size: 20px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+</style>

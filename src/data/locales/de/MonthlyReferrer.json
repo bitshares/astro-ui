@@ -1,0 +1,34 @@
+{
+  "title": "Monatlicher Empfehlungsgeber",
+  "testnetMessage": "Diese Funktion ist nur im Mainnet verfügbar. Im Testnet wird das Standard-Empfehlungskonto ({{default}}) für alle neuen Konten verwendet.",
+  "subtitle": "Der BTS-Spender an den Ersteller dieser Anwendung wird der Empfehlungsgeber für neue Konten, die in dieser App erstellt wurden.",
+  "currentReferrer": "Neue Konten, die in dieser App erstellt wurden, sind aktuell registriert & empfohlen von:",
+  "th": {
+    "rank": "Rang",
+    "donor": "Spender",
+    "transfers": "Überweisungen",
+    "amount": "Gesamt"
+  },
+  "donate": {
+    "title": "Spenden, um Spender zu werden",
+    "target": "Spende {{symbol}} an {{target}}",
+    "amount": "Betrag",
+    "available": "Verfügbar",
+    "submit": "Spenden",
+    "header": "Spende {{amount}} {{symbol}} an {{target}}",
+    "insufficient": "Unzureichendes Guthaben"
+  },
+  "empty": "Keine BTS-Spenden an den Ersteller dieser Anwendung in den letzten 30 Tagen.",
+  "emptyDefault": "Neue Konten sind aktuell registriert & empfohlen vom Standardkonto:",
+  "ltmRequired": "Sie benötigen eine lebenslange Mitgliedschaft, um Empfehlungsgebühren von Spenden zu verdienen.",
+  "ltmUpgradeCta": "Zur lebenslangen Mitgliedschaft upgraden",
+  "how": {
+    "title": "So funktioniert es",
+    "intro": "Spenden Sie BTS an den Ersteller dieser Anwendung",
+    "intro2": "— der Top-Spender der letzten 30 Tage wird der Empfehlungsgeber/Registrator für jedes neue Konto, das in dieser App erstellt wird.",
+    "topOnly": "Nur der #1-Spender erhält die Empfehlungsgeber-/Registrator-Rolle. Spender auf Rang 2–100 werden hier aufgeführt, erhalten aber keine Empfehlungsgutschrift.",
+    "ltm": "Lebenslange Mitgliedschaft erforderlich — ohne ein upgraded LTM-Konto verdienen Ihnen Ihre Empfehlungen keine Gebühren.",
+    "appOnly": "Nur Konten, die innerhalb dieser Anwendung erstellt wurden (Konto erstellen, Faucet-Methode), werden dem Top-Spender zugeschrieben. Registrierungen über andere BitShares-Wallets oder -Schnittstellen zählen nicht.",
+    "noGuarantee": "Der Top-Spender zu werden garantiert Ihnen keine Empfehlungen — Sie müssen aktiv Personen einladen, Konten über diese App im Zeitfenster zu erstellen. Wenn niemand spendet, fällt der Empfehlungsgeber auf das Standardkonto zurück:"
+  }
+}

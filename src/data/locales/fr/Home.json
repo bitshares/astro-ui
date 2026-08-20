@@ -469,6 +469,13 @@
     "openDex": "Ouvrir dans un ordre à cours limité DEX",
     "openInstant": "Ouvrir dans Instant Swap"
   },
+  "monthly_referrer": {
+    "title": "Parrain mensuel",
+    "subtitle": "Le meilleur donateur BTS au créateur de cette application devient le parrain des nouveaux comptes",
+    "hover1": "Faites un don BTS pour soutenir le créateur de cette application — le meilleur donateur des 30 derniers jours devient le parrain/enregistreur des nouveaux comptes créés dans cette application.",
+    "hover2": "Seul le meilleur donateur obtient le rôle de parrain ; les donateurs classés 2–100 reçoivent une reconnaissance, mais pas de crédit de parrainage.",
+    "hover3": "S'applique uniquement aux comptes créés à l'intérieur de cette application. L'abonnement à vie est requis pour gagner des frais de parrainage."
+  },
   "testnetUnsupported": "Cette fonctionnalité interroge l'index Elasticsearch public de BitShares, qui n'est disponible que sur le mainnet. Le testnet n'est pas pris en charge.",
   "top_pools": {
     "title": "Meilleurs pools",
