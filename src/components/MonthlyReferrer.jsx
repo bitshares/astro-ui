@@ -338,47 +338,50 @@ export default function MonthlyReferrer() {
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
-                <div className="flex-1 min-w-0">
-                  <label className="block text-xs font-medium text-foreground/70 mb-1.5">
-                    {t("MonthlyReferrer:donate.amount", "Amount")}{" "}
-                    ({DONATIONS_ASSET_SYMBOL})
-                  </label>
-                  <Input
-                    type="text"
-                    inputMode="decimal"
-                    placeholder="0.00"
-                    value={donationAmount}
-                    onChange={(e) => {
-                      const input = e.target.value;
-                      if (new RegExp(`^\\d*\\.?\\d{0,${btsPrecision}}$`).test(input)) {
-                        setDonationAmount(input);
-                      }
-                    }}
-                    className="bg-accent/30 dark:bg-white/[0.05] border-border text-foreground placeholder:text-muted-foreground/60"
-                  />
-                </div>
-                <Button
-                  onClick={() => setDonateDialog(true)}
-                  disabled={!canDonate}
-                  aria-disabled={!canDonate}
-                  className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] transition-all"
-                >
-                  <Send className="h-4 w-4 mr-1.5" strokeWidth={2.25} />
-                  {t("MonthlyReferrer:donate.submit", "Donate")}
-                </Button>
-              </div>
-              {donationAmountSats > 0 && btsBalanceSats < donationAmountSats ? (
-                <p className="mt-2 text-xs text-[hsl(var(--accent-danger-fg))]">
-                  {t("MonthlyReferrer:donate.insufficient", "Insufficient balance")}
-                </p>
-              ) : null}
-              {!isLTM && !isTestnet ? (
-                <div className="mt-3 flex flex-col sm:flex-row items-start sm:items-center gap-2 rounded-lg border border-[hsl(var(--accent-danger)/0.30)] bg-[hsl(var(--accent-danger)/0.06)] p-3">
-                  <p className="text-xs text-foreground/80">
+              {isLTM ? (
+                <>
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
+                    <div className="flex-1 min-w-0">
+                      <label className="block text-xs font-medium text-foreground/70 mb-1.5">
+                        {t("MonthlyReferrer:donate.amount", "Amount")}{" "}
+                        ({DONATIONS_ASSET_SYMBOL})
+                      </label>
+                      <Input
+                        type="text"
+                        inputMode="decimal"
+                        placeholder="0.00"
+                        value={donationAmount}
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          if (new RegExp(`^\\d*\\.?\\d{0,${btsPrecision}}$`).test(input)) {
+                            setDonationAmount(input);
+                          }
+                        }}
+                        className="bg-accent/30 dark:bg-white/[0.05] border-border text-foreground placeholder:text-muted-foreground/60"
+                      />
+                    </div>
+                    <Button
+                      onClick={() => setDonateDialog(true)}
+                      disabled={!canDonate}
+                      aria-disabled={!canDonate}
+                      className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] transition-all"
+                    >
+                      <Send className="h-4 w-4 mr-1.5" strokeWidth={2.25} />
+                      {t("MonthlyReferrer:donate.submit", "Donate")}
+                    </Button>
+                  </div>
+                  {donationAmountSats > 0 && btsBalanceSats < donationAmountSats ? (
+                    <p className="mt-2 text-xs text-[hsl(var(--accent-danger-fg))]">
+                      {t("MonthlyReferrer:donate.insufficient", "Insufficient balance")}
+                    </p>
+                  ) : null}
+                </>
+              ) : (
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 rounded-lg border border-[hsl(var(--accent-danger)/0.30)] bg-[hsl(var(--accent-danger)/0.06)] p-3">
+                  <p className="text-xs text-foreground/80 flex-1">
                     {t("MonthlyReferrer:ltmRequired", "You need a Lifetime Membership to earn referral fees from donations.")}
                   </p>
-                  <a href="/ltm.html">
+                  <a href="/ltm.html" className="shrink-0 ml-auto self-end sm:self-auto sm:ml-auto">
                     <Button
                       variant="outline"
                       size="sm"
@@ -388,7 +391,7 @@ export default function MonthlyReferrer() {
                     </Button>
                   </a>
                 </div>
-              ) : null}
+              )}
             </div>
 
             {loading ? (
