@@ -82,6 +82,7 @@ import {
 } from "lucide-react";
 import { useStore } from "@nanostores/react";
 import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 import { $customTheme, $currentPage, getThemeForPage, resolveSectionAccent } from "@/stores/customTheme.ts";
 import { getNavAccentStyles } from "@/lib/accentStyles.js";
 
@@ -354,7 +355,16 @@ export default function AppSidebar() {
 
   useStore($customTheme);
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  const [domIsDark, setDomIsDark] = React.useState(() => typeof document !== "undefined" && document.documentElement.classList.contains("dark"));
+  React.useEffect(() => {
+    const el = document.documentElement;
+    const check = () => setDomIsDark(el.classList.contains("dark"));
+    check();
+    const obs = new MutationObserver(check);
+    obs.observe(el, { attributes: true, attributeFilter: ["class"] });
+    return () => obs.disconnect();
+  }, []);
+  const isDark = resolvedTheme ? resolvedTheme === "dark" : domIsDark;
   const pageSlug = useStore($currentPage);
   const themeForPage = getThemeForPage(pageSlug);
   const accentFor = (key) => {
@@ -394,7 +404,7 @@ export default function AppSidebar() {
                 <AccordionTrigger className="py-2 text-sm hover:no-underline">
                   <SidebarGroupLabel className="px-2 py-0.5 text-[13px]">
                     <span className="mr-2 inline-flex items-center justify-center w-5 h-5 rounded" style={sectionAccent.bg}>
-                      <SectionIcon className="h-3 w-3" style={sectionAccent.fg} />
+                      <SectionIcon className={cn("h-3 w-3", "dark:!text-white", isDark && "text-white")} style={isDark ? undefined : sectionAccent.fg} />
                     </span>
                     <span className="dark:text-white/70 text-sidebar-foreground/70">{section.label}</span>
                   </SidebarGroupLabel>
@@ -421,7 +431,7 @@ export default function AppSidebar() {
                                   }}
                                 >
                                   <span className="inline-flex items-center justify-center w-5 h-5 rounded" style={itemAccent.bg}>
-                                    <ItemIcon className="h-3 w-3" style={itemAccent.fg} />
+                                    <ItemIcon className={cn("h-3 w-3", "dark:!text-white", isDark && "text-white")} style={isDark ? undefined : itemAccent.fg} />
                                   </span>
                                   <span>{t(it.title)}</span>
                                 </a>

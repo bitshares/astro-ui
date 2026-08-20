@@ -73,6 +73,7 @@ import {
   Clock,
   Home,
   Layers,
+  Menu,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -159,7 +160,7 @@ function hrefMatchesPath(href, path) {
   return path.startsWith(clean);
 }
 
-function NavPanel({ section, accent, t }) {
+function NavPanel({ section, accent, t, isDark }) {
   const SectionIcon = section.icon;
 
   return (
@@ -175,9 +176,9 @@ function NavPanel({ section, accent, t }) {
       <div className="px-4 pt-4 pb-3 flex items-center gap-2 border-b dark:border-white/5 border-border/50">
         <span
           className="inline-flex h-6 w-6 items-center justify-center rounded-md border"
-          style={accent.chip}
+          style={{ background: accent.chip.background, border: accent.chip.border }}
         >
-          <SectionIcon className="h-3.5 w-3.5" />
+          <SectionIcon className={cn("h-3.5 w-3.5", "dark:!text-white", isDark && "text-white")} />
         </span>
         <h3 className="text-sm font-semibold dark:text-white text-popover-foreground tracking-tight truncate">
           {t(section.label)}
@@ -205,7 +206,7 @@ function NavPanel({ section, accent, t }) {
                   className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border dark:border-white/10 border-border"
                   style={itemAccent.bg}
                 >
-                  <Icon className={cn("h-4 w-4")} style={itemAccent.color} />
+                  <Icon className={cn("h-4 w-4", "dark:!text-white", isDark && "text-white")} style={isDark ? undefined : itemAccent.color} />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center gap-1.5">
@@ -237,7 +238,7 @@ function NavPanel({ section, accent, t }) {
   );
 }
 
-function HoverPopover({ section, accent, t, children }) {
+function HoverPopover({ section, accent, t, isDark, children }) {
   return (
       <HoverCard openDelay={60} closeDelay={180}>
       <HoverCardTrigger asChild>{children}</HoverCardTrigger>
@@ -252,7 +253,7 @@ function HoverPopover({ section, accent, t, children }) {
             "shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
           )}
         >
-          <NavPanel section={section} accent={accent} t={t} />
+          <NavPanel section={section} accent={accent} t={t} isDark={isDark} />
         </HoverCardContent>
       </HoverCardPortal>
       </HoverCard>
@@ -271,7 +272,16 @@ export default function PageHeader(properties) {
 
   useStore($customTheme);
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  const [domIsDark, setDomIsDark] = React.useState(() => typeof document !== "undefined" && document.documentElement.classList.contains("dark"));
+  React.useEffect(() => {
+    const el = document.documentElement;
+    const check = () => setDomIsDark(el.classList.contains("dark"));
+    check();
+    const obs = new MutationObserver(check);
+    obs.observe(el, { attributes: true, attributeFilter: ["class"] });
+    return () => obs.disconnect();
+  }, []);
+  const isDark = resolvedTheme ? resolvedTheme === "dark" : domIsDark;
   const activeTheme = getThemeForPage(page || "index");
   const brand = resolveBrand(activeTheme);
 
@@ -428,7 +438,7 @@ export default function PageHeader(properties) {
         </div>
         <div className="container mx-auto px-3 sm:px-4 relative">
           <div className="grid grid-cols-12 gap-3 items-center min-h-[195px]">
-            <div className="col-span-12 md:col-span-3 mt-2 flex items-center gap-2">
+            <div className="col-span-12 md:col-span-3 mt-2 flex flex-col items-start gap-2 lg:flex-row lg:items-center">
               <Suspense fallback={<div className="h-8 w-24 bg-muted animate-pulse rounded" />}>
                 <LanguageSelector />
               </Suspense>
@@ -436,25 +446,22 @@ export default function PageHeader(properties) {
               <ThemeSelector />
 
               <Button
-                size="icon"
-                className="lg:hidden inline-flex align-middle h-7 w-7"
+                variant="outline"
+                className="lg:hidden relative h-12 w-12 bg-card/55 backdrop-blur-xl dark:text-white text-foreground border border-border hover:border-[hsl(var(--accent-1)/0.5)] hover:bg-card/60 transition-all duration-200 rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.04)]"
                 onClick={() =>
                   window.__toggleSidebar && window.__toggleSidebar()
                 }
                 aria-label="Toggle Sidebar"
                 title="Toggle Sidebar"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="size-4"
-                >
-                  <path d="M3 4h18M3 12h18M3 20h18" />
-                </svg>
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-2 top-0 h-px"
+                  style={{
+                    background: "linear-gradient(90deg, transparent, #22d3eecc, transparent)",
+                  }}
+                />
+                <Menu className="h-5 w-5" />
               </Button>
             </div>
 
@@ -493,7 +500,7 @@ export default function PageHeader(properties) {
             const accent = getNavAccentStyles(resolveSectionAccent(activeTheme, section.id).primary, isDark);
             const active = isActiveSection(section);
             return (
-              <HoverPopover key={section.id} section={section} accent={accent} t={t}>
+              <HoverPopover key={section.id} section={section} accent={accent} t={t} isDark={isDark}>
                 <button
                   type="button"
                   className={cn(
@@ -509,13 +516,13 @@ export default function PageHeader(properties) {
                 >
                   <SectionIcon
                     className={cn(
-                      "h-4 w-4 shrink-0 transition-colors",
-                      active ? "dark:text-white text-foreground" : "dark:text-white/70 dark:group-hover/navtrigger:text-white text-muted-foreground group-hover/navtrigger:text-foreground"
+                      "h-4 w-4 shrink-0 transition-colors dark:!text-white",
+                      active ? "dark:!text-white text-foreground" : "dark:!text-white/70 dark:group-hover/navtrigger:!text-white text-muted-foreground group-hover/navtrigger:text-foreground"
                     )}
                   />
                   <span className="whitespace-nowrap">{t(section.label)}</span>
                   <ChevronDown
-                    className="h-3.5 w-3.5 shrink-0 dark:text-white/60 text-muted-foreground transition-transform duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:dark:text-white group-data-[state=open]:text-foreground"
+                    className="h-3.5 w-3.5 shrink-0 dark:!text-white/60 text-muted-foreground transition-transform duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:dark:!text-white group-data-[state=open]:text-foreground"
                     aria-hidden="true"
                   />
                   {active && (
