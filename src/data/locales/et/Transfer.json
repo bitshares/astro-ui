@@ -22,6 +22,7 @@
   "maximumAmountDescription": "See on maksimaalne summa {{asset}} saate üle kanda.",
   "amountToTransfer": "Kogus {{asset}} üle kandma",
   "amountToTransferLabel": "Ülekantav summa",
+  "balanceHint": "Saldo: {{balance}} {{asset}}",
   "amountToTransferDescription": "Kui palju kavatsete sihtkontole saata.",
   "networkFee": "Võrgutasu",
   "networkFeePlaceholder": "{{fee}} BTS",

@@ -22,6 +22,7 @@
   "maximumAmountDescription": "ซึ่งเป็นจำนวนเงินสูงสุด {{asset}} คุณสามารถโอนได้",
   "amountToTransfer": "จำนวนของ {{asset}} ที่จะโอน",
   "amountToTransferLabel": "จำนวนเงินที่จะโอน",
+  "balanceHint": "ยอดคงเหลือ: {{balance}} {{asset}}",
   "amountToTransferDescription": "คุณจะส่งเข้าบัญชีเป้าหมายเท่าไหร่",
   "networkFee": "ค่าธรรมเนียมเครือข่าย",
   "networkFeePlaceholder": "{{fee}} รถไฟฟ้า",

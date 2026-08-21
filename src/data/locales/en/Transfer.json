@@ -22,6 +22,7 @@
   "maximumAmountDescription": "This is the maximum amount of {{asset}} you can transfer.",
   "amountToTransfer": "Amount of {{asset}} to transfer",
   "amountToTransferLabel": "Amount to transfer",
+  "balanceHint": "Balance: {{balance}} {{asset}}",
   "amountToTransferDescription": "How much you're going to send to the target account.",
   "networkFee": "Network fee",
   "networkFeePlaceholder": "{{fee}} BTS",

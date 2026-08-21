@@ -22,6 +22,7 @@
   "maximumAmountDescription": "Dette er det maksimale beløb på {{asset}} du kan overføre.",
   "amountToTransfer": "Mængde af {{asset}} at overføre",
   "amountToTransferLabel": "Beløb, der skal overføres",
+  "balanceHint": "Saldo: {{balance}} {{asset}}",
   "amountToTransferDescription": "Hvor meget vil du sende til målkontoen.",
   "networkFee": "Netværksgebyr",
   "networkFeePlaceholder": "{{fee}} BTS",

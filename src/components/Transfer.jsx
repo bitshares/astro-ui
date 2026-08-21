@@ -33,6 +33,11 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $currentUser } from "@/stores/users.ts";
@@ -114,6 +119,12 @@ export default function Transfer(properties) {
     }
     return [];
   }, [_assetsBTS, _assetsTEST, _chain]);
+
+  useEffect(() => {
+    if (!selectedAsset && usr && usr.chain) {
+      setSelectedAsset(usr.chain === "bitshares" ? "BTS" : "TEST");
+    }
+  }, [usr, selectedAsset]);
 
   const marketSearch = useMemo(() => {
     if (_chain && (_marketSearchBTS || _marketSearchTEST)) {
@@ -216,6 +227,22 @@ export default function Transfer(properties) {
 
     fetchUserBalances();
   }, [usr, assets, currentNode, balanceCounter]);
+
+  const availableBalance = useMemo(() => {
+    if (!foundAsset || !balances) return null;
+    const _balance = balances.find((x) => x.asset_id === foundAsset.id);
+    return _balance
+      ? humanReadableFloat(_balance.amount, foundAsset.precision)
+      : "0";
+  }, [foundAsset, balances]);
+
+  const setMaxTransferAmount = () => {
+    if (availableBalance && parseFloat(availableBalance) > 0 && foundAsset) {
+      const formatted = String(parseFloat(availableBalance));
+      setTransferAmount(formatted);
+      form.setValue("transferAmount", formatted);
+    }
+  };
  
 
   const [targetUserDialogOpen, setTargetUserDialogOpen] = useState(false);
@@ -330,6 +357,9 @@ export default function Transfer(properties) {
                 })}
               >
                 <FieldGroup>
+                  <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-3 items-center">
+                  <Card className="bg-card/40 border-border backdrop-blur-xl">
+                    <CardContent className="p-4">
                   <Controller
                     name="account"
                     control={form.control}
@@ -377,7 +407,18 @@ export default function Transfer(properties) {
                       </Field>
                     )}
                   />
+                  </CardContent>
+                  </Card>
 
+                  <div className="flex items-center justify-center py-1">
+                    <ArrowRight
+                      className="h-10 w-10 rotate-90 md:rotate-0 text-[hsl(var(--accent-1-fg))]"
+                      strokeWidth={2.5}
+                    />
+                  </div>
+
+                  <Card className="bg-card/40 border-border backdrop-blur-xl">
+                    <CardContent className="p-4">
                   <Controller
                     name="targetAccount"
                     control={form.control}
@@ -484,16 +525,38 @@ export default function Transfer(properties) {
                       </Field>
                     )}
                   />
+                  </CardContent>
+                  </Card>
+                  </div>
 
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                  <Card className="bg-card/40 border-border backdrop-blur-xl">
+                    <CardContent className="p-4 space-y-4">
                   <Controller
                     name="targetAsset"
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
-                          {t("Transfer:assetToTransfer")}
-                        </FieldLabel>
-                        <div className="grid grid-cols-8 mt-4">
+                        <div className="flex items-center justify-between gap-2">
+                          <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
+                            {t("Transfer:assetToTransfer")}
+                          </FieldLabel>
+                          <div>
+                            <AssetDropDown
+                              assetSymbol={selectedAsset ?? ""}
+                              assetData={null}
+                              storeCallback={setSelectedAsset}
+                              otherAsset={null}
+                              marketSearch={marketSearch}
+                              type={null}
+                              chain={usr && usr.chain ? usr.chain : "bitshares"}
+                              balances={balances}
+                              triggerVariant="outline"
+                              triggerClassName="w-auto border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.5)]"
+                            />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-8">
                           <div className="col-span-1 flex items-center justify-center">
                             {!selectedAsset || !foundAsset ? (
                               <Av>
@@ -512,7 +575,7 @@ export default function Transfer(properties) {
                               </Av>
                             ) : null}
                           </div>
-                          <div className="col-span-7 md:col-span-5">
+                          <div className="col-span-7">
                             {!selectedAsset || !foundAsset ? (
                               <Input
                                 {...field}
@@ -529,20 +592,6 @@ export default function Transfer(properties) {
                                 className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1 mt-1"
                               />
                             ) : null}
-                          </div>
-                          <div className="col-span-2 mt-1 ml-3">
-                            <AssetDropDown
-                              assetSymbol={selectedAsset ?? ""}
-                              assetData={null}
-                              storeCallback={setSelectedAsset}
-                              otherAsset={null}
-                              marketSearch={marketSearch}
-                              type={null}
-                              chain={usr && usr.chain ? usr.chain : "bitshares"}
-                              balances={balances}
-                              triggerVariant="outline"
-                              triggerClassName="w-auto border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.5)]"
-                            />
                           </div>
                         </div>
                         <FieldDescription className="text-muted-foreground text-xs">
@@ -564,63 +613,36 @@ export default function Transfer(properties) {
                         )}
                       </Field>
                     )}
-                  />
+                   />
 
-                  <div className="border-t border-border/60 -mt-2 mb-2" />
-
-                  {selectedAsset && targetUser ? (
-                    <Controller
-                      name="availableAmount"
+                   {selectedAsset ? (
+                     <Controller
+                       name="transferAmount"
                       control={form.control}
                       render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                          <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
-                            {t("Transfer:amountAvailableToTransfer", {
-                              asset: selectedAsset ?? "???",
-                            })}
-                          </FieldLabel>
-                          <Input
-                            {...field}
-                            disabled
-                            label={t("Transfer:amountAvailableToTransferLabel")}
-                            value={
-                              foundAsset &&
-                              balances &&
-                              balances.find((x) => x.asset_id === foundAsset.id)
-                                ? `${humanReadableFloat(
-                                    balances.find(
-                                      (x) => x.asset_id === foundAsset.id
-                                    ).amount,
-                                    foundAsset.precision
-                                  )} ${foundAsset.symbol}`
-                                : "0"
-                            }
-                            className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-1"
-                          />
-                          <FieldDescription className="text-muted-foreground text-xs">
-                            {t("Transfer:maximumAmountDescription", {
-                              asset: selectedAsset,
-                            })}
-                          </FieldDescription>
-                          {fieldState.invalid && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-                  ) : null}
-
-                  {selectedAsset && targetUser ? (
-                    <Controller
-                      name="transferAmount"
-                      control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                          <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
-                            {t("Transfer:amountToTransfer", {
-                              asset: selectedAsset ?? "???",
-                            })}
-                          </FieldLabel>
+                          <div className="flex items-center justify-between gap-2">
+                            <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
+                              {t("Transfer:amountToTransfer", {
+                                asset: selectedAsset ?? "???",
+                              })}
+                            </FieldLabel>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[11px] text-muted-foreground">
+                                {t("Transfer:balanceHint", {
+                                  balance: availableBalance ?? "0",
+                                  asset: selectedAsset ?? "???",
+                                })}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={setMaxTransferAmount}
+                                className="inline-flex items-center rounded-md border border-[hsl(var(--accent-1)/0.30)] bg-[hsl(var(--accent-1)/0.10)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.20)] hover:border-[hsl(var(--accent-1)/0.50)] transition-colors"
+                              >
+                                MAX
+                              </button>
+                            </div>
+                          </div>
                           <Input
                             {...field}
                             label={t("Transfer:amountToTransferLabel")}
@@ -644,11 +666,15 @@ export default function Transfer(properties) {
                             <FieldError errors={[fieldState.error]} />
                           )}
                         </Field>
-                      )}
-                    />
-                  ) : null}
+                        )}
+                      />
+                    ) : null}
+                    </CardContent>
+                  </Card>
 
-                  {selectedAsset && targetUser ? (
+                  <Card className="bg-card/40 border-border backdrop-blur-xl">
+                    <CardContent className="p-4">
+                  {selectedAsset ? (
                     <Controller
                       name="memoField"
                       control={form.control}
@@ -657,8 +683,9 @@ export default function Transfer(properties) {
                           <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
                             {t("Transfer:optionalMemo")}
                           </FieldLabel>
-                          <Input
+                          <Textarea
                             {...field}
+                            rows={6}
                             label={t("Transfer:memoFieldLabel")}
                             value={memoContents}
                             placeholder={memoContents}
@@ -669,43 +696,12 @@ export default function Transfer(properties) {
                               field.onChange(input);
                             }}
                           />
-                          <FieldDescription className="text-muted-foreground text-xs">
-                            {t("Transfer:memoFieldDescription", {
-                              targetUser: targetUser.name,
-                            })}
-                          </FieldDescription>
-                          {fieldState.invalid && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-                  ) : null}
-
-                  {selectedAsset && targetUser ? (
-                    <Controller
-                      name="networkFee"
-                      control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                          <FieldLabel className="text-foreground/70 text-xs uppercase tracking-wider">
-                            {t("Transfer:networkFee")}
-                          </FieldLabel>
-                          <Input
-                            {...field}
-                            disabled
-                            placeholder={`${t(
-                              "Transfer:networkFeePlaceholder",
-                              { fee: fee }
-                            )}`}
-                            className="bg-card/40 border-border text-foreground placeholder:text-muted-foreground/60 mb-3 mt-3"
-                          />
-                          {usr.id === usr.referrer ? (
-                            <FieldError className="text-[hsl(var(--accent-success-fg))] text-xs">
-                              {t("Transfer:rebate", {
-                                rebate: trimPrice(fee * 0.8, 5),
+                          {targetUser && targetUser.name ? (
+                            <FieldDescription className="text-muted-foreground text-xs">
+                              {t("Transfer:memoFieldDescription", {
+                                targetUser: targetUser.name,
                               })}
-                            </FieldError>
+                            </FieldDescription>
                           ) : null}
                           {fieldState.invalid && (
                             <FieldError errors={[fieldState.error]} />
@@ -714,6 +710,9 @@ export default function Transfer(properties) {
                       )}
                     />
                   ) : null}
+                    </CardContent>
+                  </Card>
+                  </div>
 
                   <div className="border-t border-border/60 -mt-2 mb-2" />
 
@@ -730,14 +729,23 @@ export default function Transfer(properties) {
                   ) : (
                     <>
                       {fee && (
-                        <div className="mt-4 flex items-center justify-between px-1">
-                          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                            {t("Transfer:networkFee")}
-                          </span>
-                          <span className="flex items-center gap-1.5 font-mono text-[hsl(var(--accent-1-fg))] text-sm">
-                            <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
-                            {fee.toFixed(5)} {usr.chain === "bitshares" ? "BTS" : "TEST"}
-                          </span>
+                        <div className="mt-4 flex flex-col gap-1 px-1">
+                          <div className="flex items-center gap-3">
+                            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                              {t("Transfer:networkFee")}
+                            </span>
+                            <span className="flex items-center gap-1.5 font-mono text-[hsl(var(--accent-1-fg))] text-sm">
+                              <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+                              {fee.toFixed(5)} {usr.chain === "bitshares" ? "BTS" : "TEST"}
+                            </span>
+                          </div>
+                          {usr.id === usr.referrer ? (
+                            <span className="text-xs text-[hsl(var(--accent-success-fg))]">
+                              {t("Transfer:rebate", {
+                                rebate: trimPrice(fee * 0.8, 5),
+                              })}
+                            </span>
+                          ) : null}
                         </div>
                       )}
                       <Button
