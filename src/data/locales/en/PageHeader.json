@@ -115,7 +115,8 @@
         "blocked-users": "View and manage your committee and personal blocklists.",
         "airdrop_calculate": "Distribute an asset to many accounts via algorithmic selection or a manual list, then broadcast batches through your Beet wallet.",
         "top-markets": "Use this page to view the most actively traded BitShares DEX markets, ranked by fill-order volume.",
-        "top-pools": "Use this page to view the most actively swapped BitShares liquidity pools, ranked by swap volume."
+        "top-pools": "Use this page to view the most actively swapped BitShares liquidity pools, ranked by swap volume.",
+        "configure_visuals": "Customize the app's visuals — waves, colour palettes, aurora, blur and particle effects."
     },
     "back": "Go back",
     "usage": "Designed for use with ",

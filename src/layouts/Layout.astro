@@ -58,6 +58,32 @@ import CustomThemeStyle from '@/components/CustomThemeStyle.jsx'
 			})();
 		</script>
 		<ClientRouter />
+		<script is:inline>
+			(function () {
+				function isEditable(el) {
+					if (!el) return false;
+					var tag = (el.tagName || "").toLowerCase();
+					if (tag === "input" || tag === "textarea" || tag === "select") return true;
+					if (el.isContentEditable) return true;
+					var p = el.parentElement;
+					while (p) {
+						if (p.isContentEditable) return true;
+						p = p.parentElement;
+					}
+					return false;
+				}
+				function onBackspaceBack(e) {
+					if (e.key !== "Backspace") return;
+					if (e.ctrlKey || e.metaKey || e.altKey) return;
+					if (isEditable(e.target)) return;
+					if (window.history.length > 1) {
+						e.preventDefault();
+						window.history.back();
+					}
+				}
+				document.addEventListener("keydown", onBackspaceBack);
+			})();
+		</script>
 	</head>
 	<body>
 		<ThemeProvider client:only="react">

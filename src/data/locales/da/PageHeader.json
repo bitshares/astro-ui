@@ -115,7 +115,8 @@
         "airdrop_perform": "Broadcast hver batch af din airdrop via din Beet-tegnebog.",
         "airdrop_calculate": "Distribuer en aktiv til mange konti via algoritmisk udvælgelse eller en manuel liste, og send derefter batcher gennem din Beet-tegnebog.",
         "top-markets": "Brug denne side til at se de mest aktive BitShares DEX-markeder, rangeret efter fill-ordre-volumen.",
-        "top-pools": "Brug denne side til at se de mest aktive BitShares-likviditetspuljer, rangeret efter swap-volumen."
+        "top-pools": "Brug denne side til at se de mest aktive BitShares-likviditetspuljer, rangeret efter swap-volumen.",
+        "configure_visuals": "Tilpas appens visuelle udtryk — bølger, farvepaletter, nordlys, sløring og partikeleffekter."
     },
     "back": "Gå tilbage",
     "usage": "Designet til brug med ",

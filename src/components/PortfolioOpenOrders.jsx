@@ -228,14 +228,6 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
       <Card className="group bg-card/60 border border-border hover:bg-[hsl(var(--accent-1)/0.03)] hover:border-[hsl(var(--accent-1)/0.2)] transition-all rounded-xl border-l-2 border-l-cyan-500/30 block md:hidden">
         <CardContent className="p-3 space-y-2">
           <div className="flex items-center gap-2">
-            <span className={cn(
-              "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold flex-shrink-0",
-              sellAsset
-                ? "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] border-[hsl(var(--accent-danger)/0.3)]"
-                : "bg-accent/50 text-muted-foreground border-border"
-            )}>
-              {t("PortfolioTabs:badgeSell")}
-            </span>
             <span className="text-sm font-semibold text-foreground truncate">
               {readableBaseAmount} {sellAsset?.symbol ?? "?"} → {readableQuoteAmount} {buyAsset?.symbol ?? "?"}
             </span>
@@ -287,14 +279,6 @@ const OpenOrdersRow = memo(function OpenOrdersRow({ index, style, sortedOpenOrde
         <CardContent className="p-3">
           <div className="grid grid-cols-12 gap-4 items-center">
             <div className="col-span-5 flex items-center gap-2 min-w-0">
-              <span className={cn(
-                "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold flex-shrink-0",
-                sellAsset
-                  ? "bg-[hsl(var(--accent-danger)/0.15)] text-[hsl(var(--accent-danger-fg))] border-[hsl(var(--accent-danger)/0.3)]"
-                  : "bg-accent/50 text-muted-foreground border-border"
-              )}>
-                {t("PortfolioTabs:badgeSell")}
-              </span>
               <span className="text-sm font-semibold text-foreground truncate">
                 {readableBaseAmount} {sellAsset?.symbol ?? "?"} → {readableQuoteAmount} {buyAsset?.symbol ?? "?"}
               </span>
