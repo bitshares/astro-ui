@@ -687,7 +687,7 @@ export default function CreditDeals(properties) {
                   <TabsTrigger
                     value="borrowings"
                     onClick={() => setActiveTab("borrowings")}
-                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--accent-1))] data-[state=active]:to-[hsl(var(--accent-2))] data-[state=active]:text-[hsl(var(--accent-1-gradFg))] data-[state=active]:shadow-md data-[state=active]:shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
+                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--accent-1))] data-[state=active]:to-[hsl(var(--accent-2))] data-[state=active]:text-[hsl(var(--accent-1-fg))] dark:data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {activeTab === "borrowings"
                       ? t("CreditDeals:card.viewingBorrowings")
@@ -696,7 +696,7 @@ export default function CreditDeals(properties) {
                   <TabsTrigger
                     value="lendings"
                     onClick={() => setActiveTab("lendings")}
-                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--accent-1))] data-[state=active]:to-[hsl(var(--accent-2))] data-[state=active]:text-[hsl(var(--accent-1-gradFg))] data-[state=active]:shadow-md data-[state=active]:shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
+                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--accent-1))] data-[state=active]:to-[hsl(var(--accent-2))] data-[state=active]:text-[hsl(var(--accent-1-fg))] dark:data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {activeTab === "lendings"
                       ? t("CreditDeals:card.viewingLendings")
