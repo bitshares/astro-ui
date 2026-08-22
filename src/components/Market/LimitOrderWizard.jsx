@@ -654,7 +654,7 @@ export default function LimitOrderWizard(properties) {
         />
         <DialogHeader>
           <DialogTitle className="text-foreground flex items-center gap-2">
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_14px_-2px_hsl(var(--accent-1)/0.4)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
               <ShoppingCart className="h-3.5 w-3.5" />
             </span>
             {t("LimitOrderWizard:title")}

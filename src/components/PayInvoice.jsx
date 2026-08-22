@@ -527,7 +527,7 @@ export default function PayInvoice(properties) {
                     <div className="relative p-5 sm:p-6">
                       <CardHeader className="p-0 mb-5">
                         <div className="flex items-center gap-3">
-                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
+                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0 shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
                             <CreditCard className="h-4.5 w-4.5" strokeWidth={2.25} />
                           </span>
                           <div>
@@ -716,7 +716,7 @@ export default function PayInvoice(properties) {
                       <div className="relative p-5 sm:p-6">
                         <CardHeader className="p-0 mb-5">
                           <div className="flex items-center gap-3">
-                            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
+                            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0 shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
                               <Receipt className="h-4.5 w-4.5" strokeWidth={2.25} />
                             </span>
                             <div>
@@ -808,7 +808,7 @@ export default function PayInvoice(properties) {
               <div className="relative p-5 sm:p-6">
                 <CardHeader className="p-0 mb-5">
                   <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0 shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
                       <FileSearch className="h-4.5 w-4.5" strokeWidth={2.25} />
                     </span>
                     <div>

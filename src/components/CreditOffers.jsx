@@ -112,18 +112,23 @@ export default function CreditOffers(properties) {
       <div style={{ ...style }} key={`acard-${res.id}`}>
         <div className="ml-2 mr-2 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300">
           <div className="p-3 pb-1">
-            <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
-              {t("CreditBorrow:common.offer")}
-              {" #"}
-              {res.id.replace("1.21.", "")}
-              {" "}
-              {t("CreditBorrow:common.by")}{" "}
-              {res.owner_name}
-              {" "}
-              (
-              {res.owner_account}
-              )
-            </h3>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                <FileText className="h-4 w-4" />
+              </span>
+              <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
+                {t("CreditBorrow:common.offer")}
+                {" #"}
+                {res.id.replace("1.21.", "")}
+                {" "}
+                {t("CreditBorrow:common.by")}{" "}
+                {res.owner_name}
+                {" "}
+                (
+                {res.owner_account}
+                )
+              </h3>
+            </div>
             <p className="text-sm text-muted-foreground mt-1">
               {t("CreditBorrow:common.offering")}
               <b>
@@ -222,7 +227,9 @@ export default function CreditOffers(properties) {
             <div className="flex flex-row justify-between items-center p-4 pb-0">
               <div>
                 <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                    <FileText className="h-4.5 w-4.5" />
+                  </span>
                   {t("CreditOffers:card.title")}
                 </h2>
                 <p className="text-sm text-muted-foreground mt-1">

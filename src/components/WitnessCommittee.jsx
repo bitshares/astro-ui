@@ -161,7 +161,9 @@ export default function GovernanceActions(properties) {
           <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
           <CardHeader className="pb-0">
             <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
-              <Vote className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                <Vote className="h-4.5 w-4.5" />
+              </span>
               {t("GovernanceActions:title")}
             </CardTitle>
             <CardDescription>{t("GovernanceActions:description")}</CardDescription>

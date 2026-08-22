@@ -83,7 +83,7 @@ export default function LTM(properties) {
             {/* Header */}
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
                   <Crown className="h-4.5 w-4.5" strokeWidth={2.25} />
                 </span>
                 <div>
@@ -124,7 +124,7 @@ export default function LTM(properties) {
             {/* Benefits Section */}
             <div className="mb-5">
               <div className="flex items-center gap-2 mb-3">
-                <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
                   <Sparkles className="h-3 w-3" strokeWidth={2.25} />
                 </span>
                 <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
@@ -140,7 +140,7 @@ export default function LTM(properties) {
                       key={index}
                       className="flex items-start gap-3 rounded-xl border border-border/60 bg-card/40 p-3.5 hover:border-[hsl(var(--accent-1)/0.2)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all group"
                     >
-                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] group-hover:shadow-[0_0_12px_-4px_rgba(16,185,129,0.4)] transition-all">
+                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] group-hover:shadow-[0_0_12px_-4px_rgba(16,185,129,0.4)] transition-all shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
                         <Icon className="h-4 w-4" strokeWidth={2.25} />
                       </span>
                       <div className="min-w-0">
@@ -161,7 +161,7 @@ export default function LTM(properties) {
             {!isMember && (
               <div className="rounded-xl border border-border/60 bg-card/40 p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
                     <Crown className="h-3 w-3" strokeWidth={2.25} />
                   </span>
                   <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70">

@@ -274,7 +274,9 @@ export default function CreateTicket() {
           <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-2)/0.7)] via-[hsl(var(--accent-3)/0.7)] to-[hsl(var(--accent-2)/0.7)]" />
           <CardHeader className="pb-1">
             <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-3))] bg-clip-text text-transparent flex items-center gap-2">
-              <Ticket className="h-5 w-5 text-[hsl(var(--accent-2-fg))]" />
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--accent-2)/0.3)] to-[hsl(var(--accent-3)/0.3)] border border-[hsl(var(--accent-2)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-2)/0.4)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))]">
+                <Ticket className="h-4.5 w-4.5" />
+              </span>
               {t("CreateTicket:title")}
             </CardTitle>
             <CardDescription>{t("CreateTicket:description")}</CardDescription>
@@ -407,7 +409,9 @@ export default function CreateTicket() {
             <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
             <CardHeader className="pb-1">
               <CardTitle className="text-lg bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
-                <Lock className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                  <Lock className="h-4.5 w-4.5" />
+                </span>
                 {t("CreateTicket:myTickets.title")}
               </CardTitle>
               <CardDescription>{t("CreateTicket:myTickets.description")}</CardDescription>
