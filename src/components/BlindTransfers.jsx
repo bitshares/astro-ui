@@ -62,11 +62,11 @@ import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 const CARD_SHELL =
   "relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.04)]";
 const GRADIENT_HAIRLINE =
-  "pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent";
+  "pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-warning)/0.70)] to-transparent";
 const ICON_CHIP =
-  "inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0";
+  "inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-warning)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.30)] to-[hsl(var(--accent-2)/0.30)] dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-warning)/0.4)] flex-shrink-0";
 const GRADIENT_BUTTON =
-  "gap-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_30px_-8px_hsl(var(--accent-1)/0.6)] hover:shadow-[0_12px_40px_-8px_hsl(var(--accent-1)/0.9)] active:scale-[0.99] transition-all duration-200 ease-out disabled:opacity-50 disabled:pointer-events-none";
+  "gap-2 bg-gradient-to-r from-[hsl(var(--accent-warning))] to-[hsl(var(--accent-2))] text-white dark:text-white shadow-[0_8px_30px_-8px_hsl(var(--accent-warning)/0.6)] hover:shadow-[0_12px_40px_-8px_hsl(var(--accent-warning)/0.9)] active:scale-[0.99] transition-all duration-200 ease-out disabled:opacity-50 disabled:pointer-events-none";
 const FIELD_LABEL =
   "text-[10px] uppercase tracking-wider text-muted-foreground/70";
 const HEX_MONO = "font-mono text-xs";
@@ -187,7 +187,8 @@ export default function BlindTransfers({
       <div className="grid grid-cols-1 gap-4">
         <div className={CARD_SHELL}>
           <span className={GRADIENT_HAIRLINE} />
-          <div className="pointer-events-none absolute -top-24 -right-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-1)/0.15)] blur-3xl" />
+          <div className="pointer-events-none absolute -top-24 -right-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-warning)/0.15)] blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-2)/0.10)] blur-3xl" />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 min-w-0">
               <span className={ICON_CHIP}>
@@ -216,7 +217,7 @@ export default function BlindTransfers({
                     className={
                       "flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-200 " +
                       (active
-                        ? "bg-gradient-to-r from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-foreground border border-[hsl(var(--accent-1)/0.40)] shadow-[0_0_18px_-8px_hsl(var(--accent-1)/0.6)]"
+                        ? "bg-gradient-to-r from-[hsl(var(--accent-warning)/0.20)] to-[hsl(var(--accent-2)/0.20)] text-foreground border border-[hsl(var(--accent-warning)/0.40)] shadow-[0_0_18px_-8px_hsl(var(--accent-1)/0.6)]"
                         : "text-muted-foreground hover:text-foreground")
                     }
                   >
@@ -422,7 +423,7 @@ function AmountAssetField({
           balances={balances}
           triggerVariant="outline"
           triggerLabel={selectedSymbol ? selectedSymbol : undefined}
-          triggerClassName="w-full border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.5)]"
+          triggerClassName="w-full border-[hsl(var(--accent-warning)/0.3)] text-[hsl(var(--accent-warning-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))] hover:border-[hsl(var(--accent-1)/0.5)]"
         />
       </div>
       <div className="space-y-1">
@@ -488,7 +489,7 @@ function OwnerBuilder({ t, chain, owner, setOwner, blindAccounts }) {
     <div className="rounded-xl border border-border bg-accent/20 p-3 space-y-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
+          <ShieldCheck className="h-4 w-4 text-[hsl(var(--accent-warning-fg))]" />
           <Label className="text-sm font-semibold">
             {t("BlindTransfers:ownerLabel")}
           </Label>
@@ -773,9 +774,9 @@ function InputEditor({ t, chain, input, setInput, onRemove, index, removable }) 
   const update = (patch) => setInput({ ...input, ...patch });
   const blindAccounts = useBlindAccounts(chain);
   return (
-    <div className="rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-3 space-y-3">
+    <div className="rounded-xl border border-[hsl(var(--accent-warning)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.06)] to-transparent p-3 space-y-3">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold uppercase tracking-wider text-[hsl(var(--accent-1-fg))]">
+        <span className="text-xs font-semibold uppercase tracking-wider text-[hsl(var(--accent-warning-fg))]">
           {t("BlindTransfers:input")} #{index + 1}
         </span>
         {removable ? (

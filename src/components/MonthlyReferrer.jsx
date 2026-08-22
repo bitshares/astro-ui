@@ -187,7 +187,7 @@ export default function MonthlyReferrer() {
           className={cn(
             "flex h-full items-center gap-2 rounded-lg border px-3",
             index === 0
-              ? "border-[hsl(var(--accent-1)/0.40)] bg-[hsl(var(--accent-1)/0.08)]"
+              ? "border-[hsl(var(--accent-warning)/0.40)] bg-[hsl(var(--accent-warning)/0.08)]"
               : "border-border/60 bg-accent/10"
           )}
         >
@@ -227,14 +227,14 @@ export default function MonthlyReferrer() {
   if (isTestnet) {
     return (
       <div className="container mx-auto mt-5 mb-5 max-w-4xl">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.20)]">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-warning)/0.20)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-warning)/0.70)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.10)] blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-warning)/0.10)] blur-3xl"
           />
           <span
             aria-hidden="true"
@@ -242,7 +242,7 @@ export default function MonthlyReferrer() {
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-1">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))]">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-warning)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.30)] to-[hsl(var(--accent-3)/0.30)] dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-warning)/0.4)]">
                 <Crown className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
@@ -261,14 +261,14 @@ export default function MonthlyReferrer() {
   return (
     <div className="container mx-auto mt-5 mb-5 max-w-4xl">
       <div className="grid grid-cols-1 gap-5">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.20)]">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-warning)/0.20)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-warning)/0.70)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.10)] blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-warning)/0.10)] blur-3xl"
           />
           <span
             aria-hidden="true"
@@ -277,7 +277,7 @@ export default function MonthlyReferrer() {
 
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-4">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))]">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-warning)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.30)] to-[hsl(var(--accent-3)/0.30)] dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-warning)/0.4)]">
                 <Crown className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>
@@ -291,9 +291,9 @@ export default function MonthlyReferrer() {
             </div>
 
             {!loading && donors.length ? (
-              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.35)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.10)] to-transparent p-4 mb-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-warning)/0.35)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.10)] to-transparent p-4 mb-4">
                 <div className="flex items-start gap-3">
-                  <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.25)] to-[hsl(var(--accent-3)/0.25)] text-[hsl(var(--accent-1-gradFg))]">
+                  <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[hsl(var(--accent-warning)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.30)] to-[hsl(var(--accent-3)/0.30)] text-white dark:text-white">
                     <Gift className="h-4 w-4" strokeWidth={2.25} />
                   </span>
                   <p className="text-sm text-foreground/80">
@@ -306,9 +306,9 @@ export default function MonthlyReferrer() {
               </div>
             ) : null}
 
-            <div className="rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4 mb-4">
+            <div className="rounded-xl border border-[hsl(var(--accent-warning)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.06)] to-transparent p-4 mb-4">
               <div className="flex items-center gap-3 mb-3">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))]">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-warning)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.30)] to-[hsl(var(--accent-3)/0.30)] dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-warning)/0.4)]">
                   <HandCoins className="h-4 w-4" strokeWidth={2.25} />
                 </span>
                 <div>
@@ -364,7 +364,7 @@ export default function MonthlyReferrer() {
                       onClick={() => setDonateDialog(true)}
                       disabled={!canDonate}
                       aria-disabled={!canDonate}
-                      className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] transition-all"
+                      className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-white dark:text-white shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] transition-all"
                     >
                       <Send className="h-4 w-4 mr-1.5" strokeWidth={2.25} />
                       {t("MonthlyReferrer:donate.submit", "Donate")}
@@ -395,13 +395,13 @@ export default function MonthlyReferrer() {
             </div>
 
             {loading ? (
-              <div className="flex items-center gap-3 rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4">
+              <div className="flex items-center gap-3 rounded-xl border border-[hsl(var(--accent-warning)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.06)] to-transparent p-4">
                 <Spinner />
                 <p>{t("Market:loading")}</p>
               </div>
             ) : donors.length ? (
-              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-2 sm:p-3 overflow-hidden">
-                <div className="flex items-center gap-2 px-3 py-2 mb-2 rounded-lg bg-[hsl(var(--accent-1)/0.08)]">
+              <div className="rounded-xl border border-[hsl(var(--accent-warning)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.06)] to-transparent p-2 sm:p-3 overflow-hidden">
+                <div className="flex items-center gap-2 px-3 py-2 mb-2 rounded-lg bg-[hsl(var(--accent-warning)/0.08)]">
                   <div className="w-12 shrink-0 text-xs font-medium text-muted-foreground">
                     {t("MonthlyReferrer:th.rank", "Rank")}
                   </div>
@@ -424,7 +424,7 @@ export default function MonthlyReferrer() {
                 />
               </div>
             ) : (
-              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-warning)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.06)] to-transparent p-4">
                 <p>{t("MonthlyReferrer:empty")} </p>
                 <p className="mt-1 text-sm text-muted-foreground/80">
                   {t("MonthlyReferrer:emptyDefault", "New accounts are currently registered & referred by the default account:")}{" "}
@@ -440,7 +440,7 @@ export default function MonthlyReferrer() {
                 onClick={() => setRefreshCounter(refreshCounter + 1)}
                 disabled={loading}
                 aria-busy={loading}
-                className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] hover:shadow-[0_12px_36px_-12px_hsl(var(--accent-1)/0.9)] transition-all"
+                className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-white dark:text-white shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] hover:shadow-[0_12px_36px_-12px_hsl(var(--accent-1)/0.9)] transition-all"
               >
                 {t("PortfolioTabs:refreshRecentActivityButton")}
               </Button>
@@ -448,10 +448,10 @@ export default function MonthlyReferrer() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.20)]">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-warning)/0.20)]">
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-3">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))]">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-warning)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-warning)/0.30)] to-[hsl(var(--accent-3)/0.30)] dark:text-[hsl(var(--accent-warning-fg))] text-[hsl(var(--accent-warning-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-warning)/0.4)]">
                 <HandCoins className="h-4 w-4" strokeWidth={2.25} />
               </span>
               <h3 className="text-base font-semibold text-foreground">
