@@ -13,7 +13,8 @@
     "rawDeeplink": "ดิบ Deeplink",
     "localJSONFile": "ไฟล์ JSON ในเครื่อง",
     "qrCode": "คิวอาร์โค้ด",
-    "propose": "ข้อเสนอ"
+    "propose": "ข้อเสนอ",
+    "totp": "TOTP"
   },
   "tabsContent": {
     "transactionObjectJSON": "วัตถุธุรกรรม JSON",
@@ -51,5 +52,18 @@
     "targetHeader": "บัญชีการชำระค่าธรรมเนียมข้อเสนอ",
     "revisionPeriodSecondsContent": "ระบุระยะเวลาการแก้ไขเป็นวินาที",
     "revisionPeriodSecondsHeader": "ระยะเวลาการแก้ไข (วินาที)"
+  },
+  "totp": {
+    "title": "TOTP ดีปลิงก์ — BeetVault",
+    "description": "ป้อนรหัสผ่านครั้งเดียวแบบจำกัดเวลาจาก BeetVault (หน้า TOTP ดีปลิงก์) ธุรกรรมจะถูกเข้ารหัสด้วยรหัสของคุณและสามารถเปิดได้ใน BeetVault เท่านั้น",
+    "passcodeLabel": "รหัสที่สร้าง",
+    "placeholder": "ป้อนรหัสที่สร้างใน BeetVault",
+    "submit": "ส่ง",
+    "generating": "กำลังสร้าง...",
+    "passcodeRequired": "ต้องระบุรหัสผ่าน",
+    "unavailable": "ไม่สามารถใช้ TOTP ดีปลิงก์ในสภาพแวดล้อมนี้ได้",
+    "failed": "ไม่สามารถสร้าง TOTP ดีปลิงก์ได้",
+    "ready": "ดีปลิงก์พร้อม — BeetVault เท่านั้น:",
+    "copyLink": "คัดลอกลิงก์"
   }
 }

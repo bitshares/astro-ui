@@ -25,7 +25,7 @@ import {
 } from "electron";
 
 import { initApplicationMenu } from "./lib/applicationMenu.js";
-import { generateDeepLink } from "./lib/deeplink.js";
+import { generateDeepLink, generateTotpDeepLink } from "./lib/deeplink.js";
 import { generateQRContents } from "./lib/qr.js";
 
 let mainWindow = null;
@@ -601,6 +601,25 @@ const createWindow = async () => {
       );
     } catch (error) {
       console.log({ error });
+    }
+
+    return deeplink ?? null;
+  });
+
+  ipcMain.handle("generateTotpDeepLink", async (event, arg) => {
+    const { usrChain, nodeURL, operationNames, trxJSON, totpCode } = arg;
+
+    let deeplink;
+    try {
+      deeplink = await generateTotpDeepLink(
+        usrChain,
+        nodeURL,
+        operationNames,
+        trxJSON,
+        totpCode,
+      );
+    } catch (error) {
+      console.log({ error, location: "generateTotpDeepLink" });
     }
 
     return deeplink ?? null;

@@ -13,7 +13,8 @@
     "rawDeeplink": "원시 딥링크",
     "localJSONFile": "로컬 JSON 파일",
     "qrCode": "QR코드",
-    "propose": "제안"
+    "propose": "제안",
+    "totp": "TOTP"
   },
   "tabsContent": {
     "transactionObjectJSON": "거래 객체 JSON",
@@ -51,5 +52,18 @@
     "targetHeader": "제안수수료 납부계좌",
     "revisionPeriodSecondsContent": "수정 기간을 초 단위로 지정합니다.",
     "revisionPeriodSecondsHeader": "개정 기간(초)"
+  },
+  "totp": {
+    "title": "TOTP 딥링크 — BeetVault",
+    "description": "BeetVault의 시간 기반 일회용 비밀번호를 입력하세요 (TOTP 딥링크 페이지). 트랜잭션은 비밀번호로 암호화되며 BeetVault에서만 열 수 있습니다.",
+    "passcodeLabel": "생성된 코드",
+    "placeholder": "BeetVault에서 생성된 코드를 입력하세요",
+    "submit": "제출",
+    "generating": "생성 중...",
+    "passcodeRequired": "비밀번호가 필요합니다",
+    "unavailable": "이 환경에서는 TOTP 딥링크를 사용할 수 없습니다",
+    "failed": "TOTP 딥링크 생성에 실패했습니다",
+    "ready": "딥링크 준비 완료 — BeetVault 전용:",
+    "copyLink": "링크 복사"
   }
 }

@@ -13,7 +13,8 @@
     "rawDeeplink": "Enlace profundo sin procesar",
     "localJSONFile": "Archivo JSON local",
     "qrCode": "Código QR",
-    "propose": "Propuesta"
+    "propose": "Propuesta",
+    "totp": "TOTP"
   },
   "tabsContent": {
     "transactionObjectJSON": "Objeto de transacción JSON",
@@ -51,5 +52,18 @@
     "targetHeader": "Cuenta de pago de tasas de propuesta",
     "revisionPeriodSecondsContent": "Especifique el período de revisión en segundos.",
     "revisionPeriodSecondsHeader": "Período de revisión (segundos)"
+  },
+  "totp": {
+    "title": "Enlace profundo TOTP — BeetVault",
+    "description": "Introduce el código de un solo uso por tiempo de BeetVault (página de enlace profundo TOTP). La transacción se cifrará con tu código y solo podrá abrirse en BeetVault.",
+    "passcodeLabel": "Código generado",
+    "placeholder": "Introduce el código generado en BeetVault",
+    "submit": "Enviar",
+    "generating": "Generando...",
+    "passcodeRequired": "Se requiere el código",
+    "unavailable": "Enlace profundo TOTP no disponible en este entorno",
+    "failed": "Error al generar el enlace profundo TOTP",
+    "ready": "Enlace profundo listo — solo BeetVault:",
+    "copyLink": "Copiar enlace"
   }
 }

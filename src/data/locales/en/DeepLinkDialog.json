@@ -13,7 +13,8 @@
     "rawDeeplink": "Raw Deeplink",
     "localJSONFile": "Local JSON file",
     "qrCode": "QR Code",
-    "propose": "Proposal"
+    "propose": "Proposal",
+    "totp": "TOTP"
   },
   "tabsContent": {
     "transactionObjectJSON": "Transaction object JSON",
@@ -51,5 +52,18 @@
     "targetHeader": "Proposal fee paying account",
     "revisionPeriodSecondsContent": "Specify the revision period in seconds.",
     "revisionPeriodSecondsHeader": "Revision Period (Seconds)"
+  },
+  "totp": {
+    "title": "TOTP Deeplink — BeetVault",
+    "description": "Enter the timed one-time passcode from BeetVault (TOTP Deeplink page). The transaction will be encrypted with your passcode and can only be opened in BeetVault.",
+    "passcodeLabel": "Generated code",
+    "placeholder": "Enter the code generated in BeetVault",
+    "submit": "Submit",
+    "generating": "Generating...",
+    "passcodeRequired": "Passcode is required",
+    "unavailable": "TOTP deeplink unavailable in this environment",
+    "failed": "Failed to generate TOTP deeplink",
+    "ready": "Deeplink ready — BeetVault only:",
+    "copyLink": "Copy Link"
   }
 }

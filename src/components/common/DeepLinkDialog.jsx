@@ -134,7 +134,7 @@ const operationNumbers = {
 
 /**
  * Launches a dialog prompt, generating a deep link for the given operation.
- * Buttons link to the Beet/BeetEOS multiwallets
+ * Buttons link to the Beet/BeetVault multiwallets
  */
 export default function DeepLinkDialog(properties) {
   const {
@@ -243,6 +243,46 @@ export default function DeepLinkDialog(properties) {
   const [qrBGC, setQRBGC] = useState("#ffffff");
   const [qrFGC, setQRFGC] = useState("#000000");
   const [qrContents, setQRContents] = useState(null);
+
+  // TOTP deeplink state
+  const [totpCode, setTotpCode] = useState("");
+  const [totpDeeplink, setTotpDeeplink] = useState(null);
+  const [totpLoading, setTotpLoading] = useState(false);
+  const [totpError, setTotpError] = useState(null);
+
+  const handleTotpSubmit = async () => {
+    const trimmed = (totpCode || "").trim();
+    if (!trimmed) {
+      setTotpError(t("DeepLinkDialog:totp.passcodeRequired"));
+      return;
+    }
+    if (!window || !window.electron || !window.electron.generateTotpDeepLink) {
+      setTotpError(t("DeepLinkDialog:totp.unavailable"));
+      return;
+    }
+    setTotpLoading(true);
+    setTotpError(null);
+    setTotpDeeplink(null);
+    try {
+      const res = await window.electron.generateTotpDeepLink({
+        usrChain,
+        currentNode: currentNode ? currentNode.url : "",
+        operationNames,
+        trxJSON,
+        totpCode: trimmed,
+      });
+      if (!res) {
+        setTotpError(t("DeepLinkDialog:totp.failed"));
+      } else {
+        setTotpDeeplink(res);
+      }
+    } catch (e) {
+      console.error("generateTotpDeepLink failed", e);
+      setTotpError(e?.message || t("DeepLinkDialog:totp.failed"));
+    } finally {
+      setTotpLoading(false);
+    }
+  };
 
   // Build transaction object in main process for QR encoding
   useEffect(() => {
@@ -420,6 +460,13 @@ export default function DeepLinkDialog(properties) {
                     {t("DeepLinkDialog:tabs.propose")}
                   </Button>
                 ) : null}
+                <Button
+                  className="col-span-1"
+                  onClick={() => setActiveTab("totp")}
+                  variant={activeTab === "totp" ? "" : "outline"}
+                >
+                  {t("DeepLinkDialog:tabs.totp")}
+                </Button>
               </div>
               {activeTab === "object" ? (
                 <>
@@ -478,11 +525,11 @@ export default function DeepLinkDialog(properties) {
                         <Button className="mt-4">BEET</Button>
                       </a>
                       <a
-                        href={`rawbeeteos://api?chain=${
+                        href={`rawdeepvault://api?chain=${
                           usrChain === "bitshares" ? "BTS" : "BTS_TEST"
                         }&request=${deeplink}`}
                       >
-                        <Button className="mt-4 ml-3">BeetEOS</Button>
+                        <Button className="mt-4 ml-3">BeetVault</Button>
                       </a>
                     </div>
                   ) : null}
@@ -907,6 +954,77 @@ export default function DeepLinkDialog(properties) {
                         proposal={true}
                       />
                     )}
+                </>
+              ) : null}
+              {activeTab === "totp" ? (
+                <>
+                  <Label className="text-left text-md font-bold">
+                    {t("DeepLinkDialog:totp.title")}
+                  </Label>
+                  <p className="text-sm opacity-80">
+                    {t("DeepLinkDialog:totp.description")}
+                  </p>
+                  <div className="grid gap-2 mt-2">
+                    <Label htmlFor="totpCode">
+                      {t("DeepLinkDialog:totp.passcodeLabel")}
+                    </Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="totpCode"
+                        placeholder={t("DeepLinkDialog:totp.placeholder")}
+                        value={totpCode}
+                        onChange={(e) => {
+                          setTotpCode(e.target.value);
+                          if (totpDeeplink) setTotpDeeplink(null);
+                          if (totpError) setTotpError(null);
+                        }}
+                        onKeyDown={(e) => {
+                          if (
+                            e.key === "Enter" &&
+                            totpCode.trim() &&
+                            !totpLoading
+                          ) {
+                            handleTotpSubmit();
+                          }
+                        }}
+                      />
+                      <Button
+                        onClick={handleTotpSubmit}
+                        disabled={!totpCode.trim() || totpLoading}
+                      >
+                        {totpLoading
+                          ? t("DeepLinkDialog:totp.generating")
+                          : t("DeepLinkDialog:totp.submit")}
+                      </Button>
+                    </div>
+                    {totpError ? (
+                      <p className="text-sm text-red-500">{totpError}</p>
+                    ) : null}
+                    {totpDeeplink ? (
+                      <>
+                        <p className="text-sm mt-2">
+                          {t("DeepLinkDialog:totp.ready")}
+                        </p>
+                        <div className="flex gap-3 items-center flex-wrap">
+                          <a href={totpDeeplink}>
+                            <Button className="mt-2">BeetVault</Button>
+                          </a>
+                          <Button
+                            variant="outline"
+                            className="mt-2"
+                            onClick={() => copyToClipboard(totpDeeplink)}
+                          >
+                            {t("DeepLinkDialog:totp.copyLink")}
+                          </Button>
+                        </div>
+                        <p className="text-xs opacity-60 break-all mt-2">
+                          {totpDeeplink.length > 120
+                            ? `${totpDeeplink.slice(0, 120)}...`
+                            : totpDeeplink}
+                        </p>
+                      </>
+                    ) : null}
+                  </div>
                 </>
               ) : null}
             </div>
