@@ -469,6 +469,13 @@
     "openDex": "Abrir em ordem limitada na DEX",
     "openInstant": "Abrir no Instant Swap"
   },
+  "monthly_referrer": {
+    "title": "Referenciador mensal",
+    "subtitle": "O melhor doador BTS para o criador deste aplicativo torna-se o referenciador para novas contas",
+    "hover1": "Doe BTS para apoiar o criador deste aplicativo — o melhor doador dos últimos 30 dias torna-se o referenciador/registrar para novas contas criadas neste aplicativo.",
+    "hover2": "Apenas o melhor doador obtém a função de referenciador; doadores classificados de 2 a 100 recebem reconhecimento, mas não crédito de referência.",
+    "hover3": "Aplica-se apenas a contas criadas dentro deste aplicativo. Associação vitalícia necessária para ganhar taxas de referência."
+  },
   "testnetUnsupported": "Este recurso consulta o índice público BitShares Elasticsearch, que só está disponível na mainnet. A testnet não é suportada.",
   "top_pools": {
     "title": "Principais pools",

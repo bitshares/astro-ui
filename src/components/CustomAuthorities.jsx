@@ -124,11 +124,11 @@ function toAuthPairs(entries) {
 const CARD_SHELL =
   "relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.04)]";
 const GRADIENT_HAIRLINE =
-  "pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent";
+  "pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-2)/0.70)] to-transparent";
 const ICON_CHIP =
-  "inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0";
+  "inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-2)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.30)] to-[hsl(var(--accent-success)/0.30)] dark:text-[hsl(var(--accent-2-fg))] text-[hsl(var(--accent-2-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-2)/0.4)] flex-shrink-0";
 const GRADIENT_BUTTON =
-  "gap-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_30px_-8px_hsl(var(--accent-1)/0.6)] hover:shadow-[0_12px_40px_-8px_hsl(var(--accent-1)/0.9)] active:scale-[0.99] transition-all duration-200 ease-out";
+  "gap-2 bg-gradient-to-r from-[hsl(var(--accent-2))] to-[hsl(var(--accent-success))] text-white dark:text-white shadow-[0_8px_30px_-8px_hsl(var(--accent-2)/0.6)] hover:shadow-[0_12px_40px_-8px_hsl(var(--accent-2)/0.9)] active:scale-[0.99] transition-all duration-200 ease-out";
 
 export default function CustomAuthorities() {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -194,7 +194,8 @@ export default function CustomAuthorities() {
       <div className="grid grid-cols-1 gap-4">
         <div className={CARD_SHELL}>
           <span className={GRADIENT_HAIRLINE} />
-          <div className="pointer-events-none absolute -top-24 -right-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-1)/0.15)] blur-3xl" />
+          <div className="pointer-events-none absolute -top-24 -right-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-2)/0.15)] blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-[hsl(var(--accent-success)/0.10)] blur-3xl" />
           <div className="relative flex items-center justify-between gap-3 p-5 sm:p-6">
             <div className="flex items-center gap-3 min-w-0">
               <span className={ICON_CHIP}>

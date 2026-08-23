@@ -11,5 +11,29 @@
     "promptTEST": "次の Bitshares テストネット (TEST) アカウントを続行しますか?",
     "back": "戻る",
     "proceed": "進む"
-  }
+  },
+  "mode": {
+    "titleBTS": "How would you like to find the account on Bitshares?",
+    "titleTEST": "How would you like to find the account on Bitshares testnet?",
+    "search": "Search for account",
+    "searchSubtitle": "Enter an account name or ID",
+    "favourites": "Favourite Users",
+    "favouritesSubtitle": "{{count}} favourite saved",
+    "favouritesSubtitle_plural": "{{count}} favourites saved",
+    "back": "Back"
+  },
+  "search": {
+    "initDesc": "Enter the account name or ID",
+    "description": "Is this the correct account?",
+    "back": "Go back",
+    "continue": "Continue"
+  },
+  "favourites": {
+    "description": "Select one of your favourite users",
+    "none": "No favourite users found",
+    "noneHint": "You can add favourites from the Favourites page"
+  },
+  "step1": "Method",
+  "step2": "Select",
+  "noAccount": "Couldn't find account."
 }

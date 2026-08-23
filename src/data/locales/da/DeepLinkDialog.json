@@ -13,7 +13,8 @@
     "rawDeeplink": "Rå dyblink",
     "localJSONFile": "Lokal JSON-fil",
     "qrCode": "QR-kode",
-    "propose": "Forslag"
+    "propose": "Forslag",
+    "totp": "TOTP"
   },
   "tabsContent": {
     "transactionObjectJSON": "Transaktionsobjekt JSON",
@@ -51,5 +52,18 @@
     "targetHeader": "Forslagsgebyr betale konto",
     "revisionPeriodSecondsContent": "Angiv revisionsperioden i sekunder.",
     "revisionPeriodSecondsHeader": "Revisionsperiode (sekunder)"
+  },
+  "totp": {
+    "title": "TOTP Deeplink — BeetVault",
+    "description": "Indtast den tidsbaserede engangskode fra BeetVault (TOTP Deeplink-side). Transaktionen krypteres med din kode og kan kun åbnes i BeetVault.",
+    "passcodeLabel": "Genereret kode",
+    "placeholder": "Indtast koden genereret i BeetVault",
+    "submit": "Indsend",
+    "generating": "Genererer...",
+    "passcodeRequired": "Kode er påkrævet",
+    "unavailable": "TOTP deeplink er ikke tilgængelig i dette miljø",
+    "failed": "Kunne ikke generere TOTP deeplink",
+    "ready": "Deeplink klar — kun BeetVault:",
+    "copyLink": "Kopier link"
   }
 }

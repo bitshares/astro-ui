@@ -1,0 +1,34 @@
+{
+  "title": "Kuuline soovitaja",
+  "testnetMessage": "See funktsioon on saadaval ainult põhivõrgus. Testvõrgus kasutatakse kõigi uute kontode jaoks vaikesoovitaja kontot ({{default}}).",
+  "subtitle": "Selle rakenduse looja BTS-i suurim annetaja muutub selles rakenduses loodud uute kontode soovitajaks.",
+  "currentReferrer": "Selles rakenduses loodud uued kontod on praegu registreeritud & soovitatud:",
+  "th": {
+    "rank": "Järjestus",
+    "donor": "Annetaja",
+    "transfers": "Ülekanded",
+    "amount": "Kokku"
+  },
+  "donate": {
+    "title": "Annetage, et saada suurimaks annetajaks",
+    "target": "Annetades {{symbol}} adressaadile {{target}}",
+    "amount": "Summa",
+    "available": "Saadaval",
+    "submit": "Annetage",
+    "header": "Annetades {{amount}} {{symbol}} adressaadile {{target}}",
+    "insufficient": "Ebapiisav saldo"
+  },
+  "empty": "Selle rakenduse loojale ei ole viimase 30 päeva jooksul tehtud BTS-i annetusi.",
+  "emptyDefault": "Uued kontod on praegu registreeritud & soovitatud vaiksekonto poolt:",
+  "ltmRequired": "Annetustest soovitustasu teenimiseks on vajalik eluaegne liikmelisus.",
+  "ltmUpgradeCta": "Uuendage eluaegseks liikmeks",
+  "how": {
+    "title": "Kuidas see töötab",
+    "intro": "Annetage BTS-i selle rakenduse loojale",
+    "intro2": "— viimase 30 päeva suurim annetaja muutub iga selles rakenduses loodud uue konto soovitajaks/registreerijaks.",
+    "topOnly": "Ainult #1 annetaja saab soovitaja/registreerija rolli. Järjestuses 2–100 olevaid annetajaid kuvatakse siin, kuid nad ei saa soovituskrediiti.",
+    "ltm": "Eluaegne liikmelisus on kohustuslik — ilma uuendatud LTM-kontota ei teeni teie soovitused teile tasu.",
+    "appOnly": "Ainult selles rakenduses loodud kontod (konto loomine, kraani meetod) lisatakse suurimale annetajale. Teiste BitShares rahakottide või liideste kaudu tehtud registreerimised ei lähe arvesse.",
+    "noGuarantee": "Suurimaks annetajaks saamine ei garanteeri teile soovitusi — peate aktiivselt inimesi kutsuma selles rakenduses kontosid looma akna jooksul. Kui keegi ei anneta, läheb soovitaja tagasi vaikesoovitaja kontole:"
+  }
+}

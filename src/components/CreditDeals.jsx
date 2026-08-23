@@ -672,7 +672,9 @@ export default function CreditDeals(properties) {
             <div className="h-1 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.7)] via-[hsl(var(--accent-2)/0.7)] to-[hsl(var(--accent-1)/0.7)]" />
             <div className="p-4 pb-0">
               <h2 className="text-lg font-semibold tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
-                <FileSignature className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                  <FileSignature className="h-4.5 w-4.5" />
+                </span>
                 {t("CreditDeals:card.title")}
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
@@ -685,7 +687,7 @@ export default function CreditDeals(properties) {
                   <TabsTrigger
                     value="borrowings"
                     onClick={() => setActiveTab("borrowings")}
-                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--accent-1))] data-[state=active]:to-[hsl(var(--accent-2))] data-[state=active]:text-[hsl(var(--accent-1-gradFg))] data-[state=active]:shadow-md data-[state=active]:shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
+                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--accent-1))] data-[state=active]:to-[hsl(var(--accent-2))] data-[state=active]:text-[hsl(var(--accent-1-fg))] dark:data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {activeTab === "borrowings"
                       ? t("CreditDeals:card.viewingBorrowings")
@@ -694,7 +696,7 @@ export default function CreditDeals(properties) {
                   <TabsTrigger
                     value="lendings"
                     onClick={() => setActiveTab("lendings")}
-                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--accent-1))] data-[state=active]:to-[hsl(var(--accent-2))] data-[state=active]:text-[hsl(var(--accent-1-gradFg))] data-[state=active]:shadow-md data-[state=active]:shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
+                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--accent-1))] data-[state=active]:to-[hsl(var(--accent-2))] data-[state=active]:text-[hsl(var(--accent-1-fg))] dark:data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-[color:hsl(var(--accent-1)/0.3)] transition-all duration-200 data-[state=inactive]:text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {activeTab === "lendings"
                       ? t("CreditDeals:card.viewingLendings")

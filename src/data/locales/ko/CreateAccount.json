@@ -21,5 +21,7 @@
     "invalidUsername": "유효하지 않은 사용자 이름을 제공했습니다. 다시 시도하십시오.",
     "generateDeeplink": "블록 체인 작동을 생성하십시오",
     "faucetInProgress": "수도꼭지 등록 진행 ...",
-    "faucetError": "계정을 등록하는 오류가있었습니다. "
+    "faucetError": "계정을 등록하는 오류가있었습니다. ",
+    "referredBy": "귀하의 계정은 다음에 의해 등록 및 추천됩니다:",
+    "becomeReferrer": "새 계정의 추천인이 되기 위해 기부하세요"
   }

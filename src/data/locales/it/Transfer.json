@@ -22,6 +22,7 @@
   "maximumAmountDescription": "Questo è l'importo massimo di {{asset}} puoi trasferire.",
   "amountToTransfer": "Quantità di {{asset}} trasferire",
   "amountToTransferLabel": "Importo da trasferire",
+  "balanceHint": "Saldo: {{balance}} {{asset}}",
   "amountToTransferDescription": "Quanto invierai all'account di destinazione.",
   "networkFee": "Tariffa di rete",
   "networkFeePlaceholder": "{{fee}} BTS",

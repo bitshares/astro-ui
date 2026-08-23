@@ -39,6 +39,17 @@ import {
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 
 import { createUserSearchStore } from "@/nanoeffects/UserSearch.ts";
+import { getTopDonators } from "@/nanoeffects/TopDonators.ts";
+import { getObjects } from "@/nanoeffects/src/common";
+
+import {
+  DONATIONS_TARGET_ID,
+  DONATIONS_ASSET_ID,
+  DONATIONS_TOP_LIMIT,
+  DONATIONS_LOOKBACK_DAYS,
+  DONATIONS_DEFAULT_REFERRER_NAME,
+  DONATIONS_TESTNET_REFERRER_NAME,
+} from "@/config/donations.ts";
 
 import { $currentNode } from "@/stores/node.ts";
 import { $currentUser } from "@/stores/users.ts";
@@ -69,6 +80,9 @@ const CreateAccount = () => {
 
   const [itr, setItr] = useState(0);
   const [generatedPassword, setGeneratedPassword] = useState(null);
+
+  const [topDonatorID, setTopDonatorID] = useState(null);
+  const [topDonatorName, setTopDonatorName] = useState(null);
   useEffect(() => {
     async function fetching() {
       let _key;
@@ -129,6 +143,8 @@ const CreateAccount = () => {
           password: password,
           method: method,
           nodeURL: currentNode ? currentNode.url : null,
+          referrerOverride: topDonatorID ?? null,
+          chain: usr.chain,
         });
       } catch (error) {
         console.log({ error });
@@ -148,7 +164,53 @@ const CreateAccount = () => {
     ) {
       generate();
     }
-  }, [usr, username, password, generatedPassword, method]);
+  }, [usr, username, password, generatedPassword, method, topDonatorID]);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchTopDonator() {
+      if (!usr || !usr.chain || usr.chain !== "bitshares") {
+        setTopDonatorID(null);
+        setTopDonatorName(null);
+        return;
+      }
+      try {
+        const donors = await getTopDonators(
+          DONATIONS_TARGET_ID,
+          DONATIONS_ASSET_ID,
+          DONATIONS_TOP_LIMIT,
+          DONATIONS_LOOKBACK_DAYS
+        );
+        if (cancelled) return;
+        const id = donors && donors.length ? donors[0].id : null;
+        setTopDonatorID(id);
+        if (id) {
+          const objs = await getObjects(
+            "bitshares",
+            [id],
+            currentNode ? currentNode.url : null
+          );
+          if (!cancelled) {
+            setTopDonatorName(
+              objs && objs.length && objs[0].name ? objs[0].name : id
+            );
+          }
+        } else {
+          setTopDonatorName(null);
+        }
+      } catch (error) {
+        console.log({ error });
+        if (!cancelled) {
+          setTopDonatorID(null);
+          setTopDonatorName(null);
+        }
+      }
+    }
+    fetchTopDonator();
+    return () => {
+      cancelled = true;
+    };
+  }, [usr, currentNode]);
 
   const [faucetInProgress, setFaucetInProgress] = useState(false);
   //const [accountResponse, setAccountResponse] = useState();
@@ -335,6 +397,35 @@ const CreateAccount = () => {
                   </SelectContent>
                 </Select>
               </div>
+
+              {method === "faucet" ? (
+                <div className="rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.08)] to-transparent p-3">
+                  <div className={`grid grid-cols-1 ${usr && usr.chain === "bitshares" ? "sm:grid-cols-2" : ""} gap-3 items-center`}>
+                    <div>
+                      <p className="text-sm text-foreground/80">
+                        {t("CreateAccount:referredBy", "Your account will be registered & referred by:")}{" "}
+                        <span className="font-medium text-[hsl(var(--accent-1-fg))]">
+                          {usr && usr.chain === "bitshares"
+                            ? (topDonatorName ?? DONATIONS_DEFAULT_REFERRER_NAME)
+                            : DONATIONS_TESTNET_REFERRER_NAME}
+                        </span>
+                      </p>
+                    </div>
+                    {usr && usr.chain === "bitshares" ? (
+                      <div className="sm:text-right">
+                        <Button
+                          asChild
+                          className="w-full sm:w-auto bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] hover:shadow-[0_12px_36px_-12px_hsl(var(--accent-1)/0.9)] transition-all"
+                        >
+                          <a href="/monthly_referrer.html">
+                            {t("CreateAccount:becomeReferrer", "Donate to become the referrer of new accounts")}
+                          </a>
+                        </Button>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              ) : null}
 
               <div className="grid grid-cols-1 gap-3">
                 {[

@@ -21,5 +21,7 @@
     "invalidUsername": "You've provided an invalid username, please try again.",
     "generateDeeplink": "Generate Blockchain Operation",
     "faucetInProgress": "Faucet registration in progress...",
-    "faucetError": "There was an error registering your account. Please try again later."
+    "faucetError": "There was an error registering your account. Please try again later.",
+    "referredBy": "Your account will be registered & referred by:",
+    "becomeReferrer": "Donate to become the referrer of new accounts"
 }

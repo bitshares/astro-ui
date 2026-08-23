@@ -21,5 +21,7 @@
     "invalidUsername": "Você forneceu um nome de usuário inválido, tente novamente.",
     "generateDeeplink": "Gerar operação blockchain",
     "faucetInProgress": "Registro de torneira em andamento ...",
-    "faucetError": "Houve um erro de registro de sua conta. "
+    "faucetError": "Houve um erro de registro de sua conta. ",
+    "referredBy": "Sua conta será registrada & referenciada por:",
+    "becomeReferrer": "Doar para se tornar o referenciador de novas contas"
   }

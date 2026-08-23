@@ -1,0 +1,34 @@
+{
+  "title": "Månedlig henviser",
+  "testnetMessage": "Denne funktion er kun tilgængelig på mainnet. På testnet vil standard-henviserkontoen ({{default}}) blive brugt til alle nye konti.",
+  "subtitle": "Top BTS-donor til skaberen af denne applikation bliver henviseren for nye konti oprettet i denne app.",
+  "currentReferrer": "Nye konti oprettet i denne app er i øjeblikket registreret & henvist af:",
+  "th": {
+    "rank": "Rang",
+    "donor": "Donor",
+    "transfers": "Overførsler",
+    "amount": "Total"
+  },
+  "donate": {
+    "title": "Donér for at blive top-donor",
+    "target": "Donerer {{symbol}} til {{target}}",
+    "amount": "Beløb",
+    "available": "Tilgængelig",
+    "submit": "Donér",
+    "header": "Donerer {{amount}} {{symbol}} til {{target}}",
+    "insufficient": "Utilstrækkelig saldo"
+  },
+  "empty": "Ingen BTS-donationer til skaberen af denne applikation i de seneste 30 dage.",
+  "emptyDefault": "Nye konti er i øjeblikket registreret & henvist af standardkontoen:",
+  "ltmRequired": "Du skal have et livstidsmedlemskab for at tjene henvisningsgebyrer fra donationer.",
+  "ltmUpgradeCta": "Opgrader til livstidsmedlemskab",
+  "how": {
+    "title": "Sådan fungerer det",
+    "intro": "Donér BTS til skaberen af denne applikation",
+    "intro2": "— top-donoren i de seneste 30 dage bliver henviseren/registratoren for hver ny konto oprettet i denne app.",
+    "topOnly": "Kun #1-donoren opnår henviser-/registrator-rollen. Donorer rangeret 2–100 vises her, men modtager ingen henvisningskredit.",
+    "ltm": "Livstidsmedlemskab kræves — uden en opgraderet LTM-konto tjener dine henvisninger dig ingen gebyrer.",
+    "appOnly": "Kun konti oprettet i denne applikation (opret konto, faucet-metode) tilskrives top-donoren. Registreringer foretaget gennem andre BitShares-tegnebøger eller -grænseflader tæller ikke.",
+    "noGuarantee": "At blive top-donor garanterer dig ikke nogen henvisninger — du skal aktivt invitere folk til at oprette konti gennem denne app i vinduet. Hvis ingen donerer, falder henviseren tilbage til standardkontoen:"
+  }
+}

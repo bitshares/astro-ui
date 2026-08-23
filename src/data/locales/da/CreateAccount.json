@@ -21,5 +21,7 @@
   "invalidUsername": "Du har angivet et ugyldigt brugernavn, prøv venligst igen.",
   "generateDeeplink": "Generer blockchain-operation",
   "faucetInProgress": "Faucet-registrering i gang…",
-  "faucetError": "Der opstod en fejl ved registrering af din konto. Prøv venligst igen senere."
+  "faucetError": "Der opstod en fejl ved registrering af din konto. Prøv venligst igen senere.",
+  "referredBy": "Din konto vil blive registreret & anbefalet af:",
+  "becomeReferrer": "Donér for at blive henviseren for nye konti"
 }

@@ -22,6 +22,7 @@
   "maximumAmountDescription": "これが最大金額です {{asset}} 転送できます。",
   "amountToTransfer": "数の {{asset}} 乗り換え",
   "amountToTransferLabel": "送金金額",
+  "balanceHint": "残高: {{balance}} {{asset}}",
   "amountToTransferDescription": "対象口座に送金する金額。",
   "networkFee": "ネットワーク料金",
   "networkFeePlaceholder": "{{fee}} 防弾少年団",

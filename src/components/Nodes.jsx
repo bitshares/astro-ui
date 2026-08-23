@@ -97,7 +97,7 @@ export default function Nodes(properties) {
     // retry is disabled only while a ping is in progress (handled by `pinging`)
     return (
       <div style={{ ...style }} key={`acard-${index}`}>
-        <Card className={`ml-2 mr-2 border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.25)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all ${index === 0 ? "!border-[hsl(var(--accent-success)/0.3)] !bg-[hsl(var(--accent-success)/0.05)]" : ""}`}>
+        <Card className={`ml-2 mr-2 border-[hsl(var(--accent-success)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-success)/0.25)] hover:bg-[hsl(var(--accent-success)/0.03)] transition-all ${index === 0 ? "!border-[hsl(var(--accent-success)/0.3)] !bg-[hsl(var(--accent-success)/0.05)]" : ""}`}>
           <CardHeader className="pb-0 pt-0">
             <CardTitle>
               <div className={`grid grid-cols-4 gap-2 items-center mt-0 pt-0`}>
@@ -167,7 +167,7 @@ export default function Nodes(properties) {
                           Retry
                         </Button>
                         <Button 
-                          className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
+                          className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white dark:text-white hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
                           onClick={() => setOpen(false)}
                         >
                           Close
@@ -199,22 +199,22 @@ export default function Nodes(properties) {
     <>
       <div className="container mx-auto mt-5 mb-5 w-full lg:w-3/4">
         <div className="grid grid-cols-1 gap-3">
-          <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
+          <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-success)/0.20)]">
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-success)/0.7)] to-transparent"
             />
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.1)] blur-3xl"
+              className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-success)/0.10)] blur-3xl"
             />
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-2)/0.1)] blur-3xl"
+              className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.10)] blur-3xl"
             />
             <div className="relative p-5 sm:p-6">
               <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-success)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-success)/0.30)] to-[hsl(var(--accent-1)/0.30)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-success)/0.4)]">
                   <Server className="h-4.5 w-4.5" strokeWidth={2.25} />
                 </span>
                 <div>
@@ -229,10 +229,10 @@ export default function Nodes(properties) {
             </div>
           </Card>
 
-          <Card className="relative overflow-hidden rounded-2xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-1)/0.1)]">
-            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.15)] to-[hsl(var(--accent-2)/0.15)] blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-2)/0.15)] to-[hsl(var(--accent-1)/0.15)] blur-3xl" />
-            <div className="h-0.5 w-full bg-gradient-to-r from-[hsl(var(--accent-1)/0.5)] via-[hsl(var(--accent-2)/0.5)] to-[hsl(var(--accent-1)/0.5)]" />
+          <Card className="relative overflow-hidden rounded-2xl border border-[hsl(var(--accent-success)/0.15)] bg-card/60 backdrop-blur-xl shadow-lg shadow-[color:hsl(var(--accent-success)/0.1)]">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-success)/0.15)] to-[hsl(var(--accent-1)/0.15)] blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gradient-to-br from-[hsl(var(--accent-1)/0.15)] to-[hsl(var(--accent-success)/0.15)] blur-3xl" />
+            <div className="h-0.5 w-full bg-gradient-to-r from-[hsl(var(--accent-success)/0.5)] via-[hsl(var(--accent-1)/0.5)] to-[hsl(var(--accent-success)/0.5)]" />
             <CardHeader>
               <CardTitle className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent flex items-center gap-2">
                 <Server className="h-5 w-5 text-[hsl(var(--accent-1-fg))]" />
@@ -267,12 +267,12 @@ export default function Nodes(properties) {
                 <p>{t("Nodes:none")}</p>
               )}
               <br />
-              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/40 p-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-success)/0.15)] bg-card/40 p-4">
                 <p className="text-sm text-muted-foreground mb-3">{t("Nodes:addDescription")}</p>
                 <Input
                   name="searchInput"
                   placeholder="wss://url/ws"
-                  className="mb-3 mt-3 w-full border-[hsl(var(--accent-1)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
+                  className="mb-3 mt-3 w-full border-[hsl(var(--accent-success)/0.2)] bg-card/60 focus-visible:ring-[hsl(var(--accent-1)/0.4)] focus-visible:border-[hsl(var(--accent-1)/0.5)]"
                   onChange={(event) => {
                     setInputURL(event.target.value);
                   }}
@@ -296,7 +296,7 @@ export default function Nodes(properties) {
                 />
                 <div className="flex gap-2">
                   <Button
-                    className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:shadow-[color:hsl(var(--accent-1)/0.4)] transition-all"
+                    className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white dark:text-white hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] shadow-md shadow-[color:hsl(var(--accent-success)/0.20)] hover:shadow-[color:hsl(var(--accent-1)/0.4)] transition-all"
                     onClick={() => {
                       if (
                         !inputURL ||

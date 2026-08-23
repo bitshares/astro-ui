@@ -21,5 +21,7 @@
     "invalidUsername": "Olete andnud kehtetu kasutajanime, proovige uuesti.",
     "generateDeeplink": "Genereerida plokiahela töö",
     "faucetInProgress": "Kraasi registreerimine pooleli ...",
-    "faucetError": "Teie konto registreerimisel oli tõrge. "
+    "faucetError": "Teie konto registreerimisel oli tõrge. ",
+    "referredBy": "Teie konto registreeritakse & soovitatakse:",
+    "becomeReferrer": "Annetage, et saada uute kontode soovitajaks"
   }

@@ -97,6 +97,7 @@
         "pools": "Søg gennem alle de tilgængelige likviditetspuljer for handelspar, du måske er interesseret i!",
         "create_ticket": "Opret en stemmelås-billet, som giver dig mulighed for at stemme på blockchain vedrørende vigtige spørgsmål!",
         "ticket_leaderboard": "Overvåg nemt de øverste konti med størst stemmevægt for at påvirke blockchain-styring!",
+        "monthly_referrer": "Donér BTS for at støtte skaberen af denne applikation og blive den månedlige top-henviser for nye konti oprettet i denne app.",
         "create_pool": "Opret en ny likviditetspulje ved at konvertere et eksisterende brugerudstedt aktiv til et puljeaktieaktivtoken.",
         "invoice_inventory": "Håndtere lagervarer og tilhørende priser til fakturering.",
         "create_invoice": "Opret en faktura ved at vælge lagervarer, angive mængder og generere et identifikationsnotat til betaling.",
@@ -114,7 +115,8 @@
         "airdrop_perform": "Broadcast hver batch af din airdrop via din Beet-tegnebog.",
         "airdrop_calculate": "Distribuer en aktiv til mange konti via algoritmisk udvælgelse eller en manuel liste, og send derefter batcher gennem din Beet-tegnebog.",
         "top-markets": "Brug denne side til at se de mest aktive BitShares DEX-markeder, rangeret efter fill-ordre-volumen.",
-        "top-pools": "Brug denne side til at se de mest aktive BitShares-likviditetspuljer, rangeret efter swap-volumen."
+        "top-pools": "Brug denne side til at se de mest aktive BitShares-likviditetspuljer, rangeret efter swap-volumen.",
+        "configure_visuals": "Tilpas appens visuelle udtryk — bølger, farvepaletter, nordlys, sløring og partikeleffekter."
     },
     "back": "Gå tilbage",
     "usage": "Designet til brug med ",

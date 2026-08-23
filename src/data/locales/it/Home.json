@@ -469,6 +469,13 @@
     "openDex": "Apri in ordine limite DEX",
     "openInstant": "Apri in Instant Swap"
   },
+  "monthly_referrer": {
+    "title": "Referente mensile",
+    "subtitle": "Il miglior donatore BTS al creatore di questa applicazione diventa il referente per i nuovi account",
+    "hover1": "Dona BTS per supportare il creatore di questa applicazione — il miglior donatore degli ultimi 30 giorni diventa il referente/registrar per i nuovi account creati in questa app.",
+    "hover2": "Solo il miglior donatore ottiene il ruolo di referente; i donatori classificati dal 2 al 100 ricevono riconoscimento, ma non credito di riferimento.",
+    "hover3": "Si applica solo agli account creati all'interno di questa applicazione. L'abbonamento a vita è richiesto per guadagnare commissioni di riferimento."
+  },
   "testnetUnsupported": "Questa funzionalità interroga l'indice Elasticsearch pubblico di BitShares, disponibile solo sulla mainnet. La testnet non è supportata.",
   "top_pools": {
     "title": "Pool principali",

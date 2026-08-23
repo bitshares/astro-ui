@@ -469,6 +469,13 @@
         "openDex": "Åbn i DEX limit-ordre",
         "openInstant": "Åbn i Instant Swap"
     },
+    "monthly_referrer": {
+        "title": "Månedlig henviser",
+        "subtitle": "Top BTS-donor til skaberen af denne applikation bliver henviseren for nye konti",
+        "hover1": "Donér BTS for at støtte skaberen af denne applikation — #1-donoren i de seneste 30 dage bliver henviseren/registratoren for nye konti oprettet i denne app.",
+        "hover2": "Kun top-donoren opnår henviser-rollen; rang 2–100 får anerkendelse, men ikke henvisningskredit.",
+        "hover3": "Gælder kun for konti oprettet i denne applikation. Livstidsmedlemskab kræves for at tjene henvisningsgebyrer."
+    },
     "testnetUnsupported": "Denne funktion forespørger det offentlige BitShares Elasticsearch-indeks, som kun er tilgængeligt på hovednetværket. Testnet understøttes ikke.",
     "top_pools": {
         "title": "Mest aktive puljer",

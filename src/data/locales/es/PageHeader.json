@@ -97,6 +97,7 @@
         "pools": "¡Busque entre todos los fondos de liquidez disponibles los pares comerciales que podrían interesarle!",
         "create_ticket": "¡Cree un boleto de bloqueo de votación que le otorga la posibilidad de votar en la cadena de bloques sobre asuntos importantes!",
         "ticket_leaderboard": "¡Supervise fácilmente las cuentas principales con mayor peso de votos para influir en la gobernanza de blockchain!",
+        "monthly_referrer": "Done BTS para apoyar al creador de esta aplicación y convertirse en el referidor mensual principal para las cuentas nuevas creadas en esta aplicación.",
         "create_pool": "Cree un nuevo grupo de liquidez convirtiendo un activo emitido por un usuario existente en un token de activo compartido del grupo.",
         "invoice_inventory": "Gestionar artículos de inventario y precios asociados para facturación.",
         "create_invoice": "Cree una factura seleccionando artículos de inventario, estableciendo cantidades y generando una nota identificadora para el pago.",
@@ -114,7 +115,8 @@
         "airdrop_perform": "Transmita cada lote de su airdrop a través de su billetera Beet.",
         "airdrop_calculate": "Distribuya un activo a muchas cuentas mediante selección algorítmica o una lista manual, y luego transmita lotes a través de su billetera Beet.",
         "top-markets": "Usa esta página para ver los mercados DEX de BitShares más activos, ordenados por volumen de fill-orders.",
-        "top-pools": "Usa esta página para ver los pools de liquidez de BitShares más intercambiados, ordenados por volumen de swaps."
+        "top-pools": "Usa esta página para ver los pools de liquidez de BitShares más intercambiados, ordenados por volumen de swaps.",
+        "configure_visuals": "Personaliza los efectos visuales de la app: ondas, paletas de colores, aurora, desenfoque y partículas."
     },
     "back": "Regresa",
     "usage": "Diseñado para usar con ",

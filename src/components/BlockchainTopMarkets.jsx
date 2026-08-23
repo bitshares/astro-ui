@@ -97,14 +97,14 @@ export default function BlockchainTopMarkets() {
   if (isTestnet) {
     return (
       <div className="container mx-auto mt-5 mb-5 max-w-4xl">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.20)]">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-success)/0.20)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-success)/0.70)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.10)] blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-success)/0.10)] blur-3xl"
           />
           <span
             aria-hidden="true"
@@ -112,7 +112,7 @@ export default function BlockchainTopMarkets() {
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-1">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))]">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-success)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-success)/0.30)] to-[hsl(var(--accent-1)/0.30)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-success)/0.4)]">
                 <TrendingUp className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <h2 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
@@ -131,14 +131,14 @@ export default function BlockchainTopMarkets() {
   return (
     <div className="container mx-auto mt-5 mb-5 max-w-4xl">
       <div className="grid grid-cols-1 gap-5">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.20)]">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-success)/0.20)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.70)] to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-success)/0.70)] to-transparent"
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.10)] blur-3xl"
+            className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-success)/0.10)] blur-3xl"
           />
           <span
             aria-hidden="true"
@@ -147,7 +147,7 @@ export default function BlockchainTopMarkets() {
 
           <div className="relative p-5 sm:p-6">
             <div className="flex items-center gap-3 mb-4">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))]">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-success)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-success)/0.30)] to-[hsl(var(--accent-1)/0.30)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-success)/0.4)]">
                 <TrendingUp className="h-4.5 w-4.5" strokeWidth={2.25} />
               </span>
               <div>
@@ -161,12 +161,12 @@ export default function BlockchainTopMarkets() {
             </div>
 
             {loading ? (
-              <div className="flex items-center gap-3 rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4">
+              <div className="flex items-center gap-3 rounded-xl border border-[hsl(var(--accent-success)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-success)/0.06)] to-transparent p-4">
                 <Spinner />
                 <p>{t("Market:loading")}</p>
               </div>
             ) : markets && markets.length ? (
-              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-2 sm:p-3 overflow-hidden">
+              <div className="rounded-xl border border-[hsl(var(--accent-success)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-success)/0.06)] to-transparent p-2 sm:p-3 overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -203,7 +203,7 @@ export default function BlockchainTopMarkets() {
                 </Table>
               </div>
             ) : (
-              <div className="rounded-xl border border-[hsl(var(--accent-1)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent p-4">
+              <div className="rounded-xl border border-[hsl(var(--accent-success)/0.20)] bg-gradient-to-br from-[hsl(var(--accent-success)/0.06)] to-transparent p-4">
                 <p>{t("PortfolioTabs:noRecentActivityFound")}</p>
               </div>
             )}
@@ -213,7 +213,7 @@ export default function BlockchainTopMarkets() {
                 onClick={() => setRefreshCounter(refreshCounter + 1)}
                 disabled={loading}
                 aria-busy={loading}
-                className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] hover:shadow-[0_12px_36px_-12px_hsl(var(--accent-1)/0.9)] transition-all"
+                className="bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-1))] text-white dark:text-white shadow-[0_8px_28px_-12px_hsl(var(--accent-success)/0.7)] hover:shadow-[0_12px_36px_-12px_hsl(var(--accent-success)/0.9)] transition-all"
               >
                 {t("PortfolioTabs:refreshRecentActivityButton")}
               </Button>
@@ -223,14 +223,14 @@ export default function BlockchainTopMarkets() {
       </div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="sm:max-w-[420px] bg-card border border-[hsl(var(--accent-1)/0.30)]">
+        <DialogContent className="sm:max-w-[420px] bg-card border border-[hsl(var(--accent-success)/0.30)]">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.6)] to-transparent"
+            className="pointer-events-none absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-success)/0.6)] to-transparent"
           />
           <DialogHeader>
             <div className="flex items-center gap-2 mb-1">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.30)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.20)] to-[hsl(var(--accent-3)/0.20)] text-[hsl(var(--accent-1-gradFg))]">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(var(--accent-success)/0.40)] bg-gradient-to-br from-[hsl(var(--accent-success)/0.30)] to-[hsl(var(--accent-1)/0.30)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-success)/0.4)]">
                 <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.25} />
               </span>
               <DialogTitle>
@@ -250,7 +250,7 @@ export default function BlockchainTopMarkets() {
                   onClick={() => {
                     window.location.href = `/dex.html?market=${selected.baseSymbol}_${selected.quoteSymbol}`;
                   }}
-                  className="w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-3))] text-[hsl(var(--accent-1-gradFg))] shadow-[0_8px_28px_-12px_hsl(var(--accent-1)/0.7)] hover:shadow-[0_12px_36px_-12px_hsl(var(--accent-1)/0.9)] transition-all"
+                  className="w-full bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-1))] text-white dark:text-white shadow-[0_8px_28px_-12px_hsl(var(--accent-success)/0.7)] hover:shadow-[0_12px_36px_-12px_hsl(var(--accent-success)/0.9)] transition-all"
                 >
                   {t("Home:top_markets.openDex")}
                 </Button>

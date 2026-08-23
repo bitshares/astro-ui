@@ -13,7 +13,8 @@
     "rawDeeplink": "生のディープリンク",
     "localJSONFile": "ローカルJSONファイル",
     "qrCode": "QRコード",
-    "propose": "提案"
+    "propose": "提案",
+    "totp": "TOTP"
   },
   "tabsContent": {
     "transactionObjectJSON": "トランザクションオブジェクトJSON",
@@ -51,5 +52,18 @@
     "targetHeader": "提案料支払い口座",
     "revisionPeriodSecondsContent": "改訂期間を秒単位で指定します。",
     "revisionPeriodSecondsHeader": "修正期間 (秒)"
+  },
+  "totp": {
+    "title": "TOTP ディープリンク — BeetVault",
+    "description": "BeetVaultの時間ベースのワンタイムパスコード（TOTPディープリンクページ）を入力してください。トランザクションはパスコードで暗号化され、BeetVaultでのみ開くことができます。",
+    "passcodeLabel": "生成されたコード",
+    "placeholder": "BeetVaultで生成されたコードを入力",
+    "submit": "送信",
+    "generating": "生成中...",
+    "passcodeRequired": "パスコードは必須です",
+    "unavailable": "この環境ではTOTPディープリンクは利用できません",
+    "failed": "TOTPディープリンクの生成に失敗しました",
+    "ready": "ディープリンク準備完了 — BeetVaultのみ：",
+    "copyLink": "リンクをコピー"
   }
 }

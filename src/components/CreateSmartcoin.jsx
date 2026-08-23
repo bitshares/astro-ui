@@ -1144,9 +1144,12 @@ export default function CreateSmartcoin(properties) {
     <>
       <div className="min-h-screen pb-16">
         <div className="container mx-auto max-w-4xl px-4 pt-6 sm:pt-8">
-          <div className="rounded-xl border border-border bg-card/60 backdrop-blur-xl px-6 py-5 shadow-lg shadow-black/20 ring-1 dark:ring-white/[0.06] ring-border">
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-fg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] ring-1 ring-[hsl(var(--accent-1)/0.3)]">
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl px-6 py-5 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.04)]">
+            <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-warning)/0.7)] to-transparent" />
+            <span aria-hidden="true" className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-warning)/0.15)] blur-3xl" />
+            <span aria-hidden="true" className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[hsl(var(--accent-1)/0.12)] blur-3xl" />
+            <div className="relative flex items-center gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--accent-warning)/0.30)] to-[hsl(var(--accent-1)/0.30)] border border-[hsl(var(--accent-warning)/0.40)] text-[hsl(var(--accent-warning-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-warning)/0.4)]">
                 <Gem className="h-6 w-6" />
               </div>
               <div className="flex-1 min-w-0">
@@ -1731,13 +1734,13 @@ export default function CreateSmartcoin(properties) {
                 {editing &&
                 !hasEditedAssetOptions &&
                 !hasEditedBitassetOptions ? (
-                  <Button className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]" disabled>
+                  <Button className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-warning))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-warning))] hover:to-[hsl(var(--accent-1))] text-white dark:text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]" disabled>
                     <Send className="mr-2 h-4 w-4" />
                     {t("CreateUIA:buttons.submit")}
                   </Button>
                 ) : (
                   <Button
-                    className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]"
+                    className="h-10 px-8 bg-gradient-to-r from-[hsl(var(--accent-warning))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-warning))] hover:to-[hsl(var(--accent-1))] text-white dark:text-white shadow-md shadow-[color:hsl(var(--accent-1)/0.25)]"
                     onClick={() => {
                       setShowDialog(true);
                     }}

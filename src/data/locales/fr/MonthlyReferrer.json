@@ -1,0 +1,34 @@
+{
+  "title": "Parrain mensuel",
+  "testnetMessage": "Cette fonctionnalité n'est disponible que sur le mainnet. Sur le testnet, le compte parrain par défaut ({{default}}) sera utilisé pour tous les nouveaux comptes.",
+  "subtitle": "Le meilleur donateur BTS au créateur de cette application devient le parrain des nouveaux comptes créés dans cette application.",
+  "currentReferrer": "Les nouveaux comptes créés dans cette application sont actuellement enregistrés & parrainés par :",
+  "th": {
+    "rank": "Rang",
+    "donor": "Donateur",
+    "transfers": "Virements",
+    "amount": "Total"
+  },
+  "donate": {
+    "title": "Faire un don pour devenir le meilleur donateur",
+    "target": "Don de {{symbol}} à {{target}}",
+    "amount": "Montant",
+    "available": "Disponible",
+    "submit": "Donner",
+    "header": "Don de {{amount}} {{symbol}} à {{target}}",
+    "insufficient": "Solde insuffisant"
+  },
+  "empty": "Aucun don BTS au créateur de cette application au cours des 30 derniers jours.",
+  "emptyDefault": "Les nouveaux comptes sont actuellement enregistrés & parrainés par le compte par défaut :",
+  "ltmRequired": "Vous avez besoin d'un abonnement à vie pour gagner des frais de parrainage sur les dons.",
+  "ltmUpgradeCta": "Passer à l'abonnement à vie",
+  "how": {
+    "title": "Comment ça marche",
+    "intro": "Faites un don BTS au créateur de cette application",
+    "intro2": "— le meilleur donateur des 30 derniers jours devient le parrain/enregistreur de chaque nouveau compte créé dans cette application.",
+    "topOnly": "Seul le donateur #1 obtient le rôle de parrain/enregistreur. Les donateurs classés 2–100 sont listés ici mais ne reçoivent aucun crédit de parrainage.",
+    "ltm": "Abonnement à vie requis — sans un compte LTM mis à niveau, vos parrainages ne vous rapportent aucun frais.",
+    "appOnly": "Seuls les comptes créés à l'intérieur de cette application (créer un compte, méthode faucet) sont attribués au meilleur donateur. Les inscriptions effectuées via d'autres portefeuilles ou interfaces BitShares ne comptent pas.",
+    "noGuarantee": "Devenir le meilleur donateur ne vous garantit aucun parrainage — vous devez inviter activement les gens à créer des comptes via cette application pendant la fenêtre. Si personne ne fait de don, le parrain revient au compte par défaut :"
+  }
+}

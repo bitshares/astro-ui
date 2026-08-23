@@ -80,6 +80,7 @@ const pages = [
   "Voting",
   "CreateTicket",
   "TicketsLeaderboard",
+  "MonthlyReferrer",
   "Favourites",
   "Inventory",
   "InvoiceCreator",

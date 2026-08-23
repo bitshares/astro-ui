@@ -1,0 +1,34 @@
+{
+  "title": "Referente mensile",
+  "testnetMessage": "Questa funzionalità è disponibile solo sulla mainnet. Sul testnet verrà utilizzato l'account referente predefinito ({{default}}) per tutti i nuovi account.",
+  "subtitle": "Il miglior donatore BTS al creatore di questa applicazione diventa il referente per i nuovi account creati in questa app.",
+  "currentReferrer": "I nuovi account creati in questa app sono attualmente registrati & referiti da:",
+  "th": {
+    "rank": "Posizione",
+    "donor": "Donatore",
+    "transfers": "Trasferimenti",
+    "amount": "Totale"
+  },
+  "donate": {
+    "title": "Dona per diventare il miglior donatore",
+    "target": "Donando {{symbol}} a {{target}}",
+    "amount": "Importo",
+    "available": "Disponibile",
+    "submit": "Dona",
+    "header": "Donazione di {{amount}} {{symbol}} a {{target}}",
+    "insufficient": "Saldo insufficiente"
+  },
+  "empty": "Nessuna donazione BTS al creatore di questa applicazione negli ultimi 30 giorni.",
+  "emptyDefault": "I nuovi account sono attualmente registrati & referiti dall'account predefinito:",
+  "ltmRequired": "Hai bisogno di un abbonamento a vita per guadagnare le commissioni di riferimento dalle donazioni.",
+  "ltmUpgradeCta": "Aggiorna all'abbonamento a vita",
+  "how": {
+    "title": "Come funziona",
+    "intro": "Dona BTS al creatore di questa applicazione",
+    "intro2": "— il miglior donatore degli ultimi 30 giorni diventa il referente/registrar per ogni nuovo account creato in questa app.",
+    "topOnly": "Solo il donatore #1 ottiene il ruolo di referente/registrar. I donatori classificati dal 2 al 100 sono elencati qui ma non ricevono credito di riferimento.",
+    "ltm": "Abbonamento a vita richiesto — senza un account LTM aggiornato, i tuoi riferimenti non ti guadagnano commissioni.",
+    "appOnly": "Solo gli account creati all'interno di questa applicazione (crea account, metodo faucet) sono attribuiti al miglior donatore. Le registrazioni effettuate attraverso altri portafogli o interfacce BitShares non contano.",
+    "noGuarantee": "Diventare il miglior donatore non ti garantisce riferimenti — devi attivamente invitare le persone a creare account attraverso questa app durante la finestra. Se nessuno dona, il referente torna all'account predefinito:"
+  }
+}

@@ -52,6 +52,7 @@ import { Avatar as Av, AvatarFallback } from "@/components/ui/avatar";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
 
 import { Timer, Send, ArrowRight, Info } from "lucide-react";
 
@@ -135,6 +136,12 @@ export default function TimedTransfer(properties) {
     return [];
   }, [_marketSearchBTS, _marketSearchTEST, _chain]);
 
+  useEffect(() => {
+    if (!selectedAsset && usr && usr.chain) {
+      setSelectedAsset(usr.chain === "bitshares" ? "BTS" : "TEST");
+    }
+  }, [usr, selectedAsset]);
+
   const globalParams = useMemo(() => {
     if (_chain && (_globalParamsBTS || _globalParamsTEST)) {
       return _chain === "bitshares" ? _globalParamsBTS : _globalParamsTEST;
@@ -206,6 +213,22 @@ export default function TimedTransfer(properties) {
     }
   }, [found]);
 
+  const availableBalance = useMemo(() => {
+    if (!foundAsset || !balances) return null;
+    const _balance = balances.find((x) => x.asset_id === foundAsset.id);
+    return _balance
+      ? humanReadableFloat(_balance.amount, foundAsset.precision)
+      : "0";
+  }, [foundAsset, balances]);
+
+  const setMaxTransferAmount = () => {
+    if (availableBalance && parseFloat(availableBalance) > 0 && foundAsset) {
+      const formatted = String(parseFloat(availableBalance));
+      setTransferAmount(formatted);
+      form.setValue("transferAmount", formatted);
+    }
+  };
+
   const [targetUserDialogOpen, setTargetUserDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -276,7 +299,7 @@ export default function TimedTransfer(properties) {
           />
           <div className="relative p-5 sm:p-6">
             <div className="flex items-start gap-3 mb-4">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.25)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.06)] to-transparent dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
                 <Timer className="h-4 w-4" strokeWidth={2.25} />
               </span>
               <div className="flex-1">
@@ -303,6 +326,9 @@ export default function TimedTransfer(properties) {
               }}
             >
                 <FieldGroup>
+                  <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-3 items-center">
+                  <Card className="bg-card/40 border-border backdrop-blur-xl">
+                    <CardContent className="p-4">
                   <Field>
                     <FieldLabel>{t("Transfer:sendingAccount")}</FieldLabel>
                     <FieldContent>
@@ -337,11 +363,22 @@ export default function TimedTransfer(properties) {
                       {t("Transfer:sendingAccountDescription")}
                     </FieldDescription>
                   </Field>
+                  </CardContent>
+                  </Card>
 
+                  <div className="flex items-center justify-center py-1">
+                    <ArrowRight
+                      className="h-10 w-10 rotate-90 md:rotate-0 text-[hsl(var(--accent-1-fg))]"
+                      strokeWidth={2.5}
+                    />
+                  </div>
+
+                  <Card className="bg-card/40 border-border backdrop-blur-xl">
+                    <CardContent className="p-4">
                   <Field>
                     <FieldLabel>{t("Transfer:targetAccount")}</FieldLabel>
                     <FieldContent>
-                      <div className="grid grid-cols-8 mt-4">
+                      <div className="grid grid-cols-8">
                         <div className="col-span-1 flex items-center justify-center">
                           {targetUser && targetUser.name ? (
                             <Avatar
@@ -429,11 +466,31 @@ export default function TimedTransfer(properties) {
                           })}
                     </FieldDescription>
                   </Field>
+                  </CardContent>
+                  </Card>
+                  </div>
 
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                  <Card className="bg-card/40 border-border backdrop-blur-xl">
+                    <CardContent className="p-4 space-y-4">
                   <Field>
-                    <FieldLabel>{t("Transfer:assetToTransfer")}</FieldLabel>
+                    <div className="flex items-center justify-between gap-2">
+                      <FieldLabel>{t("Transfer:assetToTransfer")}</FieldLabel>
+                      <div>
+                        <AssetDropDown
+                          assetSymbol={selectedAsset ?? ""}
+                          assetData={null}
+                          storeCallback={setSelectedAsset}
+                          otherAsset={null}
+                          marketSearch={marketSearch}
+                          type={null}
+                          chain={usr && usr.chain ? usr.chain : "bitshares"}
+                          balances={balances}
+                        />
+                      </div>
+                    </div>
                     <FieldContent>
-                      <div className="grid grid-cols-8 mt-4">
+                      <div className="grid grid-cols-8">
                         <div className="col-span-1 ml-5">
                           {!selectedAsset || !foundAsset ? (
                             <Av>
@@ -450,7 +507,7 @@ export default function TimedTransfer(properties) {
                             </Av>
                           ) : null}
                         </div>
-                        <div className="col-span-7 md:col-span-5">
+                        <div className="col-span-7">
                           {!selectedAsset || !foundAsset ? (
                             <Input
                               disabled
@@ -465,18 +522,6 @@ export default function TimedTransfer(properties) {
                               className="mb-1 mt-1"
                             />
                           ) : null}
-                        </div>
-                        <div className="col-span-2 mt-1 ml-3">
-                          <AssetDropDown
-                            assetSymbol={selectedAsset ?? ""}
-                            assetData={null}
-                            storeCallback={setSelectedAsset}
-                            otherAsset={null}
-                            marketSearch={marketSearch}
-                            type={null}
-                            chain={usr && usr.chain ? usr.chain : "bitshares"}
-                            balances={balances}
-                          />
                         </div>
                       </div>
                     </FieldContent>
@@ -494,47 +539,30 @@ export default function TimedTransfer(properties) {
                     </FieldError>
                   </Field>
 
-                  {selectedAsset && targetUser ? (
+                  {selectedAsset ? (
                     <Field>
-                      <FieldLabel>
-                        {t("Transfer:amountAvailableToTransfer", {
-                          asset: selectedAsset ?? "???",
-                        })}
-                      </FieldLabel>
-                      <FieldContent>
-                        <Input
-                          disabled
-                          label={t("Transfer:amountAvailableToTransferLabel")}
-                          value={
-                            foundAsset &&
-                            balances &&
-                            balances.find((x) => x.asset_id === foundAsset.id)
-                              ? `${humanReadableFloat(
-                                  balances.find(
-                                    (x) => x.asset_id === foundAsset.id
-                                  ).amount,
-                                  foundAsset.precision
-                                )} ${foundAsset.symbol}`
-                              : "0"
-                          }
-                          className="mb-1"
-                        />
-                      </FieldContent>
-                      <FieldDescription>
-                        {t("Transfer:maximumAmountDescription", {
-                          asset: selectedAsset,
-                        })}
-                      </FieldDescription>
-                    </Field>
-                  ) : null}
-
-                  {selectedAsset && targetUser ? (
-                    <Field>
-                      <FieldLabel>
-                        {t("Transfer:amountToTransfer", {
-                          asset: selectedAsset ?? "???",
-                        })}
-                      </FieldLabel>
+                      <div className="flex items-center justify-between gap-2">
+                        <FieldLabel>
+                          {t("Transfer:amountToTransfer", {
+                            asset: selectedAsset ?? "???",
+                          })}
+                        </FieldLabel>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] text-muted-foreground">
+                            {t("Transfer:balanceHint", {
+                              balance: availableBalance ?? "0",
+                              asset: selectedAsset ?? "???",
+                            })}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={setMaxTransferAmount}
+                            className="inline-flex items-center rounded-md border border-[hsl(var(--accent-1)/0.30)] bg-[hsl(var(--accent-1)/0.10)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.20)] hover:border-[hsl(var(--accent-1)/0.50)] transition-colors"
+                          >
+                            MAX
+                          </button>
+                        </div>
+                      </div>
                       <FieldContent>
                         <Controller
                           name="transferAmount"
@@ -563,8 +591,11 @@ export default function TimedTransfer(properties) {
                       </FieldDescription>
                     </Field>
                   ) : null}
+                    </CardContent>
+                  </Card>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <Card className="bg-card/40 border-border backdrop-blur-xl">
+                    <CardContent className="p-4 space-y-3">
                     <div className="grid grid-cols-1 gap-3">
                       <HoverInfo
                         content={t("Common:expiryContent")}
@@ -703,28 +734,29 @@ export default function TimedTransfer(properties) {
                         </SelectContent>
                       </Select>
                     </div>
+                    </CardContent>
+                  </Card>
                   </div>
 
-                  {selectedAsset && targetUser ? (
-                    <Field>
-                      <FieldLabel>{t("Transfer:networkFee")}</FieldLabel>
-                      <FieldContent>
-                        <Input
-                          disabled
-                          placeholder={`${t("Transfer:networkFeePlaceholder", {
-                            fee: fee,
-                          })}`}
-                          className="mb-3 mt-3"
-                        />
-                      </FieldContent>
+                  {selectedAsset && targetUser && fee ? (
+                    <div className="flex flex-col gap-1 px-1">
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                          {t("Transfer:networkFee")}
+                        </span>
+                        <span className="flex items-center gap-1.5 font-mono text-[hsl(var(--accent-1-fg))] text-sm">
+                          <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+                          {fee.toFixed(5)} {usr.chain === "bitshares" ? "BTS" : "TEST"}
+                        </span>
+                      </div>
                       {usr.id === usr.referrer ? (
-                        <FieldDescription>
+                        <span className="text-xs text-[hsl(var(--accent-success-fg))]">
                           {t("Transfer:rebate", {
                             rebate: trimPrice(fee * 0.8, 5),
                           })}
-                        </FieldDescription>
+                        </span>
                       ) : null}
-                    </Field>
+                    </div>
                   ) : null}
 
                   {!transferAmount ? (
@@ -797,9 +829,9 @@ export default function TimedTransfer(properties) {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 mt-5 gap-5">
+          <div className="flex flex-col items-center mt-5 gap-5 w-full">
             {targetUser && targetUser.name ? (
-            <div className="col-span-1">
+            <div className="w-full max-w-3xl">
               <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
                 <span
                   aria-hidden="true"
@@ -824,7 +856,7 @@ export default function TimedTransfer(properties) {
             </div>
           ) : null}
           {targetUser && targetUser.name ? (
-            <div className="col-span-1">
+            <div className="w-full max-w-3xl">
               <div className="relative overflow-hidden rounded-2xl border border-[hsl(var(--accent-warning)/0.2)] bg-card/60 backdrop-blur-xl">
                 <span
                   aria-hidden="true"

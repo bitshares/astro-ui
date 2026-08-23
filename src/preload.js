@@ -31,6 +31,8 @@ contextBridge.exposeInMainWorld("electron", {
   // API queries
   generateDeepLink: async (args) =>
     ipcRenderer.invoke("generateDeepLink", args),
+  generateTotpDeepLink: async (args) =>
+    ipcRenderer.invoke("generateTotpDeepLink", args),
   generateQRContents: async (args) =>
     ipcRenderer.invoke("generateQRContents", args),
   calculateOperationFees: async (args) =>

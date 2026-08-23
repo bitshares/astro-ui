@@ -13,7 +13,8 @@
     "rawDeeplink": "Toores sügavlink",
     "localJSONFile": "Kohalik JSON-fail",
     "qrCode": "QR-kood",
-    "propose": "Ettepanek"
+    "propose": "Ettepanek",
+    "totp": "TOTP"
   },
   "tabsContent": {
     "transactionObjectJSON": "Tehinguobjekti JSON",
@@ -51,5 +52,18 @@
     "targetHeader": "Ettepaneku tasu maksmise konto",
     "revisionPeriodSecondsContent": "Määrake läbivaatamise periood sekundites.",
     "revisionPeriodSecondsHeader": "Läbivaatamise periood (sekundites)"
+  },
+  "totp": {
+    "title": "TOTP süvalink — BeetVault",
+    "description": "Sisestage BeetVaulti ajapõhine ühekordne kood (TOTP süvalingi leht). Tehing krüpteeritakse teie koodiga ja seda saab avada ainult BeetVaultis.",
+    "passcodeLabel": "Genereeritud kood",
+    "placeholder": "Sisestage BeetVaultis genereeritud kood",
+    "submit": "Esita",
+    "generating": "Genereerimine...",
+    "passcodeRequired": "Kood on nõutav",
+    "unavailable": "TOTP süvalink pole selles keskkonnas saadaval",
+    "failed": "TOTP süvalingi genereerimine ebaõnnestus",
+    "ready": "Süvalink valmis — ainult BeetVault:",
+    "copyLink": "Kopeeri link"
   }
 }

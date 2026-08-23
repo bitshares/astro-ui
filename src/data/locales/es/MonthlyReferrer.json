@@ -1,0 +1,34 @@
+{
+  "title": "Referidor mensual",
+  "testnetMessage": "Esta función solo está disponible en la red principal. En la red de pruebas, la cuenta de referidor predeterminada ({{default}}) se utilizará para todas las cuentas nuevas.",
+  "subtitle": "El donador BTS principal al creador de esta aplicación se convierte en el referidor de las cuentas nuevas creadas en esta aplicación.",
+  "currentReferrer": "Las cuentas nuevas creadas en esta aplicación están registradas & referidas por:",
+  "th": {
+    "rank": "Rango",
+    "donor": "Donador",
+    "transfers": "Transferencias",
+    "amount": "Total"
+  },
+  "donate": {
+    "title": "Donar para convertirse en el donador principal",
+    "target": "Donando {{symbol}} a {{target}}",
+    "amount": "Monto",
+    "available": "Disponible",
+    "submit": "Donar",
+    "header": "Donando {{amount}} {{symbol}} a {{target}}",
+    "insufficient": "Saldo insuficiente"
+  },
+  "empty": "No hay donaciones BTS al creador de esta aplicación en los últimos 30 días.",
+  "emptyDefault": "Las cuentas nuevas están registradas & referidas por la cuenta predeterminada:",
+  "ltmRequired": "Necesita una membresía de por vida para ganar comisiones de referido por donaciones.",
+  "ltmUpgradeCta": "Actualizar a membresía de por vida",
+  "how": {
+    "title": "Cómo funciona",
+    "intro": "Done BTS al creador de esta aplicación",
+    "intro2": "— el donador principal de los últimos 30 días se convierte en el referidor/registrar de cada nueva cuenta creada en esta aplicación.",
+    "topOnly": "Solo el donador #1 obtiene el rol de referidor/registrar. Los donadores clasificados del 2–100 se enumeran aquí pero no reciben crédito de referido.",
+    "ltm": "Se requiere membresía de por vida — sin una cuenta LTM actualizada, sus referidos no le generan comisiones.",
+    "appOnly": "Solo las cuentas creadas dentro de esta aplicación (crear cuenta, método faucet) se atribuyen al donador principal. Los registros realizados a través de otras billeteras o interfaces de BitShares no cuentan.",
+    "noGuarantee": "Convertirse en el donador principal no le garantiza referidos — debe invitar activamente a las personas a crear cuentas a través de esta aplicación durante la ventana. Si nadie dona, el referidor vuelve a la cuenta predeterminada:"
+  }
+}

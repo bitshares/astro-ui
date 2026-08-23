@@ -469,6 +469,13 @@
     "openDex": "Ava DEX limiit-orderina",
     "openInstant": "Ava Instant Swapis"
   },
+  "monthly_referrer": {
+    "title": "Kuuline soovitaja",
+    "subtitle": "Selle rakenduse looja BTS-i suurim annetaja muutub uute kontode soovitajaks",
+    "hover1": "Annetage BTS-i selle rakenduse looja toetuseks — viimase 30 päeva suurim annetaja muutub selles rakenduses loodud uute kontode soovitajaks/registreerijaks.",
+    "hover2": "Ainult suurim annetaja saab soovitaja rolli; järjestuses 2–100 olevad saavad tunnustust, mitte soovituskrediiti.",
+    "hover3": "Kehtib ainult selles rakenduses loodud kontode kohta. Eluaegne liikmelisus on vajalik soovitustasu teenimiseks."
+  },
   "testnetUnsupported": "See funktsioon pärib avalikku BitShares Elasticsearchi indeksit, mis on saadaval ainult põhivõrgus. Testneti ei toetata.",
   "top_pools": {
     "title": "Populaarsemad poolid",
