@@ -20,7 +20,7 @@
   },
   "empty": "No hay donaciones BTS al creador de esta aplicación en los últimos 30 días.",
   "emptyDefault": "Las cuentas nuevas están registradas & referidas por la cuenta predeterminada:",
-  "ltmRequired": "Necesita una membresía de por vida para ganar comisiones de referido por donaciones.",
+  "ltmRequired": "Necesita una membresía de por vida",
   "ltmUpgradeCta": "Actualizar a membresía de por vida",
   "how": {
     "title": "Cómo funciona",

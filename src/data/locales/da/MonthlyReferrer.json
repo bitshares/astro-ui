@@ -20,7 +20,7 @@
   },
   "empty": "Ingen BTS-donationer til skaberen af denne applikation i de seneste 30 dage.",
   "emptyDefault": "Nye konti er i øjeblikket registreret & henvist af standardkontoen:",
-  "ltmRequired": "Du skal have et livstidsmedlemskab for at tjene henvisningsgebyrer fra donationer.",
+  "ltmRequired": "Du skal have et livstidsmedlemskab",
   "ltmUpgradeCta": "Opgrader til livstidsmedlemskab",
   "how": {
     "title": "Sådan fungerer det",

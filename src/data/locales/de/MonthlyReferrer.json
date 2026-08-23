@@ -20,7 +20,7 @@
   },
   "empty": "Keine BTS-Spenden an den Ersteller dieser Anwendung in den letzten 30 Tagen.",
   "emptyDefault": "Neue Konten sind aktuell registriert & empfohlen vom Standardkonto:",
-  "ltmRequired": "Sie benötigen eine lebenslange Mitgliedschaft, um Empfehlungsgebühren von Spenden zu verdienen.",
+  "ltmRequired": "Sie benötigen eine Lifetime-Mitgliedschaft",
   "ltmUpgradeCta": "Zur lebenslangen Mitgliedschaft upgraden",
   "how": {
     "title": "So funktioniert es",

@@ -20,7 +20,7 @@
   },
   "empty": "Selle rakenduse loojale ei ole viimase 30 päeva jooksul tehtud BTS-i annetusi.",
   "emptyDefault": "Uued kontod on praegu registreeritud & soovitatud vaiksekonto poolt:",
-  "ltmRequired": "Annetustest soovitustasu teenimiseks on vajalik eluaegne liikmelisus.",
+  "ltmRequired": "Teil peab olema eluaegne liikmelisus",
   "ltmUpgradeCta": "Uuendage eluaegseks liikmeks",
   "how": {
     "title": "Kuidas see töötab",

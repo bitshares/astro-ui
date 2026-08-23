@@ -20,7 +20,7 @@
   },
   "empty": "Nessuna donazione BTS al creatore di questa applicazione negli ultimi 30 giorni.",
   "emptyDefault": "I nuovi account sono attualmente registrati & referiti dall'account predefinito:",
-  "ltmRequired": "Hai bisogno di un abbonamento a vita per guadagnare le commissioni di riferimento dalle donazioni.",
+  "ltmRequired": "Hai bisogno di un abbonamento a vita",
   "ltmUpgradeCta": "Aggiorna all'abbonamento a vita",
   "how": {
     "title": "Come funziona",

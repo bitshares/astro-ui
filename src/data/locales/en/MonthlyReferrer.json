@@ -20,7 +20,7 @@
   },
   "empty": "No BTS donations to the creator of this application in the past 30 days.",
   "emptyDefault": "New accounts are currently registered & referred by the default account:",
-  "ltmRequired": "You need a Lifetime Membership to earn referral fees from donations.",
+  "ltmRequired": "You need a lifetime membership",
   "ltmUpgradeCta": "Upgrade to Lifetime Membership",
   "how": {
     "title": "How it works",

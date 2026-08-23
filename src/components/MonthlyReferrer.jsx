@@ -379,7 +379,7 @@ export default function MonthlyReferrer() {
               ) : (
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 rounded-lg border border-[hsl(var(--accent-danger)/0.30)] bg-[hsl(var(--accent-danger)/0.06)] p-3">
                   <p className="text-xs text-foreground/80 flex-1">
-                    {t("MonthlyReferrer:ltmRequired", "You need a Lifetime Membership to earn referral fees from donations.")}
+                    {t("MonthlyReferrer:ltmRequired", "You need a lifetime membership")}
                   </p>
                   <a href="/ltm.html" className="shrink-0 ml-auto self-end sm:self-auto sm:ml-auto">
                     <Button

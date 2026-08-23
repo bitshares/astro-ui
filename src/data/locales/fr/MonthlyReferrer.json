@@ -20,7 +20,7 @@
   },
   "empty": "Aucun don BTS au créateur de cette application au cours des 30 derniers jours.",
   "emptyDefault": "Les nouveaux comptes sont actuellement enregistrés & parrainés par le compte par défaut :",
-  "ltmRequired": "Vous avez besoin d'un abonnement à vie pour gagner des frais de parrainage sur les dons.",
+  "ltmRequired": "Vous devez avoir un abonnement à vie",
   "ltmUpgradeCta": "Passer à l'abonnement à vie",
   "how": {
     "title": "Comment ça marche",

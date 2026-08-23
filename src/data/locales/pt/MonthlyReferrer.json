@@ -20,7 +20,7 @@
   },
   "empty": "Nenhuma doação BTS para o criador deste aplicativo nos últimos 30 dias.",
   "emptyDefault": "Novas contas estão atualmente registradas & referenciadas pela conta padrão:",
-  "ltmRequired": "Você precisa de uma associação vitalícia para ganhar taxas de referência de doações.",
+  "ltmRequired": "Você precisa de uma assinatura vitalícia",
   "ltmUpgradeCta": "Atualizar para associação vitalícia",
   "how": {
     "title": "Como funciona",
