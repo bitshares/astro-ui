@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import Apis from "@/bts/ws/ApiInstances";
 import chain_store from "@/bts/chain/ChainStore";
 import {
-  ensureChainStoreShared,
+  acquireChainStore,
   nodeUrlFor,
 } from "@/bts/chain/chainStoreReady";
 import { useSubscriptionGuard } from "@/hooks/useSubscriptionGuard";
@@ -12,7 +12,7 @@ import { useSubscriptionGuard } from "@/hooks/useSubscriptionGuard";
  *
  * Pattern (mirrors the DEX pilot hooks):
  *  - one retained Apis connection + chain_store.init(true) -> set_subscribe_callback
- *    (via shared ensureChainStoreShared in src/bts/chain/chainStoreReady.ts)
+ *    (via shared acquireChainStore in src/bts/chain/chainStoreReady.ts)
  *  - requested ids are seeded into the ChainStore cache via batched get_objects
  *    (chunks of 50 mainnet / 10 testnet) so we do NOT issue one WS call per id;
  *    because they were fetched over db_api while subscribed, the node then pushes
@@ -204,9 +204,15 @@ export function useChainObjectsLive(options: UseChainObjectsLiveOptions) {
     };
 
     (async () => {
+      // Acquire a connection token for this effect's lifetime; released in
+      // cleanup so refcounts stay balanced and the socket can idle close.
+      let releaseToken: (() => void) | null = null;
       try {
-        await ensureChainStoreShared(chain, specificNode);
-        if (cancelled) return;
+        releaseToken = await acquireChainStore(chain, specificNode);
+        if (cancelled) {
+          releaseToken();
+          return;
+        }
 
         const node = nodeUrlFor(chain, specificNode);
         const api = await Apis.instance(
@@ -220,6 +226,7 @@ export function useChainObjectsLive(options: UseChainObjectsLiveOptions) {
 
         // seed cache in batches so pushes flow for these objects
         await seedObjectsIntoCache(api, parsedIds, chain);
+        try { await api.close(); } catch {}
         if (cancelled) return;
 
         ready = true;
@@ -228,10 +235,18 @@ export function useChainObjectsLive(options: UseChainObjectsLiveOptions) {
           try {
             chain_store.unsubscribe(batchedCallback);
           } catch {}
+          if (releaseToken) {
+            try { releaseToken(); } catch {}
+            releaseToken = null;
+          }
         };
         pushUpdate();
         blockCallback();
       } catch (e) {
+        if (releaseToken) {
+          try { releaseToken(); } catch {}
+          releaseToken = null;
+        }
         console.log("useChainObjectsLive error", e);
         if (!cancelled) {
           setError(e);
@@ -389,9 +404,15 @@ export function useAccountBalancesLive(options: {
     };
 
     (async () => {
+      // Acquire a connection token for this effect's lifetime; released via
+      // unsubRef in cleanup so refcounts stay balanced.
+      let releaseToken: (() => void) | null = null;
       try {
-        await ensureChainStoreShared(chain, specificNode);
-        if (cancelled) return;
+        releaseToken = await acquireChainStore(chain, specificNode);
+        if (cancelled) {
+          releaseToken();
+          return;
+        }
         // getAccount triggers fetchFullAccount which subscribes balances
         chain_store.getAccount(accountId, true);
         chain_store.subscribe(batchedCallback);
@@ -399,6 +420,10 @@ export function useAccountBalancesLive(options: {
           try {
             chain_store.unsubscribe(batchedCallback);
           } catch {}
+          if (releaseToken) {
+            try { releaseToken(); } catch {}
+            releaseToken = null;
+          }
         };
         setTimeout(() => {
           if (!cancelled) {
@@ -407,6 +432,10 @@ export function useAccountBalancesLive(options: {
           }
         }, 600);
       } catch (e) {
+        if (releaseToken) {
+          try { releaseToken(); } catch {}
+          releaseToken = null;
+        }
         console.log("useAccountBalancesLive error", e);
         if (!cancelled) {
           setError(e);

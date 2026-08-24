@@ -2,7 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { subscribeMarketOrderBook } from "@/nanoeffects/DexLiveOrderBook";
 import { subscribeAccountLimitOrders } from "@/nanoeffects/DexAccountOrdersLive";
 import {
-  ensureChainStoreShared,
+  acquireChainStore,
+  nodeUrlFor,
 } from "@/bts/chain/chainStoreReady";
 import { useSubscriptionGuard } from "@/hooks/useSubscriptionGuard";
 import chain_store from "@/bts/chain/ChainStore";
@@ -218,18 +219,23 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
     };
 
     // Ensure ChainStore is initialized via the shared initializer (same Apis
-    // singleton retained by market sub). If not yet subscribed, init it.
-    try {
-      if (!chain_store.subscribed) {
-        ensureChainStoreShared(chain, specificNode)
-          .then(() => {
-            if (!cancelled) blockCallback();
-          })
-          .catch((e) => handleFailure(e));
-      } else {
-        // already subscribed, try immediate block read
+    // singleton retained by market sub). Acquire a connection token for this
+    // effect's lifetime; release in cleanup so refcounts stay balanced.
+    let releaseToken: (() => void) | null = null;
+    acquireChainStore(chain, specificNode)
+      .then((release) => {
+        if (cancelled) {
+          release();
+          return;
+        }
+        releaseToken = release;
         blockCallback();
-      }
+      })
+      .catch((e) => {
+        console.log("block subscription error", e);
+        handleFailure(e);
+      });
+    try {
       chain_store.subscribe(blockCallback);
       blockUnsubRef.current = () => {
         try { chain_store.unsubscribe(blockCallback); } catch {}
@@ -247,6 +253,10 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
       if (blockUnsubRef.current) {
         try { blockUnsubRef.current(); } catch {}
         blockUnsubRef.current = null;
+      }
+      if (releaseToken) {
+        try { releaseToken(); } catch {}
+        releaseToken = null;
       }
       if (unsubRef.current) {
         const fn = unsubRef.current;

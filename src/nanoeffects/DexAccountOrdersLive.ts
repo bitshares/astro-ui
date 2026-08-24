@@ -1,5 +1,5 @@
 import chain_store from "@/bts/chain/ChainStore";
-import { ensureChainStoreShared } from "@/bts/chain/chainStoreReady";
+import { acquireChainStore } from "@/bts/chain/chainStoreReady";
 
 /**
  * Live account limit order subscription via ChainStore.
@@ -17,6 +17,9 @@ const BATCH_TIME = 500;
 /**
  * Subscribe to live updates for account limit orders.
  * Callback receives array of limit_order objects for the account.
+ *
+ * @returns unsubscribe - removes this consumer's ChainStore listener and
+ *          releases its connection token.
  */
 export async function subscribeAccountLimitOrders(
   chain: string,
@@ -25,24 +28,6 @@ export async function subscribeAccountLimitOrders(
   onError: (e: any) => void,
   specificNode?: string | null
 ): Promise<() => void> {
-  try {
-    await ensureChainStoreShared(chain, specificNode);
-  } catch (e) {
-    onError(e);
-    throw e;
-  }
-
-  // Ensure account is fetched and subbed (fetchFullAccount)
-  // This populates ChainStore.objects_by_id and subbed_accounts Set
-  const fetchAccount = () => {
-    const acc = chain_store.getAccount(accountId, true);
-    // getAccount triggers fetchFullAccount if needed, returns undefined initially
-    if (acc && acc.orders) {
-      // already available
-      pushUpdate();
-    }
-  };
-
   let batchTimer: any = null;
   let unsubscribed = false;
 
@@ -63,6 +48,15 @@ export async function subscribeAccountLimitOrders(
     onUpdate(orders);
   };
 
+  const fetchAccount = () => {
+    const acc = chain_store.getAccount(accountId, true);
+    // getAccount triggers fetchFullAccount if needed, returns undefined initially
+    if (acc && acc.orders) {
+      // already available
+      pushUpdate();
+    }
+  };
+
   const batchedPush = () => {
     if (batchTimer) return;
     batchTimer = setTimeout(() => {
@@ -70,6 +64,16 @@ export async function subscribeAccountLimitOrders(
       pushUpdate();
     }, BATCH_TIME);
   };
+
+  let releaseToken: (() => void) | null = null;
+  try {
+    // Acquire a connection token; released in the returned unsubscribe so
+    // refcounts stay balanced when the consumer unsubscribes.
+    releaseToken = await acquireChainStore(chain, specificNode);
+  } catch (e) {
+    onError(e);
+    throw e;
+  }
 
   const chainCallback = () => {
     batchedPush();
@@ -95,7 +99,10 @@ export async function subscribeAccountLimitOrders(
     } catch (e) {
       console.log("unsubscribe chain_store error", e);
     }
-    // Note: we keep ChainStore init + Apis retain for other subscribers; not hardClosing
+    if (releaseToken) {
+      try { releaseToken(); } catch {}
+      releaseToken = null;
+    }
   };
 
   return unsubscribe;
