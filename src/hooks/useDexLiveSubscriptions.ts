@@ -16,7 +16,15 @@ export interface UseDexLiveOptions {
 }
 
 export function useDexOrderBookLive(options: UseDexLiveOptions) {
-  const { chain, baseId, quoteId, specificNode, limit = 50, enabled = true } = options;
+  const {
+    chain,
+    baseId,
+    quoteId,
+    accountId = null,
+    specificNode,
+    limit = 50,
+    enabled = true,
+  } = options;
   const [bids, setBids] = useState<any[] | null>(null);
   const [asks, setAsks] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -26,6 +34,14 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
   const [blockNumber, setBlockNumber] = useState<number | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<string>("unknown");
   const [reconnectNonce, setReconnectNonce] = useState(0);
+  // live market slices (ticker/trade history/balances/user limit orders)
+  const [balances, setBalances] = useState<any[] | null>(null);
+  const [marketHistory, setMarketHistory] = useState<any[] | null>(null);
+  const [usrLimitOrders, setUsrLimitOrders] = useState<any[] | null>(null);
+  const [usrTrades, setUsrTrades] = useState<any[] | null>(null);
+  const [ticker, setTicker] = useState<any | null>(null);
+  // false when node lacks history plugin - UI should fall back to polling path
+  const [historyAvailable, setHistoryAvailable] = useState(true);
   const unsubRef = useRef<(() => Promise<void>) | null>(null);
   const blockUnsubRef = useRef<(() => void) | null>(null);
   const failureCountRef = useRef(0);
@@ -178,12 +194,21 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
     failureCountRef.current = 0;
     blockNumberRef.current = null;
 
-    const onUpdate = (book: any) => {
+    const onUpdate = (data: any) => {
       if (cancelled) return;
       const now = Date.now();
-      lastBookRef.current = book;
-      setBids(book.bids ?? []);
-      setAsks(book.asks ?? []);
+      lastBookRef.current = data;
+      setBids(data.bids ?? []);
+      setAsks(data.asks ?? []);
+      // live market slices - each independent; history slices empty when node lacks plugin
+      setBalances(data.balances ?? null);
+      setMarketHistory(data.marketHistory ?? null);
+      setUsrLimitOrders(data.accountLimitOrders ?? null);
+      setUsrTrades(data.usrTrades ?? null);
+      setTicker(data.ticker ?? null);
+      if (typeof data.historyAvailable === "boolean") {
+        setHistoryAvailable(data.historyAvailable);
+      }
       setLastFetchAt(now);
       setLoading(false);
       setIsSubscribed(true);
@@ -198,7 +223,16 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
       handleFailure(e);
     };
 
-    subscribeMarketOrderBook(chain, baseId, quoteId, onUpdate, onError, limit, specificNode)
+    subscribeMarketOrderBook(
+      chain,
+      baseId,
+      quoteId,
+      onUpdate,
+      onError,
+      limit,
+      specificNode,
+      accountId
+    )
       .then((unsub) => {
         if (cancelled) {
           unsub();
@@ -276,7 +310,22 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
     };
   }, [chain, baseId, quoteId, specificNode, limit, enabled, reconnectNonce]);
 
-  return { bids, asks, loading, error, isSubscribed, lastFetchAt, blockNumber, connectionStatus };
+  return {
+    bids,
+    asks,
+    loading,
+    error,
+    isSubscribed,
+    lastFetchAt,
+    blockNumber,
+    connectionStatus,
+    balances,
+    marketHistory,
+    usrLimitOrders,
+    usrTrades,
+    ticker,
+    historyAvailable,
+  };
 }
 
 export function useDexAccountOrdersLive(options: UseDexLiveOptions) {

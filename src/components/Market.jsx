@@ -170,10 +170,17 @@ export default function Market(properties) {
     isSubscribed: isLiveSubscribed,
     lastFetchAt: liveLastFetchAt,
     blockNumber: liveBlockNumber,
+    balances: liveBalances,
+    marketHistory: liveMarketHistory,
+    usrLimitOrders: liveUsrLimitOrders,
+    usrTrades: liveUsrTrades,
+    ticker: liveTicker,
+    historyAvailable: liveHistoryAvailable,
   } = useDexOrderBookLive({
     chain: usr.chain,
     baseId: assetBData?.id ?? null,
     quoteId: assetAData?.id ?? null,
+    accountId: usr.id ?? null,
     enabled: !!assetAData && !!assetBData,
     limit: 50,
     specificNode: dexNodeUrl,
@@ -223,20 +230,59 @@ export default function Market(properties) {
   } = useStore(marketHistoryStore);
 
   useEffect(() => {
+    // Live subscription provides ticker/balances/limit-orders on every market push.
+    // History slices (marketHistory/usrTrades) are only trusted when the node has
+    // its history plugin enabled (liveHistoryAvailable); otherwise fall back to
+    // the polling store below so users on restricted nodes still see trade history.
+    if (isLiveSubscribed && liveTicker) {
+      setTickerData(liveTicker);
+    }
+    if (isLiveSubscribed && liveBalances) {
+      setUsrBalances(liveBalances);
+    }
+    if (isLiveSubscribed && liveUsrLimitOrders) {
+      setUsrLimitOrders(liveUsrLimitOrders);
+    }
+    if (isLiveSubscribed && liveHistoryAvailable && liveMarketHistory) {
+      setPublicMarketHistory(liveMarketHistory);
+    }
+    if (isLiveSubscribed && liveHistoryAvailable && liveUsrTrades) {
+      setUsrHistory(liveUsrTrades);
+    }
+
     if (marketHistoryData && !marketHistoryLoading && !marketHistoryError) {
-      setUsrBalances(marketHistoryData.balances);
-      setUsrLimitOrders(marketHistoryData.accountLimitOrders);
-      setPublicMarketHistory(marketHistoryData.marketHistory);
-      setUsrHistory(marketHistoryData.usrTrades);
-      setTickerData(marketHistoryData.ticker);
-    } else {
+      // polling store fills any slice the live subscription doesn't cover
+      // (history-disabled nodes, or before first live push)
+      setUsrBalances((prev) => prev ?? marketHistoryData.balances);
+      setUsrLimitOrders((prev) => prev ?? marketHistoryData.accountLimitOrders);
+      setPublicMarketHistory((prev) => {
+        const liveStale = isLiveSubscribed && !liveHistoryAvailable;
+        return liveStale || prev === null ? marketHistoryData.marketHistory : (prev ?? marketHistoryData.marketHistory);
+      });
+      setUsrHistory((prev) => {
+        const liveStale = isLiveSubscribed && !liveHistoryAvailable;
+        return liveStale || prev === null ? marketHistoryData.usrTrades : (prev ?? marketHistoryData.usrTrades);
+      });
+      setTickerData((prev) => prev ?? marketHistoryData.ticker);
+    } else if (!isLiveSubscribed) {
       setUsrBalances(null);
       setUsrLimitOrders(null);
       setPublicMarketHistory(null);
       setUsrHistory(null);
       setTickerData(null);
     }
-  }, [marketHistoryData, marketHistoryLoading, marketHistoryError]);
+  }, [
+    isLiveSubscribed,
+    liveTicker,
+    liveBalances,
+    liveUsrLimitOrders,
+    liveMarketHistory,
+    liveUsrTrades,
+    liveHistoryAvailable,
+    marketHistoryData,
+    marketHistoryLoading,
+    marketHistoryError,
+  ]);
 
   const percentChangeNum = parseFloat(
     String(tickerData?.percent_change || "").replace("%", "")
