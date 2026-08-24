@@ -60,6 +60,11 @@ import { Avatar } from "./Avatar.tsx";
 
 import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 import { createCreditOfferStore } from "@/nanoeffects/CreditOffers.ts";
+import {
+  useChainObjectsLive,
+  useAccountBalancesLive,
+} from "@/hooks/useChainObjectsLive";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 import { useInitCache } from "@/nanoeffects/Init.ts";
 
 import { $currentUser } from "@/stores/users.ts";
@@ -223,6 +228,48 @@ export default function CreditBorrow(properties) {
 
     fetchUserBalances();
   }, [usr]);
+
+  // Live balances (push per block when user state changes)
+  const liveBorrowBalances = useAccountBalancesLive({
+    chain: usr ? usr.chain : _chain,
+    accountId: usr ? usr.id : null,
+    enabled: Boolean(usr && usr.id),
+    specificNode: currentNode ? currentNode.url : null,
+  });
+  useEffect(() => {
+    if (liveBorrowBalances.balances && assets && assets.length) {
+      const filteredData = liveBorrowBalances.balances.filter((balance) =>
+        assets.find((x) => x.id === balance.asset_id)
+      );
+      if (filteredData.length) {
+        setBalanceAssetIDs(filteredData.map((x) => x.asset_id));
+        setUsrBalances(filteredData);
+      }
+    }
+  }, [liveBorrowBalances.balances, assets]);
+
+  // Live subscription for *visible* offers so new/updated offers appear
+  // without a page refresh. The heavy full scan stays one-shot.
+  const visibleOfferIds = useMemo(() => offers.map((x) => x.id), [offers]);
+  const liveOffers = useChainObjectsLive({
+    chain: _chain,
+    ids: visibleOfferIds,
+    enabled: Boolean(_chain && visibleOfferIds.length > 0),
+    specificNode: currentNode ? currentNode.url : null,
+  });
+  useEffect(() => {
+    if (!liveOffers.objects || !allOffers || !allOffers.length) return;
+    let changed = false;
+    const merged = allOffers.map((offer) => {
+      const live = liveOffers.objects[offer.id];
+      if (live) {
+        changed = true;
+        return { ...offer, ...live };
+      }
+      return offer;
+    });
+    if (changed) setAllOffers(merged);
+  }, [liveOffers.objects]);
 
   const compatibleOffers = useMemo(() => {
     if (!offers || !balanceAssetIDs) return [];
@@ -875,6 +922,14 @@ export default function CreditBorrow(properties) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <DexLiveFooterCard
+        lastFetchAt={liveOffers.lastFetchAt}
+        isSubscribed={liveOffers.isSubscribed}
+        blockNumber={liveOffers.blockNumber}
+        nodeUrl={currentNode ? currentNode.url : null}
+        warningThresholdSec={10}
+      />
     </div>
   );
 }

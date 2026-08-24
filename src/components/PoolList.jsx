@@ -6,6 +6,9 @@ import React, {
 } from "react";
 import { List } from "react-window";
 
+import { useChainObjectsLive } from "@/hooks/useChainObjectsLive";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
+
 import { useStore } from "@nanostores/react";
 import { sha256 } from "@noble/hashes/sha2.js";
 import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
@@ -169,6 +172,19 @@ export default function CustomPoolOverview(properties) {
     return relevantPools;
   }, [assets, blocklist, _poolsBTS, _poolsTEST, _chain]);
 
+  // Live pool balances subscription - overrides build-time balance_a/balance_b
+  const poolIds = useMemo(() => pools.map((p) => p.id), [pools]);
+  const livePools = useChainObjectsLive({
+    chain: _chain,
+    ids: poolIds,
+    enabled: Boolean(_chain && poolIds.length > 0),
+    specificNode: currentNode ? currentNode.url : null,
+  });
+  const livePoolMap = useMemo(
+    () => (livePools.objects ? new Map(Object.entries(livePools.objects)) : null),
+    [livePools.objects]
+  );
+
   const [sellingAsset, setSellingAsset] = useState(null);
   const [buyingAsset, setBuyingAsset] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -194,7 +210,13 @@ export default function CustomPoolOverview(properties) {
       return null;
     }
 
-    let _remainingPools = pools;
+    // overlay live balances onto the static build-time pool list
+    let _remainingPools = livePoolMap
+      ? pools.map((pool) => {
+          const live = livePoolMap.get(pool.id);
+          return live ? { ...pool, ...live } : pool;
+        })
+      : pools;
 
     if (buyingAssetData || sellingAssetData) {
       _remainingPools = pools.filter((pool) => {
@@ -290,6 +312,7 @@ export default function CustomPoolOverview(properties) {
     return _remainingPools;
   }, [
     pools,
+    livePoolMap,
     assets,
     buyingAssetData,
     sellingAssetData,
@@ -736,6 +759,14 @@ export default function CustomPoolOverview(properties) {
           </Card>
         </div>
       </div>
+
+      <DexLiveFooterCard
+        lastFetchAt={livePools.lastFetchAt}
+        isSubscribed={livePools.isSubscribed}
+        blockNumber={livePools.blockNumber}
+        nodeUrl={currentNode ? currentNode.url : null}
+        warningThresholdSec={10}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, {
   useState,
   useEffect,
+  useRef,
   useSyncExternalStore,
   useMemo,
   useCallback,
@@ -26,6 +27,8 @@ import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 import { createAssetFromSymbolStore } from "@/nanoeffects/Assets.ts";
 import { createMarketOrderStore } from "@/nanoeffects/MarketOrderBook.ts";
+import { useDexOrderBookLive } from "@/hooks/useDexLiveSubscriptions";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 import { createObjectStore } from "@/nanoeffects/Objects.ts";
 
 import { $currentUser } from "@/stores/users.ts";
@@ -389,9 +392,14 @@ export default function InstantTrade(properties) {
 
       marketOrdersStore.subscribe(({ data, error, loading }) => {
         if (data && !error && !loading) {
-          setBuyOrders(data.bids);
+          // prefer live subscription when active; poll fills gaps/fallback
+          if (!liveBidsRef.current) {
+            setBuyOrders(data.bids);
+          }
         } else {
-          setBuyOrders(null);
+          if (!liveBidsRef.current) {
+            setBuyOrders(null);
+          }
         }
         setUpdatingMarket(false);
         setMarketTimestamp(new Date());
@@ -403,6 +411,26 @@ export default function InstantTrade(properties) {
       setUpdatingMarket(true);
     }
   }, [usr, assetA, assetB, buyOrderIterator]);
+
+  // Live order book subscription (push on every market change, ~500ms batch)
+  const liveIT = useDexOrderBookLive({
+    chain: usr ? usr.chain : "",
+    baseId: assetBData ? assetBData.id : null,
+    quoteId: assetAData ? assetAData.id : null,
+    accountId: usr ? usr.id : null,
+    enabled: Boolean(usr && assetAData && assetBData),
+    limit: 50,
+    specificNode: currentNode && currentNode.chain === (usr ? usr.chain : "") ? currentNode.url : null,
+  });
+  const liveBidsRef = useRef(null);
+  useEffect(() => {
+    liveBidsRef.current = liveIT.bids;
+    if (liveIT.bids) {
+      setBuyOrders(liveIT.bids);
+      setUpdatingMarket(false);
+      setMarketTimestamp(new Date());
+    }
+  }, [liveIT.bids]);
 
   const maxPurchaseable = useMemo(() => {
     if (buyOrders && buyOrders.length && assetBData) {
@@ -1563,6 +1591,18 @@ export default function InstantTrade(properties) {
             trxJSON={trxJSON}
           />
         ) : null}
+
+        <DexLiveFooterCard
+          lastFetchAt={liveIT.lastFetchAt}
+          isSubscribed={liveIT.isSubscribed}
+          blockNumber={liveIT.blockNumber}
+          nodeUrl={
+            currentNode && currentNode.chain === (usr ? usr.chain : "")
+              ? currentNode.url
+              : null
+          }
+          warningThresholdSec={10}
+        />
       </div>
     </div>
   );

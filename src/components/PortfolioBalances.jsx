@@ -41,6 +41,8 @@ import { Wallet, ArrowLeftRight } from "lucide-react";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
+import { useAccountBalancesLive } from "@/hooks/useChainObjectsLive";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 
 import { $currentUser } from "@/stores/users.ts";
 import { $blockList } from "@/stores/blocklist.ts";
@@ -182,6 +184,26 @@ export default function PortfolioBalances({
     }
     fetchUserBalances();
   }, [usr, balanceCounter, assets, currentNode]);
+
+  // Live balances via ChainStore full-account subscription (push, per block)
+  const liveBalances = useAccountBalancesLive({
+    chain: usr ? usr.chain : "",
+    accountId: usr ? usr.id : null,
+    specificNode: currentNode ? currentNode.url : null,
+    enabled: Boolean(usr && usr.id),
+  });
+  useEffect(() => {
+    if (liveBalances.balances && assets.length) {
+      const updatedData = liveBalances.balances
+        .filter((balance) => assets.find((x) => x.id === balance.asset_id))
+        .map((balance) => ({
+          ...balance,
+          symbol: assets.find((x) => x.id === balance.asset_id).symbol,
+        }));
+      setBalances(updatedData);
+      setBalancesLoading(false);
+    }
+  }, [liveBalances.balances, assets]);
 
   const sortedUserBalances = useMemo(() => {
     if (!balances || !balances.length) return [];
@@ -428,6 +450,14 @@ export default function PortfolioBalances({
             </Button>
           </div>
         </Card>
+
+        <DexLiveFooterCard
+          lastFetchAt={liveBalances.lastFetchAt}
+          isSubscribed={liveBalances.isSubscribed}
+          blockNumber={liveBalances.blockNumber}
+          nodeUrl={currentNode ? currentNode.url : null}
+          warningThresholdSec={10}
+        />
       </div>
     </div>
   );

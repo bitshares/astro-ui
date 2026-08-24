@@ -4,6 +4,9 @@ import React, {
   useSyncExternalStore,
   useMemo,
 } from "react";
+
+import { useChainObjectsLive } from "@/hooks/useChainObjectsLive";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 import { useStore } from "@nanostores/react";
 import { List } from "react-window";
 import { sha256 } from "@noble/hashes/sha2.js";
@@ -372,6 +375,61 @@ export default function CustomPoolTracker(properties) {
 
     fetchObjects();
   }, [assets, chosenPools, swappableAssets, poolShareAssets, currentNode]);
+
+  // Live subscription for the tracked object set (pools, dynamic data, feeds).
+  // Merges fresh values over the one-shot store response so rows update per block.
+  const trackerObjectIds = useMemo(() => {
+    if (!chosenPools || !swappableAssets || !poolShareAssets) return [];
+    return [
+      ...chosenPools.map((x) => x.id),
+      ...swappableAssets.map((x) => x.id.replace("1.3.", "2.3.")),
+      ...poolShareAssets.map((x) => x.id.replace("1.3.", "2.3.")),
+      ...[
+        ...new Set([
+          ...swappableAssets
+            .filter((x) => x.bitasset_data_id)
+            .map((x) => x.bitasset_data_id),
+          "2.4.294",
+        ]),
+      ],
+    ];
+  }, [chosenPools, swappableAssets, poolShareAssets]);
+
+  const liveTrackerObjects = useChainObjectsLive({
+    chain: _chain,
+    ids: trackerObjectIds,
+    enabled: Boolean(_chain && trackerObjectIds.length > 0),
+    specificNode: currentNode ? currentNode.url : null,
+  });
+
+  // apply live overlays to the sliced state derived from requestResponse
+  useEffect(() => {
+    const liveMap = liveTrackerObjects.objects;
+    if (!liveMap || !Object.keys(liveMap).length) return;
+
+      // overlay pools
+      setLiquidityPools((prev) =>
+        prev
+          ? prev.map((p) => (liveMap[p.id] ? { ...p, ...liveMap[p.id] } : p))
+          : prev
+      );
+
+      // overlay dynamic data keyed by symbol
+      setDynamicData((prev) => {
+        if (!prev) return prev;
+        const next = { ...prev };
+        for (const symbol of Object.keys(next)) {
+          const asset = assets.find((y) => y.symbol === symbol);
+          if (asset) {
+            const ddId = asset.id.replace("1.3.", "2.3.");
+            if (liveMap[ddId]) {
+              next[symbol] = { ...next[symbol], ...liveMap[ddId] };
+            }
+          }
+        }
+        return next;
+      });
+  }, [liveTrackerObjects.objects, assets]);
 
   useEffect(() => {
     if (chosenPools && requestResponse) {
@@ -1637,9 +1695,19 @@ export default function CustomPoolTracker(properties) {
                 </div>
               </>
             ) : null}
-            </Card>
+             </Card>
           </div>
         </div>
+      </div>
+
+      <div className="container mx-auto mt-5">
+        <DexLiveFooterCard
+          lastFetchAt={liveTrackerObjects.lastFetchAt}
+          isSubscribed={liveTrackerObjects.isSubscribed}
+          blockNumber={liveTrackerObjects.blockNumber}
+          nodeUrl={currentNode ? currentNode.url : null}
+          warningThresholdSec={10}
+        />
       </div>
     </>
   );

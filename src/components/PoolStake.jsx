@@ -1,6 +1,7 @@
 import React, {
   useState,
   useEffect,
+  useRef,
   useSyncExternalStore,
   useMemo,
 } from "react";
@@ -69,6 +70,8 @@ import { $currentNode } from "@/stores/node.ts";
 
 import { createPoolAssetStore } from "@/nanoeffects/Assets.ts";
 import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
+import { useChainObjectsLive, useAccountBalancesLive } from "@/hooks/useChainObjectsLive";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $currentUser } from "@/stores/users.ts";
@@ -522,6 +525,43 @@ export default function PoolStake(properties) {
 
     fetchUsrBalances();
   }, [usr, assetA, assetB]);
+
+  // Live pool object subscription (balance_a/balance_b/current_supply push)
+  const liveStakePool = useChainObjectsLive({
+    chain: usr ? usr.chain : "",
+    ids: pool ? [pool] : [],
+    enabled: Boolean(usr && pool),
+    specificNode: currentNode ? currentNode.url : null,
+  });
+  useEffect(() => {
+    if (liveStakePool.objects && pool && liveStakePool.objects[pool]) {
+      const live = liveStakePool.objects[pool];
+      setFoundPool((prev) => (prev ? { ...prev, ...live } : prev));
+      setFoundPoolDetails((prev) =>
+        prev && live.dynamic_asset_data_id
+          ? prev
+          : prev
+      );
+    }
+  }, [liveStakePool.objects, pool]);
+
+  // Live user balances (push per block when user state changes)
+  const liveStakeBalances = useAccountBalancesLive({
+    chain: usr ? usr.chain : "",
+    accountId: usr ? usr.id : null,
+    enabled: Boolean(usr && usr.id),
+    specificNode: currentNode ? currentNode.url : null,
+  });
+  useEffect(() => {
+    if (liveStakeBalances.balances && assets.length) {
+      const filteredData = liveStakeBalances.balances.filter((balance) =>
+        assets.find((x) => x.id === balance.asset_id),
+      );
+      if (filteredData.length) {
+        setUsrBalances(filteredData);
+      }
+    }
+  }, [liveStakeBalances.balances, assets]);
 
   const [aStake, setAStake] = useState(0);
   const [bStake, setBStake] = useState(0);
@@ -1792,6 +1832,16 @@ export default function PoolStake(properties) {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="container mx-auto mt-5">
+        <DexLiveFooterCard
+          lastFetchAt={liveStakePool.lastFetchAt}
+          isSubscribed={liveStakePool.isSubscribed}
+          blockNumber={liveStakePool.blockNumber}
+          nodeUrl={currentNode ? currentNode.url : null}
+          warningThresholdSec={10}
+        />
       </div>
     </>
   );

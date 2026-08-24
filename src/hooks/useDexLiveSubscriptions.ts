@@ -1,7 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { subscribeMarketOrderBook } from "@/nanoeffects/DexLiveOrderBook";
 import { subscribeAccountLimitOrders } from "@/nanoeffects/DexAccountOrdersLive";
-import { $connectionStatus, initConnectionStatus } from "@/stores/connection";
+import {
+  ensureChainStoreShared,
+} from "@/bts/chain/chainStoreReady";
+import { useSubscriptionGuard } from "@/hooks/useSubscriptionGuard";
 import chain_store from "@/bts/chain/ChainStore";
 import Apis from "@/bts/ws/ApiInstances";
 
@@ -14,6 +17,29 @@ export interface UseDexLiveOptions {
   limit?: number;
   enabled?: boolean;
 }
+
+/** Shared Apis+ChainStore hard reset used by all DEX hooks on reconnect. */
+function resetConnections() {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    Apis.destroy().catch(() => {});
+    try {
+      chain_store.clearCache();
+      (chain_store as any).subscribed = false;
+    } catch {}
+  } catch {}
+}
+
+function useDexReconnect() {
+  const [reconnectNonce, setReconnectNonce] = useState(0);
+  const attemptReconnect = () => {
+    resetConnections();
+    setReconnectNonce((n) => n + 1);
+  };
+  return { reconnectNonce, attemptReconnect };
+}
+
+const DISCONNECT_STALE_MS = 10000; // 10s without any block/orderbook update => Disconnected (matches footer ⚠️)
 
 export function useDexOrderBookLive(options: UseDexLiveOptions) {
   const {
@@ -33,15 +59,14 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
   const [lastFetchAt, setLastFetchAt] = useState<number | null>(null);
   const [blockNumber, setBlockNumber] = useState<number | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<string>("unknown");
-  const [reconnectNonce, setReconnectNonce] = useState(0);
-  // live market slices (ticker/trade history/balances/user limit orders)
-  const [balances, setBalances] = useState<any[] | null>(null);
-  const [marketHistory, setMarketHistory] = useState<any[] | null>(null);
-  const [usrLimitOrders, setUsrLimitOrders] = useState<any[] | null>(null);
-  const [usrTrades, setUsrTrades] = useState<any[] | null>(null);
-  const [ticker, setTicker] = useState<any | null>(null);
-  // false when node lacks history plugin - UI should fall back to polling path
-  const [historyAvailable, setHistoryAvailable] = useState(true);
+  // market slice setters - declared before effects so onUpdate can reference them
+  const [balances, setBalancesSafe] = useState<any[] | null>(null);
+  const [marketHistory, setMarketHistorySafe] = useState<any[] | null>(null);
+  const [usrLimitOrders, setUsrLimitOrdersSafe] = useState<any[] | null>(null);
+  const [usrTrades, setUsrTradesSafe] = useState<any[] | null>(null);
+  const [ticker, setTickerSafe] = useState<any | null>(null);
+  const [historyAvailable, setHistoryAvailableSafe] = useState(true);
+  const { reconnectNonce, attemptReconnect } = useDexReconnect();
   const unsubRef = useRef<(() => Promise<void>) | null>(null);
   const blockUnsubRef = useRef<(() => void) | null>(null);
   const failureCountRef = useRef(0);
@@ -49,7 +74,6 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
   const blockNumberRef = useRef<number | null>(null);
   const lastFetchAtRef = useRef<number | null>(null);
   const isSubscribedRef = useRef(false);
-  const DISCONNECT_STALE_MS = 10000; // 10s without any block/orderbook update => Disconnected (matches footer ⚠️)
 
   // keep refs in sync for stale checks
   useEffect(() => {
@@ -59,114 +83,43 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
     isSubscribedRef.current = isSubscribed;
   }, [isSubscribed]);
 
-  const attemptReconnect = () => {
-    // force WS and ChainStore to reset before re-subscribing
-    try {
-      // best-effort hard close old socket - next Apis.instance will create fresh one
-      // Apis.destroy is async but we don't await here; effect re-run will await new instance
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      Apis.destroy().catch(() => {});
-      try { chain_store.clearCache(); (chain_store as any).subscribed = false; } catch {}
-      blockNumberRef.current = null;
-    } catch {}
-    // trigger main effect to re-subscribe by bumping nonce
-    setReconnectNonce((n) => n + 1);
-    // also reset failure count so next errors can surface
-    failureCountRef.current = 0;
-  };
-
-  // init global connection status listener once + staleness + visibility handling
-  useEffect(() => {
-    initConnectionStatus();
-    const unsub = $connectionStatus.subscribe((v) => setConnectionStatus(v as string));
-    const onOnline = () => {
-      setConnectionStatus("open");
-      // wifi back -> reconnect
-      attemptReconnect();
-    };
-    const onOffline = () => {
-      setConnectionStatus("closed");
-      // treat offline as failure attempt
-      handleFailure(new Error("offline: wifi/network lost"));
-    };
-    const onVisibility = () => {
-      if (typeof document !== "undefined" && document.visibilityState === "visible") {
-        const last = lastFetchAtRef.current;
-        const stale = !last || Date.now() - last > DISCONNECT_STALE_MS;
-        if (stale || !isSubscribedRef.current) {
-          attemptReconnect();
-        }
-      }
-    };
-    const onPageShow = () => {
-      // bfcache restore / suspend resume
-      const last = lastFetchAtRef.current;
-      if (!last || Date.now() - last > DISCONNECT_STALE_MS || !isSubscribedRef.current) {
-        attemptReconnect();
-      }
-    };
-    if (typeof window !== "undefined") {
-      window.addEventListener("online", onOnline);
-      window.addEventListener("offline", onOffline);
-      document.addEventListener("visibilitychange", onVisibility);
-      window.addEventListener("pageshow", onPageShow);
-      window.addEventListener("focus", onVisibility);
-    }
-    // staleness interval - mark disconnected if no block/orderbook for 10s
-    const staleId = setInterval(() => {
-      const last = lastFetchAtRef.current;
-      if (!last) return;
-      if (Date.now() - last > DISCONNECT_STALE_MS && isSubscribedRef.current) {
-        setIsSubscribed(false);
-        handleFailure(new Error("stale: no block/orderbook for 10s"));
-        // auto attempt reconnect after marking disconnected
-        if (typeof navigator === "undefined" || navigator.onLine) {
-          attemptReconnect();
-        }
-      }
-    }, 2000);
-    return () => {
-      try { unsub(); } catch {}
-      if (typeof window !== "undefined") {
-        window.removeEventListener("online", onOnline);
-        window.removeEventListener("offline", onOffline);
-        document.removeEventListener("visibilitychange", onVisibility);
-        window.removeEventListener("pageshow", onPageShow);
-        window.removeEventListener("focus", onVisibility);
-      }
-      clearInterval(staleId);
-    };
-  }, []);
-
   const handleFailure = (e: any) => {
-    // require 3 attempts before surfacing error to dialog
     failureCountRef.current += 1;
     console.log(`useDexOrderBookLive error attempt ${failureCountRef.current}`, e);
     if (failureCountRef.current >= 3) {
       setError(e ?? new Error("connection error"));
       setIsSubscribed(false);
-    } else {
-      // schedule retry to reach 3 attempts when offline (no market notices)
-      if (typeof navigator !== "undefined" && !navigator.onLine) {
-        setTimeout(() => {
-          if (typeof navigator !== "undefined" && !navigator.onLine) {
-            handleFailure(new Error("offline retry " + (failureCountRef.current + 1)));
-          }
-        }, 800);
-      } else if (failureCountRef.current === 1) {
-        // for non-offline connection closed, also retry via delayed check
-        setTimeout(() => {
-          // trigger another attempt by trying to refetch if still not subscribed
-          handleFailure(new Error("retry " + (failureCountRef.current + 1)));
-        }, 900);
-      }
     }
     setLoading(false);
-    // if offline, keep isSubscribed false
     if (typeof navigator !== "undefined" && !navigator.onLine) {
       setIsSubscribed(false);
     }
   };
+
+  useSubscriptionGuard({
+    lastFetchAtRef,
+    isSubscribedRef,
+    staleMs: DISCONNECT_STALE_MS,
+    onStale: () => {
+      setIsSubscribed(false);
+      handleFailure(new Error("stale: no block/orderbook for 10s"));
+    },
+    onOnline: () => {
+      setConnectionStatus("open");
+      attemptReconnect();
+    },
+    onOffline: () => {
+      setConnectionStatus("closed");
+      handleFailure(new Error("offline: wifi/network lost"));
+    },
+    onConnectionError: (status) => {
+      handleFailure(new Error(`connection ${status}`));
+    },
+    onReconnectNeeded: () => {
+      attemptReconnect();
+      failureCountRef.current = 0;
+    },
+  });
 
   useEffect(() => {
     if (!enabled || !chain || !baseId || !quoteId) {
@@ -189,6 +142,7 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
     }
 
     let cancelled = false;
+    let batchTimer: any = null;
     setLoading(true);
     setError(null);
     failureCountRef.current = 0;
@@ -201,13 +155,13 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
       setBids(data.bids ?? []);
       setAsks(data.asks ?? []);
       // live market slices - each independent; history slices empty when node lacks plugin
-      setBalances(data.balances ?? null);
-      setMarketHistory(data.marketHistory ?? null);
-      setUsrLimitOrders(data.accountLimitOrders ?? null);
-      setUsrTrades(data.usrTrades ?? null);
-      setTicker(data.ticker ?? null);
+      setBalancesSafe(data.balances ?? null);
+      setMarketHistorySafe(data.marketHistory ?? null);
+      setUsrLimitOrdersSafe(data.accountLimitOrders ?? null);
+      setUsrTradesSafe(data.usrTrades ?? null);
+      setTickerSafe(data.ticker ?? null);
       if (typeof data.historyAvailable === "boolean") {
-        setHistoryAvailable(data.historyAvailable);
+        setHistoryAvailableSafe(data.historyAvailable);
       }
       setLastFetchAt(now);
       setLoading(false);
@@ -263,19 +217,15 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
       } catch {}
     };
 
-    // Ensure ChainStore is initialized (uses same Apis singleton retained by market sub)
-    // If not yet subscribed, init it; otherwise just subscribe
+    // Ensure ChainStore is initialized via the shared initializer (same Apis
+    // singleton retained by market sub). If not yet subscribed, init it.
     try {
       if (!chain_store.subscribed) {
-        chain_store.setDispatchFrequency(40);
-        // Ensure Apis is connected before init (market sub already retained, but ensure)
-        const ensureApis = specificNode
-          ? Apis.instance(specificNode, true, 4000, { enableDatabase: true }, () => {})
-          : null;
-        // init will use existing Apis instance
-        chain_store.init(true).then(() => {
-          if (!cancelled) blockCallback();
-        }).catch((e) => handleFailure(e));
+        ensureChainStoreShared(chain, specificNode)
+          .then(() => {
+            if (!cancelled) blockCallback();
+          })
+          .catch((e) => handleFailure(e));
       } else {
         // already subscribed, try immediate block read
         blockCallback();
@@ -288,16 +238,12 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
       console.log("block subscription error", e);
     }
 
-    // also watch connection status: if closed/error, count as failure (requires 3 before dialog)
-    const connUnsub = $connectionStatus.subscribe((s) => {
-      if ((s === "closed" || s === "error") && !cancelled) {
-        handleFailure(new Error(`connection ${s}`));
-      }
-    });
-
     return () => {
       cancelled = true;
-      try { connUnsub(); } catch {}
+      if (batchTimer) {
+        clearTimeout(batchTimer);
+        batchTimer = null;
+      }
       if (blockUnsubRef.current) {
         try { blockUnsubRef.current(); } catch {}
         blockUnsubRef.current = null;
@@ -309,6 +255,17 @@ export function useDexOrderBookLive(options: UseDexLiveOptions) {
       }
     };
   }, [chain, baseId, quoteId, specificNode, limit, enabled, reconnectNonce]);
+
+  useEffect(() => {
+    if (!enabled || !chain || !baseId || !quoteId) {
+      setBalancesSafe(null);
+      setMarketHistorySafe(null);
+      setUsrLimitOrdersSafe(null);
+      setUsrTradesSafe(null);
+      setTickerSafe(null);
+      setHistoryAvailableSafe(true);
+    }
+  }, [enabled, chain, baseId, quoteId]);
 
   return {
     bids,
@@ -333,13 +290,40 @@ export function useDexAccountOrdersLive(options: UseDexLiveOptions) {
   const [orders, setOrders] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [lastFetchAt, setLastFetchAt] = useState<number | null>(null);
+  const [blockNumber, setBlockNumber] = useState<number | null>(null);
+  const { reconnectNonce, attemptReconnect } = useDexReconnect();
   const unsubRef = useRef<(() => void) | null>(null);
+  const blockNumberRef = useRef<number | null>(null);
+  const lastFetchAtRef = useRef<number | null>(null);
+  const isSubscribedRef = useRef(false);
+
+  useEffect(() => {
+    lastFetchAtRef.current = lastFetchAt;
+  }, [lastFetchAt]);
+  useEffect(() => {
+    isSubscribedRef.current = isSubscribed;
+  }, [isSubscribed]);
+
+  useSubscriptionGuard({
+    lastFetchAtRef,
+    isSubscribedRef,
+    staleMs: DISCONNECT_STALE_MS,
+    onStale: () => setIsSubscribed(false),
+    onOffline: () => setIsSubscribed(false),
+    onReconnectNeeded: attemptReconnect,
+  });
 
   useEffect(() => {
     if (!enabled || !chain || !accountId) {
       setOrders(null);
       setLoading(false);
       setError(null);
+      setIsSubscribed(false);
+      setLastFetchAt(null);
+      setBlockNumber(null);
+      blockNumberRef.current = null;
       return;
     }
 
@@ -350,6 +334,8 @@ export function useDexAccountOrdersLive(options: UseDexLiveOptions) {
     const onUpdate = (liveOrders: any[]) => {
       if (cancelled) return;
       setOrders(liveOrders);
+      setLastFetchAt(Date.now());
+      setIsSubscribed(true);
       setLoading(false);
     };
     const onError = (e: any) => {
@@ -358,15 +344,45 @@ export function useDexAccountOrdersLive(options: UseDexLiveOptions) {
       setLoading(false);
     };
 
+    // block heartbeat for footer + staleness (2.1.0 push ~every 3s)
+    const blockCallback = () => {
+      if (cancelled) return;
+      try {
+        const obj: any = chain_store.getObject("2.1.0");
+        if (obj && obj !== true) {
+          const num =
+            obj.head_block_number ??
+            obj.block_number ??
+            obj.head_block_num ??
+            obj.blockNumber;
+          if (num && num !== blockNumberRef.current) {
+            blockNumberRef.current = num;
+            setBlockNumber(num);
+            setLastFetchAt(Date.now());
+            if (!isSubscribed) setIsSubscribed(true);
+          }
+        }
+      } catch {}
+    };
+
     subscribeAccountLimitOrders(chain, accountId, onUpdate, onError, specificNode)
       .then((unsub) => {
         if (cancelled) {
           unsub();
           return;
         }
-        unsubRef.current = unsub;
+        unsubRef.current = () => {
+          unsub();
+          try {
+            chain_store.unsubscribe(blockCallback);
+          } catch {}
+        };
       })
       .catch((e) => onError(e));
+
+    try {
+      chain_store.subscribe(blockCallback);
+    } catch {}
 
     return () => {
       cancelled = true;
@@ -376,7 +392,7 @@ export function useDexAccountOrdersLive(options: UseDexLiveOptions) {
         try { fn(); } catch (e) { console.log(e); }
       }
     };
-  }, [chain, accountId, specificNode, enabled]);
+  }, [chain, accountId, specificNode, enabled, reconnectNonce]);
 
-  return { orders, loading, error };
+  return { orders, loading, error, isSubscribed, lastFetchAt, blockNumber };
 }

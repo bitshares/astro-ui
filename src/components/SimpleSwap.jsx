@@ -1,6 +1,7 @@
 import React, {
   useState,
   useEffect,
+  useRef,
   useSyncExternalStore,
   useMemo,
 } from "react";
@@ -69,6 +70,8 @@ import { $blockList } from "@/stores/blocklist.ts";
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createPoolAssetStore } from "@/nanoeffects/Assets.ts";
 import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
+import { useChainObjectsLive } from "@/hooks/useChainObjectsLive";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 
 import MarketAssetCard from "./Market/MarketAssetCard.jsx";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
@@ -434,6 +437,24 @@ export default function SimpleSwap(properties) {
     selectedAssetASymbol,
     selectedAssetBSymbol,
   ]);
+
+  // Live pool object subscription (balance_a/balance_b/taker_fee push per swap)
+  const foundPoolRef = useRef(null);
+  const livePool = useChainObjectsLive({
+    chain: usr ? usr.chain : "",
+    ids: pool ? [pool] : [],
+    enabled: Boolean(usr && pool),
+    specificNode: currentNode ? currentNode.url : null,
+  });
+  useEffect(() => {
+    if (livePool.objects && pool && livePool.objects[pool]) {
+      const live = livePool.objects[pool];
+      setFoundPool((prev) => {
+        foundPoolRef.current = prev;
+        return prev ? { ...prev, ...live } : prev;
+      });
+    }
+  }, [livePool.objects, pool]);
 
   // Fetch user balances
   const [usrBalances, setUsrBalances] = useState();
@@ -1418,6 +1439,16 @@ export default function SimpleSwap(properties) {
           ]}
         />
       ) : null}
+
+      <div className="container mx-auto mt-5">
+        <DexLiveFooterCard
+          lastFetchAt={livePool.lastFetchAt}
+          isSubscribed={livePool.isSubscribed}
+          blockNumber={livePool.blockNumber}
+          nodeUrl={currentNode ? currentNode.url : null}
+          warningThresholdSec={10}
+        />
+      </div>
     </>
   );
 }

@@ -5,6 +5,9 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
+
+import { useChainObjectsLive } from "@/hooks/useChainObjectsLive";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
 import { useTranslation } from "react-i18next";
@@ -216,11 +219,44 @@ export default function Witnesses(properties) {
     dynamicGlobalParameters,
   ]); // Depends on allWitnesses & globals
 
+  // Live subscription: witness objects (1.6.x) update per block
+  // (total_missed / last_confirmed_block_num / last_aslot), plus 2.1.0 heartbeat.
+  const witnessIds = useMemo(
+    () => allWitnesses.map((w) => w.id),
+    [allWitnesses]
+  );
+  const liveWitnessData = useChainObjectsLive({
+    chain: _chain,
+    ids: witnessIds.length ? [...witnessIds, "2.1.0"] : ["2.1.0"],
+    enabled: Boolean(_chain && allWitnesses.length > 0),
+    specificNode: currentNode ? currentNode.url : null,
+  });
+  const liveWitnessMap = useMemo(
+    () =>
+      liveWitnessData.objects
+        ? new Map(Object.entries(liveWitnessData.objects))
+        : null,
+    [liveWitnessData.objects]
+  );
+  const mergedAllWitnesses = useMemo(() => {
+    if (!liveWitnessMap || !liveWitnessMap.size) return allWitnesses;
+    return allWitnesses.map((w) => {
+      const live = liveWitnessMap.get(w.id);
+      return live ? { ...w, ...live } : w;
+    });
+  }, [allWitnesses, liveWitnessMap]);
+  // keep dynamic global parameters fresh from the live 2.1.0 push
+  useEffect(() => {
+    if (liveWitnessData.objects && liveWitnessData.objects["2.1.0"]) {
+      setDynamicGlobalParameters(liveWitnessData.objects["2.1.0"]);
+    }
+  }, [liveWitnessData.objects]);
+
   const processedWitnesses = useMemo(() => {
     const blockInterval = globalParameters?.block_interval ?? 3; // Default to 3s if not loaded
     const currentAslot = dynamicGlobalParameters?.current_aslot ?? 0;
 
-    return allWitnesses
+    return mergedAllWitnesses
       .map((w) => {
         const account = witnessAccounts[w.witness_account];
         if (!account) return null; // Skip if account data not yet fetched
@@ -261,7 +297,7 @@ export default function Witnesses(properties) {
         witness.name.toLowerCase().includes(filter.toLowerCase())
       ); // Apply filter
   }, [
-    allWitnesses,
+    mergedAllWitnesses,
     witnessAccounts,
     activeWitnessIds,
     filter,
@@ -543,6 +579,14 @@ export default function Witnesses(properties) {
           )}
         </CardContent>
       </Card>
+
+      <DexLiveFooterCard
+        lastFetchAt={liveWitnessData.lastFetchAt}
+        isSubscribed={liveWitnessData.isSubscribed}
+        blockNumber={liveWitnessData.blockNumber}
+        nodeUrl={currentNode ? currentNode.url : null}
+        warningThresholdSec={10}
+      />
     </div>
   );
 }

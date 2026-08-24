@@ -1,6 +1,7 @@
 import React, {
   useEffect,
   useMemo,
+  useRef,
   useState,
   memo,
   useSyncExternalStore,
@@ -58,6 +59,8 @@ import {
 import { useInitCache } from "@/nanoeffects/Init.ts";
 import { createAccountLimitOrderStore } from "@/nanoeffects/AccountLimitOrders.ts";
 import { revalidateAccountLimitOrders } from "@/nanoeffects/AccountLimitOrders.ts";
+import { useDexAccountOrdersLive } from "@/hooks/useDexLiveSubscriptions";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 
 import { $currentUser } from "@/stores/users.ts";
 import { $blockList } from "@/stores/blocklist.ts";
@@ -424,16 +427,43 @@ export default function PortfolioOpenOrders({
         limitOrdersStore.subscribe(({ data, error, loading }) => {
           setOpenOrdersLoading(Boolean(loading));
           if (data && !error && !loading) {
-            setOpenOrders(data);
+            // prefer live subscription when it is active; poll store fills
+            // gaps (e.g. >100 orders where get_full_accounts truncates)
+            setOpenOrders((prev) =>
+              liveOrdersRef.current && liveOrdersRef.current.length ? prev : data
+            );
           }
           if (!data && !loading && error) {
-            setOpenOrders([]);
+            setOpenOrders((prev) =>
+              liveOrdersRef.current && liveOrdersRef.current.length ? prev : []
+            );
           }
         });
       }
     }
     fetchLimitOrders();
   }, [usr, openOrderCounter]);
+
+  // Live open-order subscription (ChainStore full-account push, ~per block)
+  const currentNodeOO = useStore($currentNode);
+  const ooNodeUrl =
+    currentNodeOO && currentNodeOO.chain === (usr ? usr.chain : null)
+      ? currentNodeOO.url
+      : null;
+  const liveOrders = useDexAccountOrdersLive({
+    chain: usr ? usr.chain : "",
+    accountId: usr ? usr.id : null,
+    specificNode: ooNodeUrl,
+    enabled: Boolean(usr && usr.id),
+  });
+  const liveOrdersRef = useRef(null);
+  useEffect(() => {
+    liveOrdersRef.current = liveOrders.orders;
+    if (liveOrders.orders) {
+      setOpenOrders(liveOrders.orders);
+      setOpenOrdersLoading(false);
+    }
+  }, [liveOrders.orders]);
 
   useEffect(() => {
     if (!showDialog && orderID) {
@@ -593,6 +623,14 @@ export default function PortfolioOpenOrders({
             )}
           </CardContent>
         </Card>
+
+        <DexLiveFooterCard
+          lastFetchAt={liveOrders.lastFetchAt}
+          isSubscribed={liveOrders.isSubscribed}
+          blockNumber={liveOrders.blockNumber}
+          nodeUrl={ooNodeUrl}
+          warningThresholdSec={10}
+        />
       </div>
     </div>
   );
