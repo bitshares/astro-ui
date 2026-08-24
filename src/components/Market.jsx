@@ -23,6 +23,9 @@ import {
 import { trimPrice, isInvertedMarket } from "@/lib/common";
 import { createMarketTradeHistoryStore } from "@/nanoeffects/MarketTradeHistory.ts";
 import { createMarketOrderStore } from "@/nanoeffects/MarketOrderBook.ts";
+import { useDexOrderBookLive } from "@/hooks/useDexLiveSubscriptions";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
+import { $currentNode } from "@/stores/node.ts";
 
 import LimitOrderCard from "./Market/LimitOrderCard.jsx";
 import MarketOrderCard from "./Market/MarketOrderCard.jsx";
@@ -97,6 +100,7 @@ export default function Market(properties) {
 
   const [marketItr, setMarketItr] = useState(0);
   const [orderBookItr, setOrderBookItr] = useState(0);
+  const currentNode = useStore($currentNode);
 
   // style states
   const [activeLimitCard, setActiveLimitCard] = useState("buy");
@@ -153,17 +157,54 @@ export default function Market(properties) {
     error: marketOrdersError,
   } = useStore(marketOrdersStore);
 
+  // Live DEX subscription (pilot, 500ms batch like bitshares-ui)
+  // Mirrors MarketOrderBook.ts polling swap: poll uses get_order_book(base=assetB, quote=assetA) via fetcher inversion.
+  // We use asset ids directly for live subscription (more reliable than symbols).
+  // Pass currentNode.url for both mainnet/testnet node switching (nodes page)
+  const dexNodeUrl = currentNode?.chain === usr.chain ? currentNode?.url : null;
+  const {
+    bids: liveBids,
+    asks: liveAsks,
+    loading: liveOrderBookLoading,
+    error: liveOrderBookError,
+    isSubscribed: isLiveSubscribed,
+    lastFetchAt: liveLastFetchAt,
+    blockNumber: liveBlockNumber,
+  } = useDexOrderBookLive({
+    chain: usr.chain,
+    baseId: assetBData?.id ?? null,
+    quoteId: assetAData?.id ?? null,
+    enabled: !!assetAData && !!assetBData,
+    limit: 50,
+    specificNode: dexNodeUrl,
+  });
+
+  // Prefer live subscription when available; fallback to nanoquery poll store
   useEffect(() => {
+    if (isLiveSubscribed && liveBids && liveAsks) {
+      setBuyOrders(liveBids);
+      setSellOrders(liveAsks);
+      setPreviousBuyOrders(liveBids);
+      setPreviousSellOrders(liveAsks);
+      return;
+    }
     if (marketOrdersData && !marketOrdersLoading && !marketOrdersError) {
       setBuyOrders(marketOrdersData.bids);
       setSellOrders(marketOrdersData.asks);
       setPreviousBuyOrders(marketOrdersData.bids);
       setPreviousSellOrders(marketOrdersData.asks);
-    } else {
+    } else if (!isLiveSubscribed) {
       setBuyOrders(null);
       setSellOrders(null);
     }
-  }, [marketOrdersData, marketOrdersLoading, marketOrdersError]);
+  }, [
+    liveBids,
+    liveAsks,
+    isLiveSubscribed,
+    marketOrdersData,
+    marketOrdersLoading,
+    marketOrdersError,
+  ]);
 
   // Use the store
   const marketHistoryStore = useMemo(() => {
@@ -1003,7 +1044,7 @@ export default function Market(properties) {
           {assetAData && assetBData ? (
             <>
               <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
-                {buyOrders && !marketOrdersLoading ? (
+                {buyOrders && (!marketOrdersLoading || isLiveSubscribed) ? (
                   <MarketOrderCard
                     cardType="buy"
                     assetA={assetA}
@@ -1013,7 +1054,7 @@ export default function Market(properties) {
                     marketOrders={buyOrders}
                   />
                 ) : null}
-                {sellOrders && !marketOrdersLoading ? (
+                {sellOrders && (!marketOrdersLoading || isLiveSubscribed) ? (
                   <MarketOrderCard
                     cardType="sell"
                     assetA={assetA}
@@ -1042,6 +1083,14 @@ export default function Market(properties) {
             _resetMarketData={_resetMarketData}
           />
         ) : null}
+
+        <DexLiveFooterCard
+          lastFetchAt={liveLastFetchAt}
+          isSubscribed={isLiveSubscribed}
+          blockNumber={liveBlockNumber}
+          nodeUrl={dexNodeUrl || (usr.chain === "bitshares" ? "wss://node.xbts.io/ws" : "wss://testnet.dex.trading/")}
+          warningThresholdSec={10}
+        />
       </div>
     </>
   );
