@@ -4,6 +4,12 @@ contextBridge.exposeInMainWorld("electron", {
   // MISC
   openURL: async (target) => ipcRenderer.send("openURL", target), // Links to explorers
   notify: async (msg) => ipcRenderer.send("notify", msg), // Triggering an electron notification prompt
+  setWindowTitle: async (title) => ipcRenderer.send("setWindowTitle", title), // Localized OS window / alt-tab title
+  setTrayTooltip: async (tooltip) =>
+    ipcRenderer.send("setTrayTooltip", tooltip), // Localized tray tooltip
+  setNotificationTitle: async (title) =>
+    ipcRenderer.send("setNotificationTitle", title), // Localized notification heading
+  setMenuLabels: async (labels) => ipcRenderer.send("setMenuLabels", labels), // Localized application menu labels
   registerFaucetAccount: async (args) =>
     ipcRenderer.invoke("faucetRegistration", args),
   genKey: async () => ipcRenderer.invoke("genKey"),

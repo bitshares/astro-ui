@@ -30,6 +30,7 @@ import { generateQRContents } from "./lib/qr.js";
 
 let mainWindow = null;
 let tray = null;
+let localizedNotificationTitle = "Error!";
 
 protocol.registerSchemesAsPrivileged([
   {
@@ -486,8 +487,37 @@ const createWindow = async () => {
   });
   */
 
+  // Localized UI strings sent from the renderer once i18n has loaded
+  ipcMain.on("setWindowTitle", (event, title) => {
+    if (typeof title === "string" && title) {
+      mainWindow?.setTitle(title);
+    }
+  });
+
+  ipcMain.on("setTrayTooltip", (event, tooltip) => {
+    if (typeof tooltip === "string" && tooltip) {
+      tray?.setToolTip(tooltip);
+    }
+  });
+
+  ipcMain.on("setNotificationTitle", (event, title) => {
+    if (typeof title === "string" && title) {
+      localizedNotificationTitle = title;
+    }
+  });
+
+  ipcMain.on("setMenuLabels", (event, labels) => {
+    if (
+      labels &&
+      typeof labels === "object" &&
+      Object.keys(labels).length > 0
+    ) {
+      initApplicationMenu(mainWindow, labels);
+    }
+  });
+
   ipcMain.on("notify", (event, arg) => {
-    const NOTIFICATION_TITLE = "Error!";
+    const NOTIFICATION_TITLE = localizedNotificationTitle;
     const NOTIFICATION_BODY = arg;
 
     if (os.platform === "win32") {

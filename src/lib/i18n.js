@@ -2,6 +2,8 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { persistentAtom } from "@nanostores/persistent";
 
+import { applyWindowUI } from "./windowTitle.js";
+
 const languages = ["en", "da", "de", "es", "et", "fr", "it", "ja", "ko", "pt", "th"];
 const pages = [
   "Activity",
@@ -90,7 +92,8 @@ const pages = [
   "Visuals",
   "ThemeCustomizer",
   "PageThemes",
-  "Common"
+  "Common",
+  "PageTitles"
 ];
 
 const locale = persistentAtom("locale", "en");
@@ -150,6 +153,7 @@ async function initialize() {
       if (err) {
         console.log("something went wrong loading", err);
       }
+      applyWindowUI();
     }
   );
 }
