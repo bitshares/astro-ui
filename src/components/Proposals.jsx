@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useSyncExternalStore,
   useMemo,
+  memo,
 } from "react";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
@@ -130,6 +131,136 @@ const operationStrings = [
   "limit_order_update",
 ];
 
+
+const ProposalRow = memo(function ProposalRow({ index, style, filteredProposals, proposerAccounts, setViewJSON, setJSON, setApproveOpen, setRejectOpen, setRejectedProposalID, t }) {
+  const proposal = filteredProposals[index];
+  const proposer = proposal.proposer;
+  const expirationTime = new Date(proposal.expiration_time);
+  const reviewPeriodTime = new Date(proposal.review_period_time);
+
+  const proposedTransaction = proposal.proposed_transaction;
+  const operations = proposedTransaction.operations;
+
+  const proposerAccount = proposerAccounts.find((x) => x.id === proposer);
+
+  const [approvedCount, setApprovedCount] = useState(0);
+
+  return (
+    <div style={{ ...style }} key={`card-${proposal.id}`}>
+      <div className="ml-3 mr-3 mt-3 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300">
+        <div className="p-4">
+          <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <div className="col-span-2">
+                {t("Proposals:proposalID")}
+                {": "}
+                <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">{proposal.id}</span>
+                <Badge
+                  className="ml-3 border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] cursor-pointer hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors"
+                  onClick={() => {
+                    setViewJSON(true);
+                    setJSON(proposal);
+                  }}
+                >
+                  JSON
+                </Badge>
+              </div>
+              <div className="col-span-2">
+                {t("Proposals:proposedBy")}
+                {": "}
+                <b>
+                  {proposerAccount && proposerAccount.name ? (
+                    <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">
+                      {proposerAccount.name}
+                    </span>
+                  ) : (
+                    <>???</>
+                  )}
+                </b>{" "}
+                (
+                <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">{proposer}</span>
+                )
+              </div>
+              <div className="col-span-2">
+                {t("Proposals:expirationTime")}:{" "}
+                <b>{expirationTime.toUTCString()}</b>
+              </div>
+              {reviewPeriodTime ? (
+                <div className="col-span-2">
+                  {t("Proposals:reviewPeriodTime")}:{" "}
+                  <b>{reviewPeriodTime ? reviewPeriodTime / 1000 : 0}</b>
+                </div>
+              ) : null}
+            </div>
+            <div>
+              <HoverInfo
+                header={t("Proposals:operations")}
+                content={t("Proposals:operationsDescription")}
+                type="header"
+              />
+              <div className="border border-[hsl(var(--accent-1)/0.15)] rounded-xl pl-2 pb-2 mt-2 bg-card/60">
+                {operations.length && operations.length > 10 ? (
+                  <Badge
+                    onClick={() => {
+                      setViewJSON(true);
+                      setJSON({
+                        operations,
+                      });
+                    }}
+                    className="border-[hsl(var(--accent-3)/0.2)] bg-[hsl(var(--accent-3)/0.1)] text-[hsl(var(--accent-3-fg))] dark:text-[hsl(var(--accent-3-fg))] cursor-pointer hover:bg-[hsl(var(--accent-3)/0.2)] transition-colors"
+                  >
+                    ⚠️ {operations.length} operations
+                  </Badge>
+                ) : (
+                  operations.map((x) => (
+                    <Badge
+                      className="ml-1 border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] cursor-pointer hover:bg-[hsl(var(--accent-2)/0.2)] transition-colors"
+                      onClick={() => {
+                        setViewJSON(true);
+                        setJSON({
+                          operation: x,
+                        });
+                      }}
+                    >
+                      {operationStrings[x[0]]} ({x[0]})
+                    </Badge>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="px-4 pb-4">
+          <div className="grid grid-cols-2 gap-3 w-full">
+            <div className="col-span-2">
+              <div className="h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.3)] to-transparent my-2" />
+            </div>
+            <div className="flex space-x-3">
+              <Button
+                onClick={() => {
+                  setApproveOpen(true);
+                }}
+                className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-success-gradFg))] shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
+              >
+                {t("Proposals:beginApprovalProcess")}
+              </Button>
+              <Button
+                onClick={() => {
+                  setRejectOpen(true);
+                  setRejectedProposalID(proposal.id);
+                }}
+                className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
+              >
+                {t("Proposals:reject")}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
+
 export default function Proposals(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const currentNode = useStore($currentNode);
@@ -240,213 +371,7 @@ export default function Proposals(properties) {
   const [finalApprovalOpen, setFinalApprovalOpen] = useState(false);
   const [chosenProposal, setChosenProposal] = useState();
 
-  const proposalRow = ({ index, style }) => {
-    const proposal = filteredProposals[index];
-    const proposer = proposal.proposer;
-    const expirationTime = new Date(proposal.expiration_time);
-    const reviewPeriodTime = new Date(proposal.review_period_time);
-
-    const proposedTransaction = proposal.proposed_transaction;
-    const operations = proposedTransaction.operations;
-
-    const proposerAccount = proposerAccounts.find((x) => x.id === proposer);
-
-    const [approvedCount, setApprovedCount] = useState(0);
-
-    return (
-      <div style={{ ...style }} key={`card-${proposal.id}`}>
-        <div className="ml-3 mr-3 mt-3 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300">
-          <div className="p-4">
-            <div className="grid grid-cols-1 gap-3">
-              <div className="grid grid-cols-2 gap-3 mt-3">
-                <div className="col-span-2">
-                  {t("Proposals:proposalID")}
-                  {": "}
-                  <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">{proposal.id}</span>
-                  <Badge
-                    className="ml-3 border-[hsl(var(--accent-1)/0.2)] bg-[hsl(var(--accent-1)/0.1)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] cursor-pointer hover:bg-[hsl(var(--accent-1)/0.2)] transition-colors"
-                    onClick={() => {
-                      setViewJSON(true);
-                      setJSON(proposal);
-                    }}
-                  >
-                    JSON
-                  </Badge>
-                </div>
-                <div className="col-span-2">
-                  {t("Proposals:proposedBy")}
-                  {": "}
-                  <b>
-                    {proposerAccount && proposerAccount.name ? (
-                      <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">
-                        {proposerAccount.name}
-                      </span>
-                    ) : (
-                      <>???</>
-                    )}
-                  </b>{" "}
-                  (
-                  <span className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] transition-colors">{proposer}</span>
-                  )
-                </div>
-                <div className="col-span-2">
-                  {t("Proposals:expirationTime")}:{" "}
-                  <b>{expirationTime.toUTCString()}</b>
-                </div>
-                {reviewPeriodTime ? (
-                  <div className="col-span-2">
-                    {t("Proposals:reviewPeriodTime")}:{" "}
-                    <b>{reviewPeriodTime ? reviewPeriodTime / 1000 : 0}</b>
-                  </div>
-                ) : null}
-              </div>
-              <div>
-                <HoverInfo
-                  header={t("Proposals:operations")}
-                  content={t("Proposals:operationsDescription")}
-                  type="header"
-                />
-                <div className="border border-[hsl(var(--accent-1)/0.15)] rounded-xl pl-2 pb-2 mt-2 bg-card/60">
-                  {operations.length && operations.length > 10 ? (
-                    <Badge
-                      onClick={() => {
-                        setViewJSON(true);
-                        setJSON({
-                          operations,
-                        });
-                      }}
-                      className="border-[hsl(var(--accent-3)/0.2)] bg-[hsl(var(--accent-3)/0.1)] text-[hsl(var(--accent-3-fg))] dark:text-[hsl(var(--accent-3-fg))] cursor-pointer hover:bg-[hsl(var(--accent-3)/0.2)] transition-colors"
-                    >
-                      ⚠️ {operations.length} operations
-                    </Badge>
-                  ) : (
-                    operations.map((x) => (
-                      <Badge
-                        className="ml-1 border-[hsl(var(--accent-2)/0.2)] bg-[hsl(var(--accent-2)/0.1)] text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] cursor-pointer hover:bg-[hsl(var(--accent-2)/0.2)] transition-colors"
-                        onClick={() => {
-                          setViewJSON(true);
-                          setJSON({
-                            operation: x,
-                          });
-                        }}
-                      >
-                        {operationStrings[x[0]]} ({x[0]})
-                      </Badge>
-                    ))
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="px-4 pb-4">
-            <div className="grid grid-cols-2 gap-3 w-full">
-              <div className="col-span-2">
-                <div className="h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.3)] to-transparent my-2" />
-              </div>
-              <div className="flex space-x-3">
-                <Button
-                  onClick={() => {
-                    setApproveOpen(true);
-                  }}
-                  className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-success-gradFg))] shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
-                >
-                  {t("Proposals:beginApprovalProcess")}
-                </Button>
-                <Button
-                  onClick={() => {
-                    setRejectOpen(true);
-                    setRejectedProposalID(proposal.id);
-                  }}
-                  className="w-1/2 bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
-                >
-                  {t("Proposals:reject")}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-        {approveOpen ? (
-          <Dialog
-            open={approveOpen}
-            onOpenChange={(open) => {
-              setApproveOpen(open);
-              if (!open) {
-                setApprovedCount(0);
-                setFinalApprovalOpen(false);
-                setChosenProposal();
-              }
-            }}
-          >
-            <DialogContent className="sm:max-w-[750px] bg-card">
-              <DialogHeader>
-                <DialogTitle>{t("Proposals:approveProposal")}</DialogTitle>
-                <DialogDescription>
-                  {t("Proposals:approveProposalDescription")}
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid grid-cols-1 gap-3">
-                {proposal &&
-                proposal.proposed_transaction &&
-                proposal.proposed_transaction.operations &&
-                !finalApprovalOpen
-                  ? proposal.proposed_transaction.operations.map(
-                      (operation, index) => (
-                        <div key={`operation_${index}`}>
-                          <div>
-                            {t("Proposals:operationType")}:{" "}
-                            <b>{operationStrings[operation[0]]}</b> (
-                            {operation[0]})
-                          </div>
-                          <div className="mt-1">
-                            {t("Proposals:operationDescription")}:<br />
-                            {t(`Operations:${operationStrings[operation[0]]}`)}
-                          </div>
-                          <Textarea
-                            className="w-full h-32 p-2 border rounded-md mb-5 mt-3"
-                            value={JSON.stringify(operation, null, 2)}
-                            readOnly={true}
-                            rows={15}
-                          />
-                          <div className="flex space-x-3 mt-2">
-                            <Button
-                              onClick={() => {
-                                const newCount = approvedCount + 1;
-                                setApprovedCount(newCount);
-                                if (
-                                  newCount ===
-                                  proposal.proposed_transaction.operations
-                                    .length
-                                ) {
-                                  setFinalApprovalOpen(true);
-                                  setChosenProposal(proposal);
-                                }
-                              }}
-                              className="bg-gradient-to-r from-[hsl(var(--accent-success))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-success-gradFg))] shadow-md shadow-[color:hsl(var(--accent-success)/0.2)] hover:from-[hsl(var(--accent-success))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-success)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
-                            >
-                              {t("Proposals:approveProposedOperation")}
-                            </Button>
-                            <Button
-                              onClick={() => {
-                                setApproveOpen(false);
-                                setApprovedCount(0);
-                                setChosenProposal();
-                              }}
-                              className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
-                            >
-                              {t("Proposals:rejectProposedOperation")}
-                            </Button>
-                          </div>
-                        </div>
-                      )
-                    )
-                  : null}
-              </div>
-            </DialogContent>
-          </Dialog>
-        ) : null}
-      </div>
-    );
-  };
+  const proposalRowProps = useMemo(() => ({ filteredProposals, proposerAccounts, setViewJSON, setJSON, setApproveOpen, setRejectOpen, setRejectedProposalID, t }), [filteredProposals, proposerAccounts, setViewJSON, setJSON, setApproveOpen, setRejectOpen, setRejectedProposalID, t]);
 
   return (
     <>
@@ -470,12 +395,14 @@ export default function Proposals(properties) {
             <div className="p-4 pt-2">
               <div className="grid grid-cols-1 gap-3">
                 {filteredProposals && filteredProposals.length ? (
-                  <div className="w-full border-2 max-h-[500px] overflow-auto">
+                  <div className="w-full h-[500px] border-2">
                     <List
-                      rowComponent={proposalRow}
+                      rowComponent={ProposalRow}
                       rowCount={filteredProposals.length}
                       rowHeight={265}
-                      rowProps={{}}
+                      height={500}
+                      width="100%"
+                      rowProps={proposalRowProps}
                     />
                   </div>
                 ) : (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { List } from "react-window";
@@ -65,6 +65,8 @@ export default function NFTSection({
   hideToggle,
 }) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
+
+  const mediaRowProps = useMemo(() => ({ nftMedia, setNFTMedia }), [nftMedia, setNFTMedia]);
 
   return (
     <div className="col-span-2 grid grid-cols-1 md:grid-cols-2">
@@ -154,12 +156,14 @@ export default function NFTSection({
                             {t("AssetCommon:nft.delete")}
                           </div>
                         </div>
-                        <div className="w-full max-h-[125px] overflow-auto">
+                        <div className="w-full h-[300px]">
                           <List
+                            height={300}
+                            width="100%"
                             rowComponent={MediaRow}
                             rowCount={nftMedia.length}
                             rowHeight={25}
-                            rowProps={{ nftMedia, setNFTMedia }}
+                            rowProps={mediaRowProps}
                           />
                         </div>
                       </>

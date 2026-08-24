@@ -22,47 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export default function MarketOrderCard(properties) {
-  const { cardType, assetA, assetAData, assetB, assetBData, marketOrders } =
-    properties;
-
-  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
-
-  const isBuy = cardType === "buy";
-  const accent = isBuy
-    ? {
-        text: "dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
-        textBright: "dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
-        bg: "bg-[hsl(var(--accent-success)/0.06)]",
-        bgHover: "hover:bg-[hsl(var(--accent-success)/0.12)]",
-        bgDepth: "bg-[hsl(var(--accent-success)/0.08)]",
-        border: "border-[hsl(var(--accent-success)/0.3)]",
-        glow: "from-[hsl(var(--accent-success)/0.2)] via-[hsl(var(--accent-success)/0.05)] to-transparent",
-        gradient: "from-[hsl(var(--accent-success))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))]",
-        ring: "ring-[hsl(var(--accent-success)/0.3)]",
-        chip: "bg-[hsl(var(--accent-success)/0.1)] border-[hsl(var(--accent-success)/0.3)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
-      }
-    : {
-        text: "dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
-        textBright: "dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
-        bg: "bg-[hsl(var(--accent-danger)/0.06)]",
-        bgHover: "hover:bg-[hsl(var(--accent-danger)/0.12)]",
-        bgDepth: "bg-[hsl(var(--accent-danger)/0.08)]",
-        border: "border-[hsl(var(--accent-danger)/0.3)]",
-        glow: "from-[hsl(var(--accent-danger)/0.2)] via-[hsl(var(--accent-danger)/0.05)] to-transparent",
-        gradient: "from-[hsl(var(--accent-danger))] via-[hsl(var(--accent-warning))] to-[hsl(var(--accent-warning))]",
-        ring: "ring-[hsl(var(--accent-danger)/0.3)]",
-        chip: "bg-[hsl(var(--accent-danger)/0.1)] border-[hsl(var(--accent-danger)/0.3)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
-      };
-
-  const totalBase = useMemo(() => {
-    if (!marketOrders || !marketOrders.length) return 0;
-    return marketOrders
-      .map((x) => parseFloat(x.base))
-      .reduce((acc, curr) => acc + curr, 0);
-  }, [marketOrders]);
-
-  const Row = ({ index, style }) => {
+const MarketOrderRow = React.memo(function MarketOrderRow({ index, style, marketOrders, isBuy, assetA, assetB, assetAData, assetBData, totalBase, cardType, t }) {
     const order = marketOrders[index];
 
     const price = parseFloat(order.price).toFixed(assetBData.precision);
@@ -95,6 +55,22 @@ export default function MarketOrderCard(properties) {
     const quoteAmt = isBuy
       ? quote.toFixed(assetAData.precision)
       : base.toFixed(assetBData.precision);
+
+    const accent = isBuy
+      ? {
+          bgHover: "hover:bg-[hsl(var(--accent-success)/0.12)]",
+          bgDepth: "bg-[hsl(var(--accent-success)/0.08)]",
+          textBright: "dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
+          chip: "bg-[hsl(var(--accent-success)/0.1)] border-[hsl(var(--accent-success)/0.3)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
+          gradient: "from-[hsl(var(--accent-success))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))]",
+        }
+      : {
+          bgHover: "hover:bg-[hsl(var(--accent-danger)/0.12)]",
+          bgDepth: "bg-[hsl(var(--accent-danger)/0.08)]",
+          textBright: "dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
+          chip: "bg-[hsl(var(--accent-danger)/0.1)] border-[hsl(var(--accent-danger)/0.3)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
+          gradient: "from-[hsl(var(--accent-danger))] via-[hsl(var(--accent-warning))] to-[hsl(var(--accent-warning))]",
+        };
 
     return (
       <div style={style}>
@@ -214,7 +190,52 @@ export default function MarketOrderCard(properties) {
         </Dialog>
       </div>
     );
-  };
+  });
+
+export default function MarketOrderCard(properties) {
+  const { cardType, assetA, assetAData, assetB, assetBData, marketOrders } =
+    properties;
+
+  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
+
+  const isBuy = cardType === "buy";
+  const accent = isBuy
+    ? {
+        text: "dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
+        textBright: "dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
+        bg: "bg-[hsl(var(--accent-success)/0.06)]",
+        bgHover: "hover:bg-[hsl(var(--accent-success)/0.12)]",
+        bgDepth: "bg-[hsl(var(--accent-success)/0.08)]",
+        border: "border-[hsl(var(--accent-success)/0.3)]",
+        glow: "from-[hsl(var(--accent-success)/0.2)] via-[hsl(var(--accent-success)/0.05)] to-transparent",
+        gradient: "from-[hsl(var(--accent-success))] via-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))]",
+        ring: "ring-[hsl(var(--accent-success)/0.3)]",
+        chip: "bg-[hsl(var(--accent-success)/0.1)] border-[hsl(var(--accent-success)/0.3)] dark:text-[hsl(var(--accent-success-fg))] text-[hsl(var(--accent-success-fg))]",
+      }
+    : {
+        text: "dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
+        textBright: "dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
+        bg: "bg-[hsl(var(--accent-danger)/0.06)]",
+        bgHover: "hover:bg-[hsl(var(--accent-danger)/0.12)]",
+        bgDepth: "bg-[hsl(var(--accent-danger)/0.08)]",
+        border: "border-[hsl(var(--accent-danger)/0.3)]",
+        glow: "from-[hsl(var(--accent-danger)/0.2)] via-[hsl(var(--accent-danger)/0.05)] to-transparent",
+        gradient: "from-[hsl(var(--accent-danger))] via-[hsl(var(--accent-warning))] to-[hsl(var(--accent-warning))]",
+        ring: "ring-[hsl(var(--accent-danger)/0.3)]",
+        chip: "bg-[hsl(var(--accent-danger)/0.1)] border-[hsl(var(--accent-danger)/0.3)] dark:text-[hsl(var(--accent-danger-fg))] text-[hsl(var(--accent-danger-fg))]",
+      };
+
+  const totalBase = useMemo(() => {
+    if (!marketOrders || !marketOrders.length) return 0;
+    return marketOrders
+      .map((x) => parseFloat(x.base))
+      .reduce((acc, curr) => acc + curr, 0);
+  }, [marketOrders]);
+
+  const rowProps = useMemo(
+    () => ({ marketOrders, isBuy, assetA, assetB, assetAData, assetBData, totalBase, cardType, t }),
+    [marketOrders, isBuy, assetA, assetB, assetAData, assetBData, totalBase, cardType, t]
+  );
 
   return (
     <div
@@ -289,13 +310,14 @@ export default function MarketOrderCard(properties) {
 
         <div className="px-0 py-1">
           {marketOrders && marketOrders.length ? (
-            <div className="h-[320px] overflow-hidden">
+            <div className="w-full h-[320px]">
               <List
                 height={320}
-                rowComponent={Row}
+                width="100%"
+                rowComponent={MarketOrderRow}
                 rowCount={marketOrders.length}
                 rowHeight={28}
-                rowProps={{}}
+                rowProps={rowProps}
               />
             </div>
           ) : (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback, memo } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
@@ -69,6 +69,20 @@ import {
 import { Avatar } from "./Avatar.tsx";
 import { Avatar as Av, AvatarFallback } from "@/components/ui/avatar";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
+const CreditOfferEditorCollateralRow = memo(function CreditOfferEditorCollateralRow({ index, style, acceptableCollateral, assets, t, selectedAsset, setAcceptableCollateral }) {
+  let res = acceptableCollateral[index];
+  if (!res) return null;
+  const _targetAsset = assets.find((x) => x.id === res.id);
+  if (!_targetAsset) return null;
+  let _updatedCollateral;
+  return (<div style={{ ...style }} key={`acard-${res.id}`}><Card className="mx-2 mb-1 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60"><div className="p-3 flex items-center gap-3"><span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)]"> <Coins className="h-3.5 w-3.5" strokeWidth={2.25} /></span><div className="flex-1 min-w-0"><div className="text-sm font-semibold truncate">#{index + 1}: {_targetAsset.symbol}</div><div className="text-xs text-muted-foreground">{t("CreditOfferEditor:price")} <span className="font-mono">{res.price}</span> {_targetAsset.symbol}/{selectedAsset ?? ""}</div></div></div></Card></div>);
+});
+const CreditOfferEditorApprovedRow = memo(function CreditOfferEditorApprovedRow({ index, style, allowedAccounts, t, foundAsset, setAllowedAccounts }) {
+  let res = allowedAccounts[index];
+  if (!res) return null;
+  return (<div style={{ ...style }} key={`acard-${res.id}`}><Card className="mx-2 mb-1 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60"><div className="p-3 flex items-center gap-3"><Avatar size={32} name={res.name} extra="Borrower" expression={{ eye: "normal", mouth: "open" }} colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]} /><div className="flex-1 min-w-0"><div className="text-sm font-semibold truncate">#{index + 1}: {res.name}</div></div></div></Card></div>);
+});
+
 import AssetDropDown from "./Market/AssetDropDownCard.jsx";
 import CollateralDropDownCard from "./Market/CollateralDropDownCard.jsx";
 import AccountSearch from "./AccountSearch.jsx";
@@ -501,220 +515,8 @@ export default function CreditOfferEditor(properties) {
     offerJSON,
   ]);
 
-  const CollateralRow = ({ index, style }) => {
-    let res = acceptableCollateral[index];
-
-    if (!res) {
-      return null;
-    }
-
-    const _targetAsset = assets.find((x) => x.id === res.id);
-
-    if (!_targetAsset) {
-      return null;
-    }
-
-    let _updatedCollateral;
-    return (
-      <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="mx-2 mb-1 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all">
-          <div className="p-3 flex items-center gap-3">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] flex-shrink-0">
-              <Coins className="h-3.5 w-3.5" strokeWidth={2.25} />
-            </span>
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-semibold text-foreground truncate">
-                #{index + 1}: {_targetAsset.symbol}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {t("CreditOfferEditor:price")} <span className="font-mono dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">{res.price}</span> {_targetAsset.symbol}/{selectedAsset ?? ""}
-              </div>
-            </div>
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" size="icon" aria-label="Edit collateral price" className="h-8 w-8 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
-                    <Settings className="h-3.5 w-3.5" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <Label>{t("CreditOfferEditor:editingPrice")}</Label>{" "}
-                  <Input
-                    name="price"
-                    className="mt-4"
-                    placeholder={res.price}
-                    onKeyPress={(event) => {
-                      if (
-                        event.key === "." &&
-                        event.target.value.includes(".")
-                      ) {
-                        event.preventDefault();
-                      }
-                      const regex = assetAmountRegex(_targetAsset);
-                      if (!regex.test(event.key)) {
-                        event.preventDefault();
-                      }
-                    }}
-                    onChange={(event) => {
-                      const regex = assetAmountRegex(_targetAsset);
-                      if (regex.test(event.target.value)) {
-                        _updatedCollateral = acceptableCollateral.map((x) => {
-                          if (x.symbol === res.symbol) {
-                            x.price = parseFloat(event.target.value);
-                          }
-                          return x;
-                        });
-                      }
-                    }}
-                  />
-                  <Button
-                    variant="outline"
-                    className="mt-4 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
-                    onClick={() => {
-                      if (
-                        _updatedCollateral &&
-                        _updatedCollateral.price !== res.price
-                      ) {
-                        setAcceptableCollateral(_updatedCollateral);
-                      }
-                    }}
-                  >
-                    {t("CreditOfferEditor:setNewPrice")}
-                  </Button>
-                </PopoverContent>
-              </Popover>
-
-              <Button
-                variant="outline"
-                size="icon"
-                aria-label="Remove collateral"
-                className="h-8 w-8 border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)]"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const _newCollateral = acceptableCollateral.filter(
-                    (x) => x.symbol !== res.symbol,
-                  );
-                  setAcceptableCollateral(_newCollateral);
-                }}
-              >
-                <Trash2 className="h-3.5 w-3.5" />
-              </Button>
-            </div>
-          </div>
-        </Card>
-      </div>
-    );
-  };
-
-  const ApprovedBorrowerRow = ({ index, style }) => {
-    let res = allowedAccounts[index];
-    if (!res) {
-      return null;
-    }
-
-    let _updatedAllowedAccounts;
-
-    return (
-      <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="mx-2 mb-1 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all">
-          <div className="p-3 flex items-center gap-3">
-            <Avatar
-              size={32}
-              name={res.name}
-              extra="Borrower"
-              expression={{
-                eye: "normal",
-                mouth: "open",
-              }}
-              colors={[
-                "#92A1C6",
-                "#146A7C",
-                "#F0AB3D",
-                "#C271B4",
-                "#C20D90",
-              ]}
-            />
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-semibold text-foreground truncate">
-                #{index + 1}: {res.name}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {t("CreditOfferEditor:borrowLimit")}: <span className="font-mono dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">{res.amount} {foundAsset ? foundAsset.symbol : ""}</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" size="icon" aria-label="Edit borrower limit" className="h-8 w-8 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]">
-                    <Settings className="h-3.5 w-3.5" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <Label>{t("CreditOfferEditor:editingMaxAmount")}</Label>
-                  <Input
-                    name="price"
-                    className="mt-4"
-                    placeholder={res.price}
-                    onKeyPress={(event) => {
-                      if (
-                        event.key === "." &&
-                        event.target.value.includes(".")
-                      ) {
-                        event.preventDefault();
-                      }
-                      const regex = assetAmountRegex(foundAsset);
-                      if (!regex.test(event.key)) {
-                        event.preventDefault();
-                      }
-                    }}
-                    onChange={(event) => {
-                      const regex = assetAmountRegex(foundAsset);
-                      if (regex.test(event.target.value)) {
-                        _updatedAllowedAccounts = allowedAccounts.map((x) => {
-                          if (x.id === res.id) {
-                            x.amount = event.target.value;
-                          }
-                          return x;
-                        });
-                      }
-                    }}
-                  />
-                  <Button
-                    variant="outline"
-                    className="mt-4 border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
-                    onClick={() => {
-                      if (_updatedAllowedAccounts) {
-                        setAllowedAccounts(_updatedAllowedAccounts);
-                      }
-                    }}
-                  >
-                    {t("CreditOfferEditor:setNewMaximum")}
-                  </Button>
-                </PopoverContent>
-              </Popover>
-
-              <Button
-                variant="outline"
-                size="icon"
-                aria-label="Remove borrower"
-                className="h-8 w-8 border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)]"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const _update = allowedAccounts.filter(
-                    (x) => x.id !== res.id,
-                  );
-                  setAllowedAccounts(_update);
-                }}
-              >
-                <Trash2 className="h-3.5 w-3.5" />
-              </Button>
-            </div>
-          </div>
-        </Card>
-      </div>
-    );
-  };
-
+  const collateralRowProps = useMemo(() => ({ acceptableCollateral, assets, t, selectedAsset, setAcceptableCollateral }), [acceptableCollateral, assets, t, selectedAsset, setAcceptableCollateral]);
+  const approvedRowProps = useMemo(() => ({ allowedAccounts, t, foundAsset, setAllowedAccounts }), [allowedAccounts, t, foundAsset, setAllowedAccounts]);
   return (
     <div className="container mx-auto mt-5 mb-5 max-w-4xl">
       <Card className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-2xl shadow-[color:hsl(var(--accent-1)/0.2)]">
@@ -1173,11 +975,11 @@ export default function CreditOfferEditor(properties) {
                     <div className="w-full max-h-[210px] overflow-auto">
                       {acceptableCollateral.length > 0 ? (
                         <List
-                          rowComponent={CollateralRow}
+                          rowComponent={CreditOfferEditorCollateralRow}
                           rowCount={acceptableCollateral.length}
                           rowHeight={60}
-                          rowProps={{}}
-                        />
+                          rowProps={collateralRowProps}
+                         height={300} width="100%" />
                       ) : (
                         <div className="text-center py-8 text-muted-foreground text-sm">
                           {t("CreditOfferEditor:noCollateral")}
@@ -1277,11 +1079,11 @@ export default function CreditOfferEditor(properties) {
                   <div className="w-full max-h-[210px] overflow-auto">
                     {allowedAccounts.length > 0 ? (
                       <List
-                        rowComponent={ApprovedBorrowerRow}
+                        rowComponent={CreditOfferEditorApprovedRow}
                         rowCount={allowedAccounts.length}
                         rowHeight={60}
-                        rowProps={{}}
-                      />
+                        rowProps={approvedRowProps}
+                       height={300} width="100%" />
                     ) : (
                         <div className="text-center py-8 text-muted-foreground text-sm">
                           {t("CreditOfferEditor:noPreApprovedBorrowers")}

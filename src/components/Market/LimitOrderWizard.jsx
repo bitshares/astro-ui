@@ -50,124 +50,7 @@ import {
   Wallet,
 } from "lucide-react";
 
-export default function LimitOrderWizard(properties) {
-  const {
-    addOperationDialog,
-    setAddOperationDialog,
-    buyingAsset,
-    setBuyingAsset,
-    sellingAsset,
-    setSellingAsset,
-    marketSearch,
-    assets,
-    chain,
-    borrowPositions,
-    operations,
-    setOperations,
-    usrBalances,
-    updatedBalances,
-  } = properties;
-
-  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
-  const currentNode = useStore($currentNode);
-  const favouriteAssets = useStore($favouriteAssets);
-
-  const [marketLimitOrders, setMarketLimitOrders] = useState([]);
-  const [clicked, setClicked] = useState(false);
-
-  const handleClick = () => {
-    setClicked(true);
-    setMarketLimitOrders([]);
-
-    const _previousBuyingAsset = buyingAsset;
-    const _previousSellingAsset = sellingAsset;
-    setBuyingAsset(_previousSellingAsset);
-    setSellingAsset(_previousBuyingAsset);
-
-    setTimeout(() => {
-      setClicked(false);
-    }, 1000);
-  };
-
-  const sellingAssetData = useMemo(() => {
-    if (sellingAsset && assets && assets.length) {
-      return assets.find((x) => x.symbol === sellingAsset);
-    }
-    return null;
-  }, [sellingAsset, assets]);
-
-  const buyingAssetData = useMemo(() => {
-    if (buyingAsset && assets && assets.length) {
-      return assets.find((x) => x.symbol === buyingAsset);
-    }
-    return null;
-  }, [buyingAsset, assets]);
-
-  const isFavouriteBuy = useMemo(() => {
-    if (!favouriteAssets[chain] || !buyingAssetData) {
-      return false;
-    }
-    return favouriteAssets[chain].map((x) => x.id).includes(buyingAssetData.id);
-  }, [favouriteAssets, chain, buyingAssetData]);
-
-  const isFavouriteSell = useMemo(() => {
-    if (!favouriteAssets[chain] || !sellingAssetData) {
-      return false;
-    }
-    return favouriteAssets[chain]
-      .map((x) => x.id)
-      .includes(sellingAssetData.id);
-  }, [favouriteAssets, chain, sellingAssetData]);
-
-  const [isFetching, setIsFetching] = useState(false);
-  useEffect(() => {
-    async function fetching() {
-      setIsFetching(true);
-      const limitOrdersStore = createLimitOrdersStore([
-        chain,
-        sellingAsset,
-        buyingAsset,
-        100,
-        currentNode ? currentNode.url : null,
-      ]);
-
-      limitOrdersStore.subscribe(({ data, error, loading }) => {
-        if (data && !error && !loading) {
-          setIsFetching(false);
-          setMarketLimitOrders(
-            data.filter((_limitOrder) => {
-              return (
-                _limitOrder.sell_price.base.asset_id === buyingAssetData.id &&
-                _limitOrder.sell_price.quote.asset_id === sellingAssetData.id
-              );
-            })
-          );
-        }
-      });
-    }
-
-    if (
-      sellingAsset &&
-      buyingAsset &&
-      sellingAsset !== buyingAsset &&
-      sellingAssetData &&
-      buyingAssetData &&
-      chain &&
-      currentNode
-    ) {
-      fetching();
-    }
-  }, [
-    sellingAsset,
-    sellingAssetData,
-    buyingAsset,
-    buyingAssetData,
-    chain,
-    currentNode,
-  ]);
-
-  // ─── Limit order row ───────────────────────────────────────────
-  const limitOrderRow = ({ index, style }) => {
+const LimitOrderRow = React.memo(function LimitOrderRow({ index, style, marketLimitOrders, operations, setOperations, assets, updatedBalances, sellingAssetData, buyingAssetData, t }) {
     let _order = marketLimitOrders[index];
     const [buyDialogOpen, setBuyDialogOpen] = useState(false);
     const [tempBuyAmount, setTempBuyAmount] = useState("0");
@@ -624,7 +507,137 @@ export default function LimitOrderWizard(properties) {
         </div>
       </div>
     );
+  });
+
+export default function LimitOrderWizard(properties) {
+  const {
+    addOperationDialog,
+    setAddOperationDialog,
+    buyingAsset,
+    setBuyingAsset,
+    sellingAsset,
+    setSellingAsset,
+    marketSearch,
+    assets,
+    chain,
+    borrowPositions,
+    operations,
+    setOperations,
+    usrBalances,
+    updatedBalances,
+  } = properties;
+
+  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
+  const currentNode = useStore($currentNode);
+  const favouriteAssets = useStore($favouriteAssets);
+
+  const [marketLimitOrders, setMarketLimitOrders] = useState([]);
+  const [clicked, setClicked] = useState(false);
+
+  const handleClick = () => {
+    setClicked(true);
+    setMarketLimitOrders([]);
+
+    const _previousBuyingAsset = buyingAsset;
+    const _previousSellingAsset = sellingAsset;
+    setBuyingAsset(_previousSellingAsset);
+    setSellingAsset(_previousBuyingAsset);
+
+    setTimeout(() => {
+      setClicked(false);
+    }, 1000);
   };
+
+  const sellingAssetData = useMemo(() => {
+    if (sellingAsset && assets && assets.length) {
+      return assets.find((x) => x.symbol === sellingAsset);
+    }
+    return null;
+  }, [sellingAsset, assets]);
+
+  const buyingAssetData = useMemo(() => {
+    if (buyingAsset && assets && assets.length) {
+      return assets.find((x) => x.symbol === buyingAsset);
+    }
+    return null;
+  }, [buyingAsset, assets]);
+
+  const isFavouriteBuy = useMemo(() => {
+    if (!favouriteAssets[chain] || !buyingAssetData) {
+      return false;
+    }
+    return favouriteAssets[chain].map((x) => x.id).includes(buyingAssetData.id);
+  }, [favouriteAssets, chain, buyingAssetData]);
+
+  const isFavouriteSell = useMemo(() => {
+    if (!favouriteAssets[chain] || !sellingAssetData) {
+      return false;
+    }
+    return favouriteAssets[chain]
+      .map((x) => x.id)
+      .includes(sellingAssetData.id);
+  }, [favouriteAssets, chain, sellingAssetData]);
+
+  const [isFetching, setIsFetching] = useState(false);
+  useEffect(() => {
+    async function fetching() {
+      setIsFetching(true);
+      const limitOrdersStore = createLimitOrdersStore([
+        chain,
+        sellingAsset,
+        buyingAsset,
+        100,
+        currentNode ? currentNode.url : null,
+      ]);
+
+      limitOrdersStore.subscribe(({ data, error, loading }) => {
+        if (data && !error && !loading) {
+          setIsFetching(false);
+          setMarketLimitOrders(
+            data.filter((_limitOrder) => {
+              return (
+                _limitOrder.sell_price.base.asset_id === buyingAssetData.id &&
+                _limitOrder.sell_price.quote.asset_id === sellingAssetData.id
+              );
+            })
+          );
+        }
+      });
+    }
+
+    if (
+      sellingAsset &&
+      buyingAsset &&
+      sellingAsset !== buyingAsset &&
+      sellingAssetData &&
+      buyingAssetData &&
+      chain &&
+      currentNode
+    ) {
+      fetching();
+    }
+  }, [
+    sellingAsset,
+    sellingAssetData,
+    buyingAsset,
+    buyingAssetData,
+    chain,
+    currentNode,
+  ]);
+
+  const limitOrderRowProps = useMemo(
+    () => ({
+      marketLimitOrders,
+      operations,
+      setOperations,
+      assets,
+      updatedBalances,
+      sellingAssetData,
+      buyingAssetData,
+      t,
+    }),
+    [marketLimitOrders, operations, setOperations, assets, updatedBalances, sellingAssetData, buyingAssetData, t]
+  );
 
   // ─── Main dialog ────────────────────────────────────────────────
   return (
@@ -872,12 +885,14 @@ export default function LimitOrderWizard(properties) {
               {t("LimitOrderWizard:noOrdersAvailable")}
             </div>
           ) : (
-            <div className="w-full max-h-[300px] overflow-auto p-1">
+            <div className="w-full h-[300px] p-1">
               <List
-                rowComponent={limitOrderRow}
+                height={300}
+                width="100%"
+                rowComponent={LimitOrderRow}
                 rowCount={marketLimitOrders.length}
                 rowHeight={48}
-                rowProps={{}}
+                rowProps={limitOrderRowProps}
                 key={`list-limitorders`}
               />
             </div>

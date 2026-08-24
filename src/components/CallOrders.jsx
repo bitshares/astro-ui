@@ -464,6 +464,11 @@ export default function CallOrders({
   const selectedCollateralSymbol =
     selectedInfo?.collateralSymbol ?? selected?.collateral_asset ?? "";
 
+  const callOrderRowProps = useMemo(
+    () => ({ callOrders: sortedCallOrders, enriched, t, onSelect: setSelected }),
+    [sortedCallOrders, enriched, t]
+  );
+
   const dexHref = selected
     ? `/dex.html?market=${selectedCollateralSymbol}_${selectedSymbol}`
     : "/dex.html";
@@ -551,17 +556,14 @@ export default function CallOrders({
                   <div className="w-4 flex-shrink-0" />
                 </div>
               </div>
-              <div className="max-h-[600px] overflow-auto -mx-2 pt-2">
+              <div className="w-full h-[400px] -mx-2 pt-2">
                 <List
+                  height={400}
+                  width="100%"
                   rowComponent={CallOrderRow}
                   rowCount={sortedCallOrders.length}
                   rowHeight={rowHeight}
-                  rowProps={{
-                    callOrders: sortedCallOrders,
-                    enriched,
-                    t,
-                    onSelect: setSelected,
-                  }}
+                  rowProps={callOrderRowProps}
                 />
               </div>
             </CardContent>

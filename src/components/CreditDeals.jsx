@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useSyncExternalStore,
   useMemo,
+  memo,
 } from "react";
 import { List } from "react-window";
 import { useForm, Controller } from "react-hook-form";
@@ -58,6 +59,130 @@ import {
 } from "@/lib/common.js";
 
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
+
+const CreditDealsCommonRow = memo(function CreditDealsCommonRow({ style, res, type, assets, usrBalances, fee, t, usr, form }) {
+  const debtAsset = assets.find((x) => x.id === res.debt_asset);
+  const collateralAsset = assets.find((x) => x.id === res.collateral_asset);
+  const borrowedAmount = humanReadableFloat(res.debt_amount, debtAsset.precision);
+  const collateralAmount = humanReadableFloat(res.collateral_amount, collateralAsset.precision);
+  const latestRepayTime = new Date(res?.latest_repay_time);
+  const currentTime = new Date();
+  const diffInMilliseconds = latestRepayTime - currentTime;
+  const diffInHours = (diffInMilliseconds / (1000 * 60 * 60)).toFixed(2);
+  let remainingTime = "";
+  if (diffInHours < 24) {
+    remainingTime = ` ${diffInHours} hours`;
+  } else {
+    const fracturedTime = (diffInHours / 24).toString().split(".");
+    const days = fracturedTime[0];
+    const hours = parseFloat(`0.${(diffInHours / 24).toString().split(".")[1]}`) * 24;
+    const minutes = parseFloat(`0.${hours.toString().split(".")[1]}`) * 60;
+    remainingTime = ` ${days} days ${hours.toFixed(0)} hours ${minutes.toFixed(0)} mins`;
+  }
+  const [openRepay, setOpenRepay] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [finalRepayAmount, setFinalRepayAmount] = useState();
+  const redeemCollateral = useMemo(() => {
+    if (finalRepayAmount && borrowedAmount && collateralAmount) {
+      return (finalRepayAmount / borrowedAmount) * collateralAmount;
+    }
+  }, [finalRepayAmount, borrowedAmount, collateralAmount]);
+  const loanFee = useMemo(() => {
+    if (finalRepayAmount && res && debtAsset) {
+      return ((finalRepayAmount / 100) * (res.fee_rate / 10000)).toFixed(debtAsset.precision);
+    }
+    return 0;
+  }, [finalRepayAmount, res, debtAsset]);
+  const finalRepayment = useMemo(() => {
+    if (finalRepayAmount && loanFee && debtAsset) {
+      return (parseFloat(finalRepayAmount) + parseFloat(loanFee)).toFixed(debtAsset.precision);
+    }
+    return 0;
+  }, [finalRepayAmount, loanFee, debtAsset]);
+  const debtAssetBalance = useMemo(() => {
+    if (usrBalances && usrBalances.length && debtAsset) {
+      const foundBalance = usrBalances.find((x) => x.asset_id === debtAsset.id);
+      if (foundBalance) return humanReadableFloat(foundBalance.amount, debtAsset.precision);
+    }
+    return 0;
+  }, [usrBalances, debtAsset]);
+  const [inputValue, setInputValue] = useState();
+  const [debouncedInputValue, setDebouncedInputValue] = useState();
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedInputValue(inputValue), 1000);
+    return () => clearTimeout(timer);
+  }, [inputValue]);
+  useEffect(() => {
+    if (!debouncedInputValue || !borrowedAmount || !debtAsset) return;
+    const minAmount = humanReadableFloat(1, debtAsset.precision);
+    if (debouncedInputValue > borrowedAmount) {
+      setFinalRepayAmount(borrowedAmount);
+      setInputValue(borrowedAmount);
+    } else if (debouncedInputValue < minAmount) {
+      setFinalRepayAmount(minAmount);
+      setInputValue(minAmount);
+    } else if (debouncedInputValue.toString().split(".").length > 1 && debouncedInputValue.toString().split(".")[1].length > debtAsset.precision) {
+      const fixedValue = parseFloat(debouncedInputValue).toFixed(debtAsset.precision);
+      setFinalRepayAmount(fixedValue);
+      setInputValue(fixedValue);
+    } else {
+      setFinalRepayAmount(debouncedInputValue);
+    }
+  }, [debouncedInputValue, borrowedAmount, debtAsset]);
+  const idSuffix = useMemo(() => (res?.id || "id").toString().replace(/\./g, "-"), [res?.id]);
+  return (
+    <div style={{ ...style }} key={`acard-${res.id}`}>
+      <div className="ml-2 mr-2 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300 pb-3">
+        <div className="p-3 pb-1">
+          <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">{t("CreditDeals:dealNo")}{res.id.replace("1.22.", "")}{t("CreditDeals:with")}{type === "borrower" ? res.offer_owner : res.borrower}</h3>
+          <p className="text-sm text-muted-foreground mt-1">{type === "borrower" ? t("CreditDeals:borrowed") : t("CreditDeals:lent")}:<b>{` ${borrowedAmount} ${debtAsset.symbol}`} ({res.debt_asset})</b><br />{t("CreditDeals:loanCollateral")}<b>{` ${collateralAmount} ${collateralAsset.symbol}`} ({res.collateral_asset})</b><br />{type === "borrower" ? t("CreditDeals:borrower") : t("CreditDeals:lender")}:<b>{` ${borrowedAmount * (res.fee_rate / 10000)} ${debtAsset.symbol} (${res.fee_rate / 10000}%)`}</b><br />{t("CreditDeals:remainingTime")}<b>{remainingTime} ({res.latest_repay_time})</b></p>
+        </div>
+        {type === "borrower" ? (
+          <div className="px-3 pb-0 mt-2">
+            <Button className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer" onClick={() => setOpenRepay(true)}>{t("CreditDeals:repayLoan")}</Button>
+            <a href={`/dex.html?market=${debtAsset.symbol}_${collateralAsset.symbol}`}><Button className="ml-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">{t("CreditDeals:trade", { symbol: debtAsset.symbol })}</Button></a>
+            {openRepay ? (
+              <Dialog open={openRepay} onOpenChange={(open) => setOpenRepay(open)}>
+                <DialogContent className="sm:max-w-[900px] bg-card">
+                  <DialogHeader>
+                    <DialogTitle>{t("CreditDeals:dialogTitle", { id: res.id })}</DialogTitle>
+                    <DialogDescription>{t("CreditDeals:description")}</DialogDescription>
+                    <form onSubmit={form.handleSubmit(() => setShowDialog(true))} className="gaps-5">
+                      <FieldGroup>
+                        <Field><FieldLabel htmlFor={`account-${idSuffix}`}>{t("CreditDeals:account")}</FieldLabel><FieldContent><Input id={`account-${idSuffix}`} disabled readOnly placeholder="Bitshares account" className="mb-3 mt-3" value={`${usr.username} (${usr.id})`} /></FieldContent></Field>
+                        <Field><FieldLabel htmlFor={`balance-${idSuffix}`}>{t("CreditDeals:balance", { symbol: debtAsset.symbol })}</FieldLabel><FieldContent><Input id={`balance-${idSuffix}`} disabled readOnly className="mb-3 mt-3" value={`${debtAssetBalance} ${debtAsset.symbol}`} /></FieldContent></Field>
+                        <Controller control={form.control} name="repayAmount" defaultValue="" render={({ field }) => (
+                          <Field><FieldLabel htmlFor={`repay-${idSuffix}`}><div className="grid grid-cols-2 gap-2 mt-2"><div className="col-span-1">{t("CreditDeals:repayAmount", { symbol: debtAsset.symbol })}</div><div className="col-span-1 text-right">{t("CreditDeals:remainingDebt", { amount: borrowedAmount, symbol: debtAsset.symbol })}</div></div></FieldLabel><FieldDescription>{t("CreditDeals:repayDesc")}</FieldDescription><FieldContent><Input id={`repay-${idSuffix}`} className="mb-3" value={field.value ?? ""} placeholder={borrowedAmount} onChange={(e) => { const input = e.target.value; const regex = assetAmountRegex(debtAsset); if (regex.test(input)) { setInputValue(input); field.onChange(input); } }} /></FieldContent></Field>
+                        )} />
+                        <Field><FieldLabel htmlFor={`collateral-${idSuffix}`}><div className="grid grid-cols-2 gap-2 mt-2"><div className="col-span-1">{t("CreditDeals:redeemCollateral")}</div><div className="col-span-1 text-right">{t("CreditDeals:remainingCollateral", { amount: collateralAmount, symbol: collateralAsset.symbol })}</div></div></FieldLabel><FieldDescription>{t("CreditDeals:collateralRedemption", { symbol: collateralAsset.symbol })}</FieldDescription><FieldContent><Input id={`collateral-${idSuffix}`} value={redeemCollateral && collateralAmount ? `${redeemCollateral ?? "?"} ${collateralAsset.symbol} (${((redeemCollateral / collateralAmount) * 100).toFixed(2)}%)` : "0"} disabled readOnly className="mb-3" /></FieldContent></Field>
+                        {finalRepayAmount ? (<Field><FieldLabel htmlFor={`loanfee-${idSuffix}`}><div className="mt-2">{t("CreditDeals:loanLabel")}</div></FieldLabel><FieldDescription>{t("CreditDeals:loanDesc")}</FieldDescription><FieldContent><Input id={`loanfee-${idSuffix}`} disabled placeholder="0" className="mb-3 mt-3" value={`${loanFee} (${debtAsset.symbol}) (${res.fee_rate / 10000}% fee)`} /></FieldContent></Field>) : null}
+                        {finalRepayAmount ? (<Field><FieldLabel htmlFor={`final-${idSuffix}`}><div className="mt-2">{t("CreditDeals:finalPaymentLabel")}</div></FieldLabel><FieldDescription>{t("CreditDeals:finalPaymentDesc", { symbol: collateralAsset.symbol })}</FieldDescription><FieldContent><Input id={`final-${idSuffix}`} disabled placeholder="0" className="mb-3 mt-3" value={`${finalRepayment} (${debtAsset.symbol}) (debt + ${res.fee_rate / 10000}% fee)`} />{debtAssetBalance < finalRepayment ? (<FieldError>{t("CreditDeals:finalPaymentWarning", { symbol: debtAsset.symbol })}</FieldError>) : null}</FieldContent></Field>) : null}
+                        <Field><FieldLabel htmlFor={`networkfee-${idSuffix}`}><div className="mt-2">{t("CreditDeals:networkFee")}</div></FieldLabel><FieldDescription>{t("CreditDeals:networkFeeDesc")}</FieldDescription><FieldContent><Input id={`networkfee-${idSuffix}`} disabled placeholder={`${fee} BTS`} className="mb-3 mt-3" />{usr.id === usr.referrer ? (<FieldError>{t("CreditDeals:rebate", { fee: fee * 0.8, chain: usr.chain === "bitshares" ? "BTS" : "TEST" })}</FieldError>) : null}</FieldContent></Field>
+                        {!redeemCollateral || !finalRepayAmount || debtAssetBalance < finalRepayment ? (<Button className="mt-5 mb-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer" variant="outline" disabled type="submit">{t("CreditDeals:submit")}</Button>) : (<Button className="mt-5 mb-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer" variant="outline" type="submit">{t("CreditDeals:submit")}</Button>)}
+                      </FieldGroup>
+                    </form>
+                    {showDialog ? (<DeepLinkDialog operationNames={["credit_deal_repay"]} username={usr.username} usrChain={usr.chain} userID={usr.id} dismissCallback={setShowDialog} key={`Repaying${finalRepayAmount}${debtAsset.symbol}toclaimback${collateralAsset.symbol}`} headerText={t("CreditDeals:deepLink", { finalRepayAmount: finalRepayAmount, debtAsset: debtAsset.symbol, collateralAsset: collateralAsset.symbol })} trxJSON={[{ account: usr.id, deal_id: res.id, repay_amount: { amount: blockchainFloat(finalRepayAmount, debtAsset.precision), asset_id: debtAsset.id }, credit_fee: { amount: blockchainFloat(loanFee, debtAsset.precision), asset_id: debtAsset.id }, extensions: [] }]} />) : null}
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+});
+
+const CreditDealsBorrowerRow = memo(function CreditDealsBorrowerRow({ index, style, borrowerDeals, assets, usrBalances, fee, t, usr, form }) {
+  const res = borrowerDeals[index];
+  if (!res) return null;
+  return <CreditDealsCommonRow style={style} res={res} type="borrower" assets={assets} usrBalances={usrBalances} fee={fee} t={t} usr={usr} form={form} />;
+});
+const CreditDealsOwnerRow = memo(function CreditDealsOwnerRow({ index, style, lenderDeals, assets, usrBalances, fee, t, usr, form }) {
+  const res = lenderDeals[index];
+  if (!res) return null;
+  return <CreditDealsCommonRow style={style} res={res} type="lender" assets={assets} usrBalances={usrBalances} fee={fee} t={t} usr={usr} form={form} />;
+});
 
 export default function CreditDeals(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -175,490 +300,8 @@ export default function CreditDeals(properties) {
     fetchUserBalances();
   }, [usr]);
 
-  function CommonRow({ style, res, type }) {
-    const debtAsset = assets.find((x) => x.id === res.debt_asset);
-    const collateralAsset = assets.find((x) => x.id === res.collateral_asset);
-
-    const borrowedAmount = humanReadableFloat(
-      res.debt_amount,
-      debtAsset.precision
-    );
-
-    const collateralAmount = humanReadableFloat(
-      res.collateral_amount,
-      collateralAsset.precision
-    );
-
-    // Assuming latest_repay_time is in ISO format
-    const latestRepayTime = new Date(res?.latest_repay_time);
-    const currentTime = new Date();
-    const diffInMilliseconds = latestRepayTime - currentTime;
-    const diffInHours = (diffInMilliseconds / (1000 * 60 * 60)).toFixed(2);
-
-    let remainingTime = "";
-    if (diffInHours < 24) {
-      remainingTime = ` ${diffInHours} hours`;
-    } else {
-      const fracturedTime = (diffInHours / 24).toString().split(".");
-      const days = fracturedTime[0];
-      const hours =
-        parseFloat(`0.${(diffInHours / 24).toString().split(".")[1]}`) * 24;
-      const minutes = parseFloat(`0.${hours.toString().split(".")[1]}`) * 60;
-      remainingTime = ` ${days} days ${hours.toFixed(
-        0
-      )} hours ${minutes.toFixed(0)} mins`;
-    }
-
-    const [openRepay, setOpenRepay] = useState(false);
-    const [showDialog, setShowDialog] = useState(false);
-    const [finalRepayAmount, setFinalRepayAmount] = useState();
-
-    const redeemCollateral = useMemo(() => {
-      if (finalRepayAmount && borrowedAmount && collateralAmount) {
-        return (finalRepayAmount / borrowedAmount) * collateralAmount;
-      }
-    }, [finalRepayAmount, borrowedAmount, collateralAmount]);
-
-    const loanFee = useMemo(() => {
-      if (finalRepayAmount && res && debtAsset) {
-        return ((finalRepayAmount / 100) * (res.fee_rate / 10000)).toFixed(
-          debtAsset.precision
-        );
-      }
-      return 0;
-    }, [finalRepayAmount, res, debtAsset]);
-
-    const finalRepayment = useMemo(() => {
-      if (finalRepayAmount && loanFee && debtAsset) {
-        return (parseFloat(finalRepayAmount) + parseFloat(loanFee)).toFixed(
-          debtAsset.precision
-        );
-      }
-      return 0;
-    }, [finalRepayAmount, loanFee, debtAsset]);
-
-    const debtAssetBalance = useMemo(() => {
-      if (usrBalances && usrBalances.length && debtAsset) {
-        const foundBalance = usrBalances.find(
-          (x) => x.asset_id === debtAsset.id
-        );
-        if (foundBalance) {
-          return humanReadableFloat(foundBalance.amount, debtAsset.precision);
-        }
-      }
-      return 0;
-    }, [usrBalances, debtAsset]);
-
-    const [inputValue, setInputValue] = useState();
-    const [debouncedInputValue, setDebouncedInputValue] = useState();
-
-    // Update debouncedInputValue after user stops typing for 1 second
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        setDebouncedInputValue(inputValue);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }, [inputValue]);
-
-    // Calculate finalRepayAmount when debouncedInputValue or borrowedAmount changes
-    useEffect(() => {
-      if (!debouncedInputValue || !borrowedAmount || !debtAsset) {
-        return;
-      }
-
-      const minAmount = humanReadableFloat(1, debtAsset.precision);
-
-      if (debouncedInputValue > borrowedAmount) {
-        setFinalRepayAmount(borrowedAmount);
-        setInputValue(borrowedAmount);
-      } else if (debouncedInputValue < minAmount) {
-        setFinalRepayAmount(minAmount);
-        setInputValue(minAmount);
-      } else if (
-        debouncedInputValue.toString().split(".").length > 1 &&
-        debouncedInputValue.toString().split(".")[1].length >
-          debtAsset.precision
-      ) {
-        const fixedValue = parseFloat(debouncedInputValue).toFixed(
-          debtAsset.precision
-        );
-        setFinalRepayAmount(fixedValue);
-        setInputValue(fixedValue);
-      } else {
-        setFinalRepayAmount(debouncedInputValue);
-      }
-    }, [debouncedInputValue, borrowedAmount, debtAsset]);
-
-    const idSuffix = useMemo(
-      () => (res?.id || "id").toString().replace(/\./g, "-"),
-      [res?.id]
-    );
-
-    return (
-      <div style={{ ...style }} key={`acard-${res.id}`}>
-        <div className="ml-2 mr-2 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300 pb-3">
-          <div className="p-3 pb-1">
-            <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
-              {t("CreditDeals:dealNo")}
-              {res.id.replace("1.22.", "")}
-              {t("CreditDeals:with")}
-              {type === "borrower" ? res.offer_owner : res.borrower}
-            </h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              {type === "borrower"
-                ? t("CreditDeals:borrowed")
-                : t("CreditDeals:lent")}
-              :
-              <b>
-                {` ${borrowedAmount} ${debtAsset.symbol}`} ({res.debt_asset})
-              </b>
-              <br />
-              {t("CreditDeals:loanCollateral")}
-              <b>
-                {` ${collateralAmount} ${collateralAsset.symbol}`} ({res.collateral_asset})
-              </b>
-              <br />
-              {type === "borrower"
-                ? t("CreditDeals:borrower")
-                : t("CreditDeals:lender")}
-              :
-              <b>
-                {` ${borrowedAmount * (res.fee_rate / 10000)} ${
-                  debtAsset.symbol
-                } (${res.fee_rate / 10000}%)`}
-              </b>
-              <br />
-              {t("CreditDeals:remainingTime")}
-              <b>
-                {remainingTime} ({res.latest_repay_time})
-              </b>
-            </p>
-          </div>
-          {type === "borrower" ? (
-            <div className="px-3 pb-0 mt-2">
-              <Button className="bg-gradient-to-r from-[hsl(var(--accent-danger))] to-[hsl(var(--accent-danger))] text-[hsl(var(--accent-danger-gradFg))] shadow-md shadow-[color:hsl(var(--accent-danger)/0.2)] hover:from-[hsl(var(--accent-danger))] hover:to-[hsl(var(--accent-danger))] hover:shadow-[color:hsl(var(--accent-danger)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer" onClick={() => setOpenRepay(true)}>
-                {t("CreditDeals:repayLoan")}
-              </Button>
-              <a
-                href={`/dex.html?market=${debtAsset.symbol}_${collateralAsset.symbol}`}
-              >
-                <Button className="ml-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
-                  {t("CreditDeals:trade", { symbol: debtAsset.symbol })}
-                </Button>
-              </a>
-              {openRepay ? (
-                <Dialog
-                  open={openRepay}
-                  onOpenChange={(open) => {
-                    setOpenRepay(open);
-                  }}
-                >
-                  <DialogContent className="sm:max-w-[900px] bg-card">
-                    <DialogHeader>
-                      <DialogTitle>
-                        {t("CreditDeals:dialogTitle", { id: res.id })}
-                      </DialogTitle>
-                      <DialogDescription>
-                        {t("CreditDeals:description")}
-                      </DialogDescription>
-                      <form
-                        onSubmit={form.handleSubmit(() => {
-                          setShowDialog(true);
-                        })}
-                        className="gaps-5"
-                      >
-                        <FieldGroup>
-                          <Field>
-                            <FieldLabel htmlFor={`account-${idSuffix}`}>
-                              {t("CreditDeals:account")}
-                            </FieldLabel>
-                            <FieldContent>
-                              <Input
-                                id={`account-${idSuffix}`}
-                                disabled
-                                readOnly
-                                placeholder="Bitshares account"
-                                className="mb-3 mt-3"
-                                value={`${usr.username} (${usr.id})`}
-                              />
-                            </FieldContent>
-                          </Field>
-
-                          <Field>
-                            <FieldLabel htmlFor={`balance-${idSuffix}`}>
-                              {t("CreditDeals:balance", {
-                                symbol: debtAsset.symbol,
-                              })}
-                            </FieldLabel>
-                            <FieldContent>
-                              <Input
-                                id={`balance-${idSuffix}`}
-                                disabled
-                                readOnly
-                                className="mb-3 mt-3"
-                                value={`${debtAssetBalance} ${debtAsset.symbol}`}
-                              />
-                            </FieldContent>
-                          </Field>
-
-                          <Controller
-                            control={form.control}
-                            name="repayAmount"
-                            defaultValue=""
-                            render={({ field }) => (
-                              <Field>
-                                <FieldLabel htmlFor={`repay-${idSuffix}`}>
-                                  <div className="grid grid-cols-2 gap-2 mt-2">
-                                    <div className="col-span-1">
-                                      {t("CreditDeals:repayAmount", {
-                                        symbol: debtAsset.symbol,
-                                      })}
-                                    </div>
-                                    <div className="col-span-1 text-right">
-                                      {t("CreditDeals:remainingDebt", {
-                                        amount: borrowedAmount,
-                                        symbol: debtAsset.symbol,
-                                      })}
-                                    </div>
-                                  </div>
-                                </FieldLabel>
-                                <FieldDescription>
-                                  {t("CreditDeals:repayDesc")}
-                                </FieldDescription>
-                                <FieldContent>
-                                  <Input
-                                    id={`repay-${idSuffix}`}
-                                    className="mb-3"
-                                    value={field.value ?? ""}
-                                    placeholder={borrowedAmount}
-                                    onChange={(e) => {
-                                      const input = e.target.value;
-                                      const regex = assetAmountRegex(debtAsset);
-                                      if (regex.test(input)) {
-                                        setInputValue(input);
-                                        field.onChange(input);
-                                      }
-                                    }}
-                                  />
-                                </FieldContent>
-                              </Field>
-                            )}
-                          />
-
-                          <Field>
-                            <FieldLabel htmlFor={`collateral-${idSuffix}`}>
-                              <div className="grid grid-cols-2 gap-2 mt-2">
-                                <div className="col-span-1">
-                                  {t("CreditDeals:redeemCollateral")}
-                                </div>
-                                <div className="col-span-1 text-right">
-                                  {t("CreditDeals:remainingCollateral", {
-                                    amount: collateralAmount,
-                                    symbol: collateralAsset.symbol,
-                                  })}
-                                </div>
-                              </div>
-                            </FieldLabel>
-                            <FieldDescription>
-                              {t("CreditDeals:collateralRedemption", {
-                                symbol: collateralAsset.symbol,
-                              })}
-                            </FieldDescription>
-                            <FieldContent>
-                              <Input
-                                id={`collateral-${idSuffix}`}
-                                value={
-                                  redeemCollateral && collateralAmount
-                                    ? `${redeemCollateral ?? "?"} ${
-                                        collateralAsset.symbol
-                                      } (${(
-                                        (redeemCollateral / collateralAmount) *
-                                        100
-                                      ).toFixed(2)}%)`
-                                    : "0"
-                                }
-                                disabled
-                                readOnly
-                                className="mb-3"
-                              />
-                            </FieldContent>
-                          </Field>
-
-                          {finalRepayAmount ? (
-                            <Field>
-                              <FieldLabel htmlFor={`loanfee-${idSuffix}`}>
-                                <div className="mt-2">
-                                  {t("CreditDeals:loanLabel")}
-                                </div>
-                              </FieldLabel>
-                              <FieldDescription>
-                                {t("CreditDeals:loanDesc")}
-                              </FieldDescription>
-                              <FieldContent>
-                                <Input
-                                  id={`loanfee-${idSuffix}`}
-                                  disabled
-                                  placeholder="0"
-                                  className="mb-3 mt-3"
-                                  value={`${loanFee} (${debtAsset.symbol}) (${
-                                    res.fee_rate / 10000
-                                  }% fee)`}
-                                />
-                              </FieldContent>
-                            </Field>
-                          ) : null}
-
-                          {finalRepayAmount ? (
-                            <Field>
-                              <FieldLabel htmlFor={`final-${idSuffix}`}>
-                                <div className="mt-2">
-                                  {t("CreditDeals:finalPaymentLabel")}
-                                </div>
-                              </FieldLabel>
-                              <FieldDescription>
-                                {t("CreditDeals:finalPaymentDesc", {
-                                  symbol: collateralAsset.symbol,
-                                })}
-                              </FieldDescription>
-                              <FieldContent>
-                                <Input
-                                  id={`final-${idSuffix}`}
-                                  disabled
-                                  placeholder="0"
-                                  className="mb-3 mt-3"
-                                  value={`${finalRepayment} (${
-                                    debtAsset.symbol
-                                  }) (debt + ${res.fee_rate / 10000}% fee)`}
-                                />
-                                {debtAssetBalance < finalRepayment ? (
-                                  <FieldError>
-                                    {t("CreditDeals:finalPaymentWarning", {
-                                      symbol: debtAsset.symbol,
-                                    })}
-                                  </FieldError>
-                                ) : null}
-                              </FieldContent>
-                            </Field>
-                          ) : null}
-
-                          <Field>
-                            <FieldLabel htmlFor={`networkfee-${idSuffix}`}>
-                              <div className="mt-2">
-                                {t("CreditDeals:networkFee")}
-                              </div>
-                            </FieldLabel>
-                            <FieldDescription>
-                              {t("CreditDeals:networkFeeDesc")}
-                            </FieldDescription>
-                            <FieldContent>
-                              <Input
-                                id={`networkfee-${idSuffix}`}
-                                disabled
-                                placeholder={`${fee} BTS`}
-                                className="mb-3 mt-3"
-                              />
-                              {usr.id === usr.referrer ? (
-                                <FieldError>
-                                  {t("CreditDeals:rebate", {
-                                    fee: fee * 0.8,
-                                    chain:
-                                      usr.chain === "bitshares"
-                                        ? "BTS"
-                                        : "TEST",
-                                  })}
-                                </FieldError>
-                              ) : null}
-                            </FieldContent>
-                          </Field>
-
-                          {!redeemCollateral ||
-                          !finalRepayAmount ||
-                          debtAssetBalance < finalRepayment ? (
-                            <Button
-                              className="mt-5 mb-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
-                              variant="outline"
-                              disabled
-                              type="submit"
-                            >
-                              {t("CreditDeals:submit")}
-                            </Button>
-                          ) : (
-                            <Button
-                              className="mt-5 mb-3 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer"
-                              variant="outline"
-                              type="submit"
-                            >
-                              {t("CreditDeals:submit")}
-                            </Button>
-                          )}
-                        </FieldGroup>
-                      </form>
-                      {showDialog ? (
-                        <DeepLinkDialog
-                          operationNames={["credit_deal_repay"]}
-                          username={usr.username}
-                          usrChain={usr.chain}
-                          userID={usr.id}
-                          dismissCallback={setShowDialog}
-                          key={`Repaying${finalRepayAmount}${debtAsset.symbol}toclaimback${collateralAsset.symbol}`}
-                          headerText={t("CreditDeals:deepLink", {
-                            finalRepayAmount: finalRepayAmount,
-                            debtAsset: debtAsset.symbol,
-                            collateralAsset: collateralAsset.symbol,
-                          })}
-                          trxJSON={[
-                            {
-                              account: usr.id,
-                              deal_id: res.id,
-                              repay_amount: {
-                                amount: blockchainFloat(
-                                  finalRepayAmount,
-                                  debtAsset.precision
-                                ),
-                                asset_id: debtAsset.id,
-                              },
-                              credit_fee: {
-                                amount: blockchainFloat(
-                                  loanFee,
-                                  debtAsset.precision
-                                ),
-                                asset_id: debtAsset.id,
-                              },
-                              extensions: [],
-                            },
-                          ]}
-                        />
-                      ) : null}
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-      </div>
-    );
-  }
-
-  const BorrowerRow = ({ index, style }) => {
-    let res = borrowerDeals[index];
-
-    if (!res) {
-      return null;
-    }
-
-    return <CommonRow style={style} res={res} type="borrower" />;
-  };
-
-  const OwnerRow = ({ index, style }) => {
-    let res = lenderDeals[index];
-
-    if (!res) {
-      return null;
-    }
-
-    return <CommonRow style={style} res={res} type="lender" />;
-  };
+  const borrowerRowProps = useMemo(() => ({ borrowerDeals, assets, usrBalances, fee, t, usr, form }), [borrowerDeals, assets, usrBalances, fee, t, usr, form]);
+  const ownerRowProps = useMemo(() => ({ lenderDeals, assets, usrBalances, fee, t, usr, form }), [lenderDeals, assets, usrBalances, fee, t, usr, form]);
 
   const [activeTab, setActiveTab] = useState("borrowings");
 
@@ -706,20 +349,24 @@ export default function CreditDeals(properties) {
                 <TabsContent value="borrowings">
                   {borrowerDeals && borrowerDeals.length ? (
                     <>
-                      <div className="hidden md:block w-full max-h-[500px] overflow-auto">
+                      <div className="hidden md:block w-full h-[500px]">
                         <List
-                          rowComponent={BorrowerRow}
+                          rowComponent={CreditDealsBorrowerRow}
                           rowCount={borrowerDeals.length}
                           rowHeight={225}
-                          rowProps={{}}
+                          rowProps={borrowerRowProps}
+                          height={500}
+                          width="100%"
                         />
                       </div>
-                      <div className="block md:hidden w-full max-h-[500px] overflow-auto">
+                      <div className="block md:hidden w-full h-[500px]">
                         <List
-                          rowComponent={BorrowerRow}
+                          rowComponent={CreditDealsBorrowerRow}
                           rowCount={borrowerDeals.length}
                           rowHeight={250}
-                          rowProps={{}}
+                          rowProps={borrowerRowProps}
+                          height={500}
+                          width="100%"
                         />
                       </div>
                     </>
@@ -744,20 +391,24 @@ export default function CreditDeals(properties) {
                 <TabsContent value="lendings">
                   {lenderDeals && lenderDeals.length ? (
                     <>
-                      <div className="hidden md:block w-full max-h-[500px] overflow-auto">
+                      <div className="hidden md:block w-full h-[500px]">
                         <List
-                          rowComponent={OwnerRow}
+                          rowComponent={CreditDealsOwnerRow}
                           rowCount={lenderDeals.length}
                           rowHeight={165}
-                          rowProps={{}}
+                          rowProps={ownerRowProps}
+                          height={500}
+                          width="100%"
                         />
                       </div>
-                      <div className="block md:hidden w-full max-h-[500px] overflow-auto">
+                      <div className="block md:hidden w-full h-[500px]">
                         <List
-                          rowComponent={OwnerRow}
+                          rowComponent={CreditDealsOwnerRow}
                           rowCount={lenderDeals.length}
                           rowHeight={230}
-                          rowProps={{}}
+                          rowProps={ownerRowProps}
+                          height={500}
+                          width="100%"
                         />
                       </div>
                     </>

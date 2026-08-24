@@ -49,174 +49,8 @@ import WithdrawDialog from "./WithdrawDialog.jsx";
 
 import { Shield, ShieldCheck, ShieldAlert, Clock, ArrowUpRight, ArrowDownLeft, Trash2, FileCheck } from "lucide-react";
 
-export default function WithdrawPermissions(properties) {
-  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
-  const currentNode = useStore($currentNode);
 
-  const [showDialog, setShowDialog] = useState(false);
-
-  const [showCreateDialog, setShowCreateDialog] = useState(false);
-  const [showEditDialog, setShowEditDialog] = useState(false);
-
-  const usr = useSyncExternalStore(
-    $currentUser.subscribe,
-    $currentUser.get,
-    () => true
-  );
-
-  const {
-    _marketSearchBTS,
-    _marketSearchTEST,
-    _assetsBTS,
-    _assetsTEST,
-    _globalParamsBTS,
-    _globalParamsTEST,
-  } = properties;
-
-  const _chain = useMemo(() => {
-    if (usr && usr.chain) {
-      return usr.chain;
-    }
-    return "bitshares";
-  }, [usr]);
-
-  useInitCache(_chain ?? "bitshares", []);
-
-  const assets = useMemo(() => {
-    if (_chain && (_assetsBTS || _assetsTEST)) {
-      return _chain === "bitshares" ? _assetsBTS : _assetsTEST;
-    }
-    return [];
-  }, [_assetsBTS, _assetsTEST, _chain]);
-
-  const marketSearch = useMemo(() => {
-    if (_chain && (_marketSearchBTS || _marketSearchTEST)) {
-      return _chain === "bitshares" ? _marketSearchBTS : _marketSearchTEST;
-    }
-    return [];
-  }, [_marketSearchBTS, _marketSearchTEST, _chain]);
-
-  const globalParams = useMemo(() => {
-    if (_chain && (_globalParamsBTS || _globalParamsTEST)) {
-      return _chain === "bitshares" ? _globalParamsBTS : _globalParamsTEST;
-    }
-    return [];
-  }, [_globalParamsBTS, _globalParamsTEST, _chain]);
-
-  const [fee, setFee] = useState(0);
-  useEffect(() => {
-    if (globalParams && globalParams.length) {
-      const foundFee = globalParams.find((x) => x.id === 0);
-      const finalFee = humanReadableFloat(foundFee.data.fee, 5);
-      setFee(finalFee);
-    }
-  }, [globalParams]);
-
-  const [balanceCounter, setBalanceCoutner] = useState(0);
-  const [balances, setBalances] = useState();
-  useEffect(() => {
-    async function fetchUserBalances() {
-      if (usr && usr.id && currentNode && assets && assets.length) {
-        const userBalancesStore = createUserBalancesStore([
-          usr.chain,
-          usr.id,
-          currentNode ? currentNode.url : null,
-        ]);
-
-        userBalancesStore.subscribe(({ data, error, loading }) => {
-          if (data && !error && !loading) {
-            const filteredData = data.filter((balance) =>
-              assets.find((x) => x.id === balance.asset_id)
-            );
-            setBalances(filteredData);
-          }
-        });
-      }
-    }
-
-    fetchUserBalances();
-  }, [usr, assets, currentNode, balanceCounter]);
-
-  const [payerWithdrawalPermissions, setPayerWithdrawalPermissions] =
-    useState();
-  const [receivingWithdrawalPermissions, setReceivingWithdrawalPermissions] =
-    useState();
-  useEffect(() => {
-    async function fetchWithdrawPermissions() {
-      if (usr && usr.chain && currentNode) {
-        const withdrawPermissionsStore = createWithdrawPermissionsStore([
-          usr.chain,
-          usr.id,
-          currentNode ? currentNode.url : null,
-        ]);
-        withdrawPermissionsStore.subscribe(({ data, error, loading }) => {
-          if (data && !error && !loading) {
-            if (data.recieving) {
-              setReceivingWithdrawalPermissions(data.recieving);
-            }
-            if (data.paying) {
-              setPayerWithdrawalPermissions(data.paying);
-            }
-          }
-
-          if (error) {
-            console.log({ error });
-          }
-        });
-      }
-    }
-
-    fetchWithdrawPermissions();
-  }, [usr, currentNode]);
-
-  const [accounts, setAccounts] = useState([]);
-  useEffect(() => {
-    async function fetchAccounts() {
-      if (
-        usr &&
-        usr.chain &&
-        currentNode &&
-        payerWithdrawalPermissions &&
-        receivingWithdrawalPermissions
-      ) {
-        const allPermissions = [
-          ...(payerWithdrawalPermissions || []),
-          ...(receivingWithdrawalPermissions || []),
-        ];
-
-        const authorized_account = allPermissions.map(
-          (x) => x.authorized_account
-        );
-        const withdraw_from_account = allPermissions.map(
-          (x) => x.withdraw_from_account
-        );
-        const allAccounts = [
-          ...new Set([...authorized_account, ...withdraw_from_account]),
-        ];
-
-        const userStore = createObjectStore([
-          usr.chain,
-          JSON.stringify(allAccounts),
-          currentNode ? currentNode.url : null,
-        ]);
-
-        userStore.subscribe(({ data, error, loading }) => {
-          if (data && !error && !loading) {
-            setAccounts(data);
-          }
-        });
-      }
-    }
-
-    fetchAccounts();
-  }, [
-    usr,
-    currentNode,
-    payerWithdrawalPermissions,
-    receivingWithdrawalPermissions,
-  ]);
-
-  const PayingWithdrawPermissionRow = ({ index, style }) => {
+function PayingWithdrawPermissionRow({ index, style, payerWithdrawalPermissions, assets, accounts, t, onEdit }) {
     const currentWithdrawPermission = payerWithdrawalPermissions[index];
     const withdrawAsset = assets.find(
       (x) => x.id === currentWithdrawPermission.withdrawal_limit.asset_id
@@ -355,12 +189,12 @@ export default function WithdrawPermissions(properties) {
             </div>
             <div className="grid grid-cols-2 gap-5 mt-2">
               <WithdrawDialog
-                usr={usr}
-                assets={assets}
-                marketSearch={marketSearch}
-                balances={balances}
-                showDialog={showEditDialog}
-                setShowDialog={setShowEditDialog}
+                usr={onEdit.usr}
+                assets={onEdit.assets}
+                marketSearch={onEdit.marketSearch}
+                balances={onEdit.balances}
+                showDialog={onEdit.showEditDialog}
+                setShowDialog={onEdit.setShowEditDialog}
                 mode="edit"
                 _existingWithdrawPermissionID={currentWithdrawPermission.id}
                 _targetUser={{
@@ -387,9 +221,9 @@ export default function WithdrawPermissions(properties) {
             {deleteDialogOpen ? (
               <DeepLinkDialog
                 operationNames={["withdraw_permission_delete"]}
-                username={usr && usr.username ? usr.username : ""}
-                usrChain={usr && usr.chain ? usr.chain : "bitshares"}
-                userID={usr.id}
+                username={onEdit.usr && onEdit.usr.username ? onEdit.usr.username : ""}
+                usrChain={onEdit.usr && onEdit.usr.chain ? onEdit.usr.chain : "bitshares"}
+                userID={onEdit.usr.id}
                 dismissCallback={setDeleteDialogOpen}
                 key={`DeletingWithdrawPermission`}
                 headerText={t(
@@ -397,7 +231,7 @@ export default function WithdrawPermissions(properties) {
                 )}
                 trxJSON={[
                   {
-                    withdraw_from_account: usr.id,
+                    withdraw_from_account: onEdit.usr.id,
                     authorized_account: withdrawAccount,
                     withdrawal_permission: currentWithdrawPermission.id,
                   },
@@ -408,9 +242,10 @@ export default function WithdrawPermissions(properties) {
         </div>
       </div>
     );
-  };
+}
+const MemoPayingWithdrawPermissionRow = React.memo(PayingWithdrawPermissionRow);
 
-  const ReceivingWithdrawPermissionRow = ({ index, style }) => {
+function ReceivingWithdrawPermissionRow({ index, style, receivingWithdrawalPermissions, assets, t, usr }) {
     const currentWithdrawPermission = receivingWithdrawalPermissions[index];
     const withdrawAsset = assets.find(
       (x) => x.id === currentWithdrawPermission.withdrawal_limit.asset_id
@@ -594,7 +429,179 @@ export default function WithdrawPermissions(properties) {
         </div>
       </div>
     );
-  };
+}
+const MemoReceivingWithdrawPermissionRow = React.memo(ReceivingWithdrawPermissionRow);
+
+export default function WithdrawPermissions(properties) {
+  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
+  const currentNode = useStore($currentNode);
+
+  const [showDialog, setShowDialog] = useState(false);
+
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
+
+  const usr = useSyncExternalStore(
+    $currentUser.subscribe,
+    $currentUser.get,
+    () => true
+  );
+
+  const {
+    _marketSearchBTS,
+    _marketSearchTEST,
+    _assetsBTS,
+    _assetsTEST,
+    _globalParamsBTS,
+    _globalParamsTEST,
+  } = properties;
+
+  const _chain = useMemo(() => {
+    if (usr && usr.chain) {
+      return usr.chain;
+    }
+    return "bitshares";
+  }, [usr]);
+
+  useInitCache(_chain ?? "bitshares", []);
+
+  const assets = useMemo(() => {
+    if (_chain && (_assetsBTS || _assetsTEST)) {
+      return _chain === "bitshares" ? _assetsBTS : _assetsTEST;
+    }
+    return [];
+  }, [_assetsBTS, _assetsTEST, _chain]);
+
+  const marketSearch = useMemo(() => {
+    if (_chain && (_marketSearchBTS || _marketSearchTEST)) {
+      return _chain === "bitshares" ? _marketSearchBTS : _marketSearchTEST;
+    }
+    return [];
+  }, [_marketSearchBTS, _marketSearchTEST, _chain]);
+
+  const globalParams = useMemo(() => {
+    if (_chain && (_globalParamsBTS || _globalParamsTEST)) {
+      return _chain === "bitshares" ? _globalParamsBTS : _globalParamsTEST;
+    }
+    return [];
+  }, [_globalParamsBTS, _globalParamsTEST, _chain]);
+
+  const [fee, setFee] = useState(0);
+  useEffect(() => {
+    if (globalParams && globalParams.length) {
+      const foundFee = globalParams.find((x) => x.id === 0);
+      const finalFee = humanReadableFloat(foundFee.data.fee, 5);
+      setFee(finalFee);
+    }
+  }, [globalParams]);
+
+  const [balanceCounter, setBalanceCoutner] = useState(0);
+  const [balances, setBalances] = useState();
+  useEffect(() => {
+    async function fetchUserBalances() {
+      if (usr && usr.id && currentNode && assets && assets.length) {
+        const userBalancesStore = createUserBalancesStore([
+          usr.chain,
+          usr.id,
+          currentNode ? currentNode.url : null,
+        ]);
+
+        userBalancesStore.subscribe(({ data, error, loading }) => {
+          if (data && !error && !loading) {
+            const filteredData = data.filter((balance) =>
+              assets.find((x) => x.id === balance.asset_id)
+            );
+            setBalances(filteredData);
+          }
+        });
+      }
+    }
+
+    fetchUserBalances();
+  }, [usr, assets, currentNode, balanceCounter]);
+
+  const [payerWithdrawalPermissions, setPayerWithdrawalPermissions] =
+    useState();
+  const [receivingWithdrawalPermissions, setReceivingWithdrawalPermissions] =
+    useState();
+  useEffect(() => {
+    async function fetchWithdrawPermissions() {
+      if (usr && usr.chain && currentNode) {
+        const withdrawPermissionsStore = createWithdrawPermissionsStore([
+          usr.chain,
+          usr.id,
+          currentNode ? currentNode.url : null,
+        ]);
+        withdrawPermissionsStore.subscribe(({ data, error, loading }) => {
+          if (data && !error && !loading) {
+            if (data.recieving) {
+              setReceivingWithdrawalPermissions(data.recieving);
+            }
+            if (data.paying) {
+              setPayerWithdrawalPermissions(data.paying);
+            }
+          }
+
+          if (error) {
+            console.log({ error });
+          }
+        });
+      }
+    }
+
+    fetchWithdrawPermissions();
+  }, [usr, currentNode]);
+
+  const [accounts, setAccounts] = useState([]);
+  useEffect(() => {
+    async function fetchAccounts() {
+      if (
+        usr &&
+        usr.chain &&
+        currentNode &&
+        payerWithdrawalPermissions &&
+        receivingWithdrawalPermissions
+      ) {
+        const allPermissions = [
+          ...(payerWithdrawalPermissions || []),
+          ...(receivingWithdrawalPermissions || []),
+        ];
+
+        const authorized_account = allPermissions.map(
+          (x) => x.authorized_account
+        );
+        const withdraw_from_account = allPermissions.map(
+          (x) => x.withdraw_from_account
+        );
+        const allAccounts = [
+          ...new Set([...authorized_account, ...withdraw_from_account]),
+        ];
+
+        const userStore = createObjectStore([
+          usr.chain,
+          JSON.stringify(allAccounts),
+          currentNode ? currentNode.url : null,
+        ]);
+
+        userStore.subscribe(({ data, error, loading }) => {
+          if (data && !error && !loading) {
+            setAccounts(data);
+          }
+        });
+      }
+    }
+
+    fetchAccounts();
+  }, [
+    usr,
+    currentNode,
+    payerWithdrawalPermissions,
+    receivingWithdrawalPermissions,
+  ]);
+
+  const editDialogData = useMemo(() => ({ usr, assets, marketSearch, balances, showEditDialog, setShowEditDialog }), [usr, assets, marketSearch, balances, showEditDialog]);
+  const payingRowProps = useMemo(() => ({ payerWithdrawalPermissions, assets, accounts, t, onEdit: editDialogData }), [payerWithdrawalPermissions, assets, accounts, t, editDialogData]);
+  const receivingRowProps = useMemo(() => ({ receivingWithdrawalPermissions, assets, t, usr }), [receivingWithdrawalPermissions, assets, t, usr]);
 
   return (
     <>
@@ -646,16 +653,18 @@ export default function WithdrawPermissions(properties) {
               {payerWithdrawalPermissions &&
               payerWithdrawalPermissions.length ? (
                 <div className="col-span-9">
-                  <div className="w-full max-h-[400px] overflow-auto">
+                  <div className="w-full h-[400px]">
                     <List
+                      height={400}
+                      width="100%"
                       rowHeight={35}
-                      rowComponent={PayingWithdrawPermissionRow}
+                      rowComponent={MemoPayingWithdrawPermissionRow}
                       rowCount={
                         payerWithdrawalPermissions
                           ? payerWithdrawalPermissions.length
                           : 0
                       }
-                      rowProps={{}}
+                      rowProps={payingRowProps}
                     />
                   </div>
                 </div>
@@ -703,16 +712,18 @@ export default function WithdrawPermissions(properties) {
               {receivingWithdrawalPermissions &&
               receivingWithdrawalPermissions.length ? (
                 <div className="col-span-12">
-                  <div className="w-full max-h-[400px] overflow-auto">
+                  <div className="w-full h-[400px]">
                     <List
+                      height={400}
+                      width="100%"
                       rowHeight={35}
-                      rowComponent={ReceivingWithdrawPermissionRow}
+                      rowComponent={MemoReceivingWithdrawPermissionRow}
                       rowCount={
                         receivingWithdrawalPermissions
                           ? receivingWithdrawalPermissions.length
                           : 0
                       }
-                      rowProps={{}}
+                      rowProps={receivingRowProps}
                     />
                   </div>
                 </div>

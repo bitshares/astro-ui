@@ -26,50 +26,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { humanReadableFloat } from "@/bts/common";
 
-/**
- * Creating a basic asset dropdown component
- * @param {String} assetSymbol current asset symbol
- * @param {Function} storeCallback setState
- * @param {String} otherAsset market pair asset
- * @returns {JSX.Element}
- */
-export default function BalanceAssetDropDownCard(properties) {
-  const {
-    assetsToHide, // already selected balance assets
-    storeCallback,
-    assets,
-    size,
-    usrBalances,
-  } = properties;
-
-  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
-
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  const filteredUserBalances = useMemo(() => {
-    let _balances;
-    if (assetsToHide) {
-      const filteredBalances = usrBalances.filter((balance) => {
-        return !assetsToHide.includes(balance.asset_id);
-      });
-      _balances = filteredBalances;
-    } else {
-      _balances = usrBalances;
-    }
-    return _balances.filter((balance) => balance.amount > 0);
-  }, [assetsToHide, usrBalances]);
-
-  const Row = ({ index, style }) => {
+const BalanceAssetRow = React.memo(function BalanceAssetRow({ index, style, filteredUserBalances, assets, storeCallback, setDialogOpen, t }) {
     let res = filteredUserBalances[index];
 
     if (!res || !assets) {
-      return;
+      return null;
     }
 
     const specifiedAsset = assets.find((asset) => asset.id === res.asset_id);
     if (!specifiedAsset) {
       console.log("Asset not found in assets list");
-      return;
+      return null;
     }
 
     const balanceAvailable = humanReadableFloat(
@@ -151,7 +118,45 @@ export default function BalanceAssetDropDownCard(properties) {
         </Dialog>
       </div>
     );
-  };
+  });
+
+/**
+ * Creating a basic asset dropdown component
+ * @param {String} assetSymbol current asset symbol
+ * @param {Function} storeCallback setState
+ * @param {String} otherAsset market pair asset
+ * @returns {JSX.Element}
+ */
+export default function BalanceAssetDropDownCard(properties) {
+  const {
+    assetsToHide, // already selected balance assets
+    storeCallback,
+    assets,
+    size,
+    usrBalances,
+  } = properties;
+
+  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const filteredUserBalances = useMemo(() => {
+    let _balances;
+    if (assetsToHide) {
+      const filteredBalances = usrBalances.filter((balance) => {
+        return !assetsToHide.includes(balance.asset_id);
+      });
+      _balances = filteredBalances;
+    } else {
+      _balances = usrBalances;
+    }
+    return _balances.filter((balance) => balance.amount > 0);
+  }, [assetsToHide, usrBalances]);
+
+  const rowProps = useMemo(
+    () => ({ filteredUserBalances, assets, storeCallback, setDialogOpen, t }),
+    [filteredUserBalances, assets, storeCallback, t]
+  );
 
   return (
     <Dialog
@@ -180,12 +185,14 @@ export default function BalanceAssetDropDownCard(properties) {
           </DialogTitle>
         </DialogHeader>
         {filteredUserBalances && filteredUserBalances.length ? (
-          <div className="w-full max-h-[350px] overflow-auto">
+          <div className="w-full h-[300px]">
             <List
-              rowComponent={Row}
+              height={300}
+              width="100%"
+              rowComponent={BalanceAssetRow}
               rowCount={filteredUserBalances.length}
               rowHeight={45}
-              rowProps={{}}
+              rowProps={rowProps}
             />
           </div>
         ) : (

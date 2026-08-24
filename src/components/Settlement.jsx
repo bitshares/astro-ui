@@ -52,6 +52,32 @@ import { $currentNode } from "@/stores/node.ts";
 
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 
+
+function SettlementBidRow({ index, style, collateralBids, parsedCollateralAsset, parsedAsset, currentFeedSettlementPrice }) {
+    const _bid = collateralBids[index];
+    const _collateral = humanReadableFloat(
+      _bid.bid.base.amount,
+      parsedCollateralAsset.p
+    );
+    const _debt = humanReadableFloat(_bid.bid.quote.amount, parsedAsset.p);
+    const _price = parseFloat(
+      (_collateral / _debt).toFixed(parsedCollateralAsset.p)
+    );
+    const _ratio = parseFloat(
+      ((1 / currentFeedSettlementPrice / _price) * 100).toFixed(2)
+    );
+    return (
+      <div className="grid grid-cols-4 text-sm" style={style}>
+        <div className="col-span-1">{_bid.bidder}</div>
+        <div className="col-span-1">{_collateral}</div>
+        <div className="col-span-1">{_debt}</div>
+        <div className="col-span-1">{_price}</div>
+        <div className="col-span-1">{_ratio}</div>
+      </div>
+    );
+}
+const MemoSettlementBidRow = React.memo(SettlementBidRow);
+
 export default function Settlement(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const form = useForm({
@@ -305,29 +331,7 @@ export default function Settlement(properties) {
 
   const [showDialog, setShowDialog] = useState(false);
 
-  const BidRow = ({ index, style }) => {
-    const _bid = collateralBids[index];
-    const _collateral = humanReadableFloat(
-      _bid.bid.base.amount,
-      parsedCollateralAsset.p
-    );
-    const _debt = humanReadableFloat(_bid.bid.quote.amount, parsedAsset.p);
-    const _price = parseFloat(
-      (_collateral / _debt).toFixed(parsedCollateralAsset.p)
-    );
-    const _ratio = parseFloat(
-      ((1 / currentFeedSettlementPrice / _price) * 100).toFixed(2)
-    );
-    return (
-      <div className="grid grid-cols-4 text-sm" style={style}>
-        <div className="col-span-1">{_bid.bidder}</div>
-        <div className="col-span-1">{_collateral}</div>
-        <div className="col-span-1">{_debt}</div>
-        <div className="col-span-1">{_price}</div>
-        <div className="col-span-1">{_ratio}</div>
-      </div>
-    );
-  };
+  const bidRowProps = useMemo(() => ({ collateralBids, parsedCollateralAsset, parsedAsset, currentFeedSettlementPrice }), [collateralBids, parsedCollateralAsset, parsedAsset, currentFeedSettlementPrice]);
 
   return (
     <>
@@ -972,12 +976,14 @@ export default function Settlement(properties) {
                   <div className="col-span-1">{t("Settlement:bidPrice")}</div>
                   <div className="col-span-1">{t("Settlement:ratio")}</div>
                 </div>
-                <div className="w-full max-h-[500px] overflow-auto">
+                <div className="w-full h-[500px]">
                   <List
-                    rowComponent={BidRow}
+                    height={500}
+                    width="100%"
+                    rowComponent={MemoSettlementBidRow}
                     rowCount={collateralBids.length}
                     rowHeight={225}
-                    rowProps={{}}
+                    rowProps={bidRowProps}
                   />
                 </div>
               </CardContent>

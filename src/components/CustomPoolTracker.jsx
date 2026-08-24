@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useSyncExternalStore,
   useMemo,
+  memo,
 } from "react";
 
 import { useChainObjectsLive } from "@/hooks/useChainObjectsLive";
@@ -113,6 +114,399 @@ const calculateStaked = (allUniqueAssets, pools, ownerships, assetId) => {
 
   return _calculated;
 };
+
+
+const FeaturedPoolRow = memo(function FeaturedPoolRow({ index, style, liquidityPools, poolShareAssets, psaDD, usrBalances, swappableAssets, allAssetPrices, lpTradingVolumes, t }) {
+  let res = liquidityPools[index];
+
+  if (!res) {
+    return null;
+  }
+
+  const _currentPSA = poolShareAssets.find((x) => x.id === res.share_asset);
+  const _psaDD = psaDD.find(
+    (x) => x.id === res.share_asset.replace("1.3.", "2.3.")
+  );
+
+  const _psaBalance =
+    usrBalances && usrBalances.length
+      ? usrBalances.find((x) => x.asset_id === res.share_asset)
+      : null;
+
+  const _poolAssetA = swappableAssets.find((x) => x.id === res.asset_a);
+  const _poolAssetB = swappableAssets.find((x) => x.id === res.asset_b);
+
+  const _assetAPrice = allAssetPrices[_poolAssetA.symbol]?.price || 0;
+  const _assetBPrice = allAssetPrices[_poolAssetB.symbol]?.price || 0;
+  const _psaPrice = allAssetPrices[_currentPSA.symbol]?.price || 0;
+
+  const _amountA = humanReadableFloat(res.balance_a, _poolAssetA.precision);
+  const _amountB = humanReadableFloat(res.balance_b, _poolAssetB.precision);
+
+  const foundTradingVolume =
+    lpTradingVolumes && lpTradingVolumes.length
+      ? lpTradingVolumes.find((x) => x.id === res.id)
+      : null;
+
+  const _24hVolumeA = foundTradingVolume
+    ? humanReadableFloat(
+        parseInt(foundTradingVolume.statistics._24h_exchange_a2b_amount_a) +
+          parseInt(foundTradingVolume.statistics._24h_exchange_b2a_amount_a),
+        _poolAssetA.precision
+      )
+    : "0.00";
+
+  const _24hVolumeB = foundTradingVolume
+    ? humanReadableFloat(
+        parseInt(foundTradingVolume.statistics._24h_exchange_a2b_amount_b) +
+          parseInt(foundTradingVolume.statistics._24h_exchange_b2a_amount_b),
+        _poolAssetB.precision
+      )
+    : "0.00";
+
+  const _24hFeeA = foundTradingVolume
+    ? humanReadableFloat(
+        parseInt(foundTradingVolume.statistics._24h_exchange_fee_a) +
+          parseInt(foundTradingVolume.statistics._24h_withdrawal_fee_a),
+        _poolAssetA.precision
+      )
+    : "0.00";
+
+  const _24hFeeB = foundTradingVolume
+    ? humanReadableFloat(
+        parseInt(foundTradingVolume.statistics._24h_exchange_fee_b) +
+          parseInt(foundTradingVolume.statistics._24h_withdrawal_fee_b),
+        _poolAssetB.precision
+      )
+    : "0.00";
+
+  const poolOwnershipPercentage =
+    _psaBalance && _psaBalance.amount
+      ? _psaBalance.amount / _psaDD.current_supply
+      : 0;
+
+  const smartcoinSymbols = swappableAssets
+    .filter((x) => x.bitasset_data_id)
+    .map((x) => x.symbol);
+
+  const _poolTotalUSD =
+    parseFloat(_amountA) * parseFloat(_assetAPrice) +
+    parseFloat(_amountB) * parseFloat(_assetBPrice);
+
+  return (
+    <div
+      style={{ ...style }}
+      key={`poolRow-${res.id}`}
+      className="grid grid-cols-12 text-xs border border-border"
+    >
+      <div className="grid grid-cols-1">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md ml-1 mr-1 mt-1 mb-1"
+            >
+              🏦 {res.id}
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-card sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>
+                🏦 {t("PoolTracker:pool")} {res.id}
+              </DialogTitle>
+              <DialogDescription></DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <a href={`/swap.html?pool=${res.id}`}>
+                <Button variant="outline" className="w-full">
+                  {t("PoolTracker:simpleSwap")}
+                </Button>
+              </a>
+              <a href={`/stake.html?pool=${res.id}`}>
+                <Button variant="outline" className="w-full">
+                  {t("PoolTracker:stakeAssets")}
+                </Button>
+              </a>
+            </div>
+          </DialogContent>
+        </Dialog>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md ml-1 mr-1"
+            >
+              🪙 {_currentPSA.id}
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-card sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>
+                🪙 {t("PoolTracker:psa")} {_currentPSA.id}
+              </DialogTitle>
+              <DialogDescription></DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <a href={`/dex.html?market=${res.share_asset}_BTS`}>
+                <Button variant="outline" className="w-full">
+                  {t("PoolTracker:buy")}
+                </Button>
+              </a>
+              <a
+                href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${
+                  _currentPSA.symbol ?? ""
+                }`}
+              >
+                <Button variant="outline" className="w-full">
+                  {t("PoolTracker:borrow")}
+                </Button>
+              </a>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <div className="grid grid-cols-1">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md m-1"
+            >
+              {_poolAssetA.symbol}
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-card sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>
+                A: {_poolAssetA.symbol} {_poolAssetA.id}
+              </DialogTitle>
+              <DialogDescription></DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <a
+                href={`/dex.html?market=${_poolAssetA.symbol}_${
+                  _poolAssetA.symbol === "BTS" ? "HONEST.USD" : "BTS"
+                }`}
+              >
+                <Button variant="outline" className="w-full">
+                  {t("PoolTracker:buyAsset", { asset: _poolAssetA.symbol })}
+                </Button>
+              </a>
+              <a
+                href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetA.symbol}`}
+              >
+                <Button variant="outline" className="w-full">
+                  {t("PoolTracker:borrowAsset", {
+                    asset: _poolAssetA.symbol,
+                  })}
+                </Button>
+              </a>
+              {smartcoinSymbols.includes(_poolAssetA.symbol) ? (
+                <a href={`/smartcoin.html?id=${_poolAssetA.id}`}>
+                  <Button variant="outline" className="w-full">
+                    {t("PoolTracker:createDebt")}
+                  </Button>
+                </a>
+              ) : null}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md m-1"
+            >
+              {_poolAssetB.symbol}
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-card sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>
+                B: {_poolAssetB.symbol} {_poolAssetB.id}
+              </DialogTitle>
+              <DialogDescription></DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <a
+                href={`/dex.html?market=${_poolAssetB.symbol}_${
+                  _poolAssetB.symbol === "BTS" ? "HONEST.USD" : "BTS"
+                }`}
+              >
+                <Button variant="outline" className="w-full">
+                  {t("PoolTracker:buyAsset", { asset: _poolAssetB.symbol })}
+                </Button>
+              </a>
+              <a
+                href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetB.symbol}`}
+              >
+                <Button variant="outline" className="w-full">
+                  {t("PoolTracker:borrowAsset", {
+                    asset: _poolAssetB.symbol,
+                  })}
+                </Button>
+              </a>
+              {smartcoinSymbols.includes(_poolAssetB.symbol) ? (
+                <a href={`/smartcoin.html?id=${_poolAssetB.id}`}>
+                  <Button variant="outline" className="w-full">
+                    {t("PoolTracker:createDebt")}
+                  </Button>
+                </a>
+              ) : null}
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <div className="ml-1 text-center">
+        <span className="grid grid-cols-1">
+          <span className="m-4">${_assetAPrice.toFixed(5)}</span>
+          <span className="m-4">${_assetBPrice.toFixed(5)}</span>
+        </span>
+      </div>
+      <div className="ml-1 border-l border-border flex items-center justify-center">
+        <div className="grid grid-cols-1">
+          <div>
+            🌐{" "}
+            {humanReadableFloat(_psaDD.current_supply, _currentPSA.precision)}
+          </div>
+          <div>
+            🪙 $
+            {(
+              humanReadableFloat(
+                _psaDD.current_supply,
+                _currentPSA.precision
+              ) * _psaPrice
+            ).toFixed(5)}
+          </div>
+          <div>🔢 ${_poolTotalUSD ? _poolTotalUSD.toFixed(5) : 0}</div>
+        </div>
+      </div>
+      <div className="ml-1 border-l border-border flex items-center justify-center">
+        {_psaBalance && _psaBalance.amount ? (
+          <>
+            🌐 {humanReadableFloat(_psaBalance.amount, _currentPSA.precision)}
+            <br />
+            📊 {(poolOwnershipPercentage * 100).toFixed(2)}%
+          </>
+        ) : (
+          <>
+            0<br />
+            0%
+          </>
+        )}
+      </div>
+      {swappableAssets.map((asset, i) => {
+        let classNameContents =
+          "flex justify-center items-center border-border";
+        if (i === 0) {
+          classNameContents += " border-l";
+        } else if (i === swappableAssets.length - 1) {
+          classNameContents += " border-r";
+        }
+        return (
+          <div
+            key={`swappableAsset${asset.id.replaceAll(".", "_")}`}
+            className={classNameContents}
+          >
+            {asset.id === _poolAssetA.id ? (
+              <div className="grid grid-cols-1 gap-1">
+                <div>🅰️ {convertToSatoshis(_amountA)}</div>
+                <div className="text-center">
+                  {`$${(_amountA * _assetAPrice).toFixed(5)}`}
+                </div>
+                <div>
+                  📊{" "}
+                  {convertToSatoshis(
+                    (_amountA * poolOwnershipPercentage).toFixed(
+                      _poolAssetA.precision
+                    )
+                  )}
+                </div>
+                <div className="text-center">
+                  {`$${(
+                    _amountA *
+                    poolOwnershipPercentage *
+                    _assetAPrice
+                  ).toFixed(5)}`}
+                </div>
+              </div>
+            ) : null}
+            {asset.id === _poolAssetB.id ? (
+              <div className="grid grid-cols-1 gap-1">
+                <div>🅱️ {convertToSatoshis(_amountB)}</div>
+                <div className="text-center">
+                  {`$${(_amountB * _assetBPrice).toFixed(5)}`}
+                </div>
+                <div>
+                  📊{" "}
+                  {convertToSatoshis(
+                    (_amountB * poolOwnershipPercentage).toFixed(
+                      _poolAssetB.precision
+                    )
+                  )}
+                </div>
+                <div className="text-center">
+                  {`$${(
+                    _amountB *
+                    poolOwnershipPercentage *
+                    _assetBPrice
+                  ).toFixed(5)}`}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        );
+      })}
+      {swappableAssets && swappableAssets.length < 5
+        ? Array.from({ length: 5 - swappableAssets.length }).map(
+            (_, index) => (
+              <div key={`blankRowCol${index}`} className="text-center"></div>
+            )
+          )
+        : null}
+      <div className="ml-3 mt-3">
+        A: {_24hVolumeA}
+        <br />
+        B: {_24hVolumeB}
+        <br />
+        <Separator />
+        {t("PoolTracker:fees")}:<br />
+        A: {convertToSatoshis(_24hFeeA)}
+        <br />
+        B: {convertToSatoshis(_24hFeeB)}
+      </div>
+      <div className="ml-3">
+        💱 {res.taker_fee_percent / 100} %<br />
+        💸 {res.withdrawal_fee_percent / 100} %<br />
+        <Separator />
+        A:{" "}
+        {_psaBalance && _psaBalance.amount
+          ? ((_24hFeeA / _amountA) * 100 * 30).toFixed(3)
+          : "0.00"}{" "}
+        % ~30d
+        <br />
+        B:{" "}
+        {_psaBalance && _psaBalance.amount
+          ? ((_24hFeeB / _amountB) * 100 * 30).toFixed(3)
+          : "0.00"}{" "}
+        % ~30d
+        <br />
+        A:{" "}
+        {_psaBalance && _psaBalance.amount
+          ? ((_24hFeeA / _amountA) * 100 * 365).toFixed(3)
+          : "0.00"}{" "}
+        % ~1yr
+        <br />
+        B:{" "}
+        {_psaBalance && _psaBalance.amount
+          ? ((_24hFeeB / _amountB) * 100 * 365).toFixed(3)
+          : "0.00"}{" "}
+        % ~1yr
+      </div>
+    </div>
+  );
+});
 
 export default function CustomPoolTracker(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -956,397 +1350,7 @@ export default function CustomPoolTracker(properties) {
     return _finalAmount;
   }, [totalBalances, allAssetPrices, allSettlementPrices]);
 
-  const featuredPoolRow = ({ index, style }) => {
-    let res = liquidityPools[index];
-
-    if (!res) {
-      return null;
-    }
-
-    const _currentPSA = poolShareAssets.find((x) => x.id === res.share_asset);
-    const _psaDD = psaDD.find(
-      (x) => x.id === res.share_asset.replace("1.3.", "2.3.")
-    );
-
-    const _psaBalance =
-      usrBalances && usrBalances.length
-        ? usrBalances.find((x) => x.asset_id === res.share_asset)
-        : null;
-
-    const _poolAssetA = swappableAssets.find((x) => x.id === res.asset_a);
-    const _poolAssetB = swappableAssets.find((x) => x.id === res.asset_b);
-
-    const _assetAPrice = allAssetPrices[_poolAssetA.symbol]?.price || 0;
-    const _assetBPrice = allAssetPrices[_poolAssetB.symbol]?.price || 0;
-    const _psaPrice = allAssetPrices[_currentPSA.symbol]?.price || 0;
-
-    const _amountA = humanReadableFloat(res.balance_a, _poolAssetA.precision);
-    const _amountB = humanReadableFloat(res.balance_b, _poolAssetB.precision);
-
-    const foundTradingVolume =
-      lpTradingVolumes && lpTradingVolumes.length
-        ? lpTradingVolumes.find((x) => x.id === res.id)
-        : null;
-
-    const _24hVolumeA = foundTradingVolume
-      ? humanReadableFloat(
-          parseInt(foundTradingVolume.statistics._24h_exchange_a2b_amount_a) +
-            parseInt(foundTradingVolume.statistics._24h_exchange_b2a_amount_a),
-          _poolAssetA.precision
-        )
-      : "0.00";
-
-    const _24hVolumeB = foundTradingVolume
-      ? humanReadableFloat(
-          parseInt(foundTradingVolume.statistics._24h_exchange_a2b_amount_b) +
-            parseInt(foundTradingVolume.statistics._24h_exchange_b2a_amount_b),
-          _poolAssetB.precision
-        )
-      : "0.00";
-
-    const _24hFeeA = foundTradingVolume
-      ? humanReadableFloat(
-          parseInt(foundTradingVolume.statistics._24h_exchange_fee_a) +
-            parseInt(foundTradingVolume.statistics._24h_withdrawal_fee_a),
-          _poolAssetA.precision
-        )
-      : "0.00";
-
-    const _24hFeeB = foundTradingVolume
-      ? humanReadableFloat(
-          parseInt(foundTradingVolume.statistics._24h_exchange_fee_b) +
-            parseInt(foundTradingVolume.statistics._24h_withdrawal_fee_b),
-          _poolAssetB.precision
-        )
-      : "0.00";
-
-    const poolOwnershipPercentage =
-      _psaBalance && _psaBalance.amount
-        ? _psaBalance.amount / _psaDD.current_supply
-        : 0;
-
-    const smartcoinSymbols = swappableAssets
-      .filter((x) => x.bitasset_data_id)
-      .map((x) => x.symbol);
-
-    const _poolTotalUSD =
-      parseFloat(_amountA) * parseFloat(_assetAPrice) +
-      parseFloat(_amountB) * parseFloat(_assetBPrice);
-
-    return (
-      <div
-        style={{ ...style }}
-        key={`poolRow-${res.id}`}
-        className="grid grid-cols-12 text-xs border border-border"
-      >
-        <div className="grid grid-cols-1">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md ml-1 mr-1 mt-1 mb-1"
-              >
-                🏦 {res.id}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-card sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>
-                  🏦 {t("PoolTracker:pool")} {res.id}
-                </DialogTitle>
-                <DialogDescription></DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <a href={`/swap.html?pool=${res.id}`}>
-                  <Button variant="outline" className="w-full">
-                    {t("PoolTracker:simpleSwap")}
-                  </Button>
-                </a>
-                <a href={`/stake.html?pool=${res.id}`}>
-                  <Button variant="outline" className="w-full">
-                    {t("PoolTracker:stakeAssets")}
-                  </Button>
-                </a>
-              </div>
-            </DialogContent>
-          </Dialog>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md ml-1 mr-1"
-              >
-                🪙 {_currentPSA.id}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-card sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>
-                  🪙 {t("PoolTracker:psa")} {_currentPSA.id}
-                </DialogTitle>
-                <DialogDescription></DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <a href={`/dex.html?market=${res.share_asset}_BTS`}>
-                  <Button variant="outline" className="w-full">
-                    {t("PoolTracker:buy")}
-                  </Button>
-                </a>
-                <a
-                  href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${
-                    _currentPSA.symbol ?? ""
-                  }`}
-                >
-                  <Button variant="outline" className="w-full">
-                    {t("PoolTracker:borrow")}
-                  </Button>
-                </a>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-        <div className="grid grid-cols-1">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md m-1"
-              >
-                {_poolAssetA.symbol}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-card sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>
-                  A: {_poolAssetA.symbol} {_poolAssetA.id}
-                </DialogTitle>
-                <DialogDescription></DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <a
-                  href={`/dex.html?market=${_poolAssetA.symbol}_${
-                    _poolAssetA.symbol === "BTS" ? "HONEST.USD" : "BTS"
-                  }`}
-                >
-                  <Button variant="outline" className="w-full">
-                    {t("PoolTracker:buyAsset", { asset: _poolAssetA.symbol })}
-                  </Button>
-                </a>
-                <a
-                  href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetA.symbol}`}
-                >
-                  <Button variant="outline" className="w-full">
-                    {t("PoolTracker:borrowAsset", {
-                      asset: _poolAssetA.symbol,
-                    })}
-                  </Button>
-                </a>
-                {smartcoinSymbols.includes(_poolAssetA.symbol) ? (
-                  <a href={`/smartcoin.html?id=${_poolAssetA.id}`}>
-                    <Button variant="outline" className="w-full">
-                      {t("PoolTracker:createDebt")}
-                    </Button>
-                  </a>
-                ) : null}
-              </div>
-            </DialogContent>
-          </Dialog>
-
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="hover:text-[hsl(var(--accent-1-fg))] dark:hover:text-[hsl(var(--accent-1-fg))] text-md m-1"
-              >
-                {_poolAssetB.symbol}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-card sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>
-                  B: {_poolAssetB.symbol} {_poolAssetB.id}
-                </DialogTitle>
-                <DialogDescription></DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <a
-                  href={`/dex.html?market=${_poolAssetB.symbol}_${
-                    _poolAssetB.symbol === "BTS" ? "HONEST.USD" : "BTS"
-                  }`}
-                >
-                  <Button variant="outline" className="w-full">
-                    {t("PoolTracker:buyAsset", { asset: _poolAssetB.symbol })}
-                  </Button>
-                </a>
-                <a
-                  href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${_poolAssetB.symbol}`}
-                >
-                  <Button variant="outline" className="w-full">
-                    {t("PoolTracker:borrowAsset", {
-                      asset: _poolAssetB.symbol,
-                    })}
-                  </Button>
-                </a>
-                {smartcoinSymbols.includes(_poolAssetB.symbol) ? (
-                  <a href={`/smartcoin.html?id=${_poolAssetB.id}`}>
-                    <Button variant="outline" className="w-full">
-                      {t("PoolTracker:createDebt")}
-                    </Button>
-                  </a>
-                ) : null}
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-        <div className="ml-1 text-center">
-          <span className="grid grid-cols-1">
-            <span className="m-4">${_assetAPrice.toFixed(5)}</span>
-            <span className="m-4">${_assetBPrice.toFixed(5)}</span>
-          </span>
-        </div>
-        <div className="ml-1 border-l border-border flex items-center justify-center">
-          <div className="grid grid-cols-1">
-            <div>
-              🌐{" "}
-              {humanReadableFloat(_psaDD.current_supply, _currentPSA.precision)}
-            </div>
-            <div>
-              🪙 $
-              {(
-                humanReadableFloat(
-                  _psaDD.current_supply,
-                  _currentPSA.precision
-                ) * _psaPrice
-              ).toFixed(5)}
-            </div>
-            <div>🔢 ${_poolTotalUSD ? _poolTotalUSD.toFixed(5) : 0}</div>
-          </div>
-        </div>
-        <div className="ml-1 border-l border-border flex items-center justify-center">
-          {_psaBalance && _psaBalance.amount ? (
-            <>
-              🌐 {humanReadableFloat(_psaBalance.amount, _currentPSA.precision)}
-              <br />
-              📊 {(poolOwnershipPercentage * 100).toFixed(2)}%
-            </>
-          ) : (
-            <>
-              0<br />
-              0%
-            </>
-          )}
-        </div>
-        {swappableAssets.map((asset, i) => {
-          let classNameContents =
-            "flex justify-center items-center border-border";
-          if (i === 0) {
-            classNameContents += " border-l";
-          } else if (i === swappableAssets.length - 1) {
-            classNameContents += " border-r";
-          }
-          return (
-            <div
-              key={`swappableAsset${asset.id.replaceAll(".", "_")}`}
-              className={classNameContents}
-            >
-              {asset.id === _poolAssetA.id ? (
-                <div className="grid grid-cols-1 gap-1">
-                  <div>🅰️ {convertToSatoshis(_amountA)}</div>
-                  <div className="text-center">
-                    {`$${(_amountA * _assetAPrice).toFixed(5)}`}
-                  </div>
-                  <div>
-                    📊{" "}
-                    {convertToSatoshis(
-                      (_amountA * poolOwnershipPercentage).toFixed(
-                        _poolAssetA.precision
-                      )
-                    )}
-                  </div>
-                  <div className="text-center">
-                    {`$${(
-                      _amountA *
-                      poolOwnershipPercentage *
-                      _assetAPrice
-                    ).toFixed(5)}`}
-                  </div>
-                </div>
-              ) : null}
-              {asset.id === _poolAssetB.id ? (
-                <div className="grid grid-cols-1 gap-1">
-                  <div>🅱️ {convertToSatoshis(_amountB)}</div>
-                  <div className="text-center">
-                    {`$${(_amountB * _assetBPrice).toFixed(5)}`}
-                  </div>
-                  <div>
-                    📊{" "}
-                    {convertToSatoshis(
-                      (_amountB * poolOwnershipPercentage).toFixed(
-                        _poolAssetB.precision
-                      )
-                    )}
-                  </div>
-                  <div className="text-center">
-                    {`$${(
-                      _amountB *
-                      poolOwnershipPercentage *
-                      _assetBPrice
-                    ).toFixed(5)}`}
-                  </div>
-                </div>
-              ) : null}
-            </div>
-          );
-        })}
-        {swappableAssets && swappableAssets.length < 5
-          ? Array.from({ length: 5 - swappableAssets.length }).map(
-              (_, index) => (
-                <div key={`blankRowCol${index}`} className="text-center"></div>
-              )
-            )
-          : null}
-        <div className="ml-3 mt-3">
-          A: {_24hVolumeA}
-          <br />
-          B: {_24hVolumeB}
-          <br />
-          <Separator />
-          {t("PoolTracker:fees")}:<br />
-          A: {convertToSatoshis(_24hFeeA)}
-          <br />
-          B: {convertToSatoshis(_24hFeeB)}
-        </div>
-        <div className="ml-3">
-          💱 {res.taker_fee_percent / 100} %<br />
-          💸 {res.withdrawal_fee_percent / 100} %<br />
-          <Separator />
-          A:{" "}
-          {_psaBalance && _psaBalance.amount
-            ? ((_24hFeeA / _amountA) * 100 * 30).toFixed(3)
-            : "0.00"}{" "}
-          % ~30d
-          <br />
-          B:{" "}
-          {_psaBalance && _psaBalance.amount
-            ? ((_24hFeeB / _amountB) * 100 * 30).toFixed(3)
-            : "0.00"}{" "}
-          % ~30d
-          <br />
-          A:{" "}
-          {_psaBalance && _psaBalance.amount
-            ? ((_24hFeeA / _amountA) * 100 * 365).toFixed(3)
-            : "0.00"}{" "}
-          % ~1yr
-          <br />
-          B:{" "}
-          {_psaBalance && _psaBalance.amount
-            ? ((_24hFeeB / _amountB) * 100 * 365).toFixed(3)
-            : "0.00"}{" "}
-          % ~1yr
-        </div>
-      </div>
-    );
-  };
+  const featuredPoolRowProps = useMemo(() => ({ liquidityPools, poolShareAssets, psaDD, usrBalances, swappableAssets, allAssetPrices, lpTradingVolumes, t }), [liquidityPools, poolShareAssets, psaDD, usrBalances, swappableAssets, allAssetPrices, lpTradingVolumes, t]);
 
   return (
     <>
@@ -1423,12 +1427,14 @@ export default function CustomPoolTracker(properties) {
                   <div>{t("PoolTracker:24hVolume")}</div>
                   <div>{t("PoolTracker:fees")}</div>
                 </div>
-                <div className="w-full max-h-[500px] overflow-auto">
+                <div className="w-full h-[500px]">
                   <List
-                    rowComponent={featuredPoolRow}
+                    rowComponent={FeaturedPoolRow}
                     rowCount={liquidityPools.length}
                     rowHeight={110}
-                    rowProps={{}}
+                    height={500}
+                    width="100%"
+                    rowProps={featuredPoolRowProps}
                   />
                 </div>
                 <div className="grid grid-cols-12 text-xs">

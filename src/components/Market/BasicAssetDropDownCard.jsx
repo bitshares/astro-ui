@@ -26,6 +26,84 @@ import {
 import { Button } from "@/components/ui/button";
 import { $favouriteAssets } from "@/stores/favourites.ts";
 
+const BasicAssetRow = React.memo(function BasicAssetRow({ index, style, mode, featuredAssets, favouriteAssets, borrowPositions, usrBalances, marketSearch, storeCallback, setDialogOpen, t }) {
+    let res;
+    if (mode === "featured") {
+      res = featuredAssets[index];
+    } else if (mode === "favourites") {
+      res = favouriteAssets[index];
+    } else if (mode === "borrowed") {
+      const uniqueBorrowPositions = [];
+      const seenAssetTypes = new Set();
+      borrowPositions.forEach((position) => {
+        if (!seenAssetTypes.has(position.asset_id)) {
+          uniqueBorrowPositions.push(position);
+          seenAssetTypes.add(position.asset_id);
+        }
+      });
+
+      res = uniqueBorrowPositions[index];
+    } else if (mode === "balance") {
+      res = usrBalances[index];
+    }
+
+    if (!res || !marketSearch) {
+      return null;
+    }
+
+    return (
+      <div style={{ ...style, marginBottom: "10px", paddingRight: "10px" }}>
+        <Card
+          key={`acard-${res.id}`}
+          style={{ marginBottom: "2px" }}
+          onClick={() => {
+            setTimeout(() => {
+              if (mode === "featured") {
+                storeCallback(res.s);
+              } else if (mode === "favourites") {
+                storeCallback(res.symbol);
+              } else if (mode === "borrowed" || mode === "balance") {
+                const _asset = marketSearch.find(
+                  (asset) => asset.id === res.asset_id
+                );
+                storeCallback(_asset ? _asset.s : "");
+              }
+            }, 0);
+            setDialogOpen(false);
+          }}
+        >
+          <CardHeader className="p-3">
+            <CardTitle className="h-3">
+              {mode === "featured" ? `${res.s} (${res.id})` : null}
+              {mode === "favourites" ? `${res.symbol} (${res.id})` : null}
+              {mode === "borrowed" ||
+              (mode === "balance" && marketSearch && marketSearch.length && res)
+                ? `${
+                    marketSearch.find((asset) => asset.id === res.asset_id).s
+                  } (${res.asset_id})`
+                : null}
+            </CardTitle>
+            <CardDescription>
+              {mode === "featured"
+                ? t("AssetDropDownCard:issued", { user: res.u })
+                : null}
+              {mode === "favourites"
+                ? t("AssetDropDownCard:issued", { user: res.issuer })
+                : null}
+              {mode === "borrowed" || mode === "balance"
+                ? t("AssetDropDownCard:issued", {
+                    user: marketSearch.find(
+                      (asset) => asset.id === res.asset_id
+                    ).u,
+                  })
+                : null}
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  });
+
 /**
  * Creating a basic asset dropdown component
  * @param {String} assetSymbol current asset symbol
@@ -112,83 +190,20 @@ export default function BasicAssetDropDown(properties) {
     );
   }, [favouriteAssets, assetSymbol, otherAsset, chain]);
 
-  const Row = ({ index, style }) => {
-    let res;
-    if (mode === "featured") {
-      res = featuredAssets[index];
-    } else if (mode === "favourites") {
-      res = _favouriteAssets[index];
-    } else if (mode === "borrowed") {
-      const uniqueBorrowPositions = [];
-      const seenAssetTypes = new Set();
-      borrowPositions.forEach((position) => {
-        if (!seenAssetTypes.has(position.asset_id)) {
-          uniqueBorrowPositions.push(position);
-          seenAssetTypes.add(position.asset_id);
-        }
-      });
-
-      res = uniqueBorrowPositions[index];
-    } else if (mode === "balance") {
-      res = usrBalances[index];
-    }
-
-    if (!res || !marketSearch) {
-      return;
-    }
-
-    return (
-      <div style={{ ...style, marginBottom: "10px", paddingRight: "10px" }}>
-        <Card
-          key={`acard-${res.id}`}
-          style={{ marginBottom: "2px" }}
-          onClick={() => {
-            setTimeout(() => {
-              if (mode === "featured") {
-                storeCallback(res.s);
-              } else if (mode === "favourites") {
-                storeCallback(res.symbol);
-              } else if (mode === "borrowed" || mode === "balance") {
-                const _asset = marketSearch.find(
-                  (asset) => asset.id === res.asset_id
-                );
-                storeCallback(_asset ? _asset.s : "");
-              }
-            }, 0);
-            setDialogOpen(false);
-          }}
-        >
-          <CardHeader className="p-3">
-            <CardTitle className="h-3">
-              {mode === "featured" ? `${res.s} (${res.id})` : null}
-              {mode === "favourites" ? `${res.symbol} (${res.id})` : null}
-              {mode === "borrowed" ||
-              (mode === "balance" && marketSearch && marketSearch.length && res)
-                ? `${
-                    marketSearch.find((asset) => asset.id === res.asset_id).s
-                  } (${res.asset_id})`
-                : null}
-            </CardTitle>
-            <CardDescription>
-              {mode === "featured"
-                ? t("AssetDropDownCard:issued", { user: res.u })
-                : null}
-              {mode === "favourites"
-                ? t("AssetDropDownCard:issued", { user: res.issuer })
-                : null}
-              {mode === "borrowed" || mode === "balance"
-                ? t("AssetDropDownCard:issued", {
-                    user: marketSearch.find(
-                      (asset) => asset.id === res.asset_id
-                    ).u,
-                  })
-                : null}
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
+  const rowProps = useMemo(
+    () => ({
+      mode,
+      featuredAssets,
+      favouriteAssets: _favouriteAssets,
+      borrowPositions,
+      usrBalances,
+      marketSearch,
+      storeCallback,
+      setDialogOpen,
+      t,
+    }),
+    [mode, featuredAssets, _favouriteAssets, borrowPositions, usrBalances, marketSearch, storeCallback, t]
+  );
 
   return (
     <Dialog
@@ -269,12 +284,14 @@ export default function BasicAssetDropDown(properties) {
                 {t("AssetDropDownCard:borrowed")}
               </h4>
               {borrowPositions && borrowPositions.length ? (
-                <div className="w-full max-h-[350px] overflow-auto">
+                <div className="w-full h-[300px]">
                   <List
-                    rowComponent={Row}
+                    height={300}
+                    width="100%"
+                    rowComponent={BasicAssetRow}
                     rowCount={borrowPositions.length}
                     rowHeight={70}
-                    rowProps={{}}
+                    rowProps={rowProps}
                   />
                 </div>
               ) : (
@@ -289,12 +306,14 @@ export default function BasicAssetDropDown(properties) {
                 {t("AssetDropDownCard:balance")}
               </h4>
               {usrBalances && usrBalances.length ? (
-                <div className="w-full max-h-[350px] overflow-auto">
+                <div className="w-full h-[300px]">
                   <List
-                    rowComponent={Row}
+                    height={300}
+                    width="100%"
+                    rowComponent={BasicAssetRow}
                     rowCount={usrBalances.length}
                     rowHeight={70}
-                    rowProps={{}}
+                    rowProps={rowProps}
                   />
                 </div>
               ) : (
@@ -362,12 +381,14 @@ export default function BasicAssetDropDown(properties) {
                 </Button>
               </div>
               {featuredAssets && featuredAssets.length ? (
-                <div className="w-full max-h-[350px] overflow-auto">
+                <div className="w-full h-[300px]">
                   <List
-                    rowComponent={Row}
+                    height={300}
+                    width="100%"
+                    rowComponent={BasicAssetRow}
                     rowCount={featuredAssets.length}
                     rowHeight={70}
-                    rowProps={{}}
+                    rowProps={rowProps}
                   />
                 </div>
               ) : (
@@ -391,12 +412,14 @@ export default function BasicAssetDropDown(properties) {
                   : null}
               </h4>
               {_favouriteAssets && _favouriteAssets.length ? (
-                <div className="w-full max-h-[350px] overflow-auto">
+                <div className="w-full h-[300px]">
                   <List
-                    rowComponent={Row}
+                    height={300}
+                    width="100%"
+                    rowComponent={BasicAssetRow}
                     rowCount={_favouriteAssets.length}
                     rowHeight={70}
-                    rowProps={{}}
+                    rowProps={rowProps}
                   />
                 </div>
               ) : (

@@ -41,6 +41,155 @@ import { useInitCache } from "@/nanoeffects/Init.ts";
 import { humanReadableFloat, debounce } from "@/lib/common";
 import ExternalLink from "./common/ExternalLink.jsx";
 
+const LightMemberRow = React.memo(function LightMemberRow({
+  index,
+  style,
+  filteredVotes,
+  committeeAccounts,
+  voteIdToCommitteeMap,
+  isActive,
+}) {
+  const currentVote = filteredVotes[index];
+  if (!currentVote) return null;
+
+  const foundMember = voteIdToCommitteeMap.get(currentVote);
+  if (!foundMember) return null;
+
+  const account =
+    committeeAccounts && foundMember
+      ? committeeAccounts[foundMember.committee_member_account]
+      : null;
+
+  const accountName = account ? account.name : "unknown";
+
+  return (
+    <div style={style} key={`vote${currentVote}`}>
+      <Card className={`mb-1 relative overflow-hidden rounded-xl border ${isActive ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-2)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-2)/0.25)] transition-all duration-300`}>
+      <div className="p-3 text-sm">
+        <div className="col-span-3 flex items-center">
+          <Avatar
+            size={30}
+            name={accountName}
+            extra={`WL${index}`}
+            expression={{ eye: "normal", mouth: "open" }}
+            colors={[
+              "#F0AB3D",
+              "#C271B4",
+              "#C20D90",
+              "#92A1C6",
+              "#146A7C",
+            ]}
+          />
+          <span className="ml-2">{accountName}</span>
+        </div>
+      </div>
+      </Card>
+    </div>
+  );
+});
+
+const CommitteeRow = React.memo(function CommitteeRow({
+  index,
+  style,
+  sortedMembers,
+  committeeAccounts,
+  voteIdToCommitteeMap,
+  t,
+  _chain,
+}) {
+  const member = sortedMembers[index];
+  if (!member) return null;
+
+  const votes = committeeAccounts[member.account_id]?.options.votes || [];
+  const filteredVotes = votes.filter((x) => parseInt(x.split(":")[0]) === 0);
+
+  const innerRowProps = useMemo(
+    () => ({
+      filteredVotes,
+      committeeAccounts,
+      voteIdToCommitteeMap,
+      isActive: member.active,
+    }),
+    [filteredVotes, committeeAccounts, voteIdToCommitteeMap, member.active]
+  );
+
+  return (
+    <div style={style} key={member.id}>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Card className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-2)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-2)/0.25)] transition-all duration-300`}>
+            <div className="p-3 text-sm">
+              <div className="grid grid-cols-3 gap-2 items-center">
+                <div className="flex items-center">
+                  <span className="hidden md:block">
+                    <Avatar
+                      size={30}
+                      name={member.name}
+                      extra={`CM${index}`}
+                      expression={
+                        !member.active
+                          ? { eye: "sleepy", mouth: "unhappy" }
+                          : { eye: "normal", mouth: "open" }
+                      }
+                      colors={[
+                        "#146A7C",
+                        "#F0AB3D",
+                        "#C271B4",
+                        "#C20D90",
+                        "#92A1C6",
+                      ]}
+                    />
+                  </span>
+                  <span className="ml-2">{member.name}</span>
+                </div>
+                <div>
+                  {member.id}
+                  {" ("}
+                  {member.account_id}
+                  {")"}
+                </div>
+                <div className="text-right pr-3">
+                  {humanReadableFloat(member.total_votes, 5).toLocaleString(
+                    undefined,
+                    { minimumFractionDigits: 0, maximumFractionDigits: 0 }
+                  )}
+                  {_chain === "bitshares" ? " BTS" : " TEST"}
+                </div>
+              </div>
+            </div>
+          </Card>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[500px] bg-card/60 backdrop-blur-xl border-[hsl(var(--accent-2)/0.15)]">
+          <DialogHeader>
+            <DialogTitle>
+              {t("CommitteeMembers:votesFor", { name: member.name })}:
+            </DialogTitle>
+            <DialogDescription>
+              {t("CommitteeMembers:descriptionVotes")}
+            </DialogDescription>
+          </DialogHeader>
+          {filteredVotes &&
+          filteredVotes.length > 0 &&
+          committeeAccounts ? (
+            <div className="w-full h-[400px]">
+              <List
+                rowComponent={LightMemberRow}
+                rowCount={filteredVotes.length}
+                rowHeight={75}
+                rowProps={innerRowProps}
+                height={400}
+                width="100%"
+              />
+            </div>
+          ) : (
+            <div className="text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] text-center">N/A</div>
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+});
+
 export default function CommitteeMembers(properties) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
@@ -220,128 +369,21 @@ export default function CommitteeMembers(properties) {
     []
   );
 
-  const CommitteeRow = ({ index, style }) => {
-    const member = sortedMembers[index];
-    if (!member) return null;
+  const voteIdToCommitteeMap = useMemo(
+    () => new Map(allCommitteeMembers.map((cm) => [cm.vote_id, cm])),
+    [allCommitteeMembers]
+  );
 
-    const votes = committeeAccounts[member.account_id]?.options.votes || [];
-    const filteredVotes = votes.filter((x) => parseInt(x.split(":")[0]) === 0);
-
-    const LightMemberRow = ({ index, style }) => {
-      const currentVote = filteredVotes[index];
-      if (!currentVote) return null;
-
-      const foundMember = Object.values(allCommitteeMembers).find(
-        (w) => w.vote_id === currentVote
-      );
-
-      const account =
-        committeeAccounts && foundMember
-          ? committeeAccounts[foundMember.committee_member_account]
-          : null; // Find the account for the current vote
-
-      const accountName = account ? account.name : "unknown";
-
-      return (
-        <div style={style} key={`vote${currentVote}`}>
-          <Card className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-2)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-2)/0.25)] transition-all duration-300`}>
-          <div className="p-3 text-sm">
-            <div className="col-span-3 flex items-center">
-              <Avatar
-                size={30}
-                name={accountName}
-                extra={`WL${index}`}
-                expression={{ eye: "normal", mouth: "open" }}
-                colors={[
-                  "#F0AB3D",
-                  "#C271B4",
-                  "#C20D90",
-                  "#92A1C6",
-                  "#146A7C",
-                ]}
-              />
-              <span className="ml-2">{accountName}</span>
-            </div>
-          </div>
-          </Card>
-        </div>
-      );
-    };
-
-    return (
-      <div style={style} key={member.id}>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Card className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-2)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-2)/0.25)] transition-all duration-300`}>
-              <div className="p-3 text-sm">
-                <div className="grid grid-cols-3 gap-2 items-center">
-                  <div className="flex items-center">
-                    <span className="hidden md:block">
-                      <Avatar
-                        size={30}
-                        name={member.name}
-                        extra={`CM${index}`}
-                        expression={
-                          !member.active
-                            ? { eye: "sleepy", mouth: "unhappy" }
-                            : { eye: "normal", mouth: "open" }
-                        }
-                        colors={[
-                          "#146A7C",
-                          "#F0AB3D",
-                          "#C271B4",
-                          "#C20D90",
-                          "#92A1C6",
-                        ]}
-                      />
-                    </span>
-                    <span className="ml-2">{member.name}</span>
-                  </div>
-                  <div>
-                    {member.id}
-                    {" ("}
-                    {member.account_id}
-                    {")"}
-                  </div>
-                  <div className="text-right pr-3">
-                    {humanReadableFloat(member.total_votes, 5).toLocaleString(
-                      undefined,
-                      { minimumFractionDigits: 0, maximumFractionDigits: 0 }
-                    )}
-                    {_chain === "bitshares" ? " BTS" : " TEST"}
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px] bg-card/60 backdrop-blur-xl border-[hsl(var(--accent-2)/0.15)]">
-            <DialogHeader>
-              <DialogTitle>
-                {t("CommitteeMembers:votesFor", { name: member.name })}:
-              </DialogTitle>
-              <DialogDescription>
-                {t("CommitteeMembers:descriptionVotes")}
-              </DialogDescription>
-            </DialogHeader>
-            {filteredVotes &&
-            filteredVotes.length > 0 &&
-            allCommitteeMembers ? (
-              <div className="w-full max-h-[500px] overflow-auto">
-                <List
-                  rowComponent={LightMemberRow}
-                  rowCount={filteredVotes.length}
-                  rowHeight={75} // Adjust as needed
-                  rowProps={{}}
-                />
-              </div>
-            ) : (
-              <div className="text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] text-center">N/A</div>
-            )}
-          </DialogContent>
-        </Dialog>
-      </div>
-    );
-  };
+  const committeeRowProps = useMemo(
+    () => ({
+      sortedMembers,
+      committeeAccounts,
+      voteIdToCommitteeMap,
+      t,
+      _chain,
+    }),
+    [sortedMembers, committeeAccounts, voteIdToCommitteeMap, t, _chain]
+  );
 
   return (
     <div className="container mx-auto mt-5 mb-5">
@@ -399,12 +441,14 @@ export default function CommitteeMembers(properties) {
                     : ""}
                 </div>
               </div>
-              <div className="w-full max-h-[500px] overflow-auto">
+              <div className="w-full h-[500px]">
                 <List
                   rowComponent={CommitteeRow}
                   rowCount={sortedMembers.length}
                   rowHeight={65}
-                  rowProps={{}}
+                  rowProps={committeeRowProps}
+                  height={500}
+                  width="100%"
                 />
               </div>
             </div>

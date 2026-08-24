@@ -610,8 +610,7 @@ export default function ThemeCustomizer() {
                       setEditedName("");
                       setNameError("");
                       setPreviewThemeId(th.id);
-                    } }}
-                  />
+                    } }} height={400} width="100%" />
                 ) : (
                   <div className="p-3 text-xs text-muted-foreground">No themes</div>
                 )}
@@ -806,8 +805,7 @@ export default function ThemeCustomizer() {
                     rowProps={{ colorItems, selectedColor, onSelect: (flatIdx) => {
                       const item = colorItems[flatIdx];
                       if (item?.type === "item") setSelectedColor(item.selectedIndex);
-                    } }}
-                  />
+                    } }} height={400} width="100%" />
                 ) : (
                   <div className="p-3 text-xs text-muted-foreground">No color items</div>
                 )}

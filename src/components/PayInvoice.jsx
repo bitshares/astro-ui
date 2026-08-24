@@ -103,6 +103,171 @@ async function decompressAndGetJson(invoiceData) {
   return parsedJSON;
 }
 
+
+function PayChosenRow({ index, style, selectedItems, t, itemPaymentMethods, onSelectPayment }) {
+    const it = selectedItems[index];
+    if (!it) return null;
+
+    let _name = it.name || "";
+    if (_name.length > 15) {
+      _name = _name.slice(0, 15) + "...";
+    }
+
+    let _description = it.description || "";
+    if (_description.length > 15) {
+      _description = _description.slice(0, 15) + "...";
+    }
+
+    const chosenEntry = itemPaymentMethods.find((p) => p.itemId === it.id);
+    const chosenValue = chosenEntry
+      ? `${chosenEntry.price} ${chosenEntry.asset}`
+      : "";
+
+    return (
+      <div style={style} className="px-2">
+        <Card>
+          <CardContent className="pt-1 pb-1">
+            <div className="grid grid-cols-4 items-center gap-2 text-sm">
+              <div
+                className="text-left mt-1"
+                title={t("PayInvoice:invoiceItems.tooltips.quantity", {
+                  name: it.name,
+                  quantity: it.quantity,
+                })}
+              >
+                <Badge variant="outline">{it.quantity}</Badge> "{_name}"
+              </div>
+              <div
+                className="hidden md:block text-left mt-1"
+                title={t("PayInvoice:invoiceItems.tooltips.descriptionOf", {
+                  name: it.name,
+                })}
+              >
+                "{_description}"
+              </div>
+              <div
+                className="col-span-3 md:col-span-2 pr-2 mt-1"
+                title={t("PayInvoice:invoiceItems.tooltips.selectPayment")}
+              >
+                <Select
+                  onValueChange={(value) => onSelectPayment(value, it)}
+                >
+                  <SelectTrigger className="w-full focus:ring-[hsl(var(--accent-1)/0.4)] focus:border-[hsl(var(--accent-1)/0.5)]">
+                    <SelectValue
+                      placeholder={
+                        chosenValue ||
+                        t(
+                          "PayInvoice:invoiceItems.selectPaymentMethodPlaceholder"
+                        )
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>
+                        {t("PayInvoice:invoiceItems.paymentMethodsLabel")}
+                      </SelectLabel>
+                      {it.prices.map((p, idx) => {
+                        const q = Number(it.quantity) || 1;
+                        const total = Number(p.price) * q;
+                        const totalStr = Number.isFinite(total)
+                          ? total.toString()
+                          : "";
+                        const val = `${p.asset.replace(".", "_")}_${idx}`;
+                        return (
+                          <SelectItem
+                            className="hover:shadow-inner"
+                            value={val}
+                            key={val}
+                          >
+                            {totalStr} {p.asset}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+}
+const MemoPayChosenRow = React.memo(PayChosenRow);
+
+function PayFinalRow({ index, style, totalAssetAmounts, assets, balances, t }) {
+    const assetSymbols = Object.keys(totalAssetAmounts);
+    const assetSymbol = assetSymbols[index];
+    const totalAmount = totalAssetAmounts[assetSymbol];
+    const foundAsset = assets.find((a) => a.symbol === assetSymbol);
+
+    const balanceEntry = balances
+      ? balances.find((b) => {
+          return foundAsset && foundAsset.symbol === assetSymbol;
+        })
+      : null;
+
+    const balanceAmount = balanceEntry
+      ? humanReadableFloat(balanceEntry.amount, foundAsset.precision)
+      : 0;
+
+    const sufficientBalance = balanceAmount >= totalAmount;
+
+    const requiredBalance = sufficientBalance ? 0 : totalAmount - balanceAmount;
+
+    return (
+      <div style={style} className="px-2">
+        <Card className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] transition-all">
+          <CardContent className="pt-1 pb-1">
+            <div className="grid grid-cols-3 text-sm items-center">
+              <div
+                className="font-mono tabular-nums"
+                title={t("PayInvoice:totals.tooltips.amountRequested", {
+                  asset: assetSymbol,
+                })}
+              >
+                {totalAmount} {assetSymbol}
+              </div>
+              <div
+                className="font-mono tabular-nums text-muted-foreground"
+                title={t("PayInvoice:totals.tooltips.currentBalance", {
+                  asset: assetSymbol,
+                })}
+              >
+                {balanceAmount} {assetSymbol}
+              </div>
+              <div
+                className="flex items-center gap-1.5"
+                title={
+                  !sufficientBalance
+                    ? t("PayInvoice:totals.tooltips.needMore", {
+                        required: requiredBalance,
+                        asset: assetSymbol,
+                      })
+                    : ""
+                }
+              >
+                {sufficientBalance ? (
+                  <span className="inline-flex items-center gap-1 rounded-md bg-[hsl(var(--accent-1))] dark:bg-[hsl(var(--accent-1)/0.2)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--accent-1-gradFg))] dark:text-[hsl(var(--accent-1-gradFg))]">
+                    <CheckCircle2 className="h-3 w-3" />
+                    OK
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 rounded-md bg-[hsl(var(--accent-danger))] dark:bg-[hsl(var(--accent-danger)/0.2)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--accent-danger-gradFg))] dark:text-[hsl(var(--accent-danger-gradFg))]">
+                    <XCircle className="h-3 w-3" />
+                    {requiredBalance.toFixed(2)} short
+                  </span>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+}
+const MemoPayFinalRow = React.memo(PayFinalRow);
+
 export default function PayInvoice(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
@@ -327,181 +492,23 @@ export default function PayInvoice(properties) {
     identifier,
   ]);
 
-  const ChosenRow = ({ index, style }) => {
-    const it = selectedItems[index];
-    if (!it) return null;
+  const handleSelectPayment = useCallback((value, it) => {
+    let parts = value.split("_");
+    let index = parts.at(-1);
+    let chosenPrice = it.prices[Number(index)];
 
-    let _name = it.name || "";
-    if (_name.length > 15) {
-      _name = _name.slice(0, 15) + "...";
-    }
-
-    let _description = it.description || "";
-    if (_description.length > 15) {
-      _description = _description.slice(0, 15) + "...";
-    }
-
-    const chosenEntry = itemPaymentMethods.find((p) => p.itemId === it.id);
-    const chosenValue = chosenEntry
-      ? `${chosenEntry.price} ${chosenEntry.asset}`
-      : "";
-
-    return (
-      <div style={style} className="px-2">
-        <Card>
-          <CardContent className="pt-1 pb-1">
-            <div className="grid grid-cols-4 items-center gap-2 text-sm">
-              <div
-                className="text-left mt-1"
-                title={t("PayInvoice:invoiceItems.tooltips.quantity", {
-                  name: it.name,
-                  quantity: it.quantity,
-                })}
-              >
-                <Badge variant="outline">{it.quantity}</Badge> "{_name}"
-              </div>
-              <div
-                className="hidden md:block text-left mt-1"
-                title={t("PayInvoice:invoiceItems.tooltips.descriptionOf", {
-                  name: it.name,
-                })}
-              >
-                "{_description}"
-              </div>
-              <div
-                className="col-span-3 md:col-span-2 pr-2 mt-1"
-                title={t("PayInvoice:invoiceItems.tooltips.selectPayment")}
-              >
-                <Select
-                  onValueChange={(value) => {
-                    let parts = value.split("_");
-                    let index = parts.at(-1);
-                    let chosenPrice = it.prices[Number(index)];
-
-                    setItemPaymentMethods((prev) => {
-                      const idx = prev.findIndex((p) => p.itemId === it.id);
-                      if (idx >= 0) {
-                        const updated = [...prev];
-                        updated[idx] = { ...chosenPrice, itemId: it.id };
-                        return updated;
-                      }
-                      return [...prev, { ...chosenPrice, itemId: it.id }];
-                    });
-                  }}
-                >
-                  <SelectTrigger className="w-full focus:ring-[hsl(var(--accent-1)/0.4)] focus:border-[hsl(var(--accent-1)/0.5)]">
-                    <SelectValue
-                      placeholder={
-                        chosenValue ||
-                        t(
-                          "PayInvoice:invoiceItems.selectPaymentMethodPlaceholder"
-                        )
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>
-                        {t("PayInvoice:invoiceItems.paymentMethodsLabel")}
-                      </SelectLabel>
-                      {it.prices.map((p, idx) => {
-                        const q = Number(it.quantity) || 1;
-                        const total = Number(p.price) * q;
-                        const totalStr = Number.isFinite(total)
-                          ? total.toString()
-                          : "";
-                        const val = `${p.asset.replace(".", "_")}_${idx}`;
-                        return (
-                          <SelectItem
-                            className="hover:shadow-inner"
-                            value={val}
-                            key={val}
-                          >
-                            {totalStr} {p.asset}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  };
-
-  const FinalRows = ({ index, style }) => {
-    const assetSymbols = Object.keys(totalAssetAmounts);
-    const assetSymbol = assetSymbols[index];
-    const totalAmount = totalAssetAmounts[assetSymbol];
-    const foundAsset = assets.find((a) => a.symbol === assetSymbol);
-
-    const balanceEntry = balances
-      ? balances.find((b) => {
-          return foundAsset && foundAsset.symbol === assetSymbol;
-        })
-      : null;
-
-    const balanceAmount = balanceEntry
-      ? humanReadableFloat(balanceEntry.amount, foundAsset.precision)
-      : 0;
-
-    const sufficientBalance = balanceAmount >= totalAmount;
-
-    const requiredBalance = sufficientBalance ? 0 : totalAmount - balanceAmount;
-
-    return (
-      <div style={style} className="px-2">
-        <Card className="rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] transition-all">
-          <CardContent className="pt-1 pb-1">
-            <div className="grid grid-cols-3 text-sm items-center">
-              <div
-                className="font-mono tabular-nums"
-                title={t("PayInvoice:totals.tooltips.amountRequested", {
-                  asset: assetSymbol,
-                })}
-              >
-                {totalAmount} {assetSymbol}
-              </div>
-              <div
-                className="font-mono tabular-nums text-muted-foreground"
-                title={t("PayInvoice:totals.tooltips.currentBalance", {
-                  asset: assetSymbol,
-                })}
-              >
-                {balanceAmount} {assetSymbol}
-              </div>
-              <div
-                className="flex items-center gap-1.5"
-                title={
-                  !sufficientBalance
-                    ? t("PayInvoice:totals.tooltips.needMore", {
-                        required: requiredBalance,
-                        asset: assetSymbol,
-                      })
-                    : ""
-                }
-              >
-                {sufficientBalance ? (
-                  <span className="inline-flex items-center gap-1 rounded-md bg-[hsl(var(--accent-1))] dark:bg-[hsl(var(--accent-1)/0.2)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--accent-1-gradFg))] dark:text-[hsl(var(--accent-1-gradFg))]">
-                    <CheckCircle2 className="h-3 w-3" />
-                    OK
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1 rounded-md bg-[hsl(var(--accent-danger))] dark:bg-[hsl(var(--accent-danger)/0.2)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--accent-danger-gradFg))] dark:text-[hsl(var(--accent-danger-gradFg))]">
-                    <XCircle className="h-3 w-3" />
-                    {requiredBalance.toFixed(2)} short
-                  </span>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  };
+    setItemPaymentMethods((prev) => {
+      const idx = prev.findIndex((p) => p.itemId === it.id);
+      if (idx >= 0) {
+        const updated = [...prev];
+        updated[idx] = { ...chosenPrice, itemId: it.id };
+        return updated;
+      }
+      return [...prev, { ...chosenPrice, itemId: it.id }];
+    });
+  }, []);
+  const chosenRowProps = useMemo(() => ({ selectedItems, t, itemPaymentMethods, onSelectPayment: handleSelectPayment }), [selectedItems, t, itemPaymentMethods, handleSelectPayment]);
+  const finalRowProps = useMemo(() => ({ totalAssetAmounts, assets, balances, t }), [totalAssetAmounts, assets, balances, t]);
 
   return (
     <>
@@ -633,12 +640,14 @@ export default function PayInvoice(properties) {
                                     )}
                                   </div>
                                 </div>
-                                <div className="w-full max-h-[300px] min-h-[300px] overflow-auto border mt-1">
+                                <div className="w-full h-[300px]">
                                   <List
-                                    rowComponent={ChosenRow}
+                                    height={300}
+                                    width="100%"
+                                    rowComponent={MemoPayChosenRow}
                                     rowCount={selectedItems.length}
                                     rowHeight={55}
-                                    rowProps={{}}
+                                    rowProps={chosenRowProps}
                                   />
                                 </div>
                               </div>
@@ -739,12 +748,14 @@ export default function PayInvoice(properties) {
                                 {t("PayInvoice:totals.columns.sufficient")}
                               </div>
                             </div>
-                          <div className="w-full max-h-[300px] min-h-[300px] overflow-auto mt-1">
+                          <div className="w-full h-[300px]">
                             <List
-                              rowComponent={FinalRows}
+                              height={300}
+                              width="100%"
+                              rowComponent={MemoPayFinalRow}
                               rowCount={Object.keys(totalAssetAmounts).length}
                               rowHeight={42}
-                              rowProps={{}}
+                              rowProps={finalRowProps}
                             />
                           </div>
                         </div>

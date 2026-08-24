@@ -216,6 +216,88 @@ function AccountCard({ user, onClick, onRemove, accentColor, isCurrentChain, t }
   return content;
 }
 
+const AccountSelectRow = React.memo(function AccountSelectRow({
+  index,
+  style,
+  filteredUsers,
+  usr,
+  chain,
+  accentColor,
+  t,
+}) {
+  const user = filteredUsers[index];
+  if (!user) return null;
+  return (
+    <div style={style} className="pr-1">
+      {usr && chain !== usr.chain ? (
+        <a href={window.location.pathname} className="block">
+          <AccountCard
+            user={user}
+            onClick={() =>
+              setCurrentUser(user.username, user.id, user.referrer, user.chain)
+            }
+            accentColor={accentColor}
+            isCurrentChain={usr.chain === user.chain}
+            t={t}
+          />
+        </a>
+      ) : (
+        <AccountCard
+          user={user}
+          onClick={() =>
+            setCurrentUser(user.username, user.id, user.referrer, user.chain)
+          }
+          onRemove={() => removeUser(user.id)}
+          accentColor={accentColor}
+          isCurrentChain={usr.chain === user.chain}
+          t={t}
+        />
+      )}
+    </div>
+  );
+});
+
+const AccountSelectFavouriteRow = React.memo(function AccountSelectFavouriteRow({
+  index,
+  style,
+  favouriteUsers,
+  usr,
+  chain,
+  accentColor,
+  t,
+}) {
+  const favUser = favouriteUsers[index];
+  if (!favUser) return null;
+  const user = { username: favUser.name, id: favUser.id };
+  return (
+    <div style={style} className="pr-1">
+      {usr && chain !== usr.chain ? (
+        <a href={window.location.pathname} className="block">
+          <AccountCard
+            user={user}
+            onClick={() =>
+              setCurrentUser(favUser.name, favUser.id, "", chain)
+            }
+            accentColor={accentColor}
+            isCurrentChain={usr.chain === chain}
+            t={t}
+          />
+        </a>
+      ) : (
+        <AccountCard
+          user={user}
+          onClick={() =>
+            setCurrentUser(favUser.name, favUser.id, "", chain)
+          }
+          accentColor={accentColor}
+          isCurrentChain={usr.chain === chain}
+          t={t}
+        />
+      )}
+    </div>
+  );
+});
+
 export default function AccountSelect(properties) {
   const { accentColor: propsAccentColor } = properties;
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -296,71 +378,14 @@ export default function AccountSelect(properties) {
     return (users || []).filter((user) => user.chain === chain);
   }, [users, chain]);
 
-  const Row = ({ index, style }) => {
-    const user = filteredUsers[index];
-    if (!user) return null;
-    return (
-      <div style={style} className="pr-1">
-        {usr && chain !== usr.chain ? (
-          <a href={window.location.pathname} className="block">
-            <AccountCard
-              user={user}
-              onClick={() =>
-                setCurrentUser(user.username, user.id, user.referrer, user.chain)
-              }
-              accentColor={accentColor}
-              isCurrentChain={usr.chain === user.chain}
-              t={t}
-            />
-          </a>
-        ) : (
-          <AccountCard
-            user={user}
-            onClick={() =>
-              setCurrentUser(user.username, user.id, user.referrer, user.chain)
-            }
-            onRemove={() => removeUser(user.id)}
-            accentColor={accentColor}
-            isCurrentChain={usr.chain === user.chain}
-            t={t}
-          />
-        )}
-      </div>
-    );
-  };
-
-  const FavouriteRow = ({ index, style }) => {
-    const favUser = favouriteUsers[index];
-    if (!favUser) return null;
-    const user = { username: favUser.name, id: favUser.id };
-    return (
-      <div style={style} className="pr-1">
-        {usr && chain !== usr.chain ? (
-          <a href={window.location.pathname} className="block">
-            <AccountCard
-              user={user}
-              onClick={() =>
-                setCurrentUser(favUser.name, favUser.id, "", chain)
-              }
-              accentColor={accentColor}
-              isCurrentChain={usr.chain === chain}
-              t={t}
-            />
-          </a>
-        ) : (
-          <AccountCard
-            user={user}
-            onClick={() =>
-              setCurrentUser(favUser.name, favUser.id, "", chain)
-            }
-            accentColor={accentColor}
-            isCurrentChain={usr.chain === chain}
-            t={t}
-          />
-        )}
-      </div>
-    );
-  };
+  const existingRowProps = useMemo(
+    () => ({ filteredUsers, usr, chain, accentColor, t }),
+    [filteredUsers, usr, chain, accentColor, t]
+  );
+  const favouritesRowProps = useMemo(
+    () => ({ favouriteUsers, usr, chain, accentColor, t }),
+    [favouriteUsers, usr, chain, accentColor, t]
+  );
 
   return (
     <div className="min-h-[320px]">
@@ -578,13 +603,15 @@ export default function AccountSelect(properties) {
             {t("AccountSelect:existing.description")}
           </div>
 
-          <div className="w-full max-h-[340px] overflow-auto rounded-xl">
+          <div className="w-full h-[340px] rounded-xl">
             {filteredUsers.length > 0 ? (
               <List
-                rowComponent={Row}
+                rowComponent={AccountSelectRow}
                 rowCount={filteredUsers.length}
                 rowHeight={72}
-                rowProps={{}}
+                height={340}
+                width="100%"
+                rowProps={existingRowProps}
                 key={`list-existing-${chain}`}
               />
             ) : (
@@ -625,13 +652,15 @@ export default function AccountSelect(properties) {
             {t("AccountSelect:favourites.description")}
           </div>
 
-          <div className="w-full max-h-[340px] overflow-auto rounded-xl">
+          <div className="w-full h-[340px] rounded-xl">
             {favouriteUsers.length > 0 ? (
               <List
-                rowComponent={FavouriteRow}
+                rowComponent={AccountSelectFavouriteRow}
                 rowCount={favouriteUsers.length}
                 rowHeight={72}
-                rowProps={{}}
+                height={340}
+                width="100%"
+                rowProps={favouritesRowProps}
                 key={`list-favourites-${chain}`}
               />
             ) : (

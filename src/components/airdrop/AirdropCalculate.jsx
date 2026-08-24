@@ -40,6 +40,8 @@ import { format } from "date-fns";
 import SectionHeader from "@/components/asset-form/SectionHeader.jsx";
 import WinnerDetailDialog from "@/components/airdrop/WinnerDetailDialog.jsx";
 import { Users, Cog, Gift, Send, Radio, Calculator, Check, Layers, Coins, Loader2 } from "lucide-react";
+import { Buffer } from "buffer";
+if (typeof globalThis !== "undefined" && !globalThis.Buffer) globalThis.Buffer = Buffer;
 import { List } from "react-window";
 
 import {
@@ -135,6 +137,235 @@ const SummaryStat = ({ icon: Icon, label, value }) => (
     <div className="mt-1 text-lg font-bold truncate">{value}</div>
   </div>
 );
+
+
+const PoolRowMemo = React.memo(function PoolRow({ index, style, items, label }) {
+    const row = items[index];
+    if (!row) return null;
+    return (
+      <div style={style} className="px-2">
+        <div className="flex items-center gap-3 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5">
+          <ExternalLink
+            hyperlink={`https://blocksights.info/#/accounts/${row.id}`}
+            type="text"
+            text={row.name || row.id}
+            classnamecontents="font-mono text-[11px] text-foreground/80 hover:text-foreground truncate"
+          />
+          <span className="shrink-0 font-mono text-xs text-muted-foreground">
+            {label}: {Number(row.amount || 0).toLocaleString()}
+          </span>
+        </div>
+      </div>
+    );
+  });
+
+const CallOrderRowMemo = React.memo(function CallOrderRow({ index, style, items, assets, callOrderAssetId, callOrderCollateralPrecision, callOrderDebtPrecision, callOrderFeedPrice, callOrderWeightBy }) {
+    const row = items[index];
+    if (!row) return null;
+    const collateralHRT = humanReadableFloat(row.collateral || 0, callOrderCollateralPrecision);
+    const debtAsset = assets.find((a) => a.id === callOrderAssetId);
+    const debtPrecision = debtAsset ? debtAsset.precision : callOrderDebtPrecision;
+    const debtHRT = humanReadableFloat(row.debt || 0, debtPrecision);
+    const tcr = row.target_collateral_ratio
+      ? `${(row.target_collateral_ratio / 10).toFixed(1)}%`
+      : "0%";
+    const ratio = debtHRT > 0 && callOrderFeedPrice
+      ? (collateralHRT / (callOrderFeedPrice * debtHRT)).toFixed(3)
+      : debtHRT > 0
+        ? (collateralHRT / debtHRT).toFixed(3)
+        : "0";
+    return (
+      <div style={style} className="px-2">
+        <div className="grid grid-cols-6 items-center gap-2 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5 text-xs">
+          <div className="col-span-2 truncate">
+            <ExternalLink
+              hyperlink={`https://blocksights.info/#/accounts/${row.id}`}
+              type="text"
+              text={row.id}
+              classnamecontents="font-mono text-[11px] text-foreground/80 hover:text-foreground truncate"
+            />
+          </div>
+          <div className={"col-span-1 text-right font-mono " + (callOrderWeightBy === "collateral" ? "font-bold text-foreground" : "text-muted-foreground")}>
+            {collateralHRT.toLocaleString(undefined, { minimumFractionDigits: 5, maximumFractionDigits: 5 })}
+          </div>
+          <div className={"col-span-1 text-right font-mono " + (callOrderWeightBy === "debt" ? "font-bold text-foreground" : "text-muted-foreground")}>
+            {debtHRT.toLocaleString(undefined, { minimumFractionDigits: debtPrecision, maximumFractionDigits: debtPrecision })}
+          </div>
+          <div className="col-span-1 text-right font-mono text-muted-foreground">
+            {tcr}
+          </div>
+          <div className="col-span-1 text-right font-mono text-muted-foreground">
+            {ratio}
+          </div>
+        </div>
+      </div>
+    );
+  });
+
+const WinnerRowMemo = React.memo(function WinnerRow({ index, style, items, leaderboardById, basis, amountReady, amountPrecision, totalShares, debouncedAmountNum, onSelect }) {
+    const row = items[index];
+    if (!row) return null;
+    const weight = leaderboardById[row.id] ?? 0;
+    const share = winnerShare(row, basis, leaderboardById);
+    const shownAmount =
+      amountReady && totalShares > 0
+        ? ((debouncedAmountNum * share) / totalShares).toLocaleString(undefined, {
+            maximumFractionDigits: amountPrecision,
+          })
+        : "";
+    const select = () => onSelect && onSelect(row);
+    return (
+      <div style={style} className="px-2">
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={select}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              select();
+            }
+          }}
+          className="grid cursor-pointer grid-cols-4 items-center gap-2 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5 transition-colors hover:border-[hsl(var(--accent-1)/0.4)] hover:bg-card/70"
+        >
+          <div className="min-w-0 truncate" onClick={(e) => e.stopPropagation()}>
+            <ExternalLink
+              hyperlink={`https://blocksights.info/#/accounts/${row.id}`}
+              type="text"
+              text={row.name || row.id}
+              classnamecontents="font-mono text-[11px] text-foreground/80 hover:text-foreground truncate"
+            />
+          </div>
+          <span className="font-mono text-xs text-muted-foreground">
+            {Number(row.qty || 0).toLocaleString()}
+          </span>
+          <span className="font-mono text-xs text-muted-foreground">
+            {shownAmount}
+          </span>
+          <span className="font-mono text-xs text-muted-foreground">
+            {Number(weight || 0).toLocaleString()}
+          </span>
+        </div>
+      </div>
+    );
+  });
+
+const AlgoRowMemo = React.memo(function AlgoRow({ index, style, items, selected, toggleAlgo, t }) {
+    const algo = items[index];
+    if (!algo) return null;
+    const checked = !!selected[algo.key];
+    return (
+      <div style={style} className="px-1 pb-2">
+        <label className="flex h-full items-start gap-3 rounded-lg border border-border/60 bg-accent/10 px-3 py-2.5 cursor-pointer hover:border-[hsl(var(--accent-1)/0.3)]">
+          <Checkbox
+            className="mt-0.5"
+            checked={checked}
+            onCheckedChange={() => toggleAlgo(algo.key)}
+          />
+          <div className="grid gap-0.5">
+            <span className="text-sm font-medium text-foreground/90">
+              {t(`AirdropCalculate:algos.${algo.key}.name`)}
+            </span>
+            <span className="text-xs text-muted-foreground">
+              {t(`AirdropCalculate:algos.${algo.key}.desc`)}
+            </span>
+          </div>
+        </label>
+      </div>
+    );
+  });
+
+const BatchRowMemo = React.memo(function BatchRow({ index, style, items, executeBatchMetrics, chainParams, airdropAsset, broadcastBatches, broadcastingBatch, toggleBroadcast, setBroadcastingBatch, setExecuteDialogBatch, usr, coreSymbol, t }) {
+    const batch = items[index];
+    if (!batch) return null;
+    const i = index;
+    const bytes = executeBatchMetrics[i]?.bytes || 0;
+    const fee = executeBatchMetrics[i]?.fee || 0;
+    const batchAmount = batch.reduce(
+      (acc, r) => acc + humanReadableFloat(r.satoshis || 0, airdropAsset?.precision || 0),
+      0,
+    );
+    const pct = bytes && chainParams.maxBytes
+      ? Math.min(100, (bytes / chainParams.maxBytes) * 100)
+      : 0;
+    const isBroadcasted = broadcastBatches.includes(i);
+    const isProcessing = broadcastingBatch === i;
+
+    return (
+      <div style={style} className="px-2 pb-2">
+        <div className={`rounded-xl border bg-card/40 transition-all ${isBroadcasted ? "border-[hsl(var(--accent-2)/0.5)] bg-[hsl(var(--accent-2)/0.05)] opacity-60" : "border-border"}`}>
+          <div className="flex items-center justify-between gap-3 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[hsl(var(--accent-1)/0.12)] text-xs font-bold text-[hsl(var(--accent-1))]">
+                {i + 1}
+              </span>
+              <span className="text-sm font-semibold">
+                {t("Airdrop:batch.title", { index: i + 1, total: items.length })}
+              </span>
+              {isBroadcasted ? (
+                <Badge variant="secondary" className="gap-1">
+                  <Check className="h-3 w-3" />
+                  {t("Airdrop:batch.done")}
+                </Badge>
+              ) : (
+                <Badge variant="outline">{t("Airdrop:batch.pending")}</Badge>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <Switch
+                checked={!!isBroadcasted}
+                onCheckedChange={() => toggleBroadcast(i)}
+                disabled={isProcessing}
+                className="data-[state=checked]:bg-[hsl(var(--accent-2))]"
+              />
+              <Button
+                size="sm"
+                className="min-w-[110px] bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-md hover:shadow-lg transition-all"
+                disabled={!usr || !usr.id || !batch.length || isBroadcasted || isProcessing}
+                onClick={() => {
+                  setBroadcastingBatch(i);
+                  setTimeout(() => setExecuteDialogBatch(i), 0);
+                }}
+              >
+                {isProcessing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  t("Airdrop:batch.broadcast")
+                )}
+              </Button>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 px-4 pb-3 text-xs">
+            <div>
+              <div className="text-muted-foreground">
+                {t("Airdrop:batch.recipients")}
+              </div>
+              <div className="font-semibold">{batch.length}</div>
+            </div>
+            <div>
+              <div className="text-muted-foreground">{t("Airdrop:batch.amount")}</div>
+              <div className="font-semibold">
+                {batchAmount.toFixed(airdropAsset?.precision || 0)} {airdropAsset?.symbol}
+              </div>
+            </div>
+            <div>
+              <div className="text-muted-foreground">{t("Airdrop:batch.bytes")}</div>
+              <div className="font-semibold">
+                {bytes} / {chainParams.maxBytes}
+              </div>
+              <Progress value={pct} className="mt-1 h-1" />
+            </div>
+            <div>
+              <div className="text-muted-foreground">{t("Airdrop:batch.fee")}</div>
+              <div className="font-semibold">
+                {humanReadableFloat(fee || 0, 5).toFixed(5)} {coreSymbol}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  });
 
 export default function AirdropCalculate(props) {
   const { _assetsBTS, _assetsTEST, _marketSearchBTS, _marketSearchTEST, _globalParamsBTS, _globalParamsTEST } = props;
@@ -1000,240 +1231,15 @@ export default function AirdropCalculate(props) {
     ltm: "upgrades",
   };
 
-  const PoolRow = ({ index, style, items, label }) => {
-    const row = items[index];
-    if (!row) return null;
-    return (
-      <div style={style} className="px-2">
-        <div className="flex items-center gap-3 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5">
-          <ExternalLink
-            hyperlink={`https://blocksights.info/#/accounts/${row.id}`}
-            type="text"
-            text={row.name || row.id}
-            classnamecontents="font-mono text-[11px] text-foreground/80 hover:text-foreground truncate"
-          />
-          <span className="shrink-0 font-mono text-xs text-muted-foreground">
-            {label}: {Number(row.amount || 0).toLocaleString()}
-          </span>
-        </div>
-      </div>
-    );
-  };
-
-  const CallOrderRow = ({ index, style, items }) => {
-    const row = items[index];
-    if (!row) return null;
-    const collateralHRT = humanReadableFloat(row.collateral || 0, callOrderCollateralPrecision);
-    const debtAsset = assets.find((a) => a.id === callOrderAssetId);
-    const debtPrecision = debtAsset ? debtAsset.precision : callOrderDebtPrecision;
-    const debtHRT = humanReadableFloat(row.debt || 0, debtPrecision);
-    const tcr = row.target_collateral_ratio
-      ? `${(row.target_collateral_ratio / 10).toFixed(1)}%`
-      : "0%";
-    const ratio = debtHRT > 0 && callOrderFeedPrice
-      ? (collateralHRT / (callOrderFeedPrice * debtHRT)).toFixed(3)
-      : debtHRT > 0
-        ? (collateralHRT / debtHRT).toFixed(3)
-        : "0";
-    return (
-      <div style={style} className="px-2">
-        <div className="grid grid-cols-6 items-center gap-2 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5 text-xs">
-          <div className="col-span-2 truncate">
-            <ExternalLink
-              hyperlink={`https://blocksights.info/#/accounts/${row.id}`}
-              type="text"
-              text={row.id}
-              classnamecontents="font-mono text-[11px] text-foreground/80 hover:text-foreground truncate"
-            />
-          </div>
-          <div className={"col-span-1 text-right font-mono " + (callOrderWeightBy === "collateral" ? "font-bold text-foreground" : "text-muted-foreground")}>
-            {collateralHRT.toLocaleString(undefined, { minimumFractionDigits: 5, maximumFractionDigits: 5 })}
-          </div>
-          <div className={"col-span-1 text-right font-mono " + (callOrderWeightBy === "debt" ? "font-bold text-foreground" : "text-muted-foreground")}>
-            {debtHRT.toLocaleString(undefined, { minimumFractionDigits: debtPrecision, maximumFractionDigits: debtPrecision })}
-          </div>
-          <div className="col-span-1 text-right font-mono text-muted-foreground">
-            {tcr}
-          </div>
-          <div className="col-span-1 text-right font-mono text-muted-foreground">
-            {ratio}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const WinnerRow = ({ index, style, items, leaderboardById, basis, amountReady, amountPrecision, totalShares, debouncedAmountNum, onSelect }) => {
-    const row = items[index];
-    if (!row) return null;
-    const weight = leaderboardById[row.id] ?? 0;
-    const share = winnerShare(row, basis, leaderboardById);
-    // Blank unless an asset + amount are present; otherwise each winner's slice
-    // of the total is its share ÷ the sum of all shares.
-    const shownAmount =
-      amountReady && totalShares > 0
-        ? ((debouncedAmountNum * share) / totalShares).toLocaleString(undefined, {
-            maximumFractionDigits: amountPrecision,
-          })
-        : "";
-    const select = () => onSelect && onSelect(row);
-    return (
-      <div style={style} className="px-2">
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={select}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              select();
-            }
-          }}
-          className="grid cursor-pointer grid-cols-4 items-center gap-2 rounded-lg border border-border/60 bg-card/40 px-3 py-2.5 transition-colors hover:border-[hsl(var(--accent-1)/0.4)] hover:bg-card/70"
-        >
-          <div className="min-w-0 truncate" onClick={(e) => e.stopPropagation()}>
-            <ExternalLink
-              hyperlink={`https://blocksights.info/#/accounts/${row.id}`}
-              type="text"
-              text={row.name || row.id}
-              classnamecontents="font-mono text-[11px] text-foreground/80 hover:text-foreground truncate"
-            />
-          </div>
-          <span className="font-mono text-xs text-muted-foreground">
-            {Number(row.qty || 0).toLocaleString()}
-          </span>
-          <span className="font-mono text-xs text-muted-foreground">
-            {shownAmount}
-          </span>
-          <span className="font-mono text-xs text-muted-foreground">
-            {Number(weight || 0).toLocaleString()}
-          </span>
-        </div>
-      </div>
-    );
-  };
-
-  const AlgoRow = ({ index, style, items }) => {
-    const algo = items[index];
-    if (!algo) return null;
-    const checked = !!selected[algo.key];
-    return (
-      <div style={style} className="px-1 pb-2">
-        <label className="flex h-full items-start gap-3 rounded-lg border border-border/60 bg-accent/10 px-3 py-2.5 cursor-pointer hover:border-[hsl(var(--accent-1)/0.3)]">
-          <Checkbox
-            className="mt-0.5"
-            checked={checked}
-            onCheckedChange={() => toggleAlgo(algo.key)}
-          />
-          <div className="grid gap-0.5">
-            <span className="text-sm font-medium text-foreground/90">
-              {t(`AirdropCalculate:algos.${algo.key}.name`)}
-            </span>
-            <span className="text-xs text-muted-foreground">
-              {t(`AirdropCalculate:algos.${algo.key}.desc`)}
-            </span>
-          </div>
-        </label>
-      </div>
-    );
-  };
-
   const BATCH_ROW_HEIGHT = 120;
-  const BatchRow = ({ index, style, items }) => {
-    const batch = items[index];
-    if (!batch) return null;
-    const i = index;
-    const bytes = executeBatchMetrics[i]?.bytes || 0;
-    const fee = executeBatchMetrics[i]?.fee || 0;
-    const batchAmount = batch.reduce(
-      (acc, r) => acc + humanReadableFloat(r.satoshis || 0, airdropAsset?.precision || 0),
-      0,
-    );
-    const pct = bytes && chainParams.maxBytes
-      ? Math.min(100, (bytes / chainParams.maxBytes) * 100)
-      : 0;
-    const isBroadcasted = broadcastBatches.includes(i);
-    const isProcessing = broadcastingBatch === i;
 
-    return (
-      <div style={style} className="px-2 pb-2">
-        <div className={`rounded-xl border bg-card/40 transition-all ${
-          isBroadcasted
-            ? "border-[hsl(var(--accent-2)/0.5)] bg-[hsl(var(--accent-2)/0.05)] opacity-60"
-            : "border-border"
-        }`}>
-          <div className="flex items-center justify-between gap-3 px-4 py-3">
-            <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[hsl(var(--accent-1)/0.12)] text-xs font-bold text-[hsl(var(--accent-1))]">
-                {i + 1}
-              </span>
-              <span className="text-sm font-semibold">
-                {t("Airdrop:batch.title", { index: i + 1, total: executeBatches.length })}
-              </span>
-              {isBroadcasted ? (
-                <Badge variant="secondary" className="gap-1">
-                  <Check className="h-3 w-3" />
-                  {t("Airdrop:batch.done")}
-                </Badge>
-              ) : (
-                <Badge variant="outline">{t("Airdrop:batch.pending")}</Badge>
-              )}
-            </div>
-            <div className="flex items-center gap-2">
-              <Switch
-                checked={!!isBroadcasted}
-                onCheckedChange={() => toggleBroadcast(i)}
-                disabled={isProcessing}
-                className="data-[state=checked]:bg-[hsl(var(--accent-2))]"
-              />
-              <Button
-                size="sm"
-                className="min-w-[110px] bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-md hover:shadow-lg transition-all"
-                disabled={!usr || !usr.id || !batch.length || isBroadcasted || isProcessing}
-                onClick={() => {
-                  setBroadcastingBatch(i);
-                  setTimeout(() => setExecuteDialogBatch(i), 0);
-                }}
-              >
-                {isProcessing ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  t("Airdrop:batch.broadcast")
-                )}
-              </Button>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 px-4 pb-3 text-xs">
-            <div>
-              <div className="text-muted-foreground">
-                {t("Airdrop:batch.recipients")}
-              </div>
-              <div className="font-semibold">{batch.length}</div>
-            </div>
-            <div>
-              <div className="text-muted-foreground">{t("Airdrop:batch.amount")}</div>
-              <div className="font-semibold">
-                {batchAmount.toFixed(airdropAsset?.precision || 0)} {airdropAsset?.symbol}
-              </div>
-            </div>
-            <div>
-              <div className="text-muted-foreground">{t("Airdrop:batch.bytes")}</div>
-              <div className="font-semibold">
-                {bytes} / {chainParams.maxBytes}
-              </div>
-              <Progress value={pct} className="mt-1 h-1" />
-            </div>
-            <div>
-              <div className="text-muted-foreground">{t("Airdrop:batch.fee")}</div>
-              <div className="font-semibold">
-                {humanReadableFloat(fee || 0, 5).toFixed(5)} {coreSymbol}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  // Memoized rowProps for virtualized lists
+  const poolRowLabel = t("AirdropCalculate:preview." + (POOL_METRIC_KEY[poolSource] || "weight"));
+  const poolRowProps = useMemo(() => ({ items: leaderboard, label: poolRowLabel }), [leaderboard, poolRowLabel]);
+  const callOrderRowProps = useMemo(() => ({ items: rawCallOrders, assets, callOrderAssetId, callOrderCollateralPrecision, callOrderDebtPrecision, callOrderFeedPrice, callOrderWeightBy }), [rawCallOrders, assets, callOrderAssetId, callOrderCollateralPrecision, callOrderDebtPrecision, callOrderFeedPrice, callOrderWeightBy]);
+  const winnerRowProps = useMemo(() => ({ items: resultsPageItems, leaderboardById, basis: airdropBasis, amountReady, amountPrecision, totalShares, debouncedAmountNum, onSelect: setSelectedWinner }), [resultsPageItems, leaderboardById, airdropBasis, amountReady, amountPrecision, totalShares, debouncedAmountNum]);
+  const algoRowProps = useMemo(() => ({ items: ALGOS, selected, toggleAlgo, t }), [selected]);
+  const batchRowProps = useMemo(() => ({ items: executeBatches, executeBatchMetrics, chainParams, airdropAsset, broadcastBatches, broadcastingBatch, toggleBroadcast, setBroadcastingBatch, setExecuteDialogBatch, usr, coreSymbol, t }), [executeBatches, executeBatchMetrics, chainParams, airdropAsset, broadcastBatches, broadcastingBatch, coreSymbol, t]);
 
 
   return (
@@ -1665,25 +1671,10 @@ export default function AirdropCalculate(props) {
                         <div className="col-span-1 text-right">TCR</div>
                         <div className="col-span-1 text-right">Ratio</div>
                       </div>
-                      <List
-                        rowComponent={CallOrderRow}
-                        rowCount={rawCallOrders.length}
-                        rowHeight={52}
-                        rowProps={{ items: rawCallOrders }}
-                        style={{ height: Math.min(360, rawCallOrders.length * 52) }}
-                      />
+                      <div className="w-full h-[360px]"><List height={360} width="100%" rowComponent={CallOrderRowMemo} rowCount={rawCallOrders.length} rowHeight={52} rowProps={callOrderRowProps} /></div>
                     </>
                   ) : (
-                    <List
-                      rowComponent={PoolRow}
-                      rowCount={leaderboard.length}
-                      rowHeight={52}
-                      rowProps={{
-                        items: leaderboard,
-                        label: t("AirdropCalculate:preview." + (POOL_METRIC_KEY[poolSource] || "weight")),
-                      }}
-                      style={{ height: 360 }}
-                    />
+                    <div className="w-full h-[360px]"><List height={360} width="100%" rowComponent={PoolRowMemo} rowCount={leaderboard.length} rowHeight={52} rowProps={poolRowProps} /></div>
                   )}
                 </div>
               </div>
@@ -1703,13 +1694,7 @@ export default function AirdropCalculate(props) {
           <div className={poolCount === 0 && !syntheticAll ? "pointer-events-none opacity-50" : ""}>
           <CardContent className="grid grid-cols-1 gap-2">
             <div className="w-full border border-border/60 rounded-xl overflow-hidden bg-card/30 mt-3">
-              <List
-                rowComponent={AlgoRow}
-                rowCount={ALGOS.length}
-                rowHeight={70}
-                rowProps={{ items: ALGOS }}
-                style={{ height: Math.min(360, ALGOS.length * 70) }}
-              />
+              <div className="w-full h-[360px]"><List height={360} width="100%" rowComponent={AlgoRowMemo} rowCount={ALGOS.length} rowHeight={70} rowProps={algoRowProps} /></div>
             </div>
 
             {selected.barrel_of_fish && (
@@ -2050,22 +2035,7 @@ export default function AirdropCalculate(props) {
                 </button>
               </div>
               <div className="w-full border border-border/60 rounded-xl overflow-hidden bg-card/30">
-                <List
-                  rowComponent={WinnerRow}
-                  rowCount={resultsPageItems.length}
-                  rowHeight={52}
-                  rowProps={{
-                    items: resultsPageItems,
-                    leaderboardById,
-                    basis: airdropBasis,
-                    amountReady,
-                    amountPrecision,
-                    totalShares,
-                    debouncedAmountNum,
-                    onSelect: setSelectedWinner,
-                  }}
-                  style={{ height: resultsPageItems.length ? 420 : 120 }}
-                />
+                <div className="w-full h-[420px]"><List height={420} width="100%" rowComponent={WinnerRowMemo} rowCount={resultsPageItems.length} rowHeight={52} rowProps={winnerRowProps} /></div>
                 <WinnerDetailDialog
                   winner={selectedWinner}
                   filteredSignature={lastRun.filteredSignature}
@@ -2210,13 +2180,7 @@ export default function AirdropCalculate(props) {
               )}
 
               {executeBatches.length > 0 && (
-                <List
-                  rowComponent={BatchRow}
-                  rowCount={executeBatches.length}
-                  rowHeight={BATCH_ROW_HEIGHT}
-                  rowProps={{ items: executeBatches }}
-                  style={{ height: Math.min(600, executeBatches.length * BATCH_ROW_HEIGHT) }}
-                />
+                <div className="w-full h-[400px]"><List height={400} width="100%" rowComponent={BatchRowMemo} rowCount={executeBatches.length} rowHeight={BATCH_ROW_HEIGHT} rowProps={batchRowProps} /></div>
               )}
             </CardContent>
           </Card>

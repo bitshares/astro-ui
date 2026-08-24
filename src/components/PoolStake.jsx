@@ -4,6 +4,8 @@ import React, {
   useRef,
   useSyncExternalStore,
   useMemo,
+  memo,
+  useCallback,
 } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { List } from "react-window";
@@ -319,69 +321,7 @@ export default function PoolStake(properties) {
     }
   }, [_chain, selectedAssetASymbol, selectedAssetBSymbol, pools, pool]);
 
-  const poolRow = ({ index, style }) => {
-    const _pool = finalPools[index];
 
-    const assetDetailA = assetA;
-    const assetDetailB = assetB;
-
-    if (!assetDetailA || !assetDetailB) {
-      return <div style={style}>Loading pool details...</div>;
-    }
-
-    let balanceForSelectedA, balanceForSelectedB;
-    let precisionForSelectedA, precisionForSelectedB;
-
-    if (_pool.asset_a_symbol === selectedAssetASymbol) {
-      balanceForSelectedA = _pool.balance_a;
-      precisionForSelectedA = assetDetailA.precision;
-      balanceForSelectedB = _pool.balance_b;
-      precisionForSelectedB = assetDetailB.precision;
-    } else {
-      balanceForSelectedA = _pool.balance_b;
-      precisionForSelectedA = assetDetailA.precision;
-      balanceForSelectedB = _pool.balance_a;
-      precisionForSelectedB = assetDetailB.precision;
-    }
-
-    const feePercent = (_pool.taker_fee_percent ?? 0) / 100; // e.g., 0.2
-
-    return (
-      <div
-        style={style}
-        className={`grid grid-cols-12 hover:bg-[hsl(var(--accent-1)/0.06)] hover:border-[hsl(var(--accent-1)/0.2)] p-1 cursor-pointer transition-colors ${
-          pool === _pool.id ? "bg-[hsl(var(--accent-1)/0.25)] border-[hsl(var(--accent-1)/0.4)]" : ""
-        }`}
-        key={`pool_${_pool.id}`}
-        onClick={() => {
-          setPool(_pool.id);
-        }}
-      >
-        <div className="col-span-1 flex items-center">
-          {_pool.id === pool ? (
-            <CheckCircledIcon className="mt-1 text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]" />
-          ) : (
-            <CircleIcon className="mt-1 text-muted-foreground" />
-          )}
-        </div>
-        <div className="col-span-1 text-sm flex items-center font-mono text-foreground/85">
-          {_pool.id.split(".")[2]}
-        </div>
-        <div className="col-span-2 text-sm flex items-center font-mono dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))]">
-          {feePercent}%
-        </div>
-        <div className="col-span-2 text-sm flex items-center font-mono text-muted-foreground">
-          {_pool.withdrawal_fee_percent / 100}%
-        </div>
-        <div className="col-span-3 text-sm flex items-center justify-end font-mono text-foreground/85">
-          {humanReadableFloat(balanceForSelectedA, precisionForSelectedA)}
-        </div>
-        <div className="col-span-3 text-sm flex items-center justify-end font-mono text-foreground/85">
-          {humanReadableFloat(balanceForSelectedB, precisionForSelectedB)}
-        </div>
-      </div>
-    );
-  };
 
   useEffect(() => {
     async function parseUrlParams() {
@@ -579,6 +519,70 @@ export default function PoolStake(properties) {
     }
     setPoolKey(`pool_key${Date.now()}`);
   }, [pool]);
+
+  const poolRow = useCallback(({ index, style }) => {
+    const _pool = finalPools[index];
+
+    const assetDetailA = assetA;
+    const assetDetailB = assetB;
+
+    if (!assetDetailA || !assetDetailB) {
+      return <div style={style}>Loading pool details...</div>;
+    }
+
+    let balanceForSelectedA, balanceForSelectedB;
+    let precisionForSelectedA, precisionForSelectedB;
+
+    if (_pool.asset_a_symbol === selectedAssetASymbol) {
+      balanceForSelectedA = _pool.balance_a;
+      precisionForSelectedA = assetDetailA.precision;
+      balanceForSelectedB = _pool.balance_b;
+      precisionForSelectedB = assetDetailB.precision;
+    } else {
+      balanceForSelectedA = _pool.balance_b;
+      precisionForSelectedA = assetDetailA.precision;
+      balanceForSelectedB = _pool.balance_a;
+      precisionForSelectedB = assetDetailB.precision;
+    }
+
+    const feePercent = (_pool.taker_fee_percent ?? 0) / 100; // e.g., 0.2
+
+    return (
+      <div
+        style={style}
+        className={`grid grid-cols-12 hover:bg-[hsl(var(--accent-1)/0.06)] hover:border-[hsl(var(--accent-1)/0.2)] p-1 cursor-pointer transition-colors ${
+          pool === _pool.id ? "bg-[hsl(var(--accent-1)/0.25)] border-[hsl(var(--accent-1)/0.4)]" : ""
+        }`}
+        key={`pool_${_pool.id}`}
+        onClick={() => {
+          setPool(_pool.id);
+        }}
+      >
+        <div className="col-span-1 flex items-center">
+          {_pool.id === pool ? (
+            <CheckCircledIcon className="mt-1 text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]" />
+          ) : (
+            <CircleIcon className="mt-1 text-muted-foreground" />
+          )}
+        </div>
+        <div className="col-span-1 text-sm flex items-center font-mono text-foreground/85">
+          {_pool.id.split(".")[2]}
+        </div>
+        <div className="col-span-2 text-sm flex items-center font-mono dark:text-[hsl(var(--accent-1-fg)/0.8)] text-[hsl(var(--accent-1-fg))]">
+          {feePercent}%
+        </div>
+        <div className="col-span-2 text-sm flex items-center font-mono text-muted-foreground">
+          {_pool.withdrawal_fee_percent / 100}%
+        </div>
+        <div className="col-span-3 text-sm flex items-center justify-end font-mono text-foreground/85">
+          {humanReadableFloat(balanceForSelectedA, precisionForSelectedA)}
+        </div>
+        <div className="col-span-3 text-sm flex items-center justify-end font-mono text-foreground/85">
+          {humanReadableFloat(balanceForSelectedB, precisionForSelectedB)}
+        </div>
+      </div>
+    );
+  }, [finalPools, assetA, assetB, selectedAssetASymbol, pool]);
 
   const Row = ({ index, style }) => {
     const pool = pools[index];

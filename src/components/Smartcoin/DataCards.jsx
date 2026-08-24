@@ -120,8 +120,7 @@ export function OrderBookCard({
                     )}
                     rowCount={buyOrders.length}
                     rowHeight={25}
-                    rowProps={{}}
-                  />
+                    rowProps={{}} height={260} width="100%" />
                 </div>
               </>
             ) : null}
@@ -155,8 +154,7 @@ export function OrderBookCard({
                     )}
                     rowCount={sellOrders.length}
                     rowHeight={25}
-                    rowProps={{}}
-                  />
+                    rowProps={{}} height={260} width="100%" />
                 </div>
               </>
             ) : null}
@@ -232,8 +230,7 @@ export function CallOrdersCard({
                 )}
                 rowCount={assetCallOrders.length}
                 rowHeight={25}
-                rowProps={{}}
-              />
+                rowProps={{}} height={260} width="100%" />
             </div>
           </>
         ) : null}
@@ -293,8 +290,7 @@ export function SettleOrdersCard({
                 )}
                 rowCount={assetSettleOrders.length}
                 rowHeight={25}
-                rowProps={{}}
-              />
+                rowProps={{}} height={260} width="100%" />
             </div>
           </>
         ) : null}
@@ -360,8 +356,7 @@ export function PriceFeedsCard({
                 )}
                 rowCount={finalBitasset.feeds.length}
                 rowHeight={25}
-                rowProps={{}}
-              />
+                rowProps={{}} height={260} width="100%" />
             </div>
           </>
         ) : null}

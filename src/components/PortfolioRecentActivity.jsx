@@ -3,6 +3,7 @@ import React, {
   useMemo,
   useState,
   useSyncExternalStore,
+  memo,
 } from "react";
 import { List } from "react-window";
 import { Activity } from "lucide-react";
@@ -64,18 +65,56 @@ import {
 } from "@/nanoeffects/Objects.ts";
 import DOMPurify from "dompurify";
 
-export default function PortfolioRecentActivity() {
-  // Sanitize and decode HTML entities to readable text
+const RecentActivityRow = memo(function RecentActivityRow({ index, style, activity, opRowsById, buildingOps, t, usr }) {
+  const activityItem = activity[index];
+  const expirationDate = new Date(activityItem.block_data.block_time);
+  const now = new Date();
+  const timeDiff = now - expirationDate;
+  const minutes = Math.floor((timeDiff / 1000 / 60) % 60);
+  const hours = Math.floor((timeDiff / 1000 / 60 / 60) % 24);
+  const days = Math.floor(timeDiff / 1000 / 60 / 60 / 24);
+  const timeDiffString = `${days}d ${hours}h ${minutes}m`;
+
+  const rowStyle = { ...style };
+
+  const [opDialogOpen, setOpDialogOpen] = useState(false);
+
+  const opKey = useMemo(() => {
+    const entry = Object.entries(ChainTypes.operations).find(
+      ([, v]) => v === activityItem.operation_type
+    );
+    return entry ? entry[0] : "";
+  }, [activityItem.operation_type]);
+
+  const opMethod = useMemo(() => {
+    const found = (operationTypes || []).find(
+      (o) => o.id === activityItem.operation_type
+    );
+    return found?.method || null;
+  }, [activityItem.operation_type]);
+
+  const feeDisplay = useMemo(() => {
+    const fee = activityItem?.operation_history?.op_object?.fee;
+    if (!fee || typeof fee.amount !== "number" || !fee.asset_id) return "-";
+
+    const allAssets =
+      usr?.chain === "bitshares" ? btsAllAssets : testAllAssets;
+    const asset = (allAssets || []).find((a) => a?.id === fee.asset_id);
+
+    const precision = asset?.precision ?? 0;
+    const symbol = asset?.symbol ?? fee.asset_id;
+    const value = humanReadableFloat(fee.amount, precision);
+    return `${value} ${symbol}`;
+  }, [activityItem, usr]);
+
   const sanitizeAndDecode = (input) => {
     if (input === null || input === undefined) return "";
     try {
       const str = String(input);
-      // Strip any tags/attrs first
       const sanitized = DOMPurify.sanitize(str, {
         ALLOWED_TAGS: [],
         ALLOWED_ATTR: [],
       });
-      // Decode HTML entities safely via browser
       const textarea = document.createElement("textarea");
       textarea.innerHTML = sanitized;
       return textarea.value;
@@ -83,6 +122,347 @@ export default function PortfolioRecentActivity() {
       return String(input);
     }
   };
+
+  return (
+    <div style={rowStyle} className="px-2">
+      <Card className="hover:bg-accent/50 md:hidden p-3">
+        <div className="grid grid-cols-[2fr_1fr] items-start gap-2">
+          <div className="truncate font-medium mt-2">
+            <Dialog
+              open={opDialogOpen}
+              onOpenChange={(open) => {
+                setOpDialogOpen(open);
+              }}
+            >
+              <DialogTrigger asChild>
+                <Badge variant="default" className="cursor-pointer">
+                  {opMethod
+                    ? t(`Activity:${opMethod}.title`)
+                    : opTypes[activityItem.operation_type.toString()]}
+                </Badge>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[560px] bg-card">
+                <DialogHeader>
+                  <DialogTitle>
+                    {t("PortfolioTabs:fullOperationContentsTitle")}
+                  </DialogTitle>
+                  <DialogDescription>
+                    {t("Operations:" + opKey)}
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-1">
+                  <div className="col-span-1">
+                    <ScrollArea className="h-72 rounded-md border p-3">
+                      {buildingOps &&
+                      !(
+                        opRowsById[
+                          activityItem.account_history.operation_id
+                        ] || []
+                      ).length ? (
+                        <div className="flex items-center gap-3">
+                          <Spinner />
+                          <p>{t("Market:loading")}</p>
+                        </div>
+                      ) : (
+                          opRowsById[
+                            activityItem.account_history.operation_id
+                          ] || []
+                        ).length ? (
+                        <div className="space-y-1">
+                          {(
+                            opRowsById[
+                              activityItem.account_history.operation_id
+                            ] || []
+                          ).map((row, i) => (
+                            <div key={i} className="text-sm">
+                              {sanitizeAndDecode(
+                                t(
+                                  `Activity:${opKey}.rows.${row.key}`,
+                                  row.params || {}
+                                )
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-sm text-muted-foreground">
+                          {t("PortfolioTabs:noRecentActivityFound")}
+                        </p>
+                      )}
+                    </ScrollArea>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+          <div className="text-sm mt-2 text-right">{timeDiffString}</div>
+        </div>
+      </Card>
+
+      <Card className="hover:bg-accent/50 hidden md:block lg:hidden">
+        <div className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-start gap-2 p-2 mb-2">
+          <div className="truncate font-medium mt-2">
+            <Dialog
+              open={opDialogOpen}
+              onOpenChange={(open) => {
+                setOpDialogOpen(open);
+              }}
+            >
+              <DialogTrigger asChild>
+                <Badge variant="default" className="cursor-pointer">
+                  {opMethod
+                    ? t(`Activity:${opMethod}.title`)
+                    : opTypes[activityItem.operation_type.toString()]}
+                </Badge>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[560px] bg-card">
+                <DialogHeader>
+                  <DialogTitle>
+                    {t("PortfolioTabs:fullOperationContentsTitle")}
+                  </DialogTitle>
+                  <DialogDescription>
+                    {t("Operations:" + opKey)}
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-1">
+                  <div className="col-span-1">
+                    <ScrollArea className="h-72 rounded-md border p-3">
+                      {buildingOps &&
+                      !(
+                        opRowsById[
+                          activityItem.account_history.operation_id
+                        ] || []
+                      ).length ? (
+                        <div className="flex items-center gap-3">
+                          <Spinner />
+                          <p>{t("Market:loading")}</p>
+                        </div>
+                      ) : (
+                          opRowsById[
+                            activityItem.account_history.operation_id
+                          ] || []
+                        ).length ? (
+                        <div className="space-y-1">
+                          {(
+                            opRowsById[
+                              activityItem.account_history.operation_id
+                            ] || []
+                          ).map((row, i) => (
+                            <div key={i} className="text-sm">
+                              {sanitizeAndDecode(
+                                t(
+                                  `Activity:${opKey}.rows.${row.key}`,
+                                  row.params || {}
+                                )
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-sm text-muted-foreground">
+                          {t("PortfolioTabs:noRecentActivityFound")}
+                        </p>
+                      )}
+                    </ScrollArea>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="font-mono text-xs truncate mt-2">
+            <span className="text-foreground">
+              {activityItem.account_history.operation_id}
+            </span>
+          </div>
+
+          <div className="font-mono text-xs truncate mt-2">
+            <span className="text-foreground">
+              {activityItem.block_data.block_num}
+            </span>
+          </div>
+
+          <div className="text-sm mt-2">{timeDiffString}</div>
+
+          <div className="text-sm mt-2">{feeDisplay}</div>
+        </div>
+      </Card>
+
+      <Card className="hover:bg-accent/50 hidden lg:block">
+        <div className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-start gap-2 p-2 mb-2">
+          <div className="truncate font-medium mt-2">
+            <Dialog
+              open={opDialogOpen}
+              onOpenChange={(open) => {
+                setOpDialogOpen(open);
+              }}
+            >
+              <DialogTrigger asChild>
+                <Badge variant="default" className="cursor-pointer">
+                  {opMethod
+                    ? t(`Activity:${opMethod}.title`)
+                    : opTypes[activityItem.operation_type.toString()]}
+                </Badge>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[560px] bg-card">
+                <DialogHeader>
+                  <DialogTitle>
+                    {t("PortfolioTabs:fullOperationContentsTitle")}
+                  </DialogTitle>
+                  <DialogDescription>
+                    {t("Operations:" + opKey)}
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-1">
+                  <div className="col-span-1">
+                    <ScrollArea className="h-72 rounded-md border p-3">
+                      {buildingOps &&
+                      !(
+                        opRowsById[
+                          activityItem.account_history.operation_id
+                        ] || []
+                      ).length ? (
+                        <div className="flex items-center gap-3">
+                          <Spinner />
+                          <p>{t("Market:loading")}</p>
+                        </div>
+                      ) : (
+                          opRowsById[
+                            activityItem.account_history.operation_id
+                          ] || []
+                        ).length ? (
+                        <div className="space-y-1">
+                          {(
+                            opRowsById[
+                              activityItem.account_history.operation_id
+                            ] || []
+                          ).map((row, i) => (
+                            <div key={i} className="text-sm">
+                              {sanitizeAndDecode(
+                                t(
+                                  `Activity:${opKey}.rows.${row.key}`,
+                                  row.params || {}
+                                )
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-sm text-muted-foreground">
+                          {t("PortfolioTabs:noRecentActivityFound")}
+                        </p>
+                      )}
+                    </ScrollArea>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="font-mono text-xs truncate mt-2">
+            <span className="text-foreground">
+              {activityItem.account_history.operation_id}
+            </span>
+          </div>
+
+          <div className="font-mono text-xs truncate mt-2">
+            <span className="text-foreground">
+              {activityItem.block_data.block_num}
+            </span>
+          </div>
+
+          <div className="text-sm mt-2">{timeDiffString}</div>
+
+          <div className="text-sm mt-2">{feeDisplay}</div>
+
+          <div className="flex items-center gap-2 justify-end">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="sm" variant="outline">
+                  {t("PortfolioTabs:viewOperationButton")}
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[560px] bg-card">
+                <DialogHeader>
+                  <DialogTitle>
+                    {t("PortfolioTabs:operationJsonTitle")}
+                  </DialogTitle>
+                  <DialogDescription>
+                    {t("PortfolioTabs:operationJsonDescription")}
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-1">
+                  <div className="col-span-1">
+                    <ScrollArea className="h-72 rounded-md border">
+                      <pre>
+                        {JSON.stringify(
+                          activityItem.operation_history.op_object,
+                          null,
+                          2
+                        )}
+                      </pre>
+                    </ScrollArea>
+
+                    <Button
+                      onClick={() => {
+                        copyToClipboard(
+                          JSON.stringify(
+                            activityItem.operation_history.op_object,
+                            null,
+                            4
+                          )
+                        );
+                      }}
+                      className="mt-2"
+                    >
+                      {t("DeepLinkDialog:tabsContent.copyOperationJSON")}
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="sm" variant="outline">
+                  {t("PortfolioTabs:viewAllButton")}
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[560px] bg-card">
+                <DialogHeader>
+                  <DialogTitle>
+                    {t("PortfolioTabs:fullOperationContentsTitle")}
+                  </DialogTitle>
+                  <DialogDescription>
+                    {t("PortfolioTabs:fullOperationContentsDescription")}
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-1">
+                  <div className="col-span-1">
+                    <ScrollArea className="h-72 rounded-md border">
+                      <pre>{JSON.stringify(activityItem, null, 2)}</pre>
+                    </ScrollArea>
+                    <Button
+                      onClick={() => {
+                        copyToClipboard(
+                          JSON.stringify(activityItem, null, 4)
+                        );
+                      }}
+                      className="mt-2"
+                    >
+                      {t("DeepLinkDialog:tabsContent.copyOperationJSON")}
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+});
+
+export default function PortfolioRecentActivity() {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
     $currentUser.subscribe,
@@ -275,386 +655,7 @@ export default function PortfolioRecentActivity() {
     buildAllOperations();
   }, [activity, usr, allAccounts, assetResults]);
 
-  const RecentActivityRow = ({ index, style }) => {
-    const activityItem = activity[index];
-    const expirationDate = new Date(activityItem.block_data.block_time);
-    const now = new Date();
-    const timeDiff = now - expirationDate;
-    const minutes = Math.floor((timeDiff / 1000 / 60) % 60);
-    const hours = Math.floor((timeDiff / 1000 / 60 / 60) % 24);
-    const days = Math.floor(timeDiff / 1000 / 60 / 60 / 24);
-    const timeDiffString = `${days}d ${hours}h ${minutes}m`;
-
-    const rowStyle = { ...style };
-
-    const [opDialogOpen, setOpDialogOpen] = useState(false);
-
-    const opKey = useMemo(() => {
-      const entry = Object.entries(ChainTypes.operations).find(
-        ([, v]) => v === activityItem.operation_type
-      );
-      return entry ? entry[0] : "";
-    }, [activityItem.operation_type]);
-
-    const opMethod = useMemo(() => {
-      const found = (operationTypes || []).find(
-        (o) => o.id === activityItem.operation_type
-      );
-      return found?.method || null;
-    }, [activityItem.operation_type]);
-
-    const feeDisplay = useMemo(() => {
-      const fee = activityItem?.operation_history?.op_object?.fee;
-      if (!fee || typeof fee.amount !== "number" || !fee.asset_id) return "-";
-
-      const allAssets =
-        usr?.chain === "bitshares" ? btsAllAssets : testAllAssets;
-      const asset = (allAssets || []).find((a) => a?.id === fee.asset_id);
-
-      const precision = asset?.precision ?? 0;
-      const symbol = asset?.symbol ?? fee.asset_id;
-      const value = humanReadableFloat(fee.amount, precision);
-      return `${value} ${symbol}`;
-    }, [activityItem, usr]);
-
-    return (
-      <div style={rowStyle} className="px-2">
-        <Card className="hover:bg-accent/50 md:hidden p-3">
-          <div className="grid grid-cols-[2fr_1fr] items-start gap-2">
-            <div className="truncate font-medium mt-2">
-              <Dialog
-                open={opDialogOpen}
-                onOpenChange={(open) => {
-                  setOpDialogOpen(open);
-                }}
-              >
-                <DialogTrigger asChild>
-                  <Badge variant="default" className="cursor-pointer">
-                    {opMethod
-                      ? t(`Activity:${opMethod}.title`)
-                      : opTypes[activityItem.operation_type.toString()]}
-                  </Badge>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-card">
-                  <DialogHeader>
-                    <DialogTitle>
-                      {t("PortfolioTabs:fullOperationContentsTitle")}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {t("Operations:" + opKey)}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid grid-cols-1">
-                    <div className="col-span-1">
-                      <ScrollArea className="h-72 rounded-md border p-3">
-                        {buildingOps &&
-                        !(
-                          opRowsById[
-                            activityItem.account_history.operation_id
-                          ] || []
-                        ).length ? (
-                          <div className="flex items-center gap-3">
-                            <Spinner />
-                            <p>{t("Market:loading")}</p>
-                          </div>
-                        ) : (
-                            opRowsById[
-                              activityItem.account_history.operation_id
-                            ] || []
-                          ).length ? (
-                          <div className="space-y-1">
-                            {(
-                              opRowsById[
-                                activityItem.account_history.operation_id
-                              ] || []
-                            ).map((row, i) => (
-                              <div key={i} className="text-sm">
-                                {sanitizeAndDecode(
-                                  t(
-                                    `Activity:${opKey}.rows.${row.key}`,
-                                    row.params || {}
-                                  )
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-sm text-muted-foreground">
-                            {t("PortfolioTabs:noRecentActivityFound")}
-                          </p>
-                        )}
-                      </ScrollArea>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </div>
-            <div className="text-sm mt-2 text-right">{timeDiffString}</div>
-          </div>
-        </Card>
-
-        <Card className="hover:bg-accent/50 hidden md:block lg:hidden">
-          <div className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-start gap-2 p-2 mb-2">
-            <div className="truncate font-medium mt-2">
-              <Dialog
-                open={opDialogOpen}
-                onOpenChange={(open) => {
-                  setOpDialogOpen(open);
-                }}
-              >
-                <DialogTrigger asChild>
-                  <Badge variant="default" className="cursor-pointer">
-                    {opMethod
-                      ? t(`Activity:${opMethod}.title`)
-                      : opTypes[activityItem.operation_type.toString()]}
-                  </Badge>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-card">
-                  <DialogHeader>
-                    <DialogTitle>
-                      {t("PortfolioTabs:fullOperationContentsTitle")}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {t("Operations:" + opKey)}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid grid-cols-1">
-                    <div className="col-span-1">
-                      <ScrollArea className="h-72 rounded-md border p-3">
-                        {buildingOps &&
-                        !(
-                          opRowsById[
-                            activityItem.account_history.operation_id
-                          ] || []
-                        ).length ? (
-                          <div className="flex items-center gap-3">
-                            <Spinner />
-                            <p>{t("Market:loading")}</p>
-                          </div>
-                        ) : (
-                            opRowsById[
-                              activityItem.account_history.operation_id
-                            ] || []
-                          ).length ? (
-                          <div className="space-y-1">
-                            {(
-                              opRowsById[
-                                activityItem.account_history.operation_id
-                              ] || []
-                            ).map((row, i) => (
-                              <div key={i} className="text-sm">
-                                {sanitizeAndDecode(
-                                  t(
-                                    `Activity:${opKey}.rows.${row.key}`,
-                                    row.params || {}
-                                  )
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-sm text-muted-foreground">
-                            {t("PortfolioTabs:noRecentActivityFound")}
-                          </p>
-                        )}
-                      </ScrollArea>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </div>
-
-            <div className="font-mono text-xs truncate mt-2">
-              <span className="text-foreground">
-                {activityItem.account_history.operation_id}
-              </span>
-            </div>
-
-            <div className="font-mono text-xs truncate mt-2">
-              <span className="text-foreground">
-                {activityItem.block_data.block_num}
-              </span>
-            </div>
-
-            <div className="text-sm mt-2">{timeDiffString}</div>
-
-            <div className="text-sm mt-2">{feeDisplay}</div>
-          </div>
-        </Card>
-
-        <Card className="hover:bg-accent/50 hidden lg:block">
-          <div className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-start gap-2 p-2 mb-2">
-            <div className="truncate font-medium mt-2">
-              <Dialog
-                open={opDialogOpen}
-                onOpenChange={(open) => {
-                  setOpDialogOpen(open);
-                }}
-              >
-                <DialogTrigger asChild>
-                  <Badge variant="default" className="cursor-pointer">
-                    {opMethod
-                      ? t(`Activity:${opMethod}.title`)
-                      : opTypes[activityItem.operation_type.toString()]}
-                  </Badge>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-card">
-                  <DialogHeader>
-                    <DialogTitle>
-                      {t("PortfolioTabs:fullOperationContentsTitle")}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {t("Operations:" + opKey)}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid grid-cols-1">
-                    <div className="col-span-1">
-                      <ScrollArea className="h-72 rounded-md border p-3">
-                        {buildingOps &&
-                        !(
-                          opRowsById[
-                            activityItem.account_history.operation_id
-                          ] || []
-                        ).length ? (
-                          <div className="flex items-center gap-3">
-                            <Spinner />
-                            <p>{t("Market:loading")}</p>
-                          </div>
-                        ) : (
-                            opRowsById[
-                              activityItem.account_history.operation_id
-                            ] || []
-                          ).length ? (
-                          <div className="space-y-1">
-                            {(
-                              opRowsById[
-                                activityItem.account_history.operation_id
-                              ] || []
-                            ).map((row, i) => (
-                              <div key={i} className="text-sm">
-                                {sanitizeAndDecode(
-                                  t(
-                                    `Activity:${opKey}.rows.${row.key}`,
-                                    row.params || {}
-                                  )
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-sm text-muted-foreground">
-                            {t("PortfolioTabs:noRecentActivityFound")}
-                          </p>
-                        )}
-                      </ScrollArea>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </div>
-
-            <div className="font-mono text-xs truncate mt-2">
-              <span className="text-foreground">
-                {activityItem.account_history.operation_id}
-              </span>
-            </div>
-
-            <div className="font-mono text-xs truncate mt-2">
-              <span className="text-foreground">
-                {activityItem.block_data.block_num}
-              </span>
-            </div>
-
-            <div className="text-sm mt-2">{timeDiffString}</div>
-
-            <div className="text-sm mt-2">{feeDisplay}</div>
-
-            <div className="flex items-center gap-2 justify-end">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="sm" variant="outline">
-                    {t("PortfolioTabs:viewOperationButton")}
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-card">
-                  <DialogHeader>
-                    <DialogTitle>
-                      {t("PortfolioTabs:operationJsonTitle")}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {t("PortfolioTabs:operationJsonDescription")}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid grid-cols-1">
-                    <div className="col-span-1">
-                      <ScrollArea className="h-72 rounded-md border">
-                        <pre>
-                          {JSON.stringify(
-                            activityItem.operation_history.op_object,
-                            null,
-                            2
-                          )}
-                        </pre>
-                      </ScrollArea>
-
-                      <Button
-                        onClick={() => {
-                          copyToClipboard(
-                            JSON.stringify(
-                              activityItem.operation_history.op_object,
-                              null,
-                              4
-                            )
-                          );
-                        }}
-                        className="mt-2"
-                      >
-                        {t("DeepLinkDialog:tabsContent.copyOperationJSON")}
-                      </Button>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="sm" variant="outline">
-                    {t("PortfolioTabs:viewAllButton")}
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[560px] bg-card">
-                  <DialogHeader>
-                    <DialogTitle>
-                      {t("PortfolioTabs:fullOperationContentsTitle")}
-                    </DialogTitle>
-                    <DialogDescription>
-                      {t("PortfolioTabs:fullOperationContentsDescription")}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid grid-cols-1">
-                    <div className="col-span-1">
-                      <ScrollArea className="h-72 rounded-md border">
-                        <pre>{JSON.stringify(activityItem, null, 2)}</pre>
-                      </ScrollArea>
-                      <Button
-                        onClick={() => {
-                          copyToClipboard(
-                            JSON.stringify(activityItem, null, 4)
-                          );
-                        }}
-                        className="mt-2"
-                      >
-                        {t("DeepLinkDialog:tabsContent.copyOperationJSON")}
-                      </Button>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </div>
-          </div>
-        </Card>
-      </div>
-    );
-  };
+  const recentActivityRowProps = useMemo(() => ({ activity, opRowsById, buildingOps, t, usr }), [activity, opRowsById, buildingOps, t, usr]);
 
   if (isTestnet) {
     return (
@@ -778,12 +779,14 @@ export default function PortfolioRecentActivity() {
                 <TableBody>
                   <tr>
                     <td colSpan={6} className="p-0">
-                      <div className="w-full max-h-[500px]">
+                      <div className="w-full h-[500px]">
                         <List
                           rowComponent={RecentActivityRow}
                           rowCount={activity.length}
                           rowHeight={84}
-                          rowProps={{}}
+                          height={500}
+                          width="100%"
+                          rowProps={recentActivityRowProps}
                         />
                       </div>
                     </td>

@@ -108,6 +108,130 @@ async function compress(invoice) {
   }
 }
 
+
+function InvoiceChosenRow({ index, style, selectedItems, t, onViewDetails, onRemove }) {
+    const it = selectedItems[index];
+    if (!it) return null;
+
+    return (
+      <div style={style} className="px-2">
+        <Card>
+          <CardContent className="pt-1 pb-1">
+            <div className="grid grid-cols-12 items-center gap-2 text-sm">
+              <div
+                className="col-span-5 truncate mt-1"
+                title={`${it.name} full details`}
+              >
+                <Button
+                  variant="outline"
+                  onClick={(e) => {
+                    onViewDetails(it.item || it);
+                  }}
+                >
+                  {it.name}
+                </Button>
+              </div>
+              <div
+                className="col-span-2 text-center mt-1"
+                title={t("InvoiceCreator:selectedItems.row.quantityTitle", {
+                  quantity: it.quantity,
+                })}
+              >
+                {it.quantity}
+              </div>
+              <div
+                className="col-span-4 text-center pr-2 mt-1"
+                title={t("InvoiceCreator:selectedItems.row.totalsTitle")}
+              >
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline">
+                      {t("InvoiceCreator:prices.countLabel", {
+                        count: it.item.prices.length,
+                      })}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[420px] bg-card">
+                    <DialogHeader>
+                      <DialogTitle>
+                        {t("InvoiceCreator:prices.possibleTotals.dialogTitle")}
+                      </DialogTitle>
+                      <DialogDescription>
+                        {t(
+                          "InvoiceCreator:prices.possibleTotals.dialogDescription"
+                        )}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-wrap justify-start gap-1">
+                      {it.item.prices.map((p, idx) => {
+                        const q = Number(it.quantity) || 1;
+                        const total = Number(p.price) * q;
+                        const totalStr = Number.isFinite(total)
+                          ? total.toString()
+                          : "";
+                        return (
+                          <Badge className="m-2" key={`price-${idx}`}>
+                            {totalStr} {p.asset}
+                          </Badge>
+                        );
+                      })}
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+              <div className="col-span-1 text-right mt-1">
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-8 w-8 rounded-lg border border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.2)] hover:border-[hsl(var(--accent-danger)/0.5)] transition-all"
+                  onClick={() => onRemove(index)}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+}
+const MemoInvoiceChosenRow = React.memo(InvoiceChosenRow);
+
+function InvoiceSelectableRow({ index, style, selectableItems, onSelect }) {
+    const it = selectableItems[index];
+    if (!it) return null;
+
+    const priceLabel = it.unitPrice
+      ? String(it.unitPrice)
+      : it.prices && it.prices.length
+      ? `${it.prices[0].price} ${it.prices[0].asset}`
+      : "";
+
+    return (
+      <div style={style} className="px-2 cursor-pointer hover:bg-card">
+        <Card
+          onClick={() => onSelect(it)}
+        >
+          <CardContent className="pt-0 pb-0">
+            <div className="grid grid-cols-12 items-center gap-2 py-2 text-sm">
+              <div className="col-span-6 truncate mt-1" title={it.name}>
+                {it.name}
+              </div>
+              <div className="col-span-3 text-center mt-1" title="In stock">
+                {it.quantity ?? 0}
+              </div>
+              <div className="col-span-3 text-right pr-2 mt-1" title="Price">
+                {priceLabel}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+}
+const MemoInvoiceSelectableRow = React.memo(InvoiceSelectableRow);
+
+
 export default function InvoiceCreator(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
@@ -401,137 +525,20 @@ export default function InvoiceCreator(properties) {
     );
   };
 
-  // Row for chosen/selected items
-  const ChosenRow = ({ index, style }) => {
-    const it = selectedItems[index];
-    if (!it) return null;
-
-    return (
-      <div style={style} className="px-2">
-        <Card>
-          <CardContent className="pt-1 pb-1">
-            <div className="grid grid-cols-12 items-center gap-2 text-sm">
-              <div
-                className="col-span-5 truncate mt-1"
-                title={`${it.name} full details`}
-              >
-                <Button
-                  variant="outline"
-                  onClick={(e) => {
-                    // Avoid row click when pressing the remove button
-                    setDetailsItem(it.item || it);
-                    setDetailsDialogOpen(true);
-                  }}
-                >
-                  {it.name}
-                </Button>
-              </div>
-              <div
-                className="col-span-2 text-center mt-1"
-                title={t("InvoiceCreator:selectedItems.row.quantityTitle", {
-                  quantity: it.quantity,
-                })}
-              >
-                {it.quantity}
-              </div>
-              <div
-                className="col-span-4 text-center pr-2 mt-1"
-                title={t("InvoiceCreator:selectedItems.row.totalsTitle")}
-              >
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline">
-                      {t("InvoiceCreator:prices.countLabel", {
-                        count: it.item.prices.length,
-                      })}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[420px] bg-card">
-                    <DialogHeader>
-                      <DialogTitle>
-                        {t("InvoiceCreator:prices.possibleTotals.dialogTitle")}
-                      </DialogTitle>
-                      <DialogDescription>
-                        {t(
-                          "InvoiceCreator:prices.possibleTotals.dialogDescription"
-                        )}
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="flex flex-wrap justify-start gap-1">
-                      {it.item.prices.map((p, idx) => {
-                        const q = Number(it.quantity) || 1;
-                        const total = Number(p.price) * q;
-                        const totalStr = Number.isFinite(total)
-                          ? total.toString()
-                          : "";
-                        return (
-                          <Badge className="m-2" key={`price-${idx}`}>
-                            {totalStr} {p.asset}
-                          </Badge>
-                        );
-                      })}
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </div>
-              <div className="col-span-1 text-right mt-1">
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="h-8 w-8 rounded-lg border border-[hsl(var(--accent-danger)/0.3)] bg-[hsl(var(--accent-danger)/0.1)] text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.2)] hover:border-[hsl(var(--accent-danger)/0.5)] transition-all"
-                  onClick={() => {
-                    setSelectedItems((prev) =>
-                      prev.filter((_, i) => i !== index)
-                    );
-                  }}
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  };
-
-  // Row for selectable items in the add dialog
-  const SelectableRow = ({ index, style }) => {
-    const it = selectableItems[index];
-    if (!it) return null;
-
-    const priceLabel = it.unitPrice
-      ? String(it.unitPrice)
-      : it.prices && it.prices.length
-      ? `${it.prices[0].price} ${it.prices[0].asset}`
-      : "";
-
-    return (
-      <div style={style} className="px-2 cursor-pointer hover:bg-card">
-        <Card
-          onClick={() => {
-            setCandidateItem(it);
-            setQtyValue("1");
-            setQtyDialogOpen(true);
-          }}
-        >
-          <CardContent className="pt-0 pb-0">
-            <div className="grid grid-cols-12 items-center gap-2 py-2 text-sm">
-              <div className="col-span-6 truncate mt-1" title={it.name}>
-                {it.name}
-              </div>
-              <div className="col-span-3 text-center mt-1" title="In stock">
-                {it.quantity ?? 0}
-              </div>
-              <div className="col-span-3 text-right pr-2 mt-1" title="Price">
-                {priceLabel}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  };
+  const handleViewDetails = useCallback((item) => {
+    setDetailsItem(item);
+    setDetailsDialogOpen(true);
+  }, []);
+  const handleRemoveSelected = useCallback((idx) => {
+    setSelectedItems((prev) => prev.filter((_, i) => i !== idx));
+  }, []);
+  const handleSelectItem = useCallback((it) => {
+    setCandidateItem(it);
+    setQtyValue("1");
+    setQtyDialogOpen(true);
+  }, []);
+  const chosenRowProps = useMemo(() => ({ selectedItems, t, onViewDetails: handleViewDetails, onRemove: handleRemoveSelected }), [selectedItems, t, handleViewDetails, handleRemoveSelected]);
+  const selectableRowProps = useMemo(() => ({ selectableItems, onSelect: handleSelectItem }), [selectableItems, handleSelectItem]);
 
   return (
     <>
@@ -690,12 +697,14 @@ export default function InvoiceCreator(properties) {
                                             )}
                                           </div>
                                         </div>
-                                        <div className="w-full max-h-[360px] min-h-[360px] overflow-auto">
+                                        <div className="w-full h-[360px]">
                                           <List
-                                            rowComponent={SelectableRow}
+                                            height={360}
+                                            width="100%"
+                                            rowComponent={MemoInvoiceSelectableRow}
                                             rowCount={selectableItems.length}
                                             rowHeight={55}
-                                            rowProps={{}}
+                                            rowProps={selectableRowProps}
                                           />
                                         </div>
                                       </div>
@@ -738,12 +747,14 @@ export default function InvoiceCreator(properties) {
                             </div>
                             <div className="col-span-1"></div>
                           </div>
-                          <div className="w-full max-h-[300px] min-h-[300px] overflow-auto border mt-1">
+                          <div className="w-full h-[300px]">
                             <List
-                              rowComponent={ChosenRow}
+                              height={300}
+                              width="100%"
+                              rowComponent={MemoInvoiceChosenRow}
                               rowCount={selectedItems.length}
                               rowHeight={55}
-                              rowProps={{}}
+                              rowProps={chosenRowProps}
                             />
                           </div>
                         </div>

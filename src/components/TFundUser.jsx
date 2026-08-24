@@ -511,6 +511,11 @@ export default function TFundUser(properties) {
     setMarketFees(feesArray);
   }, [operations, assets]);
 
+  const fundRowProps = useMemo(() => ({ sameTFunds }), [sameTFunds]);
+  const borrowPositionRowProps = useMemo(() => ({ borrowPositions }), [borrowPositions]);
+  const opRowProps = useMemo(() => ({ operations }), [operations]);
+  const balanceRowProps = useMemo(() => ({ updatedBalances }), [updatedBalances]);
+
   // ─── Step 1: Fund Selection ────────────────────────────────────
   const accent1 = STEP_ACCENTS[1];
   const FundRow = ({ index, style }) => {
@@ -817,14 +822,13 @@ export default function TFundUser(properties) {
               <div>{t("CreditBorrow:common.offering")}</div>
               <div className="text-right">{t("PoolForm:fee")}</div>
             </div>
-            <div className="w-full max-h-[260px] overflow-auto rounded-lg border border-border/40 bg-card/20">
+            <div className="w-full h-[400px] rounded-lg border border-border/40 bg-card/20">
               <List
                 rowComponent={FundRow}
                 rowCount={sameTFunds.length}
                 rowHeight={52}
-                rowProps={{}}
-                key={`list-sametfunds`}
-              />
+                rowProps={fundRowProps}
+                key={`list-sametfunds`} height={260} width="100%" />
             </div>
           </>
         ) : (
@@ -930,14 +934,13 @@ export default function TFundUser(properties) {
               {t("TFundUser:borrowed")} / {t("TFundUser:borrowFees")}
             </div>
           </div>
-          <div className="w-full max-h-[280px] overflow-auto">
+          <div className="w-full h-[400px]">
             <List
               rowComponent={BorrowPositionRow}
               rowCount={borrowPositions.length}
               rowHeight={48}
-              rowProps={{}}
-              key={`list-borrowpositions`}
-            />
+              rowProps={borrowPositionRowProps}
+              key={`list-borrowpositions`} height={280} width="100%" />
           </div>
         </div>
       </div>
@@ -1073,14 +1076,13 @@ export default function TFundUser(properties) {
               <div>{t("TFundUser:operation", "Operation")}</div>
               <div className="text-right">{t("TFundUser:price")}</div>
             </div>
-            <div className="w-full max-h-[280px] overflow-auto">
+            <div className="w-full h-[400px]">
               <List
                 rowComponent={OpRow}
                 rowCount={operations.length}
                 rowHeight={52}
-                rowProps={{}}
-                key={`list-operations`}
-              />
+                rowProps={opRowProps}
+                key={`list-operations`} height={280} width="100%" />
             </div>
           </div>
 
@@ -1239,14 +1241,13 @@ export default function TFundUser(properties) {
             <div className="text-right">{t("TFundUser:borrowed")}</div>
             <div className="text-right">{t("TFundUser:finalAmount")}</div>
           </div>
-          <div className="w-full max-h-[280px] overflow-auto">
+          <div className="w-full h-[400px]">
             <List
               rowComponent={BalanceRow}
               rowCount={updatedBalances.filter((x) => x.display).length}
               rowHeight={44}
-              rowProps={{}}
-              key={`list-updatedbalances`}
-            />
+              rowProps={balanceRowProps}
+              key={`list-updatedbalances`} height={280} width="100%" />
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { List } from "react-window";
@@ -12,7 +12,7 @@ import ExternalLink from "@/components/common/ExternalLink.jsx";
 const EXPLORER = "https://blocksights.info/#/accounts/";
 const ROW_HEIGHT = 34;
 
-function RecipientRow({ index, style, recipients, precision, symbol }) {
+const RecipientRow = React.memo(function RecipientRow({ index, style, recipients, precision, symbol }) {
   const r = recipients[index];
   if (!r) return null;
   return (
@@ -36,7 +36,7 @@ function RecipientRow({ index, style, recipients, precision, symbol }) {
       )}
     </div>
   );
-}
+});
 
 export default function AirdropRecipientInput({
   rawText,
@@ -62,6 +62,10 @@ export default function AirdropRecipientInput({
   const hasErrors = errors && errors.length > 0;
   const hasWarnings = warnings && warnings.length > 0;
   const visible = showAll ? recipients : recipients.slice(0, 200);
+  const recipientRowProps = useMemo(
+    () => ({ recipients: visible, precision, symbol }),
+    [visible, precision, symbol]
+  );
 
   return (
     <div className="grid grid-cols-1 gap-3">
@@ -151,13 +155,14 @@ export default function AirdropRecipientInput({
               </Button>
             )}
           </div>
-          <div className="w-full">
+          <div className="w-full h-[340px]">
             <List
-              style={{ height: 280 }}
+              height={340}
+              width="100%"
               rowComponent={RecipientRow}
               rowCount={visible.length}
               rowHeight={ROW_HEIGHT}
-              rowProps={{ recipients: visible, precision, symbol }}
+              rowProps={recipientRowProps}
             />
           </div>
         </div>

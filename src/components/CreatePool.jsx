@@ -4,6 +4,7 @@ import {
   useSyncExternalStore,
   useMemo,
   useCallback,
+  memo,
 } from "react";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
@@ -47,6 +48,57 @@ import { $currentUser, $userStorage } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
 
 import { debounce, humanReadableFloat } from "@/lib/common.js";
+
+
+const AssetRow = memo(function AssetRow({ index, style, eligibleAssets, selectedAsset, setSelectedAsset, t }) {
+  const issuedAsset = eligibleAssets[index];
+  if (!issuedAsset) {
+    return null;
+  }
+
+  const maxSupply =
+    issuedAsset.options && issuedAsset.options.max_supply
+      ? humanReadableFloat(
+          issuedAsset.options.max_supply,
+          issuedAsset.precision
+        ).toLocaleString(undefined, { maximumFractionDigits: 0 })
+      : "0";
+
+  return (
+    <div style={{ ...style }} key={`acard-${issuedAsset.id}`}>
+      <Card
+        className={cn(
+          "ml-2 mr-2 cursor-pointer transition-colors border-border hover:border-[hsl(var(--accent-1)/0.4)]",
+          selectedAsset && selectedAsset !== issuedAsset.id
+            ? "bg-accent"
+            : "",
+          selectedAsset && selectedAsset === issuedAsset.id
+            ? "bg-[hsl(var(--accent-1)/0.1)] border-[hsl(var(--accent-1)/0.5)]"
+            : ""
+        )}
+        onClick={() => setSelectedAsset(issuedAsset.id)}
+      >
+        <CardHeader className="pb-2">
+          <div className="flex items-center justify-between gap-2">
+            <CardTitle className="pb-0">
+              {selectedAsset && selectedAsset === issuedAsset.id ? (
+                <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">
+                  ✔️{" "}
+                </span>
+              ) : (
+                ""
+              )}
+              {`${issuedAsset.symbol} (${issuedAsset.id})`}
+            </CardTitle>
+            <div className="text-xs font-medium text-muted-foreground/80 whitespace-nowrap text-right">
+              {t("CreatePool:max_supply")}: {maxSupply} {issuedAsset.symbol}
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+});
 
 export default function IssuedAssets(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -183,55 +235,7 @@ export default function IssuedAssets(properties) {
   }, [usr, assets, currentNode]);
 
   const [selectedAsset, setSelectedAsset] = useState(null);
-  const AssetRow = ({ index, style }) => {
-    const issuedAsset = eligibleAssets[index];
-    if (!issuedAsset) {
-      return null;
-    }
-
-    const maxSupply =
-      issuedAsset.options && issuedAsset.options.max_supply
-        ? humanReadableFloat(
-            issuedAsset.options.max_supply,
-            issuedAsset.precision
-          ).toLocaleString(undefined, { maximumFractionDigits: 0 })
-        : "0";
-
-    return (
-      <div style={{ ...style }} key={`acard-${issuedAsset.id}`}>
-        <Card
-          className={cn(
-            "ml-2 mr-2 cursor-pointer transition-colors border-border hover:border-[hsl(var(--accent-1)/0.4)]",
-            selectedAsset && selectedAsset !== issuedAsset.id
-              ? "bg-accent"
-              : "",
-            selectedAsset && selectedAsset === issuedAsset.id
-              ? "bg-[hsl(var(--accent-1)/0.1)] border-[hsl(var(--accent-1)/0.5)]"
-              : ""
-          )}
-          onClick={() => setSelectedAsset(issuedAsset.id)}
-        >
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between gap-2">
-              <CardTitle className="pb-0">
-                {selectedAsset && selectedAsset === issuedAsset.id ? (
-                  <span className="text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))]">
-                    ✔️{" "}
-                  </span>
-                ) : (
-                  ""
-                )}
-                {`${issuedAsset.symbol} (${issuedAsset.id})`}
-              </CardTitle>
-              <div className="text-xs font-medium text-muted-foreground/80 whitespace-nowrap text-right">
-                {t("CreatePool:max_supply")}: {maxSupply} {issuedAsset.symbol}
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
+  const assetRowProps = useMemo(() => ({ eligibleAssets, selectedAsset, setSelectedAsset, t }), [eligibleAssets, selectedAsset, setSelectedAsset, t]);
 
   const [takerFeePercent, setTakerFeePercent] = useState(0);
   const [withdrawalFeePercent, setWithdrawalFeePercent] = useState(0);
@@ -415,12 +419,14 @@ export default function IssuedAssets(properties) {
                         count: eligibleAssets.length,
                       })}
                     </h5>
-                    <div className="w-full max-h-[350px] min-h-[350px] overflow-auto rounded-lg bg-card/30 border border-[hsl(var(--accent-1)/0.2)]">
+                    <div className="w-full h-[350px] rounded-lg bg-card/30 border border-[hsl(var(--accent-1)/0.2)]">
                       <List
                         rowComponent={AssetRow}
                         rowCount={eligibleAssets.length}
                         rowHeight={75}
-                        rowProps={{}}
+                        height={350}
+                        width="100%"
+                        rowProps={assetRowProps}
                       />
                     </div>
                     <p className="mt-3 text-xs text-muted-foreground/80 leading-relaxed">

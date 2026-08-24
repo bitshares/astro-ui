@@ -37,6 +37,66 @@ import { Button } from "@/components/ui/button";
 import { $favouriteAssets } from "@/stores/favourites.ts";
 import { $blockList } from "@/stores/blocklist.ts";
 
+const AssetRow = React.memo(function AssetRow({ index, style, mode, thisResult, featuredAssets, relevantAssets, balances, marketSearchContents, storeCallback, setDialogOpen, t }) {
+    let res;
+    if (mode === "search") {
+      res = thisResult[index].item;
+    } else if (mode === "featured") {
+      res = featuredAssets[index];
+    } else if (mode === "favourites") {
+      res = relevantAssets[index];
+    } else if (mode === "balances" && balances && balances.length) {
+      const _balance = balances[index];
+      res = marketSearchContents.find(
+        (asset) => asset.id === _balance.asset_id
+      );
+    }
+
+    if (!res) {
+      return null;
+    }
+
+    return (
+      <div style={{ ...style, marginBottom: "10px", paddingRight: "10px" }}>
+        <button
+          type="button"
+          key={`acard-${res.id}`}
+          style={{ marginBottom: "2px" }}
+          onClick={() => {
+            setTimeout(() => {
+              if (
+                mode === "search" ||
+                mode === "featured" ||
+                mode === "balances"
+              ) {
+                storeCallback(res.s);
+              } else if (mode === "favourites") {
+                storeCallback(res.symbol);
+              }
+            }, 0);
+            setDialogOpen(false);
+          }}
+          className="w-full text-left rounded-lg border border-border/60 bg-accent/20 hover:bg-[hsl(var(--accent-1)/0.08)] hover:border-[hsl(var(--accent-1)/0.3)] transition-colors px-3 py-2.5 cursor-pointer"
+        >
+          <div className="text-sm font-semibold text-foreground/90">
+            {mode === "search" || mode === "featured" || mode === "balances"
+              ? `${res.s} (${res.id})`
+              : null}
+            {mode === "favourites" ? `${res.symbol} (${res.id})` : null}
+          </div>
+          <div className="text-[11px] text-muted-foreground/70 mt-0.5 truncate">
+            {mode === "search" || mode === "featured" || mode === "balances"
+              ? t("AssetDropDownCard:issued", { user: res.u })
+              : null}
+            {mode === "favourites"
+              ? t("AssetDropDownCard:issued", { user: res.issuer })
+              : null}
+          </div>
+        </button>
+      </div>
+    );
+  });
+
 /**
  * Creating an asset dropdown component
  * @param {String} assetSymbol current asset symbol
@@ -125,66 +185,6 @@ export default function AssetDropDown(properties) {
     }
   }, [thisInput, fuse]);
 
-  const Row = ({ index, style }) => {
-    let res;
-    if (mode === "search") {
-      res = thisResult[index].item;
-    } else if (mode === "featured") {
-      res = featuredAssets[index];
-    } else if (mode === "favourites") {
-      res = relevantAssets[index];
-    } else if (mode === "balances" && balances && balances.length) {
-      const _balance = balances[index];
-      res = marketSearchContents.find(
-        (asset) => asset.id === _balance.asset_id
-      );
-    }
-
-    if (!res) {
-      return null;
-    }
-
-    return (
-      <div style={{ ...style, marginBottom: "10px", paddingRight: "10px" }}>
-        <button
-          type="button"
-          key={`acard-${res.id}`}
-          style={{ marginBottom: "2px" }}
-          onClick={() => {
-            setTimeout(() => {
-              if (
-                mode === "search" ||
-                mode === "featured" ||
-                mode === "balances"
-              ) {
-                storeCallback(res.s);
-              } else if (mode === "favourites") {
-                storeCallback(res.symbol);
-              }
-            }, 0);
-            setDialogOpen(false);
-          }}
-          className="w-full text-left rounded-lg border border-border/60 bg-accent/20 hover:bg-[hsl(var(--accent-1)/0.08)] hover:border-[hsl(var(--accent-1)/0.3)] transition-colors px-3 py-2.5 cursor-pointer"
-        >
-          <div className="text-sm font-semibold text-foreground/90">
-            {mode === "search" || mode === "featured" || mode === "balances"
-              ? `${res.s} (${res.id})`
-              : null}
-            {mode === "favourites" ? `${res.symbol} (${res.id})` : null}
-          </div>
-          <div className="text-[11px] text-muted-foreground/70 mt-0.5 truncate">
-            {mode === "search" || mode === "featured" || mode === "balances"
-              ? t("AssetDropDownCard:issued", { user: res.u })
-              : null}
-            {mode === "favourites"
-              ? t("AssetDropDownCard:issued", { user: res.issuer })
-              : null}
-          </div>
-        </button>
-      </div>
-    );
-  };
-
   const [mode, setMode] = useState("search");
 
   const favouriteAssets = useStore($favouriteAssets);
@@ -241,6 +241,21 @@ export default function AssetDropDown(properties) {
         : asset.symbol !== assetSymbol
     );
   }, [favouriteAssets, assetSymbol, otherAsset, chain]);
+
+  const rowProps = useMemo(
+    () => ({
+      mode,
+      thisResult,
+      featuredAssets,
+      relevantAssets,
+      balances,
+      marketSearchContents,
+      storeCallback,
+      setDialogOpen,
+      t,
+    }),
+    [mode, thisResult, featuredAssets, relevantAssets, balances, marketSearchContents, storeCallback, t]
+  );
 
   return (
     <Dialog
@@ -380,12 +395,14 @@ export default function AssetDropDown(properties) {
                 className="bg-accent/40 border-border text-foreground placeholder:text-muted-foreground"
               />
               {thisResult && thisResult.length ? (
-                <div className="w-full max-h-[350px] overflow-auto">
+                <div className="w-full h-[300px]">
                   <List
-                    rowComponent={Row}
+                    height={300}
+                    width="100%"
+                    rowComponent={AssetRow}
                     rowCount={thisResult.length}
                     rowHeight={70}
-                    rowProps={{}}
+                    rowProps={rowProps}
                   />
                 </div>
               ) : null}
@@ -406,12 +423,14 @@ export default function AssetDropDown(properties) {
                   : null}
               </h4>
               {balances && balances.length ? (
-                <div className="w-full max-h-[350px] overflow-auto">
+                <div className="w-full h-[300px]">
                   <List
-                    rowComponent={Row}
+                    height={300}
+                    width="100%"
+                    rowComponent={AssetRow}
                     rowCount={balances.length}
                     rowHeight={70}
-                    rowProps={{}}
+                    rowProps={rowProps}
                   />
                 </div>
               ) : (
@@ -437,12 +456,14 @@ export default function AssetDropDown(properties) {
                   : null}
               </h4>
               {featuredAssets && featuredAssets.length ? (
-                <div className="w-full max-h-[350px] overflow-auto">
+                <div className="w-full h-[300px]">
                   <List
-                    rowComponent={Row}
+                    height={300}
+                    width="100%"
+                    rowComponent={AssetRow}
                     rowCount={featuredAssets.length}
                     rowHeight={70}
-                    rowProps={{}}
+                    rowProps={rowProps}
                   />
                 </div>
               ) : (
@@ -468,12 +489,14 @@ export default function AssetDropDown(properties) {
                   : null}
               </h4>
               {relevantAssets && relevantAssets.length ? (
-                <div className="w-full max-h-[350px] overflow-auto">
+                <div className="w-full h-[300px]">
                   <List
-                    rowComponent={Row}
+                    height={300}
+                    width="100%"
+                    rowComponent={AssetRow}
                     rowCount={relevantAssets.length}
                     rowHeight={70}
-                    rowProps={{}}
+                    rowProps={rowProps}
                   />
                 </div>
               ) : (

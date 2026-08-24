@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import {
   MagnifyingGlassIcon,
   AvatarIcon,
@@ -81,6 +81,123 @@ function parseDescription(description) {
     parsed: description,
   };
 }
+
+
+function AssetIssuerPriceFeedRow({ index, style, bitassetData, collateralAsset, asset, priceFeederAccounts, priceFeederIndex, onSelect }) {
+    const priceFeed = bitassetData.feeds[index];
+    if (
+      !priceFeed ||
+      !priceFeed[1] ||
+      !priceFeed[1][1] ||
+      !priceFeed[1][1].settlement_price
+    ) {
+      console.error("Error: Invalid priceFeed structure", { priceFeed, index });
+      return null;
+    }
+
+    const hexID = toHex(sha256(utf8ToBytes(priceFeed[0])));
+    const settlementPrice = parseFloat(
+      (
+        humanReadableFloat(
+          parseInt(priceFeed[1][1].settlement_price.quote.amount),
+          collateralAsset.precision
+        ) /
+        humanReadableFloat(
+          parseInt(priceFeed[1][1].settlement_price.base.amount),
+          asset.precision
+        )
+      ).toFixed(collateralAsset.precision)
+    );
+
+    const feedPublishTime = new Date(priceFeed[1][0]);
+    const hoursSincePublished = Math.floor(
+      (new Date().getTime() - feedPublishTime.getTime()) / (1000 * 60 * 60)
+    );
+
+    const foundFeeder = priceFeederAccounts.find(
+      (account) => account.id === priceFeed[0]
+    );
+
+    return (
+      <div
+        style={{ ...style }}
+        key={`priceFeedRow-${hexID}`}
+        onClick={() => onSelect(index)}
+      >
+        <Card className="ml-2 mr-2">
+          <div className="flex items-center">
+            {index === priceFeederIndex ? (
+              <div className="ml-5">
+                <CheckIcon />
+              </div>
+            ) : null}
+            <CardHeader className="pb-1 pt-1">
+              <CardTitle>
+                <div className="flex items-center">
+                  {foundFeeder ? foundFeeder.name : null} ({priceFeed[0]})
+                  {" - "}
+                  {settlementPrice} {collateralAsset.symbol}/{asset.symbol}
+                </div>
+              </CardTitle>
+              <CardDescription>
+                {`publishTime: ${hoursSincePublished} hours`}
+              </CardDescription>
+            </CardHeader>
+          </div>
+        </Card>
+      </div>
+    );
+}
+const MemoAssetIssuerPriceFeedRow = React.memo(AssetIssuerPriceFeedRow);
+
+function AssetIssuerPriceFeederRow({ index, style, priceFeedPublishers, onRemove }) {
+    let res = priceFeedPublishers[index];
+    if (!res) {
+      return null;
+    }
+
+    return (
+      <div style={{ ...style }} key={`acard-${res.id}`}>
+        <Card className="ml-2 mr-2 mt-1">
+          <CardHeader className="pb-3 pt-3">
+            <span className="flex items-center w-full">
+              <span className="flex-shrink-0">
+                <Avatar
+                  size={40}
+                  name={res.name}
+                  extra="Borrower"
+                  expression={{ eye: "normal", mouth: "open" }}
+                  colors={[
+                    "#92A1C6",
+                    "#146A7C",
+                    "#F0AB3D",
+                    "#C271B4",
+                    "#C20D90",
+                  ]}
+                />
+              </span>
+              <span className="flex-grow ml-3">
+                #{index + 1}: {res.name} ({res.id})
+              </span>
+              <span className="flex-shrink-0">
+                <Button
+                  variant="outline"
+                  className="mr-2"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onRemove(res.id);
+                  }}
+                >
+                  ❌
+                </Button>
+              </span>
+            </span>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+}
+const MemoAssetIssuerPriceFeederRow = React.memo(AssetIssuerPriceFeederRow);
 
 function AssetIssuerActions(props) {
   const {
@@ -179,126 +296,12 @@ function AssetIssuerActions(props) {
     }
   }, [collateralAsset, asset, globalSettleObject]);
 
-  const PriceFeedRow = ({ index: x, style: rowStyle }) => {
-    const priceFeed = bitassetData.feeds[x];
-    if (
-      !priceFeed ||
-      !priceFeed[1] ||
-      !priceFeed[1][1] ||
-      !priceFeed[1][1].settlement_price
-    ) {
-      console.error("Error: Invalid priceFeed structure", { priceFeed, x });
-      return null;
-    }
-
-    const hexID = toHex(sha256(utf8ToBytes(priceFeed[0])));
-    const settlementPrice = parseFloat(
-      (
-        humanReadableFloat(
-          parseInt(priceFeed[1][1].settlement_price.quote.amount),
-          collateralAsset.precision
-        ) /
-        humanReadableFloat(
-          parseInt(priceFeed[1][1].settlement_price.base.amount),
-          asset.precision
-        )
-      ).toFixed(collateralAsset.precision)
-    );
-
-    const feedPublishTime = new Date(priceFeed[1][0]);
-    const hoursSincePublished = Math.floor(
-      (new Date().getTime() - feedPublishTime.getTime()) / (1000 * 60 * 60)
-    );
-
-    const foundFeeder = priceFeederAccounts.find(
-      (account) => account.id === priceFeed[0]
-    );
-
-    return (
-      <div
-        style={{ ...rowStyle }}
-        key={`priceFeedRow-${hexID}`}
-        onClick={() => {
-          setPriceFeederIndex(x);
-        }}
-      >
-        <Card className="ml-2 mr-2">
-          <div className="flex items-center">
-            {x === priceFeederIndex ? (
-              <div className="ml-5">
-                <CheckIcon />
-              </div>
-            ) : null}
-            <CardHeader className="pb-1 pt-1">
-              <CardTitle>
-                <div className="flex items-center">
-                  {foundFeeder ? foundFeeder.name : null} ({priceFeed[0]})
-                  {" - "}
-                  {settlementPrice} {collateralAsset.symbol}/{asset.symbol}
-                </div>
-              </CardTitle>
-              <CardDescription>
-                {t("IssuedAssets:publishTime", {
-                  hours: hoursSincePublished,
-                })}
-              </CardDescription>
-            </CardHeader>
-          </div>
-        </Card>
-      </div>
-    );
-  };
-
-  const PriceFeederRow = ({ index, style }) => {
-    let res = priceFeedPublishers[index];
-    if (!res) {
-      return null;
-    }
-
-    return (
-      <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="ml-2 mr-2 mt-1">
-          <CardHeader className="pb-3 pt-3">
-            <span className="flex items-center w-full">
-              <span className="flex-shrink-0">
-                <Avatar
-                  size={40}
-                  name={res.name}
-                  extra="Borrower"
-                  expression={{ eye: "normal", mouth: "open" }}
-                  colors={[
-                    "#92A1C6",
-                    "#146A7C",
-                    "#F0AB3D",
-                    "#C271B4",
-                    "#C20D90",
-                  ]}
-                />
-              </span>
-              <span className="flex-grow ml-3">
-                #{index + 1}: {res.name} ({res.id})
-              </span>
-              <span className="flex-shrink-0">
-                <Button
-                  variant="outline"
-                  className="mr-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const _update = priceFeedPublishers.filter(
-                      (x) => x.id !== res.id
-                    );
-                    setPriceFeedPublishers(_update);
-                  }}
-                >
-                  ❌
-                </Button>
-              </span>
-            </span>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
+  const handleSelectPriceFeeder = useCallback((idx) => setPriceFeederIndex(idx), []);
+  const handleRemovePublisher = useCallback((id) => {
+    setPriceFeedPublishers((prev) => prev.filter((x) => x.id !== id));
+  }, []);
+  const priceFeedRowProps = useMemo(() => ({ bitassetData, collateralAsset, asset, priceFeederAccounts, priceFeederIndex, onSelect: handleSelectPriceFeeder }), [bitassetData, collateralAsset, asset, priceFeederAccounts, priceFeederIndex, handleSelectPriceFeeder]);
+  const priceFeederRowProps = useMemo(() => ({ priceFeedPublishers, onRemove: handleRemovePublisher }), [priceFeedPublishers, handleRemovePublisher]);
 
   /*
   const UserRow = ({ index: x, style: rowStyle }) => {
@@ -1239,12 +1242,14 @@ function AssetIssuerActions(props) {
               />
               <div className="grid grid-cols-12 mt-1">
                 <span className="col-span-9 border border-border rounded">
-                  <div className="w-full max-h-[210px] overflow-auto">
+                  <div className="w-full h-[210px]">
                     <List
-                      rowComponent={PriceFeederRow}
+                      height={210}
+                      width="100%"
+                      rowComponent={MemoAssetIssuerPriceFeederRow}
                       rowCount={priceFeedPublishers.length}
                       rowHeight={80}
-                      rowProps={{}}
+                      rowProps={priceFeederRowProps}
                     />
                   </div>
                 </span>
@@ -1659,12 +1664,14 @@ function AssetIssuerActions(props) {
                       header={t("IssuedAssets:chooseSpecificFeed")}
                       type="header"
                     />
-                    <div className="w-full rounded border border-border pt-1 max-h-[150px] overflow-auto">
+                    <div className="w-full h-[150px]">
                       <List
-                        rowComponent={PriceFeedRow}
+                        height={150}
+                        width="100%"
+                        rowComponent={MemoAssetIssuerPriceFeedRow}
                         rowCount={bitassetData.feeds.length}
                         rowHeight={60}
-                        rowProps={{}}
+                        rowProps={priceFeedRowProps}
                       />
                     </div>
                   </>

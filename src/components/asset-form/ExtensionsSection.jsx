@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { List } from "react-window";
@@ -42,6 +42,17 @@ export default function ExtensionsSection({
   usr,
 }) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
+
+  const handleFeeSharingRemove = useCallback(
+    (id) => {
+      setFeeSharingWhitelist(feeSharingWhitelist.filter((x) => x.id !== id));
+    },
+    [feeSharingWhitelist, setFeeSharingWhitelist]
+  );
+  const feeSharingRowProps = useMemo(
+    () => ({ items: feeSharingWhitelist, onRemove: handleFeeSharingRemove }),
+    [feeSharingWhitelist, handleFeeSharingRemove]
+  );
 
   if (!flagChargeMarketFee) return null;
 
@@ -177,19 +188,14 @@ export default function ExtensionsSection({
           />
           <div className="grid grid-cols-12 mt-1">
             <span className="col-span-9 border border-border rounded">
-              <div className="w-full max-h-[210px] overflow-auto">
+              <div className="w-full h-[300px]">
                 <List
+                  height={300}
+                  width="100%"
                   rowComponent={FeeSharingWhitelistRow}
                   rowCount={feeSharingWhitelist.length}
                   rowHeight={100}
-                  rowProps={{
-                    items: feeSharingWhitelist,
-                    onRemove: (id) => {
-                      setFeeSharingWhitelist(
-                        feeSharingWhitelist.filter((x) => x.id !== id)
-                      );
-                    },
-                  }}
+                  rowProps={feeSharingRowProps}
                 />
               </div>
             </span>

@@ -116,7 +116,8 @@
         "airdrop_calculate": "Distribuez un actif à de nombreux comptes par sélection algorithmique ou liste manuelle, puis diffusez les lots via votre portefeuille Beet.",
         "top-markets": "Utilisez cette page pour voir les marchés DEX BitShares les plus activement tradés, classés par volume d'ordres exécutés.",
         "top-pools": "Utilisez cette page pour voir les pools de liquidité BitShares les plus activement échangés, classés par volume d'échanges.",
-        "configure_visuals": "Personnalisez l'apparence de l'app — vagues, palettes de couleurs, aurore, flou et particules."
+        "configure_visuals": "Personnalisez l'apparence de l'app — vagues, palettes de couleurs, aurore, flou et particules.",
+        "network_fees": "Parcourez tous les frais du réseau en détail — coûts standards, frais par KByte et tarifs membres à vie."
     },
     "back": "Retourner",
     "usage": "Conçu pour être utilisé avec ",

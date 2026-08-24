@@ -4,8 +4,118 @@ import React, {
   useSyncExternalStore,
   useMemo,
   useCallback,
+  memo,
 } from "react";
 import { List } from "react-window";
+
+const CreditBorrowCommonRow = memo(function CreditBorrowCommonRow({ style, res, foundAsset, assets, balanceAssetIDs, t, usr, favouriteUsers, chainUserBlockList, setBlockTarget, setBlockConfirmOpen }) {
+  return (
+    <div style={{ ...style }} key={`acard-${res.id}`}>
+      <Card className="mx-2 mb-2 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all">
+        <div className="p-4">
+          <div className="flex items-start justify-between gap-3 mb-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)] flex-shrink-0">
+                <HandCoins className="h-4 w-4" strokeWidth={2.25} />
+              </span>
+              <div className="min-w-0">
+                <h3 className="text-sm font-semibold text-foreground truncate">
+                  {t("CreditBorrow:common.offer")} #{res.id.replace("1.21.", "")}
+                </h3>
+                <Badge variant="outline" className="gap-1.5 border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button type="button" className="flex items-center gap-1.5 hover:opacity-80 transition-opacity cursor-pointer">
+                        <Avatar size={16} name={res.owner_name} extra="offer-owner" expression={{ eye: "normal", mouth: "smile" }} />
+                        <span className="whitespace-nowrap">{res.owner_name}</span>
+                        <span className="text-muted-foreground/50 text-[10px] flex-shrink-0">({res.owner_account})</span>
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="w-56">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          const chain = usr?.chain ?? "bitshares";
+                          const isFav = favouriteUsers.some((u) => u.id === res.owner_account);
+                          if (isFav) { removeFavouriteUser(chain, { name: res.owner_name, id: res.owner_account }); } else { addFavouriteUser(chain, { name: res.owner_name, id: res.owner_account }); }
+                        }}
+                      >
+                        {favouriteUsers.some((u) => u.id === res.owner_account) ? <StarOff className="h-4 w-4 mr-2" /> : <Star className="h-4 w-4 mr-2" />}
+                        {favouriteUsers.some((u) => u.id === res.owner_account) ? t("Blocklist:unfavouriteAccount") : t("Blocklist:favouriteAccount")}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          if (chainUserBlockList.some((u) => u.id === res.owner_account)) return;
+                          setBlockTarget({ name: res.owner_name, id: res.owner_account });
+                          setBlockConfirmOpen(true);
+                        }}
+                        disabled={chainUserBlockList.some((u) => u.id === res.owner_account)}
+                      >
+                        <Ban className="h-4 w-4 mr-2" />
+                        {chainUserBlockList.some((u) => u.id === res.owner_account) ? t("Blocklist:alreadyBlocked") : t("Blocklist:blockAccount")}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </Badge>
+              </div>
+            </div>
+            <Badge variant="outline" className="gap-1 text-[10px] border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
+              <Clock className="h-3 w-3" />
+              {hoursTillExpiration(res.auto_disable_time)}h
+            </Badge>
+          </div>
+          <div className="rounded-lg border border-border/60 bg-card/40 p-3 mb-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">{t("CreditBorrow:common.offering")}</div>
+                  <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">{humanReadableFloat(res.current_balance, foundAsset.precision)} {foundAsset.symbol}</div>
+                </div>
+                <div>
+                  <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">{t("CreditBorrow:common.fee", { fee: "" })}</div>
+                  <div className="font-mono text-xs tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">{(res.fee_rate / 10000).toFixed(2)}%</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1">
+                <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">{t("CreditBorrow:common.accepting")}</div>
+                <div className="font-mono text-sm tabular-nums text-foreground/85">
+                  {assets && assets.length ? res.acceptable_collateral.map((asset) => asset[0]).map((x) => assets.find((y) => y.id === x)?.symbol).filter((x) => x).map((x, idx, arr) => { const a = assets.find((y) => y.symbol === x); const hasBal = a && balanceAssetIDs && balanceAssetIDs.includes(a.id); return (<span key={`${x}-${idx}`} className={cn("inline", hasBal ? "font-semibold text-foreground" : "text-muted-foreground/60")}>{x}{idx < arr.length - 1 ? ", " : ""}</span>); }) : t("CreditBorrow:common.loading")}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5"><div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">{t("CreditBorrow:common.repayPeriod", { repayPeriod: "" })}</div><div className="font-mono text-xs tabular-nums text-foreground/85">{(res.max_duration_seconds / 60 / 60).toFixed(res.max_duration_seconds / 60 / 60 < 1 ? 2 : 0)}h</div></div>
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5"><div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">{t("CreditBorrow:common.min", { amount: "", asset: "" })}</div><div className="font-mono text-xs tabular-nums text-foreground/85">{humanReadableFloat(res.min_deal_amount, foundAsset.precision)} {foundAsset.symbol}</div></div>
+            <div className="rounded-lg border border-border/60 bg-card/40 p-2.5"><div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">{t("CreditBorrow:common.validity", { validity: "" })}</div><div className="font-mono text-xs tabular-nums text-foreground/85">{hoursTillExpiration(res.auto_disable_time)}h</div></div>
+          </div>
+          <div className="flex items-center gap-2"><a href={`/offer.html?id=${res.id}`} className="flex-1"><Button className="w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">{t("CreditBorrow:common.proceed", { offerID: res.id.replace("1.21.", "") })}<ArrowRight className="h-3.5 w-3.5 ml-1.5" /></Button></a><a href={`/lend.html?id=${res.id}`}><Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]">{t(`CreditBorrow:common.${usr.id === res.owner_account ? "edit" : "view"}`, { offerID: res.id.replace("1.21.", "") })}</Button></a></div>
+        </div>
+      </Card>
+    </div>
+  );
+});
+
+const CreditBorrowBalanceRow = memo(function CreditBorrowBalanceRow({ index, style, compatibleOffers, assets, t, usr, favouriteUsers, chainUserBlockList, setBlockTarget, setBlockConfirmOpen, balanceAssetIDs }) {
+  const res = compatibleOffers[index];
+  if (!res) return null;
+  const foundAsset = assets.find((x) => x.id === res.asset_type);
+  if (!foundAsset) return null;
+  return <CreditBorrowCommonRow style={style} res={res} foundAsset={foundAsset} assets={assets} balanceAssetIDs={balanceAssetIDs} t={t} usr={usr} favouriteUsers={favouriteUsers} chainUserBlockList={chainUserBlockList} setBlockTarget={setBlockTarget} setBlockConfirmOpen={setBlockConfirmOpen} />;
+});
+const CreditBorrowOfferRow = memo(function CreditBorrowOfferRow({ index, style, offers, assets, t, usr, favouriteUsers, chainUserBlockList, setBlockTarget, setBlockConfirmOpen, balanceAssetIDs }) {
+  const res = offers[index];
+  if (!res) return null;
+  const foundAsset = assets.find((x) => x.id === res.asset_type);
+  if (!foundAsset) return null;
+  return <CreditBorrowCommonRow style={style} res={res} foundAsset={foundAsset} assets={assets} balanceAssetIDs={balanceAssetIDs} t={t} usr={usr} favouriteUsers={favouriteUsers} chainUserBlockList={chainUserBlockList} setBlockTarget={setBlockTarget} setBlockConfirmOpen={setBlockConfirmOpen} />;
+});
+const CreditBorrowSearchRow = memo(function CreditBorrowSearchRow({ index, style, thisResult, assets, t, usr, favouriteUsers, chainUserBlockList, setBlockTarget, setBlockConfirmOpen, balanceAssetIDs }) {
+  const res = thisResult[index]?.item;
+  if (!res) return null;
+  const foundAsset = assets.find((x) => x.id === res.asset_type);
+  if (!foundAsset) return null;
+  return <CreditBorrowCommonRow style={style} res={res} foundAsset={foundAsset} assets={assets} balanceAssetIDs={balanceAssetIDs} t={t} usr={usr} favouriteUsers={favouriteUsers} chainUserBlockList={chainUserBlockList} setBlockTarget={setBlockTarget} setBlockConfirmOpen={setBlockConfirmOpen} />;
+});
 import Fuse from "fuse.js";
 import { sha256 } from "@noble/hashes/sha2.js";
 import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
@@ -396,240 +506,10 @@ export default function CreditBorrow(properties) {
     }
   }, [offerSearch, thisInput]);
 
-  function CommonRow({ index, style, res, foundAsset }) {
-    return (
-      <div style={{ ...style }} key={`acard-${res.id}`}>
-        <Card className="mx-2 mb-2 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all">
-          <div className="p-4">
-            <div className="flex items-start justify-between gap-3 mb-3">
-              <div className="flex items-center gap-3 min-w-0">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)] flex-shrink-0">
-                  <HandCoins className="h-4 w-4" strokeWidth={2.25} />
-                </span>
-                <div className="min-w-0">
-                  <h3 className="text-sm font-semibold text-foreground truncate">
-                    {t("CreditBorrow:common.offer")} #{res.id.replace("1.21.", "")}
-                  </h3>
-                  <Badge variant="outline" className="gap-1.5 border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <button
-                          type="button"
-                          className="flex items-center gap-1.5 hover:opacity-80 transition-opacity cursor-pointer"
-                        >
-                          <Avatar
-                            size={16}
-                            name={res.owner_name}
-                            extra="offer-owner"
-                            expression={{ eye: "normal", mouth: "smile" }}
-                          />
-                          <span className="whitespace-nowrap">{res.owner_name}</span>
-                          <span className="text-muted-foreground/50 text-[10px] flex-shrink-0">
-                            ({res.owner_account})
-                          </span>
-                        </button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start" className="w-56">
-                        <DropdownMenuItem
-                          onClick={() => {
-                            const chain = usr?.chain ?? "bitshares";
-                            const isFav = favouriteUsers.some(
-                              (u) => u.id === res.owner_account
-                            );
-                            if (isFav) {
-                              removeFavouriteUser(chain, {
-                                name: res.owner_name,
-                                id: res.owner_account,
-                              });
-                            } else {
-                              addFavouriteUser(chain, {
-                                name: res.owner_name,
-                                id: res.owner_account,
-                              });
-                            }
-                          }}
-                        >
-                          {favouriteUsers.some((u) => u.id === res.owner_account) ? (
-                            <StarOff className="h-4 w-4 mr-2" />
-                          ) : (
-                            <Star className="h-4 w-4 mr-2" />
-                          )}
-                          {favouriteUsers.some((u) => u.id === res.owner_account)
-                            ? t("Blocklist:unfavouriteAccount")
-                            : t("Blocklist:favouriteAccount")}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => {
-                            if (chainUserBlockList.some((u) => u.id === res.owner_account)) {
-                              return;
-                            }
-                            setBlockTarget({
-                              name: res.owner_name,
-                              id: res.owner_account,
-                            });
-                            setBlockConfirmOpen(true);
-                          }}
-                          disabled={chainUserBlockList.some((u) => u.id === res.owner_account)}
-                        >
-                          <Ban className="h-4 w-4 mr-2" />
-                          {chainUserBlockList.some((u) => u.id === res.owner_account)
-                            ? t("Blocklist:alreadyBlocked")
-                            : t("Blocklist:blockAccount")}
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </Badge>
-                </div>
-              </div>
-              <Badge variant="outline" className="gap-1 text-[10px] border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] flex-shrink-0">
-                <Clock className="h-3 w-3" />
-                {hoursTillExpiration(res.auto_disable_time)}h
-              </Badge>
-            </div>
-
-            <div className="rounded-lg border border-border/60 bg-card/40 p-3 mb-3">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div>
-                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
-                      {t("CreditBorrow:common.offering")}
-                    </div>
-                    <div className="font-mono text-sm tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))] font-semibold">
-                      {humanReadableFloat(res.current_balance, foundAsset.precision)} {foundAsset.symbol}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
-                      {t("CreditBorrow:common.fee", { fee: "" })}
-                    </div>
-                    <div className="font-mono text-xs tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.9)] text-[hsl(var(--accent-1-fg))]">
-                      {(res.fee_rate / 10000).toFixed(2)}%
-                    </div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1">
-                  <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-1">
-                    {t("CreditBorrow:common.accepting")}
-                  </div>
-                  <div className="font-mono text-sm tabular-nums text-foreground/85">
-                    {assets && assets.length
-                      ? res.acceptable_collateral
-                          .map((asset) => asset[0])
-                          .map((x) => assets.find((y) => y.id === x)?.symbol)
-                          .filter((x) => x)
-                          .map((x, index, array) => {
-                            const assetForSymbol = assets.find((y) => y.symbol === x);
-                            const hasBalance = assetForSymbol && balanceAssetIDs && balanceAssetIDs.includes(assetForSymbol.id);
-                            return (
-                              <>
-                                <span
-                                  key={`${x}-${index}`}
-                                  className={cn(
-                                    "inline",
-                                    hasBalance ? "font-semibold text-foreground" : "text-muted-foreground/60"
-                                  )}
-                                >
-                                  {x}
-                                </span>
-                                {index < array.length - 1 ? ", " : ""}
-                              </>
-                            );
-                          })
-                      : t("CreditBorrow:common.loading")}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
-              <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
-                <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
-                  {t("CreditBorrow:common.repayPeriod", { repayPeriod: "" })}
-                </div>
-                <div className="font-mono text-xs tabular-nums text-foreground/85">
-                  {(res.max_duration_seconds / 60 / 60).toFixed(
-                    res.max_duration_seconds / 60 / 60 < 1 ? 2 : 0
-                  )}h
-                </div>
-              </div>
-              <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
-                <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
-                  {t("CreditBorrow:common.min", { amount: "", asset: "" })}
-                </div>
-                <div className="font-mono text-xs tabular-nums text-foreground/85">
-                  {humanReadableFloat(res.min_deal_amount, foundAsset.precision)} {foundAsset.symbol}
-                </div>
-              </div>
-              <div className="rounded-lg border border-border/60 bg-card/40 p-2.5">
-                <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70 mb-0.5">
-                  {t("CreditBorrow:common.validity", { validity: "" })}
-                </div>
-                <div className="font-mono text-xs tabular-nums text-foreground/85">
-                  {hoursTillExpiration(res.auto_disable_time)}h
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <a href={`/offer.html?id=${res.id}`} className="flex-1">
-                <Button className="w-full bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] border-0 shadow-[0_4px_14px_-4px_rgba(16,185,129,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(16,185,129,0.6)] transition-all">
-                  {t("CreditBorrow:common.proceed", {
-                    offerID: res.id.replace("1.21.", ""),
-                  })}
-                  <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
-                </Button>
-              </a>
-              <a href={`/lend.html?id=${res.id}`}>
-                <Button variant="outline" className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]">
-                  {t(
-                    `CreditBorrow:common.${
-                      usr.id === res.owner_account ? "edit" : "view"
-                    }`,
-                    {
-                      offerID: res.id.replace("1.21.", ""),
-                    }
-                  )}
-                </Button>
-              </a>
-            </div>
-          </div>
-        </Card>
-      </div>
-    );
-  }
-
-  const BalanceRow = ({ index, style }) => {
-    let res = compatibleOffers[index];
-    const foundAsset = assets.find((x) => x.id === res.asset_type);
-    if (!res || !foundAsset) {
-      return null;
-    }
-    return (
-      <CommonRow index={index} style={style} res={res} foundAsset={foundAsset} />
-    );
-  };
-
-  const OfferRow = ({ index, style }) => {
-    let res = offers[index];
-    const foundAsset = assets.find((x) => x.id === res.asset_type);
-    if (!res || !foundAsset) {
-      return null;
-    }
-    return (
-      <CommonRow index={index} style={style} res={res} foundAsset={foundAsset} />
-    );
-  };
-
-  const SearchRow = ({ index, style }) => {
-    let res = thisResult[index].item;
-    const foundAsset = assets.find((x) => x.id === res.asset_type);
-    if (!res || !foundAsset) {
-      return null;
-    }
-    return (
-      <CommonRow index={index} style={style} res={res} foundAsset={foundAsset} />
-    );
-  };
+  const creditBorrowCommonProps = useMemo(() => ({ assets, t, usr, favouriteUsers, chainUserBlockList, balanceAssetIDs }), [assets, t, usr, favouriteUsers, chainUserBlockList, balanceAssetIDs]);
+  const offerRowProps = useMemo(() => ({ offers, assets, t, usr, favouriteUsers, chainUserBlockList, setBlockTarget, setBlockConfirmOpen, balanceAssetIDs }), [offers, assets, t, usr, favouriteUsers, chainUserBlockList, balanceAssetIDs]);
+  const balanceRowProps = useMemo(() => ({ compatibleOffers, assets, t, usr, favouriteUsers, chainUserBlockList, setBlockTarget, setBlockConfirmOpen, balanceAssetIDs }), [compatibleOffers, assets, t, usr, favouriteUsers, chainUserBlockList, balanceAssetIDs]);
+  const searchRowProps = useMemo(() => ({ thisResult, assets, t, usr, favouriteUsers, chainUserBlockList, setBlockTarget, setBlockConfirmOpen, balanceAssetIDs }), [thisResult, assets, t, usr, favouriteUsers, chainUserBlockList, balanceAssetIDs]);
 
   const [thisSearchInput, setThisSearchInput] = useState();
 
@@ -763,12 +643,14 @@ export default function CreditBorrow(properties) {
                     </span>
                   </div>
                   {assets && offers && offers.length ? (
-                    <div className="w-full">
+                    <div className="w-full h-[600px]">
                       <List
-                        rowComponent={OfferRow}
+                        rowComponent={CreditBorrowOfferRow}
                         rowCount={offers.length}
                         rowHeight={isDesktop ? 330 : 380}
-                        rowProps={{}}
+                        rowProps={offerRowProps}
+                        height={600}
+                        width="100%"
                       />
                     </div>
                   ) : null}
@@ -788,12 +670,14 @@ export default function CreditBorrow(properties) {
                     </span>
                   </div>
                   {assets && compatibleOffers && compatibleOffers.length ? (
-                    <div className="w-full">
+                    <div className="w-full h-[600px]">
                       <List
-                        rowComponent={BalanceRow}
+                        rowComponent={CreditBorrowBalanceRow}
                         rowCount={compatibleOffers.length}
                         rowHeight={isDesktop ? 330 : 380}
-                        rowProps={{}}
+                        rowProps={balanceRowProps}
+                        height={600}
+                        width="100%"
                       />
                     </div>
                   ) : (
@@ -864,12 +748,14 @@ export default function CreditBorrow(properties) {
                   {["borrow", "collateral", "owner_name"].includes(activeSearch) && (
                     <>
                       {thisResult && thisResult.length ? (
-                        <div className="w-full">
+                        <div className="w-full h-[600px]">
                           <List
-                            rowComponent={SearchRow}
+                            rowComponent={CreditBorrowSearchRow}
                             rowCount={thisResult.length}
                             rowHeight={isDesktop ? 330 : 380}
-                            rowProps={{}}
+                            rowProps={searchRowProps}
+                            height={600}
+                            width="100%"
                           />
                         </div>
                       ) : null}

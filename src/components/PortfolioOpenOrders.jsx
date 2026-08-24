@@ -494,6 +494,8 @@ export default function PortfolioOpenOrders({
   const hasOrders =
     sortedOpenOrders && sortedOpenOrders.length > 0;
 
+  const openOrdersRowProps = useMemo(() => ({ sortedOpenOrders, assets, now, showDialog, orderID, setOrderID, setShowDialog, t, usr }), [sortedOpenOrders, assets, now, showDialog, orderID, setOrderID, setShowDialog, t, usr]);
+
   return (
     <div className="container mx-auto mt-5 mb-5 max-w-5xl text-foreground">
       <div className="grid grid-cols-1 gap-3">
@@ -582,22 +584,14 @@ export default function PortfolioOpenOrders({
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="max-h-[600px] overflow-auto -mx-2 pt-2">
+                <div className="w-full h-[600px] -mx-2 pt-2">
                   <List
                     rowComponent={OpenOrdersRow}
                     rowCount={sortedOpenOrders.length}
                     rowHeight={rowHeight}
-                    rowProps={{
-                      sortedOpenOrders,
-                      assets,
-                      now,
-                      showDialog,
-                      orderID,
-                      setOrderID,
-                      setShowDialog,
-                      t,
-                      usr,
-                    }}
+                    height={600}
+                    width="100%"
+                    rowProps={openOrdersRowProps}
                   />
                 </div>
               </>

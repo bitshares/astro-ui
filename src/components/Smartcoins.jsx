@@ -644,16 +644,14 @@ export default function Smartcoins(properties) {
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
                             rowHeight={130}
-                            rowProps={{}}
-                          />
+                            rowProps={{}} height={600} width="100%" />
                         </div>
                         <div className="block md:hidden">
                           <List
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
                             rowHeight={165}
-                            rowProps={{}}
-                          />
+                            rowProps={{}} height={600} width="100%" />
                         </div>
                       </div>
                     )}
@@ -708,16 +706,14 @@ export default function Smartcoins(properties) {
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
                             rowHeight={130}
-                            rowProps={{}}
-                          />
+                            rowProps={{}} height={600} width="100%" />
                         </div>
                         <div className="block md:hidden">
                           <List
                             rowComponent={BitassetRow}
                             rowCount={relevantBitassetData.length}
                             rowHeight={165}
-                            rowProps={{}}
-                          />
+                            rowProps={{}} height={600} width="100%" />
                         </div>
                       </div>
                     )}
@@ -778,8 +774,7 @@ export default function Smartcoins(properties) {
                                 : 0
                             }
                             rowHeight={130}
-                            rowProps={{}}
-                          />
+                            rowProps={{}} height={600} width="100%" />
                         </div>
                         <div className="block md:hidden">
                           <List
@@ -790,8 +785,7 @@ export default function Smartcoins(properties) {
                                 : 0
                             }
                             rowHeight={165}
-                            rowProps={{}}
-                          />
+                            rowProps={{}} height={600} width="100%" />
                         </div>
                       </div>
                     )}
@@ -887,16 +881,14 @@ export default function Smartcoins(properties) {
                                 rowComponent={SearchRow}
                                 rowCount={thisResult.length}
                                 rowHeight={130}
-                                rowProps={{}}
-                              />
+                                rowProps={{}} height={600} width="100%" />
                             </div>
                             <div className="block md:hidden">
                               <List
                                 rowComponent={SearchRow}
                                 rowCount={thisResult.length}
                                 rowHeight={165}
-                                rowProps={{}}
-                              />
+                                rowProps={{}} height={600} width="100%" />
                             </div>
                           </div>
                         ) : null}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useSyncExternalStore } from "react";
+import React, { useState, useEffect, useSyncExternalStore, memo, useMemo } from "react";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
 
@@ -36,6 +36,146 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { Server, ArrowUp, Wifi, Trash2 } from "lucide-react";
 
+
+const NodeRow = memo(function NodeRow({ index, style, nodes, chain, updateNodes }) {
+  const [open, setOpen] = useState(false);
+  const [pinging, setPinging] = useState(false);
+  const [pingResult, setPingResult] = useState(null);
+  const [attempt, setAttempt] = useState(0);
+
+  const nodeUrl = nodes[chain][index].url;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function runPing() {
+      if (!open) return;
+      setPinging(true);
+      setPingResult(null);
+      try {
+        let res;
+        if (window?.electron?.ping) {
+          res = await window.electron.ping(nodeUrl);
+        } else {
+          res = { ok: false, error: "no_bridge" };
+        }
+        if (cancelled) return;
+        setPingResult(res);
+      } catch (err) {
+        if (cancelled) return;
+        setPingResult({ ok: false, error: err?.message || String(err) });
+      } finally {
+        if (!cancelled) setPinging(false);
+      }
+    }
+
+    runPing();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [open, index, attempt, nodeUrl]);
+
+  return (
+    <div style={{ ...style }} key={`acard-${index}`}>
+      <Card className={`ml-2 mr-2 border-[hsl(var(--accent-success)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-success)/0.25)] hover:bg-[hsl(var(--accent-success)/0.03)] transition-all ${index === 0 ? "!border-[hsl(var(--accent-success)/0.3)] !bg-[hsl(var(--accent-success)/0.05)]" : ""}`}>
+        <CardHeader className="pb-0 pt-0">
+          <CardTitle>
+            <div className={`grid grid-cols-4 gap-2 items-center mt-0 pt-0`}>
+              <div className="col-span-4 md:col-span-3 font-mono text-sm">
+                {nodes[chain][index].url}
+              </div>
+              <div className="col-span-4 md:col-span-1 text-right flex items-center justify-end">
+                <Button
+                  className="mr-2 border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
+                  variant="none"
+                  onClick={() => {
+                    const updatedNodes = [...nodes[chain]];
+                    const [selectedNode] = updatedNodes.splice(index, 1);
+                    updateNodes(chain, [selectedNode, ...updatedNodes]);
+                  }}
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </Button>
+                <Dialog open={open} onOpenChange={setOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="none" className="mr-2 border border-[hsl(var(--accent-2)/0.3)] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.1)]">
+                      <Wifi className="h-4 w-4" />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[420px] bg-card">
+                    <DialogHeader>
+                      <DialogTitle>Ping node</DialogTitle>
+                      <DialogDescription>
+                        Checking reachability for{" "}
+                        {nodes[chain][index].url}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="py-4">
+                      {pinging ? (
+                        <div className="flex items-center gap-2">
+                          <Spinner />
+                          <div> Pinging... </div>
+                        </div>
+                      ) : pingResult && pingResult.ok ? (
+                        <div className="text-[hsl(var(--accent-success-fg))] dark:text-[hsl(var(--accent-success-fg))]">
+                          Node is reachable!
+                          {pingResult &&
+                          typeof pingResult.ms !== "undefined" ? (
+                            <span className="ml-2 text-sm">
+                              Ping: {pingResult.ms} ms
+                            </span>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <div className="text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]">
+                          Node appears temporarily unreachable. You will be
+                          alerted if it becomes reachable again.
+                          {pingResult && pingResult.error ? (
+                            <div className="text-sm text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] mt-2">
+                              {pingResult.error}
+                            </div>
+                          ) : null}
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex justify-end">
+                      <Button
+                        className="mr-2 border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
+                        onClick={() => setAttempt((a) => a + 1)}
+                        disabled={pinging}
+                      >
+                        Retry
+                      </Button>
+                      <Button 
+                        className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white dark:text-white hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
+                        onClick={() => setOpen(false)}
+                      >
+                        Close
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+                <Button
+                  variant="none"
+                  className="border border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)]"
+                  onClick={() => {
+                    const updatedNodes = [...nodes[chain]];
+                    updatedNodes.splice(index, 1);
+                    updateNodes(chain, updatedNodes);
+                  }}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </CardTitle>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+});
+
 export default function Nodes(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const currentNode = useStore($currentNode);
@@ -49,151 +189,8 @@ export default function Nodes(properties) {
 
   const [inputURL, setInputURL] = useState("");
 
-  const NodeRow = ({ index, style }) => {
-    const [open, setOpen] = useState(false);
-    const [pinging, setPinging] = useState(false);
-    const [pingResult, setPingResult] = useState(null);
-    // attempt is bumped to re-run the ping (used by Retry)
-    const [attempt, setAttempt] = useState(0);
-
-    const nodeUrl = nodes[usr.chain][index].url;
-
-    useEffect(() => {
-      let cancelled = false;
-
-      async function runPing() {
-        if (!open) return;
-        setPinging(true);
-        setPingResult(null);
-
-        // Use async/await to call the preload bridge (backend handles timeout)
-        try {
-          let res;
-          if (window?.electron?.ping) {
-            // backend should resolve with { ok: true, ms } on success
-            // or { ok: false, error: "timeout" } on timeout
-            res = await window.electron.ping(nodeUrl);
-          } else {
-            res = { ok: false, error: "no_bridge" };
-          }
-
-          if (cancelled) return;
-          setPingResult(res);
-        } catch (err) {
-          if (cancelled) return;
-          setPingResult({ ok: false, error: err?.message || String(err) });
-        } finally {
-          if (!cancelled) setPinging(false);
-        }
-      }
-
-      runPing();
-
-      return () => {
-        cancelled = true;
-      };
-    }, [open, index, attempt]);
-
-    // retry is disabled only while a ping is in progress (handled by `pinging`)
-    return (
-      <div style={{ ...style }} key={`acard-${index}`}>
-        <Card className={`ml-2 mr-2 border-[hsl(var(--accent-success)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-success)/0.25)] hover:bg-[hsl(var(--accent-success)/0.03)] transition-all ${index === 0 ? "!border-[hsl(var(--accent-success)/0.3)] !bg-[hsl(var(--accent-success)/0.05)]" : ""}`}>
-          <CardHeader className="pb-0 pt-0">
-            <CardTitle>
-              <div className={`grid grid-cols-4 gap-2 items-center mt-0 pt-0`}>
-                <div className="col-span-4 md:col-span-3 font-mono text-sm">
-                  {nodes[usr.chain][index].url}
-                </div>
-                <div className="col-span-4 md:col-span-1 text-right flex items-center justify-end">
-                  <Button
-                    className="mr-2 border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
-                    variant="none"
-                    onClick={() => {
-                      const updatedNodes = [...nodes[usr.chain]];
-                      const [selectedNode] = updatedNodes.splice(index, 1);
-                      updateNodes(usr.chain, [selectedNode, ...updatedNodes]);
-                    }}
-                  >
-                    <ArrowUp className="h-4 w-4" />
-                  </Button>
-                  <Dialog open={open} onOpenChange={setOpen}>
-                    <DialogTrigger asChild>
-                      <Button variant="none" className="mr-2 border border-[hsl(var(--accent-2)/0.3)] text-[hsl(var(--accent-2-fg))] hover:bg-[hsl(var(--accent-2)/0.1)]">
-                        <Wifi className="h-4 w-4" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[420px] bg-card">
-                      <DialogHeader>
-                        <DialogTitle>Ping node</DialogTitle>
-                        <DialogDescription>
-                          Checking reachability for{" "}
-                          {nodes[usr.chain][index].url}
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="py-4">
-                        {pinging ? (
-                          <div className="flex items-center gap-2">
-                            <Spinner />
-                            <div> Pinging... </div>
-                          </div>
-                        ) : pingResult && pingResult.ok ? (
-                          <div className="text-[hsl(var(--accent-success-fg))] dark:text-[hsl(var(--accent-success-fg))]">
-                            Node is reachable!
-                            {pingResult &&
-                            typeof pingResult.ms !== "undefined" ? (
-                              <span className="ml-2 text-sm">
-                                Ping: {pingResult.ms} ms
-                              </span>
-                            ) : null}
-                          </div>
-                        ) : (
-                          <div className="text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]">
-                            Node appears temporarily unreachable. You will be
-                            alerted if it becomes reachable again.
-                            {pingResult && pingResult.error ? (
-                              <div className="text-sm text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] mt-2">
-                                {pingResult.error}
-                              </div>
-                            ) : null}
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex justify-end">
-                        <Button
-                          className="mr-2 border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
-                          onClick={() => setAttempt((a) => a + 1)}
-                          disabled={pinging}
-                        >
-                          Retry
-                        </Button>
-                        <Button 
-                          className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-white dark:text-white hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))]"
-                          onClick={() => setOpen(false)}
-                        >
-                          Close
-                        </Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                  <Button
-                    variant="none"
-                    className="border border-[hsl(var(--accent-danger)/0.3)] text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)]"
-                    onClick={() => {
-                      const updatedNodes = [...nodes[usr.chain]];
-                      updatedNodes.splice(index, 1);
-                      updateNodes(usr.chain, updatedNodes);
-                    }}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </CardTitle>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
+  const chain = usr && usr.chain ? usr.chain : "bitshares";
+  const nodeRowProps = useMemo(() => ({ nodes, chain, updateNodes }), [nodes, chain, updateNodes]);
 
   return (
     <>
@@ -246,20 +243,24 @@ export default function Nodes(properties) {
               nodes[usr.chain] &&
               nodes[usr.chain].length ? (
                 <>
-                  <div className="hidden md:block w-full max-h-[250px] overflow-auto">
+                  <div className="hidden md:block w-full h-[250px]">
                     <List
                       rowComponent={NodeRow}
                       rowCount={nodes[usr.chain].length}
                       rowHeight={50}
-                      rowProps={{}}
+                      height={250}
+                      width="100%"
+                      rowProps={nodeRowProps}
                     />
                   </div>
-                  <div className="md:hidden w-full max-h-[250px] overflow-auto">
+                  <div className="md:hidden w-full h-[250px]">
                     <List
                       rowComponent={NodeRow}
                       rowCount={nodes[usr.chain].length}
                       rowHeight={75}
-                      rowProps={{}}
+                      height={250}
+                      width="100%"
+                      rowProps={nodeRowProps}
                     />
                   </div>
                 </>

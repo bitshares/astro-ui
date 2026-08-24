@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { List } from "react-window";
@@ -23,6 +23,27 @@ export default function MarketFilteringSection({
   balances,
 }) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
+
+  const handleAllowedRemove = useCallback(
+    (id) => {
+      setAllowedMarkets(allowedMarkets.filter((x) => x !== id));
+    },
+    [allowedMarkets, setAllowedMarkets]
+  );
+  const handleBannedRemove = useCallback(
+    (id) => {
+      setBannedMarkets(bannedMarkets.filter((x) => x !== id));
+    },
+    [bannedMarkets, setBannedMarkets]
+  );
+  const allowedRowProps = useMemo(
+    () => ({ items: allowedMarkets, assets, marketSearch, onRemove: handleAllowedRemove }),
+    [allowedMarkets, assets, marketSearch, handleAllowedRemove]
+  );
+  const bannedRowProps = useMemo(
+    () => ({ items: bannedMarkets, assets, marketSearch, onRemove: handleBannedRemove }),
+    [bannedMarkets, assets, marketSearch, handleBannedRemove]
+  );
 
   return (
     <div className="col-span-2">
@@ -74,21 +95,14 @@ export default function MarketFilteringSection({
       </div>
       {allowedMarketsEnabled ? (
         <div className="mt-3 border border-border rounded">
-          <div className="w-full max-h-[210px] overflow-auto">
+          <div className="w-full h-[300px]">
             <List
+              height={300}
+              width="100%"
               rowComponent={AllowedMarketsRow}
               rowCount={allowedMarkets.length}
               rowHeight={90}
-              rowProps={{
-                items: allowedMarkets,
-                assets,
-                marketSearch,
-                onRemove: (id) => {
-                  setAllowedMarkets(
-                    allowedMarkets.filter((x) => x !== id)
-                  );
-                },
-              }}
+              rowProps={allowedRowProps}
             />
           </div>
         </div>
@@ -141,21 +155,14 @@ export default function MarketFilteringSection({
       </div>
       {bannedMarketsEnabled ? (
         <div className="mt-2 border border-border rounded">
-          <div className="w-full max-h-[210px] overflow-auto">
+          <div className="w-full h-[300px]">
             <List
+              height={300}
+              width="100%"
               rowComponent={BannedMarketsRow}
               rowCount={bannedMarkets.length}
               rowHeight={90}
-              rowProps={{
-                items: bannedMarkets,
-                assets,
-                marketSearch,
-                onRemove: (id) => {
-                  setBannedMarkets(
-                    bannedMarkets.filter((x) => x !== id)
-                  );
-                },
-              }}
+              rowProps={bannedRowProps}
             />
           </div>
         </div>

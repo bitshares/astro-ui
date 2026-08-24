@@ -65,6 +65,106 @@ import AccountSearch from "./AccountSearch.jsx";
 
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 
+const AccountRow = React.memo(function AccountRow({
+  index,
+  style,
+  mode,
+  whitelistedAccounts,
+  blacklistedAccounts,
+  usr,
+  t,
+}) {
+  const account =
+    mode === "whitelist"
+      ? whitelistedAccounts[index]
+      : blacklistedAccounts[index];
+
+  const [showRowDialog, setShowRowDialog] = useState(false);
+
+  return (
+    <div style={style} className="px-2 py-1">
+      <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-3 py-2.5 hover:border-[hsl(var(--accent-1)/0.2)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all group">
+        <div className="flex-shrink-0">
+          {account ? (
+            <div className="relative">
+              <Avatar
+                size={36}
+                name={toHex(sha256(utf8ToBytes(account)))}
+                extra=""
+                expression={{
+                  eye: "normal",
+                  mouth: mode === "whitelist" ? "open" : "unhappy",
+                }}
+                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+              />
+              <span
+                className={cn(
+                  "absolute -bottom-px -right-px h-2.5 w-2.5 rounded-full border-[1.5px] border-card flex-shrink-0",
+                  mode === "whitelist"
+                    ? "bg-[hsl(var(--accent-1))]"
+                    : "bg-[hsl(var(--accent-danger))]"
+                )}
+              />
+            </div>
+          ) : (
+            <Av>
+              <AvatarFallback>?</AvatarFallback>
+            </Av>
+          )}
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="text-sm font-medium text-foreground truncate">
+            {account}
+          </div>
+          <div className="text-[10px] text-muted-foreground/60">
+            #{index + 1}
+          </div>
+        </div>
+
+        <div className="flex-shrink-0">
+          <TooltipProvider delayDuration={300}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={() => setShowRowDialog(true)}
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-lg border border-border/60 text-muted-foreground hover:border-[hsl(var(--accent-danger)/0.4)] hover:bg-[hsl(var(--accent-danger)/0.1)] hover:text-[hsl(var(--accent-danger-fg))] opacity-60 group-hover:opacity-100 transition-all"
+                >
+                  <UserMinus className="h-3.5 w-3.5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="bg-card border-border text-foreground/85">
+                <p>{t("AccountLists:remove")} #{index + 1}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          {showRowDialog ? (
+            <DeepLinkDialog
+              operationNames={["account_whitelist"]}
+              username={usr && usr.username ? usr.username : ""}
+              usrChain={usr && usr.chain ? usr.chain : "bitshares"}
+              userID={usr.id}
+              dismissCallback={setShowRowDialog}
+              key={`RemovingAccountFromList${mode}${account}`}
+              headerText={t("AccountLists:removeAccountFromList")}
+              trxJSON={[
+                {
+                  authorizing_account: usr.id,
+                  account_to_list: account,
+                  new_listing: 0,
+                  extensions: {},
+                },
+              ]}
+            />
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+});
+
 export default function AccountLists(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const currentNode = useStore($currentNode);
@@ -148,97 +248,18 @@ export default function AccountLists(properties) {
 
   const [mode, setMode] = useState("whitelist");
 
-  const accountRow = ({ index, style }) => {
-    const account =
-      mode === "whitelist"
-        ? whitelistedAccounts[index]
-        : blacklistedAccounts[index];
-
-    const [showRowDialog, setShowRowDialog] = useState(false);
-
-    return (
-      <div style={style} className="px-2 py-1">
-        <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-3 py-2.5 hover:border-[hsl(var(--accent-1)/0.2)] hover:bg-[hsl(var(--accent-1)/0.03)] transition-all group">
-          <div className="flex-shrink-0">
-            {account ? (
-              <div className="relative">
-                <Avatar
-                  size={36}
-                  name={toHex(sha256(utf8ToBytes(account)))}
-                  extra=""
-                  expression={{
-                    eye: "normal",
-                    mouth: mode === "whitelist" ? "open" : "unhappy",
-                  }}
-                  colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
-                />
-                <span
-                  className={cn(
-                    "absolute -bottom-px -right-px h-2.5 w-2.5 rounded-full border-[1.5px] border-card flex-shrink-0",
-                    mode === "whitelist"
-                      ? "bg-[hsl(var(--accent-1))]"
-                      : "bg-[hsl(var(--accent-danger))]"
-                  )}
-                />
-              </div>
-            ) : (
-              <Av>
-                <AvatarFallback>?</AvatarFallback>
-              </Av>
-            )}
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium text-foreground truncate">
-              {account}
-            </div>
-            <div className="text-[10px] text-muted-foreground/60">
-              #{index + 1}
-            </div>
-          </div>
-
-          <div className="flex-shrink-0">
-            <TooltipProvider delayDuration={300}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    onClick={() => setShowRowDialog(true)}
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 rounded-lg border border-border/60 text-muted-foreground hover:border-[hsl(var(--accent-danger)/0.4)] hover:bg-[hsl(var(--accent-danger)/0.1)] hover:text-[hsl(var(--accent-danger-fg))] opacity-60 group-hover:opacity-100 transition-all"
-                  >
-                    <UserMinus className="h-3.5 w-3.5" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="left" className="bg-card border-border text-foreground/85">
-                  <p>{t("AccountLists:remove")} #{index + 1}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            {showRowDialog ? (
-              <DeepLinkDialog
-                operationNames={["account_whitelist"]}
-                username={usr && usr.username ? usr.username : ""}
-                usrChain={usr && usr.chain ? usr.chain : "bitshares"}
-                userID={usr.id}
-                dismissCallback={setShowRowDialog}
-                key={`RemovingAccountFromList${mode}${account}`}
-                headerText={t("AccountLists:removeAccountFromList")}
-                trxJSON={[
-                  {
-                    authorizing_account: usr.id,
-                    account_to_list: account,
-                    new_listing: 0,
-                    extensions: {},
-                  },
-                ]}
-              />
-            ) : null}
-          </div>
-        </div>
-      </div>
-    );
-  };
+  const accountRowProps = useMemo(
+    () => ({ mode, whitelistedAccounts, blacklistedAccounts, usr, t }),
+    [mode, whitelistedAccounts, blacklistedAccounts, usr, t]
+  );
+  const whitelistRowProps = useMemo(
+    () => ({ mode: "whitelist", whitelistedAccounts, blacklistedAccounts, usr, t }),
+    [whitelistedAccounts, blacklistedAccounts, usr, t]
+  );
+  const blacklistRowProps = useMemo(
+    () => ({ mode: "blacklist", whitelistedAccounts, blacklistedAccounts, usr, t }),
+    [whitelistedAccounts, blacklistedAccounts, usr, t]
+  );
 
   const tabs = [
     {
@@ -334,22 +355,26 @@ export default function AccountLists(properties) {
             {/* Account List */}
             <div className="mb-5">
               {mode === "whitelist" && whitelistedAccounts.length ? (
-                <div className="w-full border border-border/60 rounded-xl overflow-hidden bg-card/30">
+                <div className="w-full h-[340px] border border-border/60 rounded-xl overflow-hidden bg-card/30">
                   <List
-                    rowComponent={accountRow}
+                    rowComponent={AccountRow}
                     rowCount={whitelistedAccounts.length}
                     rowHeight={56}
-                    rowProps={{}}
+                    height={340}
+                    width="100%"
+                    rowProps={whitelistRowProps}
                   />
                 </div>
               ) : null}
               {mode === "blacklist" && blacklistedAccounts.length ? (
-                <div className="w-full border border-border/60 rounded-xl overflow-hidden bg-card/30">
+                <div className="w-full h-[340px] border border-border/60 rounded-xl overflow-hidden bg-card/30">
                   <List
-                    rowComponent={accountRow}
+                    rowComponent={AccountRow}
                     rowCount={blacklistedAccounts.length}
                     rowHeight={56}
-                    rowProps={{}}
+                    height={340}
+                    width="100%"
+                    rowProps={blacklistRowProps}
                   />
                 </div>
               ) : null}

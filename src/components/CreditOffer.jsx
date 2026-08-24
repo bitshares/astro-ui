@@ -3,7 +3,18 @@ import React, {
   useEffect,
   useMemo,
   useSyncExternalStore,
+  memo,
 } from "react";
+
+const CreditCollateralRow = memo(function CreditCollateralRow({ index, style, acceptedCollateral }) {
+  const collateralAsset = acceptedCollateral[index];
+  if (!collateralAsset) return null;
+  return (
+    <SelectItem value={collateralAsset.id} style={style}>
+      {`${collateralAsset.symbol} (${collateralAsset.id})`}
+    </SelectItem>
+  );
+});
 import { useForm, Controller } from "react-hook-form";
 import { sha256 } from "@noble/hashes/sha2.js";
 import { bytesToHex as toHex, utf8ToBytes } from "@noble/hashes/utils.js";
@@ -285,14 +296,7 @@ export default function CreditOffer(properties) {
     return [];
   }, [relevantOffer, assets]);
 
-  const Row = ({ index, style }) => {
-    const collateralAsset = acceptedCollateral[index];
-    return (
-      <SelectItem value={collateralAsset.id} style={style}>
-        {`${collateralAsset.symbol} (${collateralAsset.id})`}
-      </SelectItem>
-    );
-  };
+  const creditCollateralRowProps = useMemo(() => ({ acceptedCollateral }), [acceptedCollateral]);
 
   const availableAmount = useMemo(() => {
     if (relevantOffer && foundAsset) {
@@ -862,12 +866,14 @@ export default function CreditOffer(properties) {
                                   <SelectContent className="bg-card/80 backdrop-blur-xl border border-[hsl(var(--accent-1)/0.2)]">
                                     {acceptedCollateral &&
                                     acceptedCollateral.length ? (
-                                      <div className="w-full max-h-[100px] overflow-auto">
+                                      <div className="w-full h-[100px]">
                                         <List
                                           rowCount={acceptedCollateral.length}
-                                          rowComponent={Row}
+                                          rowComponent={CreditCollateralRow}
                                           rowHeight={35}
-                                          rowProps={{}}
+                                          rowProps={creditCollateralRowProps}
+                                          height={100}
+                                          width="100%"
                                           initialScrollOffset={
                                             chosenCollateral
                                               ? acceptedCollateral

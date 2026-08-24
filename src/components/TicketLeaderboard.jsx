@@ -3,6 +3,7 @@ import React, {
   useMemo,
   useState,
   useSyncExternalStore,
+  useCallback,
 } from "react";
 import { useStore } from "@nanostores/react";
 import { List } from "react-window";
@@ -166,8 +167,9 @@ export default function TicketLeaderboard() {
     fetchAccountsWS();
   }, [leaderboard.rows, chain, currentNode]);
 
-  const LeaderboardRow = ({ index, style }) => {
+  const LeaderboardRow = useCallback(({ index, style }) => {
     const r = leaderboard.rows[index];
+    if (!r) return null;
     const acc = accounts[r.id];
     const name = acc && acc.name ? acc.name : r.id;
 
@@ -261,7 +263,7 @@ export default function TicketLeaderboard() {
         </Dialog>
       </div>
     );
-  };
+  }, [leaderboard.rows, accounts, assetSymbol, t, tickets]);
 
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4">
@@ -294,12 +296,14 @@ export default function TicketLeaderboard() {
               <div className="text-sm font-medium">{t("TicketsLeaderboard:th.amount", "Effective amount")}</div>
               <div className="text-sm font-medium">{t("TicketsLeaderboard:th.percent", "% of total")}</div>
             </div>
-            <div className="w-full max-h-[320px] overflow-auto">
+            <div className="w-full h-[320px]">
               <List
                 rowComponent={LeaderboardRow}
                 rowCount={leaderboard.rows.length}
                 rowHeight={75}
                 rowProps={{}}
+                height={320}
+                width="100%"
               />
             </div>
           </div>

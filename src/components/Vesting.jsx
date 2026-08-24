@@ -3,6 +3,7 @@ import React, {
   useMemo,
   useEffect,
   useState,
+  useCallback,
 } from "react";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
@@ -49,6 +50,95 @@ function hoursTillExpiration(expirationTime) {
   var hours = Math.round(difference / 1000 / 60 / 60);
   return hours;
 }
+
+function VestingRow({ index, style, chosenVestingData, assets, t, onClaim }) {
+  let res = chosenVestingData[index];
+  const foundAsset = assets.find((x) => x.id === res.balance.asset_id);
+
+  if (!res || !foundAsset) {
+    return null;
+  }
+
+  const readableBalance = ` ${humanReadableFloat(
+    res.balance.amount,
+    foundAsset.precision
+  )} ${foundAsset.symbol}`;
+
+  const policy = res.balance_type === "cashback" ? res.policy[1] : null;
+
+  return (
+    <div style={{ ...style }} key={`acard-${res.id}`}>
+      <div className="m-2 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.04)] to-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] transition-all px-4 py-3">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
+              <Coins className="h-3 w-3" />
+            </span>
+            <span className="font-mono text-sm font-semibold text-[hsl(var(--accent-1-fg))]">
+              {readableBalance}
+            </span>
+          </div>
+          <Badge
+            variant="outline"
+            className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px] font-mono"
+          >
+            {res.id}
+          </Badge>
+        </div>
+        
+        {policy ? (
+          <div className="grid grid-cols-2 gap-3 mt-3">
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5">
+                <Clock className="h-3 w-3 text-muted-foreground/50" />
+                <span className="text-[10px] text-muted-foreground">{t("Vesting:vesting_seconds")}</span>
+                <span className="font-mono text-xs text-foreground/85">{policy.vesting_seconds}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Cal className="h-3 w-3 text-muted-foreground/50" />
+                <span className="text-[10px] text-muted-foreground">{t("Vesting:start_claim")}</span>
+                <span className="font-mono text-xs text-foreground/70">
+                  {new Date(policy.start_claim).toLocaleString()}
+                </span>
+              </div>
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5">
+                <TrendingUp className="h-3 w-3 text-muted-foreground/50" />
+                <span className="text-[10px] text-muted-foreground">{t("Vesting:coin_seconds_earned")}</span>
+                <span className="font-mono text-xs text-foreground/85">{policy.coin_seconds_earned}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Clock className="h-3 w-3 text-muted-foreground/50" />
+                <span className="text-[10px] text-muted-foreground">{t("Vesting:coin_seconds_earned_last_update")}</span>
+                <span className="font-mono text-xs text-foreground/70">
+                  {new Date(policy.coin_seconds_earned_last_update).toLocaleString()}
+                </span>
+              </div>
+            </div>
+          </div>
+        ) : null}
+        
+        <div className="mt-3 pt-3 border-t border-border/40">
+          <Button
+            onClick={() => {
+              onClaim(res, readableBalance);
+            }}
+            className="w-full h-9 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)]"
+          >
+            <ArrowUpCircle className="h-4 w-4 mr-2" />
+            {t(
+              `Vesting:${
+                res.balance_type === "cashback" ? "claim_a" : "claim_b"
+              }`
+            )}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+const MemoVestingRow = React.memo(VestingRow);
 
 export default function Vesting(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -106,94 +196,12 @@ export default function Vesting(properties) {
     return vestingData.filter((x) => x.balance_type === vestingType);
   }, [vestingData, vestingType]);
 
-  const VestingRow = ({ index, style }) => {
-    let res = chosenVestingData[index];
-    const foundAsset = assets.find((x) => x.id === res.balance.asset_id);
+  const handleVestingClaim = useCallback((res, readableBalance) => {
+    setChosenVestingBalance({ res, readableBalance });
+    setShowDialog(true);
+  }, []);
 
-    if (!res || !foundAsset) {
-      return null;
-    }
-
-    const readableBalance = ` ${humanReadableFloat(
-      res.balance.amount,
-      foundAsset.precision
-    )} ${foundAsset.symbol}`;
-
-    const policy = res.balance_type === "cashback" ? res.policy[1] : null;
-
-    return (
-      <div style={{ ...style }} key={`acard-${res.id}`}>
-        <div className="m-2 rounded-xl border border-[hsl(var(--accent-1)/0.2)] bg-gradient-to-r from-[hsl(var(--accent-1)/0.04)] to-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] transition-all px-4 py-3">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]">
-                <Coins className="h-3 w-3" />
-              </span>
-              <span className="font-mono text-sm font-semibold text-[hsl(var(--accent-1-fg))]">
-                {readableBalance}
-              </span>
-            </div>
-            <Badge
-              variant="outline"
-              className="border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))] text-[10px] font-mono"
-            >
-              {res.id}
-            </Badge>
-          </div>
-          
-          {policy ? (
-            <div className="grid grid-cols-2 gap-3 mt-3">
-              <div className="space-y-1">
-                <div className="flex items-center gap-1.5">
-                  <Clock className="h-3 w-3 text-muted-foreground/50" />
-                  <span className="text-[10px] text-muted-foreground">{t("Vesting:vesting_seconds")}</span>
-                  <span className="font-mono text-xs text-foreground/85">{policy.vesting_seconds}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Cal className="h-3 w-3 text-muted-foreground/50" />
-                  <span className="text-[10px] text-muted-foreground">{t("Vesting:start_claim")}</span>
-                  <span className="font-mono text-xs text-foreground/70">
-                    {new Date(policy.start_claim).toLocaleString()}
-                  </span>
-                </div>
-              </div>
-              <div className="space-y-1">
-                <div className="flex items-center gap-1.5">
-                  <TrendingUp className="h-3 w-3 text-muted-foreground/50" />
-                  <span className="text-[10px] text-muted-foreground">{t("Vesting:coin_seconds_earned")}</span>
-                  <span className="font-mono text-xs text-foreground/85">{policy.coin_seconds_earned}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Clock className="h-3 w-3 text-muted-foreground/50" />
-                  <span className="text-[10px] text-muted-foreground">{t("Vesting:coin_seconds_earned_last_update")}</span>
-                  <span className="font-mono text-xs text-foreground/70">
-                    {new Date(policy.coin_seconds_earned_last_update).toLocaleString()}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ) : null}
-          
-          <div className="mt-3 pt-3 border-t border-border/40">
-            <Button
-              onClick={() => {
-                setChosenVestingBalance({ res, readableBalance });
-                setShowDialog(true);
-              }}
-              className="w-full h-9 rounded-xl font-semibold transition-all border-[hsl(var(--accent-1)/0.4)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.1)] to-[hsl(var(--accent-1)/0.1)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))] hover:bg-[hsl(var(--accent-1)/0.2)] hover:border-[hsl(var(--accent-1)/0.6)] hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)]"
-            >
-              <ArrowUpCircle className="h-4 w-4 mr-2" />
-              {t(
-                `Vesting:${
-                  res.balance_type === "cashback" ? "claim_a" : "claim_b"
-                }`
-              )}
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  const vestingRowProps = useMemo(() => ({ chosenVestingData, assets, t, onClaim: handleVestingClaim }), [chosenVestingData, assets, t, handleVestingClaim]);
 
   return (
     <div className="container mx-auto mt-5 mb-5 w-full md:w-3/4 lg:1/2">
@@ -262,12 +270,14 @@ export default function Vesting(properties) {
 
           <>
             {chosenVestingData && chosenVestingData.length ? (
-              <div className="w-full mt-4 max-h-[400px] overflow-auto">
+              <div className="w-full mt-4 h-[400px]">
                 <List
-                  rowComponent={VestingRow}
+                  height={400}
+                  width="100%"
+                  rowComponent={MemoVestingRow}
                   rowCount={chosenVestingData.length}
                   rowHeight={vestingType === "cashback" ? 200 : 100}
-                  rowProps={{}}
+                  rowProps={vestingRowProps}
                 />
               </div>
             ) : null}

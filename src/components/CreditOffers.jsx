@@ -3,8 +3,107 @@ import React, {
   useEffect,
   useSyncExternalStore,
   useMemo,
+  memo,
 } from "react";
 import { List } from "react-window";
+
+const CreditOffersCommonRow = memo(function CreditOffersCommonRow({ style, res, foundAsset, assets, t, usr }) {
+  return (
+    <div style={{ ...style }} key={`acard-${res.id}`}>
+      <div className="ml-2 mr-2 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300">
+        <div className="p-3 pb-1">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
+              <FileText className="h-4 w-4 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
+            </span>
+            <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
+              {t("CreditBorrow:common.offer")}
+              {" #"}
+              {res.id.replace("1.21.", "")}
+              {" "}
+              {t("CreditBorrow:common.by")}{" "}
+              {res.owner_name}
+              {" "}
+              (
+              {res.owner_account}
+              )
+            </h3>
+          </div>
+          <p className="text-sm text-muted-foreground mt-1">
+            {t("CreditBorrow:common.offering")}
+            <b>
+              {` ${humanReadableFloat(
+                res.current_balance,
+                foundAsset.precision
+              )} ${foundAsset.symbol} (${res.asset_type})`}
+            </b>
+            <br />
+            {t("CreditBorrow:common.accepting")}
+            <b>
+              {assets && assets.length
+                ? ` ${res.acceptable_collateral
+                    .map((asset) => asset[0])
+                    .map((x) => {
+                      return assets.find((y) => y.id === x)?.symbol;
+                    })
+                    .map((x) => x)
+                    .join(", ")}`
+                : t("CreditBorrow:common.loading")}
+            </b>
+          </p>
+        </div>
+        <div className="text-sm px-3 pb-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div className="col-span-1">
+              {t("CreditBorrow:common.fee", { fee: res.fee_rate / 10000 })}
+              <br />
+              {t("CreditBorrow:common.repayPeriod", {
+                repayPeriod: (res.max_duration_seconds / 60 / 60).toFixed(
+                  res.max_duration_seconds / 60 / 60 < 1 ? 2 : 0
+                ),
+              })}
+            </div>
+            <div className="col-span-1">
+              {t("CreditBorrow:common.validity", {
+                validity: hoursTillExpiration(res.auto_disable_time),
+              })}
+              <br />
+              {t("CreditBorrow:common.min", {
+                amount: humanReadableFloat(
+                  res.min_deal_amount,
+                  foundAsset.precision
+                ),
+                asset: foundAsset.symbol,
+              })}
+            </div>
+          </div>
+        </div>
+        <div className="px-3 pb-5">
+          <a href={`/lend.html?id=${res.id}`}>
+            <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
+              {t(
+                `CreditBorrow:common.${
+                  usr.id === res.owner_account ? "edit" : "view"
+                }`,
+                {
+                  offerID: res.id.replace("1.21.", ""),
+                }
+              )}
+            </Button>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+const CreditOffersRow = memo(function CreditOffersRow({ index, style, offers, assets, t, usr }) {
+  const res = offers[index];
+  if (!res) return null;
+  const foundAsset = assets.find((x) => x.id === res.asset_type);
+  if (!foundAsset) return null;
+  return <CreditOffersCommonRow style={style} res={res} foundAsset={foundAsset} assets={assets} t={t} usr={usr} />;
+});
 import { useTranslation } from "react-i18next";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import { Coins, FileText, ShieldAlert, Eye } from "lucide-react";
@@ -107,114 +206,7 @@ export default function CreditOffers(properties) {
     return [];
   }, [allOffers, _chain, showExpired]);
 
-  function CommonRow({ index, style, res, foundAsset }) {
-    return (
-      <div style={{ ...style }} key={`acard-${res.id}`}>
-        <div className="ml-2 mr-2 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-md shadow-[color:hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.25)] hover:shadow-[color:hsl(var(--accent-1)/0.15)] transition-all duration-300">
-          <div className="p-3 pb-1">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--accent-1)/0.3)] to-[hsl(var(--accent-2)/0.3)] border border-[hsl(var(--accent-1)/0.4)] shadow-[0_0_18px_-2px_hsl(var(--accent-1)/0.4)]">
-                <FileText className="h-4 w-4 dark:text-[hsl(var(--accent-1-fg))] text-[hsl(var(--accent-1-fg))]" />
-              </span>
-              <h3 className="text-sm font-semibold leading-none tracking-tight bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] bg-clip-text text-transparent">
-                {t("CreditBorrow:common.offer")}
-                {" #"}
-                {res.id.replace("1.21.", "")}
-                {" "}
-                {t("CreditBorrow:common.by")}{" "}
-                {res.owner_name}
-                {" "}
-                (
-                {res.owner_account}
-                )
-              </h3>
-            </div>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("CreditBorrow:common.offering")}
-              <b>
-                {` ${humanReadableFloat(
-                  res.current_balance,
-                  foundAsset.precision
-                )} ${foundAsset.symbol} (${res.asset_type})`}
-              </b>
-              <br />
-              {t("CreditBorrow:common.accepting")}
-              <b>
-                {assets && assets.length
-                  ? ` ${res.acceptable_collateral
-                      .map((asset) => asset[0])
-                      .map((x) => {
-                        return assets.find((y) => y.id === x)?.symbol;
-                      })
-                      .map((x) => x)
-                      .join(", ")}`
-                  : t("CreditBorrow:common.loading")}
-              </b>
-            </p>
-          </div>
-          <div className="text-sm px-3 pb-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <div className="col-span-1">
-                {t("CreditBorrow:common.fee", { fee: res.fee_rate / 10000 })}
-                <br />
-                {t("CreditBorrow:common.repayPeriod", {
-                  repayPeriod: (res.max_duration_seconds / 60 / 60).toFixed(
-                    res.max_duration_seconds / 60 / 60 < 1 ? 2 : 0
-                  ),
-                })}
-              </div>
-              <div className="col-span-1">
-                {t("CreditBorrow:common.validity", {
-                  validity: hoursTillExpiration(res.auto_disable_time),
-                })}
-                <br />
-                {t("CreditBorrow:common.min", {
-                  amount: humanReadableFloat(
-                    res.min_deal_amount,
-                    foundAsset.precision
-                  ),
-                  asset: foundAsset.symbol,
-                })}
-              </div>
-            </div>
-          </div>
-          <div className="px-3 pb-5">
-            <a href={`/lend.html?id=${res.id}`}>
-              <Button className="bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-2))] text-[hsl(var(--accent-1-gradFg))] shadow-md shadow-[color:hsl(var(--accent-1)/0.2)] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-2))] hover:shadow-[color:hsl(var(--accent-1)/0.4)] active:scale-95 transition-all duration-200 cursor-pointer">
-                {t(
-                  `CreditBorrow:common.${
-                    usr.id === res.owner_account ? "edit" : "view"
-                  }`,
-                  {
-                    offerID: res.id.replace("1.21.", ""),
-                  }
-                )}
-              </Button>
-            </a>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const Row = ({ index, style }) => {
-    let res = offers[index];
-
-    const foundAsset = assets.find((x) => x.id === res.asset_type);
-
-    if (!res || !foundAsset) {
-      return null;
-    }
-
-    return (
-      <CommonRow
-        index={index}
-        style={style}
-        res={res}
-        foundAsset={foundAsset}
-      />
-    );
-  };
+  const creditOffersRowProps = useMemo(() => ({ offers, assets, t, usr }), [offers, assets, t, usr]);
 
   return (
     <>
@@ -253,12 +245,14 @@ export default function CreditOffers(properties) {
             <div className="p-4 pt-2">
               <>
                 {offers && offers.length ? (
-                  <div className="w-full mt-3 max-h-[500px] overflow-auto">
+                  <div className="w-full mt-3 h-[500px]">
                     <List
-                      rowComponent={Row}
+                      rowComponent={CreditOffersRow}
                       rowCount={offers.length}
                       rowHeight={225}
-                      rowProps={{}}
+                      rowProps={creditOffersRowProps}
+                      height={500}
+                      width="100%"
                     />
                   </div>
                 ) : null}

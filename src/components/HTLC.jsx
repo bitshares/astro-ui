@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useSyncExternalStore,
   useMemo,
+  useCallback,
 } from "react";
 import { useStore } from "@nanostores/react";
 import { List } from "react-window";
@@ -91,135 +92,8 @@ const formatExpiration = (expiration) => {
   }
 };
 
-export default function Htlc(properties) {
-  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
-  const currentNode = useStore($currentNode);
-  const usr = useSyncExternalStore(
-    $currentUser.subscribe,
-    $currentUser.get,
-    () => true,
-  );
 
-  const [showCreateDialog, setShowCreateDialog] = useState(false);
-
-  const {
-    _marketSearchBTS,
-    _marketSearchTEST,
-    _assetsBTS,
-    _assetsTEST,
-    _globalParamsBTS,
-    _globalParamsTEST,
-  } = properties;
-
-  const _chain = useMemo(() => {
-    if (usr && usr.chain) {
-      return usr.chain;
-    }
-    return "bitshares";
-  }, [usr]);
-
-  useInitCache(_chain ?? "bitshares", []);
-
-  const assets = useMemo(() => {
-    if (_chain && (_assetsBTS || _assetsTEST)) {
-      return _chain === "bitshares" ? _assetsBTS : _assetsTEST;
-    }
-    return [];
-  }, [_assetsBTS, _assetsTEST, _chain]);
-
-  const marketSearch = useMemo(() => {
-    if (_chain && (_marketSearchBTS || _marketSearchTEST)) {
-      return _chain === "bitshares" ? _marketSearchBTS : _marketSearchTEST;
-    }
-    return [];
-  }, [_marketSearchBTS, _marketSearchTEST, _chain]);
-
-  const globalParams = useMemo(() => {
-    if (_chain && (_globalParamsBTS || _globalParamsTEST)) {
-      return _chain === "bitshares" ? _globalParamsBTS : _globalParamsTEST;
-    }
-    return [];
-  }, [_globalParamsBTS, _globalParamsTEST, _chain]);
-
-  // Fetching HTLC data
-  const [senderHtlcs, setSenderHtlcs] = useState([]);
-  const [receiverHtlcs, setReceiverHtlcs] = useState([]);
-  useEffect(() => {
-    async function fetchHtlcs() {
-      if (!(usr && usr.chain && usr.id && currentNode && currentNode.url)) {
-        setSenderHtlcs([]);
-        setReceiverHtlcs([]);
-        return;
-      }
-
-      const htlcStore = createHTLCStore([usr.chain, usr.id, currentNode.url]);
-      htlcStore.subscribe(({ data, error, loading }) => {
-        if (data && !error && !loading) {
-          setSenderHtlcs(data.sender || []);
-          setReceiverHtlcs(data.receiver || []);
-        } else if (error) {
-          console.error("Error fetching HTLCs:", error);
-          setSenderHtlcs([]);
-          setReceiverHtlcs([]);
-        }
-      });
-    }
-
-    fetchHtlcs();
-  }, [usr, currentNode]);
-
-  // Fetching account names for HTLC participants
-  const [htlcAccounts, setHtlcAccounts] = useState({});
-  useEffect(() => {
-    async function fetchHtlcAccounts() {
-      const allAccountIds = new Set([
-        ...senderHtlcs.map((h) => h.transfer.to),
-        ...receiverHtlcs.map((h) => h.transfer.from),
-      ]);
-
-      const uniqueAccountIds = Array.from(allAccountIds);
-
-      if (
-        !(
-          usr &&
-          usr.chain &&
-          uniqueAccountIds.length > 0 &&
-          currentNode &&
-          currentNode.url
-        )
-      ) {
-        return;
-      }
-
-      const neededIds = uniqueAccountIds.filter((id) => !htlcAccounts[id]);
-      if (neededIds.length === 0) return;
-
-      const objectStore = createObjectStore([
-        usr.chain,
-        JSON.stringify(neededIds),
-        currentNode.url,
-      ]);
-
-      objectStore.subscribe(({ data, error, loading }) => {
-        if (data && !error && !loading) {
-          const newAccounts = {};
-          data.forEach((acc) => {
-            if (acc) {
-              newAccounts[acc.id] = acc.name;
-            }
-          });
-          setHtlcAccounts((prev) => ({ ...prev, ...newAccounts }));
-        } else if (error) {
-          console.error("Error fetching HTLC account names:", error);
-        }
-      });
-    }
-
-    fetchHtlcAccounts();
-  }, [usr, senderHtlcs, receiverHtlcs, currentNode, htlcAccounts]); // Added htlcAccounts dependency
-
-  // Sender HTLC Row
-  const SenderHtlcRow = ({ index, style }) => {
+function SenderHtlcRow({ index, style, senderHtlcs, htlcAccounts, assets, t, usr, chain }) {
     const htlc = senderHtlcs[index];
     const {
       id,
@@ -334,7 +208,7 @@ export default function Htlc(properties) {
           <DeepLinkDialog
             operationNames={["htlc_extend"]}
             username={usr.username}
-            usrChain={_chain}
+            usrChain={chain}
             userID={usr.id}
             dismissCallback={() => {
               setShowExtendDeeplink(false);
@@ -356,10 +230,10 @@ export default function Htlc(properties) {
         )}
       </div>
     );
-  };
+}
+const MemoSenderHtlcRow = React.memo(SenderHtlcRow);
 
-  // Receiver HTLC Row
-  const ReceiverHtlcRow = ({ index, style }) => {
+function ReceiverHtlcRow({ index, style, receiverHtlcs, htlcAccounts, assets, t, usr, chain }) {
     const htlc = receiverHtlcs[index];
     const {
       id,
@@ -551,7 +425,7 @@ export default function Htlc(properties) {
           <DeepLinkDialog
             operationNames={["htlc_redeem"]}
             username={usr.username}
-            usrChain={_chain}
+            usrChain={chain}
             userID={usr.id}
             dismissCallback={() => {
               setShowRedeemDeeplink(false);
@@ -570,7 +444,138 @@ export default function Htlc(properties) {
         )}
       </div>
     );
-  };
+}
+const MemoReceiverHtlcRow = React.memo(ReceiverHtlcRow);
+
+export default function Htlc(properties) {
+  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
+  const currentNode = useStore($currentNode);
+  const usr = useSyncExternalStore(
+    $currentUser.subscribe,
+    $currentUser.get,
+    () => true,
+  );
+
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+
+  const {
+    _marketSearchBTS,
+    _marketSearchTEST,
+    _assetsBTS,
+    _assetsTEST,
+    _globalParamsBTS,
+    _globalParamsTEST,
+  } = properties;
+
+  const _chain = useMemo(() => {
+    if (usr && usr.chain) {
+      return usr.chain;
+    }
+    return "bitshares";
+  }, [usr]);
+
+  useInitCache(_chain ?? "bitshares", []);
+
+  const assets = useMemo(() => {
+    if (_chain && (_assetsBTS || _assetsTEST)) {
+      return _chain === "bitshares" ? _assetsBTS : _assetsTEST;
+    }
+    return [];
+  }, [_assetsBTS, _assetsTEST, _chain]);
+
+  const marketSearch = useMemo(() => {
+    if (_chain && (_marketSearchBTS || _marketSearchTEST)) {
+      return _chain === "bitshares" ? _marketSearchBTS : _marketSearchTEST;
+    }
+    return [];
+  }, [_marketSearchBTS, _marketSearchTEST, _chain]);
+
+  const globalParams = useMemo(() => {
+    if (_chain && (_globalParamsBTS || _globalParamsTEST)) {
+      return _chain === "bitshares" ? _globalParamsBTS : _globalParamsTEST;
+    }
+    return [];
+  }, [_globalParamsBTS, _globalParamsTEST, _chain]);
+
+  // Fetching HTLC data
+  const [senderHtlcs, setSenderHtlcs] = useState([]);
+  const [receiverHtlcs, setReceiverHtlcs] = useState([]);
+  useEffect(() => {
+    async function fetchHtlcs() {
+      if (!(usr && usr.chain && usr.id && currentNode && currentNode.url)) {
+        setSenderHtlcs([]);
+        setReceiverHtlcs([]);
+        return;
+      }
+
+      const htlcStore = createHTLCStore([usr.chain, usr.id, currentNode.url]);
+      htlcStore.subscribe(({ data, error, loading }) => {
+        if (data && !error && !loading) {
+          setSenderHtlcs(data.sender || []);
+          setReceiverHtlcs(data.receiver || []);
+        } else if (error) {
+          console.error("Error fetching HTLCs:", error);
+          setSenderHtlcs([]);
+          setReceiverHtlcs([]);
+        }
+      });
+    }
+
+    fetchHtlcs();
+  }, [usr, currentNode]);
+
+  // Fetching account names for HTLC participants
+  const [htlcAccounts, setHtlcAccounts] = useState({});
+  useEffect(() => {
+    async function fetchHtlcAccounts() {
+      const allAccountIds = new Set([
+        ...senderHtlcs.map((h) => h.transfer.to),
+        ...receiverHtlcs.map((h) => h.transfer.from),
+      ]);
+
+      const uniqueAccountIds = Array.from(allAccountIds);
+
+      if (
+        !(
+          usr &&
+          usr.chain &&
+          uniqueAccountIds.length > 0 &&
+          currentNode &&
+          currentNode.url
+        )
+      ) {
+        return;
+      }
+
+      const neededIds = uniqueAccountIds.filter((id) => !htlcAccounts[id]);
+      if (neededIds.length === 0) return;
+
+      const objectStore = createObjectStore([
+        usr.chain,
+        JSON.stringify(neededIds),
+        currentNode.url,
+      ]);
+
+      objectStore.subscribe(({ data, error, loading }) => {
+        if (data && !error && !loading) {
+          const newAccounts = {};
+          data.forEach((acc) => {
+            if (acc) {
+              newAccounts[acc.id] = acc.name;
+            }
+          });
+          setHtlcAccounts((prev) => ({ ...prev, ...newAccounts }));
+        } else if (error) {
+          console.error("Error fetching HTLC account names:", error);
+        }
+      });
+    }
+
+    fetchHtlcAccounts();
+  }, [usr, senderHtlcs, receiverHtlcs, currentNode, htlcAccounts]); // Added htlcAccounts dependency
+
+  const senderHtlcRowProps = useMemo(() => ({ senderHtlcs, htlcAccounts, assets, t, usr, chain: _chain }), [senderHtlcs, htlcAccounts, assets, t, usr, _chain]);
+  const receiverHtlcRowProps = useMemo(() => ({ receiverHtlcs, htlcAccounts, assets, t, usr, chain: _chain }), [receiverHtlcs, htlcAccounts, assets, t, usr, _chain]);
 
   return (
     <>
@@ -641,12 +646,14 @@ export default function Htlc(properties) {
                         {t("HTLC:actionsColumn")}
                       </div>
                     </div>
-                    <div className="w-full max-h-[300px] overflow-auto">
+                    <div className="w-full h-[300px]">
                       <List
+                        height={300}
+                        width="100%"
                         rowHeight={75}
-                        rowComponent={SenderHtlcRow}
+                        rowComponent={MemoSenderHtlcRow}
                         rowCount={senderHtlcs.length}
-                        rowProps={{}}
+                        rowProps={senderHtlcRowProps}
                       />
                     </div>
                   </>
@@ -678,12 +685,14 @@ export default function Htlc(properties) {
                         {t("HTLC:actionsColumn")}
                       </div>
                     </div>
-                    <div className="w-full max-h-[300px] overflow-auto">
+                    <div className="w-full h-[300px]">
                       <List
+                        height={300}
+                        width="100%"
                         rowHeight={75}
-                        rowComponent={ReceiverHtlcRow}
+                        rowComponent={MemoReceiverHtlcRow}
                         rowCount={receiverHtlcs.length}
-                        rowProps={{}}
+                        rowProps={receiverHtlcRowProps}
                       />
                     </div>
                   </>

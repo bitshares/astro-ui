@@ -68,6 +68,279 @@ import { $currentNode } from "@/stores/node.ts";
 
 import AssetIssuerActions from "./AssetIssuerActions.jsx";
 
+
+function IssuedAssetRow({ index, style, relevantAssets, dynamicData, bitassetData, priceFeederAccounts, t, activeTab, assets, chain, currentUser, currentNode }) {
+    const issuedAsset = relevantAssets[index];
+    if (!issuedAsset) {
+      return null;
+    }
+
+    const relevantDynamicData = dynamicData.find(
+      (data) => data.id === issuedAsset.dynamic_asset_data_id
+    );
+
+    const relevantBitassetData = issuedAsset.bitasset_data_id
+      ? bitassetData.find((data) => data.id === issuedAsset.bitasset_data_id)
+      : null;
+
+    const description = issuedAsset.options.description;
+    let parsedDescription;
+    if (description && description.length) {
+      let _desc;
+      try {
+        _desc = JSON.parse(description);
+      } catch (e) {
+        console.log({ e, id: issuedAsset.id, description });
+      }
+      if (_desc && _desc.hasOwnProperty("main")) {
+        parsedDescription = _desc;
+      }
+    }
+
+    const [viewJSON, setViewJSON] = useState(false);
+    const [json, setJSON] = useState();
+
+    const smartcoinCheck =
+      activeTab === "smartcoins" &&
+      relevantBitassetData &&
+      ((relevantBitassetData.current_feed.settlement_price.base.amount === 0 &&
+        relevantBitassetData.current_feed.settlement_price.quote.amount ===
+          0) ||
+        !relevantBitassetData.feeds.length ||
+        (parseInt(relevantBitassetData.settlement_price.base.amount) > 0 &&
+          parseInt(relevantBitassetData.settlement_price.quote.amount)) ||
+        parseInt(relevantBitassetData.settlement_fund) > 0);
+
+    const getAccentColor = () => {
+      switch (activeTab) {
+        case "smartcoins":
+          return "rose";
+        case "pools":
+          return "sky";
+        case "nft":
+          return "amber";
+        default:
+          return "rose";
+      }
+    };
+
+    const accent = getAccentColor();
+
+    const issueThingsRow = (
+      <div className="flex items-center gap-2 flex-wrap">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className={cn(
+              "border-border hover:bg-accent/60"
+            )}>
+              <Settings className="h-3.5 w-3.5 mr-1.5" />
+              JSON
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onClick={() => {
+                setJSON(issuedAsset);
+                setViewJSON(true);
+              }}
+            >
+              {t("IssuedAssets:issuedAssetData")}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setJSON(relevantDynamicData);
+                setViewJSON(true);
+              }}
+            >
+              {t("IssuedAssets:issuedDynamicData")}
+            </DropdownMenuItem>
+            {parsedDescription &&
+            parsedDescription.hasOwnProperty("nft_object") ? (
+              <DropdownMenuItem
+                onClick={() => {
+                  setJSON(parsedDescription.nft_object);
+                  setViewJSON(true);
+                }}
+              >
+                {t("IssuedAssets:issuedNFTObject")}
+              </DropdownMenuItem>
+            ) : null}
+            {relevantBitassetData ? (
+              <DropdownMenuItem
+                onClick={() => {
+                  setJSON(relevantBitassetData);
+                  setViewJSON(true);
+                }}
+              >
+                {t("IssuedAssets:issuedSmartcoinData")}
+              </DropdownMenuItem>
+            ) : null}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className={cn(
+              "border-border hover:bg-accent/60"
+            )}>
+              {t("IssuedAssets:userActions")}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <a
+              href={`/dex.html?market=${issuedAsset.symbol}_${
+                parsedDescription && parsedDescription.market
+                  ? parsedDescription.market
+                  : "BTS"
+              }`}
+            >
+              <DropdownMenuItem>
+                <ArrowRight className="h-3.5 w-3.5 mr-2" />
+                {t("IssuedAssets:proceedToTrade")}
+              </DropdownMenuItem>
+            </a>
+            <a
+              href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${issuedAsset.symbol}`}
+            >
+              <DropdownMenuItem>
+                <ArrowRight className="h-3.5 w-3.5 mr-2" />
+                {t("IssuedAssets:creditBorrow")}
+              </DropdownMenuItem>
+            </a>
+            <a href={`/lend.html?asset=${issuedAsset.symbol}`}>
+              <DropdownMenuItem>
+                <ArrowRight className="h-3.5 w-3.5 mr-2" />
+                {t("IssuedAssets:creditLend")}
+              </DropdownMenuItem>
+            </a>
+            {activeTab === "smartcoins" ? (
+              <a href={`/smartcoin.html?id=${issuedAsset.id}`}>
+                <DropdownMenuItem>
+                  <ArrowRight className="h-3.5 w-3.5 mr-2" />
+                  {t("IssuedAssets:proceedToBorrow")}
+                </DropdownMenuItem>
+              </a>
+            ) : null}
+            {activeTab === "smartcoins" && smartcoinCheck ? (
+              <a href={`/settlement.html?id=${issuedAsset.id}`}>
+                <DropdownMenuItem>
+                  <ArrowRight className="h-3.5 w-3.5 mr-2" />
+                  {t("IssuedAssets:collateralBid")}
+                </DropdownMenuItem>
+              </a>
+            ) : null}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <AssetIssuerActions
+          asset={issuedAsset}
+          assets={assets}
+          chain={chain}
+          currentUser={currentUser}
+          node={currentNode}
+          dynamicAssetData={relevantDynamicData}
+          bitassetData={relevantBitassetData}
+          priceFeederAccounts={priceFeederAccounts}
+          buttonVariant="outline"
+          buttonSize="sm"
+          className="border-border hover:bg-accent/60"
+        />
+
+        {viewJSON && json ? (
+          <Dialog
+            open={viewJSON}
+            onOpenChange={(open) => {
+              setViewJSON(open);
+            }}
+          >
+            <DialogContent className="sm:max-w-[750px] !bg-card border border-border">
+              <DialogHeader>
+                <DialogTitle>{t("LiveBlocks:dialogContent.json")}</DialogTitle>
+                <DialogDescription className="text-muted-foreground">
+                  {t("LiveBlocks:dialogContent.jsonDescription")}
+                </DialogDescription>
+              </DialogHeader>
+              <Textarea
+                value={JSON.stringify(json, null, 2)}
+                readOnly={true}
+                rows={15}
+                className="bg-card/60"
+              />
+              <Button
+                className="w-1/4 mt-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] border-0"
+                onClick={() => {
+                  navigator.clipboard.writeText(JSON.stringify(json, null, 2));
+                }}
+              >
+                {t("LiveBlocks:dialogContent.copy")}
+              </Button>
+            </DialogContent>
+          </Dialog>
+        ) : null}
+      </div>
+    );
+
+    return (
+      <div style={{ ...style }} key={`acard-${issuedAsset.id}`}>
+        <Card className="mx-2 mb-2 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all">
+          <div className="p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <span className={cn(
+                  "inline-flex h-9 w-9 items-center justify-center rounded-xl border flex-shrink-0",
+                  activeTab === "smartcoins"
+                    ? "border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]"
+                    : activeTab === "pools"
+                    ? "border-[hsl(var(--accent-2)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-2-gradFg))] text-[hsl(var(--accent-2-gradFg))]"
+                    : activeTab === "nft"
+                    ? "border-[hsl(var(--accent-3)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-3-gradFg))] text-[hsl(var(--accent-3-gradFg))]"
+                    : "border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]"
+                )}>
+                  {activeTab === "smartcoins" ? (
+                    <Droplets className="h-4 w-4" strokeWidth={2.25} />
+                  ) : activeTab === "pools" ? (
+                    <Layers className="h-4 w-4" strokeWidth={2.25} />
+                  ) : activeTab === "nft" ? (
+                    <Image className="h-4 w-4" strokeWidth={2.25} />
+                  ) : (
+                    <Coins className="h-4 w-4" strokeWidth={2.25} />
+                  )}
+                </span>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-foreground truncate">
+                      {issuedAsset.symbol}
+                    </h3>
+                    {smartcoinCheck && (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <AlertTriangle className="h-4 w-4 text-[hsl(var(--accent-3-fg))]" />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{t("IssuedAssets:inactiveSmartcoin")}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground font-mono">
+                    {issuedAsset.id}
+                  </p>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                {issueThingsRow}
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
+}
+const MemoIssuedAssetRow = React.memo(IssuedAssetRow);
+
+
 export default function IssuedAssets(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
@@ -252,275 +525,7 @@ export default function IssuedAssets(properties) {
     }
   }, [priceFeederAccountIDs]);
 
-  const AssetRow = ({ index, style }) => {
-    const issuedAsset = relevantAssets[index];
-    if (!issuedAsset) {
-      return null;
-    }
-
-    const relevantDynamicData = dynamicData.find(
-      (data) => data.id === issuedAsset.dynamic_asset_data_id
-    );
-
-    const relevantBitassetData = issuedAsset.bitasset_data_id
-      ? bitassetData.find((data) => data.id === issuedAsset.bitasset_data_id)
-      : null;
-
-    const description = issuedAsset.options.description;
-    let parsedDescription;
-    if (description && description.length) {
-      let _desc;
-      try {
-        _desc = JSON.parse(description);
-      } catch (e) {
-        console.log({ e, id: issuedAsset.id, description });
-      }
-      if (_desc && _desc.hasOwnProperty("main")) {
-        parsedDescription = _desc;
-      }
-    }
-
-    const [viewJSON, setViewJSON] = useState(false);
-    const [json, setJSON] = useState();
-
-    const smartcoinCheck =
-      activeTab === "smartcoins" &&
-      relevantBitassetData &&
-      ((relevantBitassetData.current_feed.settlement_price.base.amount === 0 &&
-        relevantBitassetData.current_feed.settlement_price.quote.amount ===
-          0) ||
-        !relevantBitassetData.feeds.length ||
-        (parseInt(relevantBitassetData.settlement_price.base.amount) > 0 &&
-          parseInt(relevantBitassetData.settlement_price.quote.amount)) ||
-        parseInt(relevantBitassetData.settlement_fund) > 0);
-
-    const getAccentColor = () => {
-      switch (activeTab) {
-        case "smartcoins":
-          return "rose";
-        case "pools":
-          return "sky";
-        case "nft":
-          return "amber";
-        default:
-          return "rose";
-      }
-    };
-
-    const accent = getAccentColor();
-
-    const issueThingsRow = (
-      <div className="flex items-center gap-2 flex-wrap">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className={cn(
-              "border-border hover:bg-accent/60"
-            )}>
-              <Settings className="h-3.5 w-3.5 mr-1.5" />
-              JSON
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem
-              onClick={() => {
-                setJSON(issuedAsset);
-                setViewJSON(true);
-              }}
-            >
-              {t("IssuedAssets:issuedAssetData")}
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                setJSON(relevantDynamicData);
-                setViewJSON(true);
-              }}
-            >
-              {t("IssuedAssets:issuedDynamicData")}
-            </DropdownMenuItem>
-            {parsedDescription &&
-            parsedDescription.hasOwnProperty("nft_object") ? (
-              <DropdownMenuItem
-                onClick={() => {
-                  setJSON(parsedDescription.nft_object);
-                  setViewJSON(true);
-                }}
-              >
-                {t("IssuedAssets:issuedNFTObject")}
-              </DropdownMenuItem>
-            ) : null}
-            {relevantBitassetData ? (
-              <DropdownMenuItem
-                onClick={() => {
-                  setJSON(relevantBitassetData);
-                  setViewJSON(true);
-                }}
-              >
-                {t("IssuedAssets:issuedSmartcoinData")}
-              </DropdownMenuItem>
-            ) : null}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className={cn(
-              "border-border hover:bg-accent/60"
-            )}>
-              {t("IssuedAssets:userActions")}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <a
-              href={`/dex.html?market=${issuedAsset.symbol}_${
-                parsedDescription && parsedDescription.market
-                  ? parsedDescription.market
-                  : "BTS"
-              }`}
-            >
-              <DropdownMenuItem>
-                <ArrowRight className="h-3.5 w-3.5 mr-2" />
-                {t("IssuedAssets:proceedToTrade")}
-              </DropdownMenuItem>
-            </a>
-            <a
-              href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${issuedAsset.symbol}`}
-            >
-              <DropdownMenuItem>
-                <ArrowRight className="h-3.5 w-3.5 mr-2" />
-                {t("IssuedAssets:creditBorrow")}
-              </DropdownMenuItem>
-            </a>
-            <a href={`/lend.html?asset=${issuedAsset.symbol}`}>
-              <DropdownMenuItem>
-                <ArrowRight className="h-3.5 w-3.5 mr-2" />
-                {t("IssuedAssets:creditLend")}
-              </DropdownMenuItem>
-            </a>
-            {activeTab === "smartcoins" ? (
-              <a href={`/smartcoin.html?id=${issuedAsset.id}`}>
-                <DropdownMenuItem>
-                  <ArrowRight className="h-3.5 w-3.5 mr-2" />
-                  {t("IssuedAssets:proceedToBorrow")}
-                </DropdownMenuItem>
-              </a>
-            ) : null}
-            {activeTab === "smartcoins" && smartcoinCheck ? (
-              <a href={`/settlement.html?id=${issuedAsset.id}`}>
-                <DropdownMenuItem>
-                  <ArrowRight className="h-3.5 w-3.5 mr-2" />
-                  {t("IssuedAssets:collateralBid")}
-                </DropdownMenuItem>
-              </a>
-            ) : null}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <AssetIssuerActions
-          asset={issuedAsset}
-          assets={assets}
-          chain={_chain}
-          currentUser={usr}
-          node={currentNode}
-          dynamicAssetData={relevantDynamicData}
-          bitassetData={relevantBitassetData}
-          priceFeederAccounts={priceFeederAccounts}
-          buttonVariant="outline"
-          buttonSize="sm"
-          className="border-border hover:bg-accent/60"
-        />
-
-        {viewJSON && json ? (
-          <Dialog
-            open={viewJSON}
-            onOpenChange={(open) => {
-              setViewJSON(open);
-            }}
-          >
-            <DialogContent className="sm:max-w-[750px] !bg-card border border-border">
-              <DialogHeader>
-                <DialogTitle>{t("LiveBlocks:dialogContent.json")}</DialogTitle>
-                <DialogDescription className="text-muted-foreground">
-                  {t("LiveBlocks:dialogContent.jsonDescription")}
-                </DialogDescription>
-              </DialogHeader>
-              <Textarea
-                value={JSON.stringify(json, null, 2)}
-                readOnly={true}
-                rows={15}
-                className="bg-card/60"
-              />
-              <Button
-                className="w-1/4 mt-2 bg-gradient-to-r from-[hsl(var(--accent-1))] to-[hsl(var(--accent-1))] hover:from-[hsl(var(--accent-1))] hover:to-[hsl(var(--accent-1))] text-[hsl(var(--accent-1-gradFg))] border-0"
-                onClick={() => {
-                  navigator.clipboard.writeText(JSON.stringify(json, null, 2));
-                }}
-              >
-                {t("LiveBlocks:dialogContent.copy")}
-              </Button>
-            </DialogContent>
-          </Dialog>
-        ) : null}
-      </div>
-    );
-
-    return (
-      <div style={{ ...style }} key={`acard-${issuedAsset.id}`}>
-        <Card className="mx-2 mb-2 rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all">
-          <div className="p-4">
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3 min-w-0">
-                <span className={cn(
-                  "inline-flex h-9 w-9 items-center justify-center rounded-xl border flex-shrink-0",
-                  activeTab === "smartcoins"
-                    ? "border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]"
-                    : activeTab === "pools"
-                    ? "border-[hsl(var(--accent-2)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-2)/0.2)] to-[hsl(var(--accent-2)/0.2)] dark:text-[hsl(var(--accent-2-gradFg))] text-[hsl(var(--accent-2-gradFg))]"
-                    : activeTab === "nft"
-                    ? "border-[hsl(var(--accent-3)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-3)/0.2)] to-[hsl(var(--accent-3)/0.2)] dark:text-[hsl(var(--accent-3-gradFg))] text-[hsl(var(--accent-3-gradFg))]"
-                    : "border-[hsl(var(--accent-1)/0.3)] bg-gradient-to-br from-[hsl(var(--accent-1)/0.2)] to-[hsl(var(--accent-1)/0.2)] dark:text-[hsl(var(--accent-1-gradFg))] text-[hsl(var(--accent-1-gradFg))]"
-                )}>
-                  {activeTab === "smartcoins" ? (
-                    <Droplets className="h-4 w-4" strokeWidth={2.25} />
-                  ) : activeTab === "pools" ? (
-                    <Layers className="h-4 w-4" strokeWidth={2.25} />
-                  ) : activeTab === "nft" ? (
-                    <Image className="h-4 w-4" strokeWidth={2.25} />
-                  ) : (
-                    <Coins className="h-4 w-4" strokeWidth={2.25} />
-                  )}
-                </span>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-semibold text-foreground truncate">
-                      {issuedAsset.symbol}
-                    </h3>
-                    {smartcoinCheck && (
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <AlertTriangle className="h-4 w-4 text-[hsl(var(--accent-3-fg))]" />
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>{t("IssuedAssets:inactiveSmartcoin")}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    )}
-                  </div>
-                  <p className="text-xs text-muted-foreground font-mono">
-                    {issuedAsset.id}
-                  </p>
-                </div>
-              </div>
-              <div className="flex-shrink-0">
-                {issueThingsRow}
-              </div>
-            </div>
-          </div>
-        </Card>
-      </div>
-    );
-  };
+  const assetRowProps = useMemo(() => ({ relevantAssets, dynamicData, bitassetData, priceFeederAccounts, t, activeTab, assets, chain: _chain, currentUser: usr, currentNode }), [relevantAssets, dynamicData, bitassetData, priceFeederAccounts, t, activeTab, assets, _chain, usr, currentNode]);
 
   const tabs = [
     { id: "uia", label: t("IssuedAssets:uiaButton"), icon: Coins },
@@ -625,20 +630,24 @@ export default function IssuedAssets(properties) {
                     <>
                       {dynamicData && dynamicData.length ? (
                         <>
-                          <div className="w-full max-h-[500px] min-h-[500px] overflow-auto block md:hidden">
+                          <div className="w-full h-[500px] block md:hidden">
                             <List
-                              rowComponent={AssetRow}
+                              height={500}
+                              width="100%"
+                              rowComponent={MemoIssuedAssetRow}
                               rowCount={relevantAssets.length}
                               rowHeight={90}
-                              rowProps={{}}
+                              rowProps={assetRowProps}
                             />
                           </div>
-                          <div className="w-full max-h-[500px] min-h-[500px] overflow-auto hidden md:block">
+                          <div className="w-full h-[500px] hidden md:block">
                             <List
-                              rowComponent={AssetRow}
+                              height={500}
+                              width="100%"
+                              rowComponent={MemoIssuedAssetRow}
                               rowCount={relevantAssets.length}
                               rowHeight={90}
-                              rowProps={{}}
+                              rowProps={assetRowProps}
                             />
                           </div>
                         </>
@@ -685,20 +694,24 @@ export default function IssuedAssets(properties) {
                     <>
                       {dynamicData && dynamicData.length ? (
                         <>
-                          <div className="w-full max-h-[500px] min-h-[500px] overflow-auto block md:hidden">
+                          <div className="w-full h-[500px] block md:hidden">
                             <List
-                              rowComponent={AssetRow}
+                              height={500}
+                              width="100%"
+                              rowComponent={MemoIssuedAssetRow}
                               rowCount={relevantAssets.length}
                               rowHeight={90}
-                              rowProps={{}}
+                              rowProps={assetRowProps}
                             />
                           </div>
-                          <div className="w-full max-h-[500px] min-h-[500px] overflow-auto hidden md:block">
+                          <div className="w-full h-[500px] hidden md:block">
                             <List
-                              rowComponent={AssetRow}
+                              height={500}
+                              width="100%"
+                              rowComponent={MemoIssuedAssetRow}
                               rowCount={relevantAssets.length}
                               rowHeight={90}
-                              rowProps={{}}
+                              rowProps={assetRowProps}
                             />
                           </div>
                         </>
@@ -745,20 +758,24 @@ export default function IssuedAssets(properties) {
                     </Empty>
                   ) : (
                     <>
-                      <div className="w-full max-h-[500px] min-h-[500px] overflow-auto block md:hidden">
+                      <div className="w-full h-[500px] block md:hidden">
                         <List
-                          rowComponent={AssetRow}
+                              height={500}
+                              width="100%"
+                              rowComponent={MemoIssuedAssetRow}
                           rowCount={relevantAssets.length}
                           rowHeight={90}
-                          rowProps={{}}
+                          rowProps={assetRowProps}
                         />
                       </div>
-                      <div className="w-full max-h-[500px] min-h-[500px] overflow-auto hidden md:block">
+                      <div className="w-full h-[500px] hidden md:block">
                         <List
-                          rowComponent={AssetRow}
+                              height={500}
+                              width="100%"
+                              rowComponent={MemoIssuedAssetRow}
                           rowCount={relevantAssets.length}
                           rowHeight={90}
-                          rowProps={{}}
+                          rowProps={assetRowProps}
                         />
                       </div>
                     </>
@@ -787,20 +804,24 @@ export default function IssuedAssets(properties) {
                     </Empty>
                   ) : (
                     <>
-                      <div className="w-full max-h-[500px] min-h-[500px] overflow-auto block md:hidden">
+                      <div className="w-full h-[500px] block md:hidden">
                         <List
-                          rowComponent={AssetRow}
+                              height={500}
+                              width="100%"
+                              rowComponent={MemoIssuedAssetRow}
                           rowCount={relevantAssets.length}
                           rowHeight={90}
-                          rowProps={{}}
+                          rowProps={assetRowProps}
                         />
                       </div>
-                      <div className="w-full max-h-[500px] min-h-[500px] overflow-auto hidden md:block">
+                      <div className="w-full h-[500px] hidden md:block">
                         <List
-                          rowComponent={AssetRow}
+                              height={500}
+                              width="100%"
+                              rowComponent={MemoIssuedAssetRow}
                           rowCount={relevantAssets.length}
                           rowHeight={90}
-                          rowProps={{}}
+                          rowProps={assetRowProps}
                         />
                       </div>
                     </>

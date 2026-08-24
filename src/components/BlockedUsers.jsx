@@ -79,6 +79,39 @@ function RemoveButton({ onClick, label }) {
   );
 }
 
+const BlockedUserRow = React.memo(function BlockedUserRow({
+  index,
+  style,
+  chainUserBlockList,
+  _chain,
+  t,
+}) {
+  const item = chainUserBlockList[index];
+  if (!item) return null;
+  return (
+    <div style={{ ...style, paddingRight: "10px" }}>
+      <Card className="mb-2 bg-card/60 border-border hover:bg-accent/30 hover:border-border transition-all rounded-xl">
+        <CardHeader className="px-4 py-3 flex flex-row items-center justify-between gap-3">
+          <div className="space-y-1 min-w-0">
+            <CardTitle className="text-sm text-foreground truncate">
+              <span className="font-semibold">{item.name}</span>
+              <span className="ml-2 text-xs font-mono font-normal text-muted-foreground/60">
+                {item.id}
+              </span>
+            </CardTitle>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <RemoveButton
+              onClick={() => removeBlockedUser(_chain, item)}
+              label={t("Blocklist:remove")}
+            />
+          </div>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+});
+
 export default function BlockedUsers() {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
@@ -125,34 +158,10 @@ export default function BlockedUsers() {
     setAddDialogOpen(false);
   }, [selectedUser, _chain]);
 
-  const renderCard = (item, style) => {
-    if (!item) return null;
-    return (
-      <Card className="mb-2 bg-card/60 border-border hover:bg-accent/30 hover:border-border transition-all rounded-xl">
-        <CardHeader className="px-4 py-3 flex flex-row items-center justify-between gap-3">
-          <div className="space-y-1 min-w-0">
-            <CardTitle className="text-sm text-foreground truncate">
-              <span className="font-semibold">{item.name}</span>
-              <span className="ml-2 text-xs font-mono font-normal text-muted-foreground/60">
-                {item.id}
-              </span>
-            </CardTitle>
-          </div>
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <RemoveButton
-              onClick={() => removeBlockedUser(_chain, item)}
-              label={t("Blocklist:remove")}
-            />
-          </div>
-        </CardHeader>
-      </Card>
-    );
-  };
-
-  const Row = ({ index, style }) => {
-    const item = chainUserBlockList[index];
-    return <div style={{ ...style, paddingRight: "10px" }}>{renderCard(item, style)}</div>;
-  };
+  const blockedRowProps = useMemo(
+    () => ({ chainUserBlockList, _chain, t }),
+    [chainUserBlockList, _chain, t]
+  );
 
   return (
     <div className="container mx-auto mt-5 mb-10 max-w-4xl text-foreground">
@@ -261,20 +270,24 @@ export default function BlockedUsers() {
           <CardContent>
             {chainUserBlockList && chainUserBlockList.length ? (
               <>
-                <div className="w-full max-h-[420px] overflow-auto block md:hidden">
+                <div className="w-full h-[420px] block md:hidden">
                   <List
-                    rowComponent={Row}
+                    rowComponent={BlockedUserRow}
                     rowCount={chainUserBlockList.length}
                     rowHeight={88}
-                    rowProps={{}}
+                    height={420}
+                    width="100%"
+                    rowProps={blockedRowProps}
                   />
                 </div>
-                <div className="w-full max-h-[420px] overflow-auto hidden md:block">
+                <div className="w-full h-[420px] hidden md:block">
                   <List
-                    rowComponent={Row}
+                    rowComponent={BlockedUserRow}
                     rowCount={chainUserBlockList.length}
                     rowHeight={72}
-                    rowProps={{}}
+                    height={420}
+                    width="100%"
+                    rowProps={blockedRowProps}
                   />
                 </div>
               </>

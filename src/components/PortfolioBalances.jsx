@@ -3,6 +3,7 @@ import React, {
   useMemo,
   useState,
   useSyncExternalStore,
+  memo,
 } from "react";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
@@ -79,6 +80,124 @@ function RowHyperlink({
     </div>
   );
 }
+
+const BalanceRow = memo(function BalanceRow({ index, style, sortedUserBalances, assets, chainFavourites, pools, _chain, t }) {
+  const rowBalance = sortedUserBalances[index];
+  const currentAsset = assets.find(
+    (asset) => asset.id === rowBalance.asset_id
+  ) || {
+    symbol: rowBalance.asset_id,
+    precision: 5,
+  };
+
+  const isFavourited = currentAsset && currentAsset.id ? chainFavourites.some((a) => a.id === currentAsset.id) : false;
+
+  const onToggleFavourite = () => {
+    if (!currentAsset || !currentAsset.id) return;
+    const assetObj = {
+      symbol: currentAsset.symbol,
+      id: currentAsset.id,
+      issuer: currentAsset.issuer ?? "",
+    };
+    if (isFavourited) {
+      removeFavouriteAsset(_chain, assetObj);
+    } else {
+      addFavouriteAsset(_chain, assetObj);
+    }
+  };
+
+  const readableBalance = humanReadableFloat(
+    rowBalance.amount,
+    currentAsset.precision
+  ).toLocaleString(undefined, {
+    minimumFractionDigits: currentAsset.precision,
+  });
+
+  const relevantPools = pools.filter(
+    (pool) =>
+      pool.asset_a_symbol === currentAsset.symbol ||
+      pool.asset_b_symbol === currentAsset.symbol
+  );
+
+  const rightContents = (
+    <>
+      <a
+        href={`/dex.html?market=${currentAsset.symbol}_${
+          currentAsset.symbol === "BTS" ? "HONEST.USD" : "BTS"
+        }`}
+      >
+        <Button variant="outline" className="mr-2 h-8 gap-1.5 px-3 rounded-full border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]">
+          <ArrowLeftRight className="h-3.5 w-3.5" />
+          {t("PortfolioTabs:tradeButton")}
+        </Button>
+      </a>
+    </>
+  );
+
+  return (
+    <div style={{ ...style, marginBottom: "8px" }}>
+      <Card className="bg-card/60 border-border hover:bg-[hsl(var(--accent-1)/0.03)] hover:border-[hsl(var(--accent-1)/0.2)] transition-all">
+        <div className="grid grid-cols-6">
+          <div className="col-span-4 md:col-span-2 text-left">
+            <CardHeader className="pt-3 pb-3">
+              <CardTitle className="flex items-center gap-2" title={`${t("PoolStake:id")}: ${currentAsset.id}`}>
+                <span className="font-semibold">{currentAsset.symbol}</span>
+                <span className="text-xs font-mono font-normal text-muted-foreground/50">{currentAsset.id}</span>
+              </CardTitle>
+          <CardDescription className="text-muted-foreground">
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={onToggleFavourite}
+                    aria-label={isFavourited ? "Unfavourite" : "Favourite"}
+                    title={isFavourited ? "Unfavourite" : "Favourite"}
+                    className="p-0 m-0 inline-flex items-center"
+                  >
+                    {isFavourited ? (
+                      <StarFilledIcon className="h-4 w-4 text-[hsl(var(--accent-warning-fg))]" />
+                    ) : (
+                      <StarIcon className="h-4 w-4 text-muted-foreground/60" />
+                    )}
+                  </button>
+
+                  <span
+                    title={t("PortfolioTabs:liquidAmount", {
+                      amount: readableBalance,
+                    })}
+                    className="text-sm text-foreground/70"
+                  >
+                    {readableBalance}
+                  </span>
+                </div>
+              </CardDescription>
+            </CardHeader>
+          </div>
+          <div className="block md:hidden text-right col-span-2 mt-4 mr-4">
+            <Dialog>
+              <DialogTrigger>
+                <Button>{t("HTLC:actionsColumn")}</Button>
+              </DialogTrigger>
+              <DialogContent className="bg-card">
+                <DialogHeader>
+                  <DialogTitle>
+                    {t("HTLC:actionsColumn")} - {currentAsset.symbol}
+                  </DialogTitle>
+                  <DialogDescription>
+                    <div className="grid grid-cols-5 gap-2">
+                      {rightContents}
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          </div>
+          <div className="hidden md:block col-span-4 text-right mt-4">
+            {rightContents}
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+});
 
 export default function PortfolioBalances({
   _assetsBTS,
@@ -231,126 +350,7 @@ export default function PortfolioBalances({
     return balancesCopy.sort(cmp);
   }, [balances, sortType, sortDirection]);
 
-  const BalanceRow = ({ index, style }) => {
-    const rowBalance = sortedUserBalances[index];
-    const currentAsset = assets.find(
-      (asset) => asset.id === rowBalance.asset_id
-    ) || {
-      symbol: rowBalance.asset_id,
-      precision: 5,
-    };
-
-    const isFavourited = useMemo(() => {
-      if (!currentAsset || !currentAsset.id) return false;
-      return chainFavourites.some((a) => a.id === currentAsset.id);
-    }, [chainFavourites, currentAsset]);
-
-    const onToggleFavourite = () => {
-      if (!currentAsset || !currentAsset.id) return;
-      const assetObj = {
-        symbol: currentAsset.symbol,
-        id: currentAsset.id,
-        issuer: currentAsset.issuer ?? "",
-      };
-      if (isFavourited) {
-        removeFavouriteAsset(_chain, assetObj);
-      } else {
-        addFavouriteAsset(_chain, assetObj);
-      }
-    };
-
-    const readableBalance = humanReadableFloat(
-      rowBalance.amount,
-      currentAsset.precision
-    ).toLocaleString(undefined, {
-      minimumFractionDigits: currentAsset.precision,
-    });
-
-    const relevantPools = pools.filter(
-      (pool) =>
-        pool.asset_a_symbol === currentAsset.symbol ||
-        pool.asset_b_symbol === currentAsset.symbol
-    );
-
-    const rightContents = (
-      <>
-        <a
-          href={`/dex.html?market=${currentAsset.symbol}_${
-            currentAsset.symbol === "BTS" ? "HONEST.USD" : "BTS"
-          }`}
-        >
-          <Button variant="outline" className="mr-2 h-8 gap-1.5 px-3 rounded-full border border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)] hover:text-[hsl(var(--accent-1-fg))]">
-            <ArrowLeftRight className="h-3.5 w-3.5" />
-            {t("PortfolioTabs:tradeButton")}
-          </Button>
-        </a>
-      </>
-    );
-
-    return (
-      <div style={{ ...style, marginBottom: "8px" }}>
-        <Card className="bg-card/60 border-border hover:bg-[hsl(var(--accent-1)/0.03)] hover:border-[hsl(var(--accent-1)/0.2)] transition-all">
-          <div className="grid grid-cols-6">
-            <div className="col-span-4 md:col-span-2 text-left">
-              <CardHeader className="pt-3 pb-3">
-                <CardTitle className="flex items-center gap-2" title={`${t("PoolStake:id")}: ${currentAsset.id}`}>
-                  <span className="font-semibold">{currentAsset.symbol}</span>
-                  <span className="text-xs font-mono font-normal text-muted-foreground/50">{currentAsset.id}</span>
-                </CardTitle>
-            <CardDescription className="text-muted-foreground">
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={onToggleFavourite}
-                      aria-label={isFavourited ? "Unfavourite" : "Favourite"}
-                      title={isFavourited ? "Unfavourite" : "Favourite"}
-                      className="p-0 m-0 inline-flex items-center"
-                    >
-                      {isFavourited ? (
-                        <StarFilledIcon className="h-4 w-4 text-[hsl(var(--accent-warning-fg))]" />
-                      ) : (
-                        <StarIcon className="h-4 w-4 text-muted-foreground/60" />
-                      )}
-                    </button>
-
-                    <span
-                      title={t("PortfolioTabs:liquidAmount", {
-                        amount: readableBalance,
-                      })}
-                      className="text-sm text-foreground/70"
-                    >
-                      {readableBalance}
-                    </span>
-                  </div>
-                </CardDescription>
-              </CardHeader>
-            </div>
-            <div className="block md:hidden text-right col-span-2 mt-4 mr-4">
-              <Dialog>
-                <DialogTrigger>
-                  <Button>{t("HTLC:actionsColumn")}</Button>
-                </DialogTrigger>
-                <DialogContent className="bg-card">
-                  <DialogHeader>
-                    <DialogTitle>
-                      {t("HTLC:actionsColumn")} - {currentAsset.symbol}
-                    </DialogTitle>
-                    <DialogDescription>
-                      <div className="grid grid-cols-5 gap-2">
-                        {rightContents}
-                      </div>
-                    </DialogDescription>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
-            </div>
-            <div className="hidden md:block col-span-4 text-right mt-4">
-              {rightContents}
-            </div>
-          </div>
-        </Card>
-      </div>
-    );
-  };
+  const balanceRowProps = useMemo(() => ({ sortedUserBalances, assets, chainFavourites, pools, _chain, t }), [sortedUserBalances, assets, chainFavourites, pools, _chain, t]);
 
   return (
     <div className="container mx-auto mt-5 mb-5 text-foreground">
@@ -420,12 +420,14 @@ export default function PortfolioBalances({
                 <p className="text-muted-foreground">{t("Market:loading")}</p>
               </div>
             ) : sortedUserBalances && sortedUserBalances.length ? (
-              <div className="gaps-2 max-h-[500px] overflow-auto">
+              <div className="w-full h-[500px]">
                 <List
                   rowComponent={BalanceRow}
                   rowCount={sortedUserBalances.length}
                   rowHeight={80}
-                  rowProps={{}}
+                  height={500}
+                  width="100%"
+                  rowProps={balanceRowProps}
                 />
               </div>
             ) : (

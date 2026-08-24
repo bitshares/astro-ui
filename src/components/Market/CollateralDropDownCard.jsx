@@ -32,72 +32,7 @@ import {
 import { $blockList } from "@/stores/blocklist.ts";
 import { assetAmountRegex } from "@/lib/common";
 
-/**
- * Creating an asset dropdown component
- * @param {String} assetSymbol current asset symbol
- * @param {Function} storeCallback setState
- * @param {String} otherAsset market pair asset
- * @returns {JSX.Element}
- */
-export default function CollateralDropDownCard(properties) {
-  const { chosenAssets, lendingAsset, marketSearch, storeCallback, chain } =
-    properties;
-  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
-  const blocklist = useSyncExternalStore(
-    $blockList.subscribe,
-    $blockList.get,
-    () => true
-  );
-
-  const fuse = useMemo(() => {
-    let marketSearchContents;
-
-    if (!marketSearch || !marketSearch.length) {
-      marketSearchContents = [];
-    } else {
-      marketSearchContents = marketSearch.filter(
-        (asset) =>
-          !chosenAssets.find((chosen) => chosen.symbol === asset.s) &&
-          asset.s !== lendingAsset
-      );
-    }
-
-    if (chain === "bitshares" && blocklist && blocklist.users) {
-      marketSearchContents = marketSearchContents.filter(
-        (asset) =>
-          !blocklist.users.includes(
-            toHex(
-              sha256(
-                utf8ToBytes(
-                  asset.u.split(" ")[1].replace("(", "").replace(")", "")
-                )
-              )
-            )
-          )
-      );
-    }
-
-    return new Fuse(marketSearchContents, {
-      includeScore: true,
-      keys: [
-        "id",
-        "s", // symbol
-        "u", // `name (id) (ltm?)`
-      ],
-    });
-  }, [chosenAssets, lendingAsset]);
-
-  const [thisInput, setThisInput] = useState();
-  const [thisResult, setThisResult] = useState();
-  const [dialogOpen, setDialogOpen] = useState(false);
-  useEffect(() => {
-    if (thisInput) {
-      const result = fuse.search(thisInput);
-      setThisResult(result);
-    }
-  }, [thisInput, fuse]);
-
-  const Row = ({ index, style }) => {
+const CollateralRow = React.memo(function CollateralRow({ index, style, thisResult, chosenAssets, storeCallback, setDialogOpen, t }) {
     const res = thisResult[index];
     let _value = 0.0;
     return (
@@ -163,7 +98,77 @@ export default function CollateralDropDownCard(properties) {
         </Popover>
       </div>
     );
-  };
+  });
+
+/**
+ * Creating an asset dropdown component
+ * @param {String} assetSymbol current asset symbol
+ * @param {Function} storeCallback setState
+ * @param {String} otherAsset market pair asset
+ * @returns {JSX.Element}
+ */
+export default function CollateralDropDownCard(properties) {
+  const { chosenAssets, lendingAsset, marketSearch, storeCallback, chain } =
+    properties;
+  const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
+  const blocklist = useSyncExternalStore(
+    $blockList.subscribe,
+    $blockList.get,
+    () => true
+  );
+
+  const fuse = useMemo(() => {
+    let marketSearchContents;
+
+    if (!marketSearch || !marketSearch.length) {
+      marketSearchContents = [];
+    } else {
+      marketSearchContents = marketSearch.filter(
+        (asset) =>
+          !chosenAssets.find((chosen) => chosen.symbol === asset.s) &&
+          asset.s !== lendingAsset
+      );
+    }
+
+    if (chain === "bitshares" && blocklist && blocklist.users) {
+      marketSearchContents = marketSearchContents.filter(
+        (asset) =>
+          !blocklist.users.includes(
+            toHex(
+              sha256(
+                utf8ToBytes(
+                  asset.u.split(" ")[1].replace("(", "").replace(")", "")
+                )
+              )
+            )
+          )
+      );
+    }
+
+    return new Fuse(marketSearchContents, {
+      includeScore: true,
+      keys: [
+        "id",
+        "s", // symbol
+        "u", // `name (id) (ltm?)`
+      ],
+    });
+  }, [chosenAssets, lendingAsset]);
+
+  const [thisInput, setThisInput] = useState();
+  const [thisResult, setThisResult] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  useEffect(() => {
+    if (thisInput) {
+      const result = fuse.search(thisInput);
+      setThisResult(result);
+    }
+  }, [thisInput, fuse]);
+
+  const rowProps = useMemo(
+    () => ({ thisResult, chosenAssets, storeCallback, setDialogOpen, t }),
+    [thisResult, chosenAssets, storeCallback, t]
+  );
 
   return (
     <Dialog
@@ -206,12 +211,14 @@ export default function CollateralDropDownCard(properties) {
             }}
           />
           {thisResult && thisResult.length ? (
-            <div className="w-full max-h-[200px] overflow-auto">
+            <div className="w-full h-[300px]">
               <List
-                rowComponent={Row}
+                height={300}
+                width="100%"
+                rowComponent={CollateralRow}
                 rowCount={thisResult.length}
                 rowHeight={70}
-                rowProps={{}}
+                rowProps={rowProps}
               />
             </div>
           ) : null}

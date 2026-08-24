@@ -35,7 +35,6 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { Avatar } from "@/components/Avatar.tsx"; // Re-using existing component
 
@@ -68,6 +67,191 @@ function formatTimeAgo(dateString, t) {
   const diffInDays = Math.round(diffInHours / 24);
   return t("Witnesses:daysAgo", { count: diffInDays });
 }
+
+const LightWitnessRow = React.memo(function LightWitnessRow({
+  index,
+  style,
+  filteredVotes,
+  witnessAccounts,
+  voteIdToWitnessMap,
+  isActive,
+}) {
+  const currentVote = filteredVotes[index];
+  if (!currentVote) return null;
+
+  const foundWitness = voteIdToWitnessMap.get(currentVote);
+  if (!foundWitness) return null;
+
+  const account = witnessAccounts
+    ? witnessAccounts[foundWitness.witness_account]
+    : null;
+
+  const accountName = account ? account.name : "unknown";
+
+  return (
+    <div style={style} key={`vote${currentVote}`}>
+      <Card className={`mb-1 relative overflow-hidden ${isActive ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
+        <CardContent className="p-3 text-sm">
+          <div className="col-span-3 flex items-center">
+            <Avatar
+              size={30}
+              name={accountName}
+              extra={`WL${index}`}
+              expression={{ eye: "normal", mouth: "open" }}
+              colors={[
+                "#F0AB3D",
+                "#C271B4",
+                "#C20D90",
+                "#92A1C6",
+                "#146A7C",
+              ]}
+            />
+            <span className="ml-2">{accountName}</span>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+});
+
+const WitnessRow = React.memo(function WitnessRow({
+  index,
+  style,
+  sortedWitnesses,
+  witnessAccounts,
+  voteIdToWitnessMap,
+  t,
+  _chain,
+}) {
+  const witness = sortedWitnesses[index];
+  if (!witness) return null;
+
+  let missedClass = "text-[hsl(var(--accent-success-fg))] dark:text-[hsl(var(--accent-success-fg))]"; // Default (low missed)
+  if (witness.total_missed > 500 && witness.total_missed <= 1250) {
+    missedClass = "text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]";
+  } else if (witness.total_missed > 1250 && witness.total_missed <= 2000) {
+    missedClass = "text-[hsl(var(--accent-warning-fg))] dark:text-[hsl(var(--accent-warning-fg))]";
+  } else if (witness.total_missed > 2000) {
+    missedClass = "text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]";
+  }
+
+  const votes = witnessAccounts[witness.account_id]?.options.votes || [];
+  const filteredVotes = votes.filter((x) => parseInt(x.split(":")[0]) === 1);
+
+  const innerRowProps = useMemo(
+    () => ({
+      filteredVotes,
+      witnessAccounts,
+      voteIdToWitnessMap,
+      isActive: witness.active,
+    }),
+    [filteredVotes, witnessAccounts, voteIdToWitnessMap, witness.active]
+  );
+
+  return (
+    <div style={style} key={witness.id}>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Card className={`mb-1 relative overflow-hidden ${witness.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
+            <CardContent className="p-3 text-sm">
+              <div className="grid grid-cols-12 gap-2 items-center">
+                <div className="col-span-4 md:col-span-3 flex items-center">
+                  <span className="hidden md:block">
+                    <Avatar
+                      size={30}
+                      name={witness.name}
+                      extra={`W${index}`}
+                      expression={
+                        witness.signingKey ===
+                          "BTS1111111111111111111111111111111114T1Anm" ||
+                        !witness.active
+                          ? { eye: "sleepy", mouth: "unhappy" }
+                          : { eye: "normal", mouth: "open" }
+                      }
+                      colors={[
+                        "#F0AB3D",
+                        "#C271B4",
+                        "#C20D90",
+                        "#92A1C6",
+                        "#146A7C",
+                      ]}
+                    />
+                  </span>
+                  <span className="ml-2">{witness.name}</span>
+                </div>
+                <div className="col-span-4 md:col-span-2">
+                  <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
+                    {witness.id}
+                  </span>{" "}
+                  (
+                  <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
+                    {witness.account_id}
+                  </span>
+                  )
+                </div>
+                <div className="hidden md:block col-span-3">
+                  {witness.last_aslot_time
+                    ? formatTimeAgo(witness.last_aslot_time, t)
+                    : "N/A"}
+                  {witness.last_block_num ? (
+                    <>
+                      <br />
+                      <span className="text-xs">
+                        (
+                        <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
+                          #{witness.last_block_num}
+                        </span>
+                        )
+                      </span>
+                    </>
+                  ) : null}
+                </div>
+                <div
+                  className={`hidden md:block col-span-1 text-center font-medium ${missedClass}`}
+                >
+                  {witness.total_missed}
+                </div>
+                <div className="col-span-4 md:col-span-3 text-right pr-3">
+                  {humanReadableFloat(witness.total_votes, 5).toLocaleString(
+                    undefined,
+                    { minimumFractionDigits: 0, maximumFractionDigits: 0 }
+                  )}
+                  {_chain === "bitshares" ? " BTS" : " TEST"}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </DialogTrigger>
+      <DialogContent className="sm:max-w-[500px] bg-card/60 backdrop-blur-xl border-[hsl(var(--accent-1)/0.15)]">
+        <DialogHeader>
+          <DialogTitle>
+            {t("Witnesses:votesFor", { name: witness.name })}:
+          </DialogTitle>
+          <DialogDescription>
+            {t("Witnesses:descriptionVotes")}
+          </DialogDescription>
+        </DialogHeader>
+        {filteredVotes &&
+        filteredVotes.length > 0 &&
+        witnessAccounts ? (
+          <div className="w-full h-[400px]">
+            <List
+              rowComponent={LightWitnessRow}
+              rowCount={filteredVotes.length}
+              rowHeight={75}
+              rowProps={innerRowProps}
+              height={400}
+              width="100%"
+            />
+          </div>
+        ) : (
+          <div className="text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] text-center">N/A</div>
+        )}
+      </DialogContent>
+    </Dialog>
+  </div>
+  );
+});
 
 export default function Witnesses(properties) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -156,7 +340,6 @@ export default function Witnesses(properties) {
                   )
               );
             }
-            console.log({ filteredData });
             setAllWitnesses(filteredData);
           } else if (error) {
             console.error("Error fetching all witnesses:", error);
@@ -189,7 +372,6 @@ export default function Witnesses(properties) {
               }
               return acc;
             }, {});
-            console.log({ accountsMap });
             setWitnessAccounts(accountsMap);
             // Only set loading to false when all data is fetched
             if (globalParameters && dynamicGlobalParameters) {
@@ -306,8 +488,7 @@ export default function Witnesses(properties) {
   ]);
 
   const sortedWitnesses = useMemo(() => {
-    let standby = processedWitnesses;
-    standby.sort((a, b) => {
+    const sorted = [...processedWitnesses].sort((a, b) => {
       if (sortKey === "name") return a.name.localeCompare(b.name);
       if (sortKey === "votes") return a.total_votes - b.total_votes;
       if (sortKey === "rank") return b.total_votes - a.total_votes;
@@ -315,9 +496,9 @@ export default function Witnesses(properties) {
       return 0;
     });
     if (sortDirection === "desc") {
-      standby.reverse();
+      sorted.reverse();
     }
-    return standby;
+    return sorted;
   }, [processedWitnesses, sortKey, sortDirection]);
 
   const handleSort = (key) => {
@@ -336,165 +517,21 @@ export default function Witnesses(properties) {
     []
   );
 
-  const WitnessRow = ({ index, style }) => {
-    const witness = sortedWitnesses[index];
-    if (!witness) return null;
+  const voteIdToWitnessMap = useMemo(
+    () => new Map(allWitnesses.map((w) => [w.vote_id, w])),
+    [allWitnesses]
+  );
 
-    let missedClass = "text-[hsl(var(--accent-success-fg))] dark:text-[hsl(var(--accent-success-fg))]"; // Default (low missed)
-    if (witness.total_missed > 500 && witness.total_missed <= 1250) {
-      missedClass = "text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))]";
-    } else if (witness.total_missed > 1250 && witness.total_missed <= 2000) {
-      missedClass = "text-[hsl(var(--accent-warning-fg))] dark:text-[hsl(var(--accent-warning-fg))]";
-    } else if (witness.total_missed > 2000) {
-      missedClass = "text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))]";
-    }
-
-    const votes = witnessAccounts[witness.account_id]?.options.votes || [];
-    const filteredVotes = votes.filter((x) => parseInt(x.split(":")[0]) === 1);
-
-    const LightWitnessRow = ({ index, style }) => {
-      const currentVote = filteredVotes[index];
-      if (!currentVote) return null;
-
-      const foundWitness = Object.values(allWitnesses).find(
-        (w) => w.vote_id === currentVote
-      ); // Ensure the witness is in the list
-
-      const account = witnessAccounts
-        ? witnessAccounts[foundWitness.witness_account]
-        : null; // Find the account for the current vote
-
-      const accountName = account ? account.name : "unknown";
-
-      return (
-        <div style={style} key={`vote${currentVote}`}>
-          <Card className={`mb-1 relative overflow-hidden ${witness.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
-            <CardContent className="p-3 text-sm">
-              <div className="col-span-3 flex items-center">
-                <Avatar
-                  size={30}
-                  name={accountName}
-                  extra={`WL${index}`}
-                  expression={{ eye: "normal", mouth: "open" }}
-                  colors={[
-                    "#F0AB3D",
-                    "#C271B4",
-                    "#C20D90",
-                    "#92A1C6",
-                    "#146A7C",
-                  ]}
-                />
-                <span className="ml-2">{accountName}</span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      );
-    };
-
-      return (
-        <div style={style} key={witness.id}>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Card className={`mb-1 relative overflow-hidden ${witness.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
-                <CardContent className="p-3 text-sm">
-                  <div className="grid grid-cols-12 gap-2 items-center">
-                    <div className="col-span-4 md:col-span-3 flex items-center">
-                      <span className="hidden md:block">
-                        <Avatar
-                          size={30}
-                          name={witness.name}
-                          extra={`W${index}`}
-                          expression={
-                            witness.signingKey ===
-                              "BTS1111111111111111111111111111111114T1Anm" ||
-                            !witness.active
-                              ? { eye: "sleepy", mouth: "unhappy" }
-                              : { eye: "normal", mouth: "open" }
-                          }
-                          colors={[
-                            "#F0AB3D",
-                            "#C271B4",
-                            "#C20D90",
-                            "#92A1C6",
-                            "#146A7C",
-                          ]}
-                        />
-                      </span>
-                      <span className="ml-2">{witness.name}</span>
-                    </div>
-                    <div className="col-span-4 md:col-span-2">
-                      <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
-                        {witness.id}
-                      </span>{" "}
-                      (
-                      <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
-                        {witness.account_id}
-                      </span>
-                      )
-                    </div>
-                    <div className="hidden md:block col-span-3">
-                      {witness.last_aslot_time
-                        ? formatTimeAgo(witness.last_aslot_time, t)
-                        : "N/A"}
-                      {witness.last_block_num ? (
-                        <>
-                          <br />
-                          <span className="text-xs">
-                            (
-                            <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
-                              #{witness.last_block_num}
-                            </span>
-                            )
-                          </span>
-                        </>
-                      ) : null}
-                    </div>
-                    <div
-                      className={`hidden md:block col-span-1 text-center font-medium ${missedClass}`}
-                    >
-                      {witness.total_missed}
-                    </div>
-                    <div className="col-span-4 md:col-span-3 text-right pr-3">
-                      {humanReadableFloat(witness.total_votes, 5).toLocaleString(
-                        undefined,
-                        { minimumFractionDigits: 0, maximumFractionDigits: 0 }
-                      )}
-                      {_chain === "bitshares" ? " BTS" : " TEST"}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px] bg-card/60 backdrop-blur-xl border-[hsl(var(--accent-1)/0.15)]">
-            <DialogHeader>
-              <DialogTitle>
-                {t("Witnesses:votesFor", { name: witness.name })}:
-              </DialogTitle>
-              <DialogDescription>
-                {t("Witnesses:descriptionVotes")}
-              </DialogDescription>
-            </DialogHeader>
-            {filteredVotes &&
-            filteredVotes.length > 0 &&
-            allWitnesses &&
-            witnessAccounts ? (
-              <ScrollArea className="h-[500px] pt-1 w-full">
-                <List
-                  rowComponent={LightWitnessRow}
-                  rowCount={filteredVotes.length}
-                  rowHeight={75} // Adjust as needed
-                  rowProps={{}}
-                />
-              </ScrollArea>
-            ) : (
-              <div className="text-[hsl(var(--accent-danger-fg))] dark:text-[hsl(var(--accent-danger-fg))] text-center">N/A</div>
-            )}
-          </DialogContent>
-        </Dialog>
-      </div>
-    );
-  };
+  const witnessRowProps = useMemo(
+    () => ({
+      sortedWitnesses,
+      witnessAccounts,
+      voteIdToWitnessMap,
+      t,
+      _chain,
+    }),
+    [sortedWitnesses, witnessAccounts, voteIdToWitnessMap, t, _chain]
+  );
 
   return (
     <div className="container mx-auto mt-5 mb-5">
@@ -567,14 +604,16 @@ export default function Witnesses(properties) {
                     : ""}
                 </div>
               </div>
-              <ScrollArea className="h-[500px] pt-1 w-full">
+              <div className="w-full h-[500px]">
                 <List
                   rowComponent={WitnessRow}
                   rowCount={sortedWitnesses.length}
-                  rowHeight={75} // Adjust as needed
-                  rowProps={{}}
+                  rowHeight={75}
+                  rowProps={witnessRowProps}
+                  height={500}
+                  width="100%"
                 />
-              </ScrollArea>
+              </div>
             </div>
           )}
         </CardContent>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { List } from "react-window";
@@ -32,6 +32,27 @@ export default function AuthorityListsSection({
 }) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
+  const handleWhitelistRemove = useCallback(
+    (id) => {
+      setWhitelistAuthorities(whitelistAuthorities.filter((x) => x.id !== id));
+    },
+    [whitelistAuthorities, setWhitelistAuthorities]
+  );
+  const handleBlacklistRemove = useCallback(
+    (id) => {
+      setBlacklistAuthorities(blacklistAuthorities.filter((x) => x.id !== id));
+    },
+    [blacklistAuthorities, setBlacklistAuthorities]
+  );
+  const whitelistRowProps = useMemo(
+    () => ({ items: whitelistAuthorities, onRemove: handleWhitelistRemove }),
+    [whitelistAuthorities, handleWhitelistRemove]
+  );
+  const blacklistRowProps = useMemo(
+    () => ({ items: blacklistAuthorities, onRemove: handleBlacklistRemove }),
+    [blacklistAuthorities, handleBlacklistRemove]
+  );
+
   if (!flagWhiteList) return null;
 
   return (
@@ -44,19 +65,14 @@ export default function AuthorityListsSection({
         />
         <div className="grid grid-cols-12 mt-1">
           <span className="col-span-9 border border-border rounded">
-            <div className="w-full max-h-[210px] overflow-auto">
+            <div className="w-full h-[300px]">
               <List
+                height={300}
+                width="100%"
                 rowComponent={WhitelistAuthorityRow}
                 rowCount={whitelistAuthorities.length}
                 rowHeight={100}
-                rowProps={{
-                  items: whitelistAuthorities,
-                  onRemove: (id) => {
-                    setWhitelistAuthorities(
-                      whitelistAuthorities.filter((x) => x.id !== id)
-                    );
-                  },
-                }}
+                rowProps={whitelistRowProps}
               />
             </div>
           </span>
@@ -124,19 +140,14 @@ export default function AuthorityListsSection({
         />
         <div className="grid grid-cols-12 mt-1">
           <span className="col-span-9 border border-border rounded">
-            <div className="w-full max-h-[210px] overflow-auto">
+            <div className="w-full h-[300px]">
               <List
+                height={300}
+                width="100%"
                 rowComponent={BlacklistAuthorityRow}
                 rowCount={blacklistAuthorities.length}
                 rowHeight={75}
-                rowProps={{
-                  items: blacklistAuthorities,
-                  onRemove: (id) => {
-                    setBlacklistAuthorities(
-                      blacklistAuthorities.filter((x) => x.id !== id)
-                    );
-                  },
-                }}
+                rowProps={blacklistRowProps}
               />
             </div>
           </span>

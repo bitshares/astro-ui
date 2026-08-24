@@ -116,7 +116,8 @@
         "airdrop_calculate": "Jaota vara paljude kontode vahel algoritmilise valiku või käsitsi sisestatud nimekirja abil ja edasta seejärel partiid oma Beet rahakoti kaudu.",
         "top-markets": "Kasuta seda lehte, et vaadata aktiivsemaid BitShares DEXi turge, järjestatuna fill-orderi mahuga.",
         "top-pools": "Kasuta seda lehte, et vaadata aktiivsemaid BitSharesi likviidsuspoolsi, järjestatuna vahetuse mahuga.",
-        "configure_visuals": "Kohanda rakenduse visuaale — lained, värvipaletid, virmalised, hägusus ja osakeste efektid."
+        "configure_visuals": "Kohanda rakenduse visuaale — lained, värvipaletid, virmalised, hägusus ja osakeste efektid.",
+        "network_fees": "Sirvi kõiki võrgutasusid üksikasjalikult — standardkulud, tasud KByte'i kohta ja eluaegse liikme hinnad."
     },
     "back": "Mine tagasi",
     "usage": "Mõeldud kasutamiseks koos ",

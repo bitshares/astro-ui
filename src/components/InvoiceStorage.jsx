@@ -109,101 +109,8 @@ async function decompressAndGetJson(invoiceData) {
   return parsedJSON;
 }
 
-export default function InvoiceStorage() {
-  const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
 
-  const usr = useSyncExternalStore(
-    $currentUser.subscribe,
-    $currentUser.get,
-    () => true
-  );
-
-  const generatedStore = useStore($generatedInvoiceStorage);
-  const receivedStore = useStore($receivedInvoiceStorage);
-  const inventoryStore = useStore($inventoryStorage);
-  const generatedMetaStore = useStore($generatedInvoiceMetaStorage);
-  const inventoryItems = (inventoryStore && inventoryStore.items) || [];
-
-  const [viewMode, setViewMode] = useState("generated"); // 'generated' | 'received'
-  const savedCodes =
-    viewMode === "generated"
-      ? generatedStore?.invoices || []
-      : receivedStore?.invoices || [];
-
-  const [decodedInvoices, setDecodedInvoices] = useState([]);
-  const [detailsOpen, setDetailsOpen] = useState(false);
-  const [detailsInvoice, setDetailsInvoice] = useState(null);
-  const [itemDetailsOpen, setItemDetailsOpen] = useState(false);
-  const [metaDialogOpen, setMetaDialogOpen] = useState(false);
-  const [itemDetails, setItemDetails] = useState(null);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [deletePendingCode, setDeletePendingCode] = useState(null);
-  // Metadata editing states
-  const [metaEditingCode, setMetaEditingCode] = useState(null);
-  const [paymentStatus, setPaymentStatus] = useState("waiting_payment");
-  const [paymentNotes, setPaymentNotes] = useState("");
-  const [deliveryStatus, setDeliveryStatus] = useState("sent");
-  const [deliveryNotes, setDeliveryNotes] = useState("");
-  const [overallStatus, setOverallStatus] = useState("waiting");
-
-  const decodeAll = useCallback(async () => {
-    const results = await Promise.all(
-      (savedCodes || []).map(async (code) => {
-        try {
-          const data = await decompressAndGetJson(code);
-          if (data) {
-            if (viewMode === "generated" && Array.isArray(data.items)) {
-              // Enrich items with full inventory details if present
-              const enriched = data.items.map((it) => {
-                const match = inventoryItems.find((invIt) => {
-                  const invId = invIt.id ?? invIt.barcode ?? invIt.name;
-                  const itemId = it.id ?? it.barcode ?? it.name;
-                  return String(invId) === String(itemId);
-                });
-                if (match) {
-                  return { ...match, quantity: it.quantity };
-                }
-                return it;
-              });
-              return {
-                code,
-                data: { ...data, itemsEnriched: enriched },
-                error: null,
-              };
-            }
-            return { code, data, error: null };
-          }
-          return { code, data: null, error: "No data" };
-        } catch (e) {
-          console.error("Failed to decode invoice", e);
-          return { code, data: null, error: String(e) };
-        }
-      })
-    );
-    setDecodedInvoices(results.filter((r) => r && r.data));
-  }, [savedCodes, viewMode, inventoryItems]);
-
-  useEffect(() => {
-    decodeAll();
-  }, [decodeAll]);
-
-  const statusLabelMap = {
-    waiting: t("InvoiceStorage:status.waiting"),
-    in_progress: t("InvoiceStorage:status.in_progress"),
-    issue_detected: t("InvoiceStorage:status.issue_detected"),
-    cancelled: t("InvoiceStorage:status.cancelled"),
-    completed: t("InvoiceStorage:status.completed"),
-  };
-
-  const statusColorClasses = {
-    waiting: "bg-accent text-foreground",
-    in_progress: "bg-[hsl(var(--accent-3))] dark:bg-[hsl(var(--accent-3)/0.2)] text-[hsl(var(--accent-3-gradFg))] dark:text-[hsl(var(--accent-3-gradFg))]",
-    issue_detected: "bg-[hsl(var(--accent-warning))] dark:bg-[hsl(var(--accent-warning)/0.2)] text-[hsl(var(--accent-warning-gradFg))] dark:text-[hsl(var(--accent-warning-gradFg))]",
-    cancelled: "bg-accent text-foreground line-through",
-    completed: "bg-[hsl(var(--accent-1))] dark:bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-gradFg))] dark:text-[hsl(var(--accent-1-gradFg))]",
-  };
-
-  const InvoiceRow = ({ index, style }) => {
+function InvoiceStorageRow({ index, style, decodedInvoices, viewMode, generatedMetaStore, t, usr, onView, onCopy, onEditMeta, onDelete, statusLabelMap, statusColorClasses }) {
     const entry = decodedInvoices[index];
     if (!entry || !entry.data) return null;
     const inv = entry.data;
@@ -315,8 +222,7 @@ export default function InvoiceStorage() {
                         className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setDetailsInvoice(inv);
-                          setDetailsOpen(true);
+                          onView(inv);
                         }}
                       >
                         <FileText className="h-3.5 w-3.5 mr-1.5" />
@@ -341,15 +247,7 @@ export default function InvoiceStorage() {
                         className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (!entry || !entry.code) return;
-                          copyToClipboard(entry.code);
-                          setCopied(true);
-                          if (copyTimer.current)
-                            clearTimeout(copyTimer.current);
-                          copyTimer.current = setTimeout(
-                            () => setCopied(false),
-                            2000
-                          );
+                          onCopy(entry.code, setCopied, copyTimer);
                         }}
                         disabled={copied}
                       >
@@ -372,21 +270,7 @@ export default function InvoiceStorage() {
                           className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                           onClick={(e) => {
                             e.stopPropagation();
-                            setMetaEditingCode(entry.code);
-                            const existing =
-                              generatedMetaStore?.meta?.[entry.code];
-                            setPaymentStatus(
-                              existing?.paymentStatus || "waiting_payment"
-                            );
-                            setPaymentNotes(existing?.paymentNotes || "");
-                            setDeliveryStatus(
-                              existing?.deliveryStatus || "sent"
-                            );
-                            setDeliveryNotes(existing?.deliveryNotes || "");
-                            setOverallStatus(
-                              existing?.overallStatus || "waiting"
-                            );
-                            setMetaDialogOpen(true);
+                            onEditMeta(entry.code);
                           }}
                         >
                           <Pencil className="h-3.5 w-3.5 mr-1.5" />
@@ -398,8 +282,7 @@ export default function InvoiceStorage() {
                         variant="destructive"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setDeletePendingCode(entry.code);
-                          setDeleteDialogOpen(true);
+                          onDelete(entry.code);
                         }}
                       >
                         <Trash2 className="h-3.5 w-3.5 mr-1.5" />
@@ -416,8 +299,7 @@ export default function InvoiceStorage() {
                   className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setDetailsInvoice(inv);
-                    setDetailsOpen(true);
+                    onView(inv);
                   }}
                 >
                   <FileText className="h-3.5 w-3.5 mr-1.5" />
@@ -442,14 +324,7 @@ export default function InvoiceStorage() {
                   className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (!entry || !entry.code) return;
-                    copyToClipboard(entry.code);
-                    setCopied(true);
-                    if (copyTimer.current) clearTimeout(copyTimer.current);
-                    copyTimer.current = setTimeout(
-                      () => setCopied(false),
-                      2000
-                    );
+                    onCopy(entry.code, setCopied, copyTimer);
                   }}
                   disabled={copied}
                 >
@@ -472,16 +347,7 @@ export default function InvoiceStorage() {
                     className="border-[hsl(var(--accent-1)/0.3)] text-[hsl(var(--accent-1-fg))] dark:text-[hsl(var(--accent-1-fg))] hover:bg-[hsl(var(--accent-1)/0.1)]"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setMetaEditingCode(entry.code);
-                      const existing = generatedMetaStore?.meta?.[entry.code];
-                      setPaymentStatus(
-                        existing?.paymentStatus || "waiting_payment"
-                      );
-                      setPaymentNotes(existing?.paymentNotes || "");
-                      setDeliveryStatus(existing?.deliveryStatus || "sent");
-                      setDeliveryNotes(existing?.deliveryNotes || "");
-                      setOverallStatus(existing?.overallStatus || "waiting");
-                      setMetaDialogOpen(true);
+                      onEditMeta(entry.code);
                     }}
                   >
                     <Pencil className="h-3.5 w-3.5 mr-1.5" />
@@ -493,8 +359,7 @@ export default function InvoiceStorage() {
                   variant="destructive"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setDeletePendingCode(entry.code);
-                    setDeleteDialogOpen(true);
+                    onDelete(entry.code);
                   }}
                 >
                   <Trash2 className="h-3.5 w-3.5 mr-1.5" />
@@ -506,7 +371,166 @@ export default function InvoiceStorage() {
         </Card>
       </div>
     );
+}
+const MemoInvoiceStorageRow = React.memo(InvoiceStorageRow);
+
+function InvoiceStorageDetailRow({ index, style, detailsInvoice, viewMode, onSelectItem }) {
+    const sourceItems =
+      viewMode === "generated" &&
+      detailsInvoice.itemsEnriched
+        ? detailsInvoice.itemsEnriched
+        : detailsInvoice.items;
+    const it = sourceItems[index];
+    if (!it) return null;
+    return (
+      <div style={style} className="px-2">
+        <Card
+          className="cursor-pointer hover:bg-card"
+          onClick={() => onSelectItem(it)}
+        >
+          <CardContent className="pt-1 pb-1">
+            <div className="grid grid-cols-12 items-center gap-2 text-sm">
+              <div className="col-span-8 truncate mt-1">
+                {it.name}
+              </div>
+              <div className="col-span-4 text-center mt-1">
+                <Badge variant="outline">
+                  {it.quantity}
+                </Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+}
+const MemoInvoiceStorageDetailRow = React.memo(InvoiceStorageDetailRow);
+
+export default function InvoiceStorage() {
+  const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
+
+  const usr = useSyncExternalStore(
+    $currentUser.subscribe,
+    $currentUser.get,
+    () => true
+  );
+
+  const generatedStore = useStore($generatedInvoiceStorage);
+  const receivedStore = useStore($receivedInvoiceStorage);
+  const inventoryStore = useStore($inventoryStorage);
+  const generatedMetaStore = useStore($generatedInvoiceMetaStorage);
+  const inventoryItems = (inventoryStore && inventoryStore.items) || [];
+
+  const [viewMode, setViewMode] = useState("generated"); // 'generated' | 'received'
+  const savedCodes =
+    viewMode === "generated"
+      ? generatedStore?.invoices || []
+      : receivedStore?.invoices || [];
+
+  const [decodedInvoices, setDecodedInvoices] = useState([]);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [detailsInvoice, setDetailsInvoice] = useState(null);
+  const [itemDetailsOpen, setItemDetailsOpen] = useState(false);
+  const [metaDialogOpen, setMetaDialogOpen] = useState(false);
+  const [itemDetails, setItemDetails] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deletePendingCode, setDeletePendingCode] = useState(null);
+  // Metadata editing states
+  const [metaEditingCode, setMetaEditingCode] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState("waiting_payment");
+  const [paymentNotes, setPaymentNotes] = useState("");
+  const [deliveryStatus, setDeliveryStatus] = useState("sent");
+  const [deliveryNotes, setDeliveryNotes] = useState("");
+  const [overallStatus, setOverallStatus] = useState("waiting");
+
+  const decodeAll = useCallback(async () => {
+    const results = await Promise.all(
+      (savedCodes || []).map(async (code) => {
+        try {
+          const data = await decompressAndGetJson(code);
+          if (data) {
+            if (viewMode === "generated" && Array.isArray(data.items)) {
+              // Enrich items with full inventory details if present
+              const enriched = data.items.map((it) => {
+                const match = inventoryItems.find((invIt) => {
+                  const invId = invIt.id ?? invIt.barcode ?? invIt.name;
+                  const itemId = it.id ?? it.barcode ?? it.name;
+                  return String(invId) === String(itemId);
+                });
+                if (match) {
+                  return { ...match, quantity: it.quantity };
+                }
+                return it;
+              });
+              return {
+                code,
+                data: { ...data, itemsEnriched: enriched },
+                error: null,
+              };
+            }
+            return { code, data, error: null };
+          }
+          return { code, data: null, error: "No data" };
+        } catch (e) {
+          console.error("Failed to decode invoice", e);
+          return { code, data: null, error: String(e) };
+        }
+      })
+    );
+    setDecodedInvoices(results.filter((r) => r && r.data));
+  }, [savedCodes, viewMode, inventoryItems]);
+
+  useEffect(() => {
+    decodeAll();
+  }, [decodeAll]);
+
+  const statusLabelMap = {
+    waiting: t("InvoiceStorage:status.waiting"),
+    in_progress: t("InvoiceStorage:status.in_progress"),
+    issue_detected: t("InvoiceStorage:status.issue_detected"),
+    cancelled: t("InvoiceStorage:status.cancelled"),
+    completed: t("InvoiceStorage:status.completed"),
   };
+
+  const statusColorClasses = {
+    waiting: "bg-accent text-foreground",
+    in_progress: "bg-[hsl(var(--accent-3))] dark:bg-[hsl(var(--accent-3)/0.2)] text-[hsl(var(--accent-3-gradFg))] dark:text-[hsl(var(--accent-3-gradFg))]",
+    issue_detected: "bg-[hsl(var(--accent-warning))] dark:bg-[hsl(var(--accent-warning)/0.2)] text-[hsl(var(--accent-warning-gradFg))] dark:text-[hsl(var(--accent-warning-gradFg))]",
+    cancelled: "bg-accent text-foreground line-through",
+    completed: "bg-[hsl(var(--accent-1))] dark:bg-[hsl(var(--accent-1)/0.2)] text-[hsl(var(--accent-1-gradFg))] dark:text-[hsl(var(--accent-1-gradFg))]",
+  };
+
+  const handleViewInvoice = useCallback((inv) => {
+    setDetailsInvoice(inv);
+    setDetailsOpen(true);
+  }, []);
+  const handleCopyInvoice = useCallback((c, setCopied, timerRef) => {
+    if (!c) return;
+    copyToClipboard(c);
+    setCopied(true);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setCopied(false), 2000);
+  }, []);
+  const handleEditMeta = useCallback((c) => {
+    setMetaEditingCode(c);
+    const existing = generatedMetaStore?.meta?.[c];
+    setPaymentStatus(existing?.paymentStatus || "waiting_payment");
+    setPaymentNotes(existing?.paymentNotes || "");
+    setDeliveryStatus(existing?.deliveryStatus || "sent");
+    setDeliveryNotes(existing?.deliveryNotes || "");
+    setOverallStatus(existing?.overallStatus || "waiting");
+    setMetaDialogOpen(true);
+  }, [generatedMetaStore]);
+  const handleDeleteInvoice = useCallback((c) => {
+    setDeletePendingCode(c);
+    setDeleteDialogOpen(true);
+  }, []);
+  const invoiceRowProps = useMemo(() => ({ decodedInvoices, viewMode, generatedMetaStore, t, usr, onView: handleViewInvoice, onCopy: handleCopyInvoice, onEditMeta: handleEditMeta, onDelete: handleDeleteInvoice, statusLabelMap, statusColorClasses }), [decodedInvoices, viewMode, generatedMetaStore, t, usr, handleViewInvoice, handleCopyInvoice, handleEditMeta, handleDeleteInvoice, statusLabelMap, statusColorClasses]);
+  const handleSelectDetailItem = useCallback((it) => {
+    setItemDetails(it);
+    setItemDetailsOpen(true);
+  }, []);
+  const detailRowProps = useMemo(() => ({ detailsInvoice, viewMode, onSelectItem: handleSelectDetailItem }), [detailsInvoice, viewMode, handleSelectDetailItem]);
 
   // Confirm delete dialog handlers
   const confirmDelete = () => {
@@ -630,12 +654,14 @@ export default function InvoiceStorage() {
                     {t("InvoiceStorage:headers.actions")}
                   </div>
                 </div>
-                  <div className="w-full max-h-[420px] min-h-[360px] overflow-auto border mt-1">
+                  <div className="w-full h-[420px]">
                     <List
-                      rowComponent={InvoiceRow}
+                      height={420}
+                      width="100%"
+                      rowComponent={MemoInvoiceStorageRow}
                       rowCount={decodedInvoices.length}
                       rowHeight={55}
-                      rowProps={{}}
+                      rowProps={invoiceRowProps}
                     />
                   </div>
                 </div>
@@ -767,41 +793,11 @@ export default function InvoiceStorage() {
                           {t("InvoiceStorage:items.headers.quantity")}
                         </div>
                       </div>
-                      <div className="w-full max-h-[300px] min-h-[300px] overflow-auto border mt-1">
+                      <div className="w-full h-[300px] border mt-1">
                         <List
-                          rowComponent={({ index, style }) => {
-                            const sourceItems =
-                              viewMode === "generated" &&
-                              detailsInvoice.itemsEnriched
-                                ? detailsInvoice.itemsEnriched
-                                : detailsInvoice.items;
-                            const it = sourceItems[index];
-                            if (!it) return null;
-                            return (
-                              <div style={style} className="px-2">
-                                <Card
-                                  className="cursor-pointer hover:bg-card"
-                                  onClick={() => {
-                                    setItemDetails(it);
-                                    setItemDetailsOpen(true);
-                                  }}
-                                >
-                                  <CardContent className="pt-1 pb-1">
-                                    <div className="grid grid-cols-12 items-center gap-2 text-sm">
-                                      <div className="col-span-8 truncate mt-1">
-                                        {it.name}
-                                      </div>
-                                      <div className="col-span-4 text-center mt-1">
-                                        <Badge variant="outline">
-                                          {it.quantity}
-                                        </Badge>
-                                      </div>
-                                    </div>
-                                  </CardContent>
-                                </Card>
-                              </div>
-                            );
-                          }}
+                          height={300}
+                          width="100%"
+                          rowComponent={MemoInvoiceStorageDetailRow}
                           rowCount={
                             viewMode === "generated" &&
                             detailsInvoice.itemsEnriched
@@ -809,7 +805,7 @@ export default function InvoiceStorage() {
                               : detailsInvoice.items.length
                           }
                           rowHeight={55}
-                          rowProps={{}}
+                          rowProps={detailRowProps}
                         />
                       </div>
                     </div>

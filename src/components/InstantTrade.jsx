@@ -79,6 +79,49 @@ import { Label } from "@/components/ui/label";
 import AssetDropDown from "./Market/AssetDropDownCard.jsx";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
 
+function InstantTradeRow({ index, style, buyOrders, buyOrderDetails, assetBData, assetAData, t }) {
+  const order = buyOrders[index];
+  if (!order) return null;
+  const orderDetails = buyOrderDetails && buyOrderDetails.length ? buyOrderDetails.find((x) => x.id === order.id) : null;
+  const price = order.price ? parseFloat(order.price).toFixed(assetBData?.precision ?? 5) : "0";
+  const quote = order.quote ? parseFloat(order.quote) : 0;
+  const totalBase = buyOrders.slice(0, index + 1).map((x) => parseFloat(x.base)).reduce((acc, curr) => acc + curr, 0).toFixed(assetBData?.precision ?? 5);
+  return (
+    <div style={style}>
+      <div className="grid grid-cols-3 md:grid-cols-6 text-sm items-center border-b border-border/40 hover:bg-[hsl(var(--accent-1)/0.06)] hover:border-[hsl(var(--accent-1)/0.20)] transition-colors py-1.5 px-2">
+        <div className="hidden md:block">
+          <Dialog>
+            <DialogTrigger asChild>
+              <button type="button" className="text-[11px] font-mono dark:text-[hsl(var(--accent-1-fg)/0.70)] text-[hsl(var(--accent-1-fg)/0.80)] dark:hover:text-[hsl(var(--accent-1-fg))] hover:text-[hsl(var(--accent-1-fg))] hover:underline underline-offset-2">
+                #{order.id}
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[550px] !bg-card border border-border text-foreground/85">
+              <DialogHeader>
+                <DialogTitle>{t("InstantTrade:limit_order_contents")}</DialogTitle>
+                <DialogDescription className="text-muted-foreground">{t("InstantTrade:limit_order_details")}</DialogDescription>
+              </DialogHeader>
+              <div className="grid grid-cols-1">
+                <div className="col-span-1">
+                  <ScrollArea className="h-72 rounded-md border border-border bg-card/60">
+                    <pre className="text-xs text-foreground/80 p-3">{JSON.stringify([order, orderDetails], null, 2)}</pre>
+                  </ScrollArea>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+        <div className="hidden md:block text-muted-foreground truncate pr-2">{order.owner_name}</div>
+        <div className="hidden md:block">{orderDetails && orderDetails.on_fill.length ? <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-success)/0.15)] border border-[hsl(var(--accent-success)/0.40)] text-[hsl(var(--accent-success-fg))] text-xs">✓</span> : null}</div>
+        <div className="col-span-1 pl-3 font-mono text-right tabular-nums text-foreground/85">{quote.toFixed(assetAData?.precision ?? 5)}</div>
+        <div className="col-span-1 pl-3 font-mono text-right tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.90)] text-[hsl(var(--accent-1-fg))]">{price}</div>
+        <div className="col-span-1 pl-3 font-mono text-right tabular-nums text-muted-foreground">{totalBase}</div>
+      </div>
+    </div>
+  );
+}
+const MemoInstantTradeRow = React.memo(InstantTradeRow);
+
 export default function InstantTrade(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
@@ -752,6 +795,9 @@ export default function InstantTrade(properties) {
     }
   }, [currentNode, _chain, buyOrders]);
 
+  const instantTradeRowProps = useMemo(() => ({ buyOrders, buyOrderDetails, assetBData, assetAData, t }), [buyOrders, buyOrderDetails, assetBData, assetAData, t]);
+  const orderCalcRowProps = useMemo(() => ({ buyOrders: orderCalc?.orders || [], buyOrderDetails, assetBData, assetAData, t }), [orderCalc, buyOrderDetails, assetBData, assetAData, t]);
+
   if (
     !usr ||
     !usr.chain ||
@@ -802,138 +848,7 @@ export default function InstantTrade(properties) {
     }
   };
 
-  const Row = ({ index, style }) => {
-    const order = buyOrders[index];
 
-    const orderDetails =
-      buyOrderDetails && buyOrderDetails.length
-        ? buyOrderDetails.find((x) => x.id === order.id)
-        : null;
-
-    const price = parseFloat(order.price).toFixed(assetBData.precision);
-    const quote = parseFloat(order.quote);
-
-    const totalBase = buyOrders
-      .slice(0, index + 1)
-      .map((x) => parseFloat(x.base))
-      .reduce((acc, curr) => acc + curr, 0)
-      .toFixed(assetBData.precision);
-
-    return (
-      <div style={style}>
-        <div className="grid grid-cols-3 md:grid-cols-6 text-sm items-center border-b border-border/40 hover:bg-[hsl(var(--accent-1)/0.06)] hover:border-[hsl(var(--accent-1)/0.20)] transition-colors py-1.5 px-2">
-          <div className="hidden md:block">
-            <Dialog>
-              <DialogTrigger asChild>
-                <button
-                  type="button"
-                  className="text-[11px] font-mono dark:text-[hsl(var(--accent-1-fg)/0.70)] text-[hsl(var(--accent-1-fg)/0.80)] dark:hover:text-[hsl(var(--accent-1-fg))] hover:text-[hsl(var(--accent-1-fg))] hover:underline underline-offset-2"
-                >
-                  #{order.id}
-                </button>
-              </DialogTrigger>
-              <DialogContent
-                className="sm:max-w-[550px] !bg-card border border-border text-foreground/85"
-              >
-                <DialogHeader>
-                  <DialogTitle>
-                    {t("InstantTrade:limit_order_contents")}
-                  </DialogTitle>
-                  <DialogDescription className="text-muted-foreground">
-                    {t("InstantTrade:limit_order_details")}
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid grid-cols-1">
-                  <div className="col-span-1">
-                    <ScrollArea className="h-72 rounded-md border border-border bg-card/60">
-                      <pre className="text-xs text-foreground/80 p-3">
-                        {JSON.stringify([order, orderDetails], null, 2)}
-                      </pre>
-                    </ScrollArea>
-                  </div>
-                  <div className="col-span-2 mt-3 flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      className="border-border bg-card/60 hover:bg-card/80 hover:border-[hsl(var(--accent-1)/0.40)] text-foreground"
-                      onClick={() => {
-                        copyToClipboard(
-                          JSON.stringify([order, orderDetails], null, 4)
-                        );
-                      }}
-                    >
-                      <Copy className="h-3.5 w-3.5 mr-1.5" />
-                      {t("DeepLinkDialog:tabsContent.copyOperationJSON")}
-                    </Button>
-                    <span className="text-[11px] font-mono text-muted-foreground">
-                      #{order.id}
-                    </span>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-          <div className="hidden md:block text-muted-foreground truncate pr-2">
-            {order.owner_name}
-          </div>
-          <div className="hidden md:block">
-            {orderDetails && orderDetails.on_fill.length ? (
-              <Dialog>
-                <DialogTrigger asChild>
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[hsl(var(--accent-success)/0.15)] border border-[hsl(var(--accent-success)/0.40)] text-[hsl(var(--accent-success-fg))] text-xs cursor-pointer hover:bg-[hsl(var(--accent-success)/0.25)]">
-                    ✓
-                  </span>
-                </DialogTrigger>
-                <DialogContent
-                  className="sm:max-w-[550px] !bg-card border border-border text-foreground/85"
-                >
-                  <DialogHeader>
-                    <DialogTitle>
-                      {t("InstantTrade:on_fill_details")}
-                    </DialogTitle>
-                    <DialogDescription className="text-muted-foreground">
-                      {t("InstantTrade:on_fill_desc")}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid grid-cols-1">
-                    <div className="col-span-1">
-                      <ScrollArea className="h-72 rounded-md border border-border bg-card/60">
-                        <pre className="text-xs text-foreground/80 p-3">
-                          {JSON.stringify(orderDetails.on_fill, null, 2)}
-                        </pre>
-                      </ScrollArea>
-                    </div>
-                    <div className="col-span-1 mt-3">
-                      <Button
-                        variant="outline"
-                        className="border-border bg-card/60 hover:bg-card/80 hover:border-[hsl(var(--accent-success)/0.40)] text-foreground"
-                        onClick={() => {
-                          copyToClipboard(
-                            JSON.stringify(orderDetails.on_fill, null, 4)
-                          );
-                        }}
-                      >
-                        <Copy className="h-3.5 w-3.5 mr-1.5" />
-                        {t("DeepLinkDialog:tabsContent.copyOperationJSON")}
-                      </Button>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            ) : null}
-          </div>
-          <div className="col-span-1 pl-3 font-mono text-right tabular-nums text-foreground/85">
-            {quote.toFixed(assetAData.precision)}
-          </div>
-          <div className="col-span-1 pl-3 font-mono text-right tabular-nums dark:text-[hsl(var(--accent-1-fg)/0.90)] text-[hsl(var(--accent-1-fg))]">
-            {price}
-          </div>
-          <div className="col-span-1 pl-3 font-mono text-right tabular-nums text-muted-foreground">
-            {totalBase}
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <div className="container mx-auto mt-5 mb-5 max-w-4xl">
@@ -1453,10 +1368,11 @@ export default function InstantTrade(properties) {
                       {buyOrders && buyOrderDetails ? (
                         <List
                           height={300}
-                          rowComponent={Row}
+                          width="100%"
+                          rowComponent={MemoInstantTradeRow}
                           rowCount={buyOrders.length}
                           rowHeight={32}
-                          rowProps={{}}
+                          rowProps={instantTradeRowProps}
                         />
                       ) : (
                         <div className="flex items-center justify-center h-full">
@@ -1547,10 +1463,11 @@ export default function InstantTrade(properties) {
                   {orderCalc && orderCalc.orders && buyOrderDetails ? (
                     <List
                       height={300}
-                      rowComponent={Row}
+                      width="100%"
+                      rowComponent={MemoInstantTradeRow}
                       rowCount={orderCalc.orders.length}
                       rowHeight={32}
-                      rowProps={{}}
+                      rowProps={orderCalcRowProps}
                     />
                   ) : null}
                 </div>

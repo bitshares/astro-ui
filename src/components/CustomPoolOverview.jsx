@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useSyncExternalStore,
   useMemo,
+  memo,
 } from "react";
 import { List } from "react-window";
 
@@ -52,6 +53,200 @@ import {
   EmptyDescription,
   EmptyContent,
 } from "@/components/ui/empty";
+
+
+const PoolRow = memo(function PoolRow({ index, style, remainingPools, assets, selectedPools, chosenPoolSwappableAssets, setSelectedPools }) {
+  const pool = remainingPools[index];
+  const assetA = assets.find((asset) => asset.id === pool.asset_a_id);
+  const assetB = assets.find((asset) => asset.id === pool.asset_b_id);
+  const shareAsset = assets.find((asset) => asset.id === pool.share_asset_id);
+
+  if (!assetA || !assetB || !shareAsset) {
+    return null;
+  }
+
+  return (
+    <div style={style} key={`poolNo${index}`}>
+      <Card
+        onClick={() => {
+          if (!selectedPools.includes(pool.id)) {
+            const newAssets = [assetA.symbol, assetB.symbol].filter(
+              (symbol) =>
+                !chosenPoolSwappableAssets ||
+                !chosenPoolSwappableAssets.includes(symbol)
+            );
+
+            if (
+              chosenPoolSwappableAssets &&
+              chosenPoolSwappableAssets.length + newAssets.length > 5
+            ) {
+              console.log("Unable to track more than 5 swappable assets.");
+              return;
+            }
+
+            setSelectedPools([...selectedPools, pool.id]);
+          }
+        }}
+      >
+        <CardHeader className="p-0">
+          <CardDescription>
+            <div className="grid grid-cols-4 gap-2">
+              <div className="flex items-center justify-center">
+                {pool.id}
+              </div>
+              <div className="flex items-center justify-center">
+                {shareAsset.symbol}
+              </div>
+              <div className="flex items-center justify-center">
+                {assetA.symbol}
+              </div>
+              <div className="flex items-center justify-center">
+                {assetB.symbol}
+              </div>
+            </div>
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+});
+
+const ChosenPoolRow = memo(function ChosenPoolRow({ index, style, chosenPools, assets, selectedPools, setSelectedPools }) {
+  const pool = chosenPools[index];
+  const assetA = assets.find((asset) => asset.id === pool.asset_a_id);
+  const assetB = assets.find((asset) => asset.id === pool.asset_b_id);
+  const shareAsset = assets.find((asset) => asset.id === pool.share_asset_id);
+
+  if (!assetA || !assetB || !shareAsset) {
+    return null;
+  }
+
+  return (
+    <div style={style} key={`poolNo${index}`}>
+      <Card
+        onClick={() => {
+          setSelectedPools(
+            selectedPools.filter((poolId) => poolId !== pool.id)
+          );
+        }}
+      >
+        <CardHeader className="p-0">
+          <CardDescription>
+            <div className="grid grid-cols-4 gap-2">
+              <div className="flex items-center justify-center">
+                {pool.id}
+              </div>
+              <div className="flex items-center justify-center">
+                {shareAsset.symbol}
+              </div>
+              <div className="flex items-center justify-center">
+                {assetA.symbol}
+              </div>
+              <div className="flex items-center justify-center">
+                {assetB.symbol}
+              </div>
+            </div>
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+});
+
+const TrackerRow = memo(function TrackerRow({ index, style, trackers, _chain, pools, assets, t }) {
+  const _tracker = trackers[_chain][index];
+
+  const _pools = _tracker.pools.map((poolId) =>
+    pools.find((pool) => pool.id === poolId)
+  );
+  const _uniqueAssets = [];
+
+  _pools.forEach((_pool) => {
+    const _assetA = assets.find((asset) => asset.id === _pool.asset_a_id);
+    const _assetB = assets.find((asset) => asset.id === _pool.asset_b_id);
+    if (_assetA && !_uniqueAssets.includes(_assetA.symbol)) {
+      _uniqueAssets.push(_assetA.symbol);
+    }
+    if (_assetB && !_uniqueAssets.includes(_assetB.symbol)) {
+      _uniqueAssets.push(_assetB.symbol);
+    }
+  });
+
+  const [deletePrompt, setDeletePrompt] = useState(false);
+
+  return (
+    <div
+      style={style}
+      key={`poolTrackerNo${index}`}
+      className="grid grid-cols-6 gap-2"
+    >
+      <div className="col-span-5">
+        <a href={`/custom_pool_tracker.html?id=${_tracker.id}`}>
+          <Card>
+            <CardHeader className="pt-2 pb-2">
+              <CardDescription>
+                <b>{_tracker.name}</b>
+                <br />
+                <div className="grid grid-cols-1 gap-1">
+                  <p>
+                    {t("CustomPoolOverview:swappableAssets")}:{" "}
+                    {_uniqueAssets.join(", ")}
+                  </p>
+                  <p>
+                    {t("CustomPoolOverview:poolShareAssets")}:{" "}
+                    {_pools
+                      .map((x) =>
+                        _pools.length > 4
+                          ? x.id
+                          : `${x.share_asset_symbol} (${x.id})`
+                      )
+                      .join(", ")}
+                  </p>
+                </div>
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </a>
+      </div>
+      <div className="flex items-center justify-center">
+        <Dialog open={deletePrompt} onOpenChange={setDeletePrompt}>
+          <DialogTrigger asChild>
+            <Button variant="outline" className="w-3/4">
+              {t("CustomPoolOverview:delete")}
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[375px] bg-card">
+            <DialogHeader>
+              <DialogTitle>{t("CustomPoolOverview:areYouSure")}</DialogTitle>
+            </DialogHeader>
+            <p>{t("CustomPoolOverview:deleteTracker")}</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                onClick={() => {
+                  const updatedTrackers = trackers[_chain].filter(
+                    (thisTracker) => thisTracker.name !== _tracker.name
+                  );
+                  updateTrackers(_chain, updatedTrackers);
+                  setDeletePrompt(false);
+                }}
+              >
+                {t("CustomPoolOverview:yes")}
+              </Button>
+              <Button
+                onClick={() => {
+                  setDeletePrompt(false);
+                }}
+                variant="outline"
+              >
+                {t("CustomPoolOverview:no")}
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
+  );
+});
 
 export default function CustomPoolOverview(properties) {
   const {
@@ -270,198 +465,9 @@ export default function CustomPoolOverview(properties) {
     chosenPoolSwappableAssets,
   ]);
 
-  const PoolRow = ({ index, style }) => {
-    const pool = remainingPools[index];
-    const assetA = assets.find((asset) => asset.id === pool.asset_a_id);
-    const assetB = assets.find((asset) => asset.id === pool.asset_b_id);
-    const shareAsset = assets.find((asset) => asset.id === pool.share_asset_id);
-
-    if (!assetA || !assetB || !shareAsset) {
-      return null;
-    }
-
-    return (
-      <div style={style} key={`poolNo${index}`}>
-        <Card
-          onClick={() => {
-            if (!selectedPools.includes(pool.id)) {
-              const newAssets = [assetA.symbol, assetB.symbol].filter(
-                (symbol) =>
-                  !chosenPoolSwappableAssets ||
-                  !chosenPoolSwappableAssets.includes(symbol)
-              );
-
-              if (
-                chosenPoolSwappableAssets &&
-                chosenPoolSwappableAssets.length + newAssets.length > 5
-              ) {
-                console.log("Unable to track more than 5 swappable assets.");
-                return; // can't have more than 5!
-              }
-
-              setSelectedPools([...selectedPools, pool.id]);
-            }
-          }}
-        >
-          <CardHeader className="p-0">
-            <CardDescription>
-              <div className="grid grid-cols-4 gap-2">
-                <div className="flex items-center justify-center">
-                  {pool.id}
-                </div>
-                <div className="flex items-center justify-center">
-                  {shareAsset.symbol}
-                </div>
-                <div className="flex items-center justify-center">
-                  {assetA.symbol}
-                </div>
-                <div className="flex items-center justify-center">
-                  {assetB.symbol}
-                </div>
-              </div>
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
-
-  const ChosenPoolRow = ({ index, style }) => {
-    const pool = chosenPools[index];
-    const assetA = assets.find((asset) => asset.id === pool.asset_a_id);
-    const assetB = assets.find((asset) => asset.id === pool.asset_b_id);
-    const shareAsset = assets.find((asset) => asset.id === pool.share_asset_id);
-
-    if (!assetA || !assetB || !shareAsset) {
-      return null;
-    }
-
-    return (
-      <div style={style} key={`poolNo${index}`}>
-        <Card
-          onClick={() => {
-            setSelectedPools(
-              selectedPools.filter((poolId) => poolId !== pool.id)
-            );
-          }}
-        >
-          <CardHeader className="p-0">
-            <CardDescription>
-              <div className="grid grid-cols-4 gap-2">
-                <div className="flex items-center justify-center">
-                  {pool.id}
-                </div>
-                <div className="flex items-center justify-center">
-                  {shareAsset.symbol}
-                </div>
-                <div className="flex items-center justify-center">
-                  {assetA.symbol}
-                </div>
-                <div className="flex items-center justify-center">
-                  {assetB.symbol}
-                </div>
-              </div>
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  };
-
-  const TrackerRow = ({ index, style }) => {
-    const _tracker = trackers[_chain][index];
-
-    const _pools = _tracker.pools.map((poolId) =>
-      pools.find((pool) => pool.id === poolId)
-    );
-    const _uniqueAssets = [];
-
-    _pools.forEach((_pool) => {
-      const _assetA = assets.find((asset) => asset.id === _pool.asset_a_id);
-      const _assetB = assets.find((asset) => asset.id === _pool.asset_b_id);
-      if (_assetA && !_uniqueAssets.includes(_assetA.symbol)) {
-        _uniqueAssets.push(_assetA.symbol);
-      }
-      if (_assetB && !_uniqueAssets.includes(_assetB.symbol)) {
-        _uniqueAssets.push(_assetB.symbol);
-      }
-    });
-
-    const [deletePrompt, setDeletePrompt] = useState(false);
-
-    return (
-      <div
-        style={style}
-        key={`poolTrackerNo${index}`}
-        className="grid grid-cols-6 gap-2"
-      >
-        <div className="col-span-5">
-          <a href={`/custom_pool_tracker.html?id=${_tracker.id}`}>
-            <Card>
-              <CardHeader className="pt-2 pb-2">
-                <CardDescription>
-                  <b>{_tracker.name}</b>
-                  <br />
-                  <div className="grid grid-cols-1 gap-1">
-                    <p>
-                      {t("CustomPoolOverview:swappableAssets")}:{" "}
-                      {_uniqueAssets.join(", ")}
-                    </p>
-                    <p>
-                      {t("CustomPoolOverview:poolShareAssets")}:{" "}
-                      {_pools
-                        .map((x) =>
-                          _pools.length > 4
-                            ? x.id
-                            : `${x.share_asset_symbol} (${x.id})`
-                        )
-                        .join(", ")}
-                    </p>
-                  </div>
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </a>
-        </div>
-        <div className="flex items-center justify-center">
-          <Dialog open={deletePrompt} onOpenChange={setDeletePrompt}>
-            <DialogTrigger asChild>
-              <Button variant="outline" className="w-3/4">
-                {t("CustomPoolOverview:delete")}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[375px] bg-card">
-              <DialogHeader>
-                <DialogTitle>{t("CustomPoolOverview:areYouSure")}</DialogTitle>
-              </DialogHeader>
-              <p>{t("CustomPoolOverview:deleteTracker")}</p>
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  onClick={() => {
-                    const updatedTrackers = trackers[_chain].filter(
-                      (thisTracker) => thisTracker.name !== _tracker.name
-                    );
-                    updateTrackers(_chain, updatedTrackers);
-                    setDeletePrompt(false);
-                  }}
-                >
-                  {t("CustomPoolOverview:yes")}
-                </Button>
-                <Button
-                  onClick={() => {
-                    setDeletePrompt(false);
-                  }}
-                  variant="outline"
-                >
-                  {t("CustomPoolOverview:no")}
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
-    );
-  };
+  const poolRowProps = useMemo(() => ({ remainingPools, assets, selectedPools, chosenPoolSwappableAssets, setSelectedPools }), [remainingPools, assets, selectedPools, chosenPoolSwappableAssets, setSelectedPools]);
+  const chosenPoolRowProps = useMemo(() => ({ chosenPools, assets, selectedPools, setSelectedPools }), [chosenPools, assets, selectedPools, setSelectedPools]);
+  const trackerRowProps = useMemo(() => ({ trackers, _chain, pools, assets, t }), [trackers, _chain, pools, assets, t]);
 
   return (
     <div className="container mx-auto mt-5 mb-5">
@@ -497,12 +503,14 @@ export default function CustomPoolOverview(properties) {
             {trackers && trackers[_chain] && trackers[_chain].length ? (
               <div className="grid grid-cols-6 gap-3">
                 <div className="col-span-5 border rounded border-border p-3">
-                  <div className="w-full max-h-[200px] overflow-auto">
+                  <div className="w-full h-[200px]">
                     <List
                       rowComponent={TrackerRow}
                       rowCount={trackers[_chain].length}
                       rowHeight={100}
-                      rowProps={{}}
+                      height={200}
+                      width="100%"
+                      rowProps={trackerRowProps}
                     />
                   </div>
                 </div>
@@ -681,12 +689,14 @@ export default function CustomPoolOverview(properties) {
             </div>
             {remainingPools && remainingPools.length ? (
               <div className="border rounded border-border p-2">
-                <div className="w-full max-h-[200px] overflow-auto">
+                <div className="w-full h-[200px]">
                   <List
                     rowComponent={PoolRow}
                     rowCount={remainingPools.length}
                     rowHeight={30}
-                    rowProps={{}}
+                    height={200}
+                    width="100%"
+                    rowProps={poolRowProps}
                   />
                 </div>
               </div>
@@ -720,14 +730,14 @@ export default function CustomPoolOverview(properties) {
               <div>{t("CustomPoolOverview:assetA")}</div>
               <div>{t("CustomPoolOverview:assetB")}</div>
             </div>
-            <div className="border rounded border-border p-2">
+            <div className="w-full h-[200px] border rounded border-border p-2">
               <List
                 height={200}
+                width="100%"
                 rowComponent={ChosenPoolRow}
                 rowCount={selectedPools.length}
                 rowHeight={30}
-                rowProps={{}}
-                className="w-full"
+                rowProps={chosenPoolRowProps}
               />
             </div>
             <Button

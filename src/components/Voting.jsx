@@ -4,6 +4,7 @@ import React, {
   useSyncExternalStore,
   useMemo,
   useCallback,
+  memo,
 } from "react";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
@@ -33,7 +34,6 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 
@@ -52,6 +52,254 @@ import {
 import { humanReadableFloat, debounce } from "@/lib/common";
 import ExternalLink from "./common/ExternalLink.jsx";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
+
+function formatDate(dateStr) {
+  if (!dateStr) return "";
+  const datePart = dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
+  const parts = datePart.split("-");
+  if (parts.length !== 3) return dateStr;
+  const [y, m, d] = parts;
+  return `${d}/${m}/${y}`;
+}
+
+const WitnessRow = memo(function WitnessRow({
+  index,
+  style,
+  sortedWitnesses,
+  witnessVotes,
+  setWitnessVotes,
+}) {
+  const witness = sortedWitnesses[index];
+  const isToggled = witness ? witnessVotes.includes(witness.vote_id) : false;
+  if (!witness) return null;
+
+  return (
+    <div style={style} key={witness.id}>
+      <div className={`mb-1 relative overflow-hidden rounded-xl border ${witness.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
+        <div className="p-3 text-sm">
+          <div className="grid grid-cols-4 gap-2 items-center">
+            <div className="flex items-center">
+              <span className="hidden md:block">
+                <Avatar
+                  size={30}
+                  name={witness.name}
+                  extra={`W${index}`}
+                  expression={
+                    witness.signingKey ===
+                      "BTS1111111111111111111111111111111114T1Anm" ||
+                    !witness.active
+                      ? { eye: "sleepy", mouth: "unhappy" }
+                      : { eye: "normal", mouth: "open" }
+                  }
+                  colors={[
+                    "#F0AB3D",
+                    "#C271B4",
+                    "#C20D90",
+                    "#92A1C6",
+                    "#146A7C",
+                  ]}
+                />
+              </span>
+              <span className="ml-2">{witness.name}</span>
+            </div>
+            <div>
+              <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
+                {witness.id}
+              </span>{" "}
+              (
+              <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
+                {witness.account_id}
+              </span>
+              )
+            </div>
+            <div>
+              {humanReadableFloat(witness.total_votes, 5).toLocaleString(
+                undefined,
+                { minimumFractionDigits: 0, maximumFractionDigits: 0 },
+              )}
+            </div>
+            <div>
+              <Toggle
+                onClick={() => {
+                  if (isToggled) {
+                    setWitnessVotes((prev) =>
+                      prev.filter((v) => v !== witness.vote_id),
+                    );
+                  } else {
+                    setWitnessVotes((prev) => [...prev, witness.vote_id]);
+                  }
+                }}
+                value={isToggled}
+              >
+                {isToggled ? <Check className="h-4 w-4 text-[hsl(var(--accent-success-fg))]" /> : <X className="h-4 w-4 text-[hsl(var(--accent-danger-fg))]" />}
+              </Toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+const CommitteeRow = memo(function CommitteeRow({
+  index,
+  style,
+  sortedMembers,
+  committeeVotes,
+  setCommitteeVotes,
+  _chain,
+}) {
+  const member = sortedMembers[index];
+  const isToggled = member ? committeeVotes.includes(member.vote_id) : false;
+  if (!member) return null;
+
+  return (
+    <div style={style} key={member.id}>
+      <div className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
+        <div className="p-3 text-sm">
+          <div className="grid grid-cols-4 gap-2 items-center">
+            <div className="flex items-center">
+              <span className="hidden md:block">
+                <Avatar
+                  size={30}
+                  name={member.name}
+                  extra={`CM${index}`}
+                  expression={
+                    !member.active
+                      ? { eye: "sleepy", mouth: "unhappy" }
+                      : { eye: "normal", mouth: "open" }
+                  }
+                  colors={[
+                    "#146A7C",
+                    "#F0AB3D",
+                    "#C271B4",
+                    "#C20D90",
+                    "#92A1C6",
+                  ]}
+                />
+              </span>
+              <span className="ml-2">{member.name}</span>
+            </div>
+            <div>
+              <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
+                {member.id}
+              </span>{" "}
+              (
+              <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
+                {member.account_id}
+              </span>
+              )
+            </div>
+            <div>
+              {humanReadableFloat(member.total_votes, 5).toLocaleString(
+                undefined,
+                { minimumFractionDigits: 0, maximumFractionDigits: 0 },
+              )}
+              {_chain === "bitshares" ? " BTS" : " TEST"}
+            </div>
+            <div>
+              <Toggle
+                onClick={() => {
+                  if (isToggled) {
+                    setCommitteeVotes((prev) =>
+                      prev.filter((v) => v !== member.vote_id),
+                    );
+                  } else {
+                    setCommitteeVotes((prev) => [...prev, member.vote_id]);
+                  }
+                }}
+                value={isToggled}
+              >
+                {isToggled ? <Check className="h-4 w-4 text-[hsl(var(--accent-success-fg))]" /> : <X className="h-4 w-4 text-[hsl(var(--accent-danger-fg))]" />}
+              </Toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+const WorkerRow = memo(function WorkerRow({
+  index,
+  style,
+  sortedWorkers,
+  workerVotes,
+  setWorkerVotes,
+  budgetConsumerSet,
+  calculateNeededVotes,
+}) {
+  const worker = sortedWorkers[index];
+  const isToggled = worker ? workerVotes.includes(worker.vote_for) : false;
+  if (!worker) return null;
+
+  const begin = formatDate(worker.work_begin_date);
+  const end = formatDate(worker.work_end_date);
+
+  return (
+    <div style={style} key={worker.id}>
+      <div className={`mb-1 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
+        <div className="p-3 text-sm">
+          <div className="grid grid-cols-8 md:grid-cols-12 gap-2 items-center">
+            <div>
+              {budgetConsumerSet.has(worker.id)
+                ? <Check className="h-3.5 w-3.5 text-[hsl(var(--accent-success-fg))]" />
+                : <X className="h-3.5 w-3.5 text-[hsl(var(--accent-danger-fg))]" />}
+            </div>
+            <div className="hidden md:block">
+              <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
+                {worker.id}
+              </span>
+            </div>
+            <div className="col-span-3 grid grid-cols-1">
+              <div title={worker.name}>
+                {worker.name.length > 20
+                  ? `${worker.name.slice(0, 20)}...`
+                  : worker.name}
+              </div>
+              <div>
+                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
+                  {worker.username}
+                </span>{" "}
+                (
+                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
+                  {worker.worker_account}
+                </span>
+                )
+              </div>
+            </div>
+            <div className="hidden md:block col-span-2">
+              {worker.readableVotesFor}
+            </div>
+            <div className="hidden md:block">
+              {calculateNeededVotes(worker)}
+            </div>
+            <div className="col-span-2">
+              {begin} - {end}
+            </div>
+            <div>{worker.readablePay}</div>
+            <div>
+              <Toggle
+                onClick={() => {
+                  if (isToggled) {
+                    setWorkerVotes((prev) =>
+                      prev.filter((v) => v !== worker.vote_for),
+                    );
+                  } else {
+                    setWorkerVotes((prev) => [...prev, worker.vote_for]);
+                  }
+                }}
+                value={isToggled}
+              >
+                {isToggled ? <Check className="h-4 w-4 text-[hsl(var(--accent-success-fg))]" /> : <X className="h-4 w-4 text-[hsl(var(--accent-danger-fg))]" />}
+              </Toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
 
 export default function Witnesses(properties) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -453,18 +701,19 @@ export default function Witnesses(properties) {
     return total;
   }, [budgetConsumers]);
 
+  const budgetConsumerSet = useMemo(() => new Set(budgetConsumers.map((bc) => bc.id)), [budgetConsumers]);
+
   const sortedWitnesses = useMemo(() => {
-    let standby = processedWitnesses;
-    standby.sort((a, b) => {
+    const sorted = [...processedWitnesses].sort((a, b) => {
       if (witnessSortKey === "name") return a.name.localeCompare(b.name);
       if (witnessSortKey === "votes") return a.total_votes - b.total_votes;
       if (witnessSortKey === "rank") return b.total_votes - a.total_votes;
       return 0;
     });
     if (witnessSortDirection === "desc") {
-      standby.reverse();
+      return sorted.slice().reverse();
     }
-    return standby;
+    return sorted;
   }, [processedWitnesses, witnessSortKey, witnessSortDirection]);
 
   const sortedMembers = useMemo(() => {
@@ -538,7 +787,7 @@ export default function Witnesses(properties) {
     [],
   );
 
-  function calculateNeededVotes(_workerProposal) {
+  const calculateNeededVotes = useCallback((_workerProposal) => {
     let totalVotesNeeded = 0;
     let remainingBudget = 400000 - consumedBudget;
     const requiredPay = humanReadableFloat(
@@ -556,17 +805,7 @@ export default function Witnesses(properties) {
       }
     }
     return totalVotesNeeded - _workerProposal.readableVotesFor;
-  }
-
-  function formatDate(dateStr) {
-    if (!dateStr) return "";
-    // If the string contains a 'T', take the date portion before it; otherwise assume it's already a date
-    const datePart = dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
-    const parts = datePart.split("-"); // [YYYY, MM, DD]
-    if (parts.length !== 3) return dateStr; // fallback
-    const [y, m, d] = parts;
-    return `${d}/${m}/${y}`;
-  }
+  }, [budgetConsumers, consumedBudget]);
 
   const [committeeVotes, setCommitteeVotes] = useState([]);
   const [witnessVotes, setWitnessVotes] = useState([]);
@@ -611,236 +850,9 @@ export default function Witnesses(properties) {
     };
   }, [usr, userData, committeeVotes, witnessVotes, workerVotes]);
 
-  const WitnessRow = ({ index, style }) => {
-    const witness = sortedWitnesses[index];
-    if (!witness) return null;
-    const { vote_id } = witness;
-
-    const isToggled = useMemo(() => {
-      return witnessVotes.includes(vote_id);
-    }, [witnessVotes, vote_id]);
-
-    return (
-      <div style={style} key={witness.id}>
-        <div className={`mb-1 relative overflow-hidden rounded-xl border ${witness.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
-          <div className="p-3 text-sm">
-            <div className="grid grid-cols-4 gap-2 items-center">
-              <div className="flex items-center">
-                <span className="hidden md:block">
-                  <Avatar
-                    size={30}
-                    name={witness.name}
-                    extra={`W${index}`}
-                    expression={
-                      witness.signingKey ===
-                        "BTS1111111111111111111111111111111114T1Anm" ||
-                      !witness.active
-                        ? { eye: "sleepy", mouth: "unhappy" }
-                        : { eye: "normal", mouth: "open" }
-                    }
-                    colors={[
-                      "#F0AB3D",
-                      "#C271B4",
-                      "#C20D90",
-                      "#92A1C6",
-                      "#146A7C",
-                    ]}
-                  />
-                </span>
-                <span className="ml-2">{witness.name}</span>
-              </div>
-              <div>
-                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
-                  {witness.id}
-                </span>{" "}
-                (
-                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
-                  {witness.account_id}
-                </span>
-                )
-              </div>
-              <div>
-                {humanReadableFloat(witness.total_votes, 5).toLocaleString(
-                  undefined,
-                  { minimumFractionDigits: 0, maximumFractionDigits: 0 },
-                )}
-              </div>
-              <div>
-                <Toggle
-                  onClick={() => {
-                    if (isToggled) {
-                      setWitnessVotes((prev) =>
-                        prev.filter((v) => v !== witness.vote_id),
-                      );
-                    } else {
-                      setWitnessVotes((prev) => [...prev, witness.vote_id]);
-                    }
-                  }}
-                  value={isToggled}
-                >
-                  {isToggled ? <Check className="h-4 w-4 text-[hsl(var(--accent-success-fg))]" /> : <X className="h-4 w-4 text-[hsl(var(--accent-danger-fg))]" />}
-                </Toggle>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const CommitteeRow = ({ index, style }) => {
-    const member = sortedMembers[index];
-    if (!member) return null;
-    const { vote_id } = member;
-
-    const isToggled = useMemo(() => {
-      return committeeVotes.includes(vote_id);
-    }, [committeeVotes, vote_id]);
-
-    return (
-      <div style={style} key={member.id}>
-        <div className={`mb-1 relative overflow-hidden rounded-xl border ${member.active ? "border-[hsl(var(--accent-success)/0.2)] bg-[hsl(var(--accent-success)/0.05)]" : "border-[hsl(var(--accent-1)/0.15)] bg-card/60"} backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
-          <div className="p-3 text-sm">
-            <div className="grid grid-cols-4 gap-2 items-center">
-              <div className="flex items-center">
-                <span className="hidden md:block">
-                  <Avatar
-                    size={30}
-                    name={member.name}
-                    extra={`CM${index}`}
-                    expression={
-                      !member.active
-                        ? { eye: "sleepy", mouth: "unhappy" }
-                        : { eye: "normal", mouth: "open" }
-                    }
-                    colors={[
-                      "#146A7C",
-                      "#F0AB3D",
-                      "#C271B4",
-                      "#C20D90",
-                      "#92A1C6",
-                    ]}
-                  />
-                </span>
-                <span className="ml-2">{member.name}</span>
-              </div>
-              <div>
-                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
-                  {member.id}
-                </span>{" "}
-                (
-                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
-                  {member.account_id}
-                </span>
-                )
-              </div>
-              <div>
-                {humanReadableFloat(member.total_votes, 5).toLocaleString(
-                  undefined,
-                  { minimumFractionDigits: 0, maximumFractionDigits: 0 },
-                )}
-                {_chain === "bitshares" ? " BTS" : " TEST"}
-              </div>
-              <div>
-                <Toggle
-                  onClick={() => {
-                    if (isToggled) {
-                      // Remove vote
-                      setCommitteeVotes((prev) =>
-                        prev.filter((v) => v !== member.vote_id),
-                      );
-                    } else {
-                      // Add vote
-                      setCommitteeVotes((prev) => [...prev, member.vote_id]);
-                    }
-                  }}
-                  value={isToggled}
-                >
-                  {isToggled ? <Check className="h-4 w-4 text-[hsl(var(--accent-success-fg))]" /> : <X className="h-4 w-4 text-[hsl(var(--accent-danger-fg))]" />}
-                </Toggle>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const WorkerRow = ({ index, style }) => {
-    const worker = sortedWorkers[index];
-    if (!worker) return null;
-    const { vote_for } = worker;
-    const isToggled = useMemo(() => {
-      return workerVotes.includes(vote_for);
-    }, [workerVotes, vote_for]);
-
-    const begin = formatDate(worker.work_begin_date);
-    const end = formatDate(worker.work_end_date);
-
-    return (
-      <div style={style} key={worker.id}>
-        <div className={`mb-1 relative overflow-hidden rounded-xl border border-[hsl(var(--accent-1)/0.15)] bg-card/60 backdrop-blur-xl shadow-sm hover:border-[hsl(var(--accent-1)/0.25)] transition-all duration-300`}>
-          <div className="p-3 text-sm">
-            <div className="grid grid-cols-8 md:grid-cols-12 gap-2 items-center">
-              <div>
-                {budgetConsumers.find((bc) => bc.id === worker.id)
-                  ? <Check className="h-3.5 w-3.5 text-[hsl(var(--accent-success-fg))]" />
-                  : <X className="h-3.5 w-3.5 text-[hsl(var(--accent-danger-fg))]" />}
-              </div>
-              <div className="hidden md:block">
-                <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
-                  {worker.id}
-                </span>
-              </div>
-              <div className="col-span-3 grid grid-cols-1">
-                <div title={worker.name}>
-                  {worker.name.length > 20
-                    ? `${worker.name.slice(0, 20)}...`
-                    : worker.name}
-                </div>
-                <div>
-                  <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
-                    {worker.username}
-                  </span>{" "}
-                  (
-                  <span className="text-[hsl(var(--accent-2-fg))] dark:text-[hsl(var(--accent-2-fg))] hover:text-[hsl(var(--accent-3-fg))] dark:hover:text-[hsl(var(--accent-3-fg))]">
-                    {worker.worker_account}
-                  </span>
-                  )
-                </div>
-              </div>
-              <div className="hidden md:block col-span-2">
-                {worker.readableVotesFor}
-              </div>
-              <div className="hidden md:block">
-                {calculateNeededVotes(worker)}
-              </div>
-              <div className="col-span-2">
-                {begin} - {end}
-              </div>
-              <div>{worker.readablePay}</div>
-              <div>
-                <Toggle
-                  onClick={() => {
-                    if (isToggled) {
-                      setWorkerVotes((prev) =>
-                        prev.filter((v) => v !== worker.vote_for),
-                      );
-                    } else {
-                      setWorkerVotes((prev) => [...prev, worker.vote_for]);
-                    }
-                  }}
-                  value={isToggled}
-                >
-                  {isToggled ? <Check className="h-4 w-4 text-[hsl(var(--accent-success-fg))]" /> : <X className="h-4 w-4 text-[hsl(var(--accent-danger-fg))]" />}
-                </Toggle>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  const witnessRowProps = useMemo(() => ({ sortedWitnesses, witnessVotes, setWitnessVotes, _chain }), [sortedWitnesses, witnessVotes, setWitnessVotes, _chain]);
+  const committeeRowProps = useMemo(() => ({ sortedMembers, committeeVotes, setCommitteeVotes, _chain }), [sortedMembers, committeeVotes, setCommitteeVotes, _chain]);
+  const workerRowProps = useMemo(() => ({ sortedWorkers, workerVotes, setWorkerVotes, budgetConsumerSet, calculateNeededVotes, _chain }), [sortedWorkers, workerVotes, setWorkerVotes, budgetConsumerSet, calculateNeededVotes, _chain]);
 
   const [selectedVoteType, setSelectedVoteType] = useState("witnesses"); // witnesses, committee, workers
   const [showDialog, setShowDialog] = useState(false);
@@ -910,13 +922,15 @@ export default function Witnesses(properties) {
                 </div>
                 <div>{t("Voting:toggleVote")}</div>
               </div>
-              <ScrollArea className="h-[500px] pt-1 w-full">
+              <div className="w-full h-[500px]">
                 {sortedWitnesses && sortedWitnesses.length && checkedVotes ? (
                   <List
+                    height={500}
+                    width="100%"
                     rowComponent={WitnessRow}
                     rowCount={sortedWitnesses.length}
                     rowHeight={75}
-                    rowProps={{}}
+                    rowProps={witnessRowProps}
                   />
                 ) : (
                   <div className="space-y-2">
@@ -924,7 +938,7 @@ export default function Witnesses(properties) {
                     <Skeleton className="h-64 w-full" />
                   </div>
                 )}
-              </ScrollArea>
+              </div>
             </div>
           ) : null}
           {selectedVoteType === "committee" ? (
@@ -949,13 +963,15 @@ export default function Witnesses(properties) {
                 </div>
                 <div>{t("Voting:toggleVote")}</div>
               </div>
-              <div className="w-full max-h-[500px] overflow-auto">
+              <div className="w-full h-[500px]">
                 {sortedWitnesses && sortedWitnesses.length && checkedVotes ? (
                   <List
+                    height={500}
+                    width="100%"
                     rowComponent={CommitteeRow}
                     rowCount={sortedMembers.length}
                     rowHeight={75}
-                    rowProps={{}}
+                    rowProps={committeeRowProps}
                   />
                 ) : (
                   <div className="space-y-2">
@@ -1006,13 +1022,15 @@ export default function Witnesses(properties) {
                 </div>
                 <div>{t("Voting:toggleVote")}</div>
               </div>
-              <div className="w-full max-h-[500px] overflow-auto">
+              <div className="w-full h-[500px]">
                 {sortedWorkers && sortedWorkers.length && checkedVotes ? (
                   <List
+                    height={500}
+                    width="100%"
                     rowComponent={WorkerRow}
                     rowCount={sortedWorkers.length}
                     rowHeight={75}
-                    rowProps={{}}
+                    rowProps={workerRowProps}
                   />
                 ) : (
                   <div className="space-y-2">

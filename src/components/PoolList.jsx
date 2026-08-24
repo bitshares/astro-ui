@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useSyncExternalStore,
   useMemo,
+  memo,
 } from "react";
 import { List } from "react-window";
 
@@ -76,6 +77,240 @@ function extractPoolNum(id) {
   const parts = id.split(".");
   return parseInt(parts[parts.length - 1], 10) || 0;
 }
+
+const PoolRow = memo(function PoolRow({ index, style, remainingPools, assets, t }) {
+  const pool = remainingPools[index];
+  const assetA = assets.find((asset) => asset.id === pool.asset_a_id);
+  const assetB = assets.find((asset) => asset.id === pool.asset_b_id);
+  const shareAsset = assets.find((asset) => asset.id === pool.share_asset_id);
+
+  if (!assetA || !assetB || !shareAsset) {
+    return null;
+  }
+
+  const takerFee = pool.taker_fee_percent / 100;
+  const withdrawalFee = pool.withdrawal_fee_percent / 100;
+
+  return (
+    <div style={style} key={`poolNo${index}`}>
+      <Dialog>
+        <DialogTrigger asChild>
+          <button
+            type="button"
+            className="w-full px-2 text-left rounded-md border border-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] dark:hover:bg-[hsl(var(--accent-1)/0.1)] transition-all duration-150 cursor-pointer group focus:outline-none focus:ring-1 focus:ring-[hsl(var(--accent-1)/0.5)]"
+          >
+            <div className="grid grid-cols-[3fr_3fr_1fr_1fr_3fr_1fr] gap-2 items-center text-sm">
+              <div className="flex items-center gap-1.5 min-w-0 px-1">
+                <span className="font-semibold text-foreground truncate">
+                  {assetA.symbol}
+                </span>
+                <ArrowRight className="h-3 w-3 text-muted-foreground shrink-0" />
+                <span className="font-semibold text-foreground truncate">
+                  {assetB.symbol}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-1 min-w-0 justify-center tabular-nums">
+                <span className="text-xs text-muted-foreground truncate">
+                  {humanReadableFloat(pool.balance_a, assetA.precision)}
+                </span>
+                <span className="text-xs text-muted-foreground">/</span>
+                <span className="text-xs text-muted-foreground truncate">
+                  {humanReadableFloat(pool.balance_b, assetB.precision)}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-center">
+                <Badge
+                  variant="secondary"
+                  className="text-[10px] px-1.5 py-0 font-medium tabular-nums"
+                >
+                  {takerFee}%
+                </Badge>
+              </div>
+
+              <div className="flex items-center justify-center">
+                {withdrawalFee > 0 ? (
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] px-1.5 py-0 font-medium tabular-nums"
+                  >
+                    {withdrawalFee}%
+                  </Badge>
+                ) : (
+                  <span className="text-xs text-muted-foreground">-</span>
+                )}
+              </div>
+
+              <div className="text-xs text-muted-foreground truncate text-center">
+                {shareAsset.symbol}
+              </div>
+
+              <div className="text-xs text-muted-foreground tabular-nums text-center">
+                #{pool.id}
+              </div>
+            </div>
+          </button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[520px] bg-card max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-lg">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)]">
+                <Droplets className="h-3.5 w-3.5 text-[hsl(var(--accent-1))]" />
+              </span>
+              {assetA.symbol}
+              <ArrowRight className="h-4 w-4 text-muted-foreground" />
+              {assetB.symbol}
+            </DialogTitle>
+            <DialogDescription>
+              {t("PoolList:dialogDescription")}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-lg border border-border bg-muted/30 p-3">
+                <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-1">
+                  {t("CustomPoolOverview:poolId")}
+                </div>
+                <div className="font-mono text-sm font-medium">{pool.id}</div>
+              </div>
+              <div className="rounded-lg border border-border bg-muted/30 p-3">
+                <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-1">
+                  {t("CustomPoolOverview:shareAsset")}
+                </div>
+                <div className="font-mono text-sm font-medium truncate">
+                  {shareAsset.symbol}
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-border bg-muted/30 p-3">
+              <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-2">
+                {t("PoolList:details")}
+              </div>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-bold py-1.5 px-2">
+                      {assetA.symbol}
+                    </TableCell>
+                    <TableCell className="py-1.5 px-2 tabular-nums">
+                      {humanReadableFloat(pool.balance_a, assetA.precision)}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-bold py-1.5 px-2">
+                      {assetB.symbol}
+                    </TableCell>
+                    <TableCell className="py-1.5 px-2 tabular-nums">
+                      {humanReadableFloat(pool.balance_b, assetB.precision)}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-bold py-1.5 px-2">
+                      {t("CustomPoolOverview:takerFee")}
+                    </TableCell>
+                    <TableCell className="py-1.5 px-2">{takerFee}%</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-bold py-1.5 px-2">
+                      {t("CustomPoolOverview:withdrawalFee")}
+                    </TableCell>
+                    <TableCell className="py-1.5 px-2">
+                      {withdrawalFee}%
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+
+            <Separator />
+
+            <div>
+              <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-2">
+                Pool Actions
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <a href={`/swap.html?pool=${pool.id}`}>
+                  <Button variant="outline" className="w-full justify-start gap-2">
+                    <RefreshCw className="h-3.5 w-3.5" />
+                    {t("PoolList:simpleSwap")}
+                  </Button>
+                </a>
+                <a href={`/stake.html?pool=${pool.id}`}>
+                  <Button variant="outline" className="w-full justify-start gap-2">
+                    <Coins className="h-3.5 w-3.5" />
+                    {t("PoolList:stakeAssets")}
+                  </Button>
+                </a>
+                <a href={`/dex.html?market=${shareAsset.symbol}_BTS`}>
+                  <Button variant="outline" className="w-full justify-start gap-2">
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                    {t("PoolList:buyPoolShareAsset")}
+                  </Button>
+                </a>
+              </div>
+            </div>
+
+            {[assetA, assetB].map((asset, index) => {
+              return (
+                <div key={`assetInternalLinks${index}`}>
+                  <Separator />
+                  <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-2 mt-1">
+                    {asset.symbol}
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    <a
+                      href={`/dex.html?market=${asset.symbol}_${
+                        asset.symbol === "BTS" ? "HONEST.USD" : "BTS"
+                      }`}
+                    >
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full justify-start gap-1.5"
+                      >
+                        <ExternalLink className="h-3 w-3" />
+                        {t("PoolList:buyAsset")}
+                      </Button>
+                    </a>
+                    <a
+                      href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${
+                        asset.symbol ?? ""
+                      }`}
+                    >
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full justify-start gap-1.5"
+                      >
+                        <ExternalLink className="h-3 w-3" />
+                        {t("PoolList:borrowAsset")}
+                      </Button>
+                    </a>
+                    {asset.bitasset_data_id ? (
+                      <a href={`/smartcoin.html?id=${asset.id}`}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full justify-start gap-1.5"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          {t("PoolList:issueAsset")}
+                        </Button>
+                      </a>
+                    ) : null}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+});
 
 export default function CustomPoolOverview(properties) {
   const {
@@ -342,239 +577,7 @@ export default function CustomPoolOverview(properties) {
     );
   }
 
-  const PoolRow = ({ index, style }) => {
-    const pool = remainingPools[index];
-    const assetA = assets.find((asset) => asset.id === pool.asset_a_id);
-    const assetB = assets.find((asset) => asset.id === pool.asset_b_id);
-    const shareAsset = assets.find((asset) => asset.id === pool.share_asset_id);
-
-    if (!assetA || !assetB || !shareAsset) {
-      return null;
-    }
-
-    const takerFee = pool.taker_fee_percent / 100;
-    const withdrawalFee = pool.withdrawal_fee_percent / 100;
-
-    return (
-      <div style={style} key={`poolNo${index}`}>
-        <Dialog>
-          <DialogTrigger asChild>
-            <button
-              type="button"
-              className="w-full px-2 text-left rounded-md border border-transparent hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.06)] dark:hover:bg-[hsl(var(--accent-1)/0.1)] transition-all duration-150 cursor-pointer group focus:outline-none focus:ring-1 focus:ring-[hsl(var(--accent-1)/0.5)]"
-            >
-              <div className="grid grid-cols-[3fr_3fr_1fr_1fr_3fr_1fr] gap-2 items-center text-sm">
-                <div className="flex items-center gap-1.5 min-w-0 px-1">
-                  <span className="font-semibold text-foreground truncate">
-                    {assetA.symbol}
-                  </span>
-                  <ArrowRight className="h-3 w-3 text-muted-foreground shrink-0" />
-                  <span className="font-semibold text-foreground truncate">
-                    {assetB.symbol}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-1 min-w-0 justify-center tabular-nums">
-                  <span className="text-xs text-muted-foreground truncate">
-                    {humanReadableFloat(pool.balance_a, assetA.precision)}
-                  </span>
-                  <span className="text-xs text-muted-foreground">/</span>
-                  <span className="text-xs text-muted-foreground truncate">
-                    {humanReadableFloat(pool.balance_b, assetB.precision)}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-center">
-                  <Badge
-                    variant="secondary"
-                    className="text-[10px] px-1.5 py-0 font-medium tabular-nums"
-                  >
-                    {takerFee}%
-                  </Badge>
-                </div>
-
-                <div className="flex items-center justify-center">
-                  {withdrawalFee > 0 ? (
-                    <Badge
-                      variant="outline"
-                      className="text-[10px] px-1.5 py-0 font-medium tabular-nums"
-                    >
-                      {withdrawalFee}%
-                    </Badge>
-                  ) : (
-                    <span className="text-xs text-muted-foreground">-</span>
-                  )}
-                </div>
-
-                <div className="text-xs text-muted-foreground truncate text-center">
-                  {shareAsset.symbol}
-                </div>
-
-                <div className="text-xs text-muted-foreground tabular-nums text-center">
-                  #{pool.id}
-                </div>
-              </div>
-            </button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[520px] bg-card max-h-[85vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2 text-lg">
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-[hsl(var(--accent-1)/0.15)] border border-[hsl(var(--accent-1)/0.3)]">
-                  <Droplets className="h-3.5 w-3.5 text-[hsl(var(--accent-1))]" />
-                </span>
-                {assetA.symbol}
-                <ArrowRight className="h-4 w-4 text-muted-foreground" />
-                {assetB.symbol}
-              </DialogTitle>
-              <DialogDescription>
-                {t("PoolList:dialogDescription")}
-              </DialogDescription>
-            </DialogHeader>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-lg border border-border bg-muted/30 p-3">
-                  <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-1">
-                    {t("CustomPoolOverview:poolId")}
-                  </div>
-                  <div className="font-mono text-sm font-medium">{pool.id}</div>
-                </div>
-                <div className="rounded-lg border border-border bg-muted/30 p-3">
-                  <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-1">
-                    {t("CustomPoolOverview:shareAsset")}
-                  </div>
-                  <div className="font-mono text-sm font-medium truncate">
-                    {shareAsset.symbol}
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-border bg-muted/30 p-3">
-                <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-2">
-                  {t("PoolList:details")}
-                </div>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-bold py-1.5 px-2">
-                        {assetA.symbol}
-                      </TableCell>
-                      <TableCell className="py-1.5 px-2 tabular-nums">
-                        {humanReadableFloat(pool.balance_a, assetA.precision)}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-bold py-1.5 px-2">
-                        {assetB.symbol}
-                      </TableCell>
-                      <TableCell className="py-1.5 px-2 tabular-nums">
-                        {humanReadableFloat(pool.balance_b, assetB.precision)}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-bold py-1.5 px-2">
-                        {t("CustomPoolOverview:takerFee")}
-                      </TableCell>
-                      <TableCell className="py-1.5 px-2">{takerFee}%</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-bold py-1.5 px-2">
-                        {t("CustomPoolOverview:withdrawalFee")}
-                      </TableCell>
-                      <TableCell className="py-1.5 px-2">
-                        {withdrawalFee}%
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>
-
-              <Separator />
-
-              <div>
-                <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-2">
-                  Pool Actions
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <a href={`/swap.html?pool=${pool.id}`}>
-                    <Button variant="outline" className="w-full justify-start gap-2">
-                      <RefreshCw className="h-3.5 w-3.5" />
-                      {t("PoolList:simpleSwap")}
-                    </Button>
-                  </a>
-                  <a href={`/stake.html?pool=${pool.id}`}>
-                    <Button variant="outline" className="w-full justify-start gap-2">
-                      <Coins className="h-3.5 w-3.5" />
-                      {t("PoolList:stakeAssets")}
-                    </Button>
-                  </a>
-                  <a href={`/dex.html?market=${shareAsset.symbol}_BTS`}>
-                    <Button variant="outline" className="w-full justify-start gap-2">
-                      <ArrowUpRight className="h-3.5 w-3.5" />
-                      {t("PoolList:buyPoolShareAsset")}
-                    </Button>
-                  </a>
-                </div>
-              </div>
-
-              {[assetA, assetB].map((asset, index) => {
-                return (
-                  <div key={`assetInternalLinks${index}`}>
-                    <Separator />
-                    <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-2 mt-1">
-                      {asset.symbol}
-                    </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      <a
-                        href={`/dex.html?market=${asset.symbol}_${
-                          asset.symbol === "BTS" ? "HONEST.USD" : "BTS"
-                        }`}
-                      >
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="w-full justify-start gap-1.5"
-                        >
-                          <ExternalLink className="h-3 w-3" />
-                          {t("PoolList:buyAsset")}
-                        </Button>
-                      </a>
-                      <a
-                        href={`/borrow.html?tab=searchOffers&searchTab=borrow&searchText=${
-                          asset.symbol ?? ""
-                        }`}
-                      >
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="w-full justify-start gap-1.5"
-                        >
-                          <ExternalLink className="h-3 w-3" />
-                          {t("PoolList:borrowAsset")}
-                        </Button>
-                      </a>
-                      {asset.bitasset_data_id ? (
-                        <a href={`/smartcoin.html?id=${asset.id}`}>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="w-full justify-start gap-1.5"
-                          >
-                            <ExternalLink className="h-3 w-3" />
-                            {t("PoolList:issueAsset")}
-                          </Button>
-                        </a>
-                      ) : null}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
-    );
-  };
+  const poolRowProps = useMemo(() => ({ remainingPools, assets, t }), [remainingPools, assets, t]);
 
   return (
     <div className="container mx-auto mt-5 mb-5">
@@ -736,14 +739,15 @@ export default function CustomPoolOverview(properties) {
               </div>
 
               {/* Pool List - single scrollbar via react-window */}
-              <div className="border rounded-lg border-border h-[500px]">
+              <div className="w-full h-[500px] border rounded-lg border-border">
                 {remainingPools && remainingPools.length > 0 ? (
                   <List
                     rowComponent={PoolRow}
                     rowCount={remainingPools.length}
                     rowHeight={42}
                     height={500}
-                    rowProps={{}}
+                    width="100%"
+                    rowProps={poolRowProps}
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">

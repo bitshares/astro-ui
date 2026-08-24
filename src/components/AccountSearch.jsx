@@ -169,6 +169,32 @@ function AccountCard({ user, onClick, accentColor }) {
   );
 }
 
+const AccountSearchFavouriteRow = React.memo(function AccountSearchFavouriteRow({
+  index,
+  style,
+  filteredFavourites,
+  accentColor,
+  setChosenAccount,
+}) {
+  const favUser = filteredFavourites[index];
+  if (!favUser) return null;
+  const user = { username: favUser.name, id: favUser.id };
+  return (
+    <div style={style} className="pr-1">
+      <AccountCard
+        user={user}
+        onClick={() =>
+          setChosenAccount({
+            name: favUser.name,
+            id: favUser.id,
+          })
+        }
+        accentColor={accentColor}
+      />
+    </div>
+  );
+});
+
 export default function AccountSearch(properties) {
   const { chain, excludedUsers, setChosenAccount, skipCheck, accentColor: propsAccentColor } = properties;
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -263,25 +289,10 @@ export default function AccountSearch(properties) {
     setSearchResponse(response);
   }
 
-  const FavouriteRow = ({ index, style }) => {
-    const favUser = filteredFavourites[index];
-    if (!favUser) return null;
-    const user = { username: favUser.name, id: favUser.id };
-    return (
-      <div style={style} className="pr-1">
-        <AccountCard
-          user={user}
-          onClick={() =>
-            setChosenAccount({
-              name: favUser.name,
-              id: favUser.id,
-            })
-          }
-          accentColor={accentColor}
-        />
-      </div>
-    );
-  };
+  const favouriteRowProps = useMemo(
+    () => ({ filteredFavourites, accentColor, setChosenAccount }),
+    [filteredFavourites, accentColor, setChosenAccount]
+  );
 
   return (
     <div className="min-h-[320px]">
@@ -465,13 +476,15 @@ export default function AccountSearch(properties) {
             {t("AccountSearch:favourites.description")}
           </div>
 
-          <div className="w-full max-h-[340px] overflow-auto rounded-xl">
+          <div className="w-full h-[340px] rounded-xl">
             {filteredFavourites.length > 0 ? (
               <List
-                rowComponent={FavouriteRow}
+                rowComponent={AccountSearchFavouriteRow}
                 rowCount={filteredFavourites.length}
                 rowHeight={72}
-                rowProps={{}}
+                height={340}
+                width="100%"
+                rowProps={favouriteRowProps}
                 key={`list-favourites-${chain}`}
               />
             ) : (

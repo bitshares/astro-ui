@@ -314,6 +314,8 @@ export default function NetworkFees() {
       })
       .sort((a, b) => a.opId - b.opId);
   }, [feeSchedule]);
+  const desktopRowProps = useMemo(() => ({ rows, symbol, ltmFactor }), [rows, symbol, ltmFactor]);
+  const mobileRowProps = useMemo(() => ({ rows, symbol, ltmFactor }), [rows, symbol, ltmFactor]);
 
   // Variable row heights: rows with extra fee parameters are taller.
   const desktopRowHeight = (index) => {
@@ -416,8 +418,8 @@ export default function NetworkFees() {
                     rowComponent={MobileRow}
                     rowCount={rows.length}
                     rowHeight={mobileRowHeight}
-                    rowProps={{ rows, symbol, ltmFactor }}
-                  />
+                    rowProps={desktopRowProps}
+                   height={400} width="100%" />
                 </div>
 
                 {/* Desktop: columnar list */}
@@ -431,13 +433,13 @@ export default function NetworkFees() {
                       </span>
                     ))}
                   </div>
-                  <div className="w-full max-h-[560px] overflow-auto pt-1">
+                  <div className="w-full h-[560px] pt-1">
                     <List
                       rowComponent={DesktopRow}
                       rowCount={rows.length}
                       rowHeight={desktopRowHeight}
-                      rowProps={{ rows, symbol, ltmFactor }}
-                    />
+                      rowProps={desktopRowProps}
+                     height={560} width="100%" />
                   </div>
                 </div>
               </>

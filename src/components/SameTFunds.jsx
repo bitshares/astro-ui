@@ -272,7 +272,7 @@ export default function SameTFunds(properties) {
   const defaultCoreSymbol = _chain === "bitshares" ? "BTS" : "TEST";
 
   // ─── Fund Row ───────────────────────────────────────────────────
-  const Row = ({ index, style }) => {
+  const Row = useCallback(({ index, style }) => {
     let fund;
     if (view === "all") {
       fund = sameTFunds[index];
@@ -622,7 +622,7 @@ export default function SameTFunds(properties) {
         )}
       </div>
     );
-  };
+  }, [sameTFunds, myTFunds, searchResults, view, assets, lenderAccounts, usrBalances, t, usr]);
 
   // ─── Create Fund Dialog ─────────────────────────────────────────
   const [createPrompt, setCreatePrompt] = useState(false);

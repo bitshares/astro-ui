@@ -122,6 +122,285 @@ function ActionPill({ href, icon: Icon, children, accent = "slate" }) {
   );
 }
 
+const FavouriteAssetRow = React.memo(function FavouriteAssetRow({
+  index,
+  style,
+  chainFavourites,
+  fullFavouriteAssetData,
+  marketSearch,
+  favouriteAssets,
+  dynamicData,
+  bitassetData,
+  priceFeederAccounts,
+  currentUser,
+  _chain,
+  currentNode,
+  assets,
+  t,
+}) {
+  const item = chainFavourites[index];
+
+  if (!item) {
+    return null;
+  }
+
+  const assetDetails = fullFavouriteAssetData.find((a) => a.id === item.id);
+
+  const issuerLookup = marketSearch.find((x) => x.u && x.u.includes(`(${item.issuer})`));
+  const issuerName = issuerLookup ? issuerLookup.u.split(" (")[0] : null;
+
+  const showIssuerActions = !!(
+    currentUser?.id &&
+    item?.issuer &&
+    currentUser.id === item.issuer &&
+    (!currentUser.chain || currentUser.chain === _chain)
+  );
+
+  const fullAsset = favouriteAssets.find((a) => a.id === item.id) ?? null;
+
+  const relevantDynamicData = fullAsset
+    ? dynamicData.find((data) => data.id === fullAsset.id.replace("1.3.", "2.3."))
+    : null;
+
+  const relevantBitassetData =
+    fullAsset && fullAsset.bitasset_data_id
+      ? bitassetData.find((data) => data.id === fullAsset.bitasset_data_id)
+      : null;
+
+  const tradeHref = `/dex.html?market=${item.symbol}_${item.symbol === "BTS" ? "HONEST.USD" : "BTS"}`;
+
+  const renderCard = (layout) => {
+    const isStacked = layout === "stacked";
+    const cardCls = isStacked
+      ? "mb-3 group bg-card/60 border border-[hsl(var(--accent-1)/0.15)] hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all rounded-xl block md:hidden"
+      : "mb-3 group bg-card/60 border border-[hsl(var(--accent-1)/0.15)] hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all rounded-xl hidden md:block";
+    const headerCls = isStacked
+      ? "px-4 py-4"
+      : "px-4 py-4 flex flex-row items-center justify-between gap-3";
+
+    return (
+      <Card className={cardCls}>
+        <CardHeader className={headerCls}>
+          <div className="space-y-1 min-w-0">
+            <CardTitle className="text-base text-foreground truncate">
+              <span className="font-semibold">{item.symbol}</span>
+              <span className="ml-2 text-xs font-mono font-normal text-muted-foreground/60">
+                {item.id}
+              </span>
+            </CardTitle>
+            <CardDescription className="text-xs text-muted-foreground truncate">
+              {issuerName || item.issuer}
+            </CardDescription>
+          </div>
+          <div
+            className={
+              isStacked
+                ? "mt-3 flex items-center gap-2 flex-wrap"
+                : "flex items-center gap-2 flex-shrink-0"
+            }
+          >
+            <ActionPill href={tradeHref} icon={ArrowLeftRight} accent="emerald">
+              {t("IssuedAssets:proceedToTrade")}
+            </ActionPill>
+
+            {showIssuerActions && assetDetails ? (
+              <AssetIssuerActions
+                asset={assetDetails}
+                assets={assets}
+                chain={_chain}
+                currentUser={currentUser}
+                node={currentNode}
+                dynamicAssetData={relevantDynamicData}
+                bitassetData={relevantBitassetData}
+                priceFeederAccounts={priceFeederAccounts}
+                buttonVariant="outline"
+                buttonSize="sm"
+                className="border-border text-muted-foreground hover:bg-accent/60 hover:text-accent-foreground"
+              />
+            ) : null}
+
+            <div className={isStacked ? "ml-auto" : "ml-1"}>
+              <RemoveButton
+                onClick={() => removeFavouriteAsset(_chain, item)}
+                label={t("Favourites:remove")}
+              />
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
+    );
+  };
+
+  return (
+    <div style={{ ...style, paddingRight: "10px" }}>
+      {renderCard("stacked")}
+      {renderCard("row")}
+    </div>
+  );
+});
+
+const FavouritePairRowMobile = React.memo(function FavouritePairRowMobile({
+  index,
+  style,
+  chainPairs,
+  _chain,
+  t,
+}) {
+  const pair = chainPairs[index];
+  if (!pair) return null;
+  return (
+    <div style={{ ...style, paddingRight: "10px" }}>
+      <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
+        <CardHeader className="px-4 py-4">
+          <div className="space-y-1">
+            <CardTitle className="text-base text-foreground font-semibold">
+              {pair}
+            </CardTitle>
+          </div>
+          <div className="mt-3 flex items-center gap-2 flex-wrap">
+            <ActionPill
+              href={`/dex.html?market=${pair}`}
+              icon={ArrowLeftRight}
+              accent="slate"
+            >
+              {t("Favourites:trade")}
+            </ActionPill>
+            <div className="ml-auto">
+              <RemoveButton
+                onClick={() => removeFavouritePair(_chain, pair)}
+                label={t("Favourites:remove")}
+              />
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+});
+
+const FavouritePairRowDesktop = React.memo(function FavouritePairRowDesktop({
+  index,
+  style,
+  chainPairs,
+  _chain,
+  t,
+}) {
+  const pair = chainPairs[index];
+  if (!pair) return null;
+  return (
+    <div style={{ ...style, paddingRight: "10px" }}>
+      <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
+        <CardHeader className="px-4 py-4 flex flex-row items-center justify-between gap-3">
+          <div className="space-y-1">
+            <CardTitle className="text-base text-foreground font-semibold">
+              {pair}
+            </CardTitle>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <ActionPill
+              href={`/dex.html?market=${pair}`}
+              icon={ArrowLeftRight}
+              accent="slate"
+            >
+              {t("Favourites:trade")}
+            </ActionPill>
+            <div className="ml-1">
+              <RemoveButton
+                onClick={() => removeFavouritePair(_chain, pair)}
+                label={t("Favourites:remove")}
+              />
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+});
+
+const FavouriteUserRowMobile = React.memo(function FavouriteUserRowMobile({
+  index,
+  style,
+  favouriteUsers,
+  _chain,
+  t,
+}) {
+  const user = favouriteUsers[_chain][index];
+  if (!user) return null;
+  return (
+    <div style={{ ...style, paddingRight: "10px" }}>
+      <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
+        <CardHeader className="px-4 py-4">
+          <div className="space-y-1 min-w-0">
+            <CardTitle className="text-base text-foreground truncate">
+              <span className="font-semibold">{user.name}</span>
+              <span className="ml-2 text-xs font-mono font-normal text-muted-foreground/60">
+                {user.id}
+              </span>
+            </CardTitle>
+          </div>
+          <div className="mt-3 flex items-center gap-2 flex-wrap">
+            <ActionPill
+              href={`/transfer.html?to=${encodeURIComponent(user.name)}`}
+              icon={Send}
+              accent="emerald"
+            >
+              {t("Favourites:transfer")}
+            </ActionPill>
+            <div className="ml-auto">
+              <RemoveButton
+                onClick={() => removeFavouriteUser(_chain, user)}
+                label={t("Favourites:remove")}
+              />
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+});
+
+const FavouriteUserRowDesktop = React.memo(function FavouriteUserRowDesktop({
+  index,
+  style,
+  favouriteUsers,
+  _chain,
+  t,
+}) {
+  const user = favouriteUsers[_chain][index];
+  if (!user) return null;
+  return (
+    <div style={{ ...style, paddingRight: "10px" }}>
+      <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
+        <CardHeader className="px-4 py-4 flex flex-row items-center justify-between gap-3">
+          <div className="space-y-1 min-w-0">
+            <CardTitle className="text-base text-foreground truncate">
+              <span className="font-semibold">{user.name}</span>
+              <span className="ml-2 text-xs font-mono font-normal text-muted-foreground/60">
+                {user.id}
+              </span>
+            </CardTitle>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <ActionPill
+              href={`/transfer.html?to=${encodeURIComponent(user.name)}`}
+              icon={Send}
+              accent="emerald"
+            >
+              {t("Favourites:transfer")}
+            </ActionPill>
+            <div className="ml-1">
+              <RemoveButton
+                onClick={() => removeFavouriteUser(_chain, user)}
+                label={t("Favourites:remove")}
+              />
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+});
+
 export default function Favourites(properties) {
   const {
     _assetsBTS,
@@ -349,109 +628,44 @@ export default function Favourites(properties) {
     }
   }, [pairDialogOpen]);
 
-  const Row = ({ index, style }) => {
-    const item = chainFavourites[index];
-
-    if (!item) {
-      return;
-    }
-
-    const assetDetails = fullFavouriteAssetData.find((a) => a.id === item.id);
-
-    const issuerLookup = marketSearch.find((x) => x.u && x.u.includes(`(${item.issuer})`));
-    const issuerName = issuerLookup ? issuerLookup.u.split(" (")[0] : null;
-
-    const showIssuerActions = !!(
-      currentUser?.id &&
-      item?.issuer &&
-      currentUser.id === item.issuer &&
-      (!currentUser.chain || currentUser.chain === _chain)
-    );
-
-    const fullAsset = favouriteAssets.find((a) => a.id === item.id) ?? null;
-
-    const relevantDynamicData = fullAsset
-      ? dynamicData.find((data) => data.id === fullAsset.id.replace("1.3.", "2.3."))
-      : null;
-
-    const relevantBitassetData =
-      fullAsset && fullAsset.bitasset_data_id
-        ? bitassetData.find((data) => data.id === fullAsset.bitasset_data_id)
-        : null;
-
-    const tradeHref = `/dex.html?market=${item.symbol}_${
-      item.symbol === "BTS" ? "HONEST.USD" : "BTS"
-    }`;
-
-    const renderCard = (layout) => {
-      const isStacked = layout === "stacked";
-      const cardCls = isStacked
-        ? "mb-3 group bg-card/60 border border-[hsl(var(--accent-1)/0.15)] hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all rounded-xl block md:hidden"
-        : "mb-3 group bg-card/60 border border-[hsl(var(--accent-1)/0.15)] hover:border-[hsl(var(--accent-1)/0.3)] hover:bg-[hsl(var(--accent-1)/0.03)] hover:shadow-md hover:shadow-[color:hsl(var(--accent-1)/0.05)] transition-all rounded-xl hidden md:block";
-      const headerCls = isStacked
-        ? "px-4 py-4"
-        : "px-4 py-4 flex flex-row items-center justify-between gap-3";
-
-      return (
-        <Card className={cardCls}>
-          <CardHeader className={headerCls}>
-            <div className="space-y-1 min-w-0">
-              <CardTitle className="text-base text-foreground truncate">
-                <span className="font-semibold">{item.symbol}</span>
-                <span className="ml-2 text-xs font-mono font-normal text-muted-foreground/60">
-                  {item.id}
-                </span>
-              </CardTitle>
-              <CardDescription className="text-xs text-muted-foreground truncate">
-                {issuerName || item.issuer}
-              </CardDescription>
-            </div>
-            <div
-              className={
-                isStacked
-                  ? "mt-3 flex items-center gap-2 flex-wrap"
-                  : "flex items-center gap-2 flex-shrink-0"
-              }
-            >
-              <ActionPill href={tradeHref} icon={ArrowLeftRight} accent="emerald">
-                {t("IssuedAssets:proceedToTrade")}
-              </ActionPill>
-
-              {showIssuerActions && assetDetails ? (
-                <AssetIssuerActions
-                  asset={assetDetails}
-                  assets={assets}
-                  chain={_chain}
-                  currentUser={currentUser}
-                  node={currentNode}
-                  dynamicAssetData={relevantDynamicData}
-                  bitassetData={relevantBitassetData}
-                  priceFeederAccounts={priceFeederAccounts}
-                  buttonVariant="outline"
-                  buttonSize="sm"
-                  className="border-border text-muted-foreground hover:bg-accent/60 hover:text-accent-foreground"
-                />
-              ) : null}
-
-              <div className={isStacked ? "ml-auto" : "ml-1"}>
-                <RemoveButton
-                  onClick={() => removeFavouriteAsset(_chain, item)}
-                  label={t("Favourites:remove")}
-                />
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
-      );
-    };
-
-    return (
-      <div style={{ ...style, paddingRight: "10px" }}>
-        {renderCard("stacked")}
-        {renderCard("row")}
-      </div>
-    );
-  };
+  const assetRowProps = useMemo(
+    () => ({
+      chainFavourites,
+      fullFavouriteAssetData,
+      marketSearch,
+      favouriteAssets,
+      dynamicData,
+      bitassetData,
+      priceFeederAccounts,
+      currentUser,
+      _chain,
+      currentNode,
+      assets,
+      t,
+    }),
+    [
+      chainFavourites,
+      fullFavouriteAssetData,
+      marketSearch,
+      favouriteAssets,
+      dynamicData,
+      bitassetData,
+      priceFeederAccounts,
+      currentUser,
+      _chain,
+      currentNode,
+      assets,
+      t,
+    ]
+  );
+  const pairRowProps = useMemo(
+    () => ({ chainPairs, _chain, t }),
+    [chainPairs, _chain, t]
+  );
+  const userRowProps = useMemo(
+    () => ({ favouriteUsers, _chain, t }),
+    [favouriteUsers, _chain, t]
+  );
 
   return (
     <div className="container mx-auto mt-5 mb-10 max-w-4xl text-foreground">
@@ -504,20 +718,24 @@ export default function Favourites(properties) {
                 </div>
               ) : (
                 <>
-                  <div className="w-full max-h-[420px] overflow-auto block md:hidden">
+                  <div className="w-full h-[420px] block md:hidden">
                     <List
-                      rowComponent={Row}
+                      rowComponent={FavouriteAssetRow}
                       rowCount={chainFavourites.length}
                       rowHeight={128}
-                      rowProps={{}}
+                      height={420}
+                      width="100%"
+                      rowProps={assetRowProps}
                     />
                   </div>
-                  <div className="w-full max-h-[420px] overflow-auto hidden md:block">
+                  <div className="w-full h-[420px] hidden md:block">
                     <List
-                      rowComponent={Row}
+                      rowComponent={FavouriteAssetRow}
                       rowCount={chainFavourites.length}
                       rowHeight={96}
-                      rowProps={{}}
+                      height={420}
+                      width="100%"
+                      rowProps={assetRowProps}
                     />
                   </div>
                 </>
@@ -653,87 +871,25 @@ export default function Favourites(properties) {
         <CardContent className="p-4">
           {chainPairs && chainPairs.length ? (
             <>
-              <div className="w-full max-h-[420px] overflow-auto block md:hidden">
+              <div className="w-full h-[420px] block md:hidden">
                 <List
-                  rowComponent={({ index, style }) => {
-                    const pair = chainPairs[index];
-                    if (!pair) return null;
-                    return (
-                      <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
-                          <CardHeader className="px-4 py-4">
-                            <div className="space-y-1">
-                              <CardTitle className="text-base text-foreground font-semibold">
-                                {pair}
-                              </CardTitle>
-                            </div>
-                            <div className="mt-3 flex items-center gap-2 flex-wrap">
-                              <ActionPill
-                                href={`/dex.html?market=${pair}`}
-                                icon={ArrowLeftRight}
-                                accent="slate"
-                              >
-                                {t("Favourites:trade")}
-                              </ActionPill>
-                              <div className="ml-auto">
-                                <RemoveButton
-                                  onClick={() =>
-                                    removeFavouritePair(_chain, pair)
-                                  }
-                                  label={t("Favourites:remove")}
-                                />
-                              </div>
-                            </div>
-                          </CardHeader>
-                        </Card>
-                      </div>
-                    );
-                  }}
+                  rowComponent={FavouritePairRowMobile}
                   rowCount={chainPairs.length}
                   rowHeight={120}
-                  rowProps={{}}
+                  height={420}
+                  width="100%"
+                  rowProps={pairRowProps}
                 />
               </div>
 
-              <div className="w-full max-h-[420px] overflow-auto hidden md:block">
+              <div className="w-full h-[420px] hidden md:block">
                 <List
-                  rowComponent={({ index, style }) => {
-                    const pair = chainPairs[index];
-                    if (!pair) return null;
-                    return (
-                      <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
-                          <CardHeader className="px-4 py-4 flex flex-row items-center justify-between gap-3">
-                            <div className="space-y-1">
-                              <CardTitle className="text-base text-foreground font-semibold">
-                                {pair}
-                              </CardTitle>
-                            </div>
-                            <div className="flex items-center gap-2 flex-shrink-0">
-                              <ActionPill
-                                href={`/dex.html?market=${pair}`}
-                                icon={ArrowLeftRight}
-                                accent="slate"
-                              >
-                                {t("Favourites:trade")}
-                              </ActionPill>
-                              <div className="ml-1">
-                                <RemoveButton
-                                  onClick={() =>
-                                    removeFavouritePair(_chain, pair)
-                                  }
-                                  label={t("Favourites:remove")}
-                                />
-                              </div>
-                            </div>
-                          </CardHeader>
-                        </Card>
-                      </div>
-                    );
-                  }}
+                  rowComponent={FavouritePairRowDesktop}
                   rowCount={chainPairs.length}
                   rowHeight={88}
-                  rowProps={{}}
+                  height={420}
+                  width="100%"
+                  rowProps={pairRowProps}
                 />
               </div>
             </>
@@ -792,97 +948,25 @@ export default function Favourites(properties) {
         <CardContent className="p-4">
           {favouriteUsers && (favouriteUsers[_chain] ?? []).length ? (
             <>
-              <div className="w-full max-h-[420px] overflow-auto block md:hidden">
+              <div className="w-full h-[420px] block md:hidden">
                 <List
-                  rowComponent={({ index, style }) => {
-                    const user = favouriteUsers[_chain][index];
-                    if (!user) return null;
-                    return (
-                      <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
-                          <CardHeader className="px-4 py-4">
-                            <div className="space-y-1 min-w-0">
-                              <CardTitle className="text-base text-foreground truncate">
-                                <span className="font-semibold">{user.name}</span>
-                                <span className="ml-2 text-xs font-mono font-normal text-muted-foreground/60">
-                                  {user.id}
-                                </span>
-                              </CardTitle>
-                            </div>
-                            <div className="mt-3 flex items-center gap-2 flex-wrap">
-                              <ActionPill
-                                href={`/transfer.html?to=${encodeURIComponent(
-                                  user.name
-                                )}`}
-                                icon={Send}
-                                accent="emerald"
-                              >
-                                {t("Favourites:transfer")}
-                              </ActionPill>
-                              <div className="ml-auto">
-                                <RemoveButton
-                                  onClick={() =>
-                                    removeFavouriteUser(_chain, user)
-                                  }
-                                  label={t("Favourites:remove")}
-                                />
-                              </div>
-                            </div>
-                          </CardHeader>
-                        </Card>
-                      </div>
-                    );
-                  }}
+                  rowComponent={FavouriteUserRowMobile}
                   rowCount={favouriteUsers[_chain].length}
                   rowHeight={120}
-                  rowProps={{}}
+                  height={420}
+                  width="100%"
+                  rowProps={userRowProps}
                 />
               </div>
 
-              <div className="w-full max-h-[420px] overflow-auto hidden md:block">
+              <div className="w-full h-[420px] hidden md:block">
                 <List
-                  rowComponent={({ index, style }) => {
-                    const user = favouriteUsers[_chain][index];
-                    if (!user) return null;
-                    return (
-                      <div style={{ ...style, paddingRight: "10px" }}>
-                        <Card className="mb-3 group bg-card/60 border border-[hsl(var(--accent-2)/0.15)] hover:border-[hsl(var(--accent-2)/0.3)] hover:bg-[hsl(var(--accent-2)/0.03)] hover:shadow-md transition-all rounded-xl">
-                          <CardHeader className="px-4 py-4 flex flex-row items-center justify-between gap-3">
-                            <div className="space-y-1 min-w-0">
-                              <CardTitle className="text-base text-foreground truncate">
-                                <span className="font-semibold">{user.name}</span>
-                                <span className="ml-2 text-xs font-mono font-normal text-muted-foreground/60">
-                                  {user.id}
-                                </span>
-                              </CardTitle>
-                            </div>
-                            <div className="flex items-center gap-2 flex-shrink-0">
-                              <ActionPill
-                                href={`/transfer.html?to=${encodeURIComponent(
-                                  user.name
-                                )}`}
-                                icon={Send}
-                                accent="emerald"
-                              >
-                                {t("Favourites:transfer")}
-                              </ActionPill>
-                              <div className="ml-1">
-                                <RemoveButton
-                                  onClick={() =>
-                                    removeFavouriteUser(_chain, user)
-                                  }
-                                  label={t("Favourites:remove")}
-                                />
-                              </div>
-                            </div>
-                          </CardHeader>
-                        </Card>
-                      </div>
-                    );
-                  }}
+                  rowComponent={FavouriteUserRowDesktop}
                   rowCount={favouriteUsers[_chain].length}
                   rowHeight={88}
-                  rowProps={{}}
+                  height={420}
+                  width="100%"
+                  rowProps={userRowProps}
                 />
               </div>
             </>

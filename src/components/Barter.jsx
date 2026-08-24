@@ -63,6 +63,97 @@ const getBalance = (balances, assetId, precision) => {
   return balanceObj ? humanReadableFloat(balanceObj.amount, precision) : 0;
 };
 
+
+function BarterFromRow({ index, style, fromAssets, onRemove }) {
+    const item = Object.values(fromAssets)[index];
+    if (!item) return null;
+    const assetData = item.asset;
+    return (
+      <div
+        key={assetData.id}
+        className={`rounded-xl border border-emerald-400/15 bg-emerald-500/[0.03] hover:bg-emerald-500/[0.06] transition-colors relative p-2`}
+        style={style}
+      >
+        <div className="grid grid-cols-5 gap-3">
+          <div className="col-span-2">
+            <Input
+              id={`amount-from-${assetData.id}`}
+              type="number"
+              value={item.amount}
+              disabled
+              className="!bg-card/40 border-border text-foreground font-mono"
+            />
+          </div>
+          <div className="col-span-2">
+            <Input
+              id={`asset-from-${assetData.id}`}
+              type="text"
+              value={assetData?.symbol || ""}
+              disabled
+              className="!bg-card/40 border-border text-foreground"
+            />
+          </div>
+          <div className="text-center">
+            <Button
+              onClick={() => onRemove(assetData.id, "from")}
+              variant="ghost"
+              size="icon"
+              className="text-muted-foreground/60 hover:text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)] transition-colors"
+            >
+              <CrossCircledIcon />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+}
+const MemoBarterFromRow = React.memo(BarterFromRow);
+
+function BarterToRow({ index, style, toAssets, onRemove }) {
+    const item = Object.values(toAssets)[index];
+    if (!item) return null;
+    const assetData = item.asset;
+    return (
+      <div
+        key={assetData.id}
+        className={`rounded-xl border border-teal-400/15 bg-teal-500/[0.03] hover:bg-teal-500/[0.06] transition-colors relative p-2`}
+        style={style}
+      >
+        <div className="grid grid-cols-5 gap-3">
+          <div className="col-span-2">
+            <Input
+              id={`amount-to-${assetData.id}`}
+              type="number"
+              value={item.amount}
+              disabled
+              className="!bg-card/40 border-border text-foreground font-mono"
+            />
+          </div>
+          <div className="col-span-2">
+            <Input
+              id={`asset-to-${assetData.id}`}
+              type="text"
+              value={assetData?.symbol || ""}
+              disabled
+              className="!bg-card/40 border-border text-foreground"
+            />
+          </div>
+          <div className="text-center">
+            <Button
+              onClick={() => onRemove(assetData.id, "to")}
+              variant="ghost"
+              size="icon"
+              className="text-muted-foreground/60 hover:text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)] transition-colors"
+            >
+              <CrossCircledIcon />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+}
+const MemoBarterToRow = React.memo(BarterToRow);
+
 export default function Barter(properties) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   const usr = useSyncExternalStore(
@@ -327,73 +418,23 @@ export default function Barter(properties) {
     assets,
   ]);
 
-  // ─── Asset row renderer ───────────────────────────────────────────
-  const renderAssetRow = ({ index, style, party, assetList }) => {
-    const item = Object.values(assetList)[index];
-    if (!item) return null;
-
-    const assetData = item.asset;
-    const accent = party === "from" ? "emerald" : "teal";
-
-    return (
-      <div
-        key={assetData.id}
-        className={`rounded-xl border border-${accent}-400/15 bg-${accent}-500/[0.03] hover:bg-${accent}-500/[0.06] transition-colors relative p-2`}
-        style={style}
-      >
-        <div className="grid grid-cols-5 gap-3">
-          <div className="col-span-2">
-            <Input
-              id={`amount-${party}-${assetData.id}`}
-              type="number"
-              value={item.amount}
-              disabled
-              className="!bg-card/40 border-border text-foreground font-mono"
-            />
-          </div>
-          <div className="col-span-2">
-            <Input
-              id={`asset-${party}-${assetData.id}`}
-              type="text"
-              value={assetData?.symbol || ""}
-              disabled
-              className="!bg-card/40 border-border text-foreground"
-            />
-          </div>
-          <div className="text-center">
-            <Button
-              onClick={() => {
-                if (party === "from") {
-                  setFromAssets((prev) => {
-                    const next = { ...prev };
-                    delete next[assetData.id];
-                    return next;
-                  });
-                } else {
-                  setToAssets((prev) => {
-                    const next = { ...prev };
-                    delete next[assetData.id];
-                    return next;
-                  });
-                }
-              }}
-              variant="ghost"
-              size="icon"
-              className="text-muted-foreground/60 hover:text-[hsl(var(--accent-danger-fg))] hover:bg-[hsl(var(--accent-danger)/0.1)] transition-colors"
-            >
-              <CrossCircledIcon />
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const ToRow = ({ index, style }) =>
-    renderAssetRow({ index, style, party: "to", assetList: toAssets });
-
-  const FromRow = ({ index, style }) =>
-    renderAssetRow({ index, style, party: "from", assetList: fromAssets });
+  const handleRemoveAsset = useCallback((assetId, party) => {
+    if (party === "from") {
+      setFromAssets((prev) => {
+        const next = { ...prev };
+        delete next[assetId];
+        return next;
+      });
+    } else {
+      setToAssets((prev) => {
+        const next = { ...prev };
+        delete next[assetId];
+        return next;
+      });
+    }
+  }, []);
+  const fromRowProps = useMemo(() => ({ fromAssets, onRemove: handleRemoveAsset }), [fromAssets, handleRemoveAsset]);
+  const toRowProps = useMemo(() => ({ toAssets, onRemove: handleRemoveAsset }), [toAssets, handleRemoveAsset]);
 
   // ─── Counterparty Section ─────────────────────────────────────────
   const CounterpartySection = (
@@ -514,13 +555,14 @@ export default function Barter(properties) {
             <div className="col-span-2">{t("Barter:amount")}</div>
             <div className="col-span-2">{t("Barter:asset")}</div>
           </div>
-          <div className="w-full max-h-[500px] overflow-auto rounded-lg border border-[hsl(var(--accent-1)/0.1)] bg-card/30">
+          <div className="w-full h-[500px] rounded-lg border border-[hsl(var(--accent-1)/0.1)] bg-card/30">
             <List
               height={500}
-              rowComponent={FromRow}
+              rowComponent={MemoBarterFromRow}
+              width="100%"
               rowCount={Object.keys(fromAssets).length}
               rowHeight={45}
-              rowProps={{}}
+              rowProps={fromRowProps}
             />
           </div>
         </>
@@ -568,14 +610,14 @@ export default function Barter(properties) {
             <div className="col-span-2">{t("Barter:amount")}</div>
             <div className="col-span-2">{t("Barter:asset")}</div>
           </div>
-          <div className="w-full max-h-[500px] overflow-auto rounded-lg border border-[hsl(var(--accent-2)/0.1)] bg-card/30">
+          <div className="w-full h-[500px] rounded-lg border border-[hsl(var(--accent-2)/0.1)] bg-card/30">
             <List
               height={500}
-              rowComponent={ToRow}
+              rowComponent={MemoBarterToRow}
+              width="100%"
               rowCount={Object.keys(toAssets).length}
               rowHeight={45}
-              rowProps={{}}
-              width="100%"
+              rowProps={toRowProps}
             />
           </div>
         </>
