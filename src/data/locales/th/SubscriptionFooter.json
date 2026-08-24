@@ -1,0 +1,10 @@
+{
+  "lastUpdate": "อัปเดตล่าสุด",
+  "secondsAgo": "{{count}}s ago",
+  "staleWarning": "ล่าช้า - ไม่มีการอัปเดตมาระยะหนึ่ง",
+  "title": "การสมัครแบบสด",
+  "subscribed": "สมัครแล้ว",
+  "disconnected": "ตัดการเชื่อมต่อ",
+  "block": "บล็อก",
+  "node": "โหนด"
+}

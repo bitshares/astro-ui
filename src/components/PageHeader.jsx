@@ -74,6 +74,7 @@ import {
   Home,
   Layers,
   Menu,
+  ReceiptText,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -137,6 +138,7 @@ const ICONS = {
   accountLists: ClipboardList,
   ltm: Crown,
   nodes: Server,
+  network_fees: ReceiptText,
   create_account: UserPlus,
   monthly_referrer: HandCoins,
   configure_visuals: Palette,
@@ -394,6 +396,7 @@ export default function PageHeader(properties) {
         { slug: "accountLists", title: "Home:accountLists.title", description: "Home:accountLists.subtitle", href: "/account_lists.html" },
         { slug: "ltm", title: "Home:ltm.title", description: "Home:ltm.subtitle", href: "/ltm.html" },
         { slug: "nodes", title: "Home:nodes.title", description: "Home:nodes.subtitle", href: "/nodes.html" },
+        { slug: "network_fees", title: "Home:network_fees.title", description: "Home:network_fees.subtitle", href: "/network_fees.html" },
         { slug: "create_account", title: "Home:create_account.title", description: "Home:create_account.subtitle", href: "/create_account.html" },
         { slug: "monthly_referrer", title: "Home:monthly_referrer.title", description: "Home:monthly_referrer.subtitle", href: "/monthly_referrer.html" },
         { slug: "configure_visuals", title: "Home:configure_visuals.title", description: "Home:configure_visuals.subtitle", href: "/visuals.html" },

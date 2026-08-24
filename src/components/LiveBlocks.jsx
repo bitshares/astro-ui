@@ -35,6 +35,9 @@ import { useInitCache } from "@/nanoeffects/Init.ts";
 import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
 
+import { useRecentBlocksLive } from "@/hooks/useRecentBlocksLive";
+import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
@@ -192,8 +195,9 @@ const BlockStatTile = ({
 );
 
 /*
-  NOTE: This doesn't work in dev mode - must be run via `npm run build:astro | npm run start`
-  This is because we need electron built.
+  Live blocks now stream via a renderer-side WebSocket subscription
+  (set_block_applied_callback + initial lookback burst) - works in dev mode
+  and in a plain browser, no Electron required.
 */
 export default function LiveBlocks(properties) {
   const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -209,36 +213,17 @@ export default function LiveBlocks(properties) {
   const [viewJSON, setViewJSON] = useState(false);
   const [json, setJSON] = useState();
 
-  let [recentBlocks, setRecentBlocks] = useState([]);
-  useEffect(() => {
-    if (!currentNode || !currentNode.url) return;
-
-    // Request blocks from the current node (pass chain so background.js
-    // can fall back to other nodes if this one rejects the connection).
-    window.electron.requestBlocks({
-      url: currentNode.url,
-      chain: usr && usr.chain ? usr.chain : "bitshares",
-    });
-
-    // Event listener for block responses
-    const handleBlockResponse = (data) => {
-      if (
-        recentBlocks.length &&
-        recentBlocks.find((x) => x.block === data.block)
-      )
-        return;
-      setRecentBlocks((prevBlocks) => {
-        return [...prevBlocks, data];
-      });
-    };
-
-    window.electron.onBlockResponse(handleBlockResponse);
-
-    // Cleanup function to remove event listeners and reset state
-    return () => {
-      window.electron.stopBlocks(); // Send stopBlocks message to stop fetching
-    };
-  }, [currentNode]);
+  // Live subscription: ~30 block lookback on mount + push feed per applied block.
+  // Replaces the old window.electron.requestBlocks/onBlockResponse/stopBlocks IPC.
+  // The hook owns buffering/dedup/capping - consume its data directly so the
+  // page body always updates in lockstep with the footer subscription status.
+  const liveBlocks = useRecentBlocksLive({
+    chain: usr && usr.chain ? usr.chain : "bitshares",
+    enabled: Boolean(currentNode && currentNode.url),
+    specificNode: currentNode ? currentNode.url : null,
+    lookback: 30,
+  });
+  const recentBlocks = liveBlocks.recentBlocks ?? [];
 
   const activities = useMemo(() => {
     if (!recentBlocks || !recentBlocks.length) return [];
@@ -684,6 +669,14 @@ export default function LiveBlocks(properties) {
             </DialogContent>
           </Dialog>
         ) : null}
+
+        <DexLiveFooterCard
+          lastFetchAt={liveBlocks.lastFetchAt}
+          isSubscribed={liveBlocks.isSubscribed}
+          blockNumber={liveBlocks.blockNumber}
+          nodeUrl={currentNode ? currentNode.url : null}
+          warningThresholdSec={10}
+        />
       </div>
     </>
   );

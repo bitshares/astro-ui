@@ -299,6 +299,12 @@
     "hover1": "Connectez-vous à un nœud Bitshares de votre choix.",
     "hover2": "Ajoutez/supprimez des nœuds à votre liste de connexions."
   },
+  "network_fees": {
+    "title": "Frais du réseau",
+    "subtitle": "Tous les frais d'opération facturés par la blockchain",
+    "hover1": "Barème des frais en direct, récupéré depuis l'objet global des frais de la chaîne.",
+    "hover2": "Comparez les frais standards au coût effectif des membres à vie."
+  },
   "create_account": {
     "title": "Créer un compte",
     "subtitle": "Créez un nouveau compte de portefeuille Cloud sur la blockchain BitShares.",

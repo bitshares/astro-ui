@@ -314,6 +314,12 @@
         "hover1": "Connect to a Bitshares node of your choice.",
         "hover2": "Add/remove nodes to your connection list."
     },
+    "network_fees": {
+        "title": "Network Fees",
+        "subtitle": "Every operation fee charged by the blockchain",
+        "hover1": "Live fee schedule fetched from the chain's global fee object.",
+        "hover2": "Compare standard fees with lifetime member effective costs."
+    },
     "create_account": {
         "title": "Create Account",
         "subtitle": "Create a new cloud wallet account on the BitShares blockchain.",

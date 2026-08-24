@@ -1,0 +1,13 @@
+{
+  "title": "Netzwerkgebühren",
+  "description": "Alle vom Netzwerk erhobenen Operationsgebühren, live aus dem globalen Gebührenobjekt der Blockchain abgerufen.",
+  "ltmExplainer": "Lebenslange Mitglieder sind ihr eigener Referrer und Registrator, sodass der Referrer-Anteil jeder Gebühr als Vesting-Cashback an sie zurückgezahlt wird. Die LTM-Spalten zeigen diese effektiven Kosten ({{percent}}% der Standardgebühr, abgeleitet aus dem Parameter network_percent_of_fee der Chain). Zusätzliche Operationsparameter werden unter jeder Operation aufgeführt, mit ihrem LTM-Äquivalent in Klammern.",
+  "scheduleTitle": "Gebührensatz der Operationen",
+  "scheduleDescription": "Fahren Sie mit der Maus über eine Operation, um zu sehen, was sie bewirkt. Gebühren werden in {{symbol}} angezeigt.",
+  "operation": "Operation",
+  "standardFee": "Standard",
+  "standardPerKByte": "Pro KByte",
+  "ltmFee": "LTM",
+  "ltmPerKByte": "LTM pro KByte",
+  "fetchError": "Der globale Gebührensatz konnte vom verbundenen Knoten nicht abgerufen werden."
+}

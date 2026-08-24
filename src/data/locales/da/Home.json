@@ -299,6 +299,12 @@
         "hover1": "Opret forbindelse til en Bitshares-node efter eget valg.",
         "hover2": "Tilføj/fjern noder til din forbindelsesliste."
     },
+    "network_fees": {
+        "title": "Netværksgebyrer",
+        "subtitle": "Alle gebyrer blockchainen opkræver pr. operation",
+        "hover1": "Live gebyrplan hentet fra chainens globale gebyrobjekt.",
+        "hover2": "Sammenlign standardgebyrer med livstidsmedlemmers effektive pris."
+    },
     "create_account": {
         "title": "Opret konto",
         "subtitle": "Opret en ny Cloud -tegnebogskonto på Bitshares blockchain.",

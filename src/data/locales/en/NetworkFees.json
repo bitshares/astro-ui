@@ -1,0 +1,13 @@
+{
+  "title": "Network Fees",
+  "description": "Every operation fee charged by the network, fetched live from the blockchain's global fee object.",
+  "ltmExplainer": "Lifetime members are their own referrer and registrar, so the referrer share of every fee is rebated back to them as vesting cashback. The LTM columns show this effective cost ({{percent}}% of the standard fee, derived from the chain's network_percent_of_fee parameter). Additional per-operation parameters are listed beneath each operation, with their LTM equivalent in brackets.",
+  "scheduleTitle": "Operation fee schedule",
+  "scheduleDescription": "Hover an operation to see what it does. Fees are shown in {{symbol}}.",
+  "operation": "Operation",
+  "standardFee": "Standard",
+  "standardPerKByte": "Per KByte",
+  "ltmFee": "LTM",
+  "ltmPerKByte": "LTM Per KByte",
+  "fetchError": "Failed to fetch the global fee schedule from the connected node."
+}

@@ -42,6 +42,7 @@
         "/ltm": "Bitshares lifetime membership status",
         "/monthly_referrer": "Bitshares - Monthly Referrer",
         "/nodes": "Bitshares node configuration page",
+        "/network_fees": "Bitshares network fees",
         "/offer": "Bitshares credit deal",
         "/offers": "Bitshares credit offer listings",
         "/open-orders": "Open Orders",

@@ -1,0 +1,13 @@
+{
+  "title": "Tarifas de red",
+  "description": "Todas las tarifas por operación que cobra la red, obtenidas en vivo del objeto de tarifas global de la blockchain.",
+  "ltmExplainer": "Los miembros vitalicios son sus propios referentes y registradores, por lo que la parte del referente de cada tarifa se les devuelve como devolución en vesting. Las columnas LTM muestran este costo efectivo ({{percent}}% de la tarifa estándar, derivado del parámetro network_percent_of_fee de la cadena). Los parámetros adicionales de cada operación se enumeran debajo de cada operación, con su equivalente LTM entre corchetes.",
+  "scheduleTitle": "Programa de tarifas por operación",
+  "scheduleDescription": "Pase el cursor sobre una operación para ver qué hace. Las tarifas se muestran en {{symbol}}.",
+  "operation": "Operación",
+  "standardFee": "Estándar",
+  "standardPerKByte": "Por KByte",
+  "ltmFee": "LTM",
+  "ltmPerKByte": "LTM por KByte",
+  "fetchError": "No se pudo obtener el programa de tarifas global del nodo conectado."
+}

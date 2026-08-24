@@ -299,6 +299,12 @@
     "hover1": "Connettiti a un nodo Bitshares di tua scelta.",
     "hover2": "Aggiungi/rimuovi nodi all'elenco delle connessioni."
   },
+  "network_fees": {
+    "title": "Commissioni di rete",
+    "subtitle": "Tutte le commissioni di operazione addebitate dalla blockchain",
+    "hover1": "Prospetto commissioni in tempo reale dall'oggetto globale della chain.",
+    "hover2": "Confronta le commissioni standard con il costo effettivo per i membri a vita."
+  },
   "create_account": {
     "title": "Crea account",
     "subtitle": "Crea un nuovo account di portafoglio cloud sulla blockchain BitShares.",

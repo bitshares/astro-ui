@@ -1,0 +1,13 @@
+{
+  "title": "Võrgutasud",
+  "description": "Kõik võrgu võetavad toimingutasud, hangitud otse plokiahela globaalsest tasude objektist.",
+  "ltmExplainer": "Eluaegsed liikmed on ise oma soovitaja ja registreerija, seega tagastatakse iga tasu soovitaja osa neile vesting-tagasimaksega. LTM-veerud näitavad seda tõhusat maksumust ({{percent}}% standardtasust, tuletatud ahela parameetrist network_percent_of_fee). Täiendavad toimingu parameetrid on loetletud iga toimingu all koos nende LTM-vasteega sulgudes.",
+  "scheduleTitle": "Toimingute tasude graafik",
+  "scheduleDescription": "Liigutage kursor toimingu peale, et näha, mida see teeb. Tasud on näidatud valuutas {{symbol}}.",
+  "operation": "Toiming",
+  "standardFee": "Standard",
+  "standardPerKByte": "Kb kohta",
+  "ltmFee": "LTM",
+  "ltmPerKByte": "LTM kb kohta",
+  "fetchError": "Globaalsete tasude graafikut ei õnnestunud ühendatud sõlmest hankida."
+}

@@ -299,6 +299,12 @@
     "hover1": "Conecte-se a um nó Bitshares de sua escolha.",
     "hover2": "Adicione/remova nós à sua lista de conexões."
   },
+  "network_fees": {
+    "title": "Taxas da rede",
+    "subtitle": "Todas as taxas de operação cobradas pela blockchain",
+    "hover1": "Tabela de taxas em tempo real obtida do objeto global da chain.",
+    "hover2": "Compare as taxas padrão com o custo efetivo para membros vitalícios."
+  },
   "create_account": {
     "title": "Crie conta",
     "subtitle": "Crie uma nova conta de carteira em nuvem na blockchain Bitshares.",

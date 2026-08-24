@@ -1,0 +1,10 @@
+{
+  "lastUpdate": "Última atualização",
+  "secondsAgo": "{{count}}s ago",
+  "staleWarning": "Obsoleto – sem atualização há um tempo",
+  "title": "Assinatura ao vivo",
+  "subscribed": "Inscrito",
+  "disconnected": "Desconectado",
+  "block": "Bloco",
+  "node": "Nó"
+}

@@ -299,6 +299,12 @@
     "hover1": "Ühendage oma valitud Bitsharesi sõlmega.",
     "hover2": "Lisage/eemaldage sõlmed oma ühenduste loendisse."
   },
+  "network_fees": {
+    "title": "Võrgutasud",
+    "subtitle": "Kõik plokiahela võetavad toimingutasud",
+    "hover1": "Tasude graafik otse ahela globaalsest tasude objektist.",
+    "hover2": "Võrrelge standardtasusid eluaegsete liikmete tõhusate maksumustega."
+  },
   "create_account": {
     "title": "Loo konto",
     "subtitle": "Looge Bitshares Blockchainis uus pilve rahakoti konto.",

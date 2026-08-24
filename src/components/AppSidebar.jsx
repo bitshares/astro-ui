@@ -79,6 +79,7 @@ import {
   Home,
   Activity,
   TrendingUp,
+  ReceiptText,
 } from "lucide-react";
 import { useStore } from "@nanostores/react";
 import { useTheme } from "next-themes";
@@ -152,6 +153,7 @@ const ITEM_ICONS = {
   accountLists: ClipboardList,
   ltm: Crown,
   nodes: Server,
+  network_fees: ReceiptText,
   monthly_referrer: HandCoins,
   create_account: UserPlus,
   blocked_users: UserX,
@@ -275,6 +277,7 @@ export default function AppSidebar() {
     { slug: "blocked_users", title: "Home:blocked_users.title", href: "/blocked-users.html" },
     { slug: "ltm", title: "Home:ltm.title", href: "/ltm.html" },
     { slug: "nodes", title: "Home:nodes.title", href: "/nodes.html" },
+    { slug: "network_fees", title: "Home:network_fees.title", href: "/network_fees.html" },
     { slug: "create_account", title: "Home:create_account.title", href: "/create_account.html" },
     { slug: "monthly_referrer", title: "Home:monthly_referrer.title", href: "/monthly_referrer.html" },
     { slug: "configure_visuals", title: "Home:configure_visuals.title", href: "/visuals.html" },

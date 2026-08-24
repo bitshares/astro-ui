@@ -1,0 +1,13 @@
+{
+  "title": "Commissioni di rete",
+  "description": "Tutte le commissioni di operazione addebitate dalla rete, recuperate in tempo reale dall'oggetto globale delle commissioni della blockchain.",
+  "ltmExplainer": "I membri a vita sono il proprio referrer e registrator, quindi la quota del referrer di ogni commissione viene restituita a loro come cashback in vesting. Le colonne LTM mostrano questo costo effettivo ({{percent}}% della commissione standard, derivato dal parametro network_percent_of_fee della chain). I parametri aggiuntivi di ciascuna operazione sono elencati sotto ogni operazione, con l'equivalente LTM tra parentesi.",
+  "scheduleTitle": "Prospetto delle commissioni delle operazioni",
+  "scheduleDescription": "Passa il cursore su un'operazione per vedere cosa fa. Le commissioni sono mostrate in {{symbol}}.",
+  "operation": "Operazione",
+  "standardFee": "Standard",
+  "standardPerKByte": "Per KByte",
+  "ltmFee": "LTM",
+  "ltmPerKByte": "LTM per KByte",
+  "fetchError": "Impossibile recuperare il prospetto globale delle commissioni dal nodo collegato."
+}

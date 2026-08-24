@@ -1,0 +1,13 @@
+{
+  "title": "Netværksgebyrer",
+  "description": "Alle de gebyrer, netværket opkræver pr. operation, hentet live fra blockchainens globale gebyrobjekt.",
+  "ltmExplainer": "Livstidsmedlemmer er deres egen referrer og registrator, så referrer-andelen af ethvert gebyr tilbagebetales til dem som vesting cashback. LTM-kolonnerne viser denne effektive pris ({{percent}}% af standardgebyret, afledt af chainens parameter network_percent_of_fee). Yderligere operationsparametre vises under hver operation med deres LTM-ækvivalent i parentes.",
+  "scheduleTitle": "Gebyrplan for operationer",
+  "scheduleDescription": "Hold musen over en operation for at se, hvad den gør. Gebyrer vises i {{symbol}}.",
+  "operation": "Operation",
+  "standardFee": "Standard",
+  "standardPerKByte": "Pr. KByte",
+  "ltmFee": "LTM",
+  "ltmPerKByte": "LTM pr. KByte",
+  "fetchError": "Kunne ikke hente den globale gebyrplan fra den tilsluttede node."
+}

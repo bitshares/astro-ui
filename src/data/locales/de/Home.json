@@ -292,6 +292,12 @@
     "hover1": "Stellen Sie eine Verbindung zu einem Bitshares-Knoten Ihrer Wahl her.",
     "hover2": "Fügen Sie Ihrer Verbindungsliste Knoten hinzu bzw. entfernen Sie sie."
   },
+  "network_fees": {
+    "title": "Netzwerkgebühren",
+    "subtitle": "Alle von der Blockchain erhobenen Operationsgebühren",
+    "hover1": "Aktueller Gebührensatz, abgerufen aus dem globalen Gebührenobjekt der Chain.",
+    "hover2": "Vergleichen Sie Standardgebühren mit den effektiven Kosten für lebenslange Mitglieder."
+  },
   "create_account": {
     "title": "Konto erstellen",
     "subtitle": "Erstellen Sie ein neues Cloud Wallet -Konto auf der Bitshares -Blockchain.",

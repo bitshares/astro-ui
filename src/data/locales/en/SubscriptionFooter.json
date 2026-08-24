@@ -1,0 +1,10 @@
+{
+  "lastUpdate": "Last update",
+  "secondsAgo": "{{count}}s ago",
+  "staleWarning": "Stale - no update in a while",
+  "title": "Live subscription",
+  "subscribed": "Subscribed",
+  "disconnected": "Disconnected",
+  "block": "Block",
+  "node": "Node"
+}

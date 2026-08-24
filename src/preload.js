@@ -26,14 +26,6 @@ contextBridge.exposeInMainWorld("electron", {
   fetchTopMarkets: async (args) => ipcRenderer.invoke("fetchTopMarkets", args),
   fetchAccountHistory: async (args) =>
     ipcRenderer.invoke("fetchAccountHistory", args),
-  // WS queries
-  requestBlocks: async (args) => ipcRenderer.send("requestBlocks", args),
-  onBlockResponse: (func) => {
-    ipcRenderer.on("blockResponse", (event, data) => {
-      func(data);
-    });
-  },
-  stopBlocks: async () => ipcRenderer.send("stopBlocks", args),
   // API queries
   generateDeepLink: async (args) =>
     ipcRenderer.invoke("generateDeepLink", args),

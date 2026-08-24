@@ -1,0 +1,13 @@
+{
+  "title": "네트워크 수수료",
+  "description": "네트워크가 부과하는 모든 작업 수수료. 블록체인의 글로벌 수수료 객체에서 실시간으로 가져옵니다.",
+  "ltmExplainer": "평생 회원은 자기 자신이 추천인이자 등록자이므로, 모든 수수료 중 추천인 몫은 베스팅 캐시백으로 돌려받습니다. LTM 열에는 이러한 실효 비용이 표시됩니다(체인의 network_percent_of_fee 파라미터에서 도출된 표준 수수료의 {{percent}}%). 추가 작업 파라미터는 각 작업 아래에 나열되며 괄호 안에 LTM 상당액이 표시됩니다.",
+  "scheduleTitle": "작업 수수료 일람",
+  "scheduleDescription": "작업 위에 마우스를 올리면 해당 작업이 무엇인지 볼 수 있습니다. 수수료는 {{symbol}} 단위로 표시됩니다.",
+  "operation": "작업",
+  "standardFee": "표준",
+  "standardPerKByte": "KByte당",
+  "ltmFee": "LTM",
+  "ltmPerKByte": "LTM KByte당",
+  "fetchError": "연결된 노드에서 글로벌 수수료 일람을 가져오지 못했습니다."
+}

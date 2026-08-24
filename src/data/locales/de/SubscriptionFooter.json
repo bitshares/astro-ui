@@ -1,0 +1,10 @@
+{
+  "lastUpdate": "Letzte Aktualisierung",
+  "secondsAgo": "{{count}}s ago",
+  "staleWarning": "Veraltet – seit einer Weile keine Aktualisierung",
+  "title": "Live-Abonnement",
+  "subscribed": "Abonniert",
+  "disconnected": "Getrennt",
+  "block": "Block",
+  "node": "Knoten"
+}

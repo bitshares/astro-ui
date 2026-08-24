@@ -1,0 +1,13 @@
+{
+  "title": "Taxas da rede",
+  "description": "Todas as taxas de operação cobradas pela rede, obtidas em tempo real do objeto global de taxas da blockchain.",
+  "ltmExplainer": "Membros vitalícios são seus próprios referrers e registradores, então a parcela do referrer de cada taxa é devolvida a eles como cashback em vesting. As colunas LTM mostram esse custo efetivo ({{percent}}% da taxa padrão, derivado do parâmetro network_percent_of_fee da chain). Parâmetros adicionais de cada operação são listados abaixo de cada operação, com seu equivalente LTM entre colchetes.",
+  "scheduleTitle": "Tabela de taxas de operação",
+  "scheduleDescription": "Passe o mouse sobre uma operação para ver o que ela faz. As taxas são exibidas em {{symbol}}.",
+  "operation": "Operação",
+  "standardFee": "Padrão",
+  "standardPerKByte": "Por KByte",
+  "ltmFee": "LTM",
+  "ltmPerKByte": "LTM por KByte",
+  "fetchError": "Falha ao obter a tabela global de taxas do nó conectado."
+}

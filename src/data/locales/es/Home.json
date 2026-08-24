@@ -299,6 +299,12 @@
     "hover1": "Conéctese a un nodo Bitshares de su elección.",
     "hover2": "Agregue o elimine nodos a su lista de conexiones."
   },
+  "network_fees": {
+    "title": "Tarifas de red",
+    "subtitle": "Todas las tarifas por operación que cobra la blockchain",
+    "hover1": "Programa de tarifas en vivo obtenido del objeto global de tarifas de la cadena.",
+    "hover2": "Compare las tarifas estándar con el costo efectivo para miembros vitalicios."
+  },
   "create_account": {
     "title": "Crear cuenta",
     "subtitle": "Cree una nueva cuenta de billetera en la nube en Bitshares blockchain.",

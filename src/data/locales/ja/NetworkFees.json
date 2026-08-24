@@ -1,0 +1,13 @@
+{
+  "title": "ネットワーク手数料",
+  "description": "ネットワークが課すすべての操作手数料。ブロックチェーンのグローバル手数料オブジェクトからライブで取得します。",
+  "ltmExplainer": "生涯会員は自分自身がリファラー兼レジストラであるため、各手数料のリファラー分はベスティングキャッシュバックとして還元されます。LTM列にはこの実質コストを表示します（標準手数料の{{percent}}%。チェーンのnetwork_percent_of_feeパラメータから算出）。操作ごとの追加パラメータは各操作の下に表示され、括弧内にLTM相当額が示されます。",
+  "scheduleTitle": "操作手数料一覧",
+  "scheduleDescription": "操作にカーソルを合わせると内容が表示されます。手数料は{{symbol}}で表示されます。",
+  "operation": "操作",
+  "standardFee": "標準",
+  "standardPerKByte": "KByteあたり",
+  "ltmFee": "LTM",
+  "ltmPerKByte": "LTM KByteあたり",
+  "fetchError": "接続されたノードからグローバル手数料一覧を取得できませんでした。"
+}

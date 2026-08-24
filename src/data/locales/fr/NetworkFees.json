@@ -1,0 +1,13 @@
+{
+  "title": "Frais du réseau",
+  "description": "Tous les frais d'opération perçus par le réseau, récupérés en direct depuis l'objet global des frais de la blockchain.",
+  "ltmExplainer": "Les membres à vie sont leur propre référent et registraire, de sorte que la part du référent de chaque frais leur est reversée sous forme de cashback vesting. Les colonnes LTM affichent ce coût effectif ({{percent}}% des frais standards, dérivé du paramètre network_percent_of_fee de la chaîne). Les paramètres supplémentaires de chaque opération sont listés sous chaque opération, avec leur équivalent LTM entre parenthèses.",
+  "scheduleTitle": "Barème des frais d'opération",
+  "scheduleDescription": "Survolez une opération pour voir ce qu'elle fait. Les frais sont affichés en {{symbol}}.",
+  "operation": "Opération",
+  "standardFee": "Standard",
+  "standardPerKByte": "Par KByte",
+  "ltmFee": "LTM",
+  "ltmPerKByte": "LTM par KByte",
+  "fetchError": "Échec de la récupération du barème global des frais auprès du nœud connecté."
+}
