@@ -305,8 +305,6 @@ export default function CandleChart({
   const [drawings, setDrawings] = useState([]);
   const [activeTool, setActiveTool] = useState(null);
 
-  const isElectron = typeof navigator !== "undefined" && /Electron/.test(navigator.userAgent);
-
   const handleFullscreenChange = useCallback((open) => {
     setFullscreenOpen(open);
     if (!open) {
@@ -510,6 +508,7 @@ export default function CandleChart({
                   timeframe={timeframe}
                   chartType={chartType}
                   priceScaleMode={priceScaleMode}
+                  performance={{ indicatorWorker: false }}
                   defaultViewport={{ type: "last-bars", bars: 200 }}
                   theme={theme}
                   style={{ height: "340px", width: "100%" }}
@@ -685,7 +684,7 @@ export default function CandleChart({
                 onDrawingsChange={handleDrawingsChange}
                 onActiveToolChange={handleActiveToolChange}
                 controlled={controlled}
-                performance={{ indicatorWorker: !isElectron }}
+                performance={{ indicatorWorker: false }}
                 defaultViewport={{ type: "last-bars", bars: 200 }}
                 theme={theme}
                 style={{ height: "100%", width: "100%" }}

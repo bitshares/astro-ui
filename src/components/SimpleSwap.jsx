@@ -75,6 +75,7 @@ import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 
 import MarketAssetCard from "./Market/MarketAssetCard.jsx";
 import DeepLinkDialog from "./common/DeepLinkDialog.jsx";
+import DepthChart from "./InstantTrade/DepthChart.jsx";
 
 export default function SimpleSwap(properties) {
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -605,6 +606,85 @@ export default function SimpleSwap(properties) {
     return rate;
   }, [sellAmount, buyAmount, assetA, assetB]);
 
+  // Theoretical pool depth (CPMM x*y=k without fees) — 0→99% of pool, both sides, vs achievable price
+  const poolDepth = useMemo(() => {
+    if (!foundPool || !assetA || !assetB || !foundPool.balance_a || !foundPool.balance_b) {
+      return { bids: [], asks: [] };
+    }
+    // Map pool balances to sell/buy assets
+    let balanceSellA, balanceBuyB, precSellA, precBuyB;
+    if (foundPool.asset_a_id === assetA.id) {
+      balanceSellA = Number(foundPool.balance_a);
+      balanceBuyB = Number(foundPool.balance_b);
+      precSellA = assetA.precision;
+      precBuyB = assetB.precision;
+    } else if (foundPool.asset_b_id === assetA.id) {
+      balanceSellA = Number(foundPool.balance_b);
+      balanceBuyB = Number(foundPool.balance_a);
+      precSellA = assetA.precision;
+      precBuyB = assetB.precision;
+    } else {
+      return { bids: [], asks: [] };
+    }
+    let balanceSellB, balanceBuyA, precSellB, precBuyA;
+    if (foundPool.asset_a_id === assetB.id) {
+      balanceSellB = Number(foundPool.balance_a);
+      balanceBuyA = Number(foundPool.balance_b);
+      precSellB = assetB.precision;
+      precBuyA = assetA.precision;
+    } else if (foundPool.asset_b_id === assetB.id) {
+      balanceSellB = Number(foundPool.balance_b);
+      balanceBuyA = Number(foundPool.balance_a);
+      precSellB = assetB.precision;
+      precBuyA = assetA.precision;
+    } else {
+      return { bids: [], asks: [] };
+    }
+
+    const steps = 100;
+    const maxFraction = 0.99;
+    const bids = [];
+    const asks = [];
+
+    // Bids: sell assetA to get assetB — price = B per A, decreasing with size
+    // Use incremental size per level (dx - prevDx) so FastDepthChart's internal cumulative does not double-count.
+    // Price is achievable average price for that cumulative amount (dy/dx) — intentionally theoretical CPMM without fees.
+    let prevDxA = 0;
+    for (let i = 1; i <= steps; i++) {
+      const frac = (maxFraction * i) / steps;
+      const dx = Math.floor(balanceSellA * frac);
+      if (dx <= 0) continue;
+      const inc = dx - prevDxA;
+      if (inc <= 0) continue;
+      prevDxA = dx;
+      const dy = balanceBuyB - Math.floor((balanceBuyB * balanceSellA) / (balanceSellA + dx));
+      if (dy <= 0) continue;
+      const price = (dy / 10 ** precBuyB) / (dx / 10 ** precSellA);
+      const size = inc / 10 ** precSellA;
+      if (!isFinite(price) || price <= 0) continue;
+      bids.push({ price, base: size });
+    }
+
+    // Asks: sell assetB to get assetA — price = B per A, increasing with size
+    let prevDxB = 0;
+    for (let i = 1; i <= steps; i++) {
+      const frac = (maxFraction * i) / steps;
+      const dx = Math.floor(balanceSellB * frac);
+      if (dx <= 0) continue;
+      const inc = dx - prevDxB;
+      if (inc <= 0) continue;
+      prevDxB = dx;
+      const dy = balanceBuyA - Math.floor((balanceBuyA * balanceSellB) / (balanceSellB + dx));
+      if (dy <= 0) continue;
+      const price = (dx / 10 ** precSellB) / (dy / 10 ** precBuyA);
+      const size = inc / 10 ** precSellB;
+      if (!isFinite(price) || price <= 0) continue;
+      asks.push({ price, base: size });
+    }
+
+    return { bids, asks };
+  }, [foundPool, assetA, assetB]);
+
   // Swap the send/receive asset selections
   const swapAssets = () => {
     if (!selectedAssetASymbol || !selectedAssetBSymbol) return;
@@ -643,7 +723,7 @@ export default function SimpleSwap(properties) {
   return (
     <>
       <div className="container mx-auto mt-5 mb-5 max-w-4xl">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.04)]">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.04)]">
           <span
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-1)/0.7)] to-transparent"
@@ -1198,16 +1278,26 @@ export default function SimpleSwap(properties) {
                               </div>
                               <div
                                 className={cn(
-                                  "mt-2 grid grid-cols-2 gap-x-3 text-[11px] font-mono tabular-nums",
+                                  "mt-2 space-y-1 text-[11px] font-mono tabular-nums",
                                   isSelected ? "text-foreground/85" : "text-muted-foreground"
                                 )}
                               >
-                                <span className="text-right truncate">
-                                  {humanReadableFloat(balA, precA)}
-                                </span>
-                                <span className="text-right truncate">
-                                  {humanReadableFloat(balB, precB)}
-                                </span>
+                                <div className="flex items-center justify-between gap-2">
+                                  <span className="text-[10px] font-sans font-medium text-muted-foreground truncate">
+                                    {selectedAssetASymbol}
+                                  </span>
+                                  <span className="text-right truncate">
+                                    {humanReadableFloat(balA, precA)}
+                                  </span>
+                                </div>
+                                <div className="flex items-center justify-between gap-2">
+                                  <span className="text-[10px] font-sans font-medium text-muted-foreground truncate">
+                                    {selectedAssetBSymbol}
+                                  </span>
+                                  <span className="text-right truncate">
+                                    {humanReadableFloat(balB, precB)}
+                                  </span>
+                                </div>
                               </div>
                             </button>
                           );
@@ -1321,6 +1411,19 @@ export default function SimpleSwap(properties) {
             )}
           </div>
         </div>
+
+        {foundPool && assetA && assetB ? (
+          <div className="mt-5">
+            <DepthChart
+              bids={poolDepth.bids}
+              asks={poolDepth.asks}
+              baseSymbol={assetA.symbol}
+              quoteSymbol={assetB.symbol}
+              loading={!foundPool}
+              height={340}
+            />
+          </div>
+        ) : null}
 
         {pool && assetA && assetB ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-5">

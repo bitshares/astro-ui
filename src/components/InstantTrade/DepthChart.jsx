@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import { Spinner } from "@/components/ui/spinner";
 import { Layers } from "lucide-react";
 
-export default function DepthChart({ bids, asks, baseSymbol, quoteSymbol, loading }) {
+export default function DepthChart({ bids, asks, baseSymbol, quoteSymbol, loading, height = 260 }) {
   const data = useMemo(() => {
     const toNum = (v) => parseFloat(v) || 0;
     const bidsLevels = (bids ?? [])
@@ -91,22 +91,25 @@ export default function DepthChart({ bids, asks, baseSymbol, quoteSymbol, loadin
         </div>
 
         {loading && !hasData ? (
-          <div className="h-[260px] flex flex-col items-center justify-center gap-3 rounded-lg border border-border/40 bg-card/30">
+          <div className={`flex flex-col items-center justify-center gap-3 rounded-lg border border-border/40 bg-card/30`} style={{ height: `${height}px` }}>
             <Spinner className="size-6 text-[hsl(var(--accent-2-fg))]" />
             <span className="text-xs text-muted-foreground">Loading depth…</span>
           </div>
         ) : !hasData ? (
-          <div className="h-[260px] flex flex-col items-center justify-center gap-2 rounded-lg border border-border/40 bg-card/30 text-center p-4">
+          <div className={`flex flex-col items-center justify-center gap-2 rounded-lg border border-border/40 bg-card/30 text-center p-4`} style={{ height: `${height}px` }}>
             <Layers className="h-6 w-6 text-muted-foreground/40" />
             <p className="text-sm text-muted-foreground/70">No orderbook data for depth chart</p>
           </div>
         ) : (
           <div className="rounded-lg border border-border/40 bg-card/30 overflow-hidden p-2 sm:p-3">
-            <div className="h-[260px] w-full">
+            <div className="w-full" style={{ height: `${height}px` }}>
+              {/* Depth chart has no indicator worker — flag kept for consistency, no warning in either chart now */}
               <FastDepthChart
                 data={data}
                 theme={theme}
-                style={{ height: "260px", width: "100%" }}
+                /* @ts-ignore — DepthChart has no worker, prop is no-op but keeps both charts explicitly inline */
+                {...{ performance: { indicatorWorker: false } }}
+                style={{ height: `${height}px`, width: "100%" }}
               />
             </div>
             <div className="mt-2 flex items-center justify-center gap-4 text-[11px]">
