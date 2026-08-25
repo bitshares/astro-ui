@@ -198,10 +198,40 @@ const DRAWING_TOOLS = [
   { value: "price-date-range", labelKey: "Charts:tool_price-date-range" },
 ];
 
+// Translate known English parameter words inside an indicator's desc string
+// (e.g. "period (20)" -> "Periode (20)"). Acronyms/numbers are left untouched.
+const PARAM_TOKENS = [
+  ["stdDev", "param_stddav"],
+  ["period", "param_period"],
+  ["fast", "param_fast"],
+  ["slow", "param_slow"],
+  ["signal", "param_signal"],
+  ["smooth", "param_smooth"],
+  ["deviation", "param_deviation"],
+  ["multiplier", "param_multiplier"],
+  ["offset", "param_offset"],
+  ["sigma", "param_sigma"],
+  ["displacement", "param_displacement"],
+  ["method", "param_method"],
+  ["stop", "param_stop"],
+];
+
+function localizedDesc(desc, t) {
+  let out = desc;
+  for (const [token, key] of PARAM_TOKENS) {
+    const translated = t(key);
+    if (translated && translated !== key) {
+      out = out.replace(new RegExp(token, "g"), translated);
+    }
+  }
+  return out;
+}
+
 function IndicatorRow({ index, style, indicators, enabledSet, toggle, t }) {
   const item = indicators[index];
   if (!item) return null;
   const checked = enabledSet.has(item.type);
+  const paneKey = item.pane === "overlay" ? "Charts:overlay_pane" : "Charts:separate_pane";
   return (
     <div style={style} className="flex items-center gap-3 px-3 py-2 border-b border-border/40 hover:bg-accent/30">
       <Checkbox
@@ -214,10 +244,10 @@ function IndicatorRow({ index, style, indicators, enabledSet, toggle, t }) {
         <Label htmlFor={`ind-${item.type}`} className="text-xs font-medium cursor-pointer truncate block">
           {item.label}
         </Label>
-        <span className="text-[11px] text-muted-foreground truncate block">{item.type} • {t(item.pane === "overlay" ? "Charts:overlay_pane" : "Charts:separate_pane")} • {item.desc}</span>
+        <span className="text-[11px] text-muted-foreground truncate block">{item.type} • {localizedDesc(item.desc, t)}</span>
       </div>
       <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium shrink-0 ${item.pane === "overlay" ? "bg-[hsl(var(--accent-1)/0.12)] text-[hsl(var(--accent-1-fg))]" : "bg-[hsl(var(--accent-2)/0.12)] text-[hsl(var(--accent-2-fg))]"}`}>
-        {t(item.pane === "overlay" ? "Charts:overlay_pane" : "Charts:separate_pane")}
+        {t(paneKey)}
       </span>
     </div>
   );

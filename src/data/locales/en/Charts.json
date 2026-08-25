@@ -20,7 +20,6 @@
   "drawing_tool": "Drawing tool",
   "clear_drawings": "Clear drawings",
   "draw_hint": "Draw directly on the chart — drag to create, select to edit, Del to remove.",
-
   "orderbook_depth": "Orderbook Depth",
   "depth_summary": "{{base}} / {{quote}} cumulative depth • {{bids}} bids • {{asks}} asks",
   "cumulative_liquidity": "Cumulative bid/ask liquidity",
@@ -29,7 +28,6 @@
   "no_depth_data": "No orderbook data for depth chart",
   "bids": "Bids",
   "asks": "Asks",
-
   "chart_candles": "Candles",
   "chart_heikinAshi": "Heikin-Ashi",
   "chart_hollowCandles": "Hollow Candles",
@@ -45,10 +43,8 @@
   "chart_lineBreak": "Line Break",
   "chart_kagi": "Kagi",
   "chart_pointFigure": "Point & Figure",
-
   "scale_normal": "Normal",
   "scale_logarithmic": "Logarithmic",
-
   "tool_select": "Select / Pan",
   "tool_line": "Trend Line",
   "tool_ray": "Ray",
@@ -91,5 +87,20 @@
   "tool_anchored-vwap": "Anchored VWAP",
   "tool_measure": "Measure",
   "tool_date-range": "Date Range",
-  "tool_price-date-range": "Price/Date Range"
+  "tool_price-date-range": "Price/Date Range",
+  "overlay_pane": "Overlay",
+  "separate_pane": "Separate",
+  "param_period": "period",
+  "param_fast": "fast",
+  "param_slow": "slow",
+  "param_signal": "signal",
+  "param_smooth": "smooth",
+  "param_deviation": "deviation",
+  "param_multiplier": "multiplier",
+  "param_offset": "offset",
+  "param_sigma": "sigma",
+  "param_stddav": "stdDev",
+  "param_displacement": "displacement",
+  "param_method": "method",
+  "param_stop": "stop"
 }
