@@ -66,5 +66,6 @@
   "swappableAssetRisk2": "Kui proovite vahetada varasid, mis ületavad saadaolevaid vahetatavaid varasid, kannatab teie vahetushind oluliselt. Selle asemel peaksite vahetama väikesed summad ja ootama kogumi saldo täiendamist. Kui soovite vahetada suuremat summat, peaksite kaaluma DEX-i piirtellimuse loomist ",
   "swappableAssetRisk3": "Vahetatavate varade väärtus võib kõikuda olenevalt välistest teguritest (välismaksete maht) ja ka sisemistest teguritest (varade väljaandja ja hinnavoo avaldaja toimingud). Enne vahetustehingu sooritamist veenduge, et usaldate kogumi vahetatavaid varasid.",
   "exchange": "Vahetada",
-  "sendAsset": "Valige vara.."
+  "sendAsset": "Valige vara..",
+  "noPoolsForPair": "Selle varade paari jaoks pole ühtegi basseini saadaval"
 }

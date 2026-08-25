@@ -1,10 +1,13 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { DepthChart as FastDepthChart } from "@pairlens/fast-financial-charts/react";
 import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
+import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { Spinner } from "@/components/ui/spinner";
 import { Layers } from "lucide-react";
 
 export default function DepthChart({ bids, asks, baseSymbol, quoteSymbol, loading, height = 260 }) {
+  const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   const data = useMemo(() => {
     const toNum = (v) => parseFloat(v) || 0;
     const bidsLevels = (bids ?? [])
@@ -82,10 +85,12 @@ export default function DepthChart({ bids, asks, baseSymbol, quoteSymbol, loadin
             <Layers className="h-4 w-4" strokeWidth={2.25} />
           </span>
           <div>
-            <h3 className="text-base sm:text-lg font-semibold text-foreground">Orderbook Depth</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-foreground">{t("Charts:orderbook_depth")}</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
-              {baseSymbol && quoteSymbol ? `${baseSymbol} / ${quoteSymbol} cumulative depth • ${data.bids.length} bids • ${data.asks.length} asks` : "Cumulative bid/ask liquidity"}
-              {midPrice ? ` • mid ${midPrice.toFixed(5)}` : ""}
+              {baseSymbol && quoteSymbol
+                ? t("Charts:depth_summary", { base: baseSymbol, quote: quoteSymbol, bids: data.bids.length, asks: data.asks.length })
+                : t("Charts:cumulative_liquidity")}
+              {midPrice ? ` • ${t("Charts:mid_price")} ${midPrice.toFixed(5)}` : ""}
             </p>
           </div>
         </div>
@@ -93,12 +98,12 @@ export default function DepthChart({ bids, asks, baseSymbol, quoteSymbol, loadin
         {loading && !hasData ? (
           <div className={`flex flex-col items-center justify-center gap-3 rounded-lg border border-border/40 bg-card/30`} style={{ height: `${height}px` }}>
             <Spinner className="size-6 text-[hsl(var(--accent-2-fg))]" />
-            <span className="text-xs text-muted-foreground">Loading depth…</span>
+            <span className="text-xs text-muted-foreground">{t("Charts:loading_depth")}</span>
           </div>
         ) : !hasData ? (
           <div className={`flex flex-col items-center justify-center gap-2 rounded-lg border border-border/40 bg-card/30 text-center p-4`} style={{ height: `${height}px` }}>
             <Layers className="h-6 w-6 text-muted-foreground/40" />
-            <p className="text-sm text-muted-foreground/70">No orderbook data for depth chart</p>
+            <p className="text-sm text-muted-foreground/70">{t("Charts:no_depth_data")}</p>
           </div>
         ) : (
           <div className="rounded-lg border border-border/40 bg-card/30 overflow-hidden p-2 sm:p-3">
@@ -114,10 +119,10 @@ export default function DepthChart({ bids, asks, baseSymbol, quoteSymbol, loadin
             </div>
             <div className="mt-2 flex items-center justify-center gap-4 text-[11px]">
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-sm bg-[hsl(var(--accent-success))]" /> Bids
+                <span className="h-2 w-2 rounded-sm bg-[hsl(var(--accent-success))]" /> {t("Charts:bids")}
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-sm bg-[hsl(var(--accent-danger))]" /> Asks
+                <span className="h-2 w-2 rounded-sm bg-[hsl(var(--accent-danger))]" /> {t("Charts:asks")}
               </span>
             </div>
           </div>

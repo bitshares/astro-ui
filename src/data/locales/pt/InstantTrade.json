@@ -23,5 +23,6 @@
   "instant_trading_method": "Método de negociação instantânea",
   "single_limit_order": "Ordem de limite único",
   "multiple_limit_orders": "Vários pedidos com limite",
-  "last_updated": "Última atualização: {{time}}"
+  "last_updated": "Última atualização: {{time}}",
+  "networkFee": "Taxa de rede"
 }

@@ -66,5 +66,6 @@
   "swappableAssetRisk2": "If you try to swap assets in excess of available swappable assets your swap price will greatly suffer, You should instead swap small amounts and await pool balance replenishment, If you want to swap a larger amount you should consider creating a limit order on the DEX instead.",
   "swappableAssetRisk3": "The value of the swappable assets themselves can fluctuate based on external factors (external cex volume) as well as internal factors (asset issuer & price feed publisher actions), Make sure you trust a pool's swappable assets before performing a swap.",
   "exchange": "Exchange",
-  "sendAsset": "Select an asset.."
+  "sendAsset": "Select an asset..",
+  "noPoolsForPair": "No pools are available for this asset pair"
 }

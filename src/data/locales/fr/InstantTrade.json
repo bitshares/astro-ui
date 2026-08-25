@@ -23,5 +23,6 @@
   "instant_trading_method": "Méthode de trading instantanée",
   "single_limit_order": "Ordre à cours limité",
   "multiple_limit_orders": "Ordres limités multiples",
-  "last_updated": "Dernière mise à jour : {{time}}"
+  "last_updated": "Dernière mise à jour : {{time}}",
+  "networkFee": "Frais de réseau"
 }

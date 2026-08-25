@@ -66,5 +66,6 @@
   "swappableAssetRisk2": "Si intenta intercambiar activos que exceden los activos intercambiables disponibles, su precio de intercambio se verá afectado en gran medida. En su lugar, debe intercambiar pequeñas cantidades y esperar a que se reponga el saldo del fondo. Si desea intercambiar una cantidad mayor, debería considerar crear una orden limitada en el DEX. ",
   "swappableAssetRisk3": "El valor de los activos intercambiables en sí puede fluctuar según factores externos (volumen cex externo), así como factores internos (acciones del emisor de activos y del editor de precios). Asegúrese de confiar en los activos intercambiables de un grupo antes de realizar un intercambio.",
   "exchange": "Intercambio",
-  "sendAsset": "Seleccione un activo.."
+  "sendAsset": "Seleccione un activo..",
+  "noPoolsForPair": "No hay pools disponibles para este par de activos"
 }

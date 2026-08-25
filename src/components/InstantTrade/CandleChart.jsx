@@ -1,6 +1,8 @@
 import React, { useMemo, useRef, useState, useEffect, useCallback } from "react";
 import { FastFinancialChart } from "@pairlens/fast-financial-charts/react";
 import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
+import { i18n as i18nInstance, locale } from "@/lib/i18n.js";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, Clock } from "lucide-react";
@@ -151,52 +153,52 @@ const ALL_INDICATORS = [
 ];
 
 const DRAWING_TOOLS = [
-  { value: "select", label: "Select / Pan" },
-  { value: "line", label: "Trend Line" },
-  { value: "ray", label: "Ray" },
-  { value: "xline", label: "Extended Line" },
-  { value: "hline", label: "Horizontal Line" },
-  { value: "hray", label: "Horizontal Ray" },
-  { value: "vline", label: "Vertical Line" },
-  { value: "crossline", label: "Cross Line" },
-  { value: "info-line", label: "Info Line" },
-  { value: "trend-angle", label: "Trend Angle" },
-  { value: "arrow", label: "Arrow" },
-  { value: "channel", label: "Channel" },
-  { value: "pitchfork", label: "Pitchfork" },
-  { value: "polyline", label: "Polyline" },
-  { value: "arc", label: "Arc" },
-  { value: "rectangle", label: "Rectangle" },
-  { value: "rotated-rectangle", label: "Rotated Rectangle" },
-  { value: "circle", label: "Circle" },
-  { value: "ellipse", label: "Ellipse" },
-  { value: "path", label: "Path / Shape" },
-  { value: "text", label: "Text" },
-  { value: "callout", label: "Callout" },
-  { value: "brush", label: "Brush" },
-  { value: "highlighter", label: "Highlighter" },
-  { value: "fibonacci", label: "Fib Retracement" },
-  { value: "fib-extension", label: "Fib Extension" },
-  { value: "fib-channel", label: "Fib Channel" },
-  { value: "fib-time-zone", label: "Fib Time Zone" },
-  { value: "fib-wedge", label: "Fib Wedge" },
-  { value: "gann-fan", label: "Gann Fan" },
-  { value: "gann-box", label: "Gann Box" },
-  { value: "triangle-pattern", label: "Triangle Pattern" },
-  { value: "abcd-pattern", label: "ABCD Pattern" },
-  { value: "xabcd-pattern", label: "XABCD Pattern" },
-  { value: "head-shoulders", label: "Head & Shoulders" },
-  { value: "elliott-wave", label: "Elliott Wave" },
-  { value: "long-position", label: "Long Position" },
-  { value: "short-position", label: "Short Position" },
-  { value: "forecast", label: "Forecast" },
-  { value: "anchored-vwap", label: "Anchored VWAP" },
-  { value: "measure", label: "Measure" },
-  { value: "date-range", label: "Date Range" },
-  { value: "price-date-range", label: "Price/Date Range" },
+  { value: "select", labelKey: "Charts:tool_select" },
+  { value: "line", labelKey: "Charts:tool_line" },
+  { value: "ray", labelKey: "Charts:tool_ray" },
+  { value: "xline", labelKey: "Charts:tool_xline" },
+  { value: "hline", labelKey: "Charts:tool_hline" },
+  { value: "hray", labelKey: "Charts:tool_hray" },
+  { value: "vline", labelKey: "Charts:tool_vline" },
+  { value: "crossline", labelKey: "Charts:tool_crossline" },
+  { value: "info-line", labelKey: "Charts:tool_info-line" },
+  { value: "trend-angle", labelKey: "Charts:tool_trend-angle" },
+  { value: "arrow", labelKey: "Charts:tool_arrow" },
+  { value: "channel", labelKey: "Charts:tool_channel" },
+  { value: "pitchfork", labelKey: "Charts:tool_pitchfork" },
+  { value: "polyline", labelKey: "Charts:tool_polyline" },
+  { value: "arc", labelKey: "Charts:tool_arc" },
+  { value: "rectangle", labelKey: "Charts:tool_rectangle" },
+  { value: "rotated-rectangle", labelKey: "Charts:tool_rotated-rectangle" },
+  { value: "circle", labelKey: "Charts:tool_circle" },
+  { value: "ellipse", labelKey: "Charts:tool_ellipse" },
+  { value: "path", labelKey: "Charts:tool_path" },
+  { value: "text", labelKey: "Charts:tool_text" },
+  { value: "callout", labelKey: "Charts:tool_callout" },
+  { value: "brush", labelKey: "Charts:tool_brush" },
+  { value: "highlighter", labelKey: "Charts:tool_highlighter" },
+  { value: "fibonacci", labelKey: "Charts:tool_fibonacci" },
+  { value: "fib-extension", labelKey: "Charts:tool_fib-extension" },
+  { value: "fib-channel", labelKey: "Charts:tool_fib-channel" },
+  { value: "fib-time-zone", labelKey: "Charts:tool_fib-time-zone" },
+  { value: "fib-wedge", labelKey: "Charts:tool_fib-wedge" },
+  { value: "gann-fan", labelKey: "Charts:tool_gann-fan" },
+  { value: "gann-box", labelKey: "Charts:tool_gann-box" },
+  { value: "triangle-pattern", labelKey: "Charts:tool_triangle-pattern" },
+  { value: "abcd-pattern", labelKey: "Charts:tool_abcd-pattern" },
+  { value: "xabcd-pattern", labelKey: "Charts:tool_xabcd-pattern" },
+  { value: "head-shoulders", labelKey: "Charts:tool_head-shoulders" },
+  { value: "elliott-wave", labelKey: "Charts:tool_elliott-wave" },
+  { value: "long-position", labelKey: "Charts:tool_long-position" },
+  { value: "short-position", labelKey: "Charts:tool_short-position" },
+  { value: "forecast", labelKey: "Charts:tool_forecast" },
+  { value: "anchored-vwap", labelKey: "Charts:tool_anchored-vwap" },
+  { value: "measure", labelKey: "Charts:tool_measure" },
+  { value: "date-range", labelKey: "Charts:tool_date-range" },
+  { value: "price-date-range", labelKey: "Charts:tool_price-date-range" },
 ];
 
-function IndicatorRow({ index, style, indicators, enabledSet, toggle }) {
+function IndicatorRow({ index, style, indicators, enabledSet, toggle, t }) {
   const item = indicators[index];
   if (!item) return null;
   const checked = enabledSet.has(item.type);
@@ -212,10 +214,10 @@ function IndicatorRow({ index, style, indicators, enabledSet, toggle }) {
         <Label htmlFor={`ind-${item.type}`} className="text-xs font-medium cursor-pointer truncate block">
           {item.label}
         </Label>
-        <span className="text-[11px] text-muted-foreground truncate block">{item.type} • {item.pane} • {item.desc}</span>
+        <span className="text-[11px] text-muted-foreground truncate block">{item.type} • {t(item.pane === "overlay" ? "Charts:overlay_pane" : "Charts:separate_pane")} • {item.desc}</span>
       </div>
       <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium shrink-0 ${item.pane === "overlay" ? "bg-[hsl(var(--accent-1)/0.12)] text-[hsl(var(--accent-1-fg))]" : "bg-[hsl(var(--accent-2)/0.12)] text-[hsl(var(--accent-2-fg))]"}`}>
-        {item.pane}
+        {t(item.pane === "overlay" ? "Charts:overlay_pane" : "Charts:separate_pane")}
       </span>
     </div>
   );
@@ -232,6 +234,7 @@ export default function CandleChart({
   historyAvailable = true,
   lastFetchAt,
 }) {
+  const { t } = useTranslation(locale.get(), { i18n: i18nInstance });
   const chartRef = useRef(null);
   const fullscreenChartRef = useRef(null);
 
@@ -275,28 +278,28 @@ export default function CandleChart({
   const [chartType, setChartType] = useState("candles");
   const [priceScaleMode, setPriceScaleMode] = useState("normal");
 
-  const chartTypes = useMemo(() => [
-    { value: "candles", label: "Candles" },
-    { value: "heikinAshi", label: "Heikin-Ashi" },
-    { value: "hollowCandles", label: "Hollow Candles" },
-    { value: "bar", label: "Bar" },
-    { value: "highLow", label: "High/Low" },
-    { value: "line", label: "Line" },
-    { value: "stepLine", label: "Step Line" },
-    { value: "area", label: "Area" },
-    { value: "hlcArea", label: "HLC Area" },
-    { value: "histogram", label: "Histogram" },
-    { value: "column", label: "Column" },
-    { value: "renko", label: "Renko" },
-    { value: "lineBreak", label: "Line Break" },
-    { value: "kagi", label: "Kagi" },
-    { value: "pointFigure", label: "Point & Figure" },
-  ], []);
+  const chartTypes = [
+    { value: "candles", labelKey: "Charts:chart_candles" },
+    { value: "heikinAshi", labelKey: "Charts:chart_heikinAshi" },
+    { value: "hollowCandles", labelKey: "Charts:chart_hollowCandles" },
+    { value: "bar", labelKey: "Charts:chart_bar" },
+    { value: "highLow", labelKey: "Charts:chart_highLow" },
+    { value: "line", labelKey: "Charts:chart_line" },
+    { value: "stepLine", labelKey: "Charts:chart_stepLine" },
+    { value: "area", labelKey: "Charts:chart_area" },
+    { value: "hlcArea", labelKey: "Charts:chart_hlcArea" },
+    { value: "histogram", labelKey: "Charts:chart_histogram" },
+    { value: "column", labelKey: "Charts:chart_column" },
+    { value: "renko", labelKey: "Charts:chart_renko" },
+    { value: "lineBreak", labelKey: "Charts:chart_lineBreak" },
+    { value: "kagi", labelKey: "Charts:chart_kagi" },
+    { value: "pointFigure", labelKey: "Charts:chart_pointFigure" },
+  ];
 
-  const priceScaleModes = useMemo(() => [
-    { value: "normal", label: "Normal" },
-    { value: "logarithmic", label: "Logarithmic" },
-  ], []);
+  const priceScaleModes = [
+    { value: "normal", labelKey: "Charts:scale_normal" },
+    { value: "logarithmic", labelKey: "Charts:scale_logarithmic" },
+  ];
 
   // Fullscreen + indicators/drawings state — reset on close
   const [fullscreenOpen, setFullscreenOpen] = useState(false);
@@ -414,13 +417,13 @@ export default function CandleChart({
               </span>
               <div>
               <h3 className="text-base sm:text-lg font-semibold text-foreground flex items-center gap-2">
-                {baseSymbol && quoteSymbol ? `${baseSymbol} / ${quoteSymbol}` : "Market"} Price
+                {t("Charts:market_price", { base: baseSymbol ?? t("Charts:market"), quote: quoteSymbol ?? "" }).replace(" /  ", " ")}
               </h3>
                 <p className="text-xs text-muted-foreground mt-0.5 inline-flex items-center gap-1.5">
                   <Clock className="h-3 w-3" />
                   {historyAvailable
-                    ? `${bucketOptions.find((o)=>o.value===bucketSec)?.label ?? bucketSec+"s"} • ${candles?.length ?? 0} candles`
-                    : "History unavailable on this node"}
+                    ? `${bucketOptions.find((o)=>o.value===bucketSec)?.label ?? bucketSec+"s"} • ${t("Charts:candles_count", { count: candles?.length ?? 0 })}`
+                    : t("Charts:history_unavailable")}
                   {lastFetchAt ? ` • ${new Date(lastFetchAt).toLocaleTimeString()}` : ""}
                 </p>
               </div>
@@ -450,7 +453,7 @@ export default function CandleChart({
                 <Button
                   variant="ghost"
                   size="icon"
-                  aria-label="Enter fullscreen"
+                  aria-label={t("Charts:enter_fullscreen")}
                   onClick={() => setFullscreenOpen(true)}
                   className="h-8 w-8 rounded-full border border-border bg-card/40 hover:bg-card/60 hover:border-[hsl(var(--accent-1)/0.40)] text-muted-foreground hover:text-foreground shrink-0"
                 >
@@ -460,24 +463,24 @@ export default function CandleChart({
               <div className="flex gap-2 w-full sm:w-auto">
                 <Select value={chartType} onValueChange={setChartType}>
                   <SelectTrigger className="w-[160px] h-9 bg-card/40 border-border text-xs">
-                    <SelectValue placeholder="Chart type" />
+                    <SelectValue placeholder={t("Charts:chart_type")} />
                   </SelectTrigger>
                   <SelectContent>
                     {chartTypes.map((ct) => (
                       <SelectItem key={ct.value} value={ct.value} className="text-xs">
-                        {ct.label}
+                        {t(ct.labelKey)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <Select value={priceScaleMode} onValueChange={setPriceScaleMode}>
                   <SelectTrigger className="w-[160px] h-9 bg-card/40 border-border text-xs">
-                    <SelectValue placeholder="Price scale" />
+                    <SelectValue placeholder={t("Charts:price_scale")} />
                   </SelectTrigger>
                   <SelectContent>
                     {priceScaleModes.map((ps) => (
                       <SelectItem key={ps.value} value={ps.value} className="text-xs">
-                        {ps.label}
+                        {t(ps.labelKey)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -489,15 +492,15 @@ export default function CandleChart({
           {loading && (!candles || !candles.length) ? (
             <div className="h-[340px] flex flex-col items-center justify-center gap-3 rounded-lg border border-border/40 bg-card/30">
               <Spinner className="size-6 text-[hsl(var(--accent-1-fg))]" />
-              <span className="text-xs text-muted-foreground">Loading candles…</span>
+              <span className="text-xs text-muted-foreground">{t("Charts:loading_candles")}</span>
             </div>
           ) : !series.length || !series[0].bars.length ? (
             <div className="h-[340px] flex flex-col items-center justify-center gap-2 rounded-lg border border-border/40 bg-card/30 text-center p-4">
               <TrendingUp className="h-6 w-6 text-muted-foreground/40" />
               <p className="text-sm text-muted-foreground/70">
-                {historyAvailable ? "No candle data for this market / timeframe" : "History API unavailable on this node — try another node or timeframe"}
+                {historyAvailable ? t("Charts:no_candle_data") : t("Charts:history_api_unavailable")}
               </p>
-              <p className="text-xs text-muted-foreground/50">history_api.get_market_history requires a history-enabled node</p>
+              <p className="text-xs text-muted-foreground/50">{t("Charts:history_node_required")}</p>
             </div>
           ) : (
             <div className="rounded-lg border border-border/40 bg-card/30 overflow-hidden">
@@ -525,10 +528,10 @@ export default function CandleChart({
           <DialogHeader className="px-6 pt-6 pb-3 shrink-0">
             <DialogTitle className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-[hsl(var(--accent-1-fg))]" />
-              {baseSymbol && quoteSymbol ? `${baseSymbol} / ${quoteSymbol}` : "Market"} — Fullscreen
+              {baseSymbol && quoteSymbol ? `${baseSymbol} / ${quoteSymbol}` : t("Charts:market")} {t("Charts:fullscreen_suffix")}
             </DialogTitle>
             <DialogDescription className="text-xs">
-              {bucketOptions.find((o)=>o.value===bucketSec)?.label ?? bucketSec+"s"} • {candles?.length ?? 0} candles • {chartType} • {priceScaleMode}
+              {bucketOptions.find((o)=>o.value===bucketSec)?.label ?? bucketSec+"s"} • {t("Charts:candles_count", { count: candles?.length ?? 0 })} • {t(chartTypes.find(c=>c.value===chartType)?.labelKey ?? "Charts:chart_candles")} • {t(priceScaleModes.find(p=>p.value===priceScaleMode)?.labelKey ?? "Charts:scale_normal")}
             </DialogDescription>
           </DialogHeader>
 
@@ -557,24 +560,24 @@ export default function CandleChart({
               </div>
               <Select value={chartType} onValueChange={setChartType}>
                 <SelectTrigger className="w-[160px] h-9 bg-card/40 border-border text-xs">
-                  <SelectValue placeholder="Chart type" />
+                  <SelectValue placeholder={t("Charts:chart_type")} />
                 </SelectTrigger>
                 <SelectContent>
                   {chartTypes.map((ct) => (
                     <SelectItem key={ct.value} value={ct.value} className="text-xs">
-                      {ct.label}
+                      {t(ct.labelKey)}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               <Select value={priceScaleMode} onValueChange={setPriceScaleMode}>
                 <SelectTrigger className="w-[160px] h-9 bg-card/40 border-border text-xs">
-                  <SelectValue placeholder="Price scale" />
+                  <SelectValue placeholder={t("Charts:price_scale")} />
                 </SelectTrigger>
                 <SelectContent>
                   {priceScaleModes.map((ps) => (
                     <SelectItem key={ps.value} value={ps.value} className="text-xs">
-                      {ps.label}
+                      {t(ps.labelKey)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -582,7 +585,7 @@ export default function CandleChart({
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Exit fullscreen"
+                aria-label={t("Charts:exit_fullscreen")}
                 onClick={() => handleFullscreenChange(false)}
                 className="h-8 w-8 rounded-full border border-border bg-card/40 hover:bg-card/60 text-muted-foreground hover:text-foreground ml-auto"
               >
@@ -599,7 +602,7 @@ export default function CandleChart({
                   onClick={() => setIndicatorsOpen(true)}
                   className="h-8 gap-1.5 border-border bg-card/40 hover:bg-card/60 text-xs"
                 >
-                  Indicators
+                  {t("Charts:indicators")}
                   {indicators.length > 0 ? <span className="bg-[hsl(var(--accent-1))] text-white rounded-full px-1.5 py-0.5 text-[10px]">{indicators.length}</span> : null}
                 </Button>
                 <DialogContent
@@ -607,13 +610,13 @@ export default function CandleChart({
                   onEscapeKeyDown={(e) => { e.stopPropagation(); }}
                 >
                   <DialogHeader className="px-5 pt-5 pb-3 shrink-0">
-                    <DialogTitle className="text-sm">Indicators — 90 available</DialogTitle>
+                    <DialogTitle className="text-sm">{t("Charts:indicators_available", { count: ALL_INDICATORS.length })}</DialogTitle>
                     <DialogDescription className="text-xs">
-                      Enable as many as you want. Overlay indicators render on the price pane, separate indicators use a single 28% pane (toggle to clear).
+                      {t("Charts:indicators_description")}
                     </DialogDescription>
                   </DialogHeader>
                   <div className="px-5 pb-2 flex items-center justify-between gap-2 shrink-0">
-                    <span className="text-xs text-muted-foreground">{enabledSet.size} enabled</span>
+                    <span className="text-xs text-muted-foreground">{enabledSet.size} {t("Charts:enabled")}</span>
                     <Button
                       variant="ghost"
                       size="sm"
@@ -621,7 +624,7 @@ export default function CandleChart({
                       onClick={() => setIndicators([])}
                       disabled={indicators.length === 0}
                     >
-                      Clear all
+                      {t("Charts:clear_all")}
                     </Button>
                   </div>
                   <div className="h-[400px] border-t border-border/40 overflow-hidden">
@@ -630,7 +633,7 @@ export default function CandleChart({
                       width="100%"
                       rowCount={ALL_INDICATORS.length}
                       rowHeight={44}
-                      rowProps={{ indicators: ALL_INDICATORS, enabledSet, toggle: toggleIndicator }}
+                      rowProps={{ indicators: ALL_INDICATORS, enabledSet, toggle: toggleIndicator, t }}
                       rowComponent={IndicatorRow}
                     />
                   </div>
@@ -640,12 +643,12 @@ export default function CandleChart({
               {/* Drawing tools — 42 tools */}
               <Select value={activeTool ?? "select"} onValueChange={(v) => setActiveTool(v === "select" ? null : v)}>
                 <SelectTrigger className="w-[200px] h-8 bg-card/40 border-border text-xs">
-                  <SelectValue placeholder="Drawing tool" />
+                  <SelectValue placeholder={t("Charts:drawing_tool")} />
                 </SelectTrigger>
                 <SelectContent className="max-h-[50vh]">
-                  {DRAWING_TOOLS.map((t) => (
-                    <SelectItem key={t.value} value={t.value} className="text-xs">
-                      {t.label}
+                  {DRAWING_TOOLS.map((tool) => (
+                    <SelectItem key={tool.value} value={tool.value} className="text-xs">
+                      {t(tool.labelKey)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -661,11 +664,11 @@ export default function CandleChart({
                     try { fullscreenChartRef.current?.executeCommand?.({ type: "clearDrawings" }); } catch {}
                   }}
                 >
-                  Clear drawings
+                  {t("Charts:clear_drawings")}
                 </Button>
               ) : null}
               <span className="text-[11px] text-muted-foreground ml-2 hidden sm:inline">
-                Draw directly on the chart — drag to create, select to edit, Del to remove.
+                {t("Charts:draw_hint")}
               </span>
             </div>
           </div>

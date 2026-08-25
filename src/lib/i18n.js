@@ -95,6 +95,7 @@ const pages = [
   "ThemeCustomizer",
   "PageThemes",
   "Common",
+  "Charts",
   "PageTitles"
 ];
 

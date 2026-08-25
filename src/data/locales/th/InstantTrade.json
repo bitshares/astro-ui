@@ -23,5 +23,6 @@
   "instant_trading_method": "วิธีการซื้อขายทันที",
   "single_limit_order": "คำสั่งจำกัดเดียว",
   "multiple_limit_orders": "คำสั่งจำกัดหลายรายการ",
-  "last_updated": "อัปเดตล่าสุด: {{time}}"
+  "last_updated": "อัปเดตล่าสุด: {{time}}",
+  "networkFee": "ค่าธรรมเนียมเครือข่าย"
 }

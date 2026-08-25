@@ -23,5 +23,6 @@
   "instant_trading_method": "Sofortige Handelsmethode",
   "single_limit_order": "Einzelne Limit-Order",
   "multiple_limit_orders": "Mehrere Limitaufträge",
-  "last_updated": "Letzte Aktualisierung: {{time}}"
+  "last_updated": "Letzte Aktualisierung: {{time}}",
+  "networkFee": "Netzwerkgebühr"
 }

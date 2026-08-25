@@ -23,5 +23,6 @@
   "instant_trading_method": "Kiire kauplemismeetod",
   "single_limit_order": "Ühekordne limiittellimus",
   "multiple_limit_orders": "Mitu limiittellimust",
-  "last_updated": "Viimati värskendatud: {{time}}"
+  "last_updated": "Viimati värskendatud: {{time}}",
+  "networkFee": "Võrgutasu"
 }

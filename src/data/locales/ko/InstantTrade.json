@@ -23,5 +23,6 @@
   "instant_trading_method": "즉시거래방식",
   "single_limit_order": "단일 지정가 주문",
   "multiple_limit_orders": "다중 지정가 주문",
-  "last_updated": "마지막 업데이트: {{time}}"
+  "last_updated": "마지막 업데이트: {{time}}",
+  "networkFee": "네트워크 수수료"
 }

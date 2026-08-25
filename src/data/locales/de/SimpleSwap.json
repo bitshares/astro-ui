@@ -66,5 +66,6 @@
   "swappableAssetRisk2": "Wenn Sie versuchen, Vermögenswerte zu tauschen, die über die verfügbaren tauschbaren Vermögenswerte hinausgehen, wird Ihr Swap-Preis stark darunter leiden. Sie sollten stattdessen kleine Beträge tauschen und auf die Wiederauffüllung des Pool-Guthabens warten. Wenn Sie einen größeren Betrag tauschen möchten, sollten Sie stattdessen die Erstellung einer Limit-Order am DEX in Betracht ziehen ",
   "swappableAssetRisk3": "Der Wert der tauschbaren Assets selbst kann aufgrund externer Faktoren (externes CEX-Volumen) sowie interner Faktoren (Aktionen des Asset-Emittenten und Preis-Feed-Publishers) schwanken. Stellen Sie sicher, dass Sie den tauschbaren Assets eines Pools vertrauen, bevor Sie einen Tausch durchführen.",
   "exchange": "Austausch",
-  "sendAsset": "Wählen Sie ein Asset aus."
+  "sendAsset": "Wählen Sie ein Asset aus.",
+  "noPoolsForPair": "Für dieses Handelspaar sind keine Pools verfügbar"
 }

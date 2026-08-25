@@ -66,5 +66,6 @@
   "swappableAssetRisk2": "Se provi a scambiare asset in eccesso rispetto agli asset scambiabili disponibili, il tuo prezzo di swap ne risentirà notevolmente. Dovresti invece scambiare piccoli importi e attendere il rifornimento del saldo del pool. Se desideri scambiare un importo maggiore dovresti invece prendere in considerazione la creazione di un ordine limite sul DEX ",
   "swappableAssetRisk3": "Il valore delle risorse scambiabili stesse può variare in base a fattori esterni (volume cex esterno) e fattori interni (azioni dell'emittente delle risorse e dell'editore del feed di prezzo). Assicurati di fidarti delle risorse scambiabili di un pool prima di eseguire uno scambio.",
   "exchange": "Scambio",
-  "sendAsset": "Seleziona una risorsa.."
+  "sendAsset": "Seleziona una risorsa..",
+  "noPoolsForPair": "Nessun pool disponibile per questa coppia di asset"
 }

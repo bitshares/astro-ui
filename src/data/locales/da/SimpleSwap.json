@@ -66,5 +66,6 @@
   "swappableAssetRisk2": "Hvis du forsøger at bytte aktiver ud over de tilgængelige ombytelige aktiver, vil din swappris lide meget. Du bør i stedet bytte små beløb og afvente genopfyldning af puljesaldoen. Hvis du ønsker at bytte et større beløb, bør du overveje at oprette en limitordre på DEX i stedet for ",
   "swappableAssetRisk3": "Værdien af ​​de ombyttelige aktiver i sig selv kan svinge baseret på eksterne faktorer (ekstern cex-volumen) såvel som interne faktorer (aktivudsteder & prisfeed-udgiverhandlinger). Sørg for, at du stoler på en puljes ombytelige aktiver, før du udfører en ombytning.",
   "exchange": "Udveksle",
-  "sendAsset": "Vælg et aktiv.."
+  "sendAsset": "Vælg et aktiv..",
+  "noPoolsForPair": "Ingen puljer er tilgængelige for dette activpar"
 }

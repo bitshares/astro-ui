@@ -66,5 +66,6 @@
   "swappableAssetRisk2": "Si vous essayez d'échanger des actifs au-delà des actifs échangeables disponibles, votre prix d'échange en souffrira grandement. Vous devriez plutôt échanger de petits montants et attendre le réapprovisionnement du solde du pool. Si vous souhaitez échanger un montant plus important, vous devriez plutôt envisager de créer un ordre limité sur le DEX. ",
   "swappableAssetRisk3": "La valeur des actifs échangeables eux-mêmes peut fluctuer en fonction de facteurs externes (volume de cex externe) ainsi que de facteurs internes (actions de l'émetteur d'actifs et de l'éditeur de flux de prix). Assurez-vous de faire confiance aux actifs échangeables d'un pool avant d'effectuer un échange.",
   "exchange": "Échange",
-  "sendAsset": "Sélectionnez un actif.."
+  "sendAsset": "Sélectionnez un actif..",
+  "noPoolsForPair": "Aucun pool disponible pour cette paire d'actifs"
 }
