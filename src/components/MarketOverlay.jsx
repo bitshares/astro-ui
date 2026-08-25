@@ -134,7 +134,7 @@ export default function MarketOverlay(properties) {
   };
 
   const [assetA, setAssetA] = useState(!window.location.search ? "BTS" : null);
-  const [assetB, setAssetB] = useState(!window.location.search ? "CNY" : null);
+  const [assetB, setAssetB] = useState(!window.location.search ? "XBTSX.USDT" : null);
   useEffect(() => {
     async function parseUrlAssets() {
       //console.log("Parsing market parameters");
@@ -148,14 +148,14 @@ export default function MarketOverlay(properties) {
       if (!market || !market.length) {
         console.log("No market parameters found.");
         finalAssetA = "1.3.0";
-        finalAssetB = "CNY";
+        finalAssetB = "XBTSX.USDT";
       } else {
         let asset_a = market.split("_")[0].toUpperCase();
         let asset_b = market.split("_")[1].toUpperCase();
 
         if (asset_a && asset_b && asset_b.length && asset_a === asset_b) {
           // Avoid invalid duplicate asset market pairs
-          asset_b = asset_a === "BTS" ? "CNY" : "1.3.0";
+          asset_b = asset_a === "BTS" ? "XBTSX.USDT" : "1.3.0";
           console.log("Invalid market parameters - replaced quote asset.");
         }
 
@@ -187,7 +187,7 @@ export default function MarketOverlay(properties) {
           (!searchSymbols.includes(asset_b) && !searchIds.includes(asset_b))
         ) {
           console.log("Asset B replaced with default.");
-          finalAssetB = finalAssetA !== "CNY" ? "CNY" : "1.3.0";
+          finalAssetB = finalAssetA !== "XBTSX.USDT" ? "XBTSX.USDT" : "1.3.0";
         }
 
         if (!finalAssetB) {
@@ -199,7 +199,7 @@ export default function MarketOverlay(properties) {
           } else {
             console.log("Setting default asset B");
             finalAssetB =
-              asset_a !== "BTS" && asset_a !== "1.3.0" ? "1.3.0" : "CNY";
+              asset_a !== "BTS" && asset_a !== "1.3.0" ? "1.3.0" : "XBTSX.USDT";
           }
         }
       }

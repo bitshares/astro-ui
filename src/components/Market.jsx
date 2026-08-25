@@ -24,8 +24,11 @@ import { trimPrice, isInvertedMarket } from "@/lib/common";
 import { createMarketTradeHistoryStore } from "@/nanoeffects/MarketTradeHistory.ts";
 import { createMarketOrderStore } from "@/nanoeffects/MarketOrderBook.ts";
 import { useDexOrderBookLive } from "@/hooks/useDexLiveSubscriptions";
+import { useMarketCandles } from "@/hooks/useMarketCandles";
 import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 import { $currentNode } from "@/stores/node.ts";
+import CandleChart from "./InstantTrade/CandleChart.jsx";
+import DepthChart from "./InstantTrade/DepthChart.jsx";
 
 import LimitOrderCard from "./Market/LimitOrderCard.jsx";
 import MarketOrderCard from "./Market/MarketOrderCard.jsx";
@@ -212,6 +215,26 @@ export default function Market(properties) {
     marketOrdersLoading,
     marketOrdersError,
   ]);
+
+  // Candle history — subscription-adaptive (re-fetch on market push), side-by-side charts Option B
+  const [candleBucketSec, setCandleBucketSec] = useState(3600);
+  const {
+    candles,
+    buckets,
+    loading: candlesLoading,
+    historyAvailable: candlesHistoryAvailable,
+    lastFetchAt: candlesLastFetchAt,
+  } = useMarketCandles({
+    chain: usr.chain ?? "",
+    baseId: assetBData?.id ?? null,
+    quoteId: assetAData?.id ?? null,
+    basePrecision: assetBData?.precision ?? null,
+    quotePrecision: assetAData?.precision ?? null,
+    bucketSeconds: candleBucketSec,
+    enabled: !!assetAData && !!assetBData,
+    specificNode: dexNodeUrl,
+    liveTick: liveLastFetchAt,
+  });
 
   // Use the store
   const marketHistoryStore = useMemo(() => {
@@ -1007,6 +1030,27 @@ export default function Market(properties) {
               </div>
             )}
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+          <CandleChart
+            candles={candles}
+            buckets={buckets}
+            bucketSec={candleBucketSec}
+            onBucketChange={setCandleBucketSec}
+            baseSymbol={assetB}
+            quoteSymbol={assetA}
+            loading={candlesLoading}
+            historyAvailable={candlesHistoryAvailable}
+            lastFetchAt={candlesLastFetchAt}
+          />
+          <DepthChart
+            bids={buyOrders}
+            asks={sellOrders}
+            baseSymbol={assetB}
+            quoteSymbol={assetA}
+            loading={!buyOrders && !sellOrders}
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">

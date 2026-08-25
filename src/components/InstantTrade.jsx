@@ -28,8 +28,11 @@ import { createUserBalancesStore } from "@/nanoeffects/UserBalances.ts";
 import { createAssetFromSymbolStore } from "@/nanoeffects/Assets.ts";
 import { createMarketOrderStore } from "@/nanoeffects/MarketOrderBook.ts";
 import { useDexOrderBookLive } from "@/hooks/useDexLiveSubscriptions";
+import { useMarketCandles } from "@/hooks/useMarketCandles";
 import DexLiveFooterCard from "./DexLiveFooterCard.jsx";
 import { createObjectStore } from "@/nanoeffects/Objects.ts";
+import CandleChart from "./InstantTrade/CandleChart.jsx";
+import DepthChart from "./InstantTrade/DepthChart.jsx";
 
 import { $currentUser } from "@/stores/users.ts";
 import { $currentNode } from "@/stores/node.ts";
@@ -474,6 +477,26 @@ export default function InstantTrade(properties) {
       setMarketTimestamp(new Date());
     }
   }, [liveIT.bids]);
+
+  // Candle + buckets state — live subscription adaptive (re-fetch on market push)
+  const [candleBucketSec, setCandleBucketSec] = useState(3600);
+  const {
+    candles,
+    buckets,
+    loading: candlesLoading,
+    historyAvailable,
+    lastFetchAt: candlesLastFetchAt,
+  } = useMarketCandles({
+    chain: usr ? usr.chain : "",
+    baseId: assetBData ? assetBData.id : null,
+    quoteId: assetAData ? assetAData.id : null,
+    basePrecision: assetBData ? assetBData.precision : null,
+    quotePrecision: assetAData ? assetAData.precision : null,
+    bucketSeconds: candleBucketSec,
+    enabled: Boolean(usr && assetAData && assetBData),
+    specificNode: currentNode && currentNode.chain === (usr ? usr.chain : "") ? currentNode.url : null,
+    liveTick: liveIT.lastFetchAt,
+  });
 
   const maxPurchaseable = useMemo(() => {
     if (buyOrders && buyOrders.length && assetBData) {
@@ -1291,6 +1314,26 @@ export default function InstantTrade(properties) {
             ) : null}
           </div>
         </div>
+
+        <CandleChart
+          candles={candles}
+          buckets={buckets}
+          bucketSec={candleBucketSec}
+          onBucketChange={setCandleBucketSec}
+          baseSymbol={assetB}
+          quoteSymbol={assetA}
+          loading={candlesLoading}
+          historyAvailable={historyAvailable}
+          lastFetchAt={candlesLastFetchAt}
+        />
+
+        <DepthChart
+          bids={buyOrders}
+          asks={liveIT.asks ?? []}
+          baseSymbol={assetB}
+          quoteSymbol={assetA}
+          loading={updatingMarket && !buyOrders}
+        />
 
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur-xl">
           <span
