@@ -1,0 +1,56 @@
+{
+  "title": "Explorador de Blockchain",
+  "subtitle": "Pesquise contas, ativos, objetos, transações e blocos. Os resultados abrem em diálogo com JSON copiável.",
+  "search": "Pesquisar",
+  "copy": "Copiar JSON",
+  "copied": "Copiado",
+  "favourite": "Favorito",
+  "removeFavourite": "Remover favorito",
+  "sampleLabel": "exemplo:",
+  "jsonPlaceholder": "JSON aparecerá aqui",
+  "account": {
+    "title": "Busca de conta",
+    "description": "Busca por nome ou ID — mostra JSON completo e favorito",
+    "placeholder": "ex. nathan ou 1.2.123",
+    "hint": "ws: get_accounts + get_full_accounts",
+    "errorEmpty": "Insira um nome de conta",
+    "dialogTitle": "Conta: {{name}} ({{id}})",
+    "dialogSubtitle": "Cadeia: {{chain}} • JSON completo da conta"
+  },
+  "asset": {
+    "title": "Busca de ativo",
+    "description": "Busca por símbolo ou ID — mostra JSON e favorito",
+    "placeholder": "ex. BTS ou 1.3.0",
+    "hint": "ws: get_asset_id_from_string + get_objects",
+    "errorEmpty": "Insira um símbolo de ativo",
+    "dialogTitle": "Ativo: {{symbol}} ({{id}})",
+    "dialogSubtitle": "Cadeia: {{chain}} • JSON do ativo"
+  },
+  "object": {
+    "title": "Busca por ID de objeto",
+    "description": "Busque qualquer objeto x.x.x — mostra JSON bruto",
+    "placeholder": "ex. 1.2.123 ou 2.1.0",
+    "hint": "ws: get_objects (sem assinatura)",
+    "errorInvalid": "Insira um ID válido como 1.2.123 ou 2.1.0",
+    "dialogTitle": "Objeto: {{id}}",
+    "dialogSubtitle": "Cadeia: {{chain}}"
+  },
+  "tx": {
+    "title": "Busca por hash de transação",
+    "description": "Busca por hash — de Elasticsearch",
+    "placeholder": "40 caracteres hex",
+    "errorEmpty": "Insira um hash de transação",
+    "errorInvalid": "Esperado 40 ou 64 caracteres hex",
+    "dialogTitle": "Transação: {{hash}}",
+    "dialogSubtitle": "Cadeia: {{chain}}"
+  },
+  "block": {
+    "title": "Busca por número de bloco",
+    "description": "Busca por número — mostra JSON do bloco",
+    "placeholder": "ex. 19446934",
+    "hint": "ws: get_block + get_block_header",
+    "errorInvalid": "Insira um número de bloco válido",
+    "dialogTitle": "Bloco #{{num}}",
+    "dialogSubtitle": "Cadeia: {{chain}}"
+  }
+}

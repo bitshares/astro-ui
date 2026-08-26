@@ -497,5 +497,25 @@
         "pool": "Pool",
         "assets": "Assets",
         "swaps": "Swaps"
+    },
+    "top_operations": {
+        "title": "Top operations",
+        "subtitle": "The most frequently executed operations on the blockchain.",
+        "hover1": "Ranked by occurrence count over the past 30 days.",
+        "hover2": "Useful for understanding which operation types dominate blockchain activity.",
+        "columnType": "Type",
+        "columnName": "Name",
+        "columnQuantity": "Quantity",
+        "columnPercentage": "%",
+        "pieTitle": "Operation breakdown",
+        "pieSubtitle": "Share of each operation type — operations below 1% grouped as Other.",
+        "other": "Other"
+    },
+    "explorer": {
+        "title": "Blockchain Explorer",
+        "subtitle": "Lookup accounts, assets, objects, transactions and blocks",
+        "hover1": "Search any account or asset by name or ID and favourite them.",
+        "hover2": "Inspect raw x.x.x objects and blocks via one-shot WS calls.",
+        "hover3": "Fetch transactions by hash from Elasticsearch."
     }
 }

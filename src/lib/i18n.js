@@ -94,6 +94,7 @@ const pages = [
   "Visuals",
   "ThemeCustomizer",
   "PageThemes",
+  "Explorer",
   "Common",
   "Charts",
   "PageTitles"

@@ -96,6 +96,7 @@ import { $blockList, updateBlockList } from "@/stores/blocklist.ts";
 import { createBlockedAccountStore } from "@/nanoeffects/BlockedAccounts.ts";
 
 const ITEM_ICONS = {
+  explorer: Database,
   dex: LineChart,
   instant_trade: Zap,
   swap: ArrowLeftRight,
@@ -278,11 +279,13 @@ export default function Home(properties) {
   ];
 
   const blockchainOverviews = [
+    { key: "explorer", href: "/explorer.html", titleKey: "Home:explorer.title", subtitleKey: "Home:explorer.subtitle", hoverKeys: ["Home:explorer.hover1", "Home:explorer.hover2", "Home:explorer.hover3"] },
     { key: "blocks", href: "/blocks.html", titleKey: "Home:blocks.title", subtitleKey: "Home:blocks.subtitle", hoverKeys: ["Home:blocks.hover1", "Home:blocks.hover2", "Home:blocks.hover3"] },
     { key: "custom_pool_tracker", href: "/custom_pool_overview.html", titleKey: "Home:custom_pool_tracker.title", subtitleKey: "Home:custom_pool_tracker.subtitle", hoverKeys: ["Home:custom_pool_tracker.hover1", "Home:custom_pool_tracker.hover2"] },
     { key: "pools", href: "/pools.html", titleKey: "Home:pools.title", subtitleKey: "Home:pools.subtitle", hoverKeys: ["Home:pools.hover1", "Home:pools.hover2", "Home:pools.hover3"] },
     { key: "top_markets", href: "/top-markets.html", titleKey: "Home:top_markets.title", subtitleKey: "Home:top_markets.subtitle", hoverKeys: ["Home:top_markets.hover1", "Home:top_markets.hover2"] },
     { key: "top_pools", href: "/top-pools.html", titleKey: "Home:top_pools.title", subtitleKey: "Home:top_pools.subtitle", hoverKeys: ["Home:top_pools.hover1", "Home:top_pools.hover2"] },
+    { key: "top_operations", href: "/top-operations.html", titleKey: "Home:top_operations.title", subtitleKey: "Home:top_operations.subtitle", hoverKeys: ["Home:top_operations.hover1", "Home:top_operations.hover2"] },
   ];
 
   const governance = [

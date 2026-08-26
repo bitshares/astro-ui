@@ -1,0 +1,56 @@
+{
+  "title": "블록체인 탐색기",
+  "subtitle": "계정, 자산, 객체, 트랜잭션 및 블록을 조회합니다. 결과는 복사 가능한 JSON 대화상자로 열립니다.",
+  "search": "검색",
+  "copy": "JSON 복사",
+  "copied": "복사됨",
+  "favourite": "즐겨찾기",
+  "removeFavourite": "즐겨찾기 제거",
+  "sampleLabel": "예시:",
+  "jsonPlaceholder": "JSON이 여기에 표시됩니다",
+  "account": {
+    "title": "계정 조회",
+    "description": "계정 이름 또는 ID로 검색 — 전체 JSON 및 즐겨찾기 표시",
+    "placeholder": "예: nathan 또는 1.2.123",
+    "hint": "ws: get_accounts + get_full_accounts",
+    "errorEmpty": "계정 이름을 입력하세요",
+    "dialogTitle": "계정: {{name}} ({{id}})",
+    "dialogSubtitle": "체인: {{chain}} • 전체 계정 JSON"
+  },
+  "asset": {
+    "title": "자산 조회",
+    "description": "심볼 또는 ID로 검색 — 자산 JSON 및 즐겨찾기 표시",
+    "placeholder": "예: BTS 또는 1.3.0",
+    "hint": "ws: get_asset_id_from_string + get_objects",
+    "errorEmpty": "자산 심볼을 입력하세요",
+    "dialogTitle": "자산: {{symbol}} ({{id}})",
+    "dialogSubtitle": "체인: {{chain}} • 자산 JSON"
+  },
+  "object": {
+    "title": "객체 ID 조회",
+    "description": "모든 x.x.x 객체 검색 — 원시 JSON 표시",
+    "placeholder": "예: 1.2.123 또는 2.1.0",
+    "hint": "ws: get_objects (구독 없음)",
+    "errorInvalid": "1.2.123 또는 2.1.0 같은 유효한 ID를 입력하세요",
+    "dialogTitle": "객체: {{id}}",
+    "dialogSubtitle": "체인: {{chain}}"
+  },
+  "tx": {
+    "title": "트랜잭션 해시 조회",
+    "description": "해시로 검색 — Elasticsearch에서 가져옴",
+    "placeholder": "40자 hex",
+    "errorEmpty": "트랜잭션 해시를 입력하세요",
+    "errorInvalid": "40 또는 64자 hex가 필요합니다",
+    "dialogTitle": "트랜잭션: {{hash}}",
+    "dialogSubtitle": "체인: {{chain}}"
+  },
+  "block": {
+    "title": "블록 번호 조회",
+    "description": "블록 번호로 검색 — 블록 JSON 표시",
+    "placeholder": "예: 19446934",
+    "hint": "ws: get_block + get_block_header",
+    "errorInvalid": "유효한 블록 번호를 입력하세요",
+    "dialogTitle": "블록 #{{num}}",
+    "dialogSubtitle": "체인: {{chain}}"
+  }
+}

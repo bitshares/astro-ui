@@ -1,0 +1,56 @@
+{
+  "title": "Explorateur Blockchain",
+  "subtitle": "Recherchez comptes, actifs, objets, transactions et blocs. Les résultats s'ouvrent dans un dialogue avec JSON copiable.",
+  "search": "Rechercher",
+  "copy": "Copier JSON",
+  "copied": "Copié",
+  "favourite": "Favori",
+  "removeFavourite": "Retirer des favoris",
+  "sampleLabel": "exemple :",
+  "jsonPlaceholder": "Le JSON apparaîtra ici",
+  "account": {
+    "title": "Recherche de compte",
+    "description": "Recherche par nom ou ID — affiche JSON complet & favori",
+    "placeholder": "ex. nathan ou 1.2.123",
+    "hint": "ws: get_accounts + get_full_accounts",
+    "errorEmpty": "Entrez un nom de compte",
+    "dialogTitle": "Compte : {{name}} ({{id}})",
+    "dialogSubtitle": "Chaîne : {{chain}} • JSON complet du compte"
+  },
+  "asset": {
+    "title": "Recherche d'actif",
+    "description": "Recherche par symbole ou ID — affiche JSON & favori",
+    "placeholder": "ex. BTS ou 1.3.0",
+    "hint": "ws: get_asset_id_from_string + get_objects",
+    "errorEmpty": "Entrez un symbole d'actif",
+    "dialogTitle": "Actif : {{symbol}} ({{id}})",
+    "dialogSubtitle": "Chaîne : {{chain}} • JSON d'actif"
+  },
+  "object": {
+    "title": "Recherche par ID d'objet",
+    "description": "Recherchez tout objet x.x.x — affiche le JSON brut",
+    "placeholder": "ex. 1.2.123 ou 2.1.0",
+    "hint": "ws: get_objects (sans abonnement)",
+    "errorInvalid": "Entrez un ID valide comme 1.2.123 ou 2.1.0",
+    "dialogTitle": "Objet : {{id}}",
+    "dialogSubtitle": "Chaîne : {{chain}}"
+  },
+  "tx": {
+    "title": "Recherche par hash de transaction",
+    "description": "Recherche par hash — depuis Elasticsearch",
+    "placeholder": "40 caractères hex",
+    "errorEmpty": "Entrez un hash de transaction",
+    "errorInvalid": "40 ou 64 caractères hex attendus",
+    "dialogTitle": "Transaction : {{hash}}",
+    "dialogSubtitle": "Chaîne : {{chain}}"
+  },
+  "block": {
+    "title": "Recherche par numéro de bloc",
+    "description": "Recherche par numéro — affiche le JSON du bloc",
+    "placeholder": "ex. 19446934",
+    "hint": "ws: get_block + get_block_header",
+    "errorInvalid": "Entrez un numéro de bloc valide",
+    "dialogTitle": "Bloc #{{num}}",
+    "dialogSubtitle": "Chaîne : {{chain}}"
+  }
+}

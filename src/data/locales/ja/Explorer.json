@@ -1,0 +1,56 @@
+{
+  "title": "ブロックチェーンエクスプローラー",
+  "subtitle": "アカウント、資産、オブジェクト、トランザクション、ブロックを検索。結果はコピー可能なJSONのダイアログで開きます。",
+  "search": "検索",
+  "copy": "JSONをコピー",
+  "copied": "コピーしました",
+  "favourite": "お気に入り",
+  "removeFavourite": "お気に入りから削除",
+  "sampleLabel": "例：",
+  "jsonPlaceholder": "JSONがここに表示されます",
+  "account": {
+    "title": "アカウント検索",
+    "description": "アカウント名またはIDで検索 — 完全なJSONとお気に入りを表示",
+    "placeholder": "例: nathan または 1.2.123",
+    "hint": "ws: get_accounts + get_full_accounts",
+    "errorEmpty": "アカウント名を入力してください",
+    "dialogTitle": "アカウント: {{name}} ({{id}})",
+    "dialogSubtitle": "チェーン: {{chain}} • 完全なアカウントJSON"
+  },
+  "asset": {
+    "title": "アセット検索",
+    "description": "シンボルまたはIDで検索 — アセットJSONとお気に入りを表示",
+    "placeholder": "例: BTS または 1.3.0",
+    "hint": "ws: get_asset_id_from_string + get_objects",
+    "errorEmpty": "アセットシンボルを入力してください",
+    "dialogTitle": "アセット: {{symbol}} ({{id}})",
+    "dialogSubtitle": "チェーン: {{chain}} • アセットJSON"
+  },
+  "object": {
+    "title": "オブジェクトID検索",
+    "description": "任意の x.x.x オブジェクトを検索 — 生のJSONを表示",
+    "placeholder": "例: 1.2.123 または 2.1.0",
+    "hint": "ws: get_objects（購読なし）",
+    "errorInvalid": "1.2.123 や 2.1.0 のような有効なIDを入力してください",
+    "dialogTitle": "オブジェクト: {{id}}",
+    "dialogSubtitle": "チェーン: {{chain}}"
+  },
+  "tx": {
+    "title": "トランザクションハッシュ検索",
+    "description": "ハッシュで検索 — Elasticsearch から取得",
+    "placeholder": "40文字の16進数",
+    "errorEmpty": "トランザクションハッシュを入力してください",
+    "errorInvalid": "40または64文字の16進数が必要です",
+    "dialogTitle": "トランザクション: {{hash}}",
+    "dialogSubtitle": "チェーン: {{chain}}"
+  },
+  "block": {
+    "title": "ブロック番号検索",
+    "description": "ブロック番号で検索 — ブロックJSONを表示",
+    "placeholder": "例: 19446934",
+    "hint": "ws: get_block + get_block_header",
+    "errorInvalid": "有効なブロック番号を入力してください",
+    "dialogTitle": "ブロック #{{num}}",
+    "dialogSubtitle": "チェーン: {{chain}}"
+  }
+}

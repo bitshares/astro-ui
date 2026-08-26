@@ -1,0 +1,56 @@
+{
+  "title": "Blockchain Explorer",
+  "subtitle": "Lookup accounts, assets, objects, transactions and blocks. Results open in a dialog with copyable JSON.",
+  "search": "Search",
+  "copy": "Copy JSON",
+  "copied": "Copied",
+  "favourite": "Favourite",
+  "removeFavourite": "Remove favourite",
+  "sampleLabel": "sample:",
+  "jsonPlaceholder": "JSON will appear here",
+  "account": {
+    "title": "Account lookup",
+    "description": "Search by account name or ID — shows full JSON & favourite toggle",
+    "placeholder": "e.g. nathan or 1.2.123",
+    "hint": "ws: get_accounts + get_full_accounts",
+    "errorEmpty": "Enter an account name",
+    "dialogTitle": "Account: {{name}} ({{id}})",
+    "dialogSubtitle": "Chain: {{chain}} • Full account JSON"
+  },
+  "asset": {
+    "title": "Asset lookup",
+    "description": "Search by symbol or ID — shows asset JSON & favourite toggle",
+    "placeholder": "e.g. BTS or 1.3.0",
+    "hint": "ws: get_asset_id_from_string + get_objects",
+    "errorEmpty": "Enter an asset symbol",
+    "dialogTitle": "Asset: {{symbol}} ({{id}})",
+    "dialogSubtitle": "Chain: {{chain}} • Asset JSON"
+  },
+  "object": {
+    "title": "Object ID lookup",
+    "description": "Search any x.x.x object — shows raw object JSON",
+    "placeholder": "e.g. 1.2.123 or 2.1.0",
+    "hint": "ws: get_objects (no subscription)",
+    "errorInvalid": "Enter a valid object ID like 1.2.123 or 2.1.0",
+    "dialogTitle": "Object: {{id}}",
+    "dialogSubtitle": "Chain: {{chain}}"
+  },
+  "tx": {
+    "title": "Transaction hash lookup",
+    "description": "Search by hash — fetched from Elasticsearch",
+    "placeholder": "40 hex chars",
+    "errorEmpty": "Enter a transaction hash",
+    "errorInvalid": "Expected 40 or 64 hex chars",
+    "dialogTitle": "Transaction: {{hash}}",
+    "dialogSubtitle": "Chain: {{chain}}"
+  },
+  "block": {
+    "title": "Block number lookup",
+    "description": "Search by block num — shows block JSON",
+    "placeholder": "e.g. 19446934",
+    "hint": "ws: get_block + get_block_header",
+    "errorInvalid": "Enter a valid block number",
+    "dialogTitle": "Block #{{num}}",
+    "dialogSubtitle": "Chain: {{chain}}"
+  }
+}

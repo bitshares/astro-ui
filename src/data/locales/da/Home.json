@@ -496,5 +496,25 @@
         "pool": "Pulje",
         "assets": "Aktiver",
         "swaps": "Swaps"
+    },
+    "top_operations": {
+        "title": "Topoperationer",
+        "subtitle": "De mest udførte operationer på blockkæden.",
+        "hover1": "Rangeret efter antal forekomster de sidste 30 dage.",
+        "hover2": "Nyttig til at forstå hvilke operationstyper der dominerer aktiviteten.",
+        "columnType": "Type",
+        "columnName": "Navn",
+        "columnQuantity": "Antal",
+        "columnPercentage": "%",
+        "pieTitle": "Fordeling af operationer",
+        "pieSubtitle": "Andel af hver operationstype — under 1% samlet som Øvrige.",
+        "other": "Øvrige"
+    },
+    "explorer": {
+        "title": "Blockchain Explorer",
+        "subtitle": "Slå konti, aktiver, objekter, transaktioner og blokke op",
+        "hover1": "Søg enhver konto eller aktiv via navn/ID og favoritér.",
+        "hover2": "Inspicér rå x.x.x objekter og blokke via WS.",
+        "hover3": "Hent transaktioner via hash fra Elasticsearch."
     }
 }

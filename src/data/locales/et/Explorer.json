@@ -1,0 +1,56 @@
+{
+  "title": "Plokiahela uurija",
+  "subtitle": "Otsi kontosid, varasid, objekte, tehinguid ja plokke. Tulemused avanevad dialoogis kopeeritava JSON-iga.",
+  "search": "Otsi",
+  "copy": "Kopeeri JSON",
+  "copied": "Kopeeritud",
+  "favourite": "Lemmik",
+  "removeFavourite": "Eemalda lemmik",
+  "sampleLabel": "näide:",
+  "jsonPlaceholder": "JSON ilmub siia",
+  "account": {
+    "title": "Konto otsing",
+    "description": "Otsi konto nime või ID järgi — näitab täielikku JSON-i ja lemmikut",
+    "placeholder": "nt nathan või 1.2.123",
+    "hint": "ws: get_accounts + get_full_accounts",
+    "errorEmpty": "Sisesta konto nimi",
+    "dialogTitle": "Konto: {{name}} ({{id}})",
+    "dialogSubtitle": "Ahel: {{chain}} • Täielik konto JSON"
+  },
+  "asset": {
+    "title": "Vara otsing",
+    "description": "Otsi sümboli või ID järgi — näitab vara JSON-i ja lemmikut",
+    "placeholder": "nt BTS või 1.3.0",
+    "hint": "ws: get_asset_id_from_string + get_objects",
+    "errorEmpty": "Sisesta vara sümbol",
+    "dialogTitle": "Vara: {{symbol}} ({{id}})",
+    "dialogSubtitle": "Ahel: {{chain}} • Vara JSON"
+  },
+  "object": {
+    "title": "Objekti ID otsing",
+    "description": "Otsi suvalist x.x.x objekti — näitab toor JSON-i",
+    "placeholder": "nt 1.2.123 või 2.1.0",
+    "hint": "ws: get_objects (ilma tellimuseta)",
+    "errorInvalid": "Sisesta kehtiv objekti ID nagu 1.2.123 või 2.1.0",
+    "dialogTitle": "Objekt: {{id}}",
+    "dialogSubtitle": "Ahel: {{chain}}"
+  },
+  "tx": {
+    "title": "Tehingu räsi otsing",
+    "description": "Otsi räsi järgi — pärit Elasticsearch-ist",
+    "placeholder": "40 hex märki",
+    "errorEmpty": "Sisesta tehingu räsi",
+    "errorInvalid": "Oodatud 40 või 64 hex märki",
+    "dialogTitle": "Tehing: {{hash}}",
+    "dialogSubtitle": "Ahel: {{chain}}"
+  },
+  "block": {
+    "title": "Ploki numbri otsing",
+    "description": "Otsi ploki numbri järgi — näitab ploki JSON-i",
+    "placeholder": "nt 19446934",
+    "hint": "ws: get_block + get_block_header",
+    "errorInvalid": "Sisesta kehtiv ploki number",
+    "dialogTitle": "Plokk #{{num}}",
+    "dialogSubtitle": "Ahel: {{chain}}"
+  }
+}

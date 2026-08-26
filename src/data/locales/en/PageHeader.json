@@ -116,8 +116,10 @@
         "airdrop_calculate": "Distribute an asset to many accounts via algorithmic selection or a manual list, then broadcast batches through your Beet wallet.",
         "top-markets": "Use this page to view the most actively traded BitShares DEX markets, ranked by fill-order volume.",
         "top-pools": "Use this page to view the most actively swapped BitShares liquidity pools, ranked by swap volume.",
+        "top-operations": "Use this page to view the most frequently executed blockchain operations over the last 30 days, ranked by occurrence.",
         "configure_visuals": "Customize the app's visuals — waves, colour palettes, aurora, blur and particle effects.",
-        "network_fees": "Browse every network fee in full — standard costs, per-KByte charges and lifetime member rates."
+        "network_fees": "Browse every network fee in full — standard costs, per-KByte charges and lifetime member rates.",
+        "explorer": "Use this page to lookup any account, asset, object, transaction hash or block number and view the raw JSON with copy and favourites."
     },
     "back": "Go back",
     "usage": "Designed for use with ",

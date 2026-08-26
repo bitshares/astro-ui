@@ -117,7 +117,9 @@
         "top-markets": "Usa esta página para ver los mercados DEX de BitShares más activos, ordenados por volumen de fill-orders.",
         "top-pools": "Usa esta página para ver los pools de liquidez de BitShares más intercambiados, ordenados por volumen de swaps.",
         "configure_visuals": "Personaliza los efectos visuales de la app: ondas, paletas de colores, aurora, desenfoque y partículas.",
-        "network_fees": "Consulta todas las tarifas de la red al completo: costes estándar, cargos por KByte y tarifas para miembros vitalicios."
+        "network_fees": "Consulta todas las tarifas de la red al completo: costes estándar, cargos por KByte y tarifas para miembros vitalicios.",
+        "explorer": "Usa esta página para buscar cualquier cuenta, activo, objeto, hash de transacción o número de bloque y ver el JSON con copia y favoritos.",
+        "top-operations": "Usa esta página para ver las operaciones de blockchain más ejecutadas en los últimos 30 días, ordenadas por frecuencia."
     },
     "back": "Regresa",
     "usage": "Diseñado para usar con ",

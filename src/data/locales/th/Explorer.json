@@ -1,0 +1,56 @@
+{
+  "title": "ตัวสำรวจบล็อกเชน",
+  "subtitle": "ค้นหาบัญชี สินทรัพย์ วัตถุ ธุรกรรม และบล็อก ผลลัพธ์เปิดในกล่องโต้ตอบพร้อม JSON ที่คัดลอกได้",
+  "search": "ค้นหา",
+  "copy": "คัดลอก JSON",
+  "copied": "คัดลอกแล้ว",
+  "favourite": "รายการโปรด",
+  "removeFavourite": "ลบรายการโปรด",
+  "sampleLabel": "ตัวอย่าง:",
+  "jsonPlaceholder": "JSON จะปรากฏที่นี่",
+  "account": {
+    "title": "ค้นหาบัญชี",
+    "description": "ค้นหาด้วยชื่อหรือ ID — แสดง JSON เต็มและรายการโปรด",
+    "placeholder": "เช่น nathan หรือ 1.2.123",
+    "hint": "ws: get_accounts + get_full_accounts",
+    "errorEmpty": "กรุณาใส่ชื่อบัญชี",
+    "dialogTitle": "บัญชี: {{name}} ({{id}})",
+    "dialogSubtitle": "เชน: {{chain}} • JSON บัญชีเต็ม"
+  },
+  "asset": {
+    "title": "ค้นหาสินทรัพย์",
+    "description": "ค้นหาด้วยสัญลักษณ์หรือ ID — แสดง JSON และรายการโปรด",
+    "placeholder": "เช่น BTS หรือ 1.3.0",
+    "hint": "ws: get_asset_id_from_string + get_objects",
+    "errorEmpty": "กรุณาใส่สัญลักษณ์สินทรัพย์",
+    "dialogTitle": "สินทรัพย์: {{symbol}} ({{id}})",
+    "dialogSubtitle": "เชน: {{chain}} • JSON สินทรัพย์"
+  },
+  "object": {
+    "title": "ค้นหา ID วัตถุ",
+    "description": "ค้นหาวัตถุ x.x.x ใดๆ — แสดง JSON ดิบ",
+    "placeholder": "เช่น 1.2.123 หรือ 2.1.0",
+    "hint": "ws: get_objects (ไม่มีการสมัคร)",
+    "errorInvalid": "ใส่ ID ที่ถูกต้องเช่น 1.2.123 หรือ 2.1.0",
+    "dialogTitle": "วัตถุ: {{id}}",
+    "dialogSubtitle": "เชน: {{chain}}"
+  },
+  "tx": {
+    "title": "ค้นหาแฮชธุรกรรม",
+    "description": "ค้นหาด้วยแฮช — ดึงจาก Elasticsearch",
+    "placeholder": "อักขระ hex 40 ตัว",
+    "errorEmpty": "กรุณาใส่แฮชธุรกรรม",
+    "errorInvalid": "ต้องเป็น hex 40 หรือ 64 ตัวอักษร",
+    "dialogTitle": "ธุรกรรม: {{hash}}",
+    "dialogSubtitle": "เชน: {{chain}}"
+  },
+  "block": {
+    "title": "ค้นหาหมายเลขบล็อก",
+    "description": "ค้นหาด้วยหมายเลขบล็อก — แสดง JSON บล็อก",
+    "placeholder": "เช่น 19446934",
+    "hint": "ws: get_block + get_block_header",
+    "errorInvalid": "ใส่หมายเลขบล็อกที่ถูกต้อง",
+    "dialogTitle": "บล็อก #{{num}}",
+    "dialogSubtitle": "เชน: {{chain}}"
+  }
+}

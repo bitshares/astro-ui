@@ -255,6 +255,7 @@ export default function AppSidebar() {
     { slug: "pools", title: "Home:pools.title", href: "/pools.html" },
     { slug: "top_markets", title: "Home:top_markets.title", href: "/top-markets.html" },
     { slug: "top_pools", title: "Home:top_pools.title", href: "/top-pools.html" },
+    { slug: "top_operations", title: "Home:top_operations.title", href: "/top-operations.html" },
   ];
 
   const governanceHeading = [

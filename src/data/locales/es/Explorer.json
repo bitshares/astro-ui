@@ -1,0 +1,56 @@
+{
+  "title": "Explorador de Blockchain",
+  "subtitle": "Busca cuentas, activos, objetos, transacciones y bloques. Los resultados se abren en un diálogo con JSON copiable.",
+  "search": "Buscar",
+  "copy": "Copiar JSON",
+  "copied": "Copiado",
+  "favourite": "Favorito",
+  "removeFavourite": "Quitar favorito",
+  "sampleLabel": "ejemplo:",
+  "jsonPlaceholder": "El JSON aparecerá aquí",
+  "account": {
+    "title": "Búsqueda de cuenta",
+    "description": "Busca por nombre o ID de cuenta — muestra JSON completo y favorito",
+    "placeholder": "ej. nathan o 1.2.123",
+    "hint": "ws: get_accounts + get_full_accounts",
+    "errorEmpty": "Introduce un nombre de cuenta",
+    "dialogTitle": "Cuenta: {{name}} ({{id}})",
+    "dialogSubtitle": "Cadena: {{chain}} • JSON completo de cuenta"
+  },
+  "asset": {
+    "title": "Búsqueda de activo",
+    "description": "Busca por símbolo o ID — muestra JSON de activo y favorito",
+    "placeholder": "ej. BTS o 1.3.0",
+    "hint": "ws: get_asset_id_from_string + get_objects",
+    "errorEmpty": "Introduce un símbolo de activo",
+    "dialogTitle": "Activo: {{symbol}} ({{id}})",
+    "dialogSubtitle": "Cadena: {{chain}} • JSON de activo"
+  },
+  "object": {
+    "title": "Búsqueda por ID de objeto",
+    "description": "Busca cualquier objeto x.x.x — muestra JSON crudo",
+    "placeholder": "ej. 1.2.123 o 2.1.0",
+    "hint": "ws: get_objects (sin suscripción)",
+    "errorInvalid": "Introduce un ID válido como 1.2.123 o 2.1.0",
+    "dialogTitle": "Objeto: {{id}}",
+    "dialogSubtitle": "Cadena: {{chain}}"
+  },
+  "tx": {
+    "title": "Búsqueda por hash de transacción",
+    "description": "Busca por hash — obtenido de Elasticsearch",
+    "placeholder": "40 caracteres hex",
+    "errorEmpty": "Introduce un hash de transacción",
+    "errorInvalid": "Se esperaban 40 o 64 caracteres hex",
+    "dialogTitle": "Transacción: {{hash}}",
+    "dialogSubtitle": "Cadena: {{chain}}"
+  },
+  "block": {
+    "title": "Búsqueda por número de bloque",
+    "description": "Busca por número de bloque — muestra JSON del bloque",
+    "placeholder": "ej. 19446934",
+    "hint": "ws: get_block + get_block_header",
+    "errorInvalid": "Introduce un número de bloque válido",
+    "dialogTitle": "Bloque #{{num}}",
+    "dialogSubtitle": "Cadena: {{chain}}"
+  }
+}

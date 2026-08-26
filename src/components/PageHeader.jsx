@@ -95,6 +95,7 @@ import {
 import { getNavAccentStyles, brandBackdropStyles } from "@/lib/accentStyles.js";
 
 const ICONS = {
+  explorer: Database,
   dex: LineChart,
   instant_trade: Zap,
   swap: ArrowLeftRight,
@@ -358,9 +359,11 @@ export default function PageHeader(properties) {
       label: "PageHeader:blockchainOverviewsHeading",
       icon: Globe,
       items: [
+        { slug: "explorer", title: "Home:explorer.title", description: "Home:explorer.subtitle", href: "/explorer.html" },
         { slug: "blocks", title: "Home:blocks.title", description: "Home:blocks.subtitle", href: "/blocks.html" },
         { slug: "custom_pool_tracker", title: "Home:custom_pool_tracker.title", description: "Home:custom_pool_tracker.subtitle", href: "/custom_pool_overview.html" },
         { slug: "pools", title: "Home:pools.title", description: "Home:pools.subtitle", href: "/pools.html" },
+        { slug: "top_operations", title: "Home:top_operations.title", description: "Home:top_operations.subtitle", href: "/top-operations.html" },
       ],
     },
     {
