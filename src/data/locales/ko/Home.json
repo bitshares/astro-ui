@@ -516,5 +516,11 @@
         "hover1": "이름/ID로 계정/자산을 검색하고 즐겨찾기.",
         "hover2": "WS로 x.x.x 객체 및 블록 검사.",
         "hover3": "Elasticsearch에서 해시로 트랜잭션 조회."
+    },
+    "change_password": {
+        "title": "비밀번호 변경",
+        "subtitle": "클라우드 지갑 비밀번호를 변경하세요.",
+        "hover1": "단일 원자적 account_update로 owner, active, memo 키를 교체.",
+        "hover2": "생성된 비밀번호 또는 사용자 지정 비밀번호 — 계정 생성과 동일한 유도 방식."
     }
 }

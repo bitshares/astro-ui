@@ -516,5 +516,11 @@
         "hover1": "名前/IDでアカウントや資産を検索してお気に入り登録。",
         "hover2": "WSで x.x.x オブジェクトやブロックを確認。",
         "hover3": "Elasticsearchからハッシュでトランザクションを取得。"
+    },
+    "change_password": {
+        "title": "パスワードを変更",
+        "subtitle": "クラウドウォレットのパスワードを変更します。",
+        "hover1": "単一のアトミックなaccount_updateでowner、active、memoキーを置換。",
+        "hover2": "生成パスワードまたはカスタムパスワード — アカウント作成と同じ導出方式。"
     }
 }

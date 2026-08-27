@@ -54,6 +54,7 @@ export const THEMABLE_PAGES = [
   { slug: "nodes", label: "Nodes" },
   { slug: "ltm", label: "Lifetime Membership" },
   { slug: "create_account", label: "Create Account" },
+  { slug: "change_password", label: "Change Password" },
   { slug: "featured", label: "Featured" },
   { slug: "configure_visuals", label: "Configure Visuals" },
   { slug: "theme_customizer", label: "Theme Customization" },

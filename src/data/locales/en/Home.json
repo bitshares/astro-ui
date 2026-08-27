@@ -326,6 +326,12 @@
         "hover1": "Create a free account using a public faucet.",
         "hover2": "Generate a premium account using an existing LTM account."
     },
+    "change_password": {
+        "title": "Change Password",
+        "subtitle": "Change your cloud wallet password.",
+        "hover1": "Single atomic account_update replacing owner, active and memo keys.",
+        "hover2": "Generated or custom password — same derivation as account creation."
+    },
     "monthly_referrer": {
         "title": "Monthly Referrer",
         "subtitle": "Top BTS donor to the creator of this application becomes the referrer for new accounts",

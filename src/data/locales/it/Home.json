@@ -516,5 +516,11 @@
         "hover1": "Cerca account/asset per nome/ID e aggiungi ai preferiti.",
         "hover2": "Ispeziona oggetti x.x.x e blocchi via WS.",
         "hover3": "Recupera transazioni per hash da Elasticsearch."
+    },
+    "change_password": {
+        "title": "Cambia password",
+        "subtitle": "Cambia la password del tuo cloud wallet.",
+        "hover1": "Singolo account_update atomico che sostituisce le chiavi owner, active e memo.",
+        "hover2": "Password generata o personalizzata — stessa derivazione della creazione account."
     }
 }

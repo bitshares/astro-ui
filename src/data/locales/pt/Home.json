@@ -516,5 +516,11 @@
         "hover1": "Pesquise contas/ativos por nome/ID e favorite.",
         "hover2": "Inspecione objetos x.x.x e blocos via WS.",
         "hover3": "Busque transações por hash no Elasticsearch."
+    },
+    "change_password": {
+        "title": "Alterar senha",
+        "subtitle": "Altere a senha da sua carteira na nuvem.",
+        "hover1": "account_update atômico único substituindo as chaves owner, active e memo.",
+        "hover2": "Senha gerada ou personalizada — mesma derivação da criação de conta."
     }
 }

@@ -84,6 +84,7 @@ const pages = [
   "CreateTicket",
   "TicketsLeaderboard",
   "MonthlyReferrer",
+  "ChangePassword",
   "Favourites",
   "Inventory",
   "InvoiceCreator",

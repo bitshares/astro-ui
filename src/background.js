@@ -114,6 +114,32 @@ const createWindow = async () => {
     return key.get_random_key().toWif();
   });
 
+  ipcMain.handle("generatePasswordKeys", async (event, arg) => {
+    const { accountName, password, chain } = arg;
+    if (!accountName || !password) {
+      console.log("Missing accountName or password for key generation");
+      return { success: false };
+    }
+    // Use explicit prefix per chain; ChainConfig default is CBA and only set after Apis connection,
+    // so derive with BTS/TEST explicitly to avoid CBA mismatch (see PublicKey.fromStringOrThrow).
+    const prefix = chain === "bitshares_testnet" ? "TEST" : "BTS";
+    function _generateKeyFromPassword(accountName, role, password, prefix) {
+      let seed = accountName + role + password;
+      let privKey = PrivateKey.fromSeed(seed);
+      let pubKey = privKey.toPublicKey().toPublicKeyString(prefix);
+      return { privKey, pubKey };
+    }
+    try {
+      const { pubKey: owner } = _generateKeyFromPassword(accountName, "owner", password, prefix);
+      const { pubKey: active } = _generateKeyFromPassword(accountName, "active", password, prefix);
+      const { pubKey: memo } = _generateKeyFromPassword(accountName, "memo", password, prefix);
+      return { owner, active, memo };
+    } catch (error) {
+      console.log({ error, location: "generatePasswordKeys" });
+      return { success: false, error: error.message };
+    }
+  });
+
   ipcMain.handle("genAccount", async (event, arg) => {
     const { userID, username, password, method, nodeURL } = arg;
 
@@ -388,8 +414,8 @@ const createWindow = async () => {
       return new Promise((resolve, reject) => {
         const faucetAddress =
           chain === "bitshares"
-            ? "https://faucet.bitshares.eu/onboarding"
-            : "https://faucet.testnet.bitshares.eu";
+            ? "https://faucet.xbts.io/"
+            : "https://testnet-faucet.xbts.io/";
 
         fetch(faucetAddress + "/api/v1/accounts", {
           method: "post",

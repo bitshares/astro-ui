@@ -517,5 +517,11 @@
         "hover1": "Otsi kontosid/varasid nime/ID järgi ja lisa lemmikutesse.",
         "hover2": "Vaata tooreid x.x.x objekte ja plokke WS kaudu.",
         "hover3": "Too tehingud räsi järgi Elasticsearchist."
+    },
+    "change_password": {
+        "title": "Muuda parooli",
+        "subtitle": "Muuda oma pilverahakoti parooli.",
+        "hover1": "Üks aatomiline account_update asendab owner-, active- ja memo-võtmed.",
+        "hover2": "Genereeritud või kohandatud parool — sama tuletus nagu konto loomisel."
     }
 }

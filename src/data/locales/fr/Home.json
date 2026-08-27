@@ -516,5 +516,11 @@
         "hover1": "Recherchez comptes/actifs par nom/ID et favoris.",
         "hover2": "Inspectez objets x.x.x et blocs via WS.",
         "hover3": "Récupérez transactions par hash depuis Elasticsearch."
+    },
+    "change_password": {
+        "title": "Changer le mot de passe",
+        "subtitle": "Changez le mot de passe de votre portefeuille cloud.",
+        "hover1": "account_update atomique unique remplaçant les clés owner, active et memo.",
+        "hover2": "Mot de passe généré ou personnalisé — même dérivation que lors de la création du compte."
     }
 }

@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld("electron", {
     ipcRenderer.invoke("faucetRegistration", args),
   genKey: async () => ipcRenderer.invoke("genKey"),
   genAccount: async (args) => ipcRenderer.invoke("genAccount", args),
+  generatePasswordKeys: async (args) => ipcRenderer.invoke("generatePasswordKeys", args),
   // Blind (stealth) account crypto (bts/ecc runs in main process)
   blindSuggestBrainKey: async () => ipcRenderer.invoke("blindSuggestBrainKey"),
   blindAccountFromBrainKey: async (args) =>
