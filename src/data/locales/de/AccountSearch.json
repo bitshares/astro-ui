@@ -20,6 +20,9 @@
     "favourites": "Favourite Users",
     "favouritesSubtitle": "{{count}} favourite saved",
     "favouritesSubtitle_plural": "{{count}} favourites saved",
+    "recent": "Letzte Suchen",
+    "recentSubtitle": "{{count}} letzte Suche",
+    "recentSubtitle_plural": "{{count}} letzte Suchen",
     "back": "Back"
   },
   "search": {
@@ -32,6 +35,12 @@
     "description": "Select one of your favourite users",
     "none": "No favourite users found",
     "noneHint": "You can add favourites from the Favourites page"
+  },
+  "recent": {
+    "description": "Wählen Sie einen Ihrer zuletzt gesuchten Benutzer",
+    "none": "Keine letzten Suchen gefunden",
+    "noneHint": "Ihre Suchverlauf erscheint hier",
+    "eraseHistory": "Verlauf löschen"
   },
   "step1": "Method",
   "step2": "Select",

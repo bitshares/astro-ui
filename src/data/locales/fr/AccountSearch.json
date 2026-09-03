@@ -7,8 +7,8 @@
     "selfError": "Impossible de transférer des actifs vers ce compte."
   },
   "searchResponse": {
-    "promptBTS": "Continuer avec le compte Bitshares suivant ?",
-    "promptTEST": "Procéder au compte Bitshares testnet (TEST) suivant ?",
+    "promptBTS": "Continuer avec le compte Bitshares suivant ?",
+    "promptTEST": "Procéder au compte Bitshares testnet (TEST) suivant ?",
     "back": "Retourner",
     "proceed": "Procéder"
   },
@@ -20,6 +20,9 @@
     "favourites": "Favourite Users",
     "favouritesSubtitle": "{{count}} favourite saved",
     "favouritesSubtitle_plural": "{{count}} favourites saved",
+    "recent": "Recherches récentes",
+    "recentSubtitle": "{{count}} recherche récente",
+    "recentSubtitle_plural": "{{count}} recherches récentes",
     "back": "Back"
   },
   "search": {
@@ -32,6 +35,12 @@
     "description": "Select one of your favourite users",
     "none": "No favourite users found",
     "noneHint": "You can add favourites from the Favourites page"
+  },
+  "recent": {
+    "description": "Sélectionnez l'un de vos utilisateurs récemment recherchés",
+    "none": "Aucune recherche récente trouvée",
+    "noneHint": "Votre historique de recherche apparaîtra ici",
+    "eraseHistory": "Effacer l'historique"
   },
   "step1": "Method",
   "step2": "Select",

@@ -20,6 +20,9 @@
     "favourites": "Favourite Users",
     "favouritesSubtitle": "{{count}} favourite saved",
     "favouritesSubtitle_plural": "{{count}} favourites saved",
+    "recent": "การค้นหาล่าสุด",
+    "recentSubtitle": "{{count}} การค้นหาล่าสุด",
+    "recentSubtitle_plural": "{{count}} การค้นหาล่าสุด",
     "back": "Back"
   },
   "search": {
@@ -32,6 +35,12 @@
     "description": "Select one of your favourite users",
     "none": "No favourite users found",
     "noneHint": "You can add favourites from the Favourites page"
+  },
+  "recent": {
+    "description": "เลือกหนึ่งในผู้ใช้ที่ค้นหาล่าสุดของคุณ",
+    "none": "ไม่พบการค้นหาล่าสุด",
+    "noneHint": "ประวัติการค้นหาของคุณจะปรากฏที่นี่",
+    "eraseHistory": "ลบประวัติ"
   },
   "step1": "Method",
   "step2": "Select",

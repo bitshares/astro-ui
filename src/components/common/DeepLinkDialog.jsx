@@ -525,7 +525,7 @@ export default function DeepLinkDialog(properties) {
                         <Button className="mt-4">BEET</Button>
                       </a>
                       <a
-                        href={`rawdeepvault://api?chain=${
+                        href={`rawbeetvault://api?chain=${
                           usrChain === "bitshares" ? "BTS" : "BTS_TEST"
                         }&request=${deeplink}`}
                       >

@@ -20,6 +20,9 @@
     "favourites": "Favourite Users",
     "favouritesSubtitle": "{{count}} favourite saved",
     "favouritesSubtitle_plural": "{{count}} favourites saved",
+    "recent": "Hiljutised otsingud",
+    "recentSubtitle": "{{count}} hiljutine otsing",
+    "recentSubtitle_plural": "{{count}} hiljutist otsingut",
     "back": "Back"
   },
   "search": {
@@ -32,6 +35,12 @@
     "description": "Select one of your favourite users",
     "none": "No favourite users found",
     "noneHint": "You can add favourites from the Favourites page"
+  },
+  "recent": {
+    "description": "Valige üks oma hiljutistest otsitud kasutajatest",
+    "none": "Hiljutisi otsinguid ei leitud",
+    "noneHint": "Teie otsinguajalugu kuvatakse siin",
+    "eraseHistory": "Kustuta ajalugu"
   },
   "step1": "Method",
   "step2": "Select",

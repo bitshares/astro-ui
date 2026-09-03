@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useSyncExternalStore, useMemo } from "react";
+import React, { useState, useEffect, useSyncExternalStore, useMemo, useCallback } from "react";
 import { List } from "react-window";
 import { useStore } from "@nanostores/react";
 import { sha256 } from "@noble/hashes/sha2.js";
@@ -13,6 +13,8 @@ import {
   Inbox,
   ChevronRight,
   Star,
+  Clock,
+  Trash2,
 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -25,6 +27,7 @@ import { $currentUser } from "@/stores/users.ts";
 import { $blockList } from "@/stores/blocklist.ts";
 import { $currentNode } from "@/stores/node.ts";
 import { $favouriteUsers } from "@/stores/favourites.ts";
+import { $searchHistory, addSearchHistory, clearSearchHistory } from "@/stores/searchHistory.ts";
 
 function StepIndicator({ currentStep, accentColor, step1Label, step2Label }) {
   const steps = [
@@ -195,6 +198,32 @@ const AccountSearchFavouriteRow = React.memo(function AccountSearchFavouriteRow(
   );
 });
 
+const AccountSearchHistoryRow = React.memo(function AccountSearchHistoryRow({
+  index,
+  style,
+  filteredHistory,
+  accentColor,
+  setChosenAccount,
+}) {
+  const historyEntry = filteredHistory[index];
+  if (!historyEntry) return null;
+  const user = { username: historyEntry.name, id: historyEntry.id };
+  return (
+    <div style={style} className="pr-1">
+      <AccountCard
+        user={user}
+        onClick={() =>
+          setChosenAccount({
+            name: historyEntry.name,
+            id: historyEntry.id,
+          })
+        }
+        accentColor={accentColor}
+      />
+    </div>
+  );
+});
+
 export default function AccountSearch(properties) {
   const { chain, excludedUsers, setChosenAccount, skipCheck, accentColor: propsAccentColor } = properties;
   const { t, i18n } = useTranslation(locale.get(), { i18n: i18nInstance });
@@ -219,12 +248,33 @@ export default function AccountSearch(properties) {
   const [inProgress, setInProgress] = useState(false);
   const [searchResponse, setSearchResponse] = useState(null);
 
+  const handleChosenAccount = useCallback(
+    (account) => {
+      if (account && account.name && account.id) {
+        addSearchHistory(chain, {
+          name: account.name,
+          id: account.id,
+          lastUsed: Date.now(),
+        });
+      }
+      setChosenAccount(account);
+    },
+    [chain, setChosenAccount]
+  );
+
   const favouriteUsersStore = useStore($favouriteUsers);
   const favouriteUsers = useMemo(() => {
     if (!favouriteUsersStore) return [];
     const raw = favouriteUsersStore[chain] ?? [];
     return raw;
   }, [favouriteUsersStore, chain]);
+
+  const searchHistoryStore = useStore($searchHistory);
+  const searchHistory = useMemo(() => {
+    if (!searchHistoryStore) return [];
+    const raw = searchHistoryStore[chain] ?? [];
+    return raw.sort((a, b) => b.lastUsed - a.lastUsed);
+  }, [searchHistoryStore, chain]);
 
   const filteredFavourites = useMemo(() => {
     if (!favouriteUsers || !favouriteUsers.length) return [];
@@ -235,6 +285,16 @@ export default function AccountSearch(properties) {
       (u) => !excludedUsernames.includes(u.name) && !excludedIds.includes(u.id)
     );
   }, [favouriteUsers, excludedUsers]);
+
+  const filteredHistory = useMemo(() => {
+    if (!searchHistory || !searchHistory.length) return [];
+    if (!excludedUsers || !excludedUsers.length) return searchHistory;
+    const excludedUsernames = excludedUsers.map((u) => u.username);
+    const excludedIds = excludedUsers.map((u) => u.id);
+    return searchHistory.filter(
+      (u) => !excludedUsernames.includes(u.name) && !excludedIds.includes(u.id)
+    );
+  }, [searchHistory, excludedUsers]);
 
   // 1 = choose method, 2 = search/favourites (or confirm when result shown)
   const currentStep = searchResponse ? 2 : !mode ? 1 : 2;
@@ -290,8 +350,13 @@ export default function AccountSearch(properties) {
   }
 
   const favouriteRowProps = useMemo(
-    () => ({ filteredFavourites, accentColor, setChosenAccount }),
-    [filteredFavourites, accentColor, setChosenAccount]
+    () => ({ filteredFavourites, accentColor, setChosenAccount: handleChosenAccount }),
+    [filteredFavourites, accentColor, handleChosenAccount]
+  );
+
+  const historyRowProps = useMemo(
+    () => ({ filteredHistory, accentColor, setChosenAccount: handleChosenAccount }),
+    [filteredHistory, accentColor, handleChosenAccount]
   );
 
   return (
@@ -325,6 +390,13 @@ export default function AccountSearch(properties) {
             subtitle={t("AccountSearch:mode.favouritesSubtitle", { count: filteredFavourites.length })}
             icon={<Star className="w-5 h-5" style={{ color: accentColor }} />}
             onClick={() => setMode("favourites")}
+            accentColor={accentColor}
+          />
+          <BlockchainButton
+            name={t("AccountSearch:mode.recent")}
+            subtitle={t("AccountSearch:mode.recentSubtitle", { count: filteredHistory.length })}
+            icon={<Clock className="w-5 h-5" style={{ color: accentColor }} />}
+            onClick={() => setMode("recent")}
             accentColor={accentColor}
           />
         </div>
@@ -427,7 +499,7 @@ export default function AccountSearch(properties) {
           <AccountCard
             user={{ username: searchResponse.name, id: searchResponse.id }}
             onClick={() =>
-              setChosenAccount({
+              handleChosenAccount({
                 name: searchResponse.name,
                 id: searchResponse.id,
               })
@@ -450,7 +522,7 @@ export default function AccountSearch(properties) {
             <div className="flex-1" />
             <Button
               onClick={() =>
-                setChosenAccount({
+                handleChosenAccount({
                   name: searchResponse.name,
                   id: searchResponse.id,
                 })
@@ -503,6 +575,71 @@ export default function AccountSearch(properties) {
                 </div>
                 <div className="text-muted-foreground/60 text-xs text-center max-w-[200px]">
                   {t("AccountSearch:favourites.noneHint")}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <Button
+            variant="ghost"
+            onClick={() => setMode(null)}
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground/70 px-2 py-1 h-auto"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            {t("AccountSearch:mode.back")}
+          </Button>
+        </div>
+      ) : null}
+
+      {/* RECENT SEARCHES LIST */}
+      {mode === "recent" && !searchResponse ? (
+        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <div className="flex items-center gap-2 text-muted-foreground text-sm">
+            <span className="flex-1">{t("AccountSearch:recent.description")}</span>
+            {filteredHistory.length > 0 && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => clearSearchHistory(chain)}
+                className={cn(
+                  "h-7 w-7 rounded-lg flex-shrink-0",
+                  "hover:bg-[hsl(var(--accent-1)/0.1)] hover:border-[hsl(var(--accent-1)/0.3)]",
+                  "transition-all duration-200 group/erase"
+                )}
+                title={t("AccountSearch:recent.eraseHistory")}
+              >
+                <Trash2 className="w-3.5 h-3.5 text-muted-foreground/50 group-hover/erase:text-[hsl(var(--accent-1-fg))] transition-colors" />
+              </Button>
+            )}
+          </div>
+
+          <div className="w-full h-[340px] rounded-xl">
+            {filteredHistory.length > 0 ? (
+              <List
+                rowComponent={AccountSearchHistoryRow}
+                rowCount={filteredHistory.length}
+                rowHeight={72}
+                height={340}
+                width="100%"
+                rowProps={historyRowProps}
+                key={`list-history-${chain}`}
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center py-12 px-4">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+                  style={{
+                    background: `linear-gradient(135deg, ${accentColor}15, ${accentColor}08)`,
+                    border: `1px solid ${accentColor}20`,
+                  }}
+                >
+                  <Inbox className="w-6 h-6 text-muted-foreground/50" />
+                </div>
+                <div className="text-muted-foreground text-sm font-medium mb-1">
+                  {t("AccountSearch:recent.none")}
+                </div>
+                <div className="text-muted-foreground/60 text-xs text-center max-w-[200px]">
+                  {t("AccountSearch:recent.noneHint")}
                 </div>
               </div>
             )}

@@ -20,6 +20,9 @@
     "favourites": "Favourite Users",
     "favouritesSubtitle": "{{count}} favourite saved",
     "favouritesSubtitle_plural": "{{count}} favourites saved",
+    "recent": "最近の検索",
+    "recentSubtitle": "{{count}} 件の最近の検索",
+    "recentSubtitle_plural": "{{count}} 件の最近の検索",
     "back": "Back"
   },
   "search": {
@@ -32,6 +35,12 @@
     "description": "Select one of your favourite users",
     "none": "No favourite users found",
     "noneHint": "You can add favourites from the Favourites page"
+  },
+  "recent": {
+    "description": "最近検索したユーザーを選択してください",
+    "none": "最近の検索が見つかりません",
+    "noneHint": "検索履歴はここに表示されます",
+    "eraseHistory": "履歴を削除"
   },
   "step1": "Method",
   "step2": "Select",

@@ -20,6 +20,9 @@
     "favourites": "Favourite Users",
     "favouritesSubtitle": "{{count}} favourite saved",
     "favouritesSubtitle_plural": "{{count}} favourites saved",
+    "recent": "Seneste søgninger",
+    "recentSubtitle": "{{count}} seneste søgning",
+    "recentSubtitle_plural": "{{count}} seneste søgninger",
     "back": "Back"
   },
   "search": {
@@ -32,6 +35,12 @@
     "description": "Select one of your favourite users",
     "none": "No favourite users found",
     "noneHint": "You can add favourites from the Favourites page"
+  },
+  "recent": {
+    "description": "Vælg en af dine nyligt søgte brugere",
+    "none": "Ingen seneste søgninger fundet",
+    "noneHint": "Din søgehistorik vises her",
+    "eraseHistory": "Slet historik"
   },
   "step1": "Method",
   "step2": "Select",
