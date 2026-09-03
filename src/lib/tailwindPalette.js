@@ -7,7 +7,7 @@
 //     chosen palette colors can be fed into the existing shadcn CSS variables
 //     without editing any shadcn component.
 
-import { tinycolor } from "@ctrl/tinycolor";
+import { TinyColor } from "@ctrl/tinycolor";
 
 // Default Tailwind v3/v4 palette (hex). Subset of shades most useful for theming.
 export const TAILWIND_HEX = {
@@ -81,12 +81,12 @@ export function hexToHslString(hex) {
 }
 
 // HSV ↔ hex conversions (used by Fluent ColorPicker).
-// Fluent HSV: h 0-360, s/v 0-100. tinycolor toHsv: s/v 0-1.
+// Fluent HSV: h 0-360, s/v 0-100. TinyColor toHsv: s/v 0-1.
 export function hsvToHex(h, s, v) {
-  return tinycolor({ h, s, v }).toHexString();
+  return new TinyColor({ h, s, v }).toHexString();
 }
 export function hexToHsv(hex) {
-  const c = tinycolor(hex).toHsv();
+  const c = new TinyColor(hex).toHsv();
   return { h: c.h, s: Math.round(c.s * 100), v: Math.round(c.v * 100) };
 }
 
@@ -183,7 +183,7 @@ function darkenHex(hex, amount) {
   const hsl = hexToHsl(hex);
   if (!hsl) return hex;
   const newL = Math.max(0, hsl.l - amount);
-  return tinycolor({ h: hsl.h, s: hsl.s, l: newL }).toHexString();
+  return new TinyColor({ h: hsl.h, s: hsl.s, l: newL }).toHexString();
 }
 
 // Lightens a hex color by increasing lightness. Returns a new hex string.
@@ -191,7 +191,7 @@ function lightenHex(hex, amount) {
   const hsl = hexToHsl(hex);
   if (!hsl) return hex;
   const newL = Math.min(100, hsl.l + amount);
-  return tinycolor({ h: hsl.h, s: hsl.s, l: newL }).toHexString();
+  return new TinyColor({ h: hsl.h, s: hsl.s, l: newL }).toHexString();
 }
 
 // Derives a full set of shadcn CSS-var values (both light and dark) from a
@@ -209,12 +209,12 @@ export function buildThemeVars(theme) {
     // (instead of pure white) so every theme reads differently in light mode,
     // mirroring how dark mode shifts per theme.
     const tintS = Math.min(24, Math.round((seedHsl.s || 0) * 0.35)) || 12;
-    const surface = (l) => tinycolor({ h: seedHsl.h, s: tintS, l }).toHexString();
+    const surface = (l) => new TinyColor({ h: seedHsl.h, s: tintS, l }).toHexString();
 
     // Dark-mode surfaces: low lightness with a subtle seed-hue tint.
     // Unlike light-mode surfaces (which start near-white and subtract),
     // dark surfaces need to be natively dark for proper contrast.
-    const darkSurface = (l) => tinycolor({ h: seedHsl.h, s: tintS, l }).toHexString();
+    const darkSurface = (l) => new TinyColor({ h: seedHsl.h, s: tintS, l }).toHexString();
 
     // Raw background hexes (mode-independent) for the accent-var builder. Declared
     // in this outer scope so the returned object can expose them (previously they

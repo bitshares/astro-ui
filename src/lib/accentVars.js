@@ -13,7 +13,7 @@
 // Components use the AV class strings below (or inline
 // `[hsl(var(--accent-1)/X)]`), which are LITERAL so Tailwind's JIT emits them.
 
-import { tinycolor } from "@ctrl/tinycolor";
+import { TinyColor } from "@ctrl/tinycolor";
 import {
   hexToHsl,
   hexToHslString,
@@ -38,9 +38,9 @@ function contrastRatio(a, b) {
   return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
 }
 
-// hsl triplet -> hex (round-trip via tinycolor).
+// hsl triplet -> hex (round-trip via TinyColor).
 function hslToHex({ h, s, l }) {
-  return tinycolor({ h, s, l }).toHexString();
+  return new TinyColor({ h, s, l }).toHexString();
 }
 
 // For text sitting on a two-tone accent gradient, pick the candidate that
@@ -53,8 +53,8 @@ function gradientForeground(...hexes) {
   const candidates = [
     "#000000",
     "#ffffff",
-    tinycolor(base).lighten(28).toHexString(),
-    tinycolor(base).darken(28).toHexString(),
+    new TinyColor(base).lighten(28).toHexString(),
+    new TinyColor(base).darken(28).toHexString(),
   ];
   let best = "#000000", bestRatio = -1;
   for (const c of candidates) {
